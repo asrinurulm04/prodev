@@ -1,0 +1,38 @@
+@extends('admin.tempadmin')
+
+@section('content')
+	<div class="row">
+		<div class="col-md-12">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3>Tambah Parameter</h3>
+				</div>
+				<div class="panel-body">
+					<form action="{{('')}}" method="post" enctype="multipart/form-data">
+						<div class="form-group">
+							<input type="text" name="parameter" class="form-control" placeholder="Parameter">
+						</div>
+						<div class="form-group">
+							<select class="form-control" name="kategori">
+								<option disabled selected>Kategori</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<select name="akg" class="form-control">
+								<option disabled selected>AKG</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<input type="text" name="satuan" class="form-control" placeholder="Satuan">
+						</div>
+						<div class="form-group">
+							<input type="text" name="keterangan" class="form-control" placeholder="Keterangan">
+						</div>
+						<button class="btn btn-success" type="submit">Simpan</button>
+						<a href="{{url('datap')}}" class="btn btn-danger" type="submit">Batal</a>	
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+@endsection
