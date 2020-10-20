@@ -23,14 +23,13 @@
 
 <div class="row">
   @include('formerrors')
-  <div class="col-md-3"></div>
-  <div class="col-md-8">
+  <div class="col-md-4"></div>
+  <div class="col-md-7">
     <div class="tabbable">
       <ul class="nav nav-tabs wizard">
-        <li class="active"><a href="{{ route('step2',$idf) }}"><span class="nmbr">1</span>Penyusunan</a></li>
-        <li class="completed"><a href="{{ route('summarry',$idf) }}"><span class="nmbr">2</span>Summary</a></li>
-        <li class="active"><a href="{{ route('step3',$idf) }}"><span class="nmbr">3</span>Premix</a></li>
-        <li class="active"><a href="{{ route('panel',$idf) }}"><span class="nmbr">4</span>Data Panel</a></li>
+        <li class="active"><a href="{{ route('step1',[ $idfor, $idf]) }}"><span class="nmbr">1</span>Information</a></li>
+        <li class="active"><a href="{{ route('step2',[ $idfor, $idf]) }}"><span class="nmbr">2</span>Penyusunan</a></li>
+        <li class="completed"><a href="{{ route('summarry',[ $idfor, $idf]) }}"><span class="nmbr">3</span>Summary</a></li>
       </ul>
     </div>
   </div>
@@ -54,17 +53,14 @@
 					<td>No.PKP</td><td>&nbsp; : {{ $formula->Workbook->datapkpp->pkp_number }}{{$formula->Workbook->datapkpp->ket_no}}</td>
           </tr>
           <tr>
-            <td>Kode Formula</td><td>&nbsp; : {{ $formula->kode_formula }}</td>
-          </tr>
-          <tr>
-            <td>Revisi</td><td>&nbsp; : {{ $formula->revisi }}</td>
-          </tr>
-          <tr>
             <td>Versi</td><td>&nbsp; : {{ $formula->versi }}.{{ $formula->turunan }}</td>
+          </tr>
+          <tr>
+            <td>Perevisi</td><td>&nbsp; : {{ $formula->workbook->perevisi2->name }} </td>
           </tr>
         </table>
       </div>
-      <div class="col-md-3">
+      <div class="col-md-4">
         <table>
           <tr>
             <td>Jenis Formula</td><td>&nbsp; : 
@@ -74,9 +70,6 @@
                 <span class="label label-warning">Proses</span> 
               @endif
             </td>
-          </tr>
-          <tr>
-            <td>User</td><td>&nbsp; : {{ $formula->workbook->perevisi2->name }} </td>
           </tr>
           <tr>
             <td>Jumlah Batch</td><td>&nbsp; : {{ $formula->batch }} &nbsp;Gram</td>
@@ -139,7 +132,7 @@
         </table>
       </div>
       <div class="col-md-1">
-        <a class="btn btn-danger btn-sm" href="{{ route('showworkbook',$formula->workbook_id) }}"><i class="fa fa-share"></i>Kembali</a>
+        <a class="btn btn-success btn-sm" href="{{ route('showworkbook',$formula->workbook_id) }}"><i class="fa fa-check"></i> Done</a>
       </div>
     </div>
 
@@ -167,19 +160,11 @@
 									</table>
 									<center> <h2 style="font-size: 22px;font-weight: bold;">FORMULA PRODUK</h2> </center>
 									<center> <h2 style="font-size: 20px;font-weight: bold;">( FOR )</h2> </center>
-									<button type="button" class=" btn-primary btn-lg" ALIGN="center">PRODUKSI DI PLANT  A</button>
 				
 									<table class="col-md-5 col-sm- col-xs-12">
 										<tr>
 											<th width="10%">Nama Produk </th>
 											<th width="45%">: {{ $formula->Workbook->datapkpp->project_name }}</th>
-										<tr>
-											<th width="10%">No. Formula</th>
-											<th width="45%">: {{ $formula->kode_formula }}</th>
-										<tr>
-											<th width="10%">Revisi</th>
-											<th width="45%">: {{ $formula->revisi }}</th>
-										</tr>
 										<tr>
 											<th width="10%">Gd. Baku | IO</th>
 											<th width="45%">:</th>
@@ -194,24 +179,63 @@
 									<table class="table table-bordered" style="font-size:12px">
 										<thead style="font-weight: bold;color:white;background-color: #2a3f54;">
 											<tr>
-												<th style="width:5%">No</th>                        
-												<th style="width:20%">Kode Komputer Bahan</th>
-												<th style="width:20%">Nama Sederhana</th>
-												<th style="width:20%">Nama Bahan</th>
-												<th style="width:10%">PerBatch (gr)</th>
-												<th style="width:10%">PerServing (gr)</th>
-												<th style="width:5%">Persen</th>
+												<th class="text-center" style="width:3%">No</th>                      
+												<th class="text-center" style="width:20%">Nama Sederhana</th>
+												<th class="text-center" style="width:20%">Nama Bahan</th>
+												<th class="text-center" style="width:25%">Principle</th>
+												<th class="text-center" style="width:8%">PerBatch (gr)</th>
+												<th class="text-center" style="width:8%">PerServing (gr)</th>
+												<th class="text-center" style="width:5%">Persen</th>
 											</tr>
 										</thead>
 										<tbody>
 											{{-- Non Granulasi --}}
 											@foreach ($detail_formula->sortByDesc('per_batch') as $fortail)
-											@if ($fortail['granulasi'] == 'tidak')
+											@if ($fortail['granulasi'] == 'tidak' && $fortail['premix'] == 'tidak')
 											<tr>
 												<td>{{ ++$no }}</td>
-												<td>{{ $fortail['kode_komputer'] }}</td>
-												<td>{{ $fortail['nama_sederhana'] }}</td>
-												<td>{{ $fortail['nama_bahan'] }}</td>
+												<td>
+													<table class="table-bordered table">
+														<tbody>
+															<tr><td><b>{{ $fortail['nama_sederhana'] }}</td></tr>
+															@if($fortail['alternatif'] != Null)<tr><td>{{ $fortail['alternatif'] }}</td></tr>@endif
+															@if($fortail['alternatif2'] != Null)<tr><td>{{ $fortail['alternatif2'] }}</td></tr>@endif
+															@if($fortail['alternatif3'] != Null)<tr><td>{{ $fortail['alternatif3'] }}</td></tr>@endif
+															@if($fortail['alternatif4'] != Null)<tr><td>{{ $fortail['alternatif4'] }}</td></tr>@endif
+															@if($fortail['alternatif5'] != Null)<tr><td>{{ $fortail['alternatif5'] }}</td></tr>@endif
+															@if($fortail['alternatif6'] != Null)<tr><td>{{ $fortail['alternatif6'] }}</td></tr>@endif
+															@if($fortail['alternatif7'] != Null)<tr><td>{{ $fortail['alternatif7'] }}</td></tr>@endif
+														</tbody>
+													</table>
+												</td>
+												<td>
+													<table class="table-bordered table">
+														<tbody>
+															<tr><td><b>{{ $fortail['nama_bahan'] }}</td></tr>
+															@if($fortail['nama_bahan1'] != Null)<tr><td>{{ $fortail['nama_bahan1'] }}</td></tr>@endif
+															@if($fortail['nama_bahan2'] != Null)<tr><td>{{ $fortail['nama_bahan2'] }}</td></tr>@endif
+															@if($fortail['nama_bahan3'] != Null)<tr><td>{{ $fortail['nama_bahan3'] }}</td></tr>@endif
+															@if($fortail['nama_bahan4'] != Null)<tr><td>{{ $fortail['nama_bahan4'] }}</td></tr>@endif
+															@if($fortail['nama_bahan5'] != Null)<tr><td>{{ $fortail['nama_bahan5'] }}</td></tr>@endif
+															@if($fortail['nama_bahan6'] != Null)<tr><td>{{ $fortail['nama_bahan6'] }}</td></tr>@endif
+															@if($fortail['nama_bahan7'] != Null)<tr><td>{{ $fortail['nama_bahan7'] }}</td></tr>@endif
+														</tbody>
+													</table>
+												</td>
+												<td>
+													<table class="table-bordered table">
+														<tbody>
+															<tr><td><b>{{ $fortail['principle'] }}</td></tr>
+															@if($fortail['principle1'] != Null)<tr><td>{{ $fortail['principle1'] }}</td></tr>@endif
+															@if($fortail['principle2'] != Null)<tr><td>{{ $fortail['principle2'] }}</td></tr>@endif
+															@if($fortail['principle3'] != Null)<tr><td>{{ $fortail['principle3'] }}</td></tr>@endif
+															@if($fortail['principle4'] != Null)<tr><td>{{ $fortail['principle4'] }}</td></tr>@endif
+															@if($fortail['principle5'] != Null)<tr><td>{{ $fortail['principle5'] }}</td></tr>@endif
+															@if($fortail['principle6'] != Null)<tr><td>{{ $fortail['principle6'] }}</td></tr>@endif
+															@if($fortail['principle7'] != Null)<tr><td>{{ $fortail['principle7'] }}</td></tr>@endif
+														</tbody>
+													</table>
+												</td>
 												<td>{{ $fortail['per_batch'] }}</td>
 												<td>{{ $fortail['per_serving'] }}</td>
 												<td>{{ $fortail['persen'] }} &nbsp;%</td>
@@ -221,7 +245,7 @@
 											{{-- Granulasi --}}
 											<tr style="background-color:#eaeaea;color:red">
 												<td colspan="7">Granulasi &nbsp;
-													% &nbsp; {{ $gp }}
+													% &nbsp;
 												</td>                                            
 											</tr>
 									
@@ -229,13 +253,110 @@
 											@if ($fortail['granulasi'] == 'ya')
 											<tr>
 												<td>{{ ++$no }}</td>
-												<td>{{ $fortail['kode_komputer'] }}</td>
-												<td>{{ $fortail['nama_sederhana'] }}</td>
-												<td>{{ $fortail['nama_bahan'] }}</td>
+												<td>
+													<table class="table-bordered table">
+														<tbody>
+															<tr><td><b>{{ $fortail['nama_sederhana'] }}</td></tr>
+															@if($fortail['alternatif'] != Null)<tr><td>{{ $fortail['alternatif'] }}</td></tr>@endif
+															@if($fortail['alternatif2'] != Null)<tr><td>{{ $fortail['alternatif2'] }}</td></tr>@endif
+															@if($fortail['alternatif3'] != Null)<tr><td>{{ $fortail['alternatif3'] }}</td></tr>@endif
+															@if($fortail['alternatif4'] != Null)<tr><td>{{ $fortail['alternatif4'] }}</td></tr>@endif
+															@if($fortail['alternatif5'] != Null)<tr><td>{{ $fortail['alternatif5'] }}</td></tr>@endif
+															@if($fortail['alternatif6'] != Null)<tr><td>{{ $fortail['alternatif6'] }}</td></tr>@endif
+															@if($fortail['alternatif7'] != Null)<tr><td>{{ $fortail['alternatif7'] }}</td></tr>@endif
+														</tbody>
+													</table>
+												</td>
+												<td>
+													<table class="table-bordered table">
+														<tbody>
+															<tr><td><b>{{ $fortail['nama_bahan'] }}</td></tr>
+															@if($fortail['nama_bahan1'] != Null)<tr><td>{{ $fortail['nama_bahan1'] }}</td></tr>@endif
+															@if($fortail['nama_bahan2'] != Null)<tr><td>{{ $fortail['nama_bahan2'] }}</td></tr>@endif
+															@if($fortail['nama_bahan3'] != Null)<tr><td>{{ $fortail['nama_bahan3'] }}</td></tr>@endif
+															@if($fortail['nama_bahan4'] != Null)<tr><td>{{ $fortail['nama_bahan4'] }}</td></tr>@endif
+															@if($fortail['nama_bahan5'] != Null)<tr><td>{{ $fortail['nama_bahan5'] }}</td></tr>@endif
+															@if($fortail['nama_bahan6'] != Null)<tr><td>{{ $fortail['nama_bahan6'] }}</td></tr>@endif
+															@if($fortail['nama_bahan7'] != Null)<tr><td>{{ $fortail['nama_bahan7'] }}</td></tr>@endif
+														</tbody>
+													</table>
+												</td>
+												<td>
+													<table class="table-bordered table">
+														<tbody>
+															<tr><td><b>{{ $fortail['principle'] }}</td></tr>
+															@if($fortail['principle1'] != Null)<tr><td>{{ $fortail['principle1'] }}</td></tr>@endif
+															@if($fortail['principle2'] != Null)<tr><td>{{ $fortail['principle2'] }}</td></tr>@endif
+															@if($fortail['principle3'] != Null)<tr><td>{{ $fortail['principle3'] }}</td></tr>@endif
+															@if($fortail['principle4'] != Null)<tr><td>{{ $fortail['principle4'] }}</td></tr>@endif
+															@if($fortail['principle5'] != Null)<tr><td>{{ $fortail['principle5'] }}</td></tr>@endif
+															@if($fortail['principle6'] != Null)<tr><td>{{ $fortail['principle6'] }}</td></tr>@endif
+															@if($fortail['principle7'] != Null)<tr><td>{{ $fortail['principle7'] }}</td></tr>@endif
+														</tbody>
+													</table>
+												</td>
 												<td>{{ $fortail['per_batch'] }}</td>
 												<td>{{ $fortail['per_serving'] }}</td>
 												<td>{{ $fortail['persen'] }} &nbsp;%</td>
-											</tr>                                                        
+											</tr>                                                       
+											@endif
+											@endforeach
+
+											{{-- Premix --}}
+											<tr style="background-color:#eaeaea;color:red">
+												<td colspan="7">Premix &nbsp;
+													% &nbsp;
+												</td>  
+											@foreach ($detail_formula->sortByDesc('per_batch') as $fortail)
+											@if ($fortail['premix'] == 'ya')
+											<tr>
+												<td>{{ ++$no }}</td>
+												<td>
+													<table class="table-bordered table">
+														<tbody>
+															<tr><td><b>{{ $fortail['nama_sederhana'] }}</td></tr>
+															@if($fortail['alternatif'] != Null)<tr><td>{{ $fortail['alternatif'] }}</td></tr>@endif
+															@if($fortail['alternatif2'] != Null)<tr><td>{{ $fortail['alternatif2'] }}</td></tr>@endif
+															@if($fortail['alternatif3'] != Null)<tr><td>{{ $fortail['alternatif3'] }}</td></tr>@endif
+															@if($fortail['alternatif4'] != Null)<tr><td>{{ $fortail['alternatif4'] }}</td></tr>@endif
+															@if($fortail['alternatif5'] != Null)<tr><td>{{ $fortail['alternatif5'] }}</td></tr>@endif
+															@if($fortail['alternatif6'] != Null)<tr><td>{{ $fortail['alternatif6'] }}</td></tr>@endif
+															@if($fortail['alternatif7'] != Null)<tr><td>{{ $fortail['alternatif7'] }}</td></tr>@endif
+														</tbody>
+													</table>
+												</td>
+												<td>
+													<table class="table-bordered table">
+														<tbody>
+															<tr><td><b>{{ $fortail['nama_bahan'] }}</td></tr>
+															@if($fortail['nama_bahan1'] != Null)<tr><td>{{ $fortail['nama_bahan1'] }}</td></tr>@endif
+															@if($fortail['nama_bahan2'] != Null)<tr><td>{{ $fortail['nama_bahan2'] }}</td></tr>@endif
+															@if($fortail['nama_bahan3'] != Null)<tr><td>{{ $fortail['nama_bahan3'] }}</td></tr>@endif
+															@if($fortail['nama_bahan4'] != Null)<tr><td>{{ $fortail['nama_bahan4'] }}</td></tr>@endif
+															@if($fortail['nama_bahan5'] != Null)<tr><td>{{ $fortail['nama_bahan5'] }}</td></tr>@endif
+															@if($fortail['nama_bahan6'] != Null)<tr><td>{{ $fortail['nama_bahan6'] }}</td></tr>@endif
+															@if($fortail['nama_bahan7'] != Null)<tr><td>{{ $fortail['nama_bahan7'] }}</td></tr>@endif
+														</tbody>
+													</table>
+												</td>
+												<td>
+													<table class="table-bordered table">
+														<tbody>
+															<tr><td><b>{{ $fortail['principle'] }}</td></tr>
+															@if($fortail['principle1'] != Null)<tr><td>{{ $fortail['principle1'] }}</td></tr>@endif
+															@if($fortail['principle2'] != Null)<tr><td>{{ $fortail['principle2'] }}</td></tr>@endif
+															@if($fortail['principle3'] != Null)<tr><td>{{ $fortail['principle3'] }}</td></tr>@endif
+															@if($fortail['principle4'] != Null)<tr><td>{{ $fortail['principle4'] }}</td></tr>@endif
+															@if($fortail['principle5'] != Null)<tr><td>{{ $fortail['principle5'] }}</td></tr>@endif
+															@if($fortail['principle6'] != Null)<tr><td>{{ $fortail['principle6'] }}</td></tr>@endif
+															@if($fortail['principle7'] != Null)<tr><td>{{ $fortail['principle7'] }}</td></tr>@endif
+														</tbody>
+													</table>
+												</td>
+												<td>{{ $fortail['per_batch'] }}</td>
+												<td>{{ $fortail['per_serving'] }}</td>
+												<td>{{ $fortail['persen'] }} &nbsp;%</td>
+											</tr>                                                       
 											@endif
 											@endforeach
 											{{-- Jumlah --}}
@@ -247,31 +368,21 @@
 											</tr>
 										</tbody>
 									</table>
-				
-									<table ALIGN="right" class="table-bordered">
-										<thead>
-											<tr>
-												<th class="text-center" colspan="2">Dibuat Oleh :</th>
-												<th class="text-center">Mengetahui  *): </th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr class="text-center">
-												<td class="text-center"><br><br><br><br><br></td>
-												<td class="text-center"><br><br><br><br><br></td>
-											</tr>
-											<tr>
-												<td class="text-center" width="35%">RD Sourcing</td>
-												<td class="text-center" width="45%">RD Sourcing Asso Mgr</td>
-												<td class="text-center">RPE Manager</td>
-											</tr>
-										</tbody>
-									</table><br><br><br><br><br><br><br><br>
+									
+									<div class="row">
+										<div class="col-md-6">
+											<table>
+												<tr><td colspan="3"><b> Formula Ini mengandung Allergen </b></td></tr>
+												<tr><td><b> Contain </b></td><td>:</td><td></td></tr>
+												<tr><td><b> May Contain </b></td><td>:</td><td></td></tr>
+											</table>
+										</div>
+									</div>
+		
 									<table ALIGN="right">
 										<tr><td>Revisi/Berlaku : {{ $formula->created_at }} </td></tr>
 										<tr><td>Masa Berlaku : Selamanya</td></tr>
 									</table>
-									<table><tr>*) Ditandatangani jika perubahan formula berasal/ diajukan oleh RD sourcing</tr></table>
 								</div>
 							</div>
 							@endif
@@ -295,63 +406,61 @@
 														<div class="panel-body" style="overflow-x: scroll;">
 															<table class="table table-advanced">
 																<thead>
-																	<tr>
-																		<th rowspan="2"  class="text-center" style="width: 5%; background-color:#d8d0d2;">No</th>
-																		<th rowspan="2"  class="text-center" style="background-color:#d8d0d2;">Nama Sederhana</th>
-																		<th colspan="2"  class="text-center" style="background-color:#d8d0d2;">BTP Carry Over</th>
-																		<th rowspan="2"  class="text-center" style="background-color:#d8d0d2;">Dosis</th>
-																		<th rowspan="2"  class="text-center" style="background-color:#d8d0d2;">%</th>
-																		<th colspan="39" class="text-center" style="background-color:#54ff54;">Nutrition Data</th>
+																<tr>
+																		<th rowspan="2"  class="text-center" style="font-weight: bold;color:white;background-color: #2a3f54;">Nama Sederhana</th>
+																		<th colspan="2"  class="text-center" style="font-weight: bold;color:white;background-color: #2a3f54;">BTP Carry Over</th>
+																		<th rowspan="2"  class="text-center" style="font-weight: bold;color:white;background-color: #2a3f54;">Dosis</th>
+																		<th rowspan="2"  class="text-center" style="font-weight: bold;color:white;background-color: #2a3f54;">%</th>
+																		<th colspan="39" class="text-center" style="font-size: 12px;font-weight: bold; color:black;background-color: #898686;">Nutrition Data</th>
 																	</tr>
 																	<tr>
-																		<th class="text-center" style="background-color:#d8d0d2;">All Carry Over</th>
-																		<th class="text-center" style="background-color:#d8d0d2;">Carry Over dicantumkan dalam penulisan ing list</th>
-																		<th class="text-center" style="background-color:#54ffba;">Lemak</th>
-																		<th class="text-center" style="background-color:#54ffba;">SFA</th>
-																		<th class="text-center" style="background-color:#54ffba;">Karbohidrat</th>
-																		<th class="text-center" style="background-color:#54ffba;">Gula</th>
-																		<th class="text-center" style="background-color:#54ffba;">Laktosa</th>
-																		<th class="text-center" style="background-color:#54ffba;">Sukrosa</th>
-																		<th class="text-center" style="background-color:#54ffba;">Serat</th>
-																		<th class="text-center" style="background-color:#54ffba;">Serat Larut</th>
-																		<th class="text-center" style="background-color:#54ffba;">Protein</th>
-																		<th class="text-center" style="background-color:#54ffba;">Kalori</th>
-																		<th class="text-center" style="background-color:#54ffba;">Na (mg)</th>
-																		<th class="text-center" style="background-color:#54ffba;">K (mg)</th>
-																		<th class="text-center" style="background-color:#54ffba;">Ca (mg)</th>
-																		<th class="text-center" style="background-color:#54ffba;">Mg (mg)</th>
-																		<th class="text-center" style="background-color:#54ffba;">P (mg)</th>
-																		<th class="text-center" style="background-color:#54ffba;">Beta Glucan</th>  
-																		<th class="text-center" style="background-color:#54ffba;">Cr(mcg)</th>
-																		<th class="text-center" style="background-color:#54ffba;">Vit C (mg)</th>
-																		<th class="text-center" style="background-color:#54ffba;">Vit E (mg)</th>
-																		<th class="text-center" style="background-color:#54ffba;">Vit D (mg)</th>
-																		<th class="text-center" style="background-color:#54ffba;">Carnitin (mg)</th>
-																		<th class="text-center" style="background-color:#54ffba;">CLA (mg)</th>
-																		<th class="text-center" style="background-color:#54ffba;">Sterol Ester (mg)</th>
-																		<th class="text-center" style="background-color:#54ffba;">Chondroitin (mg)</th>
-																		<th class="text-center" style="background-color:#54ffba;">Omega 3</th>
-																		<th class="text-center" style="background-color:#54ffba;">DHA</th>
-																		<th class="text-center" style="background-color:#54ffba;">EPA</th>
-																		<th class="text-center" style="background-color:#54ffba;">Creatine</th>
-																		<th class="text-center" style="background-color:#54ffba;">Lysine</th>
-																		<th class="text-center" style="background-color:#54ffba;">Glucosamine (mg)</th>
-																		<th class="text-center" style="background-color:#54ffba;">Kolin </th>
-																		<th class="text-center" style="background-color:#54ffba;">MUFA</th>
-																		<th class="text-center" style="background-color:#54ffba;">Linoleic Acid (Omega 6)</th>
-																		<th class="text-center" style="background-color:#54ffba;">Linolenic Acid</th>
-																		<th class="text-center" style="background-color:#54ffba;">Sorbitol</th>
-																		<th class="text-center" style="background-color:#54ffba;">Maltitol</th>
+																		<th class="text-center" style="font-weight: bold;color:white;background-color: #2a3f54;">Carry Over</th>
+																		<th class="text-center" style="font-weight: bold;color:white;background-color: #2a3f54;">Carry Over dicantumkan dalam penulisan ing list</th>
+																		<th class="text-center" style="font-weight: bold;color:white;background-color: #3a5e82;">Lemak</th>
+																		<th class="text-center" style="font-weight: bold;color:white;background-color: #3a5e82;">SFA</th>
+																		<th class="text-center" style="font-weight: bold;color:white;background-color: #3a5e82;">Karbohidrat</th>
+																		<th class="text-center" style="font-weight: bold;color:white;background-color: #3a5e82;">Gula</th>
+																		<th class="text-center" style="font-weight: bold;color:white;background-color: #3a5e82;">Laktosa</th>
+																		<th class="text-center" style="font-weight: bold;color:white;background-color: #3a5e82;">Sukrosa</th>
+																		<th class="text-center" style="font-weight: bold;color:white;background-color: #3a5e82;">Serat</th>
+																		<th class="text-center" style="font-weight: bold;color:white;background-color: #3a5e82;">Serat Larut</th>
+																		<th class="text-center" style="font-weight: bold;color:white;background-color: #3a5e82;">Protein</th>
+																		<th class="text-center" style="font-weight: bold;color:white;background-color: #3a5e82;">Kalori</th>
+																		<th class="text-center" style="font-weight: bold;color:white;background-color: #3a5e82;">Na (mg)</th>
+																		<th class="text-center" style="font-weight: bold;color:white;background-color: #3a5e82;">K (mg)</th>
+																		<th class="text-center" style="font-weight: bold;color:white;background-color: #3a5e82;">Ca (mg)</th>
+																		<th class="text-center" style="font-weight: bold;color:white;background-color: #3a5e82;">Mg (mg)</th>
+																		<th class="text-center" style="font-weight: bold;color:white;background-color: #3a5e82;">P (mg)</th>
+																		<th class="text-center" style="font-weight: bold;color:white;background-color: #3a5e82;">Beta Glucan</th>  
+																		<th class="text-center" style="font-weight: bold;color:white;background-color: #3a5e82;">Cr(mcg)</th>
+																		<th class="text-center" style="font-weight: bold;color:white;background-color: #3a5e82;">Vit C (mg)</th>
+																		<th class="text-center" style="font-weight: bold;color:white;background-color: #3a5e82;">Vit E (mg)</th>
+																		<th class="text-center" style="font-weight: bold;color:white;background-color: #3a5e82;">Vit D (mg)</th>
+																		<th class="text-center" style="font-weight: bold;color:white;background-color: #3a5e82;">Carnitin (mg)</th>
+																		<th class="text-center" style="font-weight: bold;color:white;background-color: #3a5e82;">CLA (mg)</th>
+																		<th class="text-center" style="font-weight: bold;color:white;background-color: #3a5e82;">Sterol Ester (mg)</th>
+																		<th class="text-center" style="font-weight: bold;color:white;background-color: #3a5e82;">Chondroitin (mg)</th>
+																		<th class="text-center" style="font-weight: bold;color:white;background-color: #3a5e82;">Omega 3</th>
+																		<th class="text-center" style="font-weight: bold;color:white;background-color: #3a5e82;">DHA</th>
+																		<th class="text-center" style="font-weight: bold;color:white;background-color: #3a5e82;">EPA</th>
+																		<th class="text-center" style="font-weight: bold;color:white;background-color: #3a5e82;">Creatine</th>
+																		<th class="text-center" style="font-weight: bold;color:white;background-color: #3a5e82;">Lysine</th>
+																		<th class="text-center" style="font-weight: bold;color:white;background-color: #3a5e82;">Glucosamine (mg)</th>
+																		<th class="text-center" style="font-weight: bold;color:white;background-color: #3a5e82;">Kolin </th>
+																		<th class="text-center" style="font-weight: bold;color:white;background-color: #3a5e82;">MUFA</th>
+																		<th class="text-center" style="font-weight: bold;color:white;background-color: #3a5e82;">Linoleic Acid (Omega 6)</th>
+																		<th class="text-center" style="font-weight: bold;color:white;background-color: #3a5e82;">Linolenic Acid</th>
+																		<th class="text-center" style="font-weight: bold;color:white;background-color: #3a5e82;">Sorbitol</th>
+																		<th class="text-center" style="font-weight: bold;color:white;background-color: #3a5e82;">Maltitol</th>
 																	</tr>
 																</thead>
 																<tbody>
 																	@php $no = 0; @endphp
 																	@foreach ($detail_harga->sortByDesc('per_batch') as $fortail)
 																	<tr>
-																		<td>{{ ++$no }}</td>
 																		<td>{{ $fortail['nama_sederhana'] }}</td>
-																		<td>-</td>
-																		<td>-</td>
+																		<td>{{ $fortail['btp'] }}</td>
+																		<td>{{ $fortail['list'] }}</td>
 																		<td>{{ $fortail['per_serving'] }}</td>
 																		<td>{{ $fortail['persen'] }}</td>
 																		<td>{{ $fortail['lemak'] }}</td>
@@ -392,8 +501,8 @@
 																		<td>{{ $fortail['maltitol'] }}</td>
 																	</tr>  
 																	@endforeach
-																	<tr style="font-size: 12px;font-weight: bold; color:black;background-color: rgb(78, 205, 196, 0.5);">
-																		<td colspan="5" class="text-center">Total : </td>
+																	<tr style="font-size: 12px;font-weight: bold; color:black;background-color: #ddd;">
+																		<td colspan="4" class="text-center">Total : </td>
 																		<td> 100 </td>
 																		<td>{{ $total_harga['total_lemak'] }}</td>
 																		<td>{{ $total_harga['total_sfa'] }}</td>
@@ -424,6 +533,8 @@
 																		<td>{{ $total_harga['total_epa'] }}</td>
 																		<td>{{ $total_harga['total_creatine'] }}</td>
 																		<td>{{ $total_harga['total_lysine'] }}</td>
+																		<td class="text-center">0</td>
+																		<td class="text-center">0</td>
 																		<td>{{ $total_harga['total_mufa'] }}</td>
 																		<td>{{ $total_harga['total_linoleic6'] }}</td>
 																		<td>{{ $total_harga['total_linolenic'] }}</td>
@@ -442,7 +553,7 @@
 														<div class="col-md-6">
 															<table style="background-color:lightblue;" class="table table-hover table-condensed table-bordered">
 																<thead>
-																	<tr style="background-color: black;color: white;">
+																	<tr style="font-weight: bold;color:white;background-color: #2a3f54;">
 																		<th class="text-center">Parameter</th>
 																		<th class="text-center">Gramasi</th>
 																		<th class="text-center">unit</th>
@@ -480,7 +591,7 @@
 																		<td>Karbohidrat Total</td>
 																		<td class="text-right">{{ $total_harga['total_karbohidrat'] }}</td>
 																		<td class="text-center">g</td>
-																		<td class="text-right">{{ $total_harga['total_karbohidrat']/326*100 }}</td>
+																		<td class="text-right"><?php $angka = $total_harga['total_karbohidrat']/326*100; $angka_format = number_format($angka,2,",","."); echo $angka_format; ?></td>
 																		<td class="text-right">325</td>
 																		<td class="text-center">g</td>
 																	</tr>
@@ -488,7 +599,7 @@
 																		<td>Protein</td>
 																		<td class="text-right">{{ $total_harga['total_protein'] }}</td>
 																		<td class="text-center">g</td>
-																		<td class="text-right">{{ $total_harga['total_protein']/60*100 }}</td>
+																		<td class="text-right"><?php $protein = $total_harga['total_protein']/60*100; $angka_protein = number_format($protein,2,",","."); echo $angka_protein; ?></td>
 																		<td class="text-right">60</td>
 																		<td class="text-center">g</td>
 																	</tr>
@@ -496,7 +607,7 @@
 																		<td>Lemak Total</td>
 																		<td class="text-right">{{ $total_harga['total_lemak'] }}</td>
 																		<td class="text-center">g</td>
-																		<td class="text-right">{{ $total_harga['total_lemak']/67*100 }}</td>
+																		<td class="text-right"><?php $lemak = $total_harga['total_lemak']/67*100; $angka_lemak = number_format($lemak,2,",","."); echo $angka_lemak; ?></td>
 																		<td class="text-right">67</td>
 																		<td class="text-center">g</td>
 																	</tr>
@@ -512,7 +623,7 @@
 																		<td>Lemak Jenuh</td>
 																		<td class="text-right">{{ $total_harga['total_sfa'] }}</td>
 																		<td class="text-center">g</td>
-																		<td class="text-right">{{ $total_harga['total_sfa']/20*100 }}</td>
+																		<td class="text-right"><?php $sfa = $total_harga['total_sfa']/20*100; $angka_sfa = number_format($sfa,2,",","."); echo $angka_sfa; ?></td>
 																		<td class="text-right">20</td>
 																		<td class="text-center">g</td>
 																	</tr>
@@ -600,7 +711,7 @@
 																		<td>Natrium</td>
 																		<td class="text-right">{{ $total_harga['total_na'] }}</td>
 																		<td class="text-center">mg</td>
-																		<td class="text-right">{{ $total_harga['total_na']/1500*100 }}</td>
+																		<td class="text-right"><?php $na = $total_harga['total_na']/1500*100; $angka_na = number_format($na,2,",","."); echo $angka_na; ?></td>
 																		<td class="text-right">1500</td>
 																		<td class="text-center">mg</td>
 																	</tr>
@@ -608,7 +719,7 @@
 																		<td>Kalium</td>
 																		<td class="text-right">{{ $total_harga['total_k'] }}</td>
 																		<td class="text-center">mg</td>
-																		<td class="text-right">{{ $total_harga['total_k']/4700*100 }}</td>
+																		<td class="text-right"><?php $k = $total_harga['total_k']/4700*100; $angka_k = number_format($k,2,",","."); echo $angka_k; ?></td>
 																		<td class="text-right">4700</td>
 																		<td class="text-center">mg</td>
 																	</tr>
@@ -616,7 +727,7 @@
 																		<td>Kalsium</td>
 																		<td class="text-right">{{ $total_harga['total_ca'] }}</td>
 																		<td class="text-center">mg</td>
-																		<td class="text-right">{{ $total_harga['total_ca']/1100*100 }}</td>
+																		<td class="text-right"><?php $ca = $total_harga['total_ca']/1100*100; $angka_ca = number_format($ca,2,",","."); echo $angka_ca; ?></td>
 																		<td class="text-right">1100</td>
 																		<td class="text-center">mg</td>
 																	</tr>
@@ -632,7 +743,7 @@
 																		<td>Fosfor</td>
 																		<td class="text-right">{{ $total_harga['total_p'] }}</td>
 																		<td class="text-center">mg</td>
-																		<td class="text-right">{{ $total_harga['total_p']/700*100 }}</td>
+																		<td class="text-right"><?php $p = $total_harga['total_p']/700*100; $angka_p = number_format($p,2,",","."); echo $angka_p; ?></td>
 																		<td class="text-right">700</td>
 																		<td class="text-center">mg</td>
 																	</tr>
@@ -640,7 +751,7 @@
 																		<td>Magnesium</td>
 																		<td class="text-right">{{ $total_harga['total_mg'] }}</td>
 																		<td class="text-center">mg</td>
-																		<td class="text-right">{{ $total_harga['total_mg']/350*100 }}</td>
+																		<td class="text-right"><?php $mg = $total_harga['total_mg']/350*100; $angka_mg = number_format($mg,2,",","."); echo $angka_mg; ?></td>
 																		<td class="text-right">350</td>
 																		<td class="text-center">mg</td>
 																	</tr>
@@ -1135,7 +1246,6 @@
 								</div>
 							</div>
 						</div>
-						<!-- HPP -->
 						<div class="tab-pane" id="3">
 							@php $no = 0; @endphp
 							<h4><i class="fa fa-angle-right"></i> HPP FORMULA</h4>
@@ -1144,7 +1254,7 @@
 								<div class="col-md-5">
 									<table class="table table-bordered" style="font-size:12px">
 										<thead>
-											<th colspan="4" style="font-size: 12px;font-weight: bold; color:black;background-color: #ddd;"><center>Bahan Baku</center></th>
+											<th colspan="4" style="font-weight: bold;color:white;background-color: #2a3f54;"><center>Bahan Baku</center></th>
 										</thead>
 										<thead>
 											<th>No</th>
@@ -1161,7 +1271,7 @@
 												<td>Rp.{{ $fortail['hpg'] }}</td>
 											</tr>
 											@endforeach
-											<tr style="font-size: 12px;font-weight: bold; color:black;background-color: rgb(78, 205, 196, 0.5);">
+											<tr style="font-weight: bold;color:black;background-color: #ddd;">
 												<td colspan="3">Jumlah</td>
 												<td>Rp.{{ $total_harga['total_harga_per_gram'] }}</td>
 											</tr>
@@ -1171,7 +1281,7 @@
 								<div class="col-md-2">
 									<table class="table table-bordered" style="font-size:12px">
 										<thead>
-											<th colspan="3" style="font-size: 12px;font-weight: bold; color:black;background-color: #ddd;"><center>Per Serving</center></th>                                                                                                                
+											<th colspan="3" style="font-weight: bold;color:white;background-color: #2a3f54;"><center>Per Serving</center></th>                                                                                                                
 										</thead>
 										<thead>
 											<th>Berat</th>
@@ -1186,7 +1296,7 @@
 												<td>Rp.{{ $fortail['harga_per_serving'] }}</td>
 											</tr>
 											@endforeach
-											<tr style="font-size: 12px;font-weight: bold; color:black;background-color: rgb(78, 205, 196, 0.5);">
+											<tr style="font-weight: bold;color:black;background-color: #ddd;">
 												<td>{{ $total_harga['total_berat_per_serving'] }}</td>
 												<td>{{ $total_harga['total_persen'] }}</td>
 												<td>Rp.{{ $total_harga['total_harga_per_serving'] }}</td>
@@ -1197,7 +1307,7 @@
 								<div class="col-md-3">
 									<table class="table table-bordered" style="font-size:12px">
 										<thead>
-											<th colspan="2" style="font-size: 12px;font-weight: bold; color:black;background-color: #ddd;"><center>Per Batch</center></th>
+											<th colspan="2" style="font-weight: bold;color:white;background-color: #2a3f54;"><center>Per Batch</center></th>
 										</thead>
 										<thead>
 											<th>Berat</th>
@@ -1210,7 +1320,7 @@
 												<td>Rp.{{ $fortail['harga_per_batch'] }}</td>
 											</tr>
 											@endforeach
-											<tr style="font-size: 12px;font-weight: bold; color:black;background-color: rgb(78, 205, 196, 0.5);">
+											<tr style="font-weight: bold;color:black;background-color: #ddd;">
 												<td>{{ $total_harga['total_berat_per_batch'] }}</td>
 												<td>Rp.{{ $total_harga['total_harga_per_batch'] }}</td>                                                        
 											</tr> 
@@ -1220,7 +1330,7 @@
 								<div class="col-md-2">
 									<table class="table table-bordered" style="font-size:12px">
 										<thead>
-											<th colspan="2" style="font-size: 12px;font-weight: bold; color:black;background-color: #ddd;"><center>Per Kg</center></th>
+											<th colspan="2" style="font-weight: bold;color:white;background-color: #2a3f54;"><center>Per Kg</center></th>
 										</thead>
 										<thead>
 											<th>Berat</th>
@@ -1233,7 +1343,7 @@
 												<td>Rp.{{ $fortail['harga_per_kg'] }}</td>
 											</tr>
 											@endforeach
-											<tr style="font-size: 12px;font-weight: bold; color:black;background-color: rgb(78, 205, 196, 0.5);">
+											<tr style="font-weight: bold;color:black;background-color: #ddd;">
 												{{-- <td>{{ $total_harga['total_berat_per_kg'] }}</td> --}}
 												<td>1000</td>
 												<td>Rp.{{ $total_harga['total_harga_per_kg'] }}</td>
