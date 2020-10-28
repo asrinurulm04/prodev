@@ -60,7 +60,7 @@
           </tr>
         </table>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-3">
         <table>
           <tr>
             <td>Jenis Formula</td><td>&nbsp; : 
@@ -131,8 +131,8 @@
           </tr>
         </table>
       </div>
-      <div class="col-md-1">
-        <a class="btn btn-success btn-sm" href="{{ route('showworkbook',$formula->workbook_id) }}"><i class="fa fa-check"></i> Done</a>
+      <div class="col-md-2">
+        <a class="btn btn-danger btn-sm" href="{{ route('showworkbook',$formula->workbook_id) }}"><i class="fa fa-ban"></i> Bact To Workbook</a>
       </div>
     </div>
 
@@ -191,7 +191,7 @@
 										<tbody>
 											{{-- Non Granulasi --}}
 											@foreach ($detail_formula->sortByDesc('per_batch') as $fortail)
-											@if ($fortail['granulasi'] == 'tidak' && $fortail['premix'] == 'tidak')
+											@if ($fortail['granulasi'] == 'tidak')
 											<tr>
 												<td>{{ ++$no }}</td>
 												<td>
@@ -251,64 +251,6 @@
 									
 											@foreach ($detail_formula->sortByDesc('per_batch') as $fortail)
 											@if ($fortail['granulasi'] == 'ya')
-											<tr>
-												<td>{{ ++$no }}</td>
-												<td>
-													<table class="table-bordered table">
-														<tbody>
-															<tr><td><b>{{ $fortail['nama_sederhana'] }}</td></tr>
-															@if($fortail['alternatif'] != Null)<tr><td>{{ $fortail['alternatif'] }}</td></tr>@endif
-															@if($fortail['alternatif2'] != Null)<tr><td>{{ $fortail['alternatif2'] }}</td></tr>@endif
-															@if($fortail['alternatif3'] != Null)<tr><td>{{ $fortail['alternatif3'] }}</td></tr>@endif
-															@if($fortail['alternatif4'] != Null)<tr><td>{{ $fortail['alternatif4'] }}</td></tr>@endif
-															@if($fortail['alternatif5'] != Null)<tr><td>{{ $fortail['alternatif5'] }}</td></tr>@endif
-															@if($fortail['alternatif6'] != Null)<tr><td>{{ $fortail['alternatif6'] }}</td></tr>@endif
-															@if($fortail['alternatif7'] != Null)<tr><td>{{ $fortail['alternatif7'] }}</td></tr>@endif
-														</tbody>
-													</table>
-												</td>
-												<td>
-													<table class="table-bordered table">
-														<tbody>
-															<tr><td><b>{{ $fortail['nama_bahan'] }}</td></tr>
-															@if($fortail['nama_bahan1'] != Null)<tr><td>{{ $fortail['nama_bahan1'] }}</td></tr>@endif
-															@if($fortail['nama_bahan2'] != Null)<tr><td>{{ $fortail['nama_bahan2'] }}</td></tr>@endif
-															@if($fortail['nama_bahan3'] != Null)<tr><td>{{ $fortail['nama_bahan3'] }}</td></tr>@endif
-															@if($fortail['nama_bahan4'] != Null)<tr><td>{{ $fortail['nama_bahan4'] }}</td></tr>@endif
-															@if($fortail['nama_bahan5'] != Null)<tr><td>{{ $fortail['nama_bahan5'] }}</td></tr>@endif
-															@if($fortail['nama_bahan6'] != Null)<tr><td>{{ $fortail['nama_bahan6'] }}</td></tr>@endif
-															@if($fortail['nama_bahan7'] != Null)<tr><td>{{ $fortail['nama_bahan7'] }}</td></tr>@endif
-														</tbody>
-													</table>
-												</td>
-												<td>
-													<table class="table-bordered table">
-														<tbody>
-															<tr><td><b>{{ $fortail['principle'] }}</td></tr>
-															@if($fortail['principle1'] != Null)<tr><td>{{ $fortail['principle1'] }}</td></tr>@endif
-															@if($fortail['principle2'] != Null)<tr><td>{{ $fortail['principle2'] }}</td></tr>@endif
-															@if($fortail['principle3'] != Null)<tr><td>{{ $fortail['principle3'] }}</td></tr>@endif
-															@if($fortail['principle4'] != Null)<tr><td>{{ $fortail['principle4'] }}</td></tr>@endif
-															@if($fortail['principle5'] != Null)<tr><td>{{ $fortail['principle5'] }}</td></tr>@endif
-															@if($fortail['principle6'] != Null)<tr><td>{{ $fortail['principle6'] }}</td></tr>@endif
-															@if($fortail['principle7'] != Null)<tr><td>{{ $fortail['principle7'] }}</td></tr>@endif
-														</tbody>
-													</table>
-												</td>
-												<td>{{ $fortail['per_batch'] }}</td>
-												<td>{{ $fortail['per_serving'] }}</td>
-												<td>{{ $fortail['persen'] }} &nbsp;%</td>
-											</tr>                                                       
-											@endif
-											@endforeach
-
-											{{-- Premix --}}
-											<tr style="background-color:#eaeaea;color:red">
-												<td colspan="7">Premix &nbsp;
-													% &nbsp;
-												</td>  
-											@foreach ($detail_formula->sortByDesc('per_batch') as $fortail)
-											@if ($fortail['premix'] == 'ya')
 											<tr>
 												<td>{{ ++$no }}</td>
 												<td>

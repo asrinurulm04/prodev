@@ -55,7 +55,6 @@ class Step2Controller extends Controller
         $rjsBatch   = 0;
         $rjsServing = 0;
         $granulasi  = 0;
-        $premix  = 0;
         foreach($fortails as $fortail){
             $scalecollect->push([
                 
@@ -63,7 +62,7 @@ class Step2Controller extends Controller
                 'id' => $fortail->id,      
                 'formula_id' => $fortail->formula_id,
                 'nama_sederhana' => $fortail->nama_sederhana,
-                'alternatif' => $fortail->alternatif,
+                'alternatif1' => $fortail->alternatif1,
                 'alternatif2' => $fortail->alternatif2,
                 'alternatif3' => $fortail->alternatif3,
                 'alternatif4' => $fortail->alternatif4,
@@ -75,7 +74,6 @@ class Step2Controller extends Controller
                 'per_serving' => $fortail->per_serving,
                 'scale_batch' => '',
                 'scale_serving' => '',
-                'premix' => $fortail->premix,   
                 'granulasi' => $fortail->granulasi                
             ]);
             $rjBatch   = $rjBatch + $fortail->per_batch;
@@ -84,13 +82,8 @@ class Step2Controller extends Controller
             // Granulasi
             if($fortail->granulasi == 'ya'){
             $granulasi = $granulasi + 1;  
-            //dd($granulasi);        
-            }      
-            // Premix
-            if($fortail->premix == 'ya'){
-                $premix = $premix + 1;  
-                 //dd($premix);        
-            }                             
+            // dd($scalecollect);        
+            }                                  
         }
 
         // Check Total Serving
@@ -108,8 +101,7 @@ class Step2Controller extends Controller
             'scalecollect' => $scalecollect,
             'bahans' => $bahans,
             'idfor' => $idfor,
-            'granulasi' => $granulasi,    
-            'premix' => $premix,         
+            'granulasi' => $granulasi,            
             'idf' => $idf,
             'ada' => $ada,
             'sesuai_target' => $sesuai_target
@@ -156,7 +148,7 @@ class Step2Controller extends Controller
         if($c>0){
             for($d = 1;$d<=$c;$d++){
                 $ba[$d] =  Bahan::where('id',$request->alternatif[$d])->first();
-                //$pkk = $pkk.' / '.$ba[$d]->kode_komputer;
+                $pkk = $pkk.' / '.$ba[$d]->kode_komputer;
                 // $pin = $pin.' / '.$ba[$d]->id_ingredient;
                 // $pns = $pns.' / '.$ba[$d]->nama_sederhana;
                 // $pko = $pko.' / '.$ba[$d]->kode_oracle;
@@ -176,7 +168,7 @@ class Step2Controller extends Controller
         $fortails->bahan_id = $bp->id;
         $fortails->nama_bahan = $bp->nama_bahan;
         if($c>0){
-            $fortails->alternatif= $ba[1]->nama_sederhana;
+            $fortails->alternatif1= $ba[1]->nama_sederhana;
             $fortails->nama_bahan1= $ba[1]->nama_bahan;
             $fortails->principle1= $ba[1]->principle;
             if($c>1){
@@ -250,13 +242,6 @@ class Step2Controller extends Controller
                 $fortails->granulasi = 'ya';                
             }else{
                 $fortails->granulasi = 'tidak';
-            }
-
-            // Premix
-            if (isset($request->cpremix)){
-                $fortails->premix = 'ya';                
-            }else{
-                $fortails->premix = 'tidak';
             }
                 
         $fortails->save();
@@ -359,6 +344,11 @@ class Step2Controller extends Controller
         }
         
         return redirect()->route('step2',['id_workbook' => $vf, 'id_formula' => $formula->id])->with('status','BahanBaku Berhasil Ditambahkan');
+    }
+
+    public function hapusall($formula){
+        $fortails = Fortail::where('formula_id',$formula)->delete();
+        return redirect::back();
     }
 
     public function destroy($id,$vf){

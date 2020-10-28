@@ -36,6 +36,11 @@ class FormulaController extends Controller
 		$formulas->serving_size = $request->target_serving;
 		$formulas->satuan=$request->satuan;
 		$formulas->berat_jenis=$request->berat_jenis;
+		if($request->kategori_formula!=NULL){
+		$formulas->kategori=$request->kategori_formula;
+		}else{
+			$formulas->kategori='fg';
+		}
         $formulas->revisi = '0';
         $formulas->versi = 1;   
         $formulas->save();
@@ -112,7 +117,7 @@ class FormulaController extends Controller
                 'id' => $fortail->id,
                 'kode_komputer' => $fortail->kode_komputer,
                 'nama_sederhana' => $fortail->nama_sederhana,
-                'alternatif' => $fortail->alternatif,
+                'alternatif1' => $fortail->alternatif1,
                 'alternatif2' => $fortail->alternatif2,
                 'alternatif3' => $fortail->alternatif3,
                 'alternatif4' => $fortail->alternatif4,
