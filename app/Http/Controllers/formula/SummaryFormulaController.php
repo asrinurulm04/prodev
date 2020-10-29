@@ -7,10 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Collection;
 use App\dev\Formula;
 use App\dev\Fortail;
-use App\devnf\tb_vitmin;
 use App\nutfact\tb_ingredient;
-use App\devnf\tb_nutrition;
-use App\nutfact\tb_parameter;
 use App\master\Curren;
 use App\dev\Bahan;
 use Auth;
@@ -24,42 +21,19 @@ class SummaryFormulaController extends Controller
         $this->middleware('rule:user_rd_proses' || 'rule:user_produk');
     }
 
-    public function summarry($id){
-        $data       = formula::with('Workbook')->where('workbook_id',$id)->get();
-        $ing        = tb_nutrition::with('get_bahan','get_btp')->get();
-        $tampilkan  = tb_parameter::with('get_akg')->offset(23)->limit(84)->get();
-        
-        //NUTFACT BAYANGAN
-        $vit_a      = tb_vitmin::select('target')->where('parameter','12')->get();
-        $thi        = tb_vitmin::select('target')->where('parameter','2')->get();
-        $rib        = tb_vitmin::select('target')->where('parameter','10')->get();
-        $nia        = tb_vitmin::select('target')->where('parameter','3')->get();
-        $b5         = tb_vitmin::select('target')->where('parameter','20')->get();
-        $pyr        = tb_vitmin::select('target')->where('parameter','21')->get();
-        $b7         = tb_vitmin::select('target')->where('parameter','11')->get();
-        $b12        = tb_vitmin::select('target')->where('parameter','60')->get();
-        $asam       = tb_vitmin::select('target')->where('parameter','4')->get();
-        $vit_c      = tb_vitmin::select('target')->where('parameter','61')->get();
-        $vit_d      = tb_vitmin::select('target')->where('parameter','62')->get();
-        $vit_e      = tb_vitmin::select('target')->where('parameter','14')->get();
-        $mag        = tb_vitmin::select('target')->where('parameter','47')->get();
-        $man        = tb_vitmin::select('target')->where('parameter','16')->get();
-        $zin        = tb_vitmin::select('target')->where('parameter','48')->get();
-        $lod        = tb_vitmin::select('target')->where('parameter','22')->get();
-        $zat        = tb_vitmin::select('target')->where('parameter','45')->get();
-        $sel        = tb_vitmin::select('target')->where('parameter','49')->get();
-        $mol        = tb_vitmin::select('target')->where('parameter','69')->get();
-        $ino        = tb_vitmin::select('target')->where('parameter','68')->get();
+    public function summarry($formula,$id){
+		//dd($id);
+        $data       = formula::with('Workbook')->where('id',$id)->get();
         
         $idf = $id;
-		$formula = Formula::where('workbook_id',$id)->first();
-        $fortails = Fortail::where('formula_id',$formula->workbook_id)->get();
+		$formula = Formula::where('workbook_id',$formula)->where('id',$id)->first();
+        $idfor = $formula->workbook_id;
+        $fortails = Fortail::where('formula_id',$id)->get();
         $ingredient = DB::table('fortails')
-        ->join('tb_ingredients','tb_ingredients.id_ingredient','=','fortails.id_ingredient')
+        ->join('tb_nutfact','tb_nutfact.ingredient','=','fortails.nama_sederhana')
         ->where('fortails.formula_id',$id)
 		->get();
-	//dd($ingredient);
-		$ada = Fortail::where('formula_id',$formula->workbook_id)->count();
+		$ada = Fortail::where('formula_id',$id)->count();
 
         if($ada < 1){
             return Redirect::back()->with('error','Data Bahan Formula Versi '.$formula->versi.' Masih Kosong');
@@ -71,17 +45,39 @@ class SummaryFormulaController extends Controller
         $granulasi          = 0;
         $jumlah_granulasi   = 0;
         $biasa              = 0;
-        $one_persen         = $formula->batch / 100;
-
         foreach($fortails as $fortail){
-            // Get Persen
-            $persen = $fortail->per_batch / $one_persen; $persen = round($persen, 2);
+			// Get Persen
+			$one_persen = $fortail->per_batch / $formula->batch  ;
+			$persen = $one_persen * 100;
+			$persen = round($persen, 2);
             $detail_formula->push([
 
                 'id' => $fortail->id,
                 'kode_komputer' => $fortail->kode_komputer,
                 'nama_sederhana' => $fortail->nama_sederhana,
+                'alternatif1' => $fortail->alternatif1,
+                'alternatif2' => $fortail->alternatif2,
+                'alternatif3' => $fortail->alternatif3,
+                'alternatif4' => $fortail->alternatif4,
+                'alternatif5' => $fortail->alternatif5,
+                'alternatif6' => $fortail->alternatif6,
+                'alternatif7' => $fortail->alternatif7,
                 'nama_bahan' => $fortail->nama_bahan,
+                'nama_bahan1' => $fortail->nama_bahan1,
+                'nama_bahan2' => $fortail->nama_bahan2,
+                'nama_bahan3' => $fortail->nama_bahan3,
+                'nama_bahan4' => $fortail->nama_bahan4,
+                'nama_bahan5' => $fortail->nama_bahan5,
+                'nama_bahan6' => $fortail->nama_bahan6,
+				'nama_bahan7' => $fortail->nama_bahan7,
+				'principle' => $fortail->principle,
+				'principle1' => $fortail->principle1,
+				'principle2' => $fortail->principle2,
+				'principle3' => $fortail->principle3,
+				'principle4' => $fortail->principle4,
+				'principle5' => $fortail->principle5,
+				'principle6' => $fortail->principle6,
+				'principle7' => $fortail->principle7,
                 'per_batch' => $fortail->per_batch,
                 'per_serving' => $fortail->per_serving,
                 'granulasi' => $fortail->granulasi,
@@ -147,13 +143,14 @@ class SummaryFormulaController extends Controller
 
         foreach($fortails as $fortail){
 			//Get Needed
-			$ingredients = DB::table('tb_ingredients')->first();
+			$ingredients = DB::table('tb_nutfact')->first();
             $bahan  = Bahan::where('id',$fortail->bahan_id)->first();
 			$curren = Curren::where('id',$bahan->curren_id)->first();
+			$btp = DB::table('tb_btp')->join('bahans','bahans.id','=','tb_btp.id_bahan')->first();
 
             //perhitungan nutfact bayangan
 			//lemak
-			if($fortail->id_ingredient != 'NULL'){
+			if($fortail->nama_sederhana != 'NULL'){
 				$lemak = ($ingredients->fat/100)*($fortail->per_serving);
 				$sfa = ($ingredients->SFA/100)*($fortail->per_serving);
 				$karbohidrat =($ingredients->karbohidrat/100)*($fortail->per_serving);
@@ -247,6 +244,9 @@ class SummaryFormulaController extends Controller
                 'id' => $fortail->id,
                 'kode_komputer' => $bahan->kode_komputer,
                 'nama_sederhana' => $bahan->nama_sederhana,
+				'id_ingeradient' => $bahan->id_ingeradient,
+				'btp' =>$btp->btp_carryover,
+				'list' =>$btp->inggredient_list,
 				'hpg' => $hpg,
 				'lemak' => $lemak,
 				'sfa' => $sfa,
@@ -386,15 +386,15 @@ class SummaryFormulaController extends Controller
             'total_harga_per_kg' => $total_harga_per_kg,                       
 		]);
         
-        return view('formula/summarry', compact('ing','tampilkan','AMC','AMC2','AMC3','AMC4','AMC5','AMC6','AMC7',
-        'data','vit_a','thi','rib','nia','b5','pyr','b7','b12','asam','vit_c',
-        'vit_d','vit_e','mag','man','zin','lod','zat','sel','mol','ino' ,'id'  ))->with([
+        return view('formula/summarry', compact(
+        'data','id'  ))->with([
             'idf' => $idf,
             'ada'     => $ada,
             'formula' => $formula,
             'detail_formula' =>  $detail_formula,
             'granulasi' => $granulasi,
-            'gp' => $gp,
+			'gp' => $gp,
+			'idfor' => $idfor,
             'ingredient' => $ingredient,
             'detail_harga' => $detail_harga,
             'total_harga' => $total_harga

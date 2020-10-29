@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class tb_ingredient extends Model
 {
-    protected $table ='tb_ingredients';
+    protected $table ='tb_nutfact';
     protected $primaryKey ='id_ingredient';
 
     public function amino()

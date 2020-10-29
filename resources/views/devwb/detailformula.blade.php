@@ -45,11 +45,6 @@
 									<div class="panel-default">	
 										<div class="panel-body badan">
 											<label>PT NUTRIFOOD INDONESIA</label>
-											<table ALIGN="right">
-												<tr>
-													<th class="text-right">KODE FORM : F.R.15003</th>
-												</tr>
-											</table>
 											<center> <h2 style="font-size: 22px;font-weight: bold;">FORMULA PRODUK</h2> </center>
 											<center> <h2 style="font-size: 20px;font-weight: bold;">( FOR )</h2> </center>
 											<button type="button" class=" btn-primary btn-lg" ALIGN="center">PRODUKSI DI PLANT  A</button>
@@ -82,7 +77,7 @@
 														<th style="width:20%">Principle</th>
 														<th style="width:10%">PerBatch (gr)</th>
 														<th style="width:10%">PerServing (gr)</th>
-														<th style="width:5%">Persen</th>
+														<th style="width:8%">Persen</th>
 													</tr>
 												</thead>
 												<tbody>
@@ -94,7 +89,7 @@
 															<table class="table-bordered table">
 																<tbody>
 																	<tr><td><b>{{ $fortail['nama_sederhana'] }}</td></tr>
-																	@if($fortail['alternatif'] != Null)<tr><td>{{ $fortail['alternatif'] }}</td></tr>@endif
+																	@if($fortail['alternatif1'] != Null)<tr><td>{{ $fortail['alternatif1'] }}</td></tr>@endif
 																	@if($fortail['alternatif2'] != Null)<tr><td>{{ $fortail['alternatif2'] }}</td></tr>@endif
 																	@if($fortail['alternatif3'] != Null)<tr><td>{{ $fortail['alternatif3'] }}</td></tr>@endif
 																	@if($fortail['alternatif4'] != Null)<tr><td>{{ $fortail['alternatif4'] }}</td></tr>@endif
@@ -152,7 +147,7 @@
 															<table class="table-bordered table">
 																<tbody>
 																	<tr><td><b>{{ $fortail['nama_sederhana'] }}</td></tr>
-																	@if($fortail['alternatif'] != Null)<tr><td>{{ $fortail['alternatif'] }}</td></tr>@endif
+																	@if($fortail['alternatif1'] != Null)<tr><td>{{ $fortail['alternatif1'] }}</td></tr>@endif
 																	@if($fortail['alternatif2'] != Null)<tr><td>{{ $fortail['alternatif2'] }}</td></tr>@endif
 																	@if($fortail['alternatif3'] != Null)<tr><td>{{ $fortail['alternatif3'] }}</td></tr>@endif
 																	@if($fortail['alternatif4'] != Null)<tr><td>{{ $fortail['alternatif4'] }}</td></tr>@endif
@@ -204,11 +199,6 @@
 														<td> 100 % </td>
 													</tr>
 												</tbody>
-											</table>
-						
-											<table ALIGN="right">
-												<tr><td>Revisi/Berlaku : {{ $formula->created_at }} </td></tr>
-												<tr><td>Masa Berlaku : Selamanya</td></tr>
 											</table>
 										</div>
 									</div>

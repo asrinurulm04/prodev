@@ -5,106 +5,315 @@
 
 <div class="row">
   <div class="col-md-12">
-    <div class="showback">
-      <table class="table table-striped table-advance table-hover">
-        <tr>
-          <th>Kode Komputer</th>
+    <div class="x_panel">
+          <table class="table table-sm table-bordered">
+        <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
           <th>Nama Sederhana</th>
-          <th>Kode Oracle</th>
-          <th>Prioritas</th>
           <th>Nama_Bahan</th>
+          <th>Principle</th>
           <th>Per_Batch</th>
           <th>Per_Serving</th>
-        </tr>    
+        </tr>  
+        @foreach($fortail as $fortail)  
         <tr>
-          <td>{{ $fortail->kode_komputer }}</td>
-          <td>{{ $fortail->nama_sederhana }}</td>
-          <td>{{ $fortail->kode_oracle }}</td>
-          <td>{{ $fortail->bahan->nama_sederhana }}</td>
-          <td>{{ $fortail->nama_bahan }}</td>
+          <td>
+            <table class="table-bordered table">
+              <tbody>
+                <tr><td><b>{{ $fortail['nama_sederhana'] }}</td></tr>
+                @if($fortail['alternatif1'] != Null)<tr><td>{{ $fortail['alternatif1'] }}</td></tr>@endif
+                @if($fortail['alternatif2'] != Null)<tr><td>{{ $fortail['alternatif2'] }}</td></tr>@endif
+                @if($fortail['alternatif3'] != Null)<tr><td>{{ $fortail['alternatif3'] }}</td></tr>@endif
+                @if($fortail['alternatif4'] != Null)<tr><td>{{ $fortail['alternatif4'] }}</td></tr>@endif
+                @if($fortail['alternatif5'] != Null)<tr><td>{{ $fortail['alternatif5'] }}</td></tr>@endif
+                @if($fortail['alternatif6'] != Null)<tr><td>{{ $fortail['alternatif6'] }}</td></tr>@endif
+                @if($fortail['alternatif7'] != Null)<tr><td>{{ $fortail['alternatif7'] }}</td></tr>@endif
+              </tbody>
+            </table>
+          </td>
+          <td>
+            <table class="table-bordered table">
+              <tbody>
+								<tr><td><b>{{ $fortail['nama_bahan'] }}</td></tr>
+								@if($fortail['nama_bahan1'] != Null)<tr><td>{{ $fortail['nama_bahan1'] }}</td></tr>@endif
+								@if($fortail['nama_bahan2'] != Null)<tr><td>{{ $fortail['nama_bahan2'] }}</td></tr>@endif
+								@if($fortail['nama_bahan3'] != Null)<tr><td>{{ $fortail['nama_bahan3'] }}</td></tr>@endif
+								@if($fortail['nama_bahan4'] != Null)<tr><td>{{ $fortail['nama_bahan4'] }}</td></tr>@endif
+								@if($fortail['nama_bahan5'] != Null)<tr><td>{{ $fortail['nama_bahan5'] }}</td></tr>@endif
+								@if($fortail['nama_bahan6'] != Null)<tr><td>{{ $fortail['nama_bahan6'] }}</td></tr>@endif
+								@if($fortail['nama_bahan7'] != Null)<tr><td>{{ $fortail['nama_bahan7'] }}</td></tr>@endif
+              </tbody>
+            </table>
+          </td>
+          <td>
+					  <table class="table-bordered table">
+					  	<tbody>
+					  		<tr><td><b>{{ $fortail['principle'] }}</td></tr>
+					  		@if($fortail['principle1'] != Null)<tr><td>{{ $fortail['principle1'] }}</td></tr>@endif
+					  		@if($fortail['principle2'] != Null)<tr><td>{{ $fortail['principle2'] }}</td></tr>@endif
+					  		@if($fortail['principle3'] != Null)<tr><td>{{ $fortail['principle3'] }}</td></tr>@endif
+					  		@if($fortail['principle4'] != Null)<tr><td>{{ $fortail['principle4'] }}</td></tr>@endif
+					  		@if($fortail['principle5'] != Null)<tr><td>{{ $fortail['principle5'] }}</td></tr>@endif
+					  		@if($fortail['principle6'] != Null)<tr><td>{{ $fortail['principle6'] }}</td></tr>@endif
+					  		@if($fortail['principle7'] != Null)<tr><td>{{ $fortail['principle7'] }}</td></tr>@endif
+					  	</tbody>
+					  </table>
+          </td>
           <td>{{ $fortail->per_batch }}</td>
           <td>{{ $fortail->per_serving }}</td>
-        </tr>        
+        </tr>   
+        @endforeach     
       </table>
     </div>
   </div>
 </div>
 
 <div class="row">
-	<div class="col-md-12" >
-		<h4><i class="fa fa-edit"></i> Edit Bahan Baku</h4>
-		<div class="showback">
-      <div class="row">
-        <form method="POST" action="{{ route('updatefortail',['idf'=>$idf,'id'=>$fortail->id]) }}">
-        <div class="col-lg-12 col-md-12 col-sm-12">
-          <table style="border-spacing: 15px;border-collapse: separate;">
-            <tr>
-              <td>
-                <label for="" class="control-label">Bahan Baku</label><br>
-                <select class="bahan form-control" style="width:230px;" id="prioritas" name="prioritas">
-                	@foreach($bahans as $bahan)
-                	<option value="{{ $bahan->id }}" {{ $fortail->bahan_id == $bahan->id ? 'selected' : '' }}>{{ $bahan->nama_sederhana }}</option>
-                	@endforeach
-                </select>
-                <button class="btn btn-success" id="t1" type="button"><i class="fa fa-plus"></i></button>
-              </td>   
-              <td class="A1" style="display:none">
-                <label for="" class="control-label">Alternatif 1</label><br>
-                <select class="bahan2 form-control" style="width:230px;display:none;" id="alternatif" name="alternatif[1]">
-                  @foreach($alternatifs as $bahan)
-                	<option value="{{ $bahan->id }}" {{ $fortail->kode_komputer2 == $bahan->kode_komputer ? 'selected' : '' }}>{{ $bahan->nama_sederhana }}</option>
-                	@endforeach
-                </select>
-                <button class="btn btn-success" id="t2" type="button"><i class="fa fa-plus"></i></button>
-                <button class="btn btn-danger" id="k1" type="button"><i class="fa fa-minus"></i></button>
-              </td>
-              <td class="A2" style="display:none">
-                <label for="" class="control-label">Alternatif 2</label><br>
-                <select class="bahan3 form-control" style="width:230px;display:none;" id="alternatif2" name="alternatif[2]">
-                	@foreach($alternatifs as $bahan)
-                	<option value="{{ $bahan->id }}" {{ $fortail->kode_komputer3 == $bahan->kode_komputer ? 'selected' : '' }}>{{ $bahan->nama_sederhana }}</option>
-                	@endforeach
-                </select>
-                <button class="btn btn-success" id="t3" type="button"><i class="fa fa-plus"></i></button>
-                <button class="btn btn-danger" id="k2" type="button"><i class="fa fa-minus"></i></button>
-              </td>
+  <div class="col-md-12 content-panel" >
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4><i class="fa fa-plus"></i> Tambah Bahan Baku</h4>
+      </div>
+      <div class="panel-body">
+        <div class="row">
+          <form method="POST" action="{{ route('updatefortail',['idf'=>$idf,'id'=>$fortail->id]) }}">
+          <div class="col-lg-12 col-md-12 col-sm-12">
+            <table style="border-spacing: 15px;border-collapse: separate;">
+             @foreach($edit as $edit)
+              <tr>
+                <td>
+                  <label for="" class="control-label">Bahan Baku</label><br>
+                  <select class="bahan form-control" style="width:230px;" id="prioritas" name="prioritas">
+                    <option value="{{ $edit->bahan_id }}">{{$edit->nama_sederhana}}</option>
+                    @foreach($alternatifs as $bahan)
+                    <option value="{{ $bahan->id }}" {{ $fortail->kode_komputer4 == $bahan->kode_komputer ? 'selected' : '' }}>{{ $bahan->nama_sederhana }}</option>
+                    @endforeach
+                  </select>
+                  @if($edit->alternatif=='NULL')
+                  <button class="btn btn-success btn-sm" id="t1" type="button"><i class="fa fa-plus"></i></button>
+                  @endif
+                </td>   
 
-              <td class="A3" style="display:none">
-                <label for="" class="control-label">Alternatif 3</label><br>
-                <select class="bahan3 form-control" style="width:230px;display:none;" id="alternatif3" name="alternatif[3]">
-                	@foreach($alternatifs as $bahan)
-                	<option value="{{ $bahan->id }}" {{ $fortail->kode_komputer4 == $bahan->kode_komputer ? 'selected' : '' }}>{{ $bahan->nama_sederhana }}</option>
-                	@endforeach
-                </select>
-                <button class="btn btn-success" id="t4" type="button"><i class="fa fa-plus"></i></button>
-                <button class="btn btn-danger" id="k3" type="button"><i class="fa fa-minus"></i></button>
-              </td>
-                    
-              <td class="A4" style="display:none">
-                <label for="" class="control-label">Alternatif 4</label><br>
-                <select class="bahan3 form-control" style="width:230px;display:none;" id="alternatif4" name="alternatif[4]">
-                	@foreach($alternatifs as $bahan)
-                	<option value="{{ $bahan->id }}" {{ $fortail->kode_komputer4 == $bahan->kode_komputer ? 'selected' : '' }}>{{ $bahan->nama_sederhana }}</option>
-                  @endforeach
-                </select>
-                <button class="btn btn-danger" id="k4" type="button"><i class="fa fa-minus"></i></button>
-              </td>
-            </tr>
-          </table>
-        </div>
-        <div class="col-lg-12 col-md-12 col-sm-12">
-          <div class="row">
-            <div class="col-md-6">
-              <input type="hidden" id="c"  name="c" value="{{ $count_alternatif }}" /><br>
-              {{ csrf_field()}}
-              {{ method_field('PATCH')}}
-              <button type="submit" class="btn btn-info" onclick="return confirm('Simpan Perubahan ?')"><i class="fa fa-edit"></i> Simpan Perubahan</button>
-              <a type="button" class="btn btn-danger" href="{{ route('step2',$idf) }}"><i class="fa fa-times"></i> BATAL</a>                
+                @if($edit->alternatif1!=NULL)
+                <td>
+                  <label for="" class="control-label">Alternatif 1</label><br>
+                  <select class="bahan2 form-control" style="width:230px;" id="alternatif" name="alternatif[1]">
+                    <option value="">{{$edit->alternatif1}}</option>
+                    @foreach($alternatifs as $bahan)
+                    <option value="{{ $bahan->id }}" {{ $fortail->kode_komputer4 == $bahan->kode_komputer ? 'selected' : '' }}>{{ $bahan->nama_sederhana }}</option>
+                    @endforeach
+                  </select>
+                  @if($edit->alternatif2==NULL)
+                  <button class="btn btn-success btn-sm" id="t2" type="button"><i class="fa fa-plus"></i></button>
+                  <button class="btn btn-danger btn-sm" id="k1" type="button"><i class="fa fa-minus"></i></button>
+                  @endif
+                </td>
+                @else
+                <td class="A1" style="display:none">
+                  <label for="" class="control-label">Alternatif 1</label><br>
+                  <select class="bahan2 form-control" style="width:230px;display:none;" id="alternatif" name="alternatif[1]">
+                    @foreach($alternatifs as $bahan)
+                    <option value="{{ $bahan->id }}" {{ $fortail->kode_komputer4 == $bahan->kode_komputer ? 'selected' : '' }}>{{ $bahan->nama_sederhana }}</option>
+                    @endforeach
+                  </select>
+                  @if($edit->alternatif2==NULL)
+                  <button class="btn btn-success btn-sm" id="t2" type="button"><i class="fa fa-plus"></i></button>
+                  <button class="btn btn-danger btn-sm" id="k1" type="button"><i class="fa fa-minus"></i></button>
+                  @endif
+                </td>
+                @endif
+
+                @if($edit->alternatif2!=NULL)
+                <td >
+                  <label for="A2" class="control-label">Alternatif 2</label><br>
+                  <select class="bahan3 form-control" style="width:230px;" id="alternatif2" name="alternatif[2]">
+                    <option value="">{{$edit->alternatif2}}</option>
+                    @foreach($alternatifs as $bahan)
+                    <option value="{{ $bahan->id }}" {{ $fortail->kode_komputer4 == $bahan->kode_komputer ? 'selected' : '' }}>{{ $bahan->nama_sederhana }}</option>
+                    @endforeach
+                  </select>
+                  @if($edit->alternatif3==NULL)
+                  <button class="btn btn-success btn-sm" id="t3" type="button"><i class="fa fa-plus"></i></button>
+                  <button class="btn btn-danger btn-sm" id="k2" type="button"><i class="fa fa-minus"></i></button>
+                  @endif
+                </td>
+                @else
+                <td class="A2" style="display:none">
+                  <label for="" class="control-label">Alternatif 2</label><br>
+                  <select class="bahan3 form-control" style="width:230px;display:none;" id="alternatif2" name="alternatif[2]">
+                    @foreach($alternatifs as $bahan)
+                    <option value="{{ $bahan->id }}" {{ $fortail->kode_komputer4 == $bahan->kode_komputer ? 'selected' : '' }}>{{ $bahan->nama_sederhana }}</option>
+                    @endforeach
+                  </select>
+                  @if($edit->alternatif3==NULL)
+                  <button class="btn btn-success btn-sm" id="t3" type="button"><i class="fa fa-plus"></i></button>
+                  <button class="btn btn-danger btn-sm" id="k2" type="button"><i class="fa fa-minus"></i></button>
+                  @endif
+                </td>
+                @endif
+
+                @if($edit->alternatif3!=NULL)
+                <td class="A3">
+                  <label for="" class="control-label">Alternatif 3</label><br>
+                  <select class="bahan3 form-control" style="width:230px;display:none;" id="alternatif3" name="alternatif[3]">
+                    <option value="">{{$edit->alternatif3}}</option>
+                    @foreach($alternatifs as $bahan)
+                    <option value="{{ $bahan->id }}" {{ $fortail->kode_komputer4 == $bahan->kode_komputer ? 'selected' : '' }}>{{ $bahan->nama_sederhana }}</option>
+                    @endforeach
+                  </select>
+                  @if($edit->alternatif4==NULL)
+                  <button class="btn btn-success btn-sm" id="t4" type="button"><i class="fa fa-plus"></i></button>
+                  <button class="btn btn-danger btn-sm" id="k3" type="button"><i class="fa fa-minus"></i></button>
+                  @endif
+                </td>
+                @else
+                <td class="A3" style="display:none">
+                  <label for="" class="control-label">Alternatif 3</label><br>
+                  <select class="bahan3 form-control" style="width:230px;display:none;" id="alternatif3" name="alternatif[3]">
+                    @foreach($alternatifs as $bahan)
+                    <option value="{{ $bahan->id }}" {{ $fortail->kode_komputer4 == $bahan->kode_komputer ? 'selected' : '' }}>{{ $bahan->nama_sederhana }}</option>
+                    @endforeach
+                  </select>
+                  @if($edit->alternatif4==NULL)
+                  <button class="btn btn-success btn-sm" id="t4" type="button"><i class="fa fa-plus"></i></button>
+                  <button class="btn btn-danger btn-sm" id="k3" type="button"><i class="fa fa-minus"></i></button>
+                  @endif
+                </td>
+                @endif
+              </tr>
+
+              <tr> 
+                @if($edit->alternatif4!=NULL)
+                <td class="A4" >
+                  <label for="" class="control-label">Alternatif 4</label><br>
+                  <select class="bahan4 form-control" style="width:230px;display:none;" id="alternatif4" name="alternatif[4]">
+                    <option value="">{{$edit->alternatif4}}</option>
+                    @foreach($alternatifs as $bahan)
+                    <option value="{{ $bahan->id }}" {{ $fortail->kode_komputer4 == $bahan->kode_komputer ? 'selected' : '' }}>{{ $bahan->nama_sederhana }}</option>
+                    @endforeach
+                  </select>
+                  @if($edit->alternatif5==NULL)
+                  <button class="btn btn-success btn-sm" id="t5" type="button"><i class="fa fa-plus"></i></button>
+                  <button class="btn btn-danger btn-sm" id="k4" type="button"><i class="fa fa-minus"></i></button>
+                  @endif
+                </td>
+                @else
+                <td class="A4" style="display:none">
+                  <label for="" class="control-label">Alternatif 4</label><br>
+                  <select class="bahan4 form-control" style="width:230px;display:none;" id="alternatif4" name="alternatif[4]">
+                    @foreach($alternatifs as $bahan)
+                    <option value="{{ $bahan->id }}" {{ $fortail->kode_komputer4 == $bahan->kode_komputer ? 'selected' : '' }}>{{ $bahan->nama_sederhana }}</option>
+                    @endforeach
+                  </select>
+                  @if($edit->alternatif5==NULL)
+                  <button class="btn btn-success btn-sm" id="t5" type="button"><i class="fa fa-plus"></i></button>
+                  <button class="btn btn-danger btn-sm" id="k4" type="button"><i class="fa fa-minus"></i></button>
+                  @endif
+                </td>
+                @endif
+
+                
+                @if($edit->alternatif5!=NULL)
+                <td class="A5" >
+                  <label for="" class="control-label">Alternatif 5</label><br>
+                  <select class="bahan3 form-control" style="width:230px;display:none;" id="alternatif5" name="alternatif[5]">
+                    <option value="">{{$edit->alternatif5}}</option>
+                    @foreach($alternatifs as $bahan)
+                    <option value="{{ $bahan->id }}" {{ $fortail->kode_komputer4 == $bahan->kode_komputer ? 'selected' : '' }}>{{ $bahan->nama_sederhana }}</option>
+                    @endforeach
+                  </select>
+                  @if($edit->alternatif6==NULL)
+                  <button class="btn btn-success btn-sm" id="t6" type="button"><i class="fa fa-plus"></i></button>
+                  <button class="btn btn-danger btn-sm" id="k5" type="button"><i class="fa fa-minus"></i></button>
+                  @endif
+                </td>
+                @else
+                <td class="A5" style="display:none">
+                  <label for="" class="control-label">Alternatif 5</label><br>
+                  <select class="bahan3 form-control" style="width:230px;display:none;" id="alternatif5" name="alternatif[5]">
+                    @foreach($alternatifs as $bahan)
+                    <option value="{{ $bahan->id }}" {{ $fortail->kode_komputer4 == $bahan->kode_komputer ? 'selected' : '' }}>{{ $bahan->nama_sederhana }}</option>
+                    @endforeach
+                  </select>
+                  @if($edit->alternatif6==NULL)
+                  <button class="btn btn-success btn-sm" id="t6" type="button"><i class="fa fa-plus"></i></button>
+                  <button class="btn btn-danger btn-sm" id="k5" type="button"><i class="fa fa-minus"></i></button>
+                  @endif
+                </td>
+                @endif
+
+                
+                @if($edit->alternatif6!=NULL)
+                <td class="A6" style="display:none">
+                  <label for="" class="control-label">Alternatif 6</label><br>
+                  <select class="bahan3 form-control" style="width:230px;display:none;" id="alternatif6" name="alternatif[6]">
+                    <option value="">{{$edit->alternatif6}}</option>
+                    @foreach($alternatifs as $bahan)
+                    <option value="{{ $bahan->id }}" {{ $fortail->kode_komputer4 == $bahan->kode_komputer ? 'selected' : '' }}>{{ $bahan->nama_sederhana }}</option>
+                    @endforeach
+                  </select>
+                  @if($edit->alternatif7==NULL)
+                  <button class="btn btn-success btn-sm" id="t7" type="button"><i class="fa fa-plus"></i></button>
+                  <button class="btn btn-danger btn-sm" id="k4" type="button"><i class="fa fa-minus"></i></button>
+                  @endif
+                </td>
+                @else
+                <td class="A6" style="display:none">
+                  <label for="" class="control-label">Alternatif 6</label><br>
+                  <select class="bahan3 form-control" style="width:230px;display:none;" id="alternatif6" name="alternatif[6]">
+                    @foreach($alternatifs as $bahan)
+                    <option value="{{ $bahan->id }}" {{ $fortail->kode_komputer4 == $bahan->kode_komputer ? 'selected' : '' }}>{{ $bahan->nama_sederhana }}</option>
+                    @endforeach
+                  </select>
+                  @if($edit->alternatif7==NULL)
+                  <button class="btn btn-success btn-sm" id="t7" type="button"><i class="fa fa-plus"></i></button>
+                  <button class="btn btn-danger btn-sm" id="k6" type="button"><i class="fa fa-minus"></i></button>
+                  @endif
+                </td>
+                @endif
+
+                
+                @if($edit->alternatif7!=NULL)
+                <td class="A7" style="display:none">
+                  <label for="" class="control-label">Alternatif 7</label><br>
+                  <select class="bahan3 form-control" style="width:230px;display:none;" id="alternatif7" name="alternatif[7]">
+                    <option value="">{{$edit->alternatif7}}</option>
+                    @foreach($alternatifs as $bahan)
+                    <option value="{{ $bahan->id }}" {{ $fortail->kode_komputer4 == $bahan->kode_komputer ? 'selected' : '' }}>{{ $bahan->nama_sederhana }}</option>
+                    @endforeach
+                  </select>
+                  <button class="btn btn-danger btn-sm" id="k7" type="button"><i class="fa fa-minus"></i></button>
+                </td>
+                @else
+                <td class="A7" style="display:none">
+                  <label for="" class="control-label">Alternatif 7</label><br>
+                  <select class="bahan3 form-control" style="width:230px;display:none;" id="alternatif7" name="alternatif[7]">
+                    @foreach($alternatifs as $bahan)
+                    <option value="{{ $bahan->id }}" {{ $fortail->kode_komputer4 == $bahan->kode_komputer ? 'selected' : '' }}>{{ $bahan->nama_sederhana }}</option>
+                    @endforeach
+                  </select>
+                  <button class="btn btn-danger btn-sm" id="k7" type="button"><i class="fa fa-minus"></i></button>
+                </td>
+                @endif
+              </tr>
+              @endforeach
+            </table>
+          </div>
+          <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="row">
+              <div class="col-md-6">
+                <input type="hidden" id="c"  name="c" value="{{ $count_alternatif }}" /><br>
+                {{ csrf_field()}}
+                {{ method_field('PATCH')}}
+                @foreach($for as $for)
+                <a type="button" class="btn btn-danger btn-sm" href="{{route('step2',[$for->workbook_id,$for->id])}}"><i class="fa fa-ban"></i> Cencel</a>                
+                <button type="submit" class="btn btn-info btn-sm" onclick="return confirm('Save Data ?')"><i class="fa fa-edit"></i> Save</button>
+                @endforeach
+              </div>
             </div>
           </div>
+          </form>
         </div>
       </div>
-      </form>
 		</div>
 	</div>
 </div>
@@ -118,6 +327,9 @@
 	$('#alternatif2').select2();
 	$('#alternatif3').select2();
 	$('#alternatif4').select2();
+	$('#alternatif5').select2();
+	$('#alternatif6').select2();
+	$('#alternatif7').select2();
 
 	$(document).ready(function(){ 
 
@@ -137,49 +349,149 @@
           },
 
         	success:function(data){
-          	$('#alternatif').empty();
-          	$('#alternatif2').empty();
-          	$('#alternatif3').empty();
-          	$('#alternatif4').empty();
+            $('#alternatif').empty();
+            $('#alternatif2').empty();
+            $('#alternatif3').empty();
+            $('#alternatif4').empty();
+            $('#alternatif5').empty();
+            $('#alternatif6').empty();
+            $('#alternatif7').empty();
 
-          	$('#alternatif').append('<option value="0" disabled selected> Pilih Alternatif  </option>');
-          	$('#alternatif2').append('<option value="0" disabled selected> Pilih Alternatif 2</option>');
-          	$('#alternatif3').append('<option value="0" disabled selected> Pilih Alternatif 3</option>');
-          	$('#alternatif4').append('<option value="0" disabled selected> Pilih Alternatif 4</option>');
+            $('#alternatif').append('<option value="0" disabled selected> Pilih Alternatif  </option>');
+            $('#alternatif2').append('<option value="0" disabled selected> Pilih Alternatif 2</option>');
+            $('#alternatif3').append('<option value="0" disabled selected> Pilih Alternatif 3</option>');
+            $('#alternatif4').append('<option value="0" disabled selected> Pilih Alternatif 4</option>');
+            $('#alternatif5').append('<option value="0" disabled selected> Pilih Alternatif 5</option>');
+            $('#alternatif6').append('<option value="0" disabled selected> Pilih Alternatif 6</option>');
+            $('#alternatif7').append('<option value="0" disabled selected> Pilih Alternatif 7</option>');
 
-          	$.each(data, function(key, value){
-            	$('#alternatif').append('<option value="'+ key +'">' + value + '</option>');
-            	$('#alternatif2').append('<option value="'+ key +'">' + value + '</option>');
-            	$('#alternatif3').append('<option value="'+ key +'">' + value + '</option>');
-            	$('#alternatif4').append('<option value="'+ key +'">' + value + '</option>');
-          	});
-        	},
+            $.each(data, function(key, value){
+              $('#alternatif').append('<option value="'+ key +'">' + value + '</option>');
+              $('#alternatif2').append('<option value="'+ key +'">' + value + '</option>');
+              $('#alternatif3').append('<option value="'+ key +'">' + value + '</option>');
+              $('#alternatif4').append('<option value="'+ key +'">' + value + '</option>');
+              $('#alternatif5').append('<option value="'+ key +'">' + value + '</option>');
+              $('#alternatif6').append('<option value="'+ key +'">' + value + '</option>');
+              $('#alternatif7').append('<option value="'+ key +'">' + value + '</option>');
+            });
+          },
         	complete: function(){
           	$('#loader').css("visibility","hidden");
         	}
       	});
     	}
     	else{
-      	$('#alternatif').empty();
-      	$('#alternatif2').empty();
-      	$('#alternatif3').empty();
-      	$('#alternatif4').empty();
+        $('#alternatif').empty();
+        $('#alternatif2').empty();
+        $('#alternatif3').empty();
+        $('#alternatif4').empty();
+        $('#alternatif5').empty();
+        $('#alternatif6').empty();
+        $('#alternatif7').empty();
     	}           
   	});
 
     var what = $('#c').val();
-    if(what == '4'){
+    if(what == '7'){
       $('#t1').hide();
       $('.A1').show();
+
       $('#t2').hide();
       $('#k1').hide();
+
       $('.A2').show();
       $('#t3').hide();
       $('#k2').hide();
+
       $('.A3').show();
       $('#t4').hide();
       $('#k3').hide();
+      
       $('.A4').show();
+      $('#t5').hide();
+      $('#k4').show();
+      
+      $('.A5').show();
+      $('#t6').hide();
+      $('#k5').show();
+      
+      $('.A6').show();
+      $('#t7').hide();
+      $('#k6').show();
+      
+      $('.A7').show();
+      $('#k7').show();
+    }
+
+    if(what == '6'){
+      $('#t1').hide();
+      $('.A1').show();
+
+      $('#t2').hide();
+      $('#k1').hide();
+
+      $('.A2').show();
+      $('#t3').hide();
+      $('#k2').hide();
+
+      $('.A3').show();
+      $('#t4').hide();
+      $('#k3').hide();
+      
+      $('.A4').show();
+      $('#t5').hide();
+      $('#k4').show();
+      
+      $('.A5').show();
+      $('#t6').hide();
+      $('#k5').show();
+      
+      $('.A6').show();
+      $('#t7').hide();
+      $('#k6').show();
+    }
+
+    if(what == '5'){
+      $('#t1').hide();
+      $('.A1').show();
+
+      $('#t2').hide();
+      $('#k1').hide();
+
+      $('.A2').show();
+      $('#t3').hide();
+      $('#k2').hide();
+
+      $('.A3').show();
+      $('#t4').hide();
+      $('#k3').hide();
+      
+      $('.A4').show();
+      $('#t5').hide();
+      $('#k4').show();
+      
+      $('.A5').show();
+      $('#t6').hide();
+      $('#k5').show();
+    }
+
+    if(what == '4'){
+      $('#t1').hide();
+      $('.A1').show();
+
+      $('#t2').hide();
+      $('#k1').hide();
+
+      $('.A2').show();
+      $('#t3').hide();
+      $('#k2').hide();
+
+      $('.A3').show();
+      $('#t4').hide();
+      $('#k3').hide();
+      
+      $('.A4').show();
+      $('#t5').hide();
       $('#k4').show();
     }
     else if(what == '3'){
@@ -210,6 +522,24 @@
       $('#k1').show();
     }
     
+    $("#k7").click(function(e) {
+      $('.A7').hide();
+      $('#k6').show();
+      $("#t7").show();
+      $('#c').val(6);
+    });
+    $("#k6").click(function(e) {
+      $('.A6').hide();
+      $('#k5').show();
+      $("#t6").show();
+      $('#c').val(5);
+    });
+    $("#k5").click(function(e) {
+      $('.A5').hide();
+      $('#k4').show();
+      $("#t5").show();
+      $('#c').val(4);
+    });
     $("#k4").click(function(e) {
       $('.A4').hide();
       $('#k3').show();
@@ -232,6 +562,24 @@
       $('.A1').hide();
       $('#t1').show();
       $('#c').val(0);
+  	});
+  	$("#t7").click(function(e) {
+      $('.A7').show();
+      $('#k6').hide();
+      $("#t7").hide();
+      $('#c').val(7);
+  	});
+  	$("#t6").click(function(e) {
+      $('.A6').show();
+      $('#k5').hide();
+      $("#t6").hide();
+      $('#c').val(6);
+  	});
+  	$("#t5").click(function(e) {
+      $('.A5').show();
+      $('#k4').hide();
+      $("#t5").hide();
+      $('#c').val(5);
   	});
   	$("#t4").click(function(e) {
       $('.A4').show();
