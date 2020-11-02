@@ -216,6 +216,10 @@ Route::get('naikversipkp/{id}/{revisi}/{turunan}','pv\pkpController@upversionpkp
 Route::post('updatetipp/{id_pkp}/{revisi}/{turunan}', 'pv\pkpController@updatetipp')->name('updatetipp');
 Route::post('updatetipp2/{id_pkp}/{revisi}/{turunan}', 'pv\pkpController@updatetipp2')->name('updatetipp2');
 
+Route::get('cetak','cetakController@download_project')->name('cetak');
+Route::get('cetak_my_project','cetakController@download_my_project')->name('cetak_my_project');
+Route::get('cetak_pdf','cetakController@download_project_pdf')->name('cetak_pdf');
+
 //PKP PROMO
 Route::get('downloadpromo/{id}/{revisi}/{turunan}','pv\promoController@downloadpromo')->name('downloadpromo');
 Route::get('promo','pv\promoController@promo')->name('promo');

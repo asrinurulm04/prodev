@@ -77,7 +77,7 @@
                             {{$pkp->user->role}}
                             @endif
                             </th>
-                            <td width="25%">Catatan revisi pengajuan untuk project ini : ...<span class="baca_selengkapnya"> Baca Selengkapnya...</span><div class="pesan">{{$pkp->alasan_pengajuan}}</div></td>
+                            <td width="25%">{{$pkp->alasan_pengajuan}}</td>
                             <td width="10%">
                               <a href="{{Route('rekappkp',$pkp->id_pkp)}}" class="btn btn-info" type="button"><li class="fa fa-edit"> Start revision</li></a>
             	              </td>
@@ -132,7 +132,7 @@
                               {{$pdf->user->role	}}
                             @endif
                           </td>
-                          <td width="25%">Catatan revisi pengajuan untuk project ini : ...<span class="baca_selengkapnya"> Baca Selengkapnya...</span><div class="pesan">{{$pdf->alasan_pengajuan}}</div></td>
+                          <td width="25%">{{$pdf->alasan_pengajuan}}</td>
                           <td width="10%"><a href="{{Route('rekappdf',$pdf->id_pdf)}}" class="btn btn-info" type="button"><li class="fa fa-edit"> Start revision</li></a></td>
                         </tr>
                         @endforeach
@@ -180,7 +180,7 @@
                             {{$promo->user->role}}
                             @endif
                           </td>
-                          <td width="25%">Catatan revisi pengajuan untuk project ini : ...<span class="baca_selengkapnya"> Baca Selengkapnya...</span><div class="pesan">{{$promo->alasan_pengajuan}}</div></td>
+                          <td width="25%">{{$promo->alasan_pengajuan}}</td>
                           <td width="10%">
                               <a href="{{Route('rekappromo',$promo->id_promo)}}" class="btn btn-info" type="button"><li class="fa fa-edit"> Start revision</li></a>
                           </td>
