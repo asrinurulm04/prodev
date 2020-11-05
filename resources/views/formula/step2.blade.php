@@ -303,15 +303,16 @@
         {{-- start --}}
         <div>
           <div class="row">      
-            <div class="col-md-5 col-sm-5">
+            <div class="col-md-2 col-sm-2">
               <div style="margin-left:10px">
               </div>                                    
             </div>                          
-            <div class="col-md-6">                                                                        
+            <div class="col-md-9">                                                                        
               <div style="float:right">
+                <a class="btn btn-success btn-sm" type="button" id="buttonformcheckscale"><i class="fa fa-eye"></i> Import Granulasi/Premix</a>
                 @if ($mybase != 0)
-                <a class="btn btn-success btn-sm" type="button" id="buttonformcheckscale"><i class="fa fa-eye"></i> Check Scale</a>
-                <a class="btn btn-warning btn-sm" type="button" id="buttonformsavescale"><i class="fa fa-save"></i> Save Scale</a>
+                <a class="btn btn-primary btn-sm" type="button" id="buttonformsavescale"><i class="fa fa-save"></i> Save Scale</a>
+                <a class="btn btn-warning btn-sm" type="button" id="buttonformcheckscale"><i class="fa fa-eye"></i> Check Scale</a>
                 @endif
                 @if ($mybase != 0)
                 <a type="button" class="btn btn-dark btn-sm" id="buttongantibase"><i class="fa fa-exchange"></i> Ganti Base</a>
@@ -323,7 +324,6 @@
               {{-- Method --}}
               <select class="form-control" id="scale_option" onChange="SO(this.id)">
                 <option value="gram">G</option>
-                <option value="%">%</option>
               </select>                                        
               {{-- History--}}
               <input type="hidden" id="history_target_scale" placeholder="history_target_scale">                                               
@@ -424,7 +424,7 @@
                   <table class="table-bordered table">
                     <tbody>
                       <tr><td><b>{{ $fortail['nama_sederhana'] }}</td></tr>
-                      @if($fortail['alternatif'] != Null)<tr><td>{{ $fortail['alternatif'] }}</td></tr>@endif
+                      @if($fortail['alternatif1'] != Null)<tr><td>{{ $fortail['alternatif1'] }}</td></tr>@endif
                       @if($fortail['alternatif2'] != Null)<tr><td>{{ $fortail['alternatif2'] }}</td></tr>@endif
                       @if($fortail['alternatif3'] != Null)<tr><td>{{ $fortail['alternatif3'] }}</td></tr>@endif
                       @if($fortail['alternatif4'] != Null)<tr><td>{{ $fortail['alternatif4'] }}</td></tr>@endif
@@ -517,9 +517,13 @@
         <form class="form-horizontal form-label-left" method="POST" action="{{ route('updatenote',[$formula->id,$formula->workbook_id]) }}">
         <div class="row">
           <div class="form-group">
-            <label class="control-label col-md-1 col-sm-1 col-xs-12">Note </label>
-            <div class="col-md-9 col-sm-9 col-xs-12">
-              <textarea name="keterangan" id="keterangan" value="{{ $formula->catatan_rd }}" class="col-md-12 col-sm-12 col-xs-12" rows="2">{{ $formula->catatan_rd }}</textarea>
+            <label class="control-label col-md-1 col-sm-1 col-xs-12">Note RD</label>
+            <div class="col-md-4 col-sm-4 col-xs-12">
+              <textarea name="keterangan" id="keterangan" maxlength="200" placeholder="max 200 character" value="{{ $formula->note_formula }}" class="col-md-12 col-sm-12 col-xs-12" rows="5">{{ $formula->note_formula }}</textarea>
+            </div>
+            <label class="control-label col-md-1 col-sm-1 col-xs-12">Note Formula</label>
+            <div class="col-md-4 col-sm-4 col-xs-12">
+              <textarea name="formula" id="formula" value="{{ $formula->catatan_rd }}" class="col-md-12 col-sm-12 col-xs-12" rows="5">{{ $formula->catatan_rd }}</textarea>
             </div>
             <button type="submit" class="btn status btn-primary btn-sm"><li class="fa fa-check"></li> Submit Note</button>
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -538,7 +542,7 @@
     }
   @endphp
 
-	<div class="row panel" style="visibility:hidden">    
+	<div class="row panel" hidden>    
   	<div class="row" style="margin:20px">
       <div class="col-md-2" >
         <form action="{{ route('gantibase',$idf) }}" id="formgantibase" method="POST">

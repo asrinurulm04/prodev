@@ -35,7 +35,8 @@
         <a class="btn btn-success btn-sm" href="{{ route('workbook.selesai',$workbooks->id) }}" onclick="return confirm('Selesaikan Project ?')"><i class="fa fa-check"></i> Finish</a>
         <a class="btn btn-danger btn-sm" href="{{ route('workbook.batal',$workbooks->id) }}" onclick="return confirm('Batalkan Project ?')"><i class="fa fa-times"></i> Cencel</a>
         @endif
-        <a class="btn btn-danger btn-sm" href="{{ route('lihatpkp',['id'=>$workbooks->id_pkp,'revisi' => $workbooks->revisi,'turunan'=>$workbooks->turunan]) }}"><i class="fa fa-share"></i> Back</a>
+        <a class="btn btn-info btn-sm" href="{{ route('lihatpkp',['id'=>$workbooks->id_pkp,'revisi' => $workbooks->revisi,'turunan'=>$workbooks->turunan]) }}"><i class="fa fa-eye"></i> Show PKP</a>
+        <a class="btn btn-danger btn-sm" href="{{ route('rekappkp',$workbooks->id_pkp) }}"><i class="fa fa-share"></i> Back</a>
       </div>
     </div>
     <hr style="border-color: #ddd">     
@@ -116,7 +117,7 @@
                 <th class="text-center">#</th>                                  
                 <th class="text-center">Versi</th>
                 <th class="text-center">Category Formula</th>  
-                <th class="text-center">Sample</th>
+                <th class="text-center">Formula</th>
                 <th class="text-center">Status Sample</th>
                 <th class="text-center">Note RD</th>
                 <th class="text-center">Note PV</th>
@@ -235,6 +236,8 @@
           </div>
         </div>
         <div class="form-group">
+        <?php $last = Date('j-F-Y'); ?>
+          <input id="last" value="{{ $last }}" class="form-control col-md-12 col-xs-12" name="last" required="required" type="hidden">
           <label class="col-lg-3 control-label">Kategori</label>
           <div class="col-lg-8">
             <div class="row">
