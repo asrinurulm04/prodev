@@ -437,8 +437,10 @@ Route::patch('SaveDetailPenyusunan/{idf}/{id}','formula\EditFortailController@up
 
 Route::get('penyusunanpremix/{id}','formula\Step3Controller@create')->name('step3');
 Route::get('InsertPremix/{id}','formula\Step3Controller@insert')->name('step3insert');
-
 Route::get('summarryformula/{id}','formula\SummaryFormulaController@summarry')->name('summarry');
+Route::post('vit15/{id}','formula\SummaryFormulaController@vit15')->name('vit15');
+Route::post('vit20/{id}','formula\SummaryFormulaController@vit20')->name('vit20');
+Route::post('overrate/{id}','formula\SummaryFormulaController@overrate')->name('overrate');
 
 // panel
 Route::get('panel/{id}','formula\panelController@panel')->name('panel');
