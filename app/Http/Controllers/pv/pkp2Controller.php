@@ -41,15 +41,15 @@ class pkp2Controller extends Controller
         $this->middleware('rule:pv_global' || 'rule:pv_lokal' || 'rule:NR' || 'rule:marketing' || 'rule:manager' || 'rule:admin');
     }
 
-    public function template($id_project){
-        $pkp = tipp::where('id_pkp',$id_project)->max('turunan');
-        $max = tipp::where('id_pkp',$id_project)->max('revisi');
-        $pkp1 = pkp_project::where('id_project',$id_project)->first();
+    public function template(Request $request){
+        $pkp = tipp::where('id_pkp',$request->id)->max('turunan');
+        $max = tipp::where('id_pkp',$request->id)->max('revisi');
+        $pkp1 = pkp_project::where('id_project',$request->id)->first();
         $project = new pkp_project;
         $project->project_name=$pkp1->project_name;
         $project->id_brand=$pkp1->id_brand;
         $project->jenis=$pkp1->jenis;
-        $project->created_date=$pkp1->created_date;
+        $project->created_date=$request->date;
         $project->author=Auth::user()->id;
         $project->type=$pkp1->type;
         $project->save();
