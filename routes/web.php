@@ -181,7 +181,7 @@ Route::get('buatpkp/{id_project}/{revisi}/{turunan}','pv\pkpController@buatpkp')
 Route::get('buatpkp1/{id_project}','pv\pkpController@buatpkp1')->name('buatpkp1');
 Route::get('lihatpkp/{id_project}/{revisi}/{turunan}','pv\pkpController@lihatpkp')->name('lihatpkp');
 Route::post('terima/{id_project}','pv\pkpController@terima')->name('terima');
-Route::post('temppkp','pv\pkp2Controller@template')->name('temppkp');
+Route::get('temppkp/{id}','pv\pkp2Controller@template')->name('temppkp');
 
 Route::get('konfigurasi/{id}/{revisi}/{turunan}','pv\pkpController@konfigurasi')->name('konfigurasi');
 Route::get('getpangan/{id}','ajax\getGet@getpangan')->name('getpangan');

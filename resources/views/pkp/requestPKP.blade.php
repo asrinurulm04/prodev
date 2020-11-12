@@ -135,7 +135,6 @@
         </button> </h3>
       </div>
       <div class="modal-body">
-          <form class="form-horizontal form-label-left" method="POST" action="{{Route('temppkp')}}">
         <table class="Table table-bordered" width="100%">
           <thead>
             <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
@@ -147,27 +146,20 @@
               <td></td>
             </tr>
           </thead>
-          @php
-            $nol = 0;
-          @endphp
+          @php $nol = 0; @endphp
           @foreach($pkp1 as $pkp)
             <tr>
               <th class="text-center">{{ ++$nol }}</th>
               <th>{{ $pkp->pkp_number }}{{ $pkp->ket_no }}</th>
               <th>{{ $pkp->id_brand }}</th>
               <th>{{ $pkp->project_name }}</th>
-              <th>{{ $pkp->author1->name }}</th>        
-              <input type="hidden" name="id" id="id" value="{{$pkp->id_project}}">
-              <?php $date = Date('j-F-Y'); ?>
-              <input id="date" value="{{ $last }}" class="form-control col-md-12 col-xs-12" name="date" required="required" type="hidden" readonly>
+              <th>{{ $pkp->author1->name }}</th>
               <th class="text-center">
-              <button type="submit" class="btn btn-warning btn-sm" ><li class="fa fa-check"></li></button>
-              {{ csrf_field() }}
+                <a class="btn btn-warning" onclick="return confirm('Are you sure you want to use this template?')" href="{{Route('temppkp',$pkp->id_project)}}"><i class="fa fa-check"></i></a>
               </th>
             </tr>
           @endforeach
         </table>
-        </form>
       </div>
     </div>
   </div>

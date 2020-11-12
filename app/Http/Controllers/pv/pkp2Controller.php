@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use Auth;
 use Redirect;
 use DB;
+use Carbon\Carbon;
 
 use App\pkp\pkp_type;
 use App\pkp\pkp_project;
@@ -41,15 +42,16 @@ class pkp2Controller extends Controller
         $this->middleware('rule:pv_global' || 'rule:pv_lokal' || 'rule:NR' || 'rule:marketing' || 'rule:manager' || 'rule:admin');
     }
 
-    public function template(Request $request){
-        $pkp = tipp::where('id_pkp',$request->id)->max('turunan');
-        $max = tipp::where('id_pkp',$request->id)->max('revisi');
-        $pkp1 = pkp_project::where('id_project',$request->id)->first();
+    public function template($id_project){
+        $current = Carbon::now();
+        $pkp = tipp::where('id_pkp',$id_project)->max('turunan');
+        $max = tipp::where('id_pkp',$id_project)->max('revisi');
+        $pkp1 = pkp_project::where('id_project',$id_project)->first();
         $project = new pkp_project;
         $project->project_name=$pkp1->project_name;
         $project->id_brand=$pkp1->id_brand;
         $project->jenis=$pkp1->jenis;
-        $project->created_date=$request->date;
+        $project->created_date=$current->format('j-F-Y');
         $project->author=Auth::user()->id;
         $project->type=$pkp1->type;
         $project->save();
@@ -177,7 +179,6 @@ class pkp2Controller extends Controller
             }
             return Redirect::Route('buatpkp',['id_pkp' => $tip->id_pkp, 'revisi' => $tip->revisi, 'turunan' => $tip->turunan]);
     }
-
     public function tabulasi(){
         $pengajuan = pengajuan::count();
         $notif = notification::where('status','=','active')->count();
