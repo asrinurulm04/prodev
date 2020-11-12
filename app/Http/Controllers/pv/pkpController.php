@@ -518,20 +518,19 @@ class pkpController extends Controller
     }
 
     public function buatpkp1($id_project){
-        $pkp = pkp_project::where('id_project',$id_project)->get();
+        $pkp = pkp_project::where('id_project',$id_project)->first();
         $brand = brand::all();
         $tarkon = Tarkon::all();
-        $pangan = pangan::all();
+        $pangan = pkp_datapangan::all();
         $kemas = datakemas::get();
         $uom = uom::all();
-        $user = user::where('status','=','active')->get();
         $ses = ses::all();
         $Ddetail = data_detail_klaim::max('id')+1;
         $detail = detail_klaim::all();
         $klaim = klaim::all();
         $komponen = komponen::all();
-        $datapangan = datapangan::all();
         $pengajuan = pengajuan::count();
+        $teams = tb_teams_brand::where('brand',$pkp->id_brand)->get();
         $notif = notification::where('status','=','active')->count();
         $pesan = notification::orderBy('updated_at','desc')->get();
         $hitungnotif = $pengajuan + $notif;
@@ -546,10 +545,8 @@ class pkpController extends Controller
             'brand' => $brand,
             'project' => $project,
             'komponen' => $komponen,
-            'user' => $user,
             'klaim' => $klaim,
             'detail' => $detail,
-            'datapangan' => $datapangan,
             'tarkon' => $tarkon,
             'pangan' => $pangan,
             'pesan' => $pesan,
@@ -557,11 +554,11 @@ class pkpController extends Controller
             'pengajuan' => $pengajuan,
             'hitungnotif' => $hitungnotif,
             'id_pkp' => $id_pkp,
+            'teams' => $teams,
             'idea' => $idea,
             'ses' => $ses,
             'Ddetail' => $Ddetail,
             'uom' => $uom,
-            'pkp' => $pkp,
             'eksis' => $eksis,
             'kemas' => $kemas,
             'ide' => $ide,
