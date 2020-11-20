@@ -300,8 +300,6 @@ Route::get('datatambahanpdf/{id_project_pdf}/{revisi}/{turunan}','pv\pdfControll
 Route::post('uploadpdf','pv\pdfController@uploaddatapdf')->name('uploadpdf');
 
 Route::get('naikversipdf/{id}/{recisi}/{turunan}','pv\pdfController@upversionpdf')->name('naikversipdf');
-Route::get('pdf1/{id_project_pdf}','pv\pdfController@step1')->name('pdf1');
-Route::get('pdf2/{id_project_pdf}/{revisi}/{turunan}','pv\pdfController@step11')->name('pdf2');
 Route::post('updatepdf/{id_pdf}/{revisi}/{turunan}','pv\pdfController@updatecoba')->name('updatepdf');
 Route::post('updatepdf2/{id_pdf}/{revisi}/{turunan}','pv\pdfController@updatecoba2')->name('updatepdf2');
 Route::get('rekappdf/{id_project_pdf}','pv\pdfController@daftarpdf')->name('rekappdf');

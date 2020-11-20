@@ -13,6 +13,7 @@ use App\master\Brand;
 use App\pkp\menu;
 use App\notification;
 use App\pkp\klaim;
+use App\pkp\kemaspdf;
 use App\pkp\detail_klaim;
 use App\pkp\komponen;
 use App\pkp\data_klaim;
@@ -75,7 +76,7 @@ class listpkpController extends Controller
     }
 
     public function listpdf(){
-        $pdf = DB::table('pdf_project')->get();
+        $pdf = project_pdf::all();
         $type = pkp_type::all();
         $brand = brand::all();
         $hitungpkp = tipp::where('status_pkp','=','draf')->count();
@@ -83,7 +84,7 @@ class listpkpController extends Controller
         $hitungpdf = coba::where('status_data','=','draf')->count();
         $jumlah = $hitungpkp+$hitungpromo+$hitungpdf;
         
-        return view('devwb.listprojectpdf')->with([
+        return view('devwb.listpdfproject')->with([
             'type' => $type,
             'pdf' => $pdf,
             'brand' => $brand,
@@ -214,7 +215,7 @@ class listpkpController extends Controller
                 foreach ($isises as $isises)
                 {
                     $data1= new data_ses;
-                    $data1->id_pdf=$isises->id_pdf;
+                    $data1->id_pdf=$project->id_project_pdf;
                     $data1->revisi='0';
                     $data1->turunan='0';
                     $data1->ses=$isises->ses;
@@ -228,11 +229,12 @@ class listpkpController extends Controller
                 foreach ($isifor as $isifor)
                 {
                     $for= new data_forecast;
-                    $for->id_pdf=$isifor->id_pdf;
+                    $for->id_pdf=$project->id_project_pdf;
                     $for->revisi='0';
                     $for->turunan='0';
                     $for->forecast=$isifor->forecast;
                     $for->satuan=$isifor->satuan;
+                    $for->keterangan=$isifor->keterangan;
                     $for->save();
                 }
             }
@@ -243,7 +245,7 @@ class listpkpController extends Controller
                 foreach ($isiklaim as $isiklaim)
                 {
                     $klaim= new data_klaim;
-                    $klaim->id_pdf=$isiklaim->id_pdf;
+                    $klaim->id_pdf=$project->id_project_pdf;
                     $klaim->revisi='0';
                     $klaim->turunan='0';
                     $klaim->id_komponen=$isiklaim->id_komponen;
@@ -258,7 +260,7 @@ class listpkpController extends Controller
                 foreach ($isidetail as $isidetail)
                 {
                     $detail= new data_detail_klaim;
-                    $detail->id_pdf=$isidetail->id_pdf;
+                    $detail->id_pdf=$project->id_project_pdf;
                     $detail->revisi='0';
                     $detail->turunan='0';
                     $detail->id_detail=$isidetail->id_detail;
@@ -266,6 +268,22 @@ class listpkpController extends Controller
                 }
             }
 
-            return redirect::route('pdf2',['pdf_id' => $tip->pdf_id, 'revisi' => $tip->revisi, 'turunan' => $tip->turunan]);
+            $detailkemaspdf=kemaspdf::where('id_pdf',$id_project_pdf)->where('revisi',$max)->where('turunan',$pdf)->count();
+            if($detailkemaspdf>0){
+                $isikemaspdf=kemaspdf::where('id_pdf',$id_project_pdf)->where('revisi',$max)->where('turunan',$pdf)->get();
+                foreach ($isikemaspdf as $isikemaspdf)
+                {
+                    $detail= new kemaspdf;
+                    $detail->id_pdf=$project->id_project_pdf;
+                    $detail->revisi='0';
+                    $detail->turunan='0';
+                    $detail->oracle=$isikemaspdf->oracle;
+                    $detail->kk=$isikemaspdf->kk;
+                    $detail->information=$isikemaspdf->information;
+                    $detail->save();
+                }
+            }
+
+            return redirect::route('buatpdf1',['pdf_id' => $tip->pdf_id, 'revisi' => $tip->revisi, 'turunan' => $tip->turunan]);
     }
 }
