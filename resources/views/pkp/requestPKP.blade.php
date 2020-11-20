@@ -1,6 +1,5 @@
 @extends('pv.tempvv')
 @section('title', 'Request PKP')
-@section('judulhalaman','Request PKP')
 @section('content')
 
 @if (session('status'))
@@ -38,7 +37,7 @@
   </div>
 </div>
 
-<form class="form-horizontal form-label-left" method="POST" action="{{ route('datapkp') }}" novalidate>
+<form class="form-horizontal form-label-left" method="POST" action="{{ route('datapkp') }}">
 <div class="row">
   <div class="col-md-6 col-xs-12">
     <div class="x_panel" style="min-height:240px">
@@ -47,15 +46,15 @@
       </div>
       <div class="card-block">
         <div class="x_content">
-        <?php $last = Date('j-F-Y'); ?>
+          <?php $last = Date('j-F-Y'); ?>
           <div class="form-group row">
-            <label class="control-label col-md-2 col-sm-3 col-xs-12" style="color:#258039">Create </label>
+            <label class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#258039">Create </label>
             <div class="col-md-9 col-sm-9 col-xs-12">
               <input id="last" value="{{ $last }}" class="form-control col-md-12 col-xs-12" name="last" required="required" type="text" readonly>
             </div>
           </div>
           <div class="form-group row">
-            <label class="control-label col-md-2 col-sm-3 col-xs-12" style="color:#258039">Jenis**</label>
+            <label class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#258039">Jenis**</label>
             <div class="col-md-9 col-sm-9 col-xs-12">
               <select name="jenis" id="jenis" class="form-control">
                 @foreach($menu as $menu)
@@ -65,14 +64,14 @@
             </div>
           </div>
           <div class="form-group row">
-            <label class="control-label col-md-2 col-sm-3 col-xs-12" style="color:#258039">Type**</label>
+            <label class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#258039">Type**</label>
             <div class="col-md-9 col-sm-9 col-xs-12">
-            <select required id="type" name="type" class="form-control" >
-              <option disabled selected value="">-- Select One --</option>
-              <option value="1">Maklon</option>
-              <option value="2">Internal</option>
-              <option value="3">Maklon/Internal</option>
-            </select>
+              <select required id="type" name="type" class="form-control" >
+                <option disabled selected value="">-- Select One --</option>
+                <option value="1">Maklon</option>
+                <option value="2">Internal</option>
+                <option value="3">Maklon/Internal</option>
+              </select>
             </div>
           </div>
         </div>
@@ -87,13 +86,13 @@
       </div>
       <div class="card-block">
         <div class="form-group row">
-          <label class="control-label col-md-3 col-sm-3 col-xs-12" style="color:#258039">Project Name **</label>
+          <label class="control-label col-md-3 col-sm-2 col-xs-12" style="color:#258039">Project Name **</label>
           <div class="col-md-9 col-sm-9 col-xs-12">
             <input id="name" class="form-control col-md-12 col-xs-12" onkeyup="this.value = this.value.toUpperCase()" type="text" name="name" required>
           </div>
         </div>
         <div class="form-group row">
-          <label class="control-label col-md-3 col-sm-3 col-xs-12" style="color:#258039">Brand **</label>
+          <label class="control-label col-md-3 col-sm-2 col-xs-12" style="color:#258039">Brand **</label>
           <div class="col-md-9 col-sm-9 col-xs-12">
             <select required id="brand" name="brand" class="form-control" >
               <option disabled selected value="">-- Select One --</option>
@@ -104,7 +103,7 @@
           </div>
         </div>
         <div class="form-group row">
-          <label class="control-label col-md-3 col-sm-3 col-xs-12" style="color:#258039"> Revision</label>
+          <label class="control-label col-md-3 col-sm-2 col-xs-12" style="color:#258039"> Revision</label>
           <div class="col-md-9 col-sm-9 col-xs-12">
             <input readonly type="text" value="0.0" class="form-control col-md-12 col-xs-12">
             <input id="author" value="{{ Auth::user()->id }}" class="form-control col-md-12 col-xs-12" type="hidden" name="author">
@@ -115,7 +114,7 @@
     </div>
   </div>
   <div class="x_panel">
-    <div class="card-block col-md-6 col-md-offset-5">
+    <div class="card-block col-md-6 col-sm-offset-5 col-md-offset-5">
       <button type="reset" class="btn btn-danger">Reset</button>
       <button type="submit" class="btn btn-primary">Submit</button>
       {{ csrf_field() }}

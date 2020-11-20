@@ -10,45 +10,47 @@
       @if($data->status_project=='revisi')
         <button class="btn btn-success btn-sm"  data-toggle="modal" data-target="#edit"><li class="fa fa-edit"></li> Confirm Type PKP</button>
       @endif
+
       @if($promo==0)
         <a href="{{ route('datapromo',$data->id_pkp_promo)}}" class="btn btn-primary btn-sm" type="button"><li class="fa fa-plus"></li> Add Data</a>
       @elseif($promo>=0)
       @endif
+
       @if(auth()->user()->role->namaRule != 'user_produk')
         @if($data->status_project=="revisi")
-        <button class="btn btn-primary btn-sm" title="note" data-toggle="modal" data-target="#data{{ $data->id_pkp_promo  }}"><i class="fa fa-edit"></i> Edit Timeline</a></button>
-        <!-- Modal -->
-        <div class="modal" id="data{{ $data->id_pkp_promo  }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h3 class="modal-title" id="exampleModalLabel">Timeline Project : {{$data->project_name}}
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button></h3>
-              </div>
-              <div class="modal-body">
-                <div class="row x_panel">
-                  <form class="form-horizontal form-label-left" method="POST" action="{{ Route('TMubah',$data->id_pkp_promo)}}" novalidate>
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12 text-center">Deadline for sending Sample</label>
-                  <div class="col-md-4 col-sm-9 col-xs-12">
-                    <input type="date" class="form-control" value="{{$data->jangka}}" name="jangka" id="jangka" placeholder="start date">
-                  </div>
-                  <div class="col-md-4 col-sm-9 col-xs-12">
-                    <input type="date" class="form-control" value="{{$data->waktu}}" name="waktu" id="waktu" placeholder="end date">
+          <button class="btn btn-primary btn-sm" title="note" data-toggle="modal" data-target="#data{{ $data->id_pkp_promo  }}"><i class="fa fa-edit"></i> Edit Timeline</a></button>
+          <!-- Modal -->
+          <div class="modal" id="data{{ $data->id_pkp_promo  }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h3 class="modal-title" id="exampleModalLabel">Timeline Project : {{$data->project_name}}
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button></h3>
+                </div>
+                <div class="modal-body">
+                  <div class="row x_panel">
+                    <form class="form-horizontal form-label-left" method="POST" action="{{ Route('TMubah',$data->id_pkp_promo)}}" novalidate>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12 text-center">Deadline for sending Sample</label>
+                    <div class="col-md-4 col-sm-9 col-xs-12">
+                      <input type="date" class="form-control" value="{{$data->jangka}}" name="jangka" id="jangka" placeholder="start date">
+                    </div>
+                    <div class="col-md-4 col-sm-9 col-xs-12">
+                      <input type="date" class="form-control" value="{{$data->waktu}}" name="waktu" id="waktu" placeholder="end date">
+                    </div>
                   </div>
                 </div>
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-primary"><i class="fa fa-edit"></i> Edit</button>
+                  {{ csrf_field() }}
+                </div>
+                </form>
               </div>
-              <div class="modal-footer">
-                <button type="submit" class="btn btn-primary"><i class="fa fa-edit"></i> Edit</button>
-                {{ csrf_field() }}
-              </div>
-              </form>
             </div>
           </div>
-        </div>
-        <a href="{{ route('datapengajuan')}}" class="btn btn-danger btn-sm" type="button"><li class="fa fa-share"></li> Back</a>
-        <!-- Modal Selesai -->
+          <a href="{{ route('datapengajuan')}}" class="btn btn-danger btn-sm" type="button"><li class="fa fa-share"></li> Back</a>
+          <!-- Modal Selesai -->
         @elseif($data->status_project=="draf")
           <a href="{{ route('drafpromo')}}" class="btn btn-danger btn-sm" type="button"><li class="fa fa-share"></li> Back</a>
         @elseif($data->status_project=="sent" || $data->status_project=="proses")
@@ -161,9 +163,7 @@
               </tr>
             </thead>
             <tbody>
-              @php
-                $no = 0;
-              @endphp
+              @php $no = 0; @endphp
               @foreach($sample as $pkp)
               @if($pkp->status=='final')
               <tr style="background-color:springgreen">
@@ -236,10 +236,9 @@
                           </div>
                           
                           <div class="modal-body">
-                            <form action=""></form>
                             <form class="form-horizontal form-label-left" method="POST" action="{{route('rejectsamplepromo',$pkp->id_sample)}}">
-                              <label for="">Note</label>
-                              <textarea name="note" id="note" rows="2" class="form-control" required></textarea>
+                            <label for="">Note</label>
+                            <textarea name="note" id="note" rows="2" class="form-control" required></textarea>
                             <div class="modal-footer">
                               <button class="btn btn-sm btn-primary" type="submit">submit</button>
                               {{ csrf_field() }}
@@ -345,7 +344,6 @@
     i++;
   });
   });
-
-
+  
 </script>
 @endsection

@@ -85,7 +85,6 @@
 {{-- selesai --}}
 @endsection
 
-
 @section('s')
 <script type="text/javascript"></script>
 @endsection

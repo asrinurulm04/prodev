@@ -333,8 +333,8 @@
           </div>
           <input type="hidden" value="{{ Auth::user()->email }}" name="pengirim1" id="pengirim1">
             @foreach($teams as $teams)
-            <input type="text" value="{{$teams->user->name}}" name="namatujuan[]" id="namatujuan">
-            <input type="text" value="{{$teams->user->email}}" name="emailtujuan[]" id="emailtujuan">
+            <input type="hidden" value="{{$teams->user->name}}" name="namatujuan[]" id="namatujuan">
+            <input type="hidden" value="{{$teams->user->email}}" name="emailtujuan[]" id="emailtujuan">
             @endforeach
           <div class="col-md-6 col-sm-offset-5 col-md-offset-5">
             <button type="reset" class="btn btn-danger">Reset</button>

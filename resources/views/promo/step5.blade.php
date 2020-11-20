@@ -54,7 +54,7 @@
 <div class="col-md-12 col-sm-12 col-xs-12">
   <div class="x_panel">
     <div class="x_title">
-			<h3 class="jumbotron"><li class=" fa fa-upload"></li> File Upload (Max 5MB)</h3>
+			<h3 class="jumbotron"><li class=" fa fa-upload"></li> File Upload (Max 2MB)</h3>
       <form method="post" action="{{url('uploadpromo')}}" enctype="multipart/form-data">
 		  {{csrf_field()}}
 			<div class="input-group control-group increment" >

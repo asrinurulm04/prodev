@@ -186,7 +186,7 @@
                         if($data->forecast!=null){ echo"Rp. ". number_format($data->forecast, 0, ".", "."). " ($data->satuan)  <br>"; } } ?>
                       <br>
                         <?php $remarks_forecash = []; foreach ($for as $key => $data) If (!$remarks_forecash || !in_array($data->remarks_forecash, $remarks_forecash)) { $remarks_forecash += array( $key => $data->remarks_forecash ); 
-                        if($data->revisi!=$pkp->revisi){ echo"remarks forecast: <s><font color='#6594c5'>$data->remarks_forecash<br></font></s>"; } if($data->revisi==$pkp->revisi){ echo"remarks forecast: $data->remarks_forecash <br>";  } } ?></td>
+                        if($data->revisi!=$pkp->revisi){ echo"Remarks forecast: <s><font color='#6594c5'>$data->remarks_forecash<br></font></s>"; } if($data->revisi==$pkp->revisi){ echo"Remarks forecast: $data->remarks_forecash <br>";  } } ?></td>
                       </tr>
 											<tr>
                         <td>NF Selling Price (Before ppn)</td>
@@ -247,9 +247,9 @@
 
                             @if($pkp->kemas_eksis!=NULL)
                             (
-                            @if($pkp->kemas->primer!=NULL)
-														{{ $pkp->kemas->primer }}{{ $pkp->kemas->s_primer }}
-														@elseif($pkp->kemas->primer==NULL)
+														@if($pkp->kemas->tersier!=NULL)
+														{{ $pkp->kemas->tersier }}{{ $pkp->kemas->s_tersier }}
+														@elseif($pkp->tersier==NULL)
 														@endif
 
 														@if($pkp->kemas->sekunder1!=NULL)
@@ -262,9 +262,9 @@
 														@elseif($pkp->sekunder2==NULL)
 														@endif
 
-														@if($pkp->kemas->tersier!=NULL)
-														X {{ $pkp->kemas->tersier }}{{ $pkp->kemas->s_tersier }}
-														@elseif($pkp->tersier==NULL)
+                            @if($pkp->kemas->primer!=NULL)
+														X {{ $pkp->kemas->primer }}{{ $pkp->kemas->s_primer }}
+														@elseif($pkp->kemas->primer==NULL)
 														@endif
                             )
                             @elseif($pkp->primer==NULL)

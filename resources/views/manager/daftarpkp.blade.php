@@ -10,13 +10,13 @@
       <a href="{{ route('listpkprka')}}" class="btn btn-danger btn-sm" type="button"><li class="fa fa-share"></li> Back</a>
       @if($listpkp->status_terima!='proses' || $listpkp->status_terima2!='proses')
         @if(Auth::user()->departement->dept!='RKA')
-        <button class="btn btn-success btn-sm"  data-toggle="modal" data-target="#edit"><li class="fa fa-edit"></li> Confirm Type PKP</button>
+        <button class="btn btn-success btn-sm"  data-toggle="modal" data-target="#edit"><li class="fa fa-edit"></li> Edit Type PKP</button>
         <!-- modal -->
         <div class="modal" id="edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">                 
-                <h3 class="modal-title" id="exampleModalLabel">Confirm Type PKP
+                <h3 class="modal-title" id="exampleModalLabel">Edit Type PKP
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button> </h3>
@@ -28,7 +28,7 @@
                   <div class="col-md-11 col-sm-9 col-xs-12">
                     <select name="type" class="form-control form-control-line" id="type">
                     @foreach($pkp1 as $pkp1)
-                    <option readonly value="{{$pkp1->type}}">
+                    <option disabled selected value="{{$pkp1->type}}">
                     @if($pkp1->type==1)
                     Maklon
                     @elseif($pkp1->type==2)
@@ -237,17 +237,36 @@
                 <span class="label label-primary">Low Priority</span>
                 @endif  
               </td></tr>
-              <tr><td>Author</td><td>:</td><td> {{$listpkp->author1->name}}</td></tr>
-              @if($listpkp->datapkp!=null)
+              <tr><td>Perevisi</td><td>:</td><td> {{$listpkp->perevisi2->name}}</td></tr>
               <tr><td>Idea</td><td>:</td> <td> {{$listpkp->idea}}</td></tr>
-              <tr><td>Status</td><td>:</td><td>
-                @if($pkp->status_data=='active')
-                <span class="label label-primary" style="color:white">Active</span>
-                @elseif($pkp->status_data=='inactive')
-                <span class="label label-danger" style="color:white">Inactive</span>
-                @endif  
+              <tr><td>Packaging</td><td> : </td><td>
+              @if($listpkp->kemas_eksis!=NULL)
+                            (
+                            @if($listpkp->kemas->tersier!=NULL)
+                            {{ $listpkp->kemas->tersier }}{{ $pkp->kemas->s_tersier }}
+                            @elseif($listpkp->kemas->tersier==NULL)
+                            @endif
+
+														@if($listpkp->kemas->sekunder1!=NULL)
+														X {{ $listpkp->kemas->sekunder1 }}{{ $listpkp->kemas->s_sekunder1}}
+														@elseif($listpkp->kemas->sekunder1==NULL)
+														@endif
+
+														@if($listpkp->kemas->sekunder2!=NULL)
+														X {{ $listpkp->kemas->sekunder2 }}{{ $listpkp->kemas->s_sekunder2 }}
+														@elseif($listpkp->kemas->sekunder2==NULL)
+														@endif
+
+                            @if($listpkp->kemas->primer!=NULL)
+														X{{ $listpkp->kemas->primer }}{{ $pkp->kemas->s_primer }}
+														@elseif($listpkp->kemas->primer==NULL)
+														@endif
+                            )
+                            @elseif($listpkp->kemas->primer==NULL)
+                              @if($listpkp->kemas_eksis==NULL)
+                              @endif
+                            @endif
               </td></tr>
-              @endif
 						</thead>
 					</table><br>
         </div>

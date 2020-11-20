@@ -21,6 +21,7 @@ use App\pkp\ses;
 use App\pkp\pkp_estimasi_market;
 use App\master\Brand;
 use App\pkp\menu;
+use App\master\tb_teams_brand;
 use App\notification;
 use App\pkp\jenismenu;
 use App\User;
@@ -392,7 +393,7 @@ class pkpController extends Controller
                 'app'=>$isipkp,],function($message)use($data)
             {
                 $message->subject('Reject PKP sample');
-                $message->from('app.prodev@nutrifood.co.id', 'Admin PRODEV');
+                $message->from('app.prodev@nutrifood.co.id', 'PRODEV');
                 
                 $datapkp = pkp_project::where('id_project',$data)->get();
                 foreach($datapkp as $data){
@@ -440,7 +441,7 @@ class pkpController extends Controller
                 'app'=>$isipkp,],function($message)use($id_project)
             {
                 $message->subject('Approved PKP sample');
-                $message->from('app.prodev@nutrifood.co.id', 'Admin PRODEV');
+                $message->from('app.prodev@nutrifood.co.id', 'PRODEV');
                 
                 $datapkp = pkp_project::where('id_project',$id_project)->get();
                 foreach($datapkp as $data){
@@ -488,7 +489,7 @@ class pkpController extends Controller
                 'app'=>$isipkp,],function($message)use($id_project)
             {
                 $message->subject('Cancellation of sample approval');
-                $message->from('app.prodev@nutrifood.co.id', 'Admin PRODEV');
+                $message->from('app.prodev@nutrifood.co.id', 'PRODEV');
                 
                 $datapkp = pkp_project::where('id_project',$id_project)->get();
                 foreach($datapkp as $data){
@@ -519,18 +520,20 @@ class pkpController extends Controller
 
     public function buatpkp1($id_project){
         $pkp = pkp_project::where('id_project',$id_project)->first();
+        $teams = tb_teams_brand::where('brand',$pkp->id_brand)->get();
         $brand = brand::all();
         $tarkon = Tarkon::all();
-        $pangan = pkp_datapangan::all();
+        $pangan = pangan::all();
         $kemas = datakemas::get();
         $uom = uom::all();
+        $user = user::where('status','=','active')->get();
         $ses = ses::all();
         $Ddetail = data_detail_klaim::max('id')+1;
         $detail = detail_klaim::all();
         $klaim = klaim::all();
         $komponen = komponen::all();
+        $datapangan = datapangan::all();
         $pengajuan = pengajuan::count();
-        $teams = tb_teams_brand::where('brand',$pkp->id_brand)->get();
         $notif = notification::where('status','=','active')->count();
         $pesan = notification::orderBy('updated_at','desc')->get();
         $hitungnotif = $pengajuan + $notif;
@@ -545,8 +548,10 @@ class pkpController extends Controller
             'brand' => $brand,
             'project' => $project,
             'komponen' => $komponen,
+            'user' => $user,
             'klaim' => $klaim,
             'detail' => $detail,
+            'datapangan' => $datapangan,
             'tarkon' => $tarkon,
             'pangan' => $pangan,
             'pesan' => $pesan,
@@ -554,11 +559,11 @@ class pkpController extends Controller
             'pengajuan' => $pengajuan,
             'hitungnotif' => $hitungnotif,
             'id_pkp' => $id_pkp,
-            'teams' => $teams,
             'idea' => $idea,
             'ses' => $ses,
             'Ddetail' => $Ddetail,
             'uom' => $uom,
+            'teams' => $teams,
             'eksis' => $eksis,
             'kemas' => $kemas,
             'ide' => $ide,
@@ -755,7 +760,7 @@ class pkpController extends Controller
                 for ($i = 0; $i < count($data); $i++)
                 {
                     $message->subject('PRODEV | PKP');
-                    $message->from('app.prodev@nutrifood.co.id', 'Admin PRODEV');
+                    $message->from('app.prodev@nutrifood.co.id', 'PRODEV');
                     $message->to($request->pengirim1);
                     $message->cc($data[$i]);
                 }
@@ -937,7 +942,7 @@ class pkpController extends Controller
                     for ($i = 0; $i < count($data); $i++)
                     {
                         $message->subject('PRODEV | PKP');
-                        $message->from('app.prodev@nutrifood.co.id', 'Admin PRODEV');
+                        $message->from('app.prodev@nutrifood.co.id', 'PRODEV');
                         $message->to($request->pengirim1);
                         $message->cc($data[$i]);
                     }
@@ -1117,7 +1122,7 @@ class pkpController extends Controller
                     for ($i = 0; $i < count($data); $i++)
                     {
                         $message->subject('PRODEV | PKP');
-                        $message->from('app.prodev@nutrifood.co.id', 'Admin PRODEV');
+                        $message->from('app.prodev@nutrifood.co.id', 'PRODEV');
                         $message->to($request->pengirim1);
                         $message->cc($data[$i]);
                     }
@@ -1239,7 +1244,7 @@ class pkpController extends Controller
                 'launch'=>$emaillaunch,],function($message)use($request,$id)
             {
                 $message->subject('Konfirmasi Launching');
-                $message->from('app.prodev@nutrifood.co.id', 'Admin PRODEV');
+                $message->from('app.prodev@nutrifood.co.id', 'PRODEV');
 
                 $data = $request->penerima1;
                 $data2 = $request->penerima2;
@@ -1326,7 +1331,7 @@ class pkpController extends Controller
                 'waktu' => $request->waktu,],function($message)use($request)
                 {
                     $message->subject('PROJECT PKP '.$request->name);
-                    $message->from('app.prodev@nutrifood.co.id', 'Admin PRODEV');
+                    $message->from('app.prodev@nutrifood.co.id', 'PRODEV');
                     //sent email to manager
                     $dept = DB::table('departements')->where('id',$request->kirim)->get();
                     foreach($dept as $dept){
@@ -1408,7 +1413,7 @@ class pkpController extends Controller
                 'waktu' => $request->waktu,],function($message)use($request)
                 {
                     $message->subject('PROJECT PKP '.$request->name);
-                    $message->from('app.prodev@nutrifood.co.id', 'Admin PRODEV');
+                    $message->from('app.prodev@nutrifood.co.id', 'PRODEV');
                     //sent email to manager
                     $dept = DB::table('departements')->where('id',$request->kirim)->get();
                     foreach($dept as $dept){
@@ -1475,7 +1480,7 @@ class pkpController extends Controller
             ],function($message)use($request)
             {
                 $message->subject('PROJECT PKP');
-                $message->from('app.prodev@nutrifood.co.id', 'Admin PRODEV');
+                $message->from('app.prodev@nutrifood.co.id', 'PRODEV');
                 //sent email to User
                 if(Auth::user()->departement_id!=1){
                     $user = DB::table('users')->where('id',$request->user)->get();

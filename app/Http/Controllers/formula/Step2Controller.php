@@ -13,7 +13,6 @@ use App\dev\Premix;
 use App\dev\Pretail;
 use App\pkp\tipp;
 use App\dev\Bahan;
-use App\dev\bb_allergen;
 use Auth;
 use DB;
 use Redirect;
@@ -59,17 +58,8 @@ class Step2Controller extends Controller
             $scalecollect->push([
                 
                 'no' => ++$no,                
-                'id' => $fortail->id,      
-                'formula_id' => $fortail->formula_id,
+                'id' => $fortail->id,
                 'nama_sederhana' => $fortail->nama_sederhana,
-                'alternatif1' => $fortail->alternatif1,
-                'alternatif2' => $fortail->alternatif2,
-                'alternatif3' => $fortail->alternatif3,
-                'alternatif4' => $fortail->alternatif4,
-                'alternatif5' => $fortail->alternatif5,
-                'alternatif6' => $fortail->alternatif6,
-                'alternatif7' => $fortail->alternatif7,
-                'nama_bahan' => $fortail->nama_bahan,
                 'per_batch' => $fortail->per_batch,
                 'per_serving' => $fortail->per_serving,
                 'scale_batch' => '',
@@ -108,14 +98,6 @@ class Step2Controller extends Controller
         ]);
     }
 
-    public function update($formula,$id,Request $request){
-        $formula = Formula::where('id',$formula)->first();
-        $formula->catatan_rd = $request->keterangan;
-        $formula->save();
-        
-        return Redirect()->back();
-    }
-
     public function insert($vf,Request $request){
         // Check and Recheck
             $formula = Formula::where('id',$vf)->first();
@@ -150,57 +132,25 @@ class Step2Controller extends Controller
                 $ba[$d] =  Bahan::where('id',$request->alternatif[$d])->first();
                 $pkk = $pkk.' / '.$ba[$d]->kode_komputer;
                 // $pin = $pin.' / '.$ba[$d]->id_ingredient;
-                // $pns = $pns.' / '.$ba[$d]->nama_sederhana;
-                // $pko = $pko.' / '.$ba[$d]->kode_oracle;
-                // $pnb = $pnb.' / '.$ba[$d]->nama_bahan;
+                $pns = $pns.' / '.$ba[$d]->nama_sederhana;
+                $pko = $pko.' / '.$ba[$d]->kode_oracle;
+                $pnb = $pnb.' / '.$ba[$d]->nama_bahan;
                 $e=$d+1;
                 
+                $nk = 'kode_komputer'.$e;
+                $fortails->$nk = $ba[$d]->id;
             }
         }
         
         $fortails->formula_id = $vf;
-        $fortails->kode_komputer = $bp->kode_komputer;
+        $fortails->kode_komputer = $pkk;
         $fortails->id_ingredient = $pin;
-        $fortails->kode_oracle = $bp->kode_oracle;
-        $fortails->nama_sederhana = $bp->nama_sederhana;
-        $fortails->principle = $bp->principle;
+        $fortails->nama_sederhana = $pns;
         $fortails->kode_oracle = $pko;
         $fortails->bahan_id = $bp->id;
-        $fortails->nama_bahan = $bp->nama_bahan;
+        $fortails->nama_bahan = $pnb;
         if($c>0){
-            $fortails->alternatif1= $ba[1]->nama_sederhana;
-            $fortails->nama_bahan1= $ba[1]->nama_bahan;
-            $fortails->principle1= $ba[1]->principle;
-            if($c>1){
-            $fortails->alternatif2= $ba[2]->nama_sederhana;
-            $fortails->nama_bahan2= $ba[2]->nama_bahan;
-            $fortails->principle2= $ba[2]->principle;
-            }
-            if($c>2){
-            $fortails->alternatif3= $ba[3]->nama_sederhana;
-            $fortails->nama_bahan3= $ba[3]->nama_bahan;
-            $fortails->principle3= $ba[3]->principle;
-            }
-            if($c>3){
-            $fortails->alternatif4= $ba[4]->nama_sederhana;
-            $fortails->nama_bahan4= $ba[4]->nama_bahan;
-            $fortails->principle4= $ba[4]->principle;
-            }
-            if($c>4){
-            $fortails->alternatif5= $ba[5]->nama_sederhana;
-            $fortails->nama_bahan5= $ba[5]->nama_bahan;
-            $fortails->principle5= $ba[5]->principle;
-            }
-            if($c>5){
-            $fortails->alternatif6= $ba[6]->nama_sederhana;
-            $fortails->nama_bahan6= $ba[6]->nama_bahan;
-            $fortails->principle6= $ba[6]->principle;
-            }
-            if($c>6){
-            $fortails->alternatif7= $ba[7]->nama_sederhana;
-            $fortails->nama_bahan7= $ba[7]->nama_bahan;
-            $fortails->principle7= $ba[7]->principle;
-            }
+            $fortails->alternatif= $ba[1]->nama_sederhana;
         }        
         
         // if($request->per_batch >= 3000){
@@ -344,11 +294,6 @@ class Step2Controller extends Controller
         }
         
         return redirect()->route('step2',['id_workbook' => $vf, 'id_formula' => $formula->id])->with('status','BahanBaku Berhasil Ditambahkan');
-    }
-
-    public function hapusall($formula){
-        $fortails = Fortail::where('formula_id',$formula)->delete();
-        return redirect::back();
     }
 
     public function destroy($id,$vf){

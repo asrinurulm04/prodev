@@ -24,12 +24,10 @@
           <div class="arrow-down" style="font-weight: bold;color:white;background-color: #2a3f54;"><div class="arrow-down-inner"></div></div>
             <a id="tab2" style="font-weight: bold;color:white;background-color: #2a3f54;" href="#tabBody2" role="tab" aria-controls="tabBody2" aria-selected="true" data-toggle="tab" tabindex="0"><span class="hidden-xs"> PKP Promo</span></a>
           <div class="whiteBlock"></div>
-        </li>
-               
+        </li>   
       </ul>
-      <div id="myTabContent" class="tab-content fancyTabContent" aria-live="polite">
+      <div id="myTabContent" class="tab-content fancyTabContent" aria-live="polite"><br>
         <!-- PKP -->
-        <br>
         <div class="tab-pane  fade active in" id="tabBody0" role="tabpanel" aria-labelledby="tab0" aria-hidden="false" tabindex="0">
           <div>
             <div class="row">
@@ -416,31 +414,31 @@
 
 @section('s')
 <script>
-// PKP
-$("#checkAllpkp").change(function () {
-    $(".data").prop('checked', $(this).prop("checked"));
-});
+  // PKP
+  $("#checkAllpkp").change(function () {
+      $(".data").prop('checked', $(this).prop("checked"));
+  });
 
-$("#checkAllpkp1").change(function () {
-    $(".data1").prop('checked', $(this).prop("checked"));
-});
+  $("#checkAllpkp1").change(function () {
+      $(".data1").prop('checked', $(this).prop("checked"));
+  });
 
-// PDF
-$("#checkAllpdf").change(function () {
-    $(".check").prop('checked', $(this).prop("checked"));
-});
+  // PDF
+  $("#checkAllpdf").change(function () {
+      $(".check").prop('checked', $(this).prop("checked"));
+  });
 
-$("#checkAllpdf1").change(function () {
-    $(".check1").prop('checked', $(this).prop("checked"));
-});
+  $("#checkAllpdf1").change(function () {
+      $(".check1").prop('checked', $(this).prop("checked"));
+  });
 
-// PROMO
-$("#checkAllpromo").change(function () {
-    $(".ck").prop('checked', $(this).prop("checked"));
-});
+  // PROMO
+  $("#checkAllpromo").change(function () {
+      $(".ck").prop('checked', $(this).prop("checked"));
+  });
 
-$("#checkAllpromo1").change(function () {
-    $(".ck1").prop('checked', $(this).prop("checked"));
-});
+  $("#checkAllpromo1").change(function () {
+      $(".ck1").prop('checked', $(this).prop("checked"));
+  });
 </script>
 @endsection

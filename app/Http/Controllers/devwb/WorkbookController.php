@@ -125,12 +125,11 @@ class WorkbookController extends Controller
 
     public function show($id)
     {
-        $pkp = tipp::where('id',$id)->join('pkp_project','pkp_project.id_project','=','tippu.id_pkp')->where('status_data','=','active')->get();
-        //dd($data);
-        $workbooks = tipp::find($id);
+        $pkp = tipp::where('id_pkp',$id)->join('pkp_project','pkp_project.id_project','=','tippu.id_pkp')->where('status_data','=','active')->get();
+        $workbooks = tipp::where('id_pkp',$id)->get();
         $formulas  = Formula::where('workbook_id', $id)->get();
         $cf=Formula::where('workbook_id', $id)->count();
-        
+        $for = Formula::where('workbook_id', $id)->get();
         // Untuk edit Workbook / Alihkan Workbook
         $jms = Jenismakanan::all();
         $brands = Brand::all();
@@ -162,9 +161,12 @@ class WorkbookController extends Controller
         foreach($formulas as $formula){
             $myformula->push([
                 'id' => $formula->id,
+                'formula' => $formula->formula,
                 'workbook_id' =>$formula->workbook_id,
                 'versi' => $formula->versi,
                 'turunan' => $formula->turunan,
+                'serving_size' => $formula->serving_size,
+                'kode_formula' => $formula->kode_formula,
                 'vv' => $formula->vv,
                 'finance' => $formula->status_fisibility,
                 'nutfact' => $formula->status_nutfact,
@@ -173,12 +175,14 @@ class WorkbookController extends Controller
             ]);
 
             // VPF
-            if($formula->vv == 'ok' || $formula->vv == 'proses' || $formula->vv == 'tidak'){
+            if($formula->vv == 'approve' || $formula->vv == 'proses' || $formula->vv == 'reject'){
                 $vpf->push([
                     'id' => $formula->id,
                     'workbook_id' =>$formula->workbook_id,
                     'versi' => $formula->versi,
                     'turunan' => $formula->turunan,
+                    'serving_size' => $formula->serving_size,
+                    'kode_formula' => $formula->kode_formula,
                     'vv' => $formula->vv,
                     'finance' => $formula->status_fisibility,
                     'nutfact' => $formula->status_nutfact,
@@ -194,6 +198,7 @@ class WorkbookController extends Controller
             'myformula' =>  $myformula,
             'vpf' => $vpf,
             'cf' => $cf,
+            'for' => $for,
             'users' => $users,
             'jms' => $jms,
             'brands' => $brands,

@@ -179,6 +179,7 @@ class pkp2Controller extends Controller
             }
             return Redirect::Route('buatpkp',['id_pkp' => $tip->id_pkp, 'revisi' => $tip->revisi, 'turunan' => $tip->turunan]);
     }
+
     public function tabulasi(){
         $pengajuan = pengajuan::count();
         $notif = notification::where('status','=','active')->count();
@@ -191,8 +192,8 @@ class pkp2Controller extends Controller
         $notpromo = notulen::where('note','!=',null)->get();
         $promo = data_promo::max('turunan');
         $hitungnotif = $pengajuan + $notif;
-        $datapkp = pkp_project::where('status_project','!=','draf') ->join('tippu','pkp_project.id_project','=','tippu.id_pkp')->where('status_data','=','active')->get();
-        $datapdf = project_pdf::where('status_project','!=','draf') ->join('tipu','pdf_project.id_project_pdf','=','tipu.pdf_id')->where('status_pdf','=','active')->get();
+        $datapkp = tipp::where('status_project','!=','draf') ->join('pkp_project','pkp_project.id_project','=','tippu.id_pkp')->where('status_data','=','active')->orderBy('pkp_number','desc')->get();
+        $datapdf = coba::where('status_project','!=','draf') ->join('pdf_project','pdf_project.id_project_pdf','=','tipu.pdf_id')->where('status_pdf','=','active')->get();
         $datapromo = promo::where('status_project','!=','draf') ->join('isi_promo','pkp_promo.id_pkp_promo','=','isi_promo.id_pkp_promoo')->where('status_data','=','active')->get();
         return view('pv.tabulasi')->with([
             'datapkp' => $datapkp,

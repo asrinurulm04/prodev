@@ -21,26 +21,11 @@
   @endif
 </div>
 
-<div class="row">
-  @include('formerrors')
-  <div class="col-md-3"></div>
-   <div class="col-md-8">
-    <div class="tabbable">
-      <ul class="nav nav-tabs wizard">
-        <li class="active"><a href="{{ route('step2',$idf) }}"><span class="nmbr">1</span>Penyusunan</a></li>
-        <li class="active"><a href="{{ route('summarry',$idf) }}"><span class="nmbr">2</span>Summary</a></li>
-        <li class="active"><a href="{{ route('step3',$idf) }}"><span class="nmbr">3</span>Premix</a></li>
-        <li class="completed"><a href="{{ route('panel',$idf) }}"><span class="nmbr">4</span>Data Panel</a></li>
-      </ul>
-    </div>
-  </div>
-</div>
-
 <div class="col-md-12 col-sm-12 col-xs-12 content-panel">
   <div class="panel panel-default"><br>
     <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
-      <li role="presentation" class="active"><a href="{{ route('panel',$idf) }}">DATA PANEL</a></li>
-      <li role="presentation" class=""><a href="{{ route('st',$idf) }}">DATA STOREGE</a></li>
+      <li role="presentation" class="active"><a href="{{ route('panel',[ $idfor, $idf]) }}">DATA PANEL</a></li>
+      <li role="presentation" class=""><a href="{{ route('st',[ $idfor, $idf]) }}">DATA STOREGE</a></li>
     </ul>
 	  <div class="panel-body">
       <div class="form-group">
@@ -48,7 +33,7 @@
         <div class="col-md-12 col-sm-12 col-xs-12">
           <form class="form-horizontal form-label-left" method="POST" action="{{ route('hasilpanel') }}" novalidate>
             <span class="section">Form Panel</span>
-            <input type='hidden' name='idf' maxlength='45' value='{{$fo->workbook_id}}' class='form-control col-md-7 col-xs-12'>
+            <input type='hidden' name='idf' maxlength='45' value='{{$fo->id}}' class='form-control col-md-7 col-xs-12'>
             <div class="item form-group">
               <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Tanggal Panel</label>
               <div class="col-md-6 col-sm-6 col-xs-12">
@@ -132,6 +117,7 @@
         </div>
         @elseif($cek_panel!=0)
         <button class="btn btn-info fa fa-plus" data-toggle="modal" data-target="#panel"> Tambah Data Panel ?</button>
+        {{-- Modal --}}
         <div class="modal fade" id="panel" role="dialog" aria-labelledby="NWModalLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
@@ -141,7 +127,7 @@
               </div>
               <div class="modal-body">
                 <form class="form-horizontal form-label-left" method="POST" action="{{ route('hasilpanel') }}" novalidate>
-                  <input type='hidden' name='idf' maxlength='45' value='{{$fo->workbook_id}}' class='form-control col-md-7 col-xs-12'>
+                  <input type='hidden' name='idf' maxlength='45' value='{{$fo->id}}' class='form-control col-md-7 col-xs-12'>
                   <div class="item form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Tanggal Panel</label>
                     <div class="col-md-8 col-sm-8 col-xs-12">
@@ -215,7 +201,7 @@
                   </div>
                   <div class="ln_solid"></div>
                   <div class="form-group">
-                    <div class="col-md-6 col-md-offset-3">
+                    <div class="col-md-6 col-md-offset-4">
                       <button type="reset" class="btn btn-danger">Reset</button>
                       <button type="submit" class="btn btn-primary">Submit</button>
                       {{ csrf_field() }}
@@ -226,6 +212,7 @@
             </div>
           </div>
         </div><br><br>
+        {{-- Modal Selesai --}}
         <table id="myTable" class="table table-hover table-bordered">
           <tr style="background-color:#d8d0d2;">
             <th class="text-center">No</th>
@@ -249,7 +236,8 @@
             <td>{{ $pn->serving }}</td>
             <td>{{ $pn->hus }}</td>		
             <td>{{ $pn->kesimpulan }}</td>
-            <td width="4%" class="text-center"><button class="btn btn-info fa fa-eye" data-toggle="modal" data-target="#ayo{{$pn->id}}"></button>
+            <td width="14%" class="text-center">
+              <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#ayo{{$pn->id}}" title="Show"><li class=" fa fa-eye"></li></button>
               <!-- modal -->
               <div class="modal fade" id="ayo{{ $pn->id }}" role="dialog" aria-labelledby="NWModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
@@ -291,6 +279,100 @@
                   </div>
                 </div>
               </div>
+              <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#edit{{$pn->id}}" title="Edit"><li class=" fa fa-edit"></li></button>
+              <!-- modal -->
+              <div class="modal fade" id="edit{{ $pn->id }}" role="dialog" aria-labelledby="NWModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-body" style="overflow-x: scroll;">
+                      <form class="form-horizontal form-label-left" method="POST" action="{{ route('editpanel',$pn->id) }}" novalidate>
+                        <span class="section">Edit Panel</span>
+                        <input type='hidden' name='idf' maxlength='45' value='{{$fo->id}}' class='form-control col-md-7 col-xs-12'>
+                        <div class="item form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Tanggal Panel</label>
+                          <div class="col-md-8 col-sm-8 col-xs-12">
+                          <input type="date" value="{{$pn->tgl_panel}}" id="date" name="date" required="required" data-validate-minmax="10,100" class="form-control col-md-7 col-xs-12">
+                          </div>
+                        </div>
+                        <div class="item form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Pilih Panel</label>
+                          <div class="col-md-8 col-sm-8 col-xs-12">
+                            <select class="form-control" name="panel" id="panel">
+                              <option value="{{$pn->panel}}">{{$pn->panel}}</option>
+                              @foreach ($panel as $keys => $value)
+                              <option value="{{$value->id}}">{{$value->panel}}</option>
+                              @endforeach
+                            </select>
+                          </div>
+                        </div>
+                        <div class="item form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Formula</label>
+                          <div class="col-md-8 col-sm-8 col-xs-12">
+                            <input type="text" name="formula" id="formula" readonly required="required" value="{{ $myFormula->workbook->datapkpp->project_name}}" class="form-control col-md-7 col-xs-12">
+                          </div>
+                        </div>
+                        <div class="item form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Nilai</label>
+                          <div class="col-md-8 col-sm-8 col-xs-12">
+                            <input type="text" id="nilai" name="nilai" value="{{$pn->nilai}}" required="required" data-validate-minmax="10,100" class="form-control col-md-7 col-xs-12">
+                          </div>
+                        </div>
+                        <div class="item form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Hasil</label>
+                          <div class="col-md-8 col-sm-8 col-xs-12">
+                            <input type="text" id="hasil" name="hasil" value="{{$pn->hasil}}" required="required" data-validate-minmax="10,100" class="form-control col-md-7 col-xs-12">
+                          </div>
+                        </div>
+                        <div class="item form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Rata-rata</label>
+                          <div class="col-md-8 col-sm-8 col-xs-12">
+                            <input type="text" id="rata" name="rata" value="{{$pn->rata_rata}}" required="required" data-validate-minmax="10,100" class="form-control col-md-7 col-xs-12">
+                          </div>
+                        </div>
+                        <div class="item form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">Panelis</label>
+                          <div class="col-md-8 col-sm-8 col-xs-12">
+                            <input type="text" id="panelis" name="panelis" value="{{$pn->panelis}}" required="required" data-validate-minmax="10,100" class="form-control col-md-7 col-xs-12">
+                          </div>
+                        </div>
+                        <div class="item form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="website">Serving</label>
+                          <div class="col-md-8 col-sm-8 col-xs-12">
+                            <input type="text" id="serving" name="serving" value="{{$pn->serving}}" required="required" class="form-control col-md-7 col-xs-12">
+                          </div>
+                        </div>
+                        <div class="item form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="occupation">HUS</label>
+                          <div class="col-md-8 col-sm-8 col-xs-12">
+                            <input id="hus" type="text" name="hus" value="{{$pn->hus}}" data-validate-length-range="5,20" class="optional form-control col-md-7 col-xs-12">
+                          </div>
+                        </div>
+                        <div class="item form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">Komentar</label>
+                          <div class="col-md-8 col-sm-8 col-xs-12">
+                            <textarea id="komentar" required="required" value="{{$pn->komentar}}" name="komentar" class="form-control col-md-7 col-xs-12">{{$pn->komentar}}</textarea>
+                          </div>
+                        </div>
+                        <div class="item form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">Kesimpulan</label>
+                          <div class="col-md-8 col-sm-8 col-xs-12">
+                            <textarea id="kesimpulan" required="required" value="{{$pn->kesimpulan}}" name="kesimpulan" class="form-control col-md-7 col-xs-12">{{$pn->kesimpulan}}</textarea>
+                          </div>
+                        </div>
+                        <div class="ln_solid"></div>
+                        <div class="form-group">
+                          <div class="col-md-6 col-md-offset-3">
+                            <button type="reset" class="btn btn-danger">Reset</button>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            {{ csrf_field() }}
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <a href="{{route('deletepanel',$pn->id)}}" class="btn btn-sm btn-danger" title="Delete"><li class="fa fa-trash"></li></a>
             </td>	
           </tr>
           @endforeach	

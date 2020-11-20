@@ -17,7 +17,7 @@
         <div class="col-md-3 left_col" style="min-height:1280;">
           <div class="left_col scroll-view" >
             <div class="navbar nav_title" style="border: 2;">
-              <a href="{{route('lala')}}" class="site_title"><i class="fa fa-laptop"></i><img src="{{ asset('img/logo.png') }}" width="70%" alt="..."></a>
+              <a href="{{route('lala')}}" class="site_title"><img src="{{ asset('img/logo.png') }}" width="70%" alt="..."></a>
             </div>
             <div class="clearfix"></div>
             <!-- menu profile quick info -->
@@ -43,25 +43,25 @@
                   </li>
                   <li><a><i class="fa fa-folder-open"></i> PKP / PDF / PROMO <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                    <li><a><i class="fa fa-edit"></i>Input Project<span class="fa fa-chevron-down"></span></a>
+                    <!-- <li><a><i class="fa fa-edit"></i>Input Project<span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">
                         <li><a href="{{Route('formpkp')}}">Input PKP</a> </li>
                         <li><a href="{{Route('formpdf')}}">Input PDF</a> </li>
                         <li><a href="{{Route('promo')}}">Input PROMO</a> </li>
                       </ul>
-                    </li>
+                    </li> -->
                     <li><a><i class="fa fa-archive"></i>Draf Project<span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">
                         <li><a href="{{Route('drafpkp')}}">Draf PKP</a> </li>
-                        <li><a href="{{Route('drafpdf')}}">Draf PDF</a> </li>
+                        <li><a href="{{Route('drafpdf')}}">Draf PDF (Export)</a> </li>
                         <li><a href="{{Route('drafpromo')}}">Draf PROMO</a> </li>
                       </ul>
                     </li>
                     <li><a><i class="fa fa-list"></i>List Project<span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">
                         <li><a href="{{Route('listpkp')}}">List PKP</a> </li>
-                        <li><a href="{{Route('listpdf')}}">List PROMO</a> </li>
-                        <li><a href="{{Route('listpromo')}}">List PDF</a> </li>
+                        <li><a href="{{Route('listpdf')}}">List PDF (Export)</a> </li>
+                        <li><a href="{{Route('listpromo')}}">List Promo</a> </li>
                       </ul>
                     </li>
                     </ul>

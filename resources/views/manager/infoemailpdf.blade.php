@@ -38,27 +38,8 @@
                                             <tr><td>Brand</td><td>: {{$pdf->datapdf->id_brand}}</td></tr>
                                             <tr><td>Background / Insight</td><td>: {{$pdf->background}}</td></tr>
                                             <tr><td>PV</td><td>: {{$pdf->perevisi2->name}}</td></tr>
-                                            <tr><td>Packaging Concept</td><td>:
-                                              @if($pdf->kemas->primer!=NULL)
-                                              {{ $pdf->kemas->primer }}{{ $pdf->kemas->s_primer }}
-                                              @elseif($pdf->kemas->primer==NULL)
-                                              @endif
-              
-                                              @if($pdf->kemas->sekunder1!=NULL)
-                                              X {{ $pdf->kemas->sekunder1 }}{{ $pdf->kemas->s_sekunder1}}
-                                              @elseif($pdf->kemas->sekunder1==NULL)
-                                              @endif
-              
-                                              @if($pdf->kemas->sekunder2!=NULL)
-                                              X {{ $pdf->kemas->sekunder2 }}{{ $pdf->kemas->s_sekunder2 }}
-                                              @elseif($pdf->sekunder2==NULL)
-                                              @endif
-              
-                                              @if($pdf->kemas->tersier!=NULL)
-                                              X {{ $pdf->kemas->tersier }}{{ $pdf->kemas->s_tersier }}
-                                              @elseif($pdf->tersier==NULL)
-                                              @endif
-                                            </td></tr>
+                                            <tr><td>Country</td><td>: {{$pdf->datapdf->country}}</td></tr>
+                                            <tr><td>Reference</td><td>: {{$pdf->datapdf->reference}}</td></tr>
                                             <tr><td>Deadline for sending Sample</td><td>: {{$pdf->datapdf->jangka}} - {{$pdf->datapdf->waktu}}</td></tr>
 																						<tr><td>RTO</td><td>: {{$pdf->rto}} </td></tr>
 																						@endforeach

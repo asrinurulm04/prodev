@@ -6,6 +6,8 @@
     <link href="{{ asset('vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('vendors/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
     <link href="{{ asset('vendors/nprogress/nprogress.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/asrul.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/asri.css') }}" rel="stylesheet">
     <link href="{{ asset('build/css/custom.min.css') }}" rel="stylesheet">
     <link href="{{ URL::asset('lib/advanced-datatable/css/jquery.dataTables.css') }}" rel="stylesheet" />
     <link href="{{ URL::asset('lib/advanced-datatable/css/jquery.dataTables4.min.css') }}" rel="stylesheet" />
@@ -16,7 +18,7 @@
   <body class="nav-md">
     <div class="container body">
       <div class="main_container">
-        <div class="col-md-3 left_col">
+        <div class="col-md-3 left_col" style="position:fixed; min-height:880;">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 2;">
               <a href="" class="site_title"><i class="fa fa-laptop"></i><img src="{{ asset('img/logo.png') }}" width="70%" alt="..."></a>
@@ -57,9 +59,9 @@
                     </ul>
                   </li>
                   @endif
-                  @if(Auth::user()->role->namaRule=='kemas')
+                  {{-- @if(Auth::user()->role->namaRule=='kemas')
                   <li class="mt"><a href="{{ route('formula.feasibility') }}"><i class="fa fa-list"></i><span>Project</span></a></li>
-                  @endif
+                  @endif --}}
                   <!-- <li><a><i class="fa fa-edit"></i>  PKP / PDFp & PDFe <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="{{ route('listpkprka') }}">List PKP </a></li>
@@ -67,7 +69,7 @@
                       <li><a href="{{ route('listpdfrka') }}">List PDF p & PDFe</a></li>
                     </ul>
                   </li> -->
-                  <li class="mt"><a href="{{ route('fileproject') }}"><i class="fa fa-book"></i><span>File Project</span></a></li>
+                  {{-- <li class="mt"><a href="{{ route('fileproject') }}"><i class="fa fa-book"></i><span>File Project</span></a></li> --}}
                   <li><a><i class="fa fa-file-text"></i> Data Master <span class="label label-success"></span> <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="{{ route('datapangan') }}">Data Pangan</a></li>

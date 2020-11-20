@@ -5,7 +5,9 @@ namespace App\Http\Controllers\formula;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\master\Subbrand;
+use App\master\Gudang;
 use App\master\Produksi;
+use App\master\Maklon;
 use App\pkp\tipp;
 use App\pkp\pkp_project;
 use App\User;
@@ -20,37 +22,47 @@ class Step1Controller extends Controller
         $this->middleware('rule:user_rd_proses' || 'rule:user_produk');
     }
     
-    public function create($formula,$id){
+    public function create($id){
         $depts = Departement::all();
         $subbrands = Subbrand::all();
+        $gudangs = Gudang::all();
         $produksis = Produksi::all();
-        $formula = Formula::where('id',$id)->first();
-        $idfor = $formula->workbook_id;
+        $maklons = Maklon::all();
+        $formula = Formula::find($id);
         $idf = $id;
         return view('formula/step1')->with([
             'idf' => $idf,
             'formula' => $formula,
             'depts' => $depts,
             'subbrands' => $subbrands,
-            'idfor' => $idfor,
-            'produksis' => $produksis
-        ]);
+            'gudangs' => $gudangs,
+            'produksis' => $produksis,
+            'maklons' => $maklons,
+            ]);
     }
 
-    public function update($formula,$id,Request $request){
-        $formula = Formula::where('id',$formula)->first();
-        $formula->catatan_rd = $request->keterangan;
-        $formula->serving_size = $request->serving;
-        $formula->formula = $request->sample;
-        $formula->satuan = $request->satuan;
-        $formula->berat_jenis = $request->berat_jenis;
-		if($request->kategori_formula!=NULL){
-		$formula->kategori=$request->kategori_formula;
-		}else{
-			$formula->kategori='fg';
-		}
+    public function update($id,Request $request){
+        $this->validate(request(), [
+            'bj' => 'numeric',
+            'batch' => 'numeric',
+            'serving' => 'numeric',
+            'liter' => 'numeric'
+        ]);
+
+        $formula = Formula::find($id);
+        $formula->kode_formula = $request->kode_formula;
+        $formula->gudang_id = $request->gudang;
+        $formula->produksi_id = $request->produksi;
+        $formula->maklon_id = $request->maklon;
+        $formula->main_item = $request->main_item;
+        $formula->main_item_eks = $request->main_item_eks;
+        $formula->bj = $request->bj;
+        $formula->batch = $request->batch;
+        $formula->serving = $request->serving;
+        $formula->liter = $request->liter;
+        $formula->keterangan = $request->keterangan;
         $formula->save();
         
-        return Redirect()->route('step2', [$formula->id,$formula]);
+        return Redirect()->route('step2', $formula->id);
     }
 }

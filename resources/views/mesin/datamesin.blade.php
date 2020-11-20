@@ -32,13 +32,13 @@
             <!--Data-->
             <div class="col-md-4 pl-1">
               <div class="form-group" id="filter_col1" data-column="2">
-                <label>IO</label>
+                <label>GEDUNG</label>
                 <select name="gedung" class="form-control column_filter" id="col2_filter" >
                   <option></option>
-                  <option>PLA</option>
-                  <option>PLB</option>
-                  <option>PLE</option>
-                  <option>PLG</option>
+                  <option>CIAWI</option>
+                  <option>PROD NS</option>
+                  <option>PROD DAIRY</option>
+                  <option>PROD SENTUL</option>
                 </select>
               </div>
             </div>
@@ -64,6 +64,49 @@
     </div>
     <!-- filter data selesai -->
 
+    <div class="x_panel">
+      <div class="x_title">
+        <h3><li class="fa fa-folder-o"> Data Terpilih</li></h3>
+      </div>
+
+      <!-- data yang dipilih -->
+      <table class="Table table-hover table-bordered">
+        <thead>
+          <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
+            <th class="text-center">mesin</th>
+            <th class="text-center">kategori</th>
+            <th class="text-center">Aksi</th>
+          </tr>
+        </thead>
+        <tbody>
+          @foreach($Mdata as $dM)
+          <tr>
+            <td>{{ $dM->nama_mesin }}</td>
+            <td class="text-center">{{ $dM->kategori }}</td>
+            <td>
+              <form action="{{ route('mesin.destroy', $dM->id_mesin) }}" method="post">
+                {{csrf_field()}}
+                <button type="submit" class="btn btn-danger fa fa-trash-o"></button>
+                <input type="hidden" name="_method" value="DELETE">
+              </form>
+            </td>
+          </tr>
+          @endforeach
+        </tbody>
+      </table>
+      <!-- data selesai -->
+      @if($dataMesin == 0)
+        @elseif($dataMesin != 0)
+          <center> @foreach($dataF as $dF)<a href="{{ route('runtimemesin',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}" class="btn btn-primary" type="button">Selesai</a></center>
+        @endforeach
+      @endif
+    </div>
+  </div>
+
+<!---------------------------------------------------------------------------------------------------->
+
+  <!-- Data Mesin -->
+  <div class="col-md-6">                                 
     <div class="card-block x_panel">
       <div class="x_title">
         <h3><li class="fa fa-list"> Data Mesin</li></h3>
@@ -71,16 +114,15 @@
       <div class="form-panel">
 
         <!-- table pilih mesin -->
-        <!-- <p><label><input type="checkbox" id="checkAllpkp1"/> Check all</label></p> -->
         <form id="demo-form2" data-parsley-validate class="form" action="/mss" method="post">
         <table id="ex" class="Table table-striped table-bordered nowrap">
           <thead>
             <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
               <th></th>
               <th>workcenter</th>
-              <th class="hidden-phone">IO</th>
+              <th class="hidden-phone">Gedung</th>
               <th class="hidden-phone">Nama mesin</th>
-              <th class="hidden-phone">Type Activity</th>
+              <th class="hidden-phone">kategori</th>
             </tr>
           </thead>
           <tbody>
@@ -92,24 +134,24 @@
             <tr>
               <input type="hidden" name="standar" maxlength="45" required="required" value="{{ $mesin->standar_sdm}}" class="form-control col-md-7 col-xs-12">
               <input type="hidden" name="rate" maxlength="45" required="required" value="{{ $mesin->rate_mesin }}" class="form-control col-md-7 col-xs-12">
+              <input type="hidden" name="jlh_line" id="line{{$no}}" maxlength="45" value="{{ $mesin->jlh_line }}" class="form-control col-md-7 col-xs-12">
               <input type="hidden" name="sdm" id="sdm{{$no}}" maxlength="45" value="10" class="form-control col-md-7 col-xs-12">
               <input type="hidden" name="std" id="std{{$no}}" maxlength="45" value="{{ $mesin->standar_sdm }}" class="form-control col-md-7 col-xs-12">
               <input type="hidden" name="rate" id="rate{{$no}}" maxlength="45" value="{{ $mesin->rate_mesin }}" class="form-control col-md-7 col-xs-12">
-              <td width="5%"><input type="checkbox" id="pmesin" class="data1" name="pmesin[]" value="{{ $mesin->id_data_mesin }}"></td>
+              <td width="5%"><input type="checkbox" id="pmesin" name="pmesin[]" value="{{ $mesin->id_data_mesin }}"></td>
               <td>{{ $mesin->workcenter }}</td>
-              <td>{{ $mesin->IO }}</td>
-              <td>{{ $mesin->nama_mesin }} <input type="hidden" name="jlh_line" id="line{{$no}}" maxlength="45" value="{{ $mesin->jlh_line }}" class="form-control col-md-7 col-xs-12">
-              </td>
+              <td>{{ $mesin->gedung }}</td>
+              <td>{{ $mesin->nama_mesin }}</td>
               <td>{{ $mesin->kategori }}</td>
                   @if($mesin->kategori == "filling")
                   <input type="hidden" name="hasil" id="hasil{{$no}}">
                   <input type="hidden" name="jumlah" id="jumlah{{$no}}">
                     @foreach($formulas as $formula)
-                    <input type="hidden" value="{{ $formula->batch}}" id="batch" >
+                    <input type="hidden" value="{{ $formula->batch}}" id="batch{{$no}}" >
                     @endforeach
                     @foreach($konsep as $kp)
-                    <input type="hidden"  maxlength="100" value="{{ $kp->sekunder}}" id="sekunder">
-                    <input type="hidden"  maxlength="100" value="{{ $kp->tersier}}" id="tersier">
+                    <input type="hidden"  maxlength="100" value="{{ $kp->sekunder}}" id="sekunder{{$no}}">
+                    <input type="hidden"  maxlength="100" value="{{ $kp->tersier}}" id="tersier{{$no}}">
                     @endforeach
                   @endif
               </td>
@@ -121,71 +163,21 @@
       </div><br>
       <center>
         @foreach($dataF as $dF)
-        <a href="{{ route('reference',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}" class="btn btn-danger btn-sm" type="button">Cancel</a>
+        <a href="{{ route('reference',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}" class="btn btn-danger" type="button">Cancel</a>
         @endforeach
-        <button type="submit" class="btn btn-primary btn-sm"> Submit</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
         {{ csrf_field() }}
         </form>
       </center>
     </div>
   </div>
-
-<!---------------------------------------------------------------------------------------------------->
-
-  <!-- Data Mesin -->
-  <div class="col-md-6">                                 
-    <div class="x_panel">
-      <div class="x_title">
-        <h3><li class="fa fa-folder-o"> Data Terpilih</li></h3>
-      </div>
-
-      <!-- data yang dipilih -->
-      <table class="Table table-hover table-bordered">
-        <thead>
-          <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
-            <th class="text-center">mesin</th>
-            <th class="text-center">Type Activity</th>
-            <th class="text-center">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          @foreach($Mdata as $dM)
-          <tr>
-            <td>{{ $dM->nama_mesin }}</td>
-            <td class="text-center">{{ $dM->kategori }}</td>
-            <td class="text-center">
-              <form action="{{ route('mesin.destroy', $dM->id_mesin) }}" method="post">
-                {{csrf_field()}}
-                @if($dM->kategori=='Filling')
-                  @foreach($dataF as $dF)<a href="{{ route('mesinfilling',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}" title="Next" class="btn btn-sm btn-primary btn-sm" type="button"><li class="fa fa-folder-open"></li></a>@endforeach
-                @elseif($dM->kategori=='Packing')
-                  @foreach($dataF as $dF)<a href="{{ route('mesinpacking',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}" title="Next" class="btn btn-sm btn-primary btn-sm" type="button"><li class="fa fa-folder-open"></li></a>@endforeach
-                @elseif($dM->kategori=='Mixing')
-                  @foreach($dataF as $dF)<a href="{{ route('mesinmixing',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}" title="Next" class="btn btn-sm btn-primary btn-sm" type="button"><li class="fa fa-folder-open"></li></a>@endforeach
-                @elseif($dM->kategori=='Kirim Maklon')
-                  @foreach($dataF as $dF)<a href="{{ route('mesinmixing',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}" title="Next" class="btn btn-sm btn-primary btn-sm" type="button"><li class="fa fa-folder-open"></li></a>@endforeach
-                @elseif($dM->kategori=='Maklon lain')
-                  @foreach($dataF as $dF)<a href="{{ route('mesinmixing',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}" title="Next" class="btn btn-sm btn-primary btn-sm" type="button"><li class="fa fa-folder-open"></li></a>@endforeach
-                @endif
-                <button type="submit" class="btn btn-danger btn-sm" title="Delete"><li class=" fa fa-trash-o"></li></button>
-                <input type="hidden" name="_method" value="DELETE">
-              </form>
-            </td>
-          </tr>
-          @endforeach
-        </tbody>
-      </table>
-      <!-- data selesai -->
-    </div>
-  </div>
 </div>
 
 <script>
-
-var x = document.getElementById("line{{$no}}").value;
-var batch = document.getElementById('batch').value;
-var sekunder = document.getElementById('sekunder').value;
-var tersier = document.getElementById('tersier').value;
+var line = document.getElementById('line{{$no}}').value;
+var batch = document.getElementById('batch{{$no}}').value;
+var sekunder = document.getElementById('sekunder{{$no}}').value;
+var tersier = document.getElementById('tersier{{$no}}').value;
 
 var jawab = (batch * 1000)/tersier;
 var jawab2 = (jawab/line);
@@ -203,15 +195,6 @@ var hasil3 = (hasil2/60);
 var hasil4 = (hasil3 * rate);
 console.log(hasil4);
 document.getElementById('jumlah{{$no}}').value = hasil4;
-
-// PKP
-$("#checkAllpkp").change(function () {
-    $(".data").prop('checked', $(this).prop("checked"));
-  });
-
-  $("#checkAllpkp1").change(function () {
-    $(".data1").prop('checked', $(this).prop("checked"));
-  });
 </script>
 
 @endsection

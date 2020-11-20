@@ -31,7 +31,7 @@
 	</div>
 	<div class="col-md-6 col-sm-12 col-xs-12">
 		<div class="x_panel">
-		<form class="form-horizontal form-label-left" method="POST" action="{{ route('ses') }}" novalidate>
+			<form class="form-horizontal form-label-left" method="POST" action="{{ route('ses') }}" novalidate>
 			<div class="x_title">
     		<h3><li class="fa fa-file"> Create New SES</li></h3>
   		</div>

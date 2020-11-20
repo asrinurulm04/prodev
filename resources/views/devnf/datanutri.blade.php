@@ -103,10 +103,9 @@
 			</div>
 			<div class="panel-body">
 				<div class="btn-group col-md-12">	
-					<div class="col-md-12">
-						<br>
+					<div class="col-md-12"><br>
 						<div class="tab-content" id="pills-tabContent">
-							{{--INPUT HASIL ANALISA--}}
+							<!-- INPUT HASIL ANALISA -->
 						  <div class="tab-pane fade" id="pills-ha" role="tabpanel" aria-labelledby="pills-ha-tab">	
 								@endforeach
 								<div class="panel panel-default">
@@ -232,7 +231,7 @@
 						  	</div>
 							</div>
 							
-							{{--PERHITUNGAN HAK--}}
+							<!-- PERHITUNGAN HAK -->
 						  <div class="tab-pane fade" id="pills-hak" role="tabpanel" aria-labelledby="pills-hak-tab">
 						  	<div class="col-md-12">
 								  <div class="panel panel-info">
@@ -296,7 +295,7 @@
 								</div>
 							</div>
 							
-							{{--PERHITUNGAN AKG--}}
+							<!-- PERHITUNGAN AKG -->
 							<div class="tab-pane fade" id="pills-akg" role="tabpanel" aria-labelledby="pills-akg-tab">
 								<div class="col-md-12">
 									<div class="panel panel-info">
@@ -382,7 +381,7 @@
 								</div>
 							</div>
 
-							{{--PERHITUNGAN BTP--}}
+							<!-- PERHITUNGAN BTP -->
 						  <div class="tab-pane fade" id="pills-btp" role="tabpanel" aria-labelledby="pills-btp-tab">
 								<div class="panel panel-default">
 					  			<div class="panel-heading">

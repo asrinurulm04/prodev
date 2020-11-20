@@ -6,6 +6,7 @@
     <link href="{{ asset('vendors/fullcalendar/dist/fullcalendar.min.css') }}" rel="stylesheet">
     <link href="{{ asset('vendors/fullcalendar/dist/fullcalendar.print.css') }}" rel="stylesheet" media="print">
     <link href="{{ asset('css/asrul.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/asri.css') }}" rel="stylesheet">
     <link href="{{ asset('vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('vendors/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
     <link href="{{ asset('build/css/custom.min.css') }}" rel="stylesheet">
@@ -21,7 +22,7 @@
         <div class="col-md-3 left_col" style="position:fixed; min-height:880;">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 2;">
-              <a href="{{route('lala')}}" class="site_title"><i class="fa fa-laptop"></i><img src="{{ asset('img/logo.png') }}" width="70%" alt="..."></a>
+              <a href="{{route('lala')}}" class="site_title"><img src="{{ asset('img/logo.png') }}" width="70%" alt="..."></a>
             </div>
             <div class="clearfix"></div>
             <!-- menu profile quick info -->
@@ -55,7 +56,6 @@
                 <li><a><i class="fa fa-file-text"></i> Project Recapitulation <span class="fa fa-chevron-down"></span></a>
                   <ul class="nav child_menu">
                     <li><a href="{{ route('datareport') }}">Data Project Summary</a></li>
-                    <li><a href="{{ route('allproject') }}">Data Project Tabulation</a></li>
                   </ul>
                 </li>
                 @elseif(Auth::user()->role->namaRule=='manager')
@@ -69,10 +69,11 @@
                 @endif
                 <li><a><i class="fa fa-book"></i> Master Data <span class="label label-success"></span> <span class="fa fa-chevron-down"></span></a>
                   <ul class="nav child_menu">
-                    <li><a href="{{ route('datapangan') }}">Data Pangan</a></li>
-                    <li><a href="{{ route('akg') }}">Data AKG</a></li>
-                    <li><a href="{{ route('export') }}">Data Kemas</a></li>
-                    <li><a href="{{ route('klaim') }}">Komponen Klaim</a></li>
+                      <li><a href="{{ route('datapangan') }}">BPOM Category</a></li>
+                      <li><a href="{{ route('akg') }}">Data AKG</a></li>
+                      <li><a href="{{ route('sku') }}">Active SKU</a></li>
+                      <li><a href="{{ route('klaim') }}">Claim Regulation</a></li>
+                      <li><a href="{{ route('arsen')}}">Logam Berat</a></li>
                   </ul>
                 </li>
                 </ul>

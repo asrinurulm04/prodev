@@ -7,7 +7,7 @@
   <div class="col-md-5 col-xs-12">
 		@foreach($data as $data)
     <div class="x_panel" style="min-height:95px">
-      <a href="{{ route('listpdfrka')}}" class="btn btn-danger btn-sm" type="button"><li class="fa fa-share"></li> Kembali</a>
+      <a href="{{ route('listpdfrka')}}" class="btn btn-danger btn-sm" type="button"><li class="fa fa-share"></li> Back</a>
       @if($data->status_project!='close')
       <button class="btn btn-primary btn-sm"  data-toggle="modal" data-target="#alihkan"><li class="fa fa-paper-plane"></li> Divert Project</button>
         <!-- modal -->
@@ -28,7 +28,9 @@
                     <select name="tujuankirim" class="form-control form-control-line" id="type">
                       <option disabled selected>{{$data->departement->dept}} ({{$data->departement->nama_dept}})</option>
                       @foreach($dept as $dept)
+                      @if($dept->Divisi=='RND')
                         <option value="{{$dept->id}}">{{$dept->dept}} ({{$dept->nama_dept}})</option>
+                        @endif
                       @endforeach
                     </select>
                   </div>

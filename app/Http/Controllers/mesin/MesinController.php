@@ -16,6 +16,7 @@ use App\Modelfn\finance;
 use App\modelfn\pesan;
 use App\modelkemas\konsep;
 use App\Modelmesin\Dmesin;
+use App\pkp\tipp;
 use App\Modelmesin\oh;
 use App\dev\Formula;
 use App\Modelmesin\std;
@@ -567,7 +568,8 @@ class MesinController extends Controller
         $total = $Jmesin+$Joh;
         $jumlah = pesan::where('user','inputor')->count();
         $lab = DB::table('formulas')
-            ->join('fs_kategori_pangan','fs_kategori_pangan.id_pangan','=','formulas.id_pangan')
+            ->join('tippu','tippu.id','=','formulas.workbook_id')
+            ->join('fs_kategori_pangan','fs_kategori_pangan.id_pangan','=','tippu.bpom')
             ->join('fs_jenismikroba','fs_kategori_pangan.no_kategori','=','fs_jenismikroba.no_kategori')
             ->where('formulas.id',$id)->get();
         $std = std::with('kemas')->get()->where('kode_kemas','item_code');

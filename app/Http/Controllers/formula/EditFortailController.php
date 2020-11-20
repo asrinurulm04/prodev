@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use App\dev\Fortail;
 use App\dev\Bahan;
 use App\dev\Premix;
-use App\dev\Formula;
 use App\dev\Pretail;
 use Auth;
 
@@ -20,29 +19,24 @@ class EditFortailController extends Controller
         
     public function index($id)
     {    
-        $fortail = Fortail::where('id',$id)->get();
-        $edit = Fortail::where('id',$id)->get();
-        $fortails = Fortail::where('id',$id)->first();
-        $for = formula::where('id',$fortails->formula_id)->get();
-        $idf = $fortails->formula_id;
-        $myprioritas = Bahan::where('id',$fortails->bahan_id)->first();
+        $fortail = Fortail::where('id',$id)->first();
+        $idf = $fortail->formula_id;
+        $myprioritas = Bahan::where('id',$fortail->bahan_id)->first();
         $bahans = Bahan::where('status','active')->orWhere('user_id',Auth::id())->get();
         $alternatifs = Bahan::where('subkategori_id',$myprioritas->subkategori_id)->get();
-        $count_bahan = 8;
-        for($i = 2;$i<=8;$i++){
-            $ask = 'alternatif'.$i;
+        $count_bahan = 5;
+        for($i = 2;$i<=5;$i++){
+            $ask = 'kode_komputer'.$i;
             $ii=$i-1;
-            if($fortails->$ask == null){
+            if($fortail->$ask == null){
                 $count_bahan--;
             }
         }
-        $count_alternatif = $count_bahan;
+        $count_alternatif = $count_bahan-1;
 
         return view('formula.editfortail')->with([
             'idf' => $idf,
             'fortail' => $fortail,
-            'for' => $for,
-            'edit' => $edit,
             'bahans' => $bahans,
             'alternatifs' => $alternatifs,
             'count_bahan' => $count_bahan,
@@ -60,12 +54,11 @@ class EditFortailController extends Controller
             }
             $px->delete();
         }
+        
         $bp = Bahan::where('id', $request->prioritas)->first();
-        $pin = $bp->id_ingredient;
         $pkk = $bp->kode_komputer;
         $pns = $bp->nama_sederhana;
         $pko = $bp->kode_oracle;
-        $pnb = $bp->nama_bahan;
 
         $fortails = Fortail::where('id',$id)->first();
 
@@ -73,60 +66,25 @@ class EditFortailController extends Controller
         if($c>0){
             for($d = 1;$d<=$c;$d++){
                 $ba[$d] =  Bahan::where('id',$request->alternatif[$d])->first();
-                // $pkk = $pkk.' / '.$ba[$d]->kode_komputer;
-                // $pns = $pns.' / '.$ba[$d]->nama_sederhana;
-                // $pko = $pko.' / '.$ba[$d]->kode_oracle;
+                $pkk = $pkk.' / '.$ba[$d]->kode_komputer;
+                $pns = $pns.' / '.$ba[$d]->nama_sederhana;
+                $pko = $pko.' / '.$ba[$d]->kode_oracle;
                 $e=$d+1;
                 
-                // $nk = 'kode_komputer'.$e;
-                // $fortails->$nk = $ba[$d]->id;
+                $nk = 'kode_komputer'.$e;
+                $fortails->$nk = $ba[$d]->id;
             }
         }
         
         $fortails->formula_id = $idf;
-        $fortails->kode_komputer = $bp->kode_komputer;
-        $fortails->id_ingredient = $pin;
-        $fortails->kode_oracle = $bp->kode_oracle;
-        $fortails->nama_sederhana = $bp->nama_sederhana;
-        $fortails->principle = $bp->principle;
+        $fortails->kode_komputer = $pkk;
+        $fortails->nama_sederhana = $pns;
         $fortails->kode_oracle = $pko;
         $fortails->bahan_id = $bp->id;
         $fortails->nama_bahan = $bp->nama_bahan;
-            if($c=1){
-            $fortails->alternatif1= $ba[1]->nama_sederhana;
-            $fortails->nama_bahan1= $ba[1]->nama_bahan;
-            $fortails->principle1= $ba[1]->principle;
-            }
-            if($c>=2){
-            $fortails->alternatif2= $ba[2]->nama_sederhana;
-            $fortails->nama_bahan2= $ba[2]->nama_bahan;
-            $fortails->principle2= $ba[2]->principle;
-            }
-            if($c>=3){
-            $fortails->alternatif3= $ba[3]->nama_sederhana;
-            $fortails->nama_bahan3= $ba[3]->nama_bahan;
-            $fortails->principle3= $ba[3]->principle;
-            }
-            if($c>=4){
-            $fortails->alternatif4= $ba[4]->nama_sederhana;
-            $fortails->nama_bahan4= $ba[4]->nama_bahan;
-            $fortails->principle4= $ba[4]->principle;
-            }
-            if($c>=5){
-            $fortails->alternatif5= $ba[5]->nama_sederhana;
-            $fortails->nama_bahan5= $ba[5]->nama_bahan;
-            $fortails->principle5= $ba[5]->principle;
-            }
-            if($c>=6){
-            $fortails->alternatif6= $ba[6]->nama_sederhana;
-            $fortails->nama_bahan6= $ba[6]->nama_bahan;
-            $fortails->principle6= $ba[6]->principle;
-            }
-            if($c>=7){
-            $fortails->alternatif7= $ba[7]->nama_sederhana;
-            $fortails->nama_bahan7= $ba[7]->nama_bahan;
-            $fortails->principle7= $ba[7]->principle;
-            }
+        if($c>0){
+            $fortails->alternatif= $ba[1]->nama_sederhana;
+        }
         if($request->per_batch >= 3000){
             $fortails->jenis_timbangan='B';
         }elseif($request->per_batch < 3000){
@@ -219,6 +177,6 @@ class EditFortailController extends Controller
         // }
         
 
-        return Redirect()->back()->with('status','Bahan Baku Telah Di Update');
+        return Redirect()->route('step2',$idf)->with('status','Bahan Baku Telah Di Update');
     }
 }

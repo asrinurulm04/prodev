@@ -19,49 +19,63 @@
 </div>
 @endif
 
-{{-- <div class="col-md-12 col-sm-12 col-xs-12">
+<div class="col-md-12 col-sm-12 col-xs-12">
   <div class="row">
     <!-- filter data -->
     <div class="panel panel-default">
 	    <div class="panel-heading">
-        <h2><li class="fa fa-filter"></li> Filter Project PKP PROMO</h2>
+        <h2><li class="fa fa-filter"></li> Filter Project PKP</h2>
       </div>
       <div>
         <div>
           <form id="clear">
           <!--brand-->
-          <div class="col-md-4 pl-1">
-            <div class="form-group" id="filter_col1" data-column="3">
+          <div class="col-md-2 pl-1">
+            <div class="form-group" id="filter_col1" data-column="2">
               <label>Brand</label>
-              <select name="brand" class="form-control column_filter" id="col3_filter" >
+              <select name="brand" class="form-control column_filter" id="col2_filter" >
                 <option disabled selected>-->Select One<--</option>
                 @foreach($brand as $br)
                 <option>{{$br->brand}}</option>
                 @endforeach
               </select>
             </div>
-          </div>
+          </div> 
+          <!--Data-->
+          <div class="col-md-3 pl-1">
+            <div class="form-group" id="filter_col1" data-column="4">
+              <label>Status RD Kemas</label>
+              <select name="status" class="form-control column_filter" id="col4_filter" >
+                <option disabled selected>-->Select One<--</option>
+                <option>New</option>
+                <option>approve</option>
+                <option>sent</option>
+                <option>no proses</option>
+              </select>
+            </div>
+          </div>  
           <!--Data-->
           <div class="col-md-3 pl-1">
             <div class="form-group" id="filter_col1" data-column="5">
-              <label>Status</label>
+              <label>Status RD Product</label>
               <select name="status" class="form-control column_filter" id="col5_filter" >
                 <option disabled selected>-->Select One<--</option>
+                <option>New</option>
+                <option>approve</option>
                 <option>sent</option>
-                <option>revisi</option>
-                <option>proses</option>
-                <option>close</option>
+                <option>no proses</option>
               </select>
             </div>
-          </div>        
+          </div>      
           <!--project-->
-          <div class="col-md-4 pl-1">
+          <div class="col-md-3 pl-1">
             <div class="form-group" id="filter_col1" data-column="6">
-              <label>Status terima</label>
+              <label>Priority</label>
               <select name="name" class="form-control column_filter" id="col6_filter">
                 <option disabled selected>-->Select One<--</option>
-                <option>terima</option>
-                <option>proses</option>
+                <option>prioritas 1</option>
+                <option>prioritas 2</option>
+                <option>prioritas 3</option>
               </select>
             </div>
           </div> 
@@ -77,7 +91,7 @@
     </div>
   <!-- filter data selesai -->
   </div>
-</div> --}}
+</div> 
 
 <div class="">
   <div class="row">
@@ -104,9 +118,9 @@
             <tbody>
               @php $no = 0; @endphp
               @foreach($pkp as $pkp)
-              <tr>
               @if($pkp->tujuankirim2=="1")
                 @if($pkp->departement->dept==Auth::user()->departement->dept || $pkp->departement2->dept==Auth::user()->departement->dept)
+                <tr>
                   <td class="text-center">{{ ++$no }}</td>
                   <td>{{ $pkp->promo_number}}{{$pkp->ket_no}}</td>
                   <td>{{ $pkp->brand }}</td>
@@ -271,10 +285,12 @@
                     <a class="btn btn-success btn-sm" data-toggle="tooltip" title="Project Finish" disabled><li class="fa fa-smile-o"></li></a>
                   </td>
                   <td>Project Finish</td>
-                  @endif
+                </tr>
+                @endif
                 @endif
               @elseif($pkp->tujuankirim2=="0") 
                 @if($pkp->departement->dept==Auth::user()->departement->dept)
+                <tr>
                   <td class="text-center">{{ ++$no }}</td>
                   <td>{{ $pkp->promo_number}}{{$pkp->ket_no}}</td>
                   <td>{{ $pkp->brand }}</td>
@@ -419,10 +435,10 @@
                     <a class="btn btn-success btn-sm"  data-toggle="tooltip" title="Project Finish" disabled><li class="fa fa-smile-o"></li></a>
                   </td>
                   <td>Project Finish</td>
-                  @endif
+                </tr>
                 @endif
-              @endif                
-              </tr>
+                @endif
+              @endif  
               @endforeach
             </tbody>
           </table>

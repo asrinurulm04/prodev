@@ -269,8 +269,7 @@ class promoController extends Controller
             }
         }
         picture::insert($files);
-        return redirect::back()
-        ->withSuccess(sprintf('%s file uploaded successfully.', count($files)));
+        return redirect::back()->withSuccess(sprintf('%s file uploaded successfully.', count($files)));
     }
 
     public function uploadpromo($id_pkp_promo,$revisi,$turunan){
@@ -448,6 +447,7 @@ class promoController extends Controller
         $promo->promo_readiness2=$request->promo1;
         $promo->perevisi=Auth::user()->id;
         $promo->rto=$request->rto;
+        $promo->last_update=$request->last_up;
         $promo->turunan='0';
         $promo->revisi='0';
         $promo->gambaran_proses=$request->proses;
@@ -472,13 +472,6 @@ class promoController extends Controller
                 $i = $i++;
             }
         }
-
-        $notif = new notification;
-        $notif->id_promo=$promo->id_pkp_promoo;
-        $notif->title="Add Data PROMO";
-        $notif->turunan=$promo->turunan;
-        $notif->perevisi=Auth::user()->id;
-        $notif->save();
 
         return redirect::route('promo4',['id_pkp_promo'=> $promo->id_pkp_promoo,'revisi' => $promo->revisi,'turunan' => $promo->turunan])->with('status', 'Data has been added up');
     }
@@ -527,14 +520,6 @@ class promoController extends Controller
                 $i = $i++;
             }
         }
-
-        $notif = notification::where('id_promo',$id_pkp_promoo)->first();
-        $notif->id_promo=$promo->id_pkp_promoo;
-        $notif->title="Edit Data PROMO";
-        $notif->turunan=$promo->turunan;
-        $notif->status='active';
-        $notif->perevisi=Auth::user()->id;
-        $notif->save();
 
         try{
             Mail::send('pv.aktifitasemail', ['type'=>'PROMO',],function($message)use($request)
@@ -814,6 +799,7 @@ class promoController extends Controller
         $data->promo_number=$request->nopromo;
         $data->ket_no=$request->ket_no;
         $data->status_project='sent';
+        $data->tgl_kirim=$request->date;
         $data->jangka=$request->jangka;
         $data->waktu=$request->waktu;
         $data->status='active';
@@ -833,7 +819,7 @@ class promoController extends Controller
                 'waktu' => $request->waktu,
             ],function($message)use($request)
             {
-                $message->subject('PROJECT PKP PROMO');
+                $message->subject('PROJECT PKP PROMO-'.$request->name);
                 $message->from('app.prodev@nutrifood.co.id', 'Admin PRODEV');
                 //sent email to manager
                 $dept = DB::table('departements')->where('id',$request->kirim)->get();
@@ -966,8 +952,8 @@ class promoController extends Controller
         $naikversi = $promo->revisi + 1;
 
         $project = promo::where('id_pkp_promo',$id_pkp_promo)->first();
-        $project->status_terima='proses';
-        $project->status_terima2='proses';
+        // $project->status_terima='proses';
+        // $project->status_terima2='proses';
         $project->save();
 
         $datapromo = data_promo::where('id_pkp_promoo',$id_pkp_promo)->where('revisi',$revisi)->where('turunan',$turunan)->first();
@@ -1016,32 +1002,4 @@ class promoController extends Controller
         return Redirect::Route('promo11',['id_pkp_promo'=> $ppromo->id_pkp_promoo,'revisi' => $naikversi,'turunan' => $ppromo->turunan]);
     }
 
-    public function kalenderpromo($id_pkp_promo)
-    {
-        $pengajuan = pengajuan::count();
-        $notif = notification::where('status','=','active')->count();
-        $pesan = notification::orderBy('updated_at','desc')->get();
-        $hitungnotif = $pengajuan + $notif;
-        $events = [];
-        $data = promo::where('id_pkp_promo',$id_pkp_promo)->get();
-            if($data->count()){
-            foreach ($data as $key => $value) {
-            $events[] = Calendar::event(
-                $value->project_name,
-                true,
-                new \DateTime($value->jangka),
-                new \DateTime($value->waktu.' +1 day')
-            );
-          }
-       }
-      $calendar = Calendar::addEvents($events); 
-      return view('promo.kalenderpromo')->with([
-        'pesan' => $pesan,
-        'notif' =>$notif,
-        'pengajuan' => $pengajuan,
-        'hitungnotif' => $hitungnotif,
-        'calendar' => $calendar
-    ]);
-    }
-  
 }

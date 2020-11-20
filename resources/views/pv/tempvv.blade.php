@@ -4,11 +4,6 @@
 
   <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title')
-    @if(auth()->user()->role->namaRule == 'pv_lokal' || auth()->user()->role->namaRule == 'pv_global' || auth()->user()->role->namaRule == 'marketing')
-      @if($pengajuan!=0)
-      ({{$pengajuan}} message)
-      @endif
-    @endif
     </title>
     <link href="{{ asset('img/prod.png') }}" rel="icon">
     <link href="{{ asset('vendors/fullcalendar/dist/fullcalendar.min.css') }}" rel="stylesheet">
@@ -29,7 +24,7 @@
         <div class="col-md-3 left_col" style="position:fixed; min-height:880;">
           <div class="left_col scroll-view" >
             <div class="navbar nav_title" style="border: 2;">
-            <a href="{{route('lala')}}" class="site_title"><i class="fa fa-laptop"></i><img src="{{ asset('img/logo.png') }}" width="70%" alt="..."></a>
+            <a href="{{route('lala')}}" class="site_title"><img src="{{ asset('img/logo.png') }}" width="70%" alt="..."></a>
             </div>
             <div class="clearfix"></div>
             <!-- menu profile quick info -->
@@ -52,11 +47,11 @@
                 <ul class="nav side-menu">
                   <li><a><i class="fa fa-user"></i> User Management <span class="label label-success"></span> <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                        <li><a href="{{ route('MyProfile') }}">Profile settings</a></li>
-                        @if(auth()->user()->role->namaRule === 'admin')
-                        <li><a href="{{ route('usermanagement') }}">List Users</a></li>
-                        <li><a href="{{ route('userapproval') }}">Approval</a></li>
-                        @endif
+                      <li><a href="{{ route('MyProfile') }}">Profile settings</a></li>
+                      @if(auth()->user()->role->namaRule === 'admin')
+                      <li><a href="{{ route('usermanagement') }}">List Users</a></li>
+                      <li><a href="{{ route('userapproval') }}">Approval</a></li>
+                      @endif
                     </ul>
                   </li>
                   @if(auth()->user()->role->namaRule == 'pv_lokal')
@@ -129,7 +124,7 @@
                     </ul>
                   </li>
                   @endif
-                  @if(auth()->user()->role->namaRule === 'user_produk')
+                  @if(auth()->user()->role->namaRule === 'user_produk'|| auth()->user()->role->namaRule === 'kemas')
                   <li><a><i class="fa fa-folder-open"></i> PKP / PDF / PROMO <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="{{ route('listprojectpkp') }}">List PKP</a> </li>
@@ -160,18 +155,18 @@
                   @elseif(auth()->user()->role->namaRule === 'manager')
                   <li><a><i class="fa fa-sitemap"></i> PKP / PDF / PROMO <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a>List Project<span class="fa fa-chevron-down"></span></a>
+                      <li><a>My Project<span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                           <li><a href="{{Route('listpkprka')}}">List PKP</a> </li>
                           <li><a href="{{Route('listpromoo')}}">List PROMO</a> </li>
-                          <li><a href="{{Route('listpdfrka')}}">List PDF</a> </li>
+                          <li><a href="{{Route('listpdfrka')}}">List PDF (Export)</a> </li>
                         </ul>
                       </li>
                       <li><a>List All Project<span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                           <li><a href="{{Route('listpkp')}}">List  PKP</a> </li>
-                          <li><a href="{{Route('listpromo')}}">List  PROMO</a> </li>
-                          <li><a href="{{Route('listpdf')}}">List  PDF</a> </li>
+                          <li><a href="{{Route('listpromo')}}">List PROMO</a> </li>
+                          <li><a href="{{Route('listpdf')}}">List PDF (Export)</a> </li>
                         </ul>
                       </li>
                     </ul>
@@ -195,25 +190,25 @@
                   @elseif(auth()->user()->role->namaRule === 'admin')
                   <li><a><i class="fa fa-folder-open"></i> PKP / PDF / PROMO <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                    <li><a><i class="fa fa-edit"></i>Input Project<span class="fa fa-chevron-down"></span></a>
+                    <!-- <li><a><i class="fa fa-edit"></i>Input Project<span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">
                         <li><a href="{{Route('formpkp')}}">Input PKP</a> </li>
                         <li><a href="{{Route('formpdf')}}">Input PDF</a> </li>
                         <li><a href="{{Route('promo')}}">Input PROMO</a> </li>
                       </ul>
-                    </li>
+                    </li> -->
                     <li><a><i class="fa fa-archive"></i>Draf Project<span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">
                         <li><a href="{{Route('drafpkp')}}">Draf PKP</a> </li>
-                        <li><a href="{{Route('drafpdf')}}">Draf PDF</a> </li>
+                        <li><a href="{{Route('drafpdf')}}">Draf PDF (Export)</a> </li>
                         <li><a href="{{Route('drafpromo')}}">Draf PROMO</a> </li>
                       </ul>
                     </li>
                     <li><a><i class="fa fa-list"></i>List Project<span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">
                         <li><a href="{{Route('listpkp')}}">List PKP</a> </li>
-                        <li><a href="{{Route('listpdf')}}">List PROMO</a> </li>
-                        <li><a href="{{Route('listpromo')}}">List PDF</a> </li>
+                        <li><a href="{{Route('listpdf')}}">List PDF (Export)</a> </li>
+                        <li><a href="{{Route('listpromo')}}">List Promo</a> </li>
                       </ul>
                     </li>
                     </ul>
@@ -258,7 +253,6 @@
                   <li><a><i class="fa fa-file-text"></i> Project Recapitulation <span class="label label-success"></span> <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="{{ route('datapengajuan') }}">Revision Request</a></li>
-                      <li><a href="{{ route('story') }}">Rekap History</a></li>
                       <li><a href="{{ route('datareport') }}">Data Project Summary</a></li>
                       @if(auth()->user()->role->namaRule === 'pv_lokal' || auth()->user()->role->namaRule === 'pv_global' || auth()->user()->role->namaRule === 'manager')
                       <li><a href="{{ route('tabulasi') }}">Data Project Tabulation</a></li>
@@ -275,9 +269,6 @@
                       <li><a href="{{ route('arsen')}}">Logam Berat</a></li>
                     </ul>
                   </li>
-                  @endif
-                  @if(auth()->user()->role->namaRule === 'pv_lokal' || auth()->user()->role->namaRule === 'pv_global' || auth()->user()->role->namaRule === 'manager' || auth()->user()->role->namaRule === 'pv_global')
-                  <li class="mt"><a href="{{ route('menucalender') }}"><i class="fa fa-calendar"></i><span>Project Calendar</span></a></li>
                   @endif
                   </ul>
               </div>
@@ -304,58 +295,6 @@
                     <li><a href="{{ route('signout') }}"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
                   </ul>
                 </li>
-                @if(auth()->user()->role->namaRule == 'pv_lokal' || auth()->user()->role->namaRule == 'pv_global' || auth()->user()->role->namaRule == 'marketing')
-                <li role="presentation" class="dropdown">
-                  <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
-                    <i class="fa fa-envelope-o"></i>
-                    <span class="badge bg-green">{{$hitungnotif}}</span>
-                  </a>
-                  <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu" style="overflow-y: scroll;max-height:370px">
-                    @if($pengajuan!=0)
-                    <li>
-                    <a>
-                      <a href="{{route('datapengajuan')}}">
-                        <span class="image"><img src="{{ asset('img/pro.png') }}" alt="Profile Image" /></span>
-                        <span>
-                          <span>Revised request</span>
-                        </span>
-                        <span class="message">
-                        <span>Click to see revised details</span>
-                        </span>
-                      </a>
-                    </a>
-                    </li>
-                    @endif
-                    @if($notif!=null)
-                      @foreach($pesan as $pesan)
-                        @if($hitungnotif!=0)
-                          @if($pesan->status=='active')
-                          <li >
-                          <a>
-                            <a href="{{route('catatanrevisi')}}">
-                              <span class="image"><img src="{{ asset('img/pro.png') }}" alt="Profile Image" /></span>
-                              <span>
-                                @if($pesan->id_pkp!=NULL)
-                                <span>{{$pesan->title}} ({{$pesan->project->project_name}})</span>
-                                @elseif($pesan->id_pdf!=NULL)
-                                <span>{{$pesan->title}} ({{$pesan->pdf->project_name}})</span>
-                                @elseif($pesan->id_promo!=NULL)
-                                <span>{{$pesan->title}} ({{$pesan->promo->project_name}})</span>
-                                @endif
-                              </span>
-                              <span class="message">
-                                <span>@if($pesan->perevisi!=null)Revised By {{$pesan->users->name}} ({{$pesan->users->Role->namaRule}})@endif</span>
-                              </span>
-                            </a>
-                          </a>
-                          </li>
-                          @endif
-                        @endif
-                      @endforeach
-                    @endif
-                  </ul>
-                </li>
-                @endif
               </ul>
             </nav>
           </div>

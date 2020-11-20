@@ -91,11 +91,11 @@
               </tr>
             </thead>
             <tbody>
+              @php $no = 0; @endphp
+              @foreach($promo as $pkp)
+              @if($pkp->userpenerima2==NULL)
               <tr>
-                @php $no = 0; @endphp
-                @foreach($promo as $pkp)
-                @if($pkp->userpenerima2==NULL)
-                  @if($pkp->userpenerima==Auth::user()->id)
+                @if($pkp->userpenerima==Auth::user()->id)
                   <th>{{ ++$no }}</th>
                   <th>{{ $pkp->promo_number }}{{ $pkp->ket_no }}</th>
                   <th>{{ $pkp->brand }}</th>
@@ -123,9 +123,9 @@
                       <a class="btn btn-info btn-sm" href="{{ Route('rekappromo',$pkp->id_pkp_promo)}}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
                     @endif
                   </th>
-                  @endif
-                @elseif($pkp->userpenerima2!=NULL)
-                  @if($pkp->userpenerima==Auth::user()->id || $pkp->userpenerima2==Auth::user()->id)
+                @endif
+              @elseif($pkp->userpenerima2!=NULL)
+                @if($pkp->userpenerima==Auth::user()->id || $pkp->userpenerima2==Auth::user()->id)
                   <th>{{ ++$no }}</th>
                   <th>{{ $pkp->promo_number }}{{ $pkp->ket_no }}</th>
                   <th>{{ $pkp->brand }}</th>
@@ -154,10 +154,10 @@
                       <a class="btn btn-info btn-sm" href="{{ Route('rekappromo',$pkp->id_pkp_promo)}}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
                     @endif
                   </th>
-                  @endif
                 @endif
-                @endforeach
               </tr>
+              @endif
+              @endforeach
             </tbody>
           </table>
         </div>  

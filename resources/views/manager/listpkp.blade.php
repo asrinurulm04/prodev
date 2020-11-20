@@ -102,7 +102,7 @@
   <div class="card-block">
     <div class="clearfix"></div>
     <div class="x_content">
-    <a href="{{route('cetak_my_project')}}" class="btn btn-warning btn-sm" type="button"><li class="fa fa-download"></li> Download</a>
+    <a href="{{route('cetak_my_project')}}" class="btn btn-warning btn-sm" type="button"><li class="fa fa-download"></li> Download My Project</a>
       <table class="Table table-striped no-border" id="ex"> 
         <thead>
           <tr style="font-weight: bold;color:white;background-color: #2a3f54;">

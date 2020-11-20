@@ -1,6 +1,5 @@
 @extends('pv.tempvv')
 @section('title', 'Request PKP Promo')
-@section('judulhalaman','Form PKP Promo')
 @section('content')
 
 <div class="row">
@@ -114,18 +113,16 @@
 
 @section('s')
 <script>
-    $(document).ready(function() {
-  
-      $('#tabledata').on('click', 'tr a', function(e) {
-  
-          e.preventDefault();
-          var lenRow = $('#tabledata tbody tr').length;
-          if (lenRow == 1 || lenRow <= 1) {
-              alert("Tidak bisa hapus semua baris!!");
-          } else {
-              $(this).parents('tr').remove();
-          }
-      });
+  $(document).ready(function() {
+    $('#tabledata').on('click', 'tr a', function(e) {
+      e.preventDefault();
+      var lenRow = $('#tabledata tbody tr').length;
+      if (lenRow == 1 || lenRow <= 1) {
+        alert("Tidak bisa hapus semua baris!!");
+      } else {
+        $(this).parents('tr').remove();
+      }
+    });
   
     var i = 1;
     $(".add_data").click(function() {
@@ -138,7 +135,6 @@
       $('#tabledata').append('<tr id="addrow' + (i + 1) + '"></tr>');
       i++;
     });
-    });
-  
-  </script>
+  });
+</script>
 @endsection

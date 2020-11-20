@@ -3,15 +3,6 @@
 @section('judulnya', 'List Feasibility')
 @section('content')
 
-<div class="col-md-12">
-  <div class="showback">
-    <div class="row">
-      <div class="col-md-10"><h4><i class="fa fa-check-square-o"></i> Approval Data</h4> </div>
-      <div class="col-md-2"><h4><i class="fa fa-user"></i> {{ Auth::user()->role->namaRule }}</h4> </div>
-    </div>
-  </div>
-</div>
-
 <div class="col-md-12 col-sm-12 col-xs-12">
   <div class="x_panel">
     <div class="x_content">
@@ -49,7 +40,7 @@
                       <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
                         <table class="table table-hover table-bordered">
                           <thead>
-                            <tr>
+                            <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
                               <th class="text-center">No</th>
                               <th class="text-center">mesin</th>
                               <th class="text-center">standar sdm</th>
@@ -89,14 +80,14 @@
                                         </div>
                                         <div class="modal-body">
                                           <table>
-                                            <tr><th width="10%">Nama Mesin </th><th width="45%">: {{ $dM->meesin->nama_mesin }}</th></tr>
-                                            <tr><th width="10%">Workcenter</th><th width="45%">: {{ $dM->meesin->workcenter }}</th></tr>
-                                            <tr><th width="10%">Kategori Mesin</th><th width="45%">: {{ $dM->meesin->kategori }}</th></tr>
-                                            <tr><th width="10%">Standar SDM</th><th width="45%">: {{ $dM->standar_sdm }} Orang</th></tr>
-                                            <tr><th width="10%">SDM</th><th width="45%">: {{ $dM->SDM }} Orang</th></tr>
-                                            <tr><th width="10%">Runtime</th><th width="45%">: {{ $dM->runtime}} Menit = {{ $dM->runtime/60}} Jam</th></tr>
-                                            <tr><th width="10%">Rate Mesin</th><th width="45%">: {{ $dM->rate_mesin }} Ribu</th></tr>
-                                            <tr><th width="10%">Total Hasil</th><th width="45%">: {{ $dM->hasil }} Ribu</th></tr>
+                                            <tr><th width="20%">Nama Mesin </th><th width="45%">: {{ $dM->meesin->nama_mesin }}</th></tr>
+                                            <tr><th width="20%">Workcenter</th><th width="45%">: {{ $dM->meesin->workcenter }}</th></tr>
+                                            <tr><th width="20%">Kategori Mesin</th><th width="45%">: {{ $dM->meesin->kategori }}</th></tr>
+                                            <tr><th width="20%">Standar SDM</th><th width="45%">: {{ $dM->standar_sdm }} Orang</th></tr>
+                                            <tr><th width="20%">SDM</th><th width="45%">: {{ $dM->SDM }} Orang</th></tr>
+                                            <tr><th width="20%">Runtime</th><th width="45%">: {{ $dM->runtime}} Menit = {{ $dM->runtime/60}} Jam</th></tr>
+                                            <tr><th width="20%">Rate Mesin</th><th width="45%">: {{ $dM->rate_mesin }} Ribu</th></tr>
+                                            <tr><th width="20%">Total Hasil</th><th width="45%">: {{ $dM->hasil }} Ribu</th></tr>
                                           </table>
                                         </div>
                                       </div>
@@ -128,9 +119,9 @@
                                             <label class="col-form-label text-center">Harga Mesin :
                                               <input id="harga" value="{{$dM->rate_mesin}}" name="hargaM" class="form-control text-center col-md-6 col-sm-6 col-xs-12" type="number"></label>
                                           </div>
-                                          <input type="checkbox" name="standar" value="true"> Ubah standar data product
+                                          <input type="checkbox" name="standar" value="true"> Ubah standar data product (perubahan per project)
                                           <br>
-                                          <input type="checkbox" name="data" value="true"> Ubah data utama
+                                          <input type="checkbox" name="data" value="true"> Ubah data utama (perubahan akan merubah data utapa pada database)
                                           <input type="hidden" name="_method" value="PUT">
                                         </div>
                                         <div class="modal-footer">
@@ -155,7 +146,7 @@
                       <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
                         <table class="table table-hover table-bordered">
                           <thead>
-                            <tr>
+                            <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
                               <th class="text-center">No</th>
                               <th class="text-center">mesin</th>
                               <th class="text-center">standar sdm</th>
@@ -234,9 +225,9 @@
                                             <label class="col-form-label text-center">Harga Mesin :
                                               <input id="harga" value="{{$dM->rate_mesin}}" name="hargaM" class="form-control text-center col-md-6 col-sm-6 col-xs-12" type="number"></label>
                                           </div>
-                                          <input type="checkbox" name="standar" value="true"> Ubah standar data product
+                                          <input type="checkbox" name="standar" value="true"> Ubah standar data product (perubahan per project)
                                           <br>
-                                          <input type="checkbox" name="data" value="true"> Ubah data utama
+                                          <input type="checkbox" name="data" value="true"> Ubah data utama (perubahan akan merubah data utapa pada database)
                                           <input type="hidden" name="_method" value="PUT">
                                         </div>
                                         <div class="modal-footer">
@@ -261,7 +252,7 @@
                       <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">
                         <table class="table table-hover table-bordered">
                           <thead>
-                            <tr>
+                            <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
                               <th class="text-center">No</th>
                               <th class="text-center">mesin</th>
                               <th class="text-center">standar sdm</th>
@@ -301,14 +292,14 @@
                                         </div>
                                         <div class="modal-body">
                                           <table>
-                                            <tr><th width="10%">Nama Mesin </th><th width="45%">: {{ $dM->meesin->nama_mesin }}</th></tr>
-                                            <tr><th width="10%">Workcenter</th><th width="45%">: {{ $dM->meesin->workcenter }}</th></tr>
-                                            <tr><th width="10%">Kategori Mesin</th><th width="45%">: {{ $dM->meesin->kategori }}</th></tr>
-                                            <tr><th width="10%">Standar SDM</th><th width="45%">: {{ $dM->standar_sdm }} Orang</th></tr>
-                                            <tr><th width="10%">SDM</th><th width="45%">: {{ $dM->SDM }} Orang</th></tr>
-                                            <tr><th width="10%">Runtime</th><th width="45%">: {{ $dM->runtime}} Menit = {{ $dM->runtime/60}} Jam</th></tr>
-                                            <tr><th width="10%">Rate Mesin</th><th width="45%">: {{ $dM->rate_mesin }} Ribu</th></tr>
-                                            <tr><th width="10%">Total Hasil</th><th width="45%">: {{ $dM->hasil }} Ribu</th></tr>
+                                            <tr><th width="20%">Nama Mesin </th><th width="45%">: {{ $dM->meesin->nama_mesin }}</th></tr>
+                                            <tr><th width="20%">Workcenter</th><th width="45%">: {{ $dM->meesin->workcenter }}</th></tr>
+                                            <tr><th width="20%">Kategori Mesin</th><th width="45%">: {{ $dM->meesin->kategori }}</th></tr>
+                                            <tr><th width="20%">Standar SDM</th><th width="45%">: {{ $dM->standar_sdm }} Orang</th></tr>
+                                            <tr><th width="20%">SDM</th><th width="45%">: {{ $dM->SDM }} Orang</th></tr>
+                                            <tr><th width="20%">Runtime</th><th width="45%">: {{ $dM->runtime}} Menit = {{ $dM->runtime/60}} Jam</th></tr>
+                                            <tr><th width="20%">Rate Mesin</th><th width="45%">: {{ $dM->rate_mesin }} Ribu</th></tr>
+                                            <tr><th width="20%">Total Hasil</th><th width="45%">: {{ $dM->hasil }} Ribu</th></tr>
                                           </table>
                                         </div>
                                       </div>
@@ -332,17 +323,19 @@
                                           {{ csrf_field() }}
                                           <div class="form-group">
                                             <label class="col-form-label text-center">Runtime mesin:
-                                              <input id="runtime" value="{{$dM->runtime}}" name="runtime" class="form-control text-center col-md-6 col-sm-6 col-xs-12" type="number" disabled></label>
-                                            <label class="col-form-label text-center">Jumlah SDM:
-                                              <input id="jumlah" value="{{$dM->SDM}}" name="jlh_sdm" class="form-control text-center col-md-6 col-sm-6 col-xs-12" type="number" disabled></label>
-                                            <label class="col-form-label text-center">Standar SDM :
-                                              <input id="std" value="{{$dM->standar_sdm}}" name="std_sdm" class="form-control text-center col-md-5 col-sm-5 col-xs-12" type="number"></label>
-                                            <label class="col-form-label text-center">Harga Mesin :
-                                              <input id="harga" value="{{$dM->rate_mesin}}" name="hargaM" class="form-control text-center col-md-6 col-sm-6 col-xs-12" type="number"></label>
+                                              <input id="runtime" value="{{$dM->runtime}}" name="runtime" class="form-control text-center col-md-6 col-sm-5 col-xs-12" type="number" disabled></label>
                                           </div>
-                                          <input type="checkbox" name="standar" value="true"> Ubah standar data product
+                                          <div class="form-group">
+                                              <label class="col-form-label text-center">Jumlah SDM:
+                                              <input id="jumlah" value="{{$dM->SDM}}" name="jlh_sdm" class="form-control text-center col-md-6 col-sm-5 col-xs-12" type="number" disabled></label>
+                                            <label class="col-form-label text-center">Standar SDM :
+                                              <input id="std" value="{{$dM->standar_sdm}}" name="std_sdm" class="form-control text-center col-md-6 col-sm-5 col-xs-12" type="number"></label>
+                                            <label class="col-form-label text-center">Harga Mesin :
+                                              <input id="harga" value="{{$dM->rate_mesin}}" name="hargaM" class="form-control text-center col-md-6 col-sm-5 col-xs-12" type="number"></label>
+                                          </div>
+                                          <input type="checkbox" name="standar" value="true"> Ubah standar data product (perubahan per project)
                                           <br>
-                                          <input type="checkbox" name="data" value="true"> Ubah data utama
+                                          <input type="checkbox" name="data" value="true"> Ubah data utama (perubahan akan merubah data utapa pada database)
                                           <input type="hidden" name="_method" value="PUT">
                                         </div>
                                         <div class="modal-footer">
@@ -367,7 +360,7 @@
                       <div role="tabpanel" class="tab-pane fade" id="tab_content4" aria-labelledby="profile-tab">
                         <table class="table table-hover table-bordered">
                           <thead>
-                            <tr>
+                            <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
                               <th class="text-center">No</th>
                               <th class="text-center">mesin</th>
                               <th class="text-center">standar sdm</th>
@@ -446,9 +439,9 @@
                                             <label class="col-form-label text-center">Harga Mesin :
                                               <input id="harga" value="{{$dM->rate_mesin}}" name="hargaM" class="form-control text-center col-md-6 col-sm-6 col-xs-12" type="number"></label>
                                           </div>
-                                          <input type="checkbox" name="standar" value="true"> Ubah standar data product
+                                          <input type="checkbox" name="standar" value="true"> Ubah standar data product (perubahan per project)
                                           <br>
-                                          <input type="checkbox" name="data" value="true"> Ubah data utama
+                                          <input type="checkbox" name="data" value="true"> Ubah data utama (perubahan akan merubah data utapa pada database)
                                           <input type="hidden" name="_method" value="PUT">
                                         </div>
                                         <div class="modal-footer">
@@ -473,7 +466,7 @@
                       <div role="tabpanel" class="tab-pane fade" id="tab_content5" aria-labelledby="profile-tab">
                         <table class="table table-hover  table-bordered">
                           <thead>
-                            <tr>
+                            <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
                               <th class="text-center">Aktifitas</th>
                               <th class="text-center">runtime</th>
                               <th class="text-center">Standar SDM</th>
@@ -516,7 +509,7 @@
               <h2><i class="fa fa-clipboard"></i style="margin-left : 700px;"> Total Rate = {{$jlab}} </h2>
             </div>
             <table id="myTable" class="table table-hover table-bordered">
-              <tr>
+              <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
                 <th class="text-center">Jenis Mikroba</th>
                 <th class="text-center" width="10%">Tahunan</th>
                 <th class="text-center" width="10%">Harian</th>
@@ -547,35 +540,76 @@
                   <h2>Data Kemas</h2>
                 </div>
                 <div class="panel-body">
-                <table class="table table-responsive table-bordered">
-                  <thead>
-                    <tr>
-                      <th rowspan="2" class="text-center">Min Order</th>
-                      <th rowspan="2" class="text-center">harga/UoM</th>
-                      <th rowspan="2" class="text-center">Cost Kemas</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    @foreach($kemas as $kem)
-                      <td class="text-center">{{ $kem->min_order }}</td>
-                      <td class="text-center">{{ $kem->harga_uom }}</td>
-                      <td class="text-center">{{ $kem->cost }}</td>
-                    </tr>
-                    @endforeach
-      							@foreach($kemas as $kem)
-                      @if($kem->cost_box != '')<th colspan="2" class="text-right">Cost Kemas/Box <th>: {{ $kem->cost_box }}</th></tr>
-                      @endif
-                      @if($kem->cost_dus != '')<th colspan="2" class="text-right">Cost Kemas/Dus <th>: {{ $kem->cost_dus }}</th></tr>
-                      @endif
-                      @if($kem->cost_sachet != '')<th colspan="2" class="text-right">Cost Kemas/Sachet <th>: {{ $kem->cost_sachet }}</th></tr>
-                      @endif
-							      @endforeach
-							    </tbody>
-                </table>
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
+                        <td class="text-center">Keterangan</td>
+                        <td class="text-center">Konfigurasi</td>
+                        <td class="text-center">Konsep</td>
+                        <td class="text-center">Batch</td>
+                        <td class="text-center">Palet/batch</td>
+                        <td class="text-center">Box/palet</td>
+                        <td class="text-center">Box/layer</td>
+                        <td class="text-center">Kubikasi</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @foreach($konsep as $konsep)
+                      <tr>
+                        <td>{{$konsep->keterangan}}</td>
+                        <td class="text-center">
+                          @if($konsep->primer!=NULL)
+                          {{$konsep->primer}}{{$konsep->s_primer}}
+                          @endif
+                          @if($konsep->tersier!=NULL)
+                          X{{$konsep->tersier}}{{$konsep->s_tersier}}
+                          @endif	
+                          @if($konsep->tersier!=NULL)
+                          X{{$konsep->tersier2}}{{$konsep->s_tersier2}}
+                          @endif	
+                          @if($konsep->sekunder!=NULL)
+                          X{{$konsep->sekunder}}{{$konsep->s_sekunder}}
+                          @endif	
+                        </td>
+                        <td class="text-center">{{$konsep->konsep}}</td>
+                        <td class="text-right">{{$konsep->batch}}</td>
+                        <td class="text-right">{{$konsep->palet_batch}}</td>
+                        <td class="text-right">{{$konsep->box_palet}}</td>
+                        <td class="text-right">{{$konsep->box_layer}}</td>
+                        <td class="text-right">{{$konsep->kubikasi}}</td>
+                      </tr>
+                      @endforeach
+                    </tbody>
+                  </table><br>
+                  <table class="table table-responsive table-bordered">
+                    <thead>
+                      <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
+                        <th rowspan="2" class="text-center">Min Order</th>
+                        <th rowspan="2" class="text-center">harga/UoM</th>
+                        <th rowspan="2" class="text-center">Cost Kemas</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @foreach($kemas as $kem)
+                        <td class="text-center">{{ $kem->min_order }}</td>
+                        <td class="text-center">{{ $kem->harga_uom }}</td>
+                        <td class="text-center">{{ $kem->cost }}</td>
+                      </tr>
+                      @endforeach
+                      @foreach($kemas as $kem)
+                        @if($kem->cost_box != '')<th colspan="2" class="text-right">Cost Kemas/Box <th>: {{ $kem->cost_box }}</th></tr>
+                        @endif
+                        @if($kem->cost_dus != '')<th colspan="2" class="text-right">Cost Kemas/Dus <th>: {{ $kem->cost_dus }}</th></tr>
+                        @endif
+                        @if($kem->cost_sachet != '')<th colspan="2" class="text-right">Cost Kemas/Sachet <th>: {{ $kem->cost_sachet }}</th></tr>
+                        @endif
+                      @endforeach
+                    </tbody>
+                  </table>
                 
-                @foreach($dataF as $dF)
-                  <a href="{{ route('kemas',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}" class="btn btn-info fa fa-eye" type="submit">  Lihat Data</a>
-                @endforeach
+                  @foreach($dataF as $dF)
+                    <a href="{{ route('kemas',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}" class="btn btn-info fa fa-eye" type="submit">  Lihat Data</a>
+                  @endforeach
                 </div>
               </div>
             </div>
@@ -591,7 +625,7 @@
                   <div class="col-md-5">
                     <table class="table table-bordered" style="font-size:12px">
                       <thead>
-                        <th colspan="4" style="font-size: 12px;font-weight: bold; color:black;background-color: #ddd;"><center>Bahan Baku</center></th>
+                        <th colspan="4" style="font-weight: bold;color:white;background-color: #2a3f54;"><center>Bahan Baku</center></th>
                       </thead>
                       <thead>
                         <th>No</th>
@@ -608,7 +642,7 @@
                           <td>Rp.{{ $fortail['hpg'] }}</td>
                         </tr>
                         @endforeach
-                        <tr style="font-size: 12px;font-weight: bold; color:black;background-color: rgb(78, 205, 196, 0.5);">
+                        <tr colspan="4" style="font-size: 12px;font-weight: bold; color:black;background-color: #ddd;">
                           <td colspan="3">Jumlah</td>
                           <td>Rp.{{ $total_harga['total_harga_per_gram'] }}</td>
                         </tr>
@@ -618,7 +652,7 @@
                   <div class="col-md-2">
                     <table class="table table-bordered" style="font-size:12px">
                       <thead>
-                        <th colspan="3" style="font-size: 12px;font-weight: bold; color:black;background-color: #ddd;"><center>Per Serving</center></th>                                                                                                                
+                        <th colspan="3" style="font-weight: bold;color:white;background-color: #2a3f54;"><center>Per Serving</center></th>                                                                                                                
                       </thead>
                       <thead>
                         <th>Berat</th>
@@ -633,7 +667,7 @@
                           <td>Rp.{{ $fortail['harga_per_serving'] }}</td>
                         </tr>
                         @endforeach
-                        <tr style="font-size: 12px;font-weight: bold; color:black;background-color: rgb(78, 205, 196, 0.5);">
+                        <tr colspan="4" style="font-size: 12px;font-weight: bold; color:black;background-color: #ddd;">
                           <td>{{ $total_harga['total_berat_per_serving'] }}</td>
                           <td>{{ $total_harga['total_persen'] }}</td>
                           <td>Rp.{{ $total_harga['total_harga_per_serving'] }}</td>
@@ -644,7 +678,7 @@
                   <div class="col-md-3">
                     <table class="table table-bordered" style="font-size:12px">
                       <thead>
-                        <th colspan="2" style="font-size: 12px;font-weight: bold; color:black;background-color: #ddd;"><center>Per Batch</center></th>
+                        <th colspan="2" style="font-weight: bold;color:white;background-color: #2a3f54;"><center>Per Batch</center></th>
                       </thead>
                       <thead>
                         <th>Berat</th>
@@ -657,7 +691,7 @@
                           <td>Rp.{{ $fortail['harga_per_batch'] }}</td>
                         </tr>
                         @endforeach
-                        <tr style="font-size: 12px;font-weight: bold; color:black;background-color: rgb(78, 205, 196, 0.5);">
+                        <tr colspan="4" style="font-size: 12px;font-weight: bold; color:black;background-color: #ddd;">
                           <td>{{ $total_harga['total_berat_per_batch'] }}</td>
                           <td>Rp.{{ $total_harga['total_harga_per_batch'] }}</td>                                                        
                         </tr> 
@@ -667,7 +701,7 @@
                   <div class="col-md-2">
                     <table class="table table-bordered" style="font-size:12px">
                       <thead>
-                        <th colspan="2" style="font-size: 12px;font-weight: bold; color:black;background-color: #ddd;"><center>Per Kg</center></th>
+                        <th colspan="2" style="font-weight: bold;color:white;background-color: #2a3f54;"><center>Per Kg</center></th>
                       </thead>
                       <thead>
                         <th>Berat</th>
@@ -680,7 +714,7 @@
                           <td>Rp.{{ $fortail['harga_per_kg'] }}</td>
                         </tr>
                         @endforeach
-                        <tr style="font-size: 12px;font-weight: bold; color:black;background-color: rgb(78, 205, 196, 0.5);">
+                        <tr colspan="4" style="font-size: 12px;font-weight: bold; color:black;background-color: #ddd;">
                           {{-- <td>{{ $total_harga['total_berat_per_kg'] }}</td> --}}
                           <td>1000</td>
                           <td>Rp.{{ $total_harga['total_harga_per_kg'] }}</td>
@@ -698,7 +732,7 @@
           <div role="tabpanel" class="tab-pane fade" id="tab_content10" aria-labelledby="profile-tab">
             <table class="table table-responsive table-bordered " ALIGN="center">
               <thead>
-                <tr>
+                <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
                   <td width="5%" class="text-center">No</td>
                   <td>User</td>
                   <td>Pengirim</td>
@@ -715,29 +749,16 @@
                   <td>Data Mesin</td>
                   <td>{{ $u->updated_at }}</td>
                   <td class="text-center">
-                    @foreach($dataF as $dF)
+                  @foreach($dataF as $dF)
+                  @if($dF->status_mesin!="selesai")
                     @if($dF->status_mesin!="belum selesai")
                     <a href="{{ route('komentar',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}" class="btn btn-danger fa fa-times" type="button" data-toggle="tooltip" title="Tolak"></a>
                     @endif
-                    <button type="submit" class="btn btn-primary fa fa-check" data-toggle="tooltip" title="Terima"></button>
-                    {{ csrf_field() }}
-                    @endforeach
-                  </td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>Produksi</td>
-                  <td>{{ $u->user2 }}</td>
-                  <td>Data SDM</td>
-                  <td>{{ $u->updated_at }}</td>
-                  <td class="text-center">
-                    @foreach($dataF as $dF)
-                    @if($dF->status_sdm!="belum selesai")
-                    <a href="{{ route('pesan',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}" class="btn btn-danger fa fa-times" data-toggle="tooltip" title="Tolak" type="button"></a>
-                    @endif
-                    <button type="submit" class="btn btn-primary fa fa-check" data-toggle="tooltip" title="Terima"></button>
-                    {{ csrf_field() }}
-                    @endforeach
+                  <a href="{{route('mesinselesai',$dF->id_feasibility)}}" class="btn btn-primary fa fa-check" data-toggle="tooltip" title="Terima"></a>
+                  @else
+                  selesai
+                  @endif
+                  @endforeach
                   </td>
                 </tr>
                 <tr>
@@ -747,13 +768,16 @@
                   <td>Data Kemas</td>
                   <td>{{ $ko->updated_at }}</td>
                   <td class="text-center">
-                    @foreach($dataF as $dF)
-                    @if($dF->status_kemas!="belum selesai")
-                    <a href="{{ route('Kkemas',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}" class="btn btn-danger fa fa-times" type="button" data-toggle="tooltip" title="Tolak"></a>
-                    @endif
-                    <button type="submit" class="btn btn-primary fa fa-check" data-toogle="tooltip" title="Terima"></button>
-                    {{ csrf_field() }}
-                    @endforeach
+                  @foreach($dataF as $dF)
+                  @if($dF->status_kemas!="selesai")
+                  @if($dF->status_kemas!="belum selesai")
+                  <a href="{{ route('Kkemas',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}" class="btn btn-danger fa fa-times" type="button" data-toggle="tooltip" title="Tolak"></a>
+                  @endif
+                  <a href="{{route('kemasselesai',$dF->id_feasibility)}}" class="btn btn-primary fa fa-check" data-toggle="tooltip" title="Terima"></a>
+                  @else
+                  selesai
+                  @endif
+                  @endforeach
                   </td>
                 </tr>
               </tbody>
@@ -764,10 +788,14 @@
           @foreach($dataF as $dF)
           <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" action="{{route('status',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula])}}" method="post">
             <input class="form-control1 hidden" name="statusF" class="text-center col-md-7 col-xs-12" value="selesai">
-            <input class="form-control1 hidden" name="statusM" class="text-center col-md-7 col-xs-12" value="selesai">
+            {{-- <input class="form-control1 hidden" name="statusM" class="text-center col-md-7 col-xs-12" value="selesai">
             <input class="form-control1 hidden" name="statusS" class="text-center col-md-7 col-xs-12" value="selesai">
-            <input class="form-control1 hidden" name="statusK" class="text-center col-md-7 col-xs-12" value="selesai">
-            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-5"></div>
+            <input class="form-control1 hidden" name="statusK" class="text-center col-md-7 col-xs-12" value="selesai"> --}}
+            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-5">
+              
+            <button type="submit" class="btn btn-info btn-sm"> Finish</button>
+            {{csrf_field()}}
+            </div>
           </form>
           @endforeach
         </div>

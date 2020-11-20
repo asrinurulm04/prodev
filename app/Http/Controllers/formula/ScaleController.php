@@ -23,21 +23,24 @@ class ScaleController extends Controller
 
     // HAPUS BASE -----------------------------------------------
     public function hapusbase($id){
-        $formula = Formula::where('worbook_id',$id)->first();
+        //dd($id);
+        $formula = Formula::where('id',$id)->first();
         $formula->batch = null;
         $formula->save();
 
+        $wb = $formula->workbook_id;
         $fortails = Fortail::where('formula_id',$id)->get();
         foreach($fortails as $fortail){
             $fortail->per_batch = null;
             $fortail->save();
         }
 
-        return redirect()->route('step2',$id)->with('error','Base Telah Terhapus');
+        return redirect()->route('step2',['workbook_id' => $id,'id'=>$wb])->with('error','Base Telah Terhapus');
     }
 
     // GANTI BASE ----------------------------------------------
     public function gantibase($idf,Request $request){
+        //dd($idf);
         $base           = $request->thebase;
         if($base == ''){
             $base = 0;
@@ -54,15 +57,19 @@ class ScaleController extends Controller
             $total_batch    = $total_batch + $batch;                       
         }
         // Edit Formula
-        $formula = Formula::where('workbook_id',$idf)->first();
+        $formula = Formula::where('id',$idf)->first();
         $formula->batch = $total_batch;
         $formula->save();
 
-        return redirect()->route('step2',$idf)->with('status','Base Telah Diubah menjadi '.$base);
+        $wb = $formula->workbook_id;
+        //dd($wb);
+
+        return redirect()->route('step2',['workbook_id' => $idf,'id'=>$wb])->with('status','Base Telah Diubah menjadi '.$base);
 
     }
 
-    public function cekscale($idf,Request $request){
+    public function cekscale(Request $request, $for,$idf){
+        // dd($idf);
         // check scale option
         $scale_option  = $request->scale_option;
         $scale_method  = $request->scale_method;
@@ -72,7 +79,8 @@ class ScaleController extends Controller
         $jFortail      = $request->jFortail;
 
         // Base Lama
-        $formula = Formula::where('workbook_id',$idf)->first();        
+        $formula = Formula::where('id',$idf)->first();   
+        //dd($formula);  
         $base    = $formula->batch / $formula->serving;
         $mybase = $base;
         
@@ -275,10 +283,10 @@ class ScaleController extends Controller
         }
 
         // GET Other Needed
-        $formula   = Formula::where('workbook_id',$idf)->first();
+        $formula   = Formula::where('id',$idf)->first();
         $bahans    = $bahans = Bahan::where('status','active')->orWhere('user_id',Auth::id())->get();        
         $ada = $fortails->count();        
-        $target_serving = Formula::where('workbook_id',$idf)->first()->target_serving;
+        $target_serving = Formula::where('id',$idf)->first()->target_serving;
         
         // Check Total Serving
         if($ada > 0){
@@ -296,13 +304,15 @@ class ScaleController extends Controller
             'scalecollect' => $scalecollect,
             'bahans' => $bahans,
             'idf' => $idf,
+            'idfor' => $for,
             'granulasi' => $granulasi,
             'ada' => $ada,
             'sesuai_target' => $sesuai_target
         ]);
     }
 
-    public function savescale($idf,Request $request){
+    public function savescale($for,Request $request){
+        //dd($for);
         $jFortail       = $request->jFortail;
         $total_batch    = 0;
         $total_serving  = 0;
@@ -323,20 +333,25 @@ class ScaleController extends Controller
         }
         
         // Edit Formula
-        $formula = Formula::where('workbook_id',$idf)->first();
+        $formula = Formula::where('id',$for)->first();
         $formula->batch   = $total_batch;
         $formula->serving = $total_serving;
         $formula->save();        
         
-        return redirect()->route('step2',$idf)->with('status','Scale Berhasil Tersimpan');
+        $wb = $formula->workbook_id;
+        
+        return redirect()->route('step2',['id'=>$wb,'workbook_id' => $for])->with('status','Scale Berhasil Tersimpan');
 
     }
 
     public function savechanges($idf,Request $request){
+        // dd($idf);
         $jFortail       = $request->jFortail;
         $total_batch    = 0;
         $total_serving  = 0;
-        $formula = Formula::where('workbook_id',$idf)->first();
+        $formula = Formula::where('id',$idf)->first();
+        $wb = $formula->workbook_id;
+        //dd($wb);
         // Get Base
         $base  = $formula->batch / $formula->serving;
         for($i=1;$i<=$jFortail;$i++){
@@ -361,6 +376,6 @@ class ScaleController extends Controller
         $formula->serving = $total_serving;
         $formula->save();
 
-        return redirect()->route('step2',$idf)->with('status','Serving Berhasil Tersimpan');
+        return redirect()->route('step2',['id'=>$wb,'workbook_id' => $idf])->with('status','Serving Berhasil Tersimpan');
     }    
 }

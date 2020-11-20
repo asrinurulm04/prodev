@@ -7,10 +7,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Collection;
 use App\dev\Formula;
 use App\dev\Fortail;
+use App\devnf\tb_vitmin;
 use App\nutfact\tb_ingredient;
-use App\devnf\tb_akg;
-use App\devnf\vit15;
-use App\devnf\vit20;
+use App\devnf\tb_nutrition;
+use App\nutfact\tb_parameter;
 use App\master\Curren;
 use App\dev\Bahan;
 use Auth;
@@ -26,21 +26,41 @@ class SummaryFormulaController extends Controller
 
     public function summarry($formula,$id){
 		//dd($id);
-		$vit15 = vit15::where('id_formula',$id)->get();
-		$vit20 = vit20::where('id_formula',$id)->get();
-		$vit15count = vit15::where('id_formula',$id)->count();
-		$vit20count = vit20::where('id_formula',$id)->count();
         $data       = formula::with('Workbook')->where('id',$id)->get();
-		$akg = tb_akg::join('tippu','tippu.akg','tb_akg.id_tarkon')->where('id_pkp',$formula)->where('status_data','active')->get();
-		//dd($akg);
+        $ing        = tb_nutrition::with('get_bahan','get_btp')->get();
+        $tampilkan  = tb_parameter::with('get_akg')->offset(23)->limit(84)->get();
+        
+        //NUTFACT BAYANGAN
+        $vit_a      = tb_vitmin::select('target')->where('parameter','12')->get();
+        $thi        = tb_vitmin::select('target')->where('parameter','2')->get();
+        $rib        = tb_vitmin::select('target')->where('parameter','10')->get();
+        $nia        = tb_vitmin::select('target')->where('parameter','3')->get();
+        $b5         = tb_vitmin::select('target')->where('parameter','20')->get();
+        $pyr        = tb_vitmin::select('target')->where('parameter','21')->get();
+        $b7         = tb_vitmin::select('target')->where('parameter','11')->get();
+        $b12        = tb_vitmin::select('target')->where('parameter','60')->get();
+        $asam       = tb_vitmin::select('target')->where('parameter','4')->get();
+        $vit_c      = tb_vitmin::select('target')->where('parameter','61')->get();
+        $vit_d      = tb_vitmin::select('target')->where('parameter','62')->get();
+        $vit_e      = tb_vitmin::select('target')->where('parameter','14')->get();
+        $mag        = tb_vitmin::select('target')->where('parameter','47')->get();
+        $man        = tb_vitmin::select('target')->where('parameter','16')->get();
+        $zin        = tb_vitmin::select('target')->where('parameter','48')->get();
+        $lod        = tb_vitmin::select('target')->where('parameter','22')->get();
+        $zat        = tb_vitmin::select('target')->where('parameter','45')->get();
+        $sel        = tb_vitmin::select('target')->where('parameter','49')->get();
+        $mol        = tb_vitmin::select('target')->where('parameter','69')->get();
+        $ino        = tb_vitmin::select('target')->where('parameter','68')->get();
+        
         $idf = $id;
-		$formula = Formula::where('workbook_id',$formula)->where('id',$id)->first();
+		$formula = Formula::where('workbook_id',$formula)->first();
         $idfor = $formula->workbook_id;
         $fortails = Fortail::where('formula_id',$id)->get();
         $ingredient = DB::table('fortails')
-        ->join('tb_nutfact','tb_nutfact.id_ingredient','=','fortails.id_ingredient')
+        ->join('tb_ingredients','tb_ingredients.id_ingredient','=','fortails.id_ingredient')
         ->where('fortails.formula_id',$id)
 		->get();
+	//dd($ingredient);
 		$ada = Fortail::where('formula_id',$id)->count();
 
         if($ada < 1){
@@ -53,39 +73,17 @@ class SummaryFormulaController extends Controller
         $granulasi          = 0;
         $jumlah_granulasi   = 0;
         $biasa              = 0;
+        $one_persen         = $formula->batch / 100;
+
         foreach($fortails as $fortail){
-			// Get Persen
-			$one_persen = $fortail->per_batch / $formula->batch  ;
-			$persen = $one_persen * 100;
-			$persen = round($persen, 2);
+            // Get Persen
+            $persen = $fortail->per_batch / $one_persen; $persen = round($persen, 2);
             $detail_formula->push([
 
                 'id' => $fortail->id,
                 'kode_komputer' => $fortail->kode_komputer,
                 'nama_sederhana' => $fortail->nama_sederhana,
-                'alternatif1' => $fortail->alternatif1,
-                'alternatif2' => $fortail->alternatif2,
-                'alternatif3' => $fortail->alternatif3,
-                'alternatif4' => $fortail->alternatif4,
-                'alternatif5' => $fortail->alternatif5,
-                'alternatif6' => $fortail->alternatif6,
-                'alternatif7' => $fortail->alternatif7,
                 'nama_bahan' => $fortail->nama_bahan,
-                'nama_bahan1' => $fortail->nama_bahan1,
-                'nama_bahan2' => $fortail->nama_bahan2,
-                'nama_bahan3' => $fortail->nama_bahan3,
-                'nama_bahan4' => $fortail->nama_bahan4,
-                'nama_bahan5' => $fortail->nama_bahan5,
-                'nama_bahan6' => $fortail->nama_bahan6,
-				'nama_bahan7' => $fortail->nama_bahan7,
-				'principle' => $fortail->principle,
-				'principle1' => $fortail->principle1,
-				'principle2' => $fortail->principle2,
-				'principle3' => $fortail->principle3,
-				'principle4' => $fortail->principle4,
-				'principle5' => $fortail->principle5,
-				'principle6' => $fortail->principle6,
-				'principle7' => $fortail->principle7,
                 'per_batch' => $fortail->per_batch,
                 'per_serving' => $fortail->per_serving,
                 'granulasi' => $fortail->granulasi,
@@ -151,14 +149,13 @@ class SummaryFormulaController extends Controller
 
         foreach($fortails as $fortail){
 			//Get Needed
-			$ingredients = DB::table('tb_nutfact')->first();
+			$ingredients = DB::table('tb_ingredients')->first();
             $bahan  = Bahan::where('id',$fortail->bahan_id)->first();
 			$curren = Curren::where('id',$bahan->curren_id)->first();
-			$btp = DB::table('tb_btp')->join('bahans','bahans.id','=','tb_btp.id_bahan')->first();
 
             //perhitungan nutfact bayangan
 			//lemak
-			if($fortail->nama_sederhana != 'NULL'){
+			if($fortail->id_ingredient != 'NULL'){
 				$lemak = ($ingredients->fat/100)*($fortail->per_serving);
 				$sfa = ($ingredients->SFA/100)*($fortail->per_serving);
 				$karbohidrat =($ingredients->karbohidrat/100)*($fortail->per_serving);
@@ -252,9 +249,6 @@ class SummaryFormulaController extends Controller
                 'id' => $fortail->id,
                 'kode_komputer' => $bahan->kode_komputer,
                 'nama_sederhana' => $bahan->nama_sederhana,
-				'id_ingeradient' => $bahan->id_ingeradient,
-				'btp' =>$btp->btp_carryover,
-				'list' =>$btp->inggredient_list,
 				'hpg' => $hpg,
 				'lemak' => $lemak,
 				'sfa' => $sfa,
@@ -394,155 +388,19 @@ class SummaryFormulaController extends Controller
             'total_harga_per_kg' => $total_harga_per_kg,                       
 		]);
         
-        return view('formula/summarry', compact(
-        'data','id'  ))->with([
+        return view('formula/summarry', compact('ing','tampilkan','AMC','AMC2','AMC3','AMC4','AMC5','AMC6','AMC7',
+        'data','vit_a','thi','rib','nia','b5','pyr','b7','b12','asam','vit_c',
+        'vit_d','vit_e','mag','man','zin','lod','zat','sel','mol','ino' ,'id'  ))->with([
             'idf' => $idf,
             'ada'     => $ada,
             'formula' => $formula,
             'detail_formula' =>  $detail_formula,
             'granulasi' => $granulasi,
 			'gp' => $gp,
-			'akg' => $akg,
 			'idfor' => $idfor,
-			'ingredient' => $ingredient,
-			'vit15' => $vit15,
-			'vit20' => $vit20,
-			'vit15count' => $vit15count,
-			'vit20count' => $vit20count,
+            'ingredient' => $ingredient,
             'detail_harga' => $detail_harga,
             'total_harga' => $total_harga
         ]);
-	}
-	
-	public function vit15(Request $request,$id){
-		$vitamin = vit15::where('id_formula',$id)->count();
-		if($vitamin==0){
-			$vit15 = new vit15;
-			$vit15->id_formula=$id;
-			$vit15->dosis=$request->dosis15;
-			$vit15->target_vitC=$request->target_vitC15;
-			$vit15->target_vitB6=$request->target_vitB615;
-			$vit15->target_vitB1=$request->target_vitB115;
-			$vit15->target_vitB3=$request->target_vitB315;
-			$vit15->target_vitB9=$request->target_vitB915;
-			$vit15->target_vitA_acetat=$request->target_vitA_acetat15;
-			$vit15->target_vitE_acetat=$request->target_vitE_acetat15;
-			$vit15->min_vitC=$request->min_vitC15;
-			$vit15->min_vitB6=$request->min_vitB615;
-			$vit15->min_vitB1=$request->min_vitB115;
-			$vit15->min_vitB3=$request->min_vitB315;
-			$vit15->min_vitB9=$request->min_vitB915;
-			$vit15->min_vitA_acetat=$request->min_vitA_acetat15;
-			$vit15->min_vitE_acetat=$request->min_vitE_acetat15;
-			$vit15->max_vitC=$request->max_vitC15;
-			$vit15->max_vitB6=$request->max_vitB615;
-			$vit15->max_vitB1=$request->max_vitB115;
-			$vit15->max_vitB3=$request->max_vitB315;
-			$vit15->max_vitB9=$request->max_vitB915;
-			$vit15->max_vitA_acetat=$request->max_vitA_acetat15;
-			$vit15->max_vitE_acetat=$request->max_vitE_acetat15;
-			$vit15->save();
-
-			return redirect::back();
-		}else{
-			$vit15 = vit15::where('id_formula',$id)->first();
-			$vit15->id_formula=$id;
-			$vit15->dosis=$request->dosis15;
-			$vit15->target_vitC=$request->target_vitC15;
-			$vit15->target_vitB6=$request->target_vitB615;
-			$vit15->target_vitB1=$request->target_vitB115;
-			$vit15->target_vitB3=$request->target_vitB315;
-			$vit15->target_vitB9=$request->target_vitB915;
-			$vit15->target_vitA_acetat=$request->target_vitA_acetat15;
-			$vit15->target_vitE_acetat=$request->target_vitE_acetat15;
-			$vit15->min_vitC=$request->min_vitC15;
-			$vit15->min_vitB6=$request->min_vitB615;
-			$vit15->min_vitB1=$request->min_vitB115;
-			$vit15->min_vitB3=$request->min_vitB315;
-			$vit15->min_vitB9=$request->min_vitB915;
-			$vit15->min_vitA_acetat=$request->min_vitA_acetat15;
-			$vit15->min_vitE_acetat=$request->min_vitE_acetat15;
-			$vit15->max_vitC=$request->max_vitC15;
-			$vit15->max_vitB6=$request->max_vitB615;
-			$vit15->max_vitB1=$request->max_vitB115;
-			$vit15->max_vitB3=$request->max_vitB315;
-			$vit15->max_vitB9=$request->max_vitB915;
-			$vit15->max_vitA_acetat=$request->max_vitA_acetat15;
-			$vit15->max_vitE_acetat=$request->max_vitE_acetat15;
-			$vit15->save();
-			
-			return redirect::back();
-		}
-		
-	}
-
-	public function vit20(Request $request,$id){
-		$vitamin = vit20::where('id_formula',$id)->count();
-		if($vitamin==0){
-			$vit20 = new vit20;
-			$vit20->id_formula=$id;
-			$vit20->dosis=$request->dosis20;
-			$vit20->target_vitC=$request->target_vitC20;
-			$vit20->target_vitB6=$request->target_vitB620;
-			$vit20->target_vitB1=$request->target_vitB120;
-			$vit20->target_vitB3=$request->target_vitB320;
-			$vit20->target_vitB9=$request->target_vitB920;
-			$vit20->target_vitA_acetat=$request->target_vitA_acetat20;
-			$vit20->target_vitE_acetat=$request->target_vitE_acetat20;
-			$vit20->min_vitC=$request->min_vitC20;
-			$vit20->min_vitB6=$request->min_vitB620;
-			$vit20->min_vitB1=$request->min_vitB120;
-			$vit20->min_vitB3=$request->min_vitB320;
-			$vit20->min_vitB9=$request->min_vitB920;
-			$vit20->min_vitA_acetat=$request->min_vitA_acetat20;
-			$vit20->min_vitE_acetat=$request->min_vitE_acetat20;
-			$vit20->max_vitC=$request->max_vitC20;
-			$vit20->max_vitB6=$request->max_vitB620;
-			$vit20->max_vitB1=$request->max_vitB120;
-			$vit20->max_vitB3=$request->max_vitB320;
-			$vit20->max_vitB9=$request->max_vitB920;
-			$vit20->max_vitA_acetat=$request->max_vitA_acetat20;
-			$vit20->max_vitE_acetat=$request->max_vitE_acetat20;
-			$vit20->save();
-
-			return redirect::back();
-		}else{
-			$vit20 = vit20::where('id_formula',$id)->first();
-			$vit20->id_formula=$id;
-			$vit20->dosis=$request->dosis20;
-			$vit20->target_vitC=$request->target_vitC20;
-			$vit20->target_vitB6=$request->target_vitB620;
-			$vit20->target_vitB1=$request->target_vitB120;
-			$vit20->target_vitB3=$request->target_vitB320;
-			$vit20->target_vitB9=$request->target_vitB920;
-			$vit20->target_vitA_acetat=$request->target_vitA_acetat20;
-			$vit20->target_vitE_acetat=$request->target_vitE_acetat20;
-			$vit20->min_vitC=$request->min_vitC20;
-			$vit20->min_vitB6=$request->min_vitB620;
-			$vit20->min_vitB1=$request->min_vitB120;
-			$vit20->min_vitB3=$request->min_vitB320;
-			$vit20->min_vitB9=$request->min_vitB920;
-			$vit20->min_vitA_acetat=$request->min_vitA_acetat20;
-			$vit20->min_vitE_acetat=$request->min_vitE_acetat20;
-			$vit20->max_vitC=$request->max_vitC20;
-			$vit20->max_vitB6=$request->max_vitB620;
-			$vit20->max_vitB1=$request->max_vitB120;
-			$vit20->max_vitB3=$request->max_vitB320;
-			$vit20->max_vitB9=$request->max_vitB920;
-			$vit20->max_vitA_acetat=$request->max_vitA_acetat20;
-			$vit20->max_vitE_acetat=$request->max_vitE_acetat20;
-			$vit20->save();
-			
-			return redirect::back();
-		}
-		
-	}
-
-	public function overrate(Request $request,$id){
-		$formula = formula::where('id',$id)->first();
-		$formula->overrate=$request->overrate;
-		$formula->save();
-
-		return redirect::back();
-	}
+    }
 }

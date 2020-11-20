@@ -20,13 +20,14 @@ class storageController extends Controller
         $this->middleware('rule:user_rd_proses' || 'rule:user_produk');
     }
 
-    public function st($id){
-        $formula = Formula::where('workbook_id',$id)->first();;
-        $fo=formula::where('workbook_id',$id)->first();;
+    public function st($formula,$id){
+        $formula = Formula::where('id',$id)->first();;
+        $fo=formula::where('id',$id)->first();;
         $panel =panel::all();
-        $proses=hasilstorage::get();
+        $proses=hasilstorage::where('id_formula',$id)->get();
+        $idfor = $formula->workbook_id;
         $pn = hasilpanel::all();
-        $idf = $formula->workbook_id;
+        $idf = $formula->id;
         $storage = storage::where('id_formula',$id)->get();
         $cek_storage =storage::where('id_formula',$id)->count();
         $cek_panel =hasilpanel::where('id_formula',$id)->count();
@@ -34,6 +35,7 @@ class storageController extends Controller
             'fo' => $fo,
             'idf' => $idf,
             'id' => $id,
+            'idfor' => $idfor,
             'pn' => $pn,
             'storage' => $storage,
             'panel' => $panel,
@@ -75,5 +77,11 @@ class storageController extends Controller
         $data_storage->save();
 
         return redirect()->back();
+    }
+
+    public function delete($id){
+        $storage = storage::where('id',$id)->delete();
+
+        return redirect()->back()->with('status','proses storage'.' Telah Dihapus! ');
     }
 }

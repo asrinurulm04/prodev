@@ -27,7 +27,7 @@
 					<tr>
 						<td>{{$no++}}</td>
 						<td>
-						@if($ps->id_pkp!=NULL)
+							@if($ps->id_pkp!=NULL)
               <span>{{$ps->project->pkp_number}}{{$ps->project->ket_no}}</span>
               @elseif($ps->id_pdf!=NULL)
               <span>{{$ps->pdf->pdf_number}}{{$ps->pdf->ket_no}}</span>
@@ -43,8 +43,7 @@
 							@elseif($ps->id_promo!=NULL)
 							PROMO
 							@endif
-						</td>
-						{{$ps->id_notif}}
+						</td>{{$ps->id_notif}}</td>
 						<td>
 							@if($ps->id_pkp!=NULL)
               <span>{{$ps->project->project_name}}</span>
@@ -58,13 +57,13 @@
 						<td>{{$ps->created_at}}</td>
 						<td class="text-center">
 							@if($ps->status=='active')
-							@if($ps->id_pkp!=NULL)
-							<a href="{{route('bacapesan',$ps->id)}}" class="btn btn-info btn-sm"><li class="fa fa-folder-open"></li> Show</a>
-							@elseif($ps->id_pdf!=NULL)
-							<a href="{{route('bacapesan',$ps->id)}}" class="btn btn-info btn-sm"><li class="fa fa-folder-open"></li> Show</a>
-							@elseif($ps->id_promo!=NULL)
-							<a href="{{route('bacapesan',$ps->id)}}" class="btn btn-info btn-sm"><li class="fa fa-folder-open"></li> Show</a>
-							@endif
+								@if($ps->id_pkp!=NULL)
+								<a href="{{route('bacapesan',$ps->id)}}" class="btn btn-info btn-sm"><li class="fa fa-folder-open"></li> Show</a>
+								@elseif($ps->id_pdf!=NULL)
+								<a href="{{route('bacapesan',$ps->id)}}" class="btn btn-info btn-sm"><li class="fa fa-folder-open"></li> Show</a>
+								@elseif($ps->id_promo!=NULL)
+								<a href="{{route('bacapesan',$ps->id)}}" class="btn btn-info btn-sm"><li class="fa fa-folder-open"></li> Show</a>
+								@endif
 							@endif
 							</td>
 					</tr>

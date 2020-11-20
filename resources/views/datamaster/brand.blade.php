@@ -52,28 +52,28 @@
             </td>
           </tr>
             <!-- Edit Brand-->
-              <div class="modal fade" id="edit_brand{{ $brand->id}}" role="dialog" aria-labelledby="EWBModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-sm">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h4 class="modal-title" id="EWBModalLabel"><i class="fa fa-plus"></i> Edit Brand {{ $brand->brand}}
-                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button></h4>
-                    </div>
-                    <form method="POST" action="{{ route('brand.update',$brand->id) }}">
-                    <div class="modal-body">
-                      <label for="nama_produk" class="control-label">Brand</label>
-                      <input class="form-control" id="brand" name=brand placeholder="Brand" value="{{ $brand->brand }}" required />
-                    </div>
-                    <div class="modal-footer">
-                      {{ csrf_field() }}
-                      <button class="btn btn-primary" type="submit"><i class="fa fa-edit"></i> Simpan Perubahan</button>
-                      <a type="button" class="btn btn-danger" id="xx" href="{{ route('brand.index') }}"><i class="fa fa-times"></i> BATAL</a>
-                    </div>
-                    </form>
+            <div class="modal fade" id="edit_brand{{ $brand->id}}" role="dialog" aria-labelledby="EWBModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title" id="EWBModalLabel"><i class="fa fa-plus"></i> Edit Brand {{ $brand->brand}}
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button></h4>
                   </div>
+                  <form method="POST" action="{{ route('brand.update',$brand->id) }}">
+                  <div class="modal-body">
+                    <label for="nama_produk" class="control-label">Brand</label>
+                    <input class="form-control" id="brand" name=brand placeholder="Brand" value="{{ $brand->brand }}" required />
+                  </div>
+                  <div class="modal-footer">
+                    {{ csrf_field() }}
+                    <button class="btn btn-primary" type="submit"><i class="fa fa-edit"></i> Simpan Perubahan</button>
+                    <a type="button" class="btn btn-danger" id="xx" href="{{ route('brand.index') }}"><i class="fa fa-times"></i> BATAL</a>
+                  </div>
+                  </form>
                 </div>
               </div>
-              {{-- selesai --}}
+            </div>
+            <!-- selesai -->
           @endforeach
         </tbody>
       </table>
@@ -89,8 +89,8 @@
         <h4 class="modal-title" id="EWBModalLabel"><i class="fa fa-plus"></i> Tambah Brand
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button></h4>
       </div>
+      <form method="POST" action="{{ route('brand.store') }}">
       <div class="modal-body">
-        <form method="POST" action="{{ route('brand.store') }}">
         <label for="nama_produk" class="control-label">Brand</label>
         <input class="form-control" id="brand" name=brand placeholder="Brand" required />
         {{ csrf_field() }}     
@@ -98,12 +98,12 @@
       <div class="modal-footer">
         <button class="btn btn-primary" type="submit"><i class="fa fa-plus"></i> Submit</button>
         <a type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> BATAL</a>
-        </form>
       </div>
+      </form>
     </div>
   </div>
 </div>
-{{-- selesai --}}
+<!-- selesai -->
 @endsection
 
 @section('s')

@@ -19,16 +19,17 @@ class TemplateFormulaController extends Controller
         $this->middleware('rule:user_rd_proses' || 'rule:user_produk');
     }
 
-    public function index($ftujuan){
+    public function index($ftujuan,$id){
         $formulas = Formula::all();
         return view('devwb.template')->with([
             'formulas' => $formulas,
-            'ftujuan' => $ftujuan
+            'ftujuan' => $ftujuan,
+            'for' => $id
         ]);
     }
 
     public function template($ftujuan,$fasal){
-
+        //dd($ftujuan);
         $namaformAsal = Formula::where('id',$fasal)->first()->nama_produk;
         $cft=Fortail::where('formula_id',$fasal)->count();
         $formula_Asal   = Formula::where('id',$fasal)->first();
@@ -92,6 +93,6 @@ class TemplateFormulaController extends Controller
                 }
             }
         }
-        return Redirect()->route('step2',$ftujuan)->with('status','Struktur Formula '.$namaformAsal.' Telah Dimasukan');
+        return Redirect()->route('step2',[$formula_Tujuan->workbook_id,$ftujuan])->with('status','Struktur Formula '.$namaformAsal.' Telah Dimasukan');
     }
 }

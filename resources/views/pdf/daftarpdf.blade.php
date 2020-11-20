@@ -7,53 +7,54 @@
 <div class="row">
   <div class="col-md-5 col-xs-12">
     <div class="x_panel" style="min-height:90px">
-        @if($hitung==0)
-        <a href="{{ route('buatpdf',$data->id_project_pdf)}}" class="btn btn-primary btn-sm" type="button"><li class="fa fa-plus"></li> Add Data</a>
-        @elseif($hitung>=1)
-        @endif
-        @if(auth()->user()->role->namaRule!='user_produk')
-          @if($data->status_project=="revisi")
-          <a href="{{ route('datapengajuan')}}" class="btn btn-danger btn-sm" type="button"><li class="fa fa-share"></li> Back</a>
-          <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#data{{ $data->id_project_pdf  }}" ><i class="fa fa-edit"></i> Edit Timeline</a></button>
-          <!-- Modal -->
-          <div class="modal" id="data{{ $data->id_project_pdf  }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                 <h3 class="modal-title" id="exampleModalLabel">Timeline Project : {{$data->project_name}}
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                   <span aria-hidden="true">&times;</span>
-                 </button></h3>
-                </div>
-                <form class="form-horizontal form-label-left" method="POST" action="{{ Route('TMubahpdf',$data->id_project_pdf)}}" novalidate>    
-                <div class="modal-body">
-                  <div class="row x_panel">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12 text-center">Deadline for sending Sample</label>
-                    <div class="col-md-4 col-sm-9 col-xs-12">
-                      <input type="date" class="form-control" value="{{$data->jangka}}" name="jangka" id="jangka" placeholder="start date">
-                    </div>
-                    <div class="col-md-4 col-sm-9 col-xs-12">
-                      <input type="date" class="form-control" value="{{$data->waktu}}" name="waktu" id="waktu" placeholder="end date">
-                    </div>
-                 </div>
-                </div>
-                <div class="modal-footer">
-                  <button type="submit" class="btn btn-primary"><i class="fa fa-edit"></i> Edit</button>
-                  {{ csrf_field() }}
-                </div>
-                </form>
+      @if($hitung==0)
+      <a href="{{ route('buatpdf',$data->id_project_pdf)}}" class="btn btn-primary btn-sm" type="button"><li class="fa fa-plus"></li> Add Data</a>
+      @endif
+      @if(auth()->user()->role->namaRule!='user_produk' && auth()->user()->role->namaRule != 'kemas')
+        @if($data->status_project=="revisi")
+        <a href="{{ route('datapengajuan')}}" class="btn btn-danger btn-sm" type="button"><li class="fa fa-share"></li> Back</a>
+        <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#data{{ $data->id_project_pdf  }}" ><i class="fa fa-edit"></i> Edit Timeline</a></button>
+        <!-- Modal -->
+        <div class="modal" id="data{{ $data->id_project_pdf  }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+               <h3 class="modal-title" id="exampleModalLabel">Timeline Project : {{$data->project_name}}
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                 <span aria-hidden="true">&times;</span>
+               </button></h3>
               </div>
+              <form class="form-horizontal form-label-left" method="POST" action="{{ Route('TMubahpdf',$data->id_project_pdf)}}" novalidate>    
+              <div class="modal-body">
+                <div class="row x_panel">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12 text-center">Deadline for sending Sample</label>
+                  <div class="col-md-4 col-sm-9 col-xs-12">
+                    <input type="date" class="form-control" value="{{$data->jangka}}" name="jangka" id="jangka" placeholder="start date">
+                  </div>
+                  <div class="col-md-4 col-sm-9 col-xs-12">
+                    <input type="date" class="form-control" value="{{$data->waktu}}" name="waktu" id="waktu" placeholder="end date">
+                  </div>
+               </div>
+              </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-primary"><i class="fa fa-edit"></i> Edit</button>
+                {{ csrf_field() }}
+              </div>
+              </form>
             </div>
           </div>
-          <!-- Modal Selesai -->
-          @elseif($data->status_project!="draf" && $data->status_project!="revisi")
-          <a href="{{ route('listpdf')}}" class="btn btn-danger btn-sm" type="button"><li class="fa fa-share"></li> Back</a>
-          @elseif($data->status_project=="draf")
-          <a href="{{ route('drafpdf')}}" class="btn btn-danger btn-sm" type="button"><li class="fa fa-share"></li> Back</a>
-          @endif
-          
-        @elseif(auth()->user()->role->namaRule === 'user_produk')
-        <a href="{{ route('listprojectpdf')}}" class="btn btn-danger btn-sm" btn-sm type="button"><li class="fa fa-share"></li> Back</a>
+        </div>
+        <!-- Modal Selesai -->
+        @elseif($data->status_project!="draf" && $data->status_project!="revisi")
+        <a href="{{ route('listpdf')}}" class="btn btn-danger btn-sm" type="button"><li class="fa fa-share"></li> Back</a>
+        @elseif($data->status_project=="draf")
+        <a href="{{ route('drafpdf')}}" class="btn btn-danger btn-sm" type="button"><li class="fa fa-share"></li> Back</a>
+        @endif
+      @elseif(auth()->user()->role->namaRule === 'kemas')
+      <a href="{{ route('listprojectpdf')}}" class="btn btn-danger btn-sm" btn-sm type="button"><li class="fa fa-share"></li> Back</a>
+      @elseif(auth()->user()->role->namaRule === 'user_produk')
+      <a href="{{ route('listprojectpdf')}}" class="btn btn-danger btn-sm" btn-sm type="button"><li class="fa fa-share"></li> Back</a>
+        @if(auth()->user()->role->namaRule === 'user_produk')
         <button class="btn btn-dark btn-sm" data-toggle="modal" data-target="#sample{{$data->id_project_pdf}}"><i class="fa fa-check"></i> Submit Sample</a></button>
         <!-- modal -->
         <div class="modal" id="sample{{$data->id_project_pdf}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -68,24 +69,24 @@
               <div class="modal-body">
                 <form class="form-horizontal form-label-left" method="POST" action="{{route('samplepdf',$data->id_project_pdf)}}" novalidate>
                 <table class="table table-bordered table-hover" id="tabledata">
-                <thead>
-                  <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
-                    <th class="text-center" >Sample</th>
-                    <th class="text-center" >Note</th>
-                    <th width="5%"></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <input type="hidden" value="{{$data->id_project_pdf}}" name="id">
-                    <td><input type="text" name='sample[]' class="form-control" /></td>
-                    <td><textarea rows="2" type="text" required name='note[]' class="form-control" ></textarea></td>
-                    <td>
-                    <button id="add_data" type="button" class="btn btn-info btn-sm pull-left tr_clone_add"><li class="fa fa-plus"></li> </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+                  <thead>
+                    <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
+                      <th class="text-center" >Sample</th>
+                      <th class="text-center" >Note</th>
+                      <th width="5%"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <input type="hidden" value="{{$data->id_project_pdf}}" name="id">
+                      <td><input type="text" name='sample[]' class="form-control" /></td>
+                      <td><textarea rows="2" type="text" required name='note[]' class="form-control" ></textarea></td>
+                      <td>
+                      <button id="add_data" type="button" class="btn btn-info btn-sm pull-left tr_clone_add"><li class="fa fa-plus"></li> </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
                 <div class="modal-footer">
                   <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Submit</button>
                   {{ csrf_field() }}
@@ -97,23 +98,24 @@
         </div>
         <!-- Modal Selesai -->
         @endif
+      @endif
 
-        @foreach($pdff as $data)
-        @if($data->kemas_eksis!=NULL)
-          <a class="btn btn-info btn-sm" href="{{ Route('lihatpdf',['id_project_pdf' => $data->id_project_pdf, 'revisi' => $data->revisi, 'turunan' => $data->turunan]) }}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i> Show</a>
-        @elseif($data->kemas_eksis!=NULL)
-          <a class="btn btn-info btn-sm" disabled data-toggle="tooltip" title="Please complete the data, to see the final data"><i class="fa fa-folder-open"></i> Show</a>
+      @foreach($pdff as $data)
+      @if($data->kemas_eksis!=NULL)
+        <a class="btn btn-info btn-sm" href="{{ Route('lihatpdf',['id_project_pdf' => $data->id_project_pdf, 'revisi' => $data->revisi, 'turunan' => $data->turunan]) }}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i> Show</a>
+      @elseif($data->kemas_eksis==NULL)
+        <a class="btn btn-info btn-sm" disabled data-toggle="tooltip" title="Please complete the data, to see the final data"><i class="fa fa-folder-open"></i> Show</a>
+      @endif
+        @if($data->status_data=='draf' || $data->status_data=='revisi')
+			  <a class="btn btn-warning btn-sm" href="{{ route('buatpdf1',['id_project_pdf' => $data->id_project_pdf, 'revisi' => $data->revisi, 'turunan' => $data->turunan])}}" data-toggle="tooltip" title="Edit"><i class="fa fa-edit"></i> Edit</a>
         @endif
-          @if($data->status_data=='draf' || $data->status_data=='revisi')
-				  <a class="btn btn-warning btn-sm" href="{{ route('buatpdf1',['id_project_pdf' => $data->id_project_pdf, 'revisi' => $data->revisi, 'turunan' => $data->turunan])}}" data-toggle="tooltip" title="Edit"><i class="fa fa-edit"></i> Edit</a>
-          @endif
-          {{csrf_field()}}
-        @endforeach
+        {{csrf_field()}}
+      @endforeach
 
-        @if($data->author1->Role->id==1 || $data->author1->Role->id==5)
-        @else
-          <a href="{{route('pdfklaim',$data->id_project_pdf)}}" class="btn btn-primary btn-sm" type="submut"><li class="fa fa-tags"></li> Klaim</a>
-        @endif
+      @if($data->author1->Role->id==1 || $data->author1->Role->id==5)
+      @else
+        <a href="{{route('pdfklaim',$data->id_project_pdf)}}" class="btn btn-primary btn-sm" type="submut"><li class="fa fa-tags"></li> Klaim</a>
+      @endif
     </div>
 
     <div class="x_panel" style="min-height:270px">
@@ -131,7 +133,6 @@
               <tr><td>Author</td><td> : {{$data->author1->name}}</td></tr>
 						</thead>
 					</table><br>
-					
 				</div>
       </div>
     </div>
@@ -156,9 +157,7 @@
               </tr>
             </thead>
             <tbody>
-              @php
-                $no = 0;
-              @endphp
+              @php $no = 0; @endphp
               @foreach($sample as $pkp)
               @if($pkp->status=='final')
               <tr style="background-color:springgreen">
@@ -197,7 +196,7 @@
       <div class="card-block">
         <div class="x_content">
           <form action="">
-					<table class="table table-striped table-bordered">
+					<table class="table table-bordered table-striped table-bordered">
             <thead>
               <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
                 <th class="text-center">Sample</th>
@@ -270,13 +269,10 @@
 </div>
 @endsection
 
-
 @section('s')
 <script>
   $(document).ready(function() {
-
 		$('#tabledata').on('click', 'tr a', function(e) {
-
         e.preventDefault();
         var lenRow = $('#tabledata tbody tr').length;
         if (lenRow == 1 || lenRow <= 1) {
@@ -286,19 +282,17 @@
         }
     });
 
-  var i = 1;
-  $("#add_data").click(function() {
-    $('#addrow' + i).html( "<td>"+
-			"<input type='text' name='sample[]'class='form-control data' /></td>"+
-      "<td><textarea rows='2' type='text' required name='note[]' placeholder='Note' class='form-control' ></textarea></td>"+
-			"<td><a href='' class='btn btn-danger btn-sm'><li class='fa fa-trash'></li></a>"+
-			"</td>");
+    var i = 1;
+    $("#add_data").click(function() {
+      $('#addrow' + i).html( "<td>"+
+        "<input type='text' name='sample[]'class='form-control data' /></td>"+
+        "<td><textarea rows='2' type='text' required name='note[]' placeholder='Note' class='form-control' ></textarea></td>"+
+        "<td><a href='' class='btn btn-danger btn-sm'><li class='fa fa-trash'></li></a>"+
+        "</td>");
 
-    $('#tabledata').append('<tr id="addrow' + (i + 1) + '"></tr>');
-    i++;
+      $('#tabledata').append('<tr id="addrow' + (i + 1) + '"></tr>');
+      i++;
+    });
   });
-  });
-
-
 </script>
 @endsection

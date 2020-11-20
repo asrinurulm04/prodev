@@ -57,8 +57,9 @@
               <label>Status</label>
               <select name="status" class="form-control column_filter" id="col5_filter" >
                 <option disabled selected>-->Select One<--</option>
-                <option>proses</option>
-                <option>close</option>
+                <option>sending sample</option>
+                <option>sent to PV</option>
+                <option>approved by PV</option>
               </select>
             </div>
           </div>
@@ -86,36 +87,55 @@
       <table id="ex" class="Table table-striped nowrap">
         <thead>
           <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
-            <th>#</th>
-            <th>PKP Number</th>
-            <th>Project Name</th>
-            <th>Brand</th>
-            <th>Author</th>
-            <th>Status</th>
-            <th class="text-center">Created Date</th>
-            <th>Information</th>
+            <th class="text-center">#</th>
+            <th class="text-center">PKP Number</th>
+            <th class="text-center">Project Name</th>
+            <th class="text-center">Brand</th>
+            <th class="text-center">PV</th>
+            <th class="text-center">Prototype Sample submission status</th>
             <th width="15%" class="text-center">Action</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
           @php $no = 0; @endphp
           @foreach($pkp as $pkp)
           @if($pkp->userpenerima2=='NULL')
+          <tr>
             @if($pkp->userpenerima==Auth::user()->id)
             <td class="text-center">{{ ++$no}}</td>
             <td>{{$pkp->pkp_number}}{{$pkp->ket_no}}</td>
             <td>{{ $pkp->project_name }}</td>
             <td>{{ $pkp->id_brand}}</td>
-            <td>{{ $pkp->author1->name }}</td>
+            <td>{{ $pkp->datapkp->perevisi2->name }}</td>
             <td class="text-center">
-              @if($pkp->status_project=='proses')
-              <span  class="label label-success" style="color:white">Proses</span>
-              @elseif($pkp->status_project=='close')
-              <span  class="label label-info" style="color:white">Close</span>
+              @if($pkp->status_freeze=='inactive')
+                @if($pkp->pengajuan_sample=='proses')
+                <?php
+                  $awal  = date_create( $pkp->waktu );
+                  $akhir = date_create(); // waktu sekarang
+                  if($akhir<=$awal)
+                  {
+                    $diff  = date_diff( $akhir, $awal );
+                    echo ' You Have ';
+                    echo $diff->m . ' Month, ';
+                    echo $diff->d . ' Days, ';
+                    echo $diff->h . ' Hours, ';
+                    echo ' To sending Sample ';
+                  }else{
+                    echo ' Your Time Is Up ';
+                  }
+                ?>
+                @elseif($pkp->pengajuan_sample=='sent')
+                Sample has been sent to PV
+                @elseif($pkp->pengajuan_sample=='reject')
+                Sample rejected by PV
+                @elseif($pkp->pengajuan_sample=='approve')
+                Sample has been approved by PV
+                @endif
+              @elseif($pkp->status_freeze=='active')
+                Project Is Inactive
               @endif
             </td>
-            <td class="text-center">{{ $pkp->created_date }}</td>
             <td class="text-center">
               @if($pkp->status_project=='proses')
               <a class="btn btn-info btn-sm" href="{{ Route('rekappkp',$pkp->id_project) }}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
@@ -123,6 +143,8 @@
               @elseif($pkp->status_project=='close')
               <a class="btn btn-info btn-sm" href="{{ Route('rekappkp',$pkp->id_project) }}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
               <button class="btn btn-info btn-sm" disabled><li class="fa fa-smile-o" title="close"></li></button>
+              @elseif($pkp->status_project=='revisi')
+                The Project in the revised proses
               @endif
             </td>
             @endif
@@ -132,23 +154,45 @@
             <td>{{$pkp->pkp_number}}{{$pkp->ket_no}}</td>
             <td>{{ $pkp->project_name }}</td>
             <td>{{ $pkp->id_brand}}</td>
-            <td>{{ $pkp->author1->name }}</td>
-            <td class="text-center">
-              @if($pkp->status_project=='proses')
-              <span  class="label label-success" style="color:white">Proses</span>
-              @elseif($pkp->status_project=='close')
-              <span  class="label label-info" style="color:white">Close</span>
+            <td>{{ $pkp->datapkp->perevisi2->name }}</td>
+            <td>
+              @if($pkp->status_freeze=='inactive')
+                @if($pkp->pengajuan_sample=='proses')
+                <?php
+                  $awal  = date_create( $pkp->waktu );
+                  $akhir = date_create(); // waktu sekarang
+                  if($akhir<=$awal)
+                  {
+                    $diff  = date_diff( $akhir, $awal );
+                    echo ' You Have ';
+                    echo $diff->m . ' Month, ';
+                    echo $diff->d . ' Days, ';
+                    echo $diff->h . ' Hours, ';
+                    echo ' To sending Sample ';
+                  }else{
+                    echo ' Your Time Is Up ';
+                  }
+                ?>
+                @elseif($pkp->pengajuan_sample=='sent')
+                Sample has been sent to PV
+                @elseif($pkp->pengajuan_sample=='reject')
+                Sample rejected by PV
+                @elseif($pkp->pengajuan_sample=='approve')
+                Sample has been approved by PV
+                @endif
+              @elseif($pkp->status_freeze=='active')
+                Project Is Inactive
               @endif
             </td>
-            <td class="text-center">{{ $pkp->created_date }}</td>
-            <td class="text-center">{{$pkp->waktu}}</td>
             <td class="text-center">
               @if($pkp->status_project=='proses')
               <a class="btn btn-info btn-sm" href="{{ Route('rekappkp',$pkp->id_project) }}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
               {{csrf_field()}}
               @elseif($pkp->status_project=='close')
               <a class="btn btn-info btn-sm" href="{{ Route('rekappkp',$pkp->id_project) }}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
-              <button class="btn btn-info btn-sm" disabled><li class="fa fa-smile-o" title="close"></li></button>
+              <button class="btn btn-success btn-sm" title="this project is finished" disabled><li class="fa fa-smile-o" title="close"></li></button>
+              @elseif($pkp->status_project=='revisi')
+                The Project in the revised proses
               @endif
             </td>
             @endif

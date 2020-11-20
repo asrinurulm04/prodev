@@ -21,6 +21,7 @@ use App\pkp\promo;
 use App\pkp\product_allocation;
 use App\pkp\data_promo;
 use App\pkp\coba;
+use App\pkp\kemaspdf;
 use App\pkp\klaim;
 use App\pkp\detail_klaim;
 use App\pkp\komponen;
@@ -76,13 +77,17 @@ class Email extends Controller
         $for = data_forecast::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->get();
         $ses = data_ses::where([ ['id_pdf',$id_project_pdf], ['revisi',$revisi], ['turunan',$turunan] ])->get();
         $picture = picture::where('pdf_id',$id_project_pdf)->where('revisi','<=',$revisi)->where('turunan','<=',$turunan)->get();
+        $kemaspdf = kemaspdf::where('id_pdf',$id_project_pdf)->where('revisi','=',$revisi)->where('turunan','=',$turunan)->get();
+        $hitungkemaspdf = kemaspdf::where('id_pdf',$id_project_pdf)->where('revisi','=',$revisi)->where('turunan','=',$turunan)->count();
         try{
-            Mail::send('pv.emailpdf', [
+            Mail::send('pv.pdfemail', [
                 'pdf' => $pdf,
                 'pdf1' => $pdf1,
                 'datases' => $ses,
                 'for' => $for,
                 'datapdf' => $datapdf,
+                'kemaspdf' => $kemaspdf,
+                'hitungkemaspdf' => $hitungkemaspdf,
                 'picture' => $picture,], function ($message) use ($request)
                 {
                     $data = [$request->pengirim,$request->pengirim1,$request->pengirim2,'asrimarifah0402@gmail.com'];
@@ -130,7 +135,7 @@ class Email extends Controller
                 'allocation' => $allocation,
                 'jumlahpromo' => $jumlahpromo,], function ($message) use ($request)
             {
-                $data = [$request->pengirim,$request->pengirim1,$request->pengirim2];
+                $data = [$request->pengirim,$request->pengirim1,$request->pengirim2,'asrimarifah0402@gmail.com'];
                 $message->subject($request->judul);
                 $message->from('app.prodev@nutrifood.co.id', 'User PV');
                 $message->to($request->email);
@@ -180,7 +185,7 @@ class Email extends Controller
             'datapkp' => $datapkp,
             'picture' => $picture,], function ($message) use ($request)
             {
-                $data = [$request->pengirim,$request->pengirim1,$request->pengirim2];
+                $data = [$request->pengirim,$request->pengirim1,$request->pengirim2,'asrimarifah0402@gmail.com'];
                 $message->subject($request->judul);
                 $message->from('app.prodev@nutrifood.co.id', 'User PV');
                 $message->to($request->email);
@@ -237,16 +242,35 @@ class Email extends Controller
         return redirect::route('REmail');
     }
 
-    public function rejectemailpkp($id_project){
+    public function rejectemailpkp(Request $request,$id_project){
         $app = pkp_project::where('id_project',$id_project)->first();
         $app->approval='reject';
         $app->save();
 
-        $notif = notification::where('id_pkp',$id_project)->first();
-        $notif->id_pkp=$id_project;
-        $notif->title="The PKP Project is rejected";
-        $notif->status='active';
-        $notif->save();
+        $isipkp = tipp::where('id_pkp',$id_project)->where('status_data','=','active')->get();
+        try{
+            Mail::send('manager.infoemailpkp', [
+                'info'=>'Project anda di tolak, silahkan hubungi pihak yang bersangkutan :)',
+                'app'=>$isipkp,
+            ],function($message)use($request,$id_project)
+            {
+                $message->subject('INFO');
+                $message->from('app.prodev@nutrifood.co.id', 'Admin PRODEV');
+                $pkp = tipp::where('id_pkp',$id_project)->where('status_data','=','active')->get();
+                foreach($pkp as $pkp){
+                    $user = DB::table('users')->where('id',$pkp->perevisi)->get();
+                    foreach($user as $user){
+                        $data = $user->email;
+                        $message->to($data);
+                    }
+                }
+            });
+            return redirect::route('REmail');
+        }
+        catch (Exception $e){
+        return response (['status' => false,'errors' => $e->getMessage()]);
+        }
+
     }
 
     public function approveemailpdf(Request $request,$id_project_pdf){
@@ -291,6 +315,30 @@ class Email extends Controller
         $notif->title="The PDF Project is rejected";
         $notif->status='active';
         $notif->save();
+
+        $isipdf = coba::where('pdf_id',$id_project_pdf)->where('status_pdf','=','active')->get();
+        try{
+            Mail::send('manager.infoemailpdf', [
+                'info'=>'selamat project anda telah disetujui :)',
+                'app'=>$isipdf,
+            ],function($message)use($request,$id_project_pdf)
+            {
+                $message->subject('INFO');
+                $message->from('app.prodev@nutrifood.co.id', 'Admin PRODEV');
+                $pdf = coba::where('pdf_id',$id_project_pdf)->where('status_pdf','=','active')->get();
+                foreach($pdf as $pdf){
+                    $user = DB::table('users')->where('id',$pdf->perevisi)->get();
+                    foreach($user as $user){
+                        $data = $user->email;
+                        $message->to($data);
+                    }
+                }
+            });
+            return redirect::route('REmail');
+        }
+        catch (Exception $e){
+        return response (['status' => false,'errors' => $e->getMessage()]);
+        }
     }
 
     public function approveemailpromo(Request $request,$id_pkp_promo){

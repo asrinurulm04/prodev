@@ -7,22 +7,30 @@
   <div class="x_title">
     <h3><li class="fa fa-list"> List Feasibility</li></h3><hr>
       <table>
-        <tr><th width="10%">Nama Produk </th><th width="45%">: {{ $myFormula->nama_produk}}</th>
+        <tr><th width="10%">Nama Produk </th><th width="45%">: {{ $myFormula->datapkpp->project_name}}</th>
         <tr><th width="10%">Tanggal Terima</th><th width="45%">: {{ $myFormula->updated_at }}</th>
-        <tr><th width="10%">No.PKP</th><th width="45%">: {{ $myFormula->workbook->NO_PKP }}</th>
-        <tr><th width="10%">Description</th><th width="45%">: {{ $myFormula->workbook->deskripsi }}</th></tr>
+        <tr><th width="10%">No.PKP</th><th width="45%">: {{ $myFormula->datapkpp->pkp_number }}{{$myFormula->datapkpp->ket_no}}</th>
+        <tr><th width="10%">Idea</th><th width="45%">: {{ $myFormula->idea }}</th></tr>
         <tr><th width="10%">Action</th><th>: 
         @if(auth()->user()->role->namaRule === 'evaluator')
         <a class="btn btn-success btn-sm fa fa-plus" data-toggle="tooltip" data-placement="top" title="tambah Data" href="{{ route('upFeasibility',$myFormula->id) }}"> Add Option</a>
         @endif
-        <a class="btn btn-success btn-sm fa fa-sign-out" data-toggle="tooltip" data-placement="top" title="Kemabali" href="{{ route('formula.feasibility') }}"> Kembali</a></th></tr>
+        @if(auth()->user()->role->namaRule === 'kemas')
+        <a class="btn btn-danger btn-sm fa fa-sign-out" data-toggle="tooltip" data-placement="top" title="Kemabali" href="{{ route('rekappkp',$myFormula->id) }}"> Kembali</a></th></tr>
+        @elseif(auth()->user()->role->namaRule != 'kemas')
+          @if(auth()->user()->role->namaRule != 'pv_global' && auth()->user()->role->namaRule != 'pv_lokal')
+          <a class="btn btn-danger btn-sm fa fa-sign-out" data-toggle="tooltip" data-placement="top" title="Kemabali" href="{{ route('formula.feasibility') }}"> Kembali</a></th></tr>
+          @elseif(auth()->user()->role->namaRule == 'pv_global' || auth()->user()->role->namaRule == 'pv_lokal')
+          <a class="btn btn-danger btn-sm fa fa-sign-out" data-toggle="tooltip" data-placement="top" title="Kemabali" href="{{ route('rekappkp',$myFormula->id) }}"> Kembali</a></th></tr>
+          @endif
+        @endif
       </table>
     </div>
     <div class="card-block">
       <div class="dt-responsive table-responsive"><br>
         <table id="multi-colum-dt" class="Table table-striped table-bordered nowrap">
           <thead>
-            <tr>
+            <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
               <th class="text-center" width="10%">Option</th>
               <th class="text-center">Status Kemas</th>
               <th class="text-center">Status Evaluator</th>
@@ -81,7 +89,7 @@
             @if($dF->status_kemas=='belum selesai')
             <a href="{{ route('konsepkemas', ['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}" type="submit" class="btn btn-primary fa fa-edit" data-toggle="tooltip" data-placement="top" title="Edit"></a>
             @elseif($dF->status_kemas!='belum selesai')
-            <a href="{{ url('lihat',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}" type="submit" class="btn btn-warning fa fa-eye" data-toggle="tooltip" data-placement="top" title="lihat"></a>
+            <a href="{{ url('lihat',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}" type="submit" class="btn btn-info fa fa-eye" data-toggle="tooltip" data-placement="top" title="lihat"></a>
             @endif
 
             @elseif(auth()->user()->role->namaRule === 'lab')
@@ -89,6 +97,8 @@
             <a type="submit" class="btn btn-info fa fa-edit" data-toggle="tooltip" data-placement="top" title="Data mesin belum terisi!" disabled></a>
             @elseif($dF->status_lab =='belum selesai')
             <a href="{{ route('datalab',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}" type="submit" class="btn btn-primary fa fa-edit" data-toggle="tooltip" data-placement="top" title="Edit"></a>
+            @elseif($dF->status_lab =='selesai')
+            <a href="{{ route('datalab',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}" type="submit" class="btn btn-info fa fa-eye" data-toggle="tooltip" data-placement="top" title="Edit"></a>
             @endif
 
             @elseif(auth()->user()->role->namaRule === 'produksi')
@@ -97,17 +107,25 @@
             @elseif($dF->status_sdm =='belum selesai')
             <a href="{{ route('produksi',$dF->id_feasibility) }}" type="submit" class="btn btn-primary fa fa-edit" data-toggle="tooltip" data-placement="top" title="Edit"></a>
             @elseif($dF->status_sdm !='belum selesai')
-            <a href="{{ route('data',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}" type="submit" class="btn btn-warning fa fa-eye" data-toggle="tooltip" data-placement="top" title="lihat"></a>
+            <a href="{{ route('data',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}" type="submit" class="btn btn-info fa fa-eye" data-toggle="tooltip" data-placement="top" title="lihat"></a>
             @endif
 
             @elseif(auth()->user()->role->namaRule === 'finance')
-            @if($dF->status_finance =='belum selesai')
-            <a href="{{ route('finance',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}" type="submit" class="btn btn-primary fa fa-edit" data-toggle="tooltip" data-placement="top" title="Edit"></a>
-            @elseif($dF->status_finance !='belum selesai')
-            <a href="{{ route('summary',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}" type="submit" class="btn btn-warning fa fa-eye" data-toggle="tooltip" data-placement="top" title="lihat"></a>
+              @if($dF->status_feasibility =='belum selesai')
+                @if($dF->status_finance =='belum selesai')
+                <a href="{{ route('finance',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}" type="submit" class="btn btn-primary fa fa-edit" data-toggle="tooltip" data-placement="top" title="Edit"></a>
+                @elseif($dF->status_finance !='belum selesai')
+                <a href="{{ route('summary',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}" type="submit" class="btn btn-info fa fa-eye" data-toggle="tooltip" data-placement="top" title="lihat"></a>
+                <a href="{{ route('akhirfs',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}" type="submit" class="btn btn-success fa fa-paper-plane" data-toggle="tooltip" data-placement="top" title="sent to PV"></a>
+                @endif
+              @elseif($dF->status_feasibility =='selesai')
+              <a href="{{ route('summary',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}" type="submit" class="btn btn-info fa fa-eye" data-toggle="tooltip" data-placement="top" title="lihat"></a>
+              @endif
             @endif
+            @if(auth()->user()->role->namaRule === 'pv_lokal' || auth()->user()->role->namaRule === 'pv_global')
+              <a href="{{ route('summary',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}" type="submit" class="btn btn-info fa fa-eye" data-toggle="tooltip" data-placement="top" title="lihat"></a>
             @endif
-            @if(auth()->user()->role->namaRule === 'evaluator')
+              @if(auth()->user()->role->namaRule === 'evaluator')
             <a href="{{ route('deletefs', $id) }}" class="btn btn-danger fa fa-trash-o" data-toggle="tooltip" data-placement="top" title="Hapus"></a>
             </td>
             @endif

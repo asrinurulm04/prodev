@@ -110,53 +110,53 @@
           @foreach($pdf as $pdf)
           @if($pdf->userpenerima2=='NULL')
             @if($pdf->userpenerima==Auth::user()->id)
-            <th>{{ ++$no }}</th>
-            <th>{{$pdf->pdf_number}}{{$pdf->ket_no}}</th>
-            <th>{{ $pdf->project_name }}</th>
-            <th>{{ $pdf->id_brand }}</th>
-            <th>{{ $pdf->author }}</th>
-            <th class="text-center">
+            <td>{{ ++$no }}</td>
+            <td>{{$pdf->pdf_number}}{{$pdf->ket_no}}</td>
+            <td>{{ $pdf->project_name }}</td>
+            <td>{{ $pdf->id_brand }}</td>
+            <td>{{ $pdf->author }}</td>
+            <td class="text-center">
               @if($pdf->status_project=='proses')
               <span  class="label label-success" style="color:white">Proses</span>
               @elseif($pdf->status_project=='close')
               <span  class="label label-info" style="color:white">Close</span>
               @endif
-            </th>
-            <th>{{ $pdf->created_date }}</th>
-            <th>{{ $pdf->waktu }}</th>
-            <th class="text-center">{{ $pdf->status }}</th>
-            <th class="text-center">
+            </td>
+            <td>{{ $pdf->created_date }}</dh>
+            <td>{{ $pdf->waktu }}</td>
+            <td class="text-center">{{ $pdf->status }}</td>
+            <td class="text-center">
               @if($pdf->status_project=='proses')  
                 <a class="btn btn-info btn-sm" href="{{ Route('rekappdf',$pdf->id_project_pdf)}}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
               @elseif($pdf->status_project=='close')
               <a class="btn btn-info btn-sm" href="{{ Route('rekappdf',$pdf->id_project_pdf)}}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
               <button class="btn btn-info btn-sm" disabled><li class="fa fa-smile-o" title="close"></li></button>
               @endif
-            </th>
+            </td>
             @endif
           @else($pdf->userpenerima2!='NULL')
             @if($pdf->userpenerima==Auth::user()->id || $pdf->userpenerima2==Auth::user()->id)
-            <th>{{ ++$no }}</th>
-            <th>{{$pdf->pdf_number}}{{$pdf->ket_no}}</th>
-            <th>{{ $pdf->project_name }}</th>
-            <th>{{ $pdf->id_brand }}</th>
-            <th>{{ $pdf->author }}</th>
-            <th class="text-center">
+            <td>{{ ++$no }}</td>
+            <td>{{$pdf->pdf_number}}{{$pdf->ket_no}}</td>
+            <td>{{ $pdf->project_name }}</td>
+            <td>{{ $pdf->id_brand }}</td>
+            <td>{{ $pdf->author }}</td>
+            <td class="text-center">
               @if($pdf->status_project=='proses')
               <span  class="label label-success" style="color:white">Proses</span>
               @elseif($pdf->status_project=='close')
               <span  class="label label-info" style="color:white">Close</span>
               @endif
-            </th>
-            <th>{{ $pdf->created_date }}</th>
-            <th class="text-center">
+            </td>
+            <td>{{ $pdf->created_date }}</td>
+            <td class="text-center">
               @if($pdf->status_project=='proses')
               <a class="btn btn-info btn-sm" href="{{ Route('rekappdf',$pdf->id_project_pdf)}}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
               @elseif($pdf->status_project=='close')
               <a class="btn btn-info btn-sm" href="{{ Route('rekappdf',$pdf->id_project_pdf)}}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
               <button class="btn btn-info btn-sm" disabled><li class="fa fa-smile-o" title="close"></li></button>
               @endif
-            </th>
+            </td>
             @endif
           </tr>
           @endif

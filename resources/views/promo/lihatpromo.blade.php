@@ -51,7 +51,10 @@
                           @endif
                           @endforeach
                         </select>
+                        <?php $last = Date('j-F-Y'); ?>
+                        <input id="date" value="{{ $last }}" class="form-control col-md-12 col-xs-12" name="date" required="required" type="disabled" readonly>
                       </div>
+                          <input type="hidden" value="{{$promo->project_name}}" name="name" id="name">
                       <div class="col-md-4 col-sm-9 col-xs-12">
                         <select name="rka" class="form-control form-control-line" id="rka">
                           <option Value="1">RKA</option>
@@ -181,6 +184,7 @@
                           @endforeach
                         </select>
                       </div>
+                      <input type="hidden" value="{{$promo->project_name}}" name="name" id="name">
                       <label class="control-label text-bold col-md-1 col-sm-3 col-xs-12 text-center">Dept 2</label>
                       <div class="col-md-4 col-sm-9 col-xs-12">
                         <select name="rka" class="form-control form-control-line" id="rka">
@@ -270,7 +274,7 @@
                       <td colspan="2">: {{$promo->last_update}}</td>
                     </tr>
                     <tr>
-                      <td width="25%">Revised By</td>
+                      <td width="25%"><b>Revised By</td>
                       <td colspan="2">:@if($promo->perevisi!=null) {{$promo->perevisi2->name}} @endif</td>
                     </tr>
                     <tr>
@@ -378,7 +382,7 @@
                       <td colspan="2">: {{$promo->last_update}}</td>
                     </tr>
                     <tr>
-                      <td width="25%">Revised By</td>
+                      <td width="25%"><b>Revised By</td>
                       <td colspan="2">: @if($promo->perevisi!=null) {{$promo->perevisi2->name}} @endif</td>
                     </tr>
                     <tr>

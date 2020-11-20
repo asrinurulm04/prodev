@@ -18,26 +18,11 @@ use redirect;
 
 class menuController extends Controller
 {
-    public function menukalender(){
-        $pengajuan = pengajuan::count();
-        $notif = notification::where('status','=','active')->count();
-        $pesan = notification::orderBy('updated_at','desc')->get();
-        $hitungnotif = $pengajuan + $notif;
-        return view('pv.kalendermenu')->with([
-            'pesan' => $pesan,
-            'notif' =>$notif,
-            'pengajuan' => $pengajuan,
-            'hitungnotif' => $hitungnotif
-        ]);
-    }
-
     public function data(){
         $hilo1 = pkp_project::where('id_brand','=','Hilo')->count();$hilo2 = project_pdf::where('id_brand','=','Hilo')->count();$hhilo = $hilo1 + $hilo2;
         $lmen1 = pkp_project::where('id_brand','=','L-Men')->count();$lmen2 = project_pdf::where('id_brand','=','L-Men')->count();$hlmen = $lmen1 + $lmen2;
         $nr1 = pkp_project::where('id_brand','=','Nutrisari')->count();$nr2 = project_pdf::where('id_brand','=','Nutrisari')->count();$hnr = $nr1 + $nr2;
-        $wrp1 = pkp_project::where('id_brand','=','WRP')->count();$wrp2 = project_pdf::where('id_brand','=','WRP')->count();$hwrp = $wrp1 + $wrp2;
         $ts1 = pkp_project::where('id_brand','=','Tropicana Slim')->count();$ts2 = project_pdf::where('id_brand','=','Tropicana Slim')->count();$hts = $ts1 + $ts2;
-        $hb1 = pkp_project::where('id_brand','=','Heavenly Blush')->count();$hb2 = project_pdf::where('id_brand','=','Heavenly Blush')->count();$hhb = $hb1 + $hb2;
         $ekspor1 = pkp_project::where('id_brand','=','Ekspor')->count();$ekspor2 = project_pdf::where('id_brand','=','Ekspor')->count();$hekspor = $ekspor1 + $ekspor2;
         $draf = pkp_project::where('status_project','=','draf')->count();$draf1 = project_pdf::where('status_project','=','draf')->count();$hdraf = $draf + $draf1;
         $revisi = pkp_project::where('status_project','=','revisi')->count();$revisi1 = project_pdf::where('status_project','=','revisi')->count();$hrevisi = $revisi + $revisi1;
@@ -48,9 +33,7 @@ class menuController extends Controller
         $dhilo1 = pkp_project::where('id_brand','=','Hilo')->join('tippu','tippu.id_pkp','=','pkp_project.id_project')->where('status_data','=','active')->get();$dhilo2 = project_pdf::where('id_brand','=','Hilo')->join('tipu','tipu.pdf_id','=','pdf_project.id_project_pdf')->where('status_pdf','=','active')->get();
         $dlmen1 = pkp_project::where('id_brand','=','L-Men')->join('tippu','tippu.id_pkp','=','pkp_project.id_project')->where('status_data','=','active')->get();$dlmen2 = project_pdf::where('id_brand','=','L-Men')->join('tipu','tipu.pdf_id','=','pdf_project.id_project_pdf')->where('status_pdf','=','active')->get();
         $dnr1 = pkp_project::where('id_brand','=','Nutrisari')->join('tippu','tippu.id_pkp','=','pkp_project.id_project')->where('status_data','=','active')->get();$dnr2 = project_pdf::where('id_brand','=','Nutrisari')->join('tipu','tipu.pdf_id','=','pdf_project.id_project_pdf')->where('status_pdf','=','active')->get();
-        $dwrp1 = pkp_project::where('id_brand','=','WRP')->join('tippu','tippu.id_pkp','=','pkp_project.id_project')->where('status_data','=','active')->get();$dwrp2 = project_pdf::where('id_brand','=','WRP')->join('tipu','tipu.pdf_id','=','pdf_project.id_project_pdf')->where('status_pdf','=','active')->get();
         $dts1 = pkp_project::where('id_brand','=','Tropicana Slim')->join('tippu','tippu.id_pkp','=','pkp_project.id_project')->where('status_data','=','active')->get();$dts2 = project_pdf::where('id_brand','=','Tropicana Slim')->join('tipu','tipu.pdf_id','=','pdf_project.id_project_pdf')->where('status_pdf','=','active')->get();
-        $dhb1 = pkp_project::where('id_brand','=','Heavenly Blush')->join('tippu','tippu.id_pkp','=','pkp_project.id_project')->where('status_data','=','active')->get();$dhb2 = project_pdf::where('id_brand','=','Heavenly Blush')->join('tipu','tipu.pdf_id','=','pdf_project.id_project_pdf')->where('status_pdf','=','active')->get();
         $dekspor1 = pkp_project::where('id_brand','=','Ekspor')->join('tippu','tippu.id_pkp','=','pkp_project.id_project')->where('status_data','=','active')->get();$dekspor2 = project_pdf::where('id_brand','=','Ekspor')->join('tipu','tipu.pdf_id','=','pdf_project.id_project_pdf')->where('status_pdf','=','active')->get();
         $ddraf = pkp_project::where('status_project','=','draf')->join('tippu','tippu.id_pkp','=','pkp_project.id_project')->where('status_data','=','active')->get();$ddraf1 = project_pdf::where('status_project','=','draf')->join('tipu','tipu.pdf_id','=','pdf_project.id_project_pdf')->where('status_pdf','=','active')->get();
         $drevisi = pkp_project::where('status_project','=','revisi')->join('tippu','tippu.id_pkp','=','pkp_project.id_project')->where('status_data','=','active')->get();$drevisi1 = project_pdf::where('status_project','=','revisi')->join('tipu','tipu.pdf_id','=','pdf_project.id_project_pdf')->where('status_pdf','=','active')->get();
@@ -68,14 +51,11 @@ class menuController extends Controller
             'hproses' => $proses,'hsent' => $hsent,
             'hclose' => $hclose,'hhilo' => $hhilo,
             'hlmen' => $hlmen,'hnr' => $hnr,
-            'hwrp' => $hwrp,'hts' => $hts,
-            'hhb' => $hhb,'hekspor' => $hekspor,
+            'hts' => $hts,'hekspor' => $hekspor,
             'dhilo1' => $dhilo1,'dhilo2' => $dhilo2,
             'dlmen1' => $dlmen1,'dlmen2' => $dlmen2,
             'dnr1' => $dnr1,'dnr2' => $dnr2,
-            'dwrp1' => $dwrp1,'dwrp2' => $dwrp2,
             'dts1' => $dts1,'dts2' =>$dts2,
-            'dhb1' => $dhb1,'dhb2' =>$dhb2,
             'dekspor1' => $dekspor1,'dekspor2' => $dekspor2,
             'ddraf1' =>$ddraf1,'ddraf' => $ddraf,
             'drevisi1' => $drevisi1,'drevisi'=>$drevisi,

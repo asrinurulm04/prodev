@@ -231,49 +231,49 @@
     <div class="card-header">
       <h5>Data Form</h5>
     </div>
-  <div class="card-block">
-    <div class="form-group">
-      <label class="control-label col-md-2 col-sm-3 col-xs-12">prefered flavour*</label>
-      <div class="col-md-9 col-sm-9 col-xs-12">
-        <input required id="prefered" class="form-control col-md-12 col-xs-12" type="text" name="prefered">
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="control-label col-md-2 col-sm-3 col-xs-12">Product Benefits*</label>
-      <div class="col-md-9 col-sm-9 col-xs-12">
-        <input required id="benefits" class="form-control col-md-12 col-xs-12" type="text" name="benefits">
-      </div>
-    </div>
-    <div class="form-group">
-      <label  class="control-label col-md-2 col-sm-3 col-xs-12">Mandatory Ingredient*</label>
-      <div class="col-md-9 col-sm-9 col-xs-12">
-        <input id="ingredient" required="required" class="form-control col-md-12 col-xs-12" placeholder="" type="text" name="ingredient">
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="control-label col-md-2 col-sm-3 col-xs-12"> Document*</label>
-      <div class="col-md-9 col-sm-9 col-md-12">
-        <label for="">File ( docx,xls,pdf,jpg )</label>
-				<input type="file" class="form-control" name="file">
-				<p class="text-danger">{{ $errors->first('file') }}</p>
-      </div>
-    </div>
-    <div class="col-md-12">
-      <div class="box-result-picture">
-      <!-- <span>Result</span> -->
-        <div class="row pkp-image">
+    <div class="card-block">
+      <div class="form-group">
+        <label class="control-label col-md-2 col-sm-3 col-xs-12">prefered flavour*</label>
+        <div class="col-md-9 col-sm-9 col-xs-12">
+          <input required id="prefered" class="form-control col-md-12 col-xs-12" type="text" name="prefered">
         </div>
       </div>
-    </div>
-    <div class="col-md-6 col-md-offset-5">
-      <button type="reset" class="btn btn-danger">Reset</button>
-      <button type="submit" class="btn btn-primary">Submit</button>
-      {{ csrf_field() }}
+      <div class="form-group">
+        <label class="control-label col-md-2 col-sm-3 col-xs-12">Product Benefits*</label>
+        <div class="col-md-9 col-sm-9 col-xs-12">
+          <input required id="benefits" class="form-control col-md-12 col-xs-12" type="text" name="benefits">
+        </div>
+      </div>
+      <div class="form-group">
+        <label  class="control-label col-md-2 col-sm-3 col-xs-12">Mandatory Ingredient*</label>
+        <div class="col-md-9 col-sm-9 col-xs-12">
+          <input id="ingredient" required="required" class="form-control col-md-12 col-xs-12" placeholder="" type="text" name="ingredient">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-md-2 col-sm-3 col-xs-12"> Document*</label>
+        <div class="col-md-9 col-sm-9 col-md-12">
+          <label for="">File ( docx,xls,pdf,jpg )</label>
+          <input type="file" class="form-control" name="file">
+          <p class="text-danger">{{ $errors->first('file') }}</p>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="box-result-picture">
+        <!-- <span>Result</span> -->
+          <div class="row pkp-image">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-md-offset-5">
+        <button type="reset" class="btn btn-danger">Reset</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        {{ csrf_field() }}
+      </div>
     </div>
   </div>
+  </form>
 </div>
-</form>
-
 <script>
 
   function dua(){

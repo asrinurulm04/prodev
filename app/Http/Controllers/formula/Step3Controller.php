@@ -17,15 +17,18 @@ class Step3Controller extends Controller
         $this->middleware('rule:user_rd_proses' || 'rule:user_produk');
     }
     
-    public function create($id){
+    public function create($formula,$id){
         $no = 0;
-        $formula = Formula::where('workbook_id',$id)->first();
-        $idf = $formula->workbook_id;
-        $fortails = Fortail::where('formula_id',$formula->workbook_id)->get();
-        $premix = Premix::where('id',$formula->workbook_id)->get();
+        $formula = Formula::where('id',$id)->first();
+        $idfor = $formula->workbook_id;
+        $idf = $formula->id;
+        //dd($idf);
+        $fortails = Fortail::where('formula_id',$id)->get();
+        $premix = Premix::where('id',$id)->get();
         return view('formula/step3')->with([
             'no' => $no,
             'idf' => $idf,
+            'idfor' => $idfor,
             'premix' => $premix,
             'fortails' => $fortails,
             'formula' => $formula

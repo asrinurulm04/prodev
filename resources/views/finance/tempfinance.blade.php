@@ -1,90 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <title>@yield('title')</title>
+    <link href="{{ asset('img/prod.png') }}" rel="icon">
+    <link href="{{ asset('vendors/fullcalendar/dist/fullcalendar.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendors/fullcalendar/dist/fullcalendar.print.css') }}" rel="stylesheet" media="print">
+    <link href="{{ asset('css/asri.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/asrul.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendors/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('build/css/custom.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('lib/advanced-datatable/css/jquery.dataTables.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/dataTables.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/sheila.css') }}" rel="stylesheet">
+  </head>
 
-<head>
-  <title>@yield('title')</title></title>
-  <link href="{{ URL::asset('img/prod.png') }}" rel="icon">
-  <link href="{{ URL::asset('img/apple-touch-icon.png') }}" rel="apple-touch-icon">
-  <link href="{{ URL::asset('lib/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
-  <link href="{{ URL::asset('lib/advanced-datatable/css/jquery.dataTables.css') }}" rel="stylesheet" />
-  <link href="{{ URL::asset('lib/advanced-datatable/css/jquery.dataTables4.min.css') }}" rel="stylesheet" />
-  <link href="{{ URL::asset('css/custom.min.css') }}" rel="stylesheet">
-  <link href="{{ URL::asset('lib/advanced-datatable/css/dataTables.bootstrap.css') }}" rel="stylesheet" />
-  <link href="{{ URL::asset('css/dataTables.bootstrap4.min.css') }}">
-  <link href="{{ URL::asset('css/dataTables.min.css') }}">
-  <link href="{{ URL::asset('css/asri.css') }}" rel="stylesheet">
-  <link href="{{ URL::asset('lib/gritter/css/jquery.gritter.css') }}" rel="stylesheet" />
-  <link href="{{ URL::asset('css/asri.css') }}" rel="stylesheet">
-  <link href="{{ URL::asset('lib/font-awesome/css/font-awesome.css') }}" rel="stylesheet" />
-  <link href="{{ URL::asset('css/custom.min.css" rel="stylesheet') }}">
-  <link href="{{ URL::asset('css/style.css') }}" rel="stylesheet">
-  <link href="{{ URL::asset('css/style-responsive.css') }}" rel="stylesheet">
-  <link href="{{ URL::asset('lib/font-awesome/css/font-awesome.css') }}" rel="stylesheet" />
-</head>
-
-<body>
-  <section id="container">
-    <!--header start-->
-    <header class="header black-bg">
-      <div class="sidebar-toggle-box">
+  <body class="nav-md">
+    <div class="container body">
+      <div class="main_container">
+        <div class="col-md-3 left_col" style="position:fixed; min-height:880;">
+          <div class="left_col scroll-view">
+            <div class="navbar nav_title" style="border: 2;">
+              <a href="{{route('lala')}}" class="site_title"><i class="fa fa-laptop"></i><img src="{{ asset('img/logo.png') }}" width="70%" alt="..."></a>
+            </div>
+            <div class="clearfix"></div>
+            <!-- menu profile quick info -->
+            <div class="profile clearfix">
+              <center>
+                <a href="{{route('lala')}}"><img style="width:100px" src="{{ asset('img/pro.png') }}" alt="..." class="profile_img"></a><br>
+                <span style="font-weight: bold;color:white;">Welcome, {{ Auth::user()->role->role }} ({{ Auth::user()->Departement->dept }})</span>
+                @if( auth()->check() )
+                <h2 style="color:white;">{{ Auth::user()->name }}</h2>
+                @endif
+              </center>
+              <div class="clearfix"></div>
+            </div><br>
+            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+              <div class="menu_section">
+                <h3>General</h3>
+                <ul class="nav side-menu">
+                <li><a><i class="fa fa-user"></i> User Management <span class="label label-success"></span> <span class="fa fa-chevron-down"></span></a>
+                  <ul class="nav child_menu">
+                    <li><a href="{{ route('MyProfile') }}">Profile settings</a></li>
+                  </ul>
+                </li>
+                @if(Auth::user()->role->namaRule!='manager')
+                <li><a><i class="fa fa-file-text"></i> Project Recapitulation <span class="fa fa-chevron-down"></span></a>
+                  <ul class="nav child_menu">
+                    <li><a href="{{ route('datareport') }}">Data Project Summary</a></li>
+                    <li><a href="{{ route('allproject') }}">Data Project Tabulation</a></li>
+                  </ul>
+                </li>
+                @endif
+                <li><a><i class="fa fa-book"></i> Master Data <span class="label label-success"></span> <span class="fa fa-chevron-down"></span></a>
+                  <ul class="nav child_menu">
+                    <li><a href="{{ route('datapangan') }}">Data Pangan</a></li>
+                    <li><a href="{{ route('akg') }}">Data AKG</a></li>
+                    <li><a href="{{ route('export') }}">Data Kemas</a></li>
+                    <li><a href="{{ route('klaim') }}">Komponen Klaim</a></li>
+                  </ul>
+                </li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-      <!--logo start-->
-      <a href="#" class="logo"><img src="{{ asset('img/prod.png')}}"><b>PROD<span>EV</span></b></a>
-      <!--logo end-->
-
-      <div class="top-menu"><br>
-        <ul class="nav pull-right top-menu">
-          @if( auth()->check() )
-          <li><a class="btn btn-lg" href="{{ route('MyProfile') }}"><i class="fa fa-user"></i> Hello,{{ Auth::user()->name }}</a></li>
-          @endif
-          <li><a class="btn btn-lg" href="{{ route('signout') }}"><i class="fa fa-sign-out"></i> Logout</a></li>
-        </ul>
-      </div>
-    </header>
-    <!--header end-->
-
-    <section class="wrapperr site-min-height2">
-      @yield('content')
-    </section>
-    <!--footer start-->
-    <footer class="site-footer">
-      <div class="text-center">
-        <p>
-          <strong>PKL 2018</strong>
-        </p>
-        <div class="credits">
-          Created By Asrul
+        <!-- top navigation -->
+        <div class="top_nav">
+          <div class="nav_menu">
+            <nav>
+              <div class="nav toggle">
+                <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+              </div>
+              <ul class="nav navbar-nav navbar-right">
+                <li class="">
+                  <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    <img width="30px" height="30px" src="{{ asset('img/prod.png') }}" alt="">{{ Auth::user()->name }}
+                    <span class=" fa fa-angle-down"></span>
+                  </a>
+                  <ul class="dropdown-menu dropdown-usermenu pull-right">
+                    <li><a href="{{ route('MyProfile') }}"> Profile</a></li>
+                    <li><a href="{{ route('signout') }}"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+                  </ul>
+                </li>
+              </ul>
+            </nav>
+          </div>
         </div>
-        <a href="blank.html#" class="go-top"><i class="fa fa-angle-up"></i></a>
-      </div>
-    </footer>
-    <!--footer end-->
-  </section>
 
-  <script src="{{ URL::asset('lib/jquery/jquery.min.js')}}"></script>
-  <script type="text/javascript" language="javascript" src="{{ URL::asset('lib/advanced-datatable/js/jquery.dataTables.js')}}"></script>
-  <script type="text/javascript" language="javascript" src="{{ URL::asset('lib/advanced-datatable/js/jquery.dataTables.min.js')}}"></script>
-  <script src="{{ URL::asset('lib/dataTables.bootstrap.min.js')}}"></script>
-  <script src="{{ URL::asset('lib/jquery-ui-1.9.2.custom.min.js')}}"></script>
-  <script src="{{ URL::asset('lib/jquery-ui-1.9.2.custom.min.js')}}"></script>
-  <script src="{{ URL::asset('lib/jquery-ui-1.9.2.custom.min.js')}}"></script>
-  <script src="{{ URL::asset('lib/bootstrap/js/bootstrap.min.js')}}"></script>
-  <script src="{{ URL::asset('lib/jquery-ui-1.9.2.custom.min.js')}}"></script>
-  <script src="{{ URL::asset('lib/jquery.ui.touch-punch.min.js')}}"></script>
-  <script class="include" type="text/javascript" src="{{ URL::asset('lib/jquery.dcjqaccordion.2.7.js')}}"></script>
-  <script src="{{ URL::asset('lib/jquery.scrollTo.min.js')}}"></script>
-  <script src="{{ URL::asset('lib/jquery.nicescroll.js')}}" type="text/javascript"></script>
-  <script src="{{ URL::asset('lib/common-scripts.js')}}"></script>
-	<script src="{{ URL::asset('lib/bootstrap/bootstrap.min.js')}}" type="text/javascript"></script>
-  <script src="{{ URL::asset('js/datatables.min.js')}}"></script>
-  <script type="text/javascript" src="{{ URL::asset('lib/gritter/js/jquery.gritter.js')}}"></script>
-  <script type="text/javascript" src="{{ URL::asset('lib/gritter-conf.js')}}"></script>
-  <script src="{{ URL::asset('js/dynamitable.jquery.min.js')}}"></script>
-  <script src="{{ URL::asset('lib/dataTables.bootstrap4.min.css')}}"></script>
-	<script src="/js/postsAjax.js"></script> 
-  <script type="text/javascript">
-    $('.Table').DataTable({
+        <div class="right_col" role="main">
+          <div class="">
+          @yield('content')
+          </div>
+        </div>
+        <!-- /page content -->
+
+        <!-- footer content -->
+        <footer>
+          <div class="text-right">
+            Created By Asrul4238 :)
+          </div>
+          <div class="clearfix"></div>
+        </footer>
+        <!-- /footer content -->
+      </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="{{ asset('vendors/jquery/dist/jquery.min.js') }}"></script>
+    <script src="{{ asset('lib/jquery/jquery.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendors/jquery/dist/jquery.min.js') }}"></script>
+    <!-- Bootstrap -->
+    <script src="{{ asset('vendors/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('vendors/fastclick/lib/fastclick.js') }}"></script>
+    <script src="{{ asset('lib/dropzoneJS/dropzone.js')}}"></script>
+    <script type="text/javascript" language="javascript" src="{{ asset('lib/advanced-datatable/js/jquery.dataTables.js')}}"></script>
+    <script type="text/javascript" language="javascript" src="{{ asset('lib/advanced-datatable/js/jquery.dataTables.min.js')}}"></script>
+    <script src="{{ asset('vendors/nprogress/nprogress.js') }}"></script>
+    <script src="{{ asset('js/datatables.min.js')}}"></script>
+    <script src="{{ asset('js/select2.min.js') }}"></script>
+    <script src="{{ asset('build/js/custom.min.js') }}"></script>
+    <script src="{{ asset('vendors/validator/validator.js') }}"></script>
+    @yield('s')
+    <script type="text/javascript">$('.Table').DataTable({
       "language": {
         "search": "Cari :",
         "lengthMenu": "Tampilkan _MENU_ data",
@@ -97,48 +136,9 @@
           "last": "Akhir",
           "next": ">",
           "previous": "<"
+          }
         }
-      }
-    });
-  </script>
-  @yield('s');
-
-  <script>
-    $('#exampleModal').on('show.bs.modal', function (event) {
-      var button = $(event.relatedTarget) // Button that triggered the modal
-      var recipient = button.data('whatever') 
-      var modal = $(this)
-      modal.find('.modal-body input').val(recipient)
-    })
-  </script>
-
-  @yield('s');
-
-  <script>
-    function filterGlobal () {
-      $('#ex').DataTable().search(
-        $('#global_filter').val(),
-      ).draw();
-      }
-    
-    function filterColumn ( i ) {
-      $('#ex').DataTable().column( i ).search(
-        $('#col'+i+'_filter').val()
-      ).draw();
-    }
-    
-    $(document).ready(function() {
-      $('#ex').DataTable();
-      $('input.global_filter').on( 'keyup click', function () {
-        filterGlobal();
-      } );
-      $('input.column_filter').on( 'keyup click', function () {
-        filterColumn( $(this).parents('div').attr('data-column') );
-      } );
-    } );
-    $('select.column_filter').on('change', function () {
-      filterColumn( $(this).parents('div').attr('data-column') );
-    } );
-  </script>
-</body>
+      });
+    </script>
+  </body>
 </html>

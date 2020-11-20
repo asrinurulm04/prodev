@@ -10,8 +10,10 @@ use Excel;
 use App\Imports\Import;
 use App\Imports\KemasImport;
 use App\Modelkemas\userkemas;
+use App\Modelkemas\konsep;
 use App\dev\Formula;
 use App\Modelfn\finance;
+use App\pkp\tipp;
 
 class KemasController extends Controller
 {
@@ -22,21 +24,23 @@ class KemasController extends Controller
 
 	public function index(Request $request,$id, $id_feasibility)
 	{
-		$formulas = Formula::where('id',$id)->get();
+		$formulas = tipp::where('id_pkp',$id)->where('status_data','=','active')->get();
 		$request->session()->get('id_feasibility');
 		$request->session()->put('id_feasibility', $id_feasibility);
-		$formulas = Formula::where('id',$id)->get();
 		$fe=finance::find($id_feasibility);
 		$kemas =userkemas::where('id_feasibility', $id_feasibility)->get();
+		$konsep = konsep::where('id_feasibility', $id_feasibility)->get();
 		$dataF = finance::where('id_feasibility', $id_feasibility)->get();
-		return view('kemas.uploadkemas',['fe'=>$fe], compact('toImport'))
-			->with(['formulas' => $formulas])
-			->with(['dataF' => $dataF])
-			->with(['kemas' => $kemas])
-			->with(['id' => $id])
-			->with(['fe'=>$fe])
-			->with(['id_feasibility' => $id_feasibility]
-		);
+		return view('kemas.uploadkemas', compact('toImport'))
+			->with([
+				'formulas' => $formulas,
+				'dataF' => $dataF,
+				'kemas' => $kemas,
+				'id' => $id,
+				'konsep' => $konsep,
+				'fe'=>$fe,
+				'id_feasibility' => $id_feasibility
+			]);
 	}
 
 	public function storeData(Request $request, $id_feasibility)

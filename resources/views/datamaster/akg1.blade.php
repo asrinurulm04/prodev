@@ -6,8 +6,8 @@
 <div class="row">
 	<div class="x_panel">
 		<div class="x_title">
-			<h3><li class="fa fa-file"></li> PMK No 28 Thn 2019 tentang angka kecukupan gizi</h3>
-		  </div>
+			<h3><li class="fa fa-file"></li> NOMOR 9 TAHUN 2016 TENTANG ACUAN LABEL GIZI</h3>
+		</div>
 		<a href="{{route('exportAkg')}}" class="btn btn-info btn-sm"><li class="fa fa-download"></li> Export Data AKG</a>
 		@if(auth()->user()->role->namaRule == 'admin')
 		<button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#akg"><i class="fa fa-plus"></i> Add Data AKG</button>
@@ -78,7 +78,7 @@
 		</div>
 		<!-- modal selesai -->
 		@endif
-		<table class="table table-bordered">
+		<table class="Table table-bordered">
 			<thead>
 				<tr style="font-weight: bold;color:white;background-color: #2a3f54;">
 					<th class="text-center" width="10px">No</th>
@@ -109,8 +109,8 @@
 					<td class="text-right">{{$akg->ibu_hamil}}</td>
 					<td class="text-right">{{$akg->ibu_menyusui}}</td>
 					@if(auth()->user()->role->namaRule == 'admin')
-					<td><button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#exampleModal{{ $akg->id_akg }}" data-toggle="tooltip" data-placement="top" title="Edit"><li class="fa fa-edit "></li></button></td>
-					<!-- modal -->
+						<td><button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#exampleModal{{ $akg->id_akg }}" data-toggle="tooltip" data-placement="top" title="Edit"><li class="fa fa-edit "></li></button></td>
+						<!-- modal -->
 						<div class="modal" id="exampleModal{{ $akg->id_akg }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 							<div class="modal-dialog modal-lg" role="document">
 								<div class="modal-content">
@@ -121,7 +121,7 @@
 										</button></h3>
 									</div>
 									<div class="modal-body">
-											<form class="form-horizontal form-label-left" method="POST" action="{{ Route('editakg',$akg->id_akg)}}" novalidate>
+										<form class="form-horizontal form-label-left" method="POST" action="{{ Route('editakg',$akg->id_akg)}}" novalidate>
 										<div class="row">
 											<div class="col-md-12">
 												<div class="form-group">
@@ -175,7 +175,7 @@
 								</div>
 							</div>
 						</div>
-					<!-- modal selesai -->
+						<!-- modal selesai -->
 					@endif
 				</tr>
 				@endforeach

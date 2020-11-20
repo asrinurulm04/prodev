@@ -2,7 +2,7 @@
 
 <style>
 
-  input[type="number"]{
+input[type="number"]{
     background: transparent !important;
     border: none;
     outline: none;
@@ -10,61 +10,64 @@
     -moz-box-shadow: none;
     box-shadow: none;
     -moz-appearance:textfield;
-  }
+}
 
-  input::-webkit-outer-spin-button,
-  input::-webkit-inner-spin-button {
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
     -webkit-appearance: none;
-  }
+}
 
-  .mini{
+.mini{
     width: 6%;
     height: 8px !important;
     font-size: 12px !important;
     vertical-align: middle !important;
-  }
+}
 
-  .batch{
+.batch{
     width: 6%;
     text-align: center !important;
     vertical-align: bottom !important;
-  }
+}
 
-  .ib{
+.ib{
     font-size: 12px !important;
-  }
+}
 
-  .namaBahan{
+.namaBahan{
     width: 15%;
     vertical-align: bottom !important;
     
-  }
+}
 
-  .su{
+.su{
     width: 6%;
     text-align: center !important;
     vertical-align: bottom !important;
-  }
+}
 
-  #myTable{
+#myTable{
     font-size: 12px;
-  }
+    /* border-spacing: 5px;
+    border-collapse: separate; */
+}
 
-  .turunan{
+.turunan{
     font-size: 12px !important;
     color: black !important;
     height: 10px !important;
     width: 50px !important;
-  }
+}
 
-  .trtur{
+.trtur{
     background-color: #4ecdc4;
     color:white;
     font-size:16px;
-  }
+}
 </style>
 
 @section('title', 'Edit Formula')
+
 @section('content')
 
 <div class="row">
@@ -73,10 +76,9 @@
   <div class="col-md-8">
     <div class="tabbable">
       <ul class="nav nav-tabs wizard">
-        <li class="active"><a href="{{ route('step2',$idf) }}"><span class="nmbr">1</span>Penyusunan</a></li>
-        <li class="active"><a href="{{ route('summarry',$idf) }}"><span class="nmbr">2</span>Summary</a></li>
-        <li class="completed"><a href="{{ route('step3',$idf) }}"><span class="nmbr">3</span>Premix</a></li>
-        <li class="active"><a href="{{ route('panel',$idf) }}"><span class="nmbr">4</span>Data Panel</a></li>
+        <li class="active"><a href="{{ route('step2',[ $idfor, $idf]) }}"><span class="nmbr">1</span>Penyusunan</a></li>
+        <li class="active"><a href="{{ route('summarry',[ $idfor, $idf]) }}"><span class="nmbr">2</span>Summary</a></li>
+        <li class="completed"><a href="{{ route('step3',[ $idfor, $idf]) }}"><span class="nmbr">3</span>Premix</a></li>
       </ul>
     </div>
   </div>
@@ -85,16 +87,24 @@
 <div class="x_panel">
   <div class="x_title">
     <h3><li class="fa fa-wpforms"> Premix</h3>
-  </div>                 
-  <div class="col-md-4">
-    <input type="hidden" id="c_premix" name="c_premix">          
-    <button type="button" class="btn reset btn-warning" onClick="GueReset()" id="reset">Reset</button>
-    <button type="submit" class="btn status btn-primary" onClick="hmm()">Save and continue</button>        
-    <a href="{{ route('showworkbook',$formula->workbook_id) }}" type="button" class="btn hapus btn-danger">Batal</a>
+  </div> 
+  <form id="my_premix">
+  <div class="row">                    
+    <div class="col-md-4">
+      <input type="hidden" id="c_premix" name="c_premix">          
+      <a href="{{ route('showworkbook',$formula->workbook_id) }}" type="button" class="btn hapus btn-danger">Batal</a>
+      <button type="button" class="btn reset btn-warning" onClick="GueReset()" id="reset">Reset</button>
+      <button type="submit" class="btn status btn-primary" onClick="hmm()">Save</button>        
+      <a href="{{ route('showworkbook',$formula->workbook_id) }}" type="button" class="btn hapus btn-info">Selesai</a>
+    </div>
+    <div class="col-md-8"></div>
   </div><br>
-  <table class="table" style="border:2px" id="myTable">
+  <table class="table" id="myTable">
+
     @php
-      for($s=1;$s<=10;$s++){ $showturunan[$s]=collect(); }
+      for($s=1;$s<=10;$s++){
+        $showturunan[$s]=collect();
+      }
     @endphp
     <thead>
       <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
@@ -118,78 +128,84 @@
     </thead>
     @foreach($fortails as $fortail)
       @foreach ($fortail->premix as $premix)
-        <tr>
-          <td>{{ ++$no }}
-            <input type="hidden" name="prid[{{$no}}]" value="{{ $premix->id }}">
-          </td>
-                                
+      <tr>
+        <td>{{ ++$no }}
+          <input type="hidden" name="prid[{{$no}}]" value="{{ $premix->id }}">
+        </td>
           @if($fortail->premix->count() == 1)
-          <td>{{ $fortail->nama_sederhana }}</td>
+            <td>{{ $fortail->nama_sederhana }}</td>
           @elseif($fortail->premix->count() > 1)
-          <td>{{ substr($premix->keterangan,5) }}</td>
+            <td>{{ substr($premix->keterangan,5) }}</td>
           @endif
-          <td>
-            <input type="number" class="form-control col-md-1 col-xs-12 ib" value="{{ $fortail->per_batch }}" id="batch{{ $no }}" disabled>
-          </td>
-          <td class="text-center">
-            <input type="number" class="form-control col-md-1 col-xs-12" id="utuh{{ $no }}" value="{{ $premix->utuh }}" disabled>
-          </td>
-          <td class="text-center">
-            <i id="loncat{{ $no }}" onClick="kanan(this.id)" class="fa fa-arrow-circle-right"></i>
-            <i id="byur{{ $no }}" onClick="byur(this.id)" class="fa fa-rotate-right"></i>
-            <i id="mundur{{ $no }}" onClick="kiri(this.id)" class="fa fa-arrow-circle-left"></i>
-          </td>
-          <td class="text-center">
-            <input type="number" class="form-control col-md-1 col-xs-12" value="{{ $premix->koma }}" id="koma{{ $no }}" disabled>    
-            <input class="form-control col-md-1 col-xs-12" type="hidden" value="{{ $premix->koma }}" id="komatetap{{ $no }}" disabled>    
-          </td>
+        <td>
+          <input type="number" class="form-control col-md-1 col-xs-12 ib" value="{{ $fortail->per_batch }}" id="batch{{ $no }}" disabled>
+        </td>
+        <td class="text-center">
+          <input type="number" class="form-control col-md-1 col-xs-12" id="utuh{{ $no }}" value="{{ $premix->utuh }}" disabled>
+        </td>
+        <td class="text-center">
+          <i id="loncat{{ $no }}" onClick="kanan(this.id)" class="fa fa-arrow-circle-right"></i>
+          <i id="byur{{ $no }}" onClick="byur(this.id)" class="fa fa-rotate-right"></i>
+          <i id="mundur{{ $no }}" onClick="kiri(this.id)" class="fa fa-arrow-circle-left"></i>
+        </td>
+        <td class="text-center">
+          <input type="number" class="form-control col-md-1 col-xs-12" value="{{ $premix->koma }}" id="koma{{ $no }}" disabled>    
+          <input class="form-control col-md-1 col-xs-12" type="hidden" value="{{ $premix->koma }}" id="komatetap{{ $no }}" disabled>    
+        </td>
                                 
-          {{-- Inisialisasi Kebutuhan --}}
-          @php
-            for($y=1;$y<=10;$y++){ $total[$y]=0; }
-          @endphp
-          {{-- Muncul Premix Dan Show Turunan --}}
-          @for ($x = 1; $x <=10; $x++)
+        {{-- Inisialisasi Kebutuhan --}}
+        @php
+          for($y=1;$y<=10;$y++){
+            $total[$y]=0;
+          }
+        @endphp
+        {{-- Muncul Premix Dan Show Turunan --}}
+        @for ($x = 1; $x <=10; $x++)
                                     
-            @foreach ($premix->pretail->where('awalan',$x) as $pretail)
-              @php
-                $total[$x] = $total[$x]+$pretail->jumlah;
-              @endphp
-            @endforeach
+                                    @foreach ($premix->pretail->where('awalan',$x) as $pretail)
+                                        @php
+                                            $total[$x] = $total[$x]+$pretail->jumlah;
+                                        @endphp
+                                    @endforeach
 
-            @php
-              $push = $premix->pretail->where('awalan',$x)->count();
-              $showturunan[$x]->push($push);
-            @endphp
+                                    @php
+                                        $push = $premix->pretail->where('awalan',$x)->count();
+                                        $showturunan[$x]->push($push);
+                                    @endphp
 
-            @if ($total[$x] == 0)
-              @php
-                $total[$x] = null;
-              @endphp
-            @endif
+                                    @if ($total[$x] == 0)
+                                        @php
+                                            $total[$x] = null;
+                                        @endphp
+                                    @endif
 
-            <td> <input onkeyup="ke(this.id)" class="form-control col-md-1 col-xs-12" type="number" step="any" id="ke{{ $x }}{{ $no }}" name="ke[{{ $x }}][{{ $no }}]" placeholder="0" value="{{ $total[$x] }}" min="0"></td>                                                                    
-          @endfor                                
+                                    <td> <input onkeyup="ke(this.id)" class="form-control col-md-1 col-xs-12" type="number" step="any" id="ke{{ $x }}{{ $no }}" name="ke[{{ $x }}][{{ $no }}]" placeholder="0" value="{{ $total[$x] }}" min="0"></td>                                                                    
+                                @endfor                                
 
-          <input type="hidden" id="berat{{ $no }}" value="{{ $premix->berat }}">
-          <input type="hidden" id="resetUtuh{{ $no }}" name="resetUtuh[{{ $no }}]" value=" {{ $premix->utuh }} ">
-          <input type="hidden" id="resetKoma{{ $no }}" name="resetKoma[{{ $no }}]" value=" {{ $premix->koma }} ">
-          <input type="hidden" id="utuhCpb{{ $no }}" name="utuh_cpb[{{ $no }}]">
-          <input type="hidden" id="komaCpb{{ $no }}" name="koma_cpb[{{ $no }}]">
-          <input type="hidden" id="cpretail{{ $no }}" name="c_pretail[{{ $no }}]" value="0">
-        </tr>
-      @endforeach
-    @endforeach
+                                <input type="hidden" id="berat{{ $no }}" value="{{ $premix->berat }}">
+                                <input type="hidden" id="resetUtuh{{ $no }}" name="resetUtuh[{{ $no }}]" value=" {{ $premix->utuh }} ">
+                                <input type="hidden" id="resetKoma{{ $no }}" name="resetKoma[{{ $no }}]" value=" {{ $premix->koma }} ">
+                                <input type="hidden" id="utuhCpb{{ $no }}" name="utuh_cpb[{{ $no }}]">
+                                <input type="hidden" id="komaCpb{{ $no }}" name="koma_cpb[{{ $no }}]">
 
-    <tr class="trtur">
-      <th colspan="6">TURUNAN</th>
-      @for ($z = 1 ; $z <=10; $z++)
-      <th class="mini"><input type="number" onkeypress='return event.charCode >= 48 && event.charCode <= 57' step="1" min="1" class="form-control turunan" id="turunan{{ $z }}" name="turunan[{{ $z }}]"  placeholder="0" @if($showturunan[$z]->max() > 0 )value="{{ $showturunan[$z]->max() }}" @endif></th>
-      @endfor
-    </tr>    
-  </table>
-  </form>
-</div>
+                                <input type="hidden" id="cpretail{{ $no }}" name="c_pretail[{{ $no }}]" value="0">
+                                </tr>
+                            @endforeach
+                        @endforeach
+
+                        <tr class="trtur">
+                            <th colspan="6">TURUNAN</th>
+                            @for ($z = 1 ; $z <=10; $z++)
+                            <th class="mini"><input type="number" onkeypress='return event.charCode >= 48 && event.charCode <= 57' step="1" min="1" class="form-control turunan" id="turunan{{ $z }}" name="turunan[{{ $z }}]"  placeholder="0" @if($showturunan[$z]->max() > 0 )value="{{ $showturunan[$z]->max() }}" @endif></th>
+                            @endfor
+                        </tr>    
+
+                    </table>
+                            
+                            </form>
+                        </div>
+                    </div>
+            </div>
 
 @endsection
 
@@ -271,7 +287,6 @@
                 for(y=1;y<=10;y++){
                     $('#turunan'+y).val('');
                 }
-                console.log(#turunan);
             }            
     }
 

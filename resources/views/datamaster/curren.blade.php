@@ -40,7 +40,7 @@
           </tr>
         </thead>
         <tbody>
-        @foreach($currens as $curren)
+          @foreach($currens as $curren)
           <tr>
             <td>{{ $curren->id }}</td>
             <td>{{ $curren->currency }}</td>
@@ -79,8 +79,8 @@
               </div>
             </div>
           </div>
-          {{-- selesai --}}
-        @endforeach
+          <!-- selesai -->
+          @endforeach
         </tbody>
       </table>
     </div>
@@ -114,9 +114,8 @@
     </div>
   </div>
 </div>
-{{-- selesai --}}
+<!-- selesai -->
 @endsection
-
 
 @section('s')
 <script type="text/javascript"></script>

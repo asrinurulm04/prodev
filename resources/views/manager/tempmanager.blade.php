@@ -25,7 +25,7 @@
             <div class="profile clearfix">
               <center>
                 <a href="{{route('lala')}}"><img style="width:100px" src="{{ asset('img/pro.png') }}" alt="..." class="profile_img"></a><br>
-                <span style="font-weight: bold;color:white;">Welcome, {{ Auth::user()->role->role }} ({{ Auth::user()->Departement->dept }})</span>
+                <span style="font-weight: bold;color:white;">Welcome, {{ Auth::user()->role->role }} </span>
                   @if( auth()->check() )
                   <h2 style="color:white;">{{ Auth::user()->name }}</h2>
                   @endif
@@ -46,9 +46,9 @@
                     <ul class="nav child_menu">
                       <li><a>My Project<span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                          <li><a href="{{Route('listpkprka')}}">List PKP <span class="label label-success pull-right">{{$hitungpkpselesai}}</span></a> </li>
-                          <li><a href="{{Route('listpromoo')}}">List PROMO <span class="label label-success pull-right">{{$hitungpromoselesai}}</span></a> </li>
-                          <li><a href="{{Route('listpdfrka')}}">List PDF (Export) <span class="label label-success pull-right">{{$hitungpdfselesai}}</span></a> </li>
+                          <li><a href="{{Route('listpkprka')}}">List My PKP <span class="label label-success pull-right">{{$hitungpkpselesai}}</span></a> </li>
+                          <li><a href="{{Route('listpromoo')}}">List My PROMO <span class="label label-success pull-right">{{$hitungpromoselesai}}</span></a> </li>
+                          <li><a href="{{Route('listpdfrka')}}">List My PDF (Export) <span class="label label-success pull-right">{{$hitungpdfselesai}}</span></a> </li>
                         </ul>
                       </li>
                       <li><a>All Project<span class="fa fa-chevron-down"></span></a>
@@ -66,7 +66,7 @@
                       <li><a>My Project<span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                           <li><a href="{{Route('listpkprka')}}">List PKP <span class="label label-success pull-right">{{$hitungpkpselesai2}}</span></a> </li>
-                          <li><a href="{{Route('listpromoo')}}">List PROMO  <span class="label label-success pull-right">{{$hitungpromoselesai}}</span></a> </li>
+                          <li><a href="{{Route('listpromoo')}}">List PROMO  <span class="label label-success pull-right">{{$hitungpromoselesai2}}</span></a> </li>
                           <li><a href="{{Route('listpdfrka')}}">List PDF (Export) <span class="label label-success pull-right">{{$hitungpdfselesai2}}</span></a> </li>
                         </ul>
                       </li>
@@ -96,8 +96,7 @@
                       <li><a href="{{ route('arsen')}}">Logam Berat</a></li>
                     </ul>
                   </li>
-                  <li class="mt"><a href="{{ route('menucalender') }}"><i class="fa fa-calendar"></i><span>Project Calendar</span></a></li>
-                </ul>
+                  </ul>
               </div>
             </div>
             <!-- /sidebar menu -->
@@ -122,75 +121,6 @@
                   </ul>
                 </li>
                 <li role="presentation" class="dropdown">
-                  <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
-                    <i class="fa fa-envelope-o"></i>
-                    @if(Auth::user()->departement->dept=='RKA')
-                    <span class="badge bg-green">{{$hitungdata2}}</span>
-                    @else
-                    <span class="badge bg-green">{{$hitungdata}}</span>
-                    @endif
-                  </a>
-                  <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu" style="overflow-y: scroll;max-height:370px">
-                    @if($hitungdata>=1 || $hitungdata2>=1)
-                      @if($hitungppkp>=1 || $hitungppkp1>=1)
-                        <li >
-                          <a>
-                            <a href="{{route('listpkprka')}}">
-                              <span class="image"><img src="{{ asset('img/pro.png') }}" alt="Profile Image" /></span>
-                              <span>
-                                @if(Auth::user()->departement->dept!='RKA')
-                                <span>You Have {{$hitungppkp}} new PKP</span>
-                                @elseif(Auth::user()->departement->dept=='RKA')
-                                <span>You Have {{$hitungppkp1}} new PKP</span>
-                                @endif
-                              </span>
-                              <span class="message">
-                                <span>click to show data</span>
-                              </span>
-                            </a>
-                          </a>
-                        </li>
-                      @endif
-                      @if($hitungppdf>=1 || $hitungppdf1>=1)
-                        <li >
-                          <a>
-                            <a href="{{route('listpdfrka')}}">
-                              <span class="image"><img src="{{ asset('img/pro.png') }}" alt="Profile Image" /></span>
-                              <span>
-                                @if(Auth::user()->departement->dept!='RKA')
-                                <span>You Have {{$hitungppdf}} new PDF</span>
-                                @elseif(Auth::user()->departement->dept=='RKA')
-                                <span>You Have {{$hitungppdf1}} new PDF </span>
-                                @endif
-                              </span>
-                              <span class="message">
-                                <span>click to show data</span>
-                              </span>
-                            </a>
-                          </a>
-                        </li>
-                      @endif
-                      @if($hitungppromo>=1 || $hitungppromo1>=1)
-                        <li >
-                          <a>
-                            <a href="{{route('listpromoo')}}">
-                              <span class="image"><img src="{{ asset('img/pro.png') }}" alt="Profile Image" /></span>
-                              <span>
-                                @if(Auth::user()->departement->dept!='RKA')
-                                <span>You Have {{$hitungppromo}} new PROMO</span>
-                                @elseif(Auth::user()->departement->dept=='RKA')
-                                <span>You Have {{$hitungppromo1}} new PROMO</span>
-                                @endif
-                              </span>
-                              <span class="message">
-                                <span>click to show data</span>
-                              </span>
-                            </a>
-                          </a>
-                        </li>
-                      @endif
-                    @endif
-                  </ul>
                 </nav>
               </div>
             </div>

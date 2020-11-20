@@ -11,6 +11,8 @@ use App\Modellab\analisa;
 use App\Modelfn\finance;
 use App\Modelfn\pesan;
 use App\dev\Formula;
+use App\pkp\tipp;
+use App\pkp\pkp_project;
 use redirect;
 
 class LabController extends Controller
@@ -39,16 +41,17 @@ class LabController extends Controller
     }
 
     public function index($id,$id_feasibility){
-        $formulas = Formula::where('id',$id)->get();
+        $formulas = tipp::where('id',$id)->get();
         $analisa = analisa::all();
-        $fe=finance::find($id_feasibility);
+        $fe=finance::where('id_feasibility',$id_feasibility)->first();
         $formula_id = $fe->id_formula;
         $mikroba = DB::table('fs_jenismikroba')->select(['jenis_mikroba'])->distinct()->get();
         $dataL =Dlab::where('id_feasibility',$id_feasibility)->get();
         $count_lab = Dlab::where('id_feasibility',$id_feasibility)->count();
         $Jlab = Dlab::where('id_feasibility',$id_feasibility)->sum('rate');
-        $lab = DB::table('formulas')
-            ->join('fs_kategori_pangan','fs_kategori_pangan.id_pangan','=','formulas.id_pangan')
+        $lab2 = DB::table('formulas')
+            ->join('tippu','tippu.id','=','formulas.workbook_id')
+            ->join('fs_kategori_pangan','fs_kategori_pangan.id_pangan','=','tippu.bpom')
             ->join('fs_jenismikroba','fs_kategori_pangan.no_kategori','=','fs_jenismikroba.no_kategori')
             ->where('formulas.id',$id)->get();
         $cek_lab =Dlab::where('id_feasibility',$id_feasibility)->count();
@@ -58,7 +61,7 @@ class LabController extends Controller
             'mikroba' => $mikroba,
             'analisa' => $analisa,
             'formulas' => $formulas,
-            'lab' => $lab,
+            'lab2' => $lab2,
             'dataL' => $dataL,
             'count_lab' => $count_lab,
             'id' => $id,

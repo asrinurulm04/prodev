@@ -20,15 +20,12 @@
                 <th class="text-center">Author</th>
                 <th class="text-center">Date</th>
                 <th class="text-center">status</th>
-                <th class="text-center">Priority</th>
                 <th width="11%" class="text-center">Action</th>
               </tr>
             </thead>
             <tbody>
               <tr style="">
-                @php
-                  $no = 0;
-                @endphp
+                @php $no = 0; @endphp
                 @foreach($pkp as $pkp)
                 @if($pkp->status_project=='draf')
                 <td class="text-center">{{ ++$no}}</td>
@@ -37,15 +34,6 @@
                 <td>{{ $pkp->author1->name}}</td>
                 <td class="text-center">{{ $pkp->created_date }}</td>
                 <td class="text-center">{{ $pkp->approval }}</td>
-                <td>
-                  @if($pkp->prioritas==1)
-                  <span class="label label-danger">High Priority</span>
-                  @elseif($pkp->prioritas==2)
-                  <span class="label label-warning">Standar Priority</span>
-                  @elseif($pkp->prioritas==3)
-                  <span class="label label-primary">Low Priority</span>
-                  @endif
-                </td>
                 <td class="text-center">
                   <a class="btn btn-info btn-sm" href="{{ Route('rekappkp',$pkp->id_project) }}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
                   <a href="{{route('hapuspkp',$pkp->id_project)}}" onclick="return confirm('Are you sure ?')" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Delete"><li class="fa fa-trash"></li></a>
