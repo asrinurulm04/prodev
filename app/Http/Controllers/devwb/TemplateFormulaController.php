@@ -20,8 +20,10 @@ class TemplateFormulaController extends Controller
     }
 
     public function index($ftujuan,$id){
+        $ada= Fortail::where('formula_id',$id)->count();
         $formulas = Formula::all();
         return view('devwb.template')->with([
+            'ada' => $ada,
             'formulas' => $formulas,
             'ftujuan' => $ftujuan,
             'for' => $id
@@ -49,15 +51,39 @@ class TemplateFormulaController extends Controller
                 $fortails->kode_oracle = $tfortail->kode_oracle ;
                 $fortails->bahan_id = $tfortail->bahan_id ;
                 $fortails->nama_bahan = $tfortail->nama_bahan ;
+                $fortails->nama_bahan1 = $tfortail->nama_bahan1 ;
+                $fortails->nama_bahan2 = $tfortail->nama_bahan2 ;
+                $fortails->nama_bahan3 = $tfortail->nama_bahan3 ;
+                $fortails->nama_bahan4 = $tfortail->nama_bahan4 ;
+                $fortails->nama_bahan5 = $tfortail->nama_bahan5 ;
+                $fortails->nama_bahan6 = $tfortail->nama_bahan6 ;
+                $fortails->nama_bahan7 = $tfortail->nama_bahan7 ;
                 $fortails->per_batch = $tfortail->per_batch ;
                 $fortails->per_serving = $tfortail->per_serving ;
                 $fortails->jenis_timbangan = $tfortail->jenis_timbangan ;
-                $fortails->alternatif = $tfortail->alternatif ;
+                $fortails->bahan_baku = $tfortail->bahan_baku ;
+                $fortails->alternatif1 = $tfortail->alternatif1 ;
+                $fortails->alternatif2 = $tfortail->alternatif2 ;
+                $fortails->alternatif3 = $tfortail->alternatif3 ;
+                $fortails->alternatif4 = $tfortail->alternatif4 ;
+                $fortails->alternatif5 = $tfortail->alternatif5 ;
+                $fortails->alternatif6 = $tfortail->alternatif6 ;
+                $fortails->alternatif7 = $tfortail->alternatif7 ;
+                $fortails->principle1 = $tfortail->principle1 ;
+                $fortails->principle2 = $tfortail->principle2 ;
+                $fortails->principle3 = $tfortail->principle3 ;
+                $fortails->principle4 = $tfortail->principle4 ;
+                $fortails->principle5 = $tfortail->principle5 ;
+                $fortails->principle6 = $tfortail->principle6 ;
+                $fortails->principle7 = $tfortail->principle7 ;
                 $fortails->kode_komputer2 = $tfortail->kode_komputer2;
                 $fortails->kode_komputer3 = $tfortail->kode_komputer3;
                 $fortails->kode_komputer4 = $tfortail->kode_komputer4;
                 $fortails->kode_komputer5 = $tfortail->kode_komputer5;
+                $fortails->kode_komputer6 = $tfortail->kode_komputer6;
+                $fortails->kode_komputer7 = $tfortail->kode_komputer7;
                 $fortails->granulasi = $tfortail->granulasi;
+                $fortails->premix = $tfortail->premix;
                 $fortails->save();
 
                 $clp=Premix::where('fortail_id',$tfortail->id)->count();

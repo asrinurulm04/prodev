@@ -6,8 +6,6 @@
     <title>@yield('title')
     </title>
     <link href="{{ asset('img/prod.png') }}" rel="icon">
-    <link href="{{ asset('vendors/fullcalendar/dist/fullcalendar.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('vendors/fullcalendar/dist/fullcalendar.print.css') }}" rel="stylesheet" media="print">
     <link href="{{ asset('css/asrul.css') }}" rel="stylesheet">
     <link href="{{ asset('vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('vendors/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
@@ -24,7 +22,7 @@
         <div class="col-md-3 left_col" style="position:fixed; min-height:880;">
           <div class="left_col scroll-view" >
             <div class="navbar nav_title" style="border: 2;">
-            <a href="{{route('lala')}}" class="site_title"><img src="{{ asset('img/logo.png') }}" width="70%" alt="..."></a>
+            <center><a href="{{route('lala')}}" class="site_title"><img src="{{ asset('img/logo.png') }}" width="70%" alt="..."></a></center>
             </div>
             <div class="clearfix"></div>
             <!-- menu profile quick info -->
@@ -47,11 +45,11 @@
                 <ul class="nav side-menu">
                   <li><a><i class="fa fa-user"></i> User Management <span class="label label-success"></span> <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="{{ route('MyProfile') }}">Profile settings</a></li>
-                      @if(auth()->user()->role->namaRule === 'admin')
-                      <li><a href="{{ route('usermanagement') }}">List Users</a></li>
-                      <li><a href="{{ route('userapproval') }}">Approval</a></li>
-                      @endif
+                        <li><a href="{{ route('MyProfile') }}">Profile settings</a></li>
+                        @if(auth()->user()->role->namaRule === 'admin')
+                        <li><a href="{{ route('usermanagement') }}">List Users</a></li>
+                        <li><a href="{{ route('userapproval') }}">Approval</a></li>
+                        @endif
                     </ul>
                   </li>
                   @if(auth()->user()->role->namaRule == 'pv_lokal')
@@ -124,7 +122,7 @@
                     </ul>
                   </li>
                   @endif
-                  @if(auth()->user()->role->namaRule === 'user_produk'|| auth()->user()->role->namaRule === 'kemas')
+                  @if(auth()->user()->role->namaRule === 'user_produk')
                   <li><a><i class="fa fa-folder-open"></i> PKP / PDF / PROMO <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="{{ route('listprojectpkp') }}">List PKP</a> </li>
@@ -155,18 +153,18 @@
                   @elseif(auth()->user()->role->namaRule === 'manager')
                   <li><a><i class="fa fa-sitemap"></i> PKP / PDF / PROMO <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a>My Project<span class="fa fa-chevron-down"></span></a>
+                      <li><a>List Project<span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                           <li><a href="{{Route('listpkprka')}}">List PKP</a> </li>
                           <li><a href="{{Route('listpromoo')}}">List PROMO</a> </li>
-                          <li><a href="{{Route('listpdfrka')}}">List PDF (Export)</a> </li>
+                          <li><a href="{{Route('listpdfrka')}}">List PDF</a> </li>
                         </ul>
                       </li>
                       <li><a>List All Project<span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                           <li><a href="{{Route('listpkp')}}">List  PKP</a> </li>
-                          <li><a href="{{Route('listpromo')}}">List PROMO</a> </li>
-                          <li><a href="{{Route('listpdf')}}">List PDF (Export)</a> </li>
+                          <li><a href="{{Route('listpromo')}}">List  PROMO</a> </li>
+                          <li><a href="{{Route('listpdf')}}">List  PDF</a> </li>
                         </ul>
                       </li>
                     </ul>
@@ -190,25 +188,25 @@
                   @elseif(auth()->user()->role->namaRule === 'admin')
                   <li><a><i class="fa fa-folder-open"></i> PKP / PDF / PROMO <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                    <!-- <li><a><i class="fa fa-edit"></i>Input Project<span class="fa fa-chevron-down"></span></a>
+                    <li><a><i class="fa fa-edit"></i>Input Project<span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">
                         <li><a href="{{Route('formpkp')}}">Input PKP</a> </li>
                         <li><a href="{{Route('formpdf')}}">Input PDF</a> </li>
                         <li><a href="{{Route('promo')}}">Input PROMO</a> </li>
                       </ul>
-                    </li> -->
+                    </li>
                     <li><a><i class="fa fa-archive"></i>Draf Project<span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">
                         <li><a href="{{Route('drafpkp')}}">Draf PKP</a> </li>
-                        <li><a href="{{Route('drafpdf')}}">Draf PDF (Export)</a> </li>
+                        <li><a href="{{Route('drafpdf')}}">Draf PDF</a> </li>
                         <li><a href="{{Route('drafpromo')}}">Draf PROMO</a> </li>
                       </ul>
                     </li>
                     <li><a><i class="fa fa-list"></i>List Project<span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">
                         <li><a href="{{Route('listpkp')}}">List PKP</a> </li>
-                        <li><a href="{{Route('listpdf')}}">List PDF (Export)</a> </li>
-                        <li><a href="{{Route('listpromo')}}">List Promo</a> </li>
+                        <li><a href="{{Route('listpdf')}}">List PROMO</a> </li>
+                        <li><a href="{{Route('listpromo')}}">List PDF</a> </li>
                       </ul>
                     </li>
                     </ul>
@@ -234,7 +232,6 @@
                       <li><a href="{{ route('satuan.index') }}">Satuan</a></li>
                       <li><a href="{{ route('gudang.index') }}">Gudang</a></li>
                       <li><a href="{{ route('maklon.index') }}">Maklon</a></li>
-                      <li><a href="{{ route('produksi.index') }}">Produksi</a></li>
                       <li><a href="{{ route('kategori.index') }}">Kategori</a></li>
                       <li><a href="{{ route('subkategori.index') }}">Sub Kategori</a></li>
                       <li><a href="{{ route('kelompok.index') }}">Kelompok</a></li>
@@ -253,6 +250,7 @@
                   <li><a><i class="fa fa-file-text"></i> Project Recapitulation <span class="label label-success"></span> <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="{{ route('datapengajuan') }}">Revision Request</a></li>
+                      <li><a href="{{ route('story') }}">Rekap History</a></li>
                       <li><a href="{{ route('datareport') }}">Data Project Summary</a></li>
                       @if(auth()->user()->role->namaRule === 'pv_lokal' || auth()->user()->role->namaRule === 'pv_global' || auth()->user()->role->namaRule === 'manager')
                       <li><a href="{{ route('tabulasi') }}">Data Project Tabulation</a></li>
@@ -262,11 +260,16 @@
                   </li>
                   <li><a><i class="fa fa-book"></i> Master Data <span class="label label-success"></span> <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="{{ route('datapangan') }}">BPOM Category</a></li>
+                      <li><a href="{{ route('datapangan') }}">Microbiology</a></li>
                       <li><a href="{{ route('akg') }}">Data AKG</a></li>
                       <li><a href="{{ route('sku') }}">Active SKU</a></li>
                       <li><a href="{{ route('klaim') }}">Claim Regulation</a></li>
                       <li><a href="{{ route('arsen')}}">Logam Berat</a></li>
+                      @if(auth()->user()->role->namaRule == 'user_produk')
+                      <li><a href="{{ route('allergen') }}">Allergen</a></li>
+                      <li><a href="{{ route('bahanbaku') }}">Bahan Baku</a></li>
+                      <li><a href="{{ route('bbrd') }}">Bahan Baku RD</a></li>
+                      @endif
                     </ul>
                   </li>
                   @endif
@@ -317,7 +320,6 @@
         <!-- footer content -->
         <footer>
           <div class=" text-right">
-            Created By Asrul4238 :)
           </div>
           <div class="clearfix"></div>
         </footer>
@@ -329,7 +331,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="{{ asset('js/vendor/jquery-2.2.4.min.js') }}"></script>
     <!-- Bootstrap -->
-    <script src="{{ asset('vendors/fullcalendar/dist/fullcalendar.min.js') }}"></script>
     <script src="{{ asset('vendors/bootstrap/dist/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('lib/advanced-datatable/js/jquery.dataTables.js')}}"></script>
     <script src="{{ asset('lib/advanced-datatable/js/jquery.dataTables.min.js')}}"></script>

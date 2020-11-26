@@ -20,7 +20,6 @@ use App\manager\pengajuan;
 use App\pkp\project_pdf;
 use App\pkp\ses;
 use Carbon\Carbon;
-use App\notification;
 use App\kemas\datakemas;
 use App\pkp\coba;
 use App\master\Brand;
@@ -82,9 +81,7 @@ class pdfController extends Controller
         $dataklaim = data_klaim::where('id_pdf',$id_project_pdf)->join('klaim','klaim.id','=','id_klaim')->where('revisi',$revisi)->where('turunan',$turunan)->get();
         $datadetail = data_detail_klaim::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->get();
         $pengajuan = pengajuan::count();
-        $notif = notification::where('status','=','active')->count();
-        $pesan = notification::orderBy('updated_at','desc')->get();
-        $hitungnotif = $pengajuan + $notif;
+        
         $user = DB::table('users')->join('pdf_project','pdf_project.tujuankirim','=','users.departement_id')->get();
         $picture = picture::where('pdf_id',$id_project_pdf)->where('turunan','<=',$turunan)->orderBy('turunan','desc')->get();
         return view('pdf.lihatpdf')->with([
@@ -96,10 +93,7 @@ class pdfController extends Controller
             'kemaspdf' => $kemaspdf,
             'hitungkemaspdf' => $hitungkemaspdf,
             'pengajuanpdf' => $pengajuanpdf,
-            'pesan' => $pesan,
-            'notif' =>$notif,
             'pengajuan' => $pengajuan,
-            'hitungnotif' => $hitungnotif,
             'datases' => $ses,
             'dept' => $dept,
             'for' => $for,
@@ -143,11 +137,6 @@ class pdfController extends Controller
         $Dpdf= coba::where('pdf_id',$id_project_pdf)->first();
         if($Dpdf!=NULL){
             $Dpdf->delete();
-        }
-
-        $story= notification::where('id_pdf',$id_project_pdf)->first();
-        if($story!=NULL){
-            $story->delete();
         }
 
         return redirect::back();
@@ -330,33 +319,21 @@ class pdfController extends Controller
         $type = pkp_type::all();
         $pdf1 = project_pdf::where('status_project','!=','draf')->get();
         $pengajuan = pengajuan::count();
-        $notif = notification::where('status','=','active')->count();
-        $pesan = notification::orderBy('updated_at','desc')->get();
-        $hitungnotif = $pengajuan + $notif;
         $brand = brand::all();
         return view('pdf.requestpdf')->with([
             'type' => $type,
             'brand' => $brand,
             'pdf1' => $pdf1,
-            'pesan' => $pesan,
-            'notif' =>$notif,
-            'pengajuan' => $pengajuan,
-            'hitungnotif' => $hitungnotif
+            'pengajuan' => $pengajuan
         ]);
     }
 
     public function drafpkp(){
         $pdf = project_pdf::all()->sortByDesc('cretaed_date');;
         $pengajuan = pengajuan::count();
-        $notif = notification::where('status','=','active')->count();
-        $pesan = notification::orderBy('updated_at','desc')->get();
-        $hitungnotif = $pengajuan + $notif;
         return view('pdf.pdfdraf')->with([
             'pdf' => $pdf,
-            'pesan' => $pesan,
-            'notif' =>$notif,
-            'pengajuan' => $pengajuan,
-            'hitungnotif' => $hitungnotif
+            'pengajuan' => $pengajuan
         ]);
     }
 
@@ -365,17 +342,11 @@ class pdfController extends Controller
         $type = pkp_type::all();
         $brand = brand::all();
         $pengajuan = pengajuan::count();
-        $notif = notification::where('status','=','active')->count();
-        $pesan = notification::orderBy('updated_at','desc')->get();
-        $hitungnotif = $pengajuan + $notif;
         return view('pdf.listpdf')->with([
             'type' => $type,
             'pdf' => $pdf,
             'brand' => $brand,
-            'pesan' => $pesan,
-            'notif' =>$notif,
-            'pengajuan' => $pengajuan,
-            'hitungnotif' => $hitungnotif
+            'pengajuan' => $pengajuan
         ]);
     }
 
@@ -393,9 +364,6 @@ class pdfController extends Controller
         $hitung =coba::where('pdf_id',$id_project_pdf)->count();
         $pdf = coba::where('pdf_id',$id_project_pdf)->get();
         $pengajuan = pengajuan::count();
-        $notif = notification::where('status','=','active')->count();
-        $pesan = notification::orderBy('updated_at','desc')->get();
-        $hitungnotif = $pengajuan + $notif;
         $id_pdf = project_pdf::find($id_project_pdf);
         return view('pdf.buatpdf')->with([
             'jenis' => $jenis,
@@ -411,10 +379,7 @@ class pdfController extends Controller
             'eksis' => $eksis,
             'pdf' => $pdf,
             'id_pdf' => $id_pdf,
-            'pesan' => $pesan,
-            'notif' =>$notif,
-            'pengajuan' => $pengajuan,
-            'hitungnotif' => $hitungnotif
+            'pengajuan' => $pengajuan
         ]);
     }
 
@@ -450,9 +415,6 @@ class pdfController extends Controller
         $eksis=datakemas::count();
         $user = user::where('status','=','active')->get();
         $pengajuan = pengajuan::count();
-        $notif = notification::where('status','=','active')->count();
-        $pesan = notification::orderBy('updated_at','desc')->get();
-        $hitungnotif = $pengajuan + $notif;
         $id_pdf = project_pdf::find($id_project_pdf);
         return view('pdf.buatpdf1')->with([
             'jenis' => $jenis,
@@ -474,10 +436,7 @@ class pdfController extends Controller
             'for2' => $for2,
             'datases' => $datases,
             'hitung' => $hitung,
-            'pesan' => $pesan,
-            'notif' =>$notif,
             'pengajuan' => $pengajuan,
-            'hitungnotif' => $hitungnotif,
             'pdf' => $pdf,
             'id_pdf' => $id_pdf
         ]);
@@ -1037,9 +996,6 @@ class pdfController extends Controller
         $coba1 = picture::where('pdf_id',$id_project_pdf)->where('turunan','<=',$turunan)->count();
         $turunan = coba::where([ ['pdf_id',$id_project_pdf], ['revisi',$revisi], ['turunan',$turunan] ])->get();
         $pengajuan = pengajuan::count();
-        $notif = notification::where('status','=','active')->count();
-        $pesan = notification::orderBy('updated_at','desc')->get();
-        $hitungnotif = $pengajuan + $notif;
         $pdf = project_pdf::where('id_project_pdf',$id_project_pdf)->get();
         $id_pdf= project_pdf::find($id_project_pdf);
         
@@ -1050,10 +1006,7 @@ class pdfController extends Controller
             'coba1' => $coba1,
             'id_pdf' => $id_pdf,
             'pengajuanpdf' => $pengajuanpdf,
-            'pesan' => $pesan,
-            'notif' =>$notif,
-            'pengajuan' => $pengajuan,
-            'hitungnotif' => $hitungnotif
+            'pengajuan' => $pengajuan
         ]);
     }
 
@@ -1278,9 +1231,6 @@ class pdfController extends Controller
         $pengajuan = pengajuan::count();
         $sample_project = sample_project::where('id_pdf',$id_project_pdf)->get();
         $status_sample_project = sample_project::where('id_pdf',$id_project_pdf)->where('status','=','final')->count();
-        $notif = notification::where('status','=','active')->count();
-        $pesan = notification::orderBy('updated_at','desc')->get();
-        $hitungnotif = $pengajuan + $notif;
         $max2 = coba::where('pdf_id',$id_project_pdf)->max('revisi');
         $max = coba::where('pdf_id',$id_project_pdf)->max('turunan');
         $pdf = project_pdf::where('id_project_pdf',$id_project_pdf)->join('tipu','tipu.pdf_id','pdf_project.id_project_pdf')->where('turunan',$max)->where('revisi',$max2)->get();
@@ -1288,12 +1238,9 @@ class pdfController extends Controller
         return view('pdf.daftarpdf')->with([
             'data' => $data,
             'data1' => $data1,
-            'pesan' => $pesan,
             'sample' => $sample_project,
             'status_sample' => $status_sample_project,
-            'notif' =>$notif,
             'pengajuan' => $pengajuan,
-            'hitungnotif' => $hitungnotif,
             'pengajuanpdf' => $pengajuanpdf,
             'hitung' => $hitung,
             'pdff' => $pdff,

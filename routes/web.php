@@ -35,7 +35,6 @@ Route::get('approveemailpromo\{id}','Email@approveemailpromo')->name('approveema
 Route::get('rejectemailpromo\{id}','Email@rejectemailpromo')->name('rejectemailpromo');
 Route::post('emailpromo/{id}/{revisi}/{turunan}', 'Email@emailpromo');
 Route::post('emailpdf/{id}/{revisi}/{turunan}', 'Email@emailpdf');
-Route::post('kirimemailpdf/{id}/{revisi}/{turunan}', 'Email@kirimemailpdf')->name('kirimemailpdf');
 Route::get('REmail','Email@REmail')->name('REmail');
 // perubahan data form
 
@@ -74,6 +73,11 @@ Route::get('datauom','admin\ApprovalController@datauom')->name('datauom');
 Route::post('uom','admin\ApprovalController@uom')->name('uom');
 Route::post('ubahjenis/{id_jenis}','admin\UserListController@isijenis')->name('ubahjenis');
 
+Route::get('bbrd','datamaster\bbRDController@bahan')->name('bbrd');
+Route::post('addbahanrd','datamaster\bbRDController@addbahanrd')->name('addbahanrd');
+Route::patch('editBBrd/{id}','datamaster\bbRDController@editBBrd')->name('editBBrd');
+Route::get('delbahanrd/{id}','datamaster\bbRDController@delbahanrd')->name('delbahanrd');
+
 Route::get('DataBahanBaku','datamaster\BahanBakuController@bahan')->name('bahanbaku');
 Route::get('DeleteBahanBaku/{id}','datamaster\BahanBakuController@delbahan')->name('delbahan');
 Route::get('ActiveBahan/{id}', 'datamaster\BahanBakuController@active')->name('activebahan');
@@ -86,36 +90,50 @@ Route::post('brand/store','datamaster\BrandController@store')->name('brand.store
 Route::post('brand/{id}/update', 'datamaster\BrandController@update')->name('brand.update');
 Route::get('brand/{id}/destroy', 'datamaster\BrandController@destroy')->name('brand.destroy');
 
-Route::get('exportBpom','datamaster\datapanganController@exportBpom')->name('exportBpom');
-Route::get('exportAkg','datamaster\datapanganController@exportAkg')->name('exportAkg');
-Route::get('exportklaim','datamaster\datapanganController@export_klaim')->name('exportklaim');
-Route::get('exportarsen','datamaster\datapanganController@exportarsen')->name('exportarsen');
-Route::get('export','datamaster\datapanganController@export_excel')->name('export');
-Route::get('exportsku','datamaster\datapanganController@exportsku')->name('exportsku');
-Route::post('editpangan/{id}','datamaster\datapanganController@editbpom')->name('editpangan');
-Route::post('editakg/{id_akg}','datamaster\datapanganController@editakg')->name('editakg');
-Route::post('editsku/{id}','datamaster\datapanganController@editsku')->name('editsku');
-Route::post('editklaim/{id}','datamaster\datapanganController@editklaim')->name('editklaim');
-Route::post('editarsen/{id}','datamaster\datapanganController@editarsen')->name('editarsen');
+Route::get('exportBpom','datamaster\masterController@exportBpom')->name('exportBpom');
+Route::get('exportAkg','datamaster\masterController@exportAkg')->name('exportAkg');
+Route::get('exportklaim','datamaster\masterController@export_klaim')->name('exportklaim');
+Route::get('exportarsen','datamaster\masterController@exportarsen')->name('exportarsen');
+Route::get('export','datamaster\masterController@export_excel')->name('export');
+Route::get('exportsku','datamaster\masterController@exportsku')->name('exportsku');
 
-Route::post('tambahpangan','datamaster\datapanganController@tambahpangan')->name('tambahpangan');
-Route::post('tambahakg','datamaster\datapanganController@tambahakg')->name('tambahakg');
-Route::post('tambahsku','datamaster\datapanganController@tambahsku')->name('tambahsku');
-Route::post('tambaharsen','datamaster\datapanganController@tambaharsen')->name('tambaharsen');
+Route::post('editpangan/{id}','datamaster\masterController@editbpom')->name('editpangan');
+Route::post('editakg/{id_akg}','datamaster\masterController@editakg')->name('editakg');
+Route::post('editsku/{id}','datamaster\masterController@editsku')->name('editsku');
+Route::post('editklaim/{id}','datamaster\masterController@editklaim')->name('editklaim');
+Route::post('editarsen/{id}','datamaster\masterController@editarsen')->name('editarsen');
+Route::post('edit_allergen/{id}','datamaster\masterController@edit_allergen')->name('edit_allergen');
+Route::post('edit_principal/{id}','datamaster\masterController@edit_principal')->name('edit_principal');
+Route::post('edit_supplier/{id}','datamaster\masterController@edit_supplier')->name('edit_supplier');
 
-Route::get('kemasexport','datamaster\datapanganController@kemas')->name('kemasexport');
-Route::get('akg','datamaster\datapanganController@akg')->name('akg');
-Route::get('klaim','datamaster\datapanganController@klaim')->name('klaim');
-Route::get('sku','datamaster\datapanganController@sku')->name('sku');
-Route::get('arsen','datamaster\datapanganController@arsen')->name('arsen');
-Route::get('datapangan','datamaster\datapanganController@index')->name('datapangan');
+Route::get('inactive_supplier/{id}','datamaster\masterController@inactive_supplier')->name('inactive_supplier');
+Route::get('active_supplier/{id}','datamaster\masterController@active_supplier')->name('active_supplier');
+Route::get('inactive_principal/{id}','datamaster\masterController@inactive_principal')->name('inactive_principal');
+Route::get('active_principal/{id}','datamaster\masterController@active_principal')->name('active_principal');
+
+Route::post('tambahpangan','datamaster\masterController@tambahpangan')->name('tambahpangan');
+Route::post('tambahakg','datamaster\masterController@tambahakg')->name('tambahakg');
+Route::post('tambahsku','datamaster\masterController@tambahsku')->name('tambahsku');
+Route::post('tambaharsen','datamaster\masterController@tambaharsen')->name('tambaharsen');
+Route::post('add_allergen','datamaster\masterController@add_allergen')->name('add_allergen');
+Route::post('add_principal','datamaster\masterController@add_principal')->name('add_principal');
+Route::post('add_supplier','datamaster\masterController@add_supplier')->name('add_supplier');
+
+Route::get('kemasexport','datamaster\masterController@kemas')->name('kemasexport');
+Route::get('akg','datamaster\masterController@akg')->name('akg');
+Route::get('klaim','datamaster\masterController@klaim')->name('klaim');
+Route::get('sku','datamaster\masterController@sku')->name('sku');
+Route::get('arsen','datamaster\masterController@arsen')->name('arsen');
+Route::get('datapangan','datamaster\masterController@index')->name('datapangan');
+Route::get('allergen','datamaster\masterController@allergen')->name('allergen');
+Route::get('principal','datamaster\masterController@principal')->name('principal');
+Route::get('supplier','datamaster\masterController@supplier')->name('supplier');
 
 Route::resource('subbrand', 'datamaster\subbrandController',['except' => [ 'show','create' ]]);
 Route::resource('curren', 'datamaster\CurrensController',['except' => [ 'show','create' ]]);
 Route::resource('satuan', 'datamaster\SatuanController',['except' => [ 'show','create' ]]);
 Route::resource('gudang', 'datamaster\GudangController',['except' => [ 'show','create' ]]);
 Route::resource('maklon', 'datamaster\MaklonController',['except' => [ 'show','create' ]]);
-Route::resource('produksi', 'datamaster\ProduksiController',['except' => [ 'show','create' ]]);
 Route::resource('kategori', 'datamaster\KategoriController',['except' => [ 'show','create' ]]);
 Route::resource('subkategori', 'datamaster\SubkategoriController',['except' => [ 'show','create' ]]);
 Route::resource('kelompok', 'datamaster\KelompokController',['except' => [ 'show','create' ]]);
@@ -156,7 +174,9 @@ Route::get('LihatFormulaPv/{id}','pv\FormulaApprovalController@lihatformulapv')-
 Route::get('BatalkanProject/{id}','pv\FormulaApprovalController@batalkanproject')->name('batalkanprojectbypv');
 
 Route::get('datapengajuan','pv\pkpController@pengajuan')->name('datapengajuan');
+Route::get('datapengajuan1','pv\pkpController@pengajuan1')->name('datapengajuan1');
 Route::get('approvedformula','pv\FormulaApprovalController@listapproved')->name('approvedformula');
+Route::get('story','pv\pkpController@story')->name('story');
 Route::get('catatanrevisi','pv\pkpController@catatanrevisi')->name('catatanrevisi');
 Route::post('prioritas/{id}','pv\pkpController@prioritas')->name('prioritas');
 
@@ -180,7 +200,7 @@ Route::get('buatpkp/{id_project}/{revisi}/{turunan}','pv\pkpController@buatpkp')
 Route::get('buatpkp1/{id_project}','pv\pkpController@buatpkp1')->name('buatpkp1');
 Route::get('lihatpkp/{id_project}/{revisi}/{turunan}','pv\pkpController@lihatpkp')->name('lihatpkp');
 Route::post('terima/{id_project}','pv\pkpController@terima')->name('terima');
-Route::get('temppkp/{id}','pv\pkp2Controller@template')->name('temppkp');
+Route::post('temppkp','pv\pkp2Controller@template')->name('temppkp');
 
 Route::get('konfigurasi/{id}/{revisi}/{turunan}','pv\pkpController@konfigurasi')->name('konfigurasi');
 Route::get('getpangan/{id}','ajax\getGet@getpangan')->name('getpangan');
@@ -188,8 +208,9 @@ Route::get('getolahan/{id}','ajax\getGet@getolahan')->name('getolahan');
 Route::get('getkatpangan/{id}','ajax\getGet@getkatpangan')->name('getkatpangan');
 Route::get('getkomponen/{id}','ajax\getGet@getkomponen')->name('getkomponen');
 Route::get('getdetail/{id}','ajax\getGet@getdetailklaim')->name('getdetail');
-Route::get('reportnotulen','pv\pkp2Controller@reportnotulen')->name('reportnotulen');
+Route::get('getbahan/{id}','ajax\getGet@getbahan')->name('getbahan');
 
+Route::get('reportnotulen','pv\pkp2Controller@reportnotulen')->name('reportnotulen');
 Route::get('approvesamplepkp/{id}','pv\pkpController@approvesamplepkp')->name('approvesamplepkp');
 Route::post('rejectsamplepkp/{id}','pv\pkpController@rejectsamplepkp')->name('rejectsamplepkp');
 Route::get('finalsamplepkp/{id}/{sample}','pv\pkpController@finalsamplepkp')->name('finalsamplepkp');
@@ -268,7 +289,7 @@ Route::post('approvepromo1/{id}','pv\promoController@approve1')->name('approvepr
 Route::post('approvepromo2/{id}','pv\promoController@approve2')->name('approvepromo2');
 
 // PDF
-Route::get('konfig/{id}','pv\pdfController@konfigurasi')->name('konfig');
+Route::get('konfig/{id}/{turunan}','pv\pdfController@konfigurasi')->name('konfig');
 Route::post('sentpdf/{id_project_pdf}/{revisi}/{turunan}','pv\pdfController@sentpdf')->name('sentpdf');
 Route::get('drafpdf','pv\pdfController@drafpkp')->name('drafpdf');
 Route::get('listpdf','pv\pdfController@listpdf')->name('listpdf');
@@ -337,7 +358,6 @@ Route::get('myworkbooks/{id}/show', ['uses'=>'devwb\WorkbookController@show','as
 Route::get('myworkbooks/{id}/delete', ['uses'=>'devwb\WorkbookController@destroy','as' =>'deleteworkbook']);
 Route::post('newworkbook','devwb\WorkbookController@store')->name('newworkbook');
 
-
 Route::get('HapusBase/{id}','formula\ScaleController@hapusbase')->name('hapusbase');
 Route::post('GantiBase/{id}','formula\ScaleController@gantibase')->name('gantibase');
 
@@ -358,11 +378,7 @@ Route::get('allproject','devwb\listpkpController@allproject')->name('allproject'
 Route::get('datareport','menuController@data')->name('datareport');
 
 // FEASIBILITY
-Route::get('PengajuanFormulaFeasibility','feasibility\ListFormulaController@index')->name('formula.feasibility');
 Route::get('PengajuanSelesai','feasibility\ListFormulaController@sudah')->name('formula.selesai');
-Route::get('MyFeasibility/{id}','feasibility\ListFeasibilityController@index')->name('myFeasibility');
-Route::get('UpFeasibility/{id}','feasibility\UpFeasibility@index')->name('upFeasibility');
-Route::post('kirimWB/{id}/{id_feasibility}', 'feasibility\ListFeasibilityController@kirimWB')->name('kirimWB');
 Route::get('deletefs/{id}', 'feasibility\ListFeasibilityController@deletefs')->name('deletefs');
 
 Route::get('hapuspkp/{id}','pv\pkpController@hapuspkp')->name('hapuspkp');
@@ -392,48 +408,64 @@ Route::get('endproject/{id}','devwb\WorkbookController@endproject')->name('workb
 Route::get('batalkanproject/{id}','devwb\WorkbookController@batalproject')->name('workbook.batal');
 
 Route::post('addformula','devwb\FormulaController@new')->name('addformula');
-Route::get('upversion/{cf}/{id}','devwb\UpVersionController@upversion')->name('upversion');
-Route::get('upversion2/{id}','devwb\UpVersionController@upversion2')->name('upversion2');
-Route::get('DetailFormula/{id}','devwb\FormulaController@detail')->name('formula.detail');
+Route::get('upversion/{id}','devwb\UpVersionController@upversion')->name('upversion');
+Route::get('upversion2/{id}/{rev}','devwb\UpVersionController@upversion2')->name('upversion2');
+Route::get('tambahformula/{id}','devwb\UpVersionController@tambahformula')->name('tambahformula');
+Route::get('DetailFormula/{id}/{for}','devwb\FormulaController@detail')->name('formula.detail');
 Route::get('DestroyFormula/{id}','devwb\FormulaController@deleteformula')->name('deleteFormula');
 
-Route::get('ajukanvp/{id}','devwb\PengajuanFormulaController@vp')->name('ajukanvp');
+Route::get('ajukanvp/{wb}/{id}','devwb\PengajuanFormulaController@vp')->name('ajukanvp');
 Route::get('ajukanf/{id}','devwb\PengajuanFormulaController@vp')->name('ajukannf');
-Route::get('formulainformation/{id}','formula\Step1Controller@create')->name('step1');
-Route::patch('updateformula/{id}','formula\Step1Controller@update')->name('step1update');
+Route::get('formulainformation/{wb}/{id}','formula\Step1Controller@create')->name('step1');
+Route::patch('updateformula/{wb}/{id}','formula\Step1Controller@update')->name('step1update');
+Route::get('registrasi_formula/{wb}','formula\registrasiformulaController@registrasi')->name('registrasi_formula');
+Route::post('new_registrasi','formula\registrasiformulaController@new_registrasi')->name('new_registrasi');
 
-Route::get('penyusunanbahan/{id}','formula\Step2Controller@create')->name('step2');
+Route::get('penyusunanbahan/{id}/{id_formula}','formula\Step2Controller@create')->name('step2');
 Route::post('insertbahan/{id}','formula\Step2Controller@insert')->name('step2insert');
 Route::post('updatebahan/{id}','formula\Step2Controller@update')->name('step2update');
 Route::get('bahan/{id}/{vf}/delete','formula\Step2Controller@destroy')->name('step2destroy');
+Route::patch('updatenote/{wb}/{id}','formula\Step2Controller@update')->name('updatenote');
+Route::get('hapusall/{formula}','formula\Step2Controller@hapusall')->name('hapusall');
 Route::get('getAlternatif/{id}','ajax\getGet@getAlternatif');
+
+Route::get('penyusunan.formula/{registrasi}/{wb}','formula\penyusunanformulaController@penyusunan')->name('penyusunan.formula');
+Route::post('formula/{registrasi}','formula\penyusunanformulaController@formula')->name('formula');
+Route::post('updateregis/{registrasi}/{id}','formula\penyusunanformulaController@updateregis')->name('updateregis');
 
 Route::get('HapusBase/{id}','formula\ScaleController@hapusbase')->name('hapusbase');
 Route::post('GantiBase/{id}','formula\ScaleController@gantibase')->name('gantibase');
-
 Route::post('savechanges/{id}','formula\ScaleController@savechanges')->name('savechanges');
 
-Route::post('cekscale/{id}','formula\ScaleController@cekscale')->name('cekscale');
+Route::post('cekscale/{id}/{formula}','formula\ScaleController@cekscale')->name('cekscale');
 Route::post('savescale/{id}','formula\ScaleController@savescale')->name('savescale');
-
-Route::get('getTemplate/{id}','devwb\TemplateFormulaController@index')->name('getTemplate');
+Route::get('getTemplate/{id}/{formula}','devwb\TemplateFormulaController@index')->name('getTemplate');
 Route::get('InsertTemplate/{ftujuan}/{fasal}','devwb\TemplateFormulaController@template')->name('insertTemplate');
 
 Route::get('MyRamen/{id}','formula\MyRamenController@index')->name('ramen');
 Route::post('MyRamenInsert/{id}','formula\MyRamenController@insert')->name('MyRamen.insert');
-
-Route::get('EditDetailPenyusunan/{id}','formula\EditFortailController@index')->name('editfortail');
+Route::get('EditDetailPenyusunan/{id}/{for}','formula\EditFortailController@index')->name('editfortail');
 Route::patch('SaveDetailPenyusunan/{idf}/{id}','formula\EditFortailController@update')->name('updatefortail');
 
-Route::get('penyusunanpremix/{id}','formula\Step3Controller@create')->name('step3');
+Route::get('penyusunanpremix/{id}/{formula}','formula\Step3Controller@create')->name('step3');
 Route::get('InsertPremix/{id}','formula\Step3Controller@insert')->name('step3insert');
+Route::get('summarryformula/{id}/{formula}','formula\SummaryFormulaController@summarry')->name('summarry');
+Route::post('vit15/{id}','formula\SummaryFormulaController@vit15')->name('vit15');
+Route::post('vit20/{id}','formula\SummaryFormulaController@vit20')->name('vit20');
+Route::post('overage/{id}','formula\SummaryFormulaController@overage')->name('overage');
 
-Route::get('summarryformula/{id}','formula\SummaryFormulaController@summarry')->name('summarry');
+Route::get('penyusunan.alternatif/{registrasi}/{id}','formula\penyusunanalternatifCOntroller@alternatif')->name('penyusunan.alternatif');
 
 // panel
-Route::get('panel/{id}','formula\panelController@panel')->name('panel');
+Route::get('panel/{id}/{formula}','formula\panelController@panel')->name('panel');
 Route::post('hasilpanel','formula\panelController@hasil')->name('hasilpanel');
-Route::get('st/{id}','formula\storageController@st')->name('st');
+Route::post('editpanel/{id}','formula\panelController@editpanel')->name('editpanel');
+Route::get('deletepanel/{id}','formula\panelController@hapuspanel')->name('deletepanel');
+Route::get('ajukanpanel/{id}','formula\panelController@ajukanpanel')->name('ajukanpanel');
+// Storage
+Route::get('st/{id}/{formula}','formula\storageController@st')->name('st');
+Route::get('deletest/{id}','formula\storageController@delete')->name('deletest');
+Route::get('ajukanstorage/{id}','formula\storageController@ajukanstorage')->name('ajukanstorage');
 Route::post('hasilstorage','formula\storageController@hasilnya')->name('hasilstorage');
 Route::post('updatedst/{id}','formula\storageController@editdata')->name('updatedst');
 Route::post('progress','formula\storageController@proses')->name('progress');
@@ -441,17 +473,38 @@ Route::post('progress','formula\storageController@proses')->name('progress');
 Route::post('send','PesanController@send')->name('send.email');
 
 /************************************FEASIBILITY */
+// Pengajuan FS
+Route::get('pengajuanfs/{id}/{for}','pv\pengajuansampleController@ajukanfs')->name('pengajuanfs');
+Route::get('tidakajukanfs/{id}/{for}','pv\pengajuansampleController@tidakajukanfs')->name('tidakajukanfs');
+Route::post('rejectsample/{id}','pv\pengajuansampleController@rejectsample')->name('rejectsample');
+Route::get('finalsample/{sample}','pv\pengajuansampleController@finalsample')->name('finalsample');
+Route::get('unfinalsample/{sample}','pv\pengajuansampleController@unfinalsample')->name('unfinalsample');
 
 // FEASIBILITY
 Route::get('PengajuanFormulaFeasibility','feasibility\ListFormulaController@index')->name('formula.feasibility');
-Route::get('MyFeasibility/{id}','feasibility\ListFeasibilityController@index')->name('myFeasibility');
+Route::get('MyFeasibility/{wb}','feasibility\ListFeasibilityController@index')->name('myFeasibility');
 Route::get('UpFeasibility/{id}','feasibility\UpFeasibility@index')->name('upFeasibility');
 Route::post('kirimWB/{id}/{id_feasibility}', 'feasibility\ListFeasibilityController@kirimWB')->name('kirimWB');
+
+//  WORKBOOK FEASIBILITY
+Route::get('workbookfs/{wb}','finance\workbookfsController@workbookfS')->name('workbook.Feasibility');
+Route::get('workbookkemas/{wb}','finance\workbookfsController@addwbkemas')->name('workbook.kemas');
+Route::get('workbooklab/{wb}','finance\workbookfsController@addwblab')->name('workbook.lab');
+Route::get('workbookmaklon/{wb}','finance\workbookfsController@addwbmaklon')->name('workbook.maklon');
+
+//  WORKBOOK KEMAS
+route::get('wbkemas/{wb}/{id}','kemas\workbookkemasController@workbookkemas')->name('wbkemas');
+
+//  WORKBOOK LAB
+route::get('datalab/{wb}/{id}','lab\workbooklabController@index')->name('datalab');
+
+//  WORKBOOK MAKLON
+route::get('wbmaklon/{wb}/{id}','maklon\workbookmaklonController@workbookmaklon')->name('wbmaklon');
 
 // KEMAS
 Route::get('KonsepKemas/{id}/{id_feasibility}','kemas\KonsepController@index')->name('konsepkemas');
 Route::post('InsertKonsep/{id}','kemas\KonsepController@insert')->name('insertkonsep');
-Route::get('lihat/{id}/{id_feasibility}','kemas\KonsepController@hasilnya')->name('lihat');
+Route::get('lihat/{id}/{fs}','kemas\KonsepController@hasilnya')->name('lihat');
 Route::get('deletekemas/{id}','kemas\KonsepController@destroykemas')->name('deletekemas');
 Route::get('inboxkemas/{id}/{id_feasibility}','kemas\KonsepController@inboxkemas')->name('inboxkemas');
 Route::get('UploadKemas/{id}/{id_feasibility}','kemas\KemasController@index')->name('uploadkemas');
@@ -462,37 +515,28 @@ Route::get('hasilnya/{id}/{id_feasibility}','mesin\MesinController@hasil')->name
 Route::get('datamesin/{id}/{id_feasibility}','mesin\MesinController@index')->name('datamesin');
 Route::get('ubah/{id}/{id_feasibility}','mesin\MesinController@ubah')->name('ubah');
 Route::get('reference/{id}/{id_feasibility}','mesin\MesinController@reference')->name('reference');
-Route::get('inboxmesin/{id}/{id_feasibility}','mesin\MesinController@inbox')->name('inboxmesin');
+Route::get('inboxmesin/{id}/{id_feasibility}','mesin\Mesincontroller@inbox')->name('inboxmesin');
 Route::get('/runtimemesin/{id}/{id_feasibility}','mesin\MesinController@createrateM')->name('runtimemesin');
-Route::get('dataoh/{id}/{id_feasibility}','mesin\MesinController@data')->name('dataoh');
+Route::get('/mesinmixing/{id}/{id_feasibility}','mesin\MesinController@createmixing')->name('mesinmixing');
+Route::get('/mesinpacking/{id}/{id_feasibility}','mesin\MesinController@createpacking')->name('mesinpacking');
+Route::get('/mesinfilling/{id}/{id_feasibility}','mesin\MesinController@createfilling')->name('mesinfilling');
+Route::get('/labmesin/{id}/{id_feasibility}','mesin\MesinController@createlab')->name('labmesin');
+Route::get('/standaryield/{id}/{id_feasibility}','mesin\MesinController@createstd')->name('standaryield');
 Route::get('std/{id}','mesin\MesinController@std')->name('std');
 Route::post('DM', 'mesin\MesinController@createDMmesin')->name('DM');
 
 Route::post('/stdd', 'mesin\MesinController@store');
 Route::put('/updatemss/{id_mesin}', 'mesin\MesinController@runM')->name('updatemss');
-Route::post('/updateoh/{id_oh}', 'mesin\MesinController@runO')->name('updateoh');
-Route::get('delete/{id}', 'mesin\MesinController@destroyoh')->name('delete');
 Route::delete('deletedata/{id}', 'mesin\MesinController@destroy')->name('mesin.destroy');
 Route::post('/mss', 'mesin\MesinController@Mdata')->name('mss');
-Route::post('master/{id}', 'mesin\MesinController@master')->name('master');
-Route::post('/ohh', 'mesin\MesinController@dataO')->name('ohh');
+Route::post('ubahdatamaster', 'mesin\MesinController@ubahdata')->name('ubahdatamaster');
 Route::get('deleteP/{id}','mesin\MesinController@destroyP')->name('pesan.destroy');
 Route::post('statusM/{id}/{id_feasibility}', 'mesin\MesinController@status')->name('statusM');
 Route::post('lihat', 'mesin\MesinController@lihat')->name('lihat');
 route::post('kirimlab','mesin\MesinController@kirimlab')->name('kirimlab');
 route::post('lab','mesiMesinController@lab')->name('lab');
 
-//PRODUKSI
-route::get('produksi/{id}','produksi\ProduksiController@index')->name('produksi');
-route::get('data/{id}/{id_feasibility}','produksi\ProduksiController@has')->name('data');
-route::get('inboxproduksi/{id}','produksi\ProduksiController@inbox')->name('inboxproduksi');
-Route::post('updatesdmmesin/{id_mesin}', 'produksi\ProduksiController@sdmM')->name('updatesdmmesin');
-Route::post('updatesdmoh/{id_oh}', 'produksi\ProduksiController@sdmO')->name('updatesdmoh');
-Route::get('deletePsdm/{id}','produksi\ProduksiController@destroyPsdm')->name('pesansdm.destroy');
-Route::post('statusP/{id}/{id_feasibility}', 'produksi\ProduksiController@status')->name('statusP');
-
 //LAB
-route::get('datalab/{id}/{id_feasibility}','lab\LabController@index')->name('datalab');
 route::get('lab/{id}','lab\LabController@lihat')->name('lab');
 Route::get('deletelab/{id}','lab\LabController@destroylab')->name('delete');
 Route::post('/labb', 'lab\LabController@data')->name('labb');
@@ -512,15 +556,16 @@ route::post('insertpesan/{id}/{id_feasibility}','finance\FinanceController@kirim
 route::get('Datamastermesin/{id}/{id_feasibility}','finance\FinanceController@DMmesin')->name('DMmesin');
 Route::post('Dm', 'finance\FinanceController@createDMmesin')->name('Dm');
 
-route::get('Datamasteroh/{id}/{id_feasibility}','finance\FinanceController@DMoh')->name('DMoh');
-Route::post('Do', 'finance\FinanceController@createDMoh')->name('Do');
 Route::put('/updateM/{id_mesin}/{id_data_mesin}', 'finance\FinanceController@updateMesin')->name('updateM');
 Route::get('deletemesin/{id}', 'finance\FinanceController@destroy')->name('mesin.hapus');
-Route::get('deleteoh/{id}', 'finance\FinanceController@destroyoh')->name('oh.hapus');
 Route::get('akhir/{id}','finance\FinanceController@akhir')->name('akhir');
 Route::post('status/{id}/{id_feasibility}', 'finance\FinanceController@status')->name('status');
 Route::get('kemas/{id}/{id_feasibility}', 'finance\FinanceController@kemasan')->name('kemas');
 Route::resource('posts','finance\ajax');
+
+Route::get('kemasselesai/{id}','finance\FinanceController@kemasselesai')->name('kemasselesai');
+Route::get('mesinselesai/{id}','finance\FinanceController@mesinselesai')->name('mesinselesai');
+Route::get('akhirfs/{fs}/{id}','finance\FinanceController@akhirfs')->name('akhirfs');
 
 // forgot password
 Route::post('reset_password_without_token', 'AccountsController@validatePasswordRequest')->name('reset_password_without_token');

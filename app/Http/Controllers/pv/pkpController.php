@@ -13,22 +13,23 @@ use App\pkp\pkp_project;
 use App\pkp\project_pdf;
 use App\pkp\pkp_uniq_idea;
 use App\pkp\uom;
+use App\master\tb_teams_brand;
 use App\pkp\data_ses;
 use Carbon\Carbon;
-use App\pkp\sample_project;
-use App\pkp\project_launching;
+use App\pkp\pkp_datapangan;
+use App\devnf\hasilpanel;
 use App\pkp\ses;
+use App\pkp\project_launching;
 use App\pkp\pkp_estimasi_market;
 use App\master\Brand;
-use App\pkp\menu;
-use App\master\tb_teams_brand;
-use App\notification;
 use App\pkp\jenismenu;
+use App\dev\formula;
 use App\User;
 use App\master\Tarkon;
+use App\pkp\sample_project;
+use App\Modelfn\finance;
 use App\pkp\promo;
 use App\kemas\datakemas;
-use App\nutfact\datapangan;
 use App\pkp\coba;
 use App\pkp\klaim;
 use App\pkp\detail_klaim;
@@ -36,7 +37,6 @@ use App\pkp\komponen;
 use App\pkp\data_klaim;
 use App\pkp\data_detail_klaim;
 use App\pkp\tipp;
-use App\nutfact\pangan;
 use App\manager\pengajuan;
 use App\pkp\picture;
 use App\pkp\data_forecast;
@@ -76,9 +76,6 @@ class pkpController extends Controller
         $pkp1 = pkp_project::where('status_project','!=','draf')->get();
         $market = pkp_estimasi_market::all();
         $pengajuan = pengajuan::count();
-        $notif = notification::where('status','=','active')->count();
-        $pesan = notification::orderBy('updated_at','desc')->get();
-        $hitungnotif = $pengajuan + $notif;
 
         return view('pkp.requestPKP')->with([
             'type' => $type,
@@ -87,10 +84,7 @@ class pkpController extends Controller
             'brand' => $brand,
             'pkp1' => $pkp1,
             'pkp' => $pkp,
-            'pesan' => $pesan,
-            'notif' =>$notif,
             'pengajuan' => $pengajuan,
-            'hitungnotif' => $hitungnotif,
             'menu' => $menu
         ]);
     }
@@ -107,18 +101,12 @@ class pkpController extends Controller
         $pkp1 = pkp_project::where('status_project','!=','draf')->get();
         $pkp = pkp_project::orderBy('created_at','desc')->get();
         $pengajuan = pengajuan::count();
-        $notif = notification::where('status','=','active')->count();
-        $pesan = notification::orderBy('updated_at','desc')->get();
-        $hitungnotif = $pengajuan + $notif;
         $jmenu = jenismenu::all();
         $hitung = pkp_project::where('status_project','=','sent')->where('status_project','=','close')->count();
         return view('pkp.drafpkp')->with([
             'pkp' => $pkp,
             'pkp1' => $pkp1,
-            'pesan' => $pesan,
-            'notif' =>$notif,
             'pengajuan' => $pengajuan,
-            'hitungnotif' => $hitungnotif,
             'jmenu' => $jmenu,
             'hitung' => $hitung
         ]);
@@ -132,12 +120,6 @@ class pkpController extends Controller
         if($Dpkp!=NULL){
             $Dpkp->delete();
         }
-
-        $story= notification::where('id_pkp',$id_project)->first();
-        if($story!=NULL){
-            $story->delete();
-        }
-
         return redirect::back();
     }
 
@@ -153,9 +135,7 @@ class pkpController extends Controller
         $pkp2 = tipp::where('id_pkp',$id_project)->where('revisi','<=',$revisi)->where('turunan',$max)->orderBy('turunan','desc')->orderBy('revisi','desc')->get();
         $pkp1 = tipp::where('id_pkp',$id_project)->where('revisi','<=',$revisi)->where('turunan','<=',$turunan)->orderBy('turunan','desc')->orderBy('revisi','desc')->get();
         $pengajuan = pengajuan::count();
-        $notif = notification::where('status','=','active')->count();
-        $pesan = notification::orderBy('updated_at','desc')->get();
-        $hitungnotif = $pengajuan + $notif;
+        $formula = formula::where('workbook_id',$id_project)->count();
         $dataklaim = data_klaim::where('id_pkp',$id_project)->join('klaim','klaim.id','=','id_klaim')->where('revisi',$revisi)->where('turunan',$turunan)->get();
         $datadetail = data_detail_klaim::where('id_pkp',$id_project)->where('revisi',$revisi)->where('turunan',$turunan)->get();
         $user = DB::table('users')->join('pdf_project','pdf_project.tujuankirim','=','users.departement_id')->join('tipu','tipu.pdf_id','=','pdf_project.id_project_pdf')->where([ ['pdf_id',$id_project], ['revisi',$revisi], ['turunan',$turunan] ])->get();
@@ -164,13 +144,11 @@ class pkpController extends Controller
         $dept1 = Departement::all();
         return view('pkp.lihatpkp')->with([
             'pkpp' => $pkpp,
-            'pesan' => $pesan,
-            'notif' =>$notif,
             'pengajuan' => $pengajuan,
-            'hitungnotif' => $hitungnotif,
             'pkp' => $pkp,
             'datases' => $ses,
             'for' => $for,
+            'formula' => $formula,
             'datadetail' => $datadetail,
             'dataklaim' => $dataklaim,
             'pkp2' => $pkp2,
@@ -195,16 +173,12 @@ class pkpController extends Controller
         $max2 = tipp::where('id_pkp',$id_project)->max('revisi');
         $pkp1 = tipp::where('id_pkp',$id_project)->where('revisi',$max2)->where('turunan',$turunan)->get();
         $pengajuan = pengajuan::count();
-        $notif = notification::count();
-        $hitungnotif = $pengajuan + $notif;
         $dataklaim = data_klaim::where('id_pkp',$id_project)->join('klaim','klaim.id','=','id_klaim')->where('revisi',$revisi)->where('turunan',$turunan)->get();
         $ses= data_ses::where([ ['id_pkp',$id_project], ['revisi',$revisi], ['turunan',$turunan] ])->get();
         $datadetail = data_detail_klaim::where('id_pkp',$id_project)->where('turunan',$turunan)->get();
         return view('pkp.downloadpkp')->with([
             'pkpp' => $pkpp,
-            'notif' =>$notif,
             'pengajuan' => $pengajuan,
-            'hitungnotif' => $hitungnotif,
             'datadetail' => $datadetail,
             'pkp1' => $pkp1,
             'dataklaim' => $dataklaim,
@@ -251,9 +225,13 @@ class pkpController extends Controller
 
     public function TMubah(Request $request,$id_project){
         $data= pkp_project::where('id_project',$id_project)->first();
+        $data->status_project='sent';
         $data->jangka=$request->jangka;
         $data->waktu=$request->waktu;
+        $data->status_freeze='inactive';
+        $data->pengajuan_sample='reject';
         $data->prioritas=$request->prioritas;
+        $data->freeze_diaktifkan=Carbon::now();
         $data->save();
 
         return redirect::route('listpkp');
@@ -271,31 +249,22 @@ class pkpController extends Controller
         $pkp = pkp_project::orderBy('waktu','asc')->get();
         $type = pkp_type::all();
         $brand = brand::all();
-        $sample = sample_project::all();
         $pengajuan = pengajuan::count();
-        $notif = notification::where('status','=','active')->count();
-        $pesan = notification::orderBy('updated_at','desc')->get();
-        $hitungnotif = $pengajuan + $notif;
         return view('pkp.listpkp')->with([
             'type' => $type,
             'brand' => $brand,
             'pkp' => $pkp,
-            'sample' => $sample,
-            'pesan' => $pesan,
-            'notif' =>$notif,
-            'pengajuan' => $pengajuan,
-            'hitungnotif' => $hitungnotif
+            'pengajuan' => $pengajuan
         ]);
     }
 
     public function konfigurasi($id_project,$revisi,$turunan){
         $konfig = tipp::where([ ['id_pkp',$id_project], ['revisi',$revisi], ['turunan',$turunan] ])->first();
-        //dd($konfig->secondary);
         $konfig->kemas_eksis=null;
         if($konfig->primery!=null){
         $konfig->primery=null;}
         if($konfig->secondary!=null){
-        $konfig->secondary=null;}
+        $konfog->secondary=null;}
         if($konfig->tertiary!=null){
         $konfig->tertiary=null;}
         $konfig->save();
@@ -318,8 +287,7 @@ class pkpController extends Controller
         $kemas = datakemas::all();
         $eksis=datakemas::count();
         $datadetail = data_detail_klaim::where('id_pkp',$id_project)->where('turunan',$turunan)->where('revisi',$revisi)->get();
-        $pangan = pangan::all();
-        $datapangan = datapangan::all();
+        $pangan = pkp_datapangan::all();
         $hitung = tipp::where([ ['id_pkp',$id_project], ['revisi',$revisi], ['turunan',$turunan] ])->count();
         $id_pkp = pkp_project::find($id_project);
         $idea = pkp_uniq_idea::all();
@@ -328,9 +296,6 @@ class pkpController extends Controller
         $market = pkp_estimasi_market::all();
         $mar = pkp_estimasi_market::all();
         $pengajuan = pengajuan::count();
-        $notif = notification::where('status','=','active')->count();
-        $pesan = notification::orderBy('updated_at','desc')->get();
-        $hitungnotif = $pengajuan + $notif;
         $detail = detail_klaim::all();
         $klaim = klaim::all();
         $komponen = komponen::all();
@@ -340,13 +305,9 @@ class pkpController extends Controller
             'datadetail' => $datadetail,
             'for' => $for,
             'user' => $user,
-            'datapangan' => $datapangan,
             'hitung' => $hitung,
             'uom' => $uom,
-            'pesan' => $pesan,
-            'notif' =>$notif,
             'pengajuan' => $pengajuan,
-            'hitungnotif' => $hitungnotif,
             'datases' => $datases,
             'ses' => $ses,
             'tarkon' => $tarkon,
@@ -369,174 +330,20 @@ class pkpController extends Controller
         ]);
     }
 
-    public function approvesamplepkp($id_sample){
-        $pkp = sample_project::where('id_sample',$id_sample)->first();
-        $pkp->status='approve';
-        $pkp->save();
-
-        return redirect::back();
-    }
-
-    public function rejectsamplepkp(Request $request,$id_sample){
-        $pkp = sample_project::where('id_sample',$id_sample)->first();
-        $pkp->status='reject';
-        $pkp->catatan_reject=$request->note;
-        $pkp->save();
-
-        $data = $pkp->id_pkp;
-
-        // kirim email reject sample (pengirim, manager, PV)
-        $isipkp = tipp::where('id_pkp',$pkp->id_pkp)->where('status_data','=','active')->get();
-        try{
-            Mail::send('manager.infoemailpkp', [
-                'info' => 'Maaf Sample Yang Anda Kirim Ditolak Karna "'.$request->note.'"',
-                'app'=>$isipkp,],function($message)use($data)
-            {
-                $message->subject('Reject PKP sample');
-                $message->from('app.prodev@nutrifood.co.id', 'PRODEV');
-                
-                $datapkp = pkp_project::where('id_project',$data)->get();
-                foreach($datapkp as $data){
-                    $dept = DB::table('departements')->where('id',$data->tujuankirim)->get();
-                    foreach($dept as $dept){
-                        $user = user::where('id',$dept->manager_id)->get();
-                        foreach($user as $user){
-                            $to = $user->email;
-                             //dd($to);
-                            $message->to($to);
-                        }
-                    }
-                    $user1 = user::where('id',$data->userpenerima)->get();
-                    foreach($user1 as $user1){
-                        $cc = [$user1->email,Auth::user()->email];
-                         //dd($cc);
-                        $message->cc($cc);
-                    }
-                }
-
-            });
-            return back()->with('status','E-mail Successfully');
-        }
-        catch (Exception $e){
-        return response (['status' => false,'errors' => $e->getMessage()]);
-        }
-
-        return redirect::back();
-    }
-
-    public function finalsamplepkp($id_project,$id_sample){
-        $sample = pkp_project::where('id_project',$id_project)->first();
-        $sample->pengajuan_sample='approve';
-        $sample->save();
-
-        $pkp = sample_project::where('id_sample',$id_sample)->first();
-        $pkp->status='final';
-        $pkp->save();
-
-        // kirim email approve final sample (pengirim, manager)
-        $isipkp = tipp::where('id_pkp',$id_project)->where('status_data','=','active')->get();
-        try{
-            Mail::send('manager.infoemailpkp', [
-                'info' => 'Sample project PKP yang diajukan telah disetujui',
-                'app'=>$isipkp,],function($message)use($id_project)
-            {
-                $message->subject('Approved PKP sample');
-                $message->from('app.prodev@nutrifood.co.id', 'PRODEV');
-                
-                $datapkp = pkp_project::where('id_project',$id_project)->get();
-                foreach($datapkp as $data){
-                    $dept = DB::table('departements')->where('id',$data->tujuankirim)->get();
-                    foreach($dept as $dept){
-                        $user = user::where('id',$dept->manager_id)->get();
-                        foreach($user as $user){
-                            $to = $user->email;
-                            // dd($to);
-                            $message->to($to);
-                        }
-                    }
-                    $user1 = user::where('id',$data->userpenerima)->get();
-                    foreach($user1 as $user1){
-                        $cc = [$user1->email,Auth::user()->email];
-                        // dd($cc);
-                        $message->cc($cc);
-                    }
-                }
-
-            });
-            return back()->with('status','E-mail Successfully');
-        }
-        catch (Exception $e){
-        return response (['status' => false,'errors' => $e->getMessage()]);
-        }
-
-        return redirect::back();
-    }
-
-    public function unfinalsamplepkp($id_project,$id_sample){
-        $sample = pkp_project::where('id_project',$id_project)->first();
-        $sample->pengajuan_sample='sent';
-        $sample->save();
-
-        $pkp = sample_project::where('id_sample',$id_sample)->first();
-        $pkp->status='approve';
-        $pkp->save();
-
-        // kirim email unfinal final sample (pengirim, pv)
-        $isipkp = tipp::where('id_pkp',$id_project)->where('status_data','=','active')->get();
-        try{
-            Mail::send('manager.infoemailpkp', [
-                'info' => 'Sample project PKP yang diajukan batal disetujui',
-                'app'=>$isipkp,],function($message)use($id_project)
-            {
-                $message->subject('Cancellation of sample approval');
-                $message->from('app.prodev@nutrifood.co.id', 'PRODEV');
-                
-                $datapkp = pkp_project::where('id_project',$id_project)->get();
-                foreach($datapkp as $data){
-                    $dept = DB::table('departements')->where('id',$data->tujuankirim)->get();
-                    foreach($dept as $dept){
-                        $user = user::where('id',$dept->manager_id)->get();
-                        foreach($user as $user){
-                            $to = $user->email;
-                            $message->to($to);
-                        }
-                    }
-                    $user1 = user::where('id',$data->userpenerima)->get();
-                    foreach($user1 as $user1){
-                        $cc = [$user1->email,Auth::user()->email];
-                        $message->cc($cc);
-                    }
-                }
-
-            });
-            return back()->with('status','E-mail Successfully');
-        }
-        catch (Exception $e){
-        return response (['status' => false,'errors' => $e->getMessage()]);
-        }
-
-        return redirect::back();
-    }
-
     public function buatpkp1($id_project){
         $pkp = pkp_project::where('id_project',$id_project)->first();
-        $teams = tb_teams_brand::where('brand',$pkp->id_brand)->get();
         $brand = brand::all();
         $tarkon = Tarkon::all();
-        $pangan = pangan::all();
+        $pangan = pkp_datapangan::all();
         $kemas = datakemas::get();
         $uom = uom::all();
-        $user = user::where('status','=','active')->get();
         $ses = ses::all();
         $Ddetail = data_detail_klaim::max('id')+1;
         $detail = detail_klaim::all();
         $klaim = klaim::all();
         $komponen = komponen::all();
-        $datapangan = datapangan::all();
         $pengajuan = pengajuan::count();
-        $notif = notification::where('status','=','active')->count();
-        $pesan = notification::orderBy('updated_at','desc')->get();
-        $hitungnotif = $pengajuan + $notif;
+        $teams = tb_teams_brand::where('brand',$pkp->id_brand)->get();
         $id_pkp = pkp_project::find($id_project);
         $idea = pkp_uniq_idea::all();
         $project = tipp::where('status_pkp','!=','draf')->where('status_data','=','active') ->join('pkp_project','pkp_project.id_project','=','tippu.id_pkp')->get();
@@ -548,22 +355,17 @@ class pkpController extends Controller
             'brand' => $brand,
             'project' => $project,
             'komponen' => $komponen,
-            'user' => $user,
             'klaim' => $klaim,
             'detail' => $detail,
-            'datapangan' => $datapangan,
             'tarkon' => $tarkon,
             'pangan' => $pangan,
-            'pesan' => $pesan,
-            'notif' =>$notif,
             'pengajuan' => $pengajuan,
-            'hitungnotif' => $hitungnotif,
             'id_pkp' => $id_pkp,
+            'teams' => $teams,
             'idea' => $idea,
             'ses' => $ses,
             'Ddetail' => $Ddetail,
             'uom' => $uom,
-            'teams' => $teams,
             'eksis' => $eksis,
             'kemas' => $kemas,
             'ide' => $ide,
@@ -956,19 +758,111 @@ class pkpController extends Controller
         return redirect()->Route('datatambahanpkp',['id_project' => $tip->id_pkp, 'revisi' => $tip->revisi, 'turunan' => $tip->turunan])->with('status', 'Revised data ');
     }
 
+    public function closeproject(Request $request,$id){
+        $this->validate($request, [
+            'filename' => 'required',
+            'filename.*' => 'required|file|max:5120'
+        ]);
+
+        $pkp = pkp_project::where('id_project',$id)->first();
+        $pkp->status_project='close';
+        $pkp->save();
+
+        $pkp1 = tipp::where('id_pkp',$id)->where('status_data','=','active')->first();
+        $pkp1->status_pkp='close';
+        $pkp1->save();
+        
+        $files = [];
+        foreach ($request->file('filename') as $file) {
+        if ($file->isValid()) {
+            $nama = time();
+            $nama_file = time()."_".$file->getClientOriginalName();
+            $tujuan_upload = 'data_file';
+            $path = $file->move($tujuan_upload,$nama_file);
+            $turunan =$request->turunan;
+            $form=$request->id;
+            $files[] = [
+                'id_pkp' => $form,
+                'tanggal' => $request->date,
+                'nama_produk' => $request->product,
+                'formula_baku' => $request->baku,
+                'formula_kemas' => $request->kemas,
+                'price_list' => $request->price,
+                'forecast' => $request->forecast,
+                'rto' => $request->rto,
+                'note' => $request->note, 
+                'barcode' => $nama_file,
+            ];
+            }
+        }
+        project_launching::insert($files);
+
+        $emaillaunch = pkp_project::where('id_project',$id)->get();
+        try{
+            Mail::send('launching', [
+                'launch'=>$emaillaunch,],function($message)use($request,$id)
+            {
+                $message->subject('Konfirmasi Launching');
+                $message->from('app.prodev@nutrifood.co.id', 'PRODEV');
+
+                $data = $request->penerima1;
+                $data2 = $request->penerima2;
+                $data3 = $request->penerima3;
+                $data4 = $request->penerima4;
+                $author = $request->author;
+                $perevisi = $request->perevisi;
+                $project = pkp_project::where('id_project',$id)->get();
+                foreach($project as $pro){
+                    if($pro->tujuankirim2!=null){
+                        if($pro->userpenerima2!=null && $pro->userpenerima!=null){
+                            $to = [$data,$data2,$data3,$data4];
+                            $cc = [$author,$perevisi];
+                            $message->to($to);
+                            $message->cc($data);
+                        }elseif($pro->userpenerima==null){
+                            $to = [$data,$data2,$data4];
+                            $cc = [$author,$perevisi];
+                            $message->to($to);
+                            $message->cc($data);
+                        }elseif($pro->userpenerima2==null){
+                            $to = [$data,$data2,$data3];
+                            $cc = [$author,$perevisi];
+                            $message->to($to);
+                            $message->cc($data);
+                        }
+                    }else{
+                        if($pro->userpenerima!=null){
+                            $to = [$data,$data3];
+                            $cc = [$author,$perevisi];
+                            $message->to($to);
+                            $message->cc($data);
+                        }else{
+                            $to = $data;
+                            $cc = [$author,$perevisi];
+                            $message->to($to);
+                            $message->cc($data);
+                        }
+                    }
+                }
+            });
+            return back()->with('status','Berhasil Kirim Email');
+        }
+        catch (Exception $e){
+        return response (['status' => false,'errors' => $e->getMessage()]);
+        }
+
+        return redirect()->back()->with('status', 'Project '.$pkp->project_name.' successfully closed');
+    }
+
     public function tipp(Request $request){
         $data = tipp::where('id_pkp',$request->id)->count();
         if($data>=1){
-            $pp = 'data1';
-            // dd($pp);
             $turunan = tipp::where('id_pkp',$request->id)->max('turunan');
             $revisi = tipp::where('id_pkp',$request->id)->max('revisi');
 
-            return redirect()->route('datatambahanpkp',['id_pkp' => $request->id,'revisi' => $revisi, 'turunan' => $turunan])->with('status', 'Data has been added up ');
+            return redirect()->Route('datatambahanpkp',['id_pkp' => $request->id,'revisi' => $revisi, 'turunan' => $turunan])->with('status', 'Data has been added up ');
         }
         elseif($data==0){
-            $pp = 'data0';
-            // dd($pp);
             $tip = new tipp;
             $tip->id_pkp=$request->id;
             $tip->idea=$request->idea;
@@ -1024,7 +918,7 @@ class pkpController extends Controller
             $tip->mandatory_ingredient=$request->ingredient;
             $tip->gambaran_proses=$request->proses;
             $tip->save();
-        
+    
             if($request->ses!=''){
                 $rule = array(); 
                 $validator = Validator::make($request->all(), $rule);  
@@ -1157,17 +1051,11 @@ class pkpController extends Controller
         $id_pkp= pkp_project::find($id_project);
         $turunan= tipp::where([ ['id_pkp',$id_project], ['turunan',$turunan] ])->get();
         $pengajuan = pengajuan::count();
-        $notif = notification::where('status','=','active')->count();
-        $pesan = notification::orderBy('updated_at','desc')->get();
-        $hitungnotif = $pengajuan + $notif;
         return view('pkp.datatambahanpkp')->with([
             'pkp' => $pkp,
             'coba' => $coba,
             'coba1' => $coba1,
-            'pesan' => $pesan,
-            'notif' =>$notif,
             'pengajuan' => $pengajuan,
-            'hitungnotif' => $hitungnotif,
             'turunan' => $turunan,
             'id_pkp' => $id_pkp
         ]);
@@ -1176,8 +1064,8 @@ class pkpController extends Controller
     public function uploaddatapkp(Request $request){
         $this->validate($request, [
             'filename' => 'required',
-            'filename.*' => 'required|file|max:5120'
-        ]);
+            'filename.*' => 'required|file|max:51200'
+       ]);
         $files = [];
         foreach ($request->file('filename') as $file) {
         if ($file->isValid()) {
@@ -1198,102 +1086,6 @@ class pkpController extends Controller
         picture::insert($files);
         return redirect()->back()->withSuccess(sprintf('%s file uploaded successfully.', count($files)));
     }
-
-    public function closeproject(Request $request,$id){
-        $this->validate($request, [
-            'filename' => 'required',
-            'filename.*' => 'required|file|max:5120'
-        ]);
-
-        $pkp = pkp_project::where('id_project',$id)->first();
-        $pkp->status_project='close';
-        $pkp->save();
-
-        $pkp1 = tipp::where('id_pkp',$id)->where('status_data','=','active')->first();
-        $pkp1->status_pkp='close';
-        $pkp1->save();
-        
-        $files = [];
-        foreach ($request->file('filename') as $file) {
-        if ($file->isValid()) {
-            $nama = time();
-            $nama_file = time()."_".$file->getClientOriginalName();
-            $tujuan_upload = 'data_file';
-            $path = $file->move($tujuan_upload,$nama_file);
-            $turunan =$request->turunan;
-            $form=$request->id;
-            $files[] = [
-                'id_pkp' => $form,
-                'tanggal' => $request->date,
-                'nama_produk' => $request->product,
-                'formula_baku' => $request->baku,
-                'formula_kemas' => $request->kemas,
-                'price_list' => $request->price,
-                'forecast' => $request->forecast,
-                'rto' => $request->rto,
-                'note' => $request->note, 
-                'barcode' => $nama_file,
-            ];
-            }
-        }
-        project_launching::insert($files);
-
-        $emaillaunch = pkp_project::where('id_project',$id)->get();
-        try{
-            Mail::send('launching', [
-                'launch'=>$emaillaunch,],function($message)use($request,$id)
-            {
-                $message->subject('Konfirmasi Launching');
-                $message->from('app.prodev@nutrifood.co.id', 'PRODEV');
-
-                $data = $request->penerima1;
-                $data2 = $request->penerima2;
-                $data3 = $request->penerima3;
-                $data4 = $request->penerima4;
-                $author = $request->author;
-                $perevisi = $request->perevisi;
-                 $project = pkp_project::where('id_project',$id)->get();
-                foreach($project as $pro){
-                    if($pro->tujuankirim2!=null){
-                        if($pro->userpenerima2!=null && $pro->userpenerima!=null){
-                            $to = [$data,$data2,$data3,$data4];
-                            $cc = [$author,$perevisi];
-                            $message->to($to);
-                            $message->cc($data);
-                        }elseif($pro->userpenerima==null){
-                            $to = [$data,$data2,$data4];
-                            $cc = [$author,$perevisi];
-                            $message->to($to);
-                            $message->cc($data);
-                        }elseif($pro->userpenerima2==null){
-                            $to = [$data,$data2,$data3];
-                            $cc = [$author,$perevisi];
-                            $message->to($to);
-                            $message->cc($data);
-                        }
-                    }else{
-                        if($pro->userpenerima!=null){
-                            $to = [$data,$data3];
-                            $cc = [$author,$perevisi];
-                            $message->to($to);
-                            $message->cc($data);
-                        }else{
-                            $to = $data;
-                            $cc = [$author,$perevisi];
-                            $message->to($to);
-                            $message->cc($data);
-                        }
-                    }
-                }
-            });
-            return back()->with('status','Berhasil Kirim Email');
-        }
-        catch (Exception $e){
-        return response (['status' => false,'errors' => $e->getMessage()]);
-        }
-
-        return redirect()->back()->with('status', 'Project '.$pkp->project_name.' successfully closed');
-    }
  
 
     public function destroydata($id_pictures){
@@ -1311,8 +1103,8 @@ class pkpController extends Controller
         $data->status_project='sent';
         $data->tujuankirim=$request->kirim;
         $data->jangka=$request->jangka;
-        $data->tgl_kirim=$request->date;
         $data->waktu=$request->waktu;
+        $data->tgl_kirim=$request->date;
         $data->tujuankirim2=$request->rka;
         $data->status='active';
         $data->save();
@@ -1330,7 +1122,7 @@ class pkpController extends Controller
                 'jangka' => $request->jangka,
                 'waktu' => $request->waktu,],function($message)use($request)
                 {
-                    $message->subject('PROJECT PKP '.$request->name);
+                    $message->subject('PKP '.$request->name);
                     $message->from('app.prodev@nutrifood.co.id', 'PRODEV');
                     //sent email to manager
                     $dept = DB::table('departements')->where('id',$request->kirim)->get();
@@ -1338,7 +1130,7 @@ class pkpController extends Controller
                         $user = DB::table('users')->where('id',$dept->manager_id)->get();
                         foreach($user as $user){
                             $data = $user->email;
-                            $cc = [Auth::user()->email,'asrinurul4238@gmail.com','bagas@nutrifood.co.id'];
+                            $cc = [Auth::user()->email,'asrinurul4238@gmail.com'];
                             //dd($cc);
                             $message->to($data);
                             $message->cc($cc);
@@ -1386,7 +1178,6 @@ class pkpController extends Controller
         $data->ket_no=$request->ket_no;
         $data->status_project='sent';
         $data->tujuankirim=$request->kirim;
-        $data->tgl_kirim=$request->date;
         $data->jangka=$request->jangka;
         $data->waktu=$request->waktu;
         $data->tujuankirim2=$request->rka;
@@ -1397,8 +1188,8 @@ class pkpController extends Controller
         $isi->status_pkp='sent';
         $isi->save();
 
-        $ajukan = pengajuan::where('id_pkp',$id_project)->count();
-        if($ajukan == 1){
+        $pengajuan = pengajuan::where('id_pkp',$id_project)->count();
+        if($pengajuan == 1){
             $pengajuan = pengajuan::where('id_pkp',$id_project)->first();
             $pengajuan->delete();
         }
@@ -1412,7 +1203,7 @@ class pkpController extends Controller
                 'jangka' => $request->jangka,
                 'waktu' => $request->waktu,],function($message)use($request)
                 {
-                    $message->subject('PROJECT PKP '.$request->name);
+                    $message->subject('PKP '.$request->name);
                     $message->from('app.prodev@nutrifood.co.id', 'PRODEV');
                     //sent email to manager
                     $dept = DB::table('departements')->where('id',$request->kirim)->get();
@@ -1420,7 +1211,7 @@ class pkpController extends Controller
                         $user = DB::table('users')->where('id',$dept->manager_id)->get();
                         foreach($user as $user){
                             $data = $user->email;
-                            $cc = [Auth::user()->email,'asrinurul4238@gmail.com','bagas@nutrifood.co.id'];
+                            $cc = [Auth::user()->email,'asrinurul4238@gmail.com'];
                             //dd($cc);
                             $message->to($data);
                             $message->cc($cc);
@@ -1527,9 +1318,6 @@ class pkpController extends Controller
         $pengajuanpkp = pkp_project::join('pkp_pengajuan','pkp_project.id_project','=','pkp_pengajuan.id_pkp')->count();
         $pkp = pkp_project::where('id_project',$id_project)->get();
         $pengajuan = pengajuan::count();
-        $notif = notification::where('status','=','active')->count();
-        $pesan = notification::orderBy('updated_at','desc')->get();
-        $hitungnotif = $pengajuan + $notif;
         $sample_project = sample_project::where('id_pkp',$id_project)->get();
         $status_sample_project = sample_project::where('id_pkp',$id_project)->where('status','=','final')->count();
         $hitung = tipp::where('id_pkp',$id_project)->count();
@@ -1538,20 +1326,21 @@ class pkpController extends Controller
         $max2 = tipp::where('id_pkp',$id_project)->max('revisi');
         $datapkp = tipp::where('id_pkp',$id_project)->where('turunan',$max)->where('revisi',$max2)->get();
         $pkp1 = pkp_project::where('id_project',$id_project)->get();
+        $hformula = formula::where('workbook_id',$id_project)->count();
+        $formula = formula::where('workbook_id',$id_project)->where('vv','!=','null')->orderBy('versi','asc')->get();
         $data = pkp_project::where('id_project',$id_project)->get();
-        $data1 = pkp_project::where('id_project',$id_project)
-        ->join('tippu','tippu.id_pkp','pkp_project.id_project')->where('status_data','=','active')->get();
+        $data1 = tipp::where('id_project',$id_project)->join('pkp_project','tippu.id_pkp','pkp_project.id_project')->where('status_data','=','active')->get();
+        $hasilpanel = hasilpanel::where('id_wb',$id_project)->count();
         return view('pkp.daftarpkp')->with([
             'pkp' => $pkp,
             'pkp1' => $pkp1,
-            'pesan' => $pesan,
             'sample' => $sample_project,
             'status_sample' => $status_sample_project,
-            'notif' =>$notif,
-            'pengajuan' => $pengajuan,
+            'hasilpanel' => $hasilpanel,
             'user' => $user,
             'data1' => $data1,
-            'hitungnotif' => $hitungnotif,
+            'formula' => $formula,
+            'hformula' => $hformula,
             'datapkp' => $datapkp,
             'pengajuanpkp' => $pengajuanpkp,
             'data' => $data,
@@ -1595,9 +1384,6 @@ class pkpController extends Controller
         $hitungpdf = project_pdf::where('status_project','=','draf')->count();
         $pdf1 = project_pdf::all()->count();
         $pengajuan = pengajuan::count();
-        $notif = notification::where('status','=','active')->count();
-        $pesan = notification::orderBy('updated_at','desc')->get();
-        $hitungnotif = $pengajuan + $notif;
         $revisi = pkp_project::where('status_project','=','revisi')->count();
         $proses = pkp_project::where('status_project','=','proses')->count();
         $sent= pkp_project::where('status_project','=','sent')->count();
@@ -1623,25 +1409,11 @@ class pkpController extends Controller
             'promo1' => $promo1,
             'hitungpdf' => $hitungpdf,
             'pdf1' => $pdf1,
-            'pesan' => $pesan,
-            'notif' =>$notif,
             'pie' => $pie,
             'pie2' => $pie2,
             'pie3' => $pie3,
-            'notif' =>$notif,
-            'pengajuan' => $pengajuan,
-            'hitungnotif' => $hitungnotif
+            'pengajuan' => $pengajuan
         ]);
-    }
-
-    public function bacapesan($id){
-        $pesan = notification::where('id',$id)->first();
-        $pesan->status="nonactive";
-        $pesan->save();
-        
-        if($pesan->id_pdf!=NULL){return redirect::route('rekappdf',$pesan->id_pdf);}
-        if($pesan->id_pkp!=NULL){return redirect::route('rekappkp',$pesan->id_pkp);}
-        if($pesan->id_promo!=NULL){return redirect::route('rekappromo',$pesan->id_promo);}
     }
 
     public function dasboardnr(){
@@ -1649,9 +1421,6 @@ class pkpController extends Controller
         $promo1 = promo::all()->count();
         $pdf1 = project_pdf::all()->count();
         $pengajuan = pengajuan::count();
-        $notif = notification::where('status','=','active')->count();
-        $pesan = notification::orderBy('updated_at','desc')->get();
-        $hitungnotif = $pengajuan + $notif;
         $hitungpkp = pkp_project::where('status_project','=','draf')->count();
         $pkp1 = pkp_project::all()->count();
         $hitungpromo = promo::where('status_project','=','draf')->count();
@@ -1680,14 +1449,12 @@ class pkpController extends Controller
             'promo1' => $promo1,
             'pie' => $pie,
             'pie2' => $pie2,
-            'notif' =>$notif,
             'hitungpkp' => $hitungpkp,
             'hitungpromo' => $hitungpromo,
             'hitungpdf' => $hitungpdf,
             'pesan' => $pesan,
             'pengajuan' => $pengajuan,
             'pie3' => $pie3,
-            'hitungnotif' => $hitungnotif,
             'pdf1' => $pdf1
         ]);
     }
@@ -1791,7 +1558,6 @@ class pkpController extends Controller
                 $tip->product_benefits=$pkpp->product_benefits;
                 $tip->mandatory_ingredient=$pkpp->mandatory_ingredient;
                 $tip->gambaran_proses=$pkpp->gambaran_proses;
-                $tip->perevisi=$pkpp->perevisi;
                 $tip->save();
                 }
             }
@@ -1868,30 +1634,113 @@ class pkpController extends Controller
         $pengajuanpkp = pengajuan::where('id_pkp','!=','')->get();
         $pengajuanpromo = pengajuan::where('id_promo','!=','')->get();
         $pengajuan = pengajuan::count();
-        $notif = notification::where('status','=','active')->count();
-        $pesan = notification::orderBy('updated_at','desc')->get();
-        $hitungnotif = $pengajuan + $notif;
         return view('pv.datapengajuan')->with([
             'pengajuanpdf' => $pengajuanpdf,
             'pengajuanpkp' => $pengajuanpkp,
-            'pesan' => $pesan,
-            'notif' =>$notif,
             'pengajuan' => $pengajuan,
-            'hitungnotif' => $hitungnotif,
             'pengajuanpromo' => $pengajuanpromo
         ]);
     }
 
-    public function catatanrevisi(){
+    public function kalenderpkp($id_project)
+    {
         $pengajuan = pengajuan::count();
-        $notif = notification::where('status','=','active')->count();
-        $pesan = notification::where('status','=','active')->orderBy('updated_at','desc')->get();
-        $hitungnotif = $pengajuan + $notif;
-        return view('pkp.catatanrevisi')->with([
-        'pesan' => $pesan,
-        'notif' =>$notif,
+        $events = [];
+        $data = pkp_project::where('id_project',$id_project)->get();
+        if($data->count()){
+            foreach ($data as $key => $value) {
+            $events[] = Calendar::event(
+                $value->project_name,
+                true,
+                new \DateTime($value->jangka),
+                new \DateTime($value->waktu.' +1 day')
+            );
+          }
+       }
+      $calendar = Calendar::addEvents($events); 
+      return view('pkp.kalenderpkp')->with([
         'pengajuan' => $pengajuan,
-        'hitungnotif' => $hitungnotif,
+        'calendar' => $calendar
+    ]);
+    }
+
+    public function allcalenderpkp()
+    {
+        $pengajuan = pengajuan::count();
+        $events = [];
+        $data = pkp_project::where('status_project','!=','draf')->get();
+        if($data->count()){
+            foreach ($data as $key => $value) {
+                $events[] = Calendar::event(
+                    $value->project_name,
+                    true,
+                    new \DateTime($value->jangka),
+                    new \DateTime($value->waktu.' +1 day')
+                );
+            }
+        }
+        $calendar = Calendar::addEvents($events); 
+        return view('pv.allcalender')->with([
+            'pengajuan' => $pengajuan,
+            'calendar' => $calendar
+        ]);
+    }
+
+    public function allcalenderpdf()
+    {
+        $pengajuan = pengajuan::count();
+        $events = [];
+        $data = project_pdf::where('status_project','!=','draf')->get();
+        if($data->count()){
+            foreach ($data as $key => $value) {
+                $events[] = Calendar::event(
+                    $value->project_name,
+                    true,
+                    new \DateTime($value->jangka),
+                    new \DateTime($value->waktu.' +1 day')
+                );
+            }
+        }
+        $calendar = Calendar::addEvents($events); 
+        return view('pv.allcalendarpdf')->with([
+            'pengajuan' => $pengajuan,
+            'calendar' => $calendar
+        ]);
+    }
+
+    public function allcalenderpromo()
+    {
+        $pengajuan = pengajuan::count();
+        $events = [];
+        $data = promo::where('status_project','!=','draf')->get();
+        if($data->count()){
+            foreach ($data as $key => $value) {
+                $events[] = Calendar::event(
+                    $value->project_name,
+                    true,
+                    new \DateTime($value->jangka),
+                    new \DateTime($value->waktu.' +1 day')
+                );
+            }
+        }
+        $calendar = Calendar::addEvents($events); 
+        return view('pv.allcalendarpromo')->with([
+            'pesan' => $pesan,
+            'pengajuan' => $pengajuan,
+            'calendar' => $calendar
+        ]);
+    }
+
+    public function story(){
+        $pengajuan = pengajuan::count();
+        $pkp = tipp::all();
+        $pdf1 = coba::all();
+        $promo = promo::all();
+        return view('pkp.story')->with([
+            'pkp' => $pkp,
+            'pdf1' => $pdf1,
+            'promo' => $promo,
+            'pengajuan' => $pengajuan
         ]);
     }
 

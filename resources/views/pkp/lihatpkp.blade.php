@@ -46,7 +46,9 @@
                                 <option disabled selected>Departement</option>
                                 @foreach($dept as $dept)
                                 @if($dept->Divisi=='RND')
-                                <option value="{{$dept->id}}"> Manager {{ $dept->dept }} ({{$dept->users->name}})</option>
+                                  @if($dept->dept!='RKA')
+                                  <option value="{{$dept->id}}"> Manager {{ $dept->dept }} ({{$dept->users->name}})</option>
+                                  @endif
                                 @endif
                                 @endforeach
                               </select>

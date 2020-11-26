@@ -26,15 +26,15 @@ class tipp extends Model
     }
 
     public function kategori(){
-        return $this->hasOne('App\nutfact\pangan','id_pangan','kategori_bpom');
+        return $this->hasOne('App\pkp\pkp_datapangan','id_pangan','kategori_bpom');
     }
 
     public function panganolahan(){
-        return $this->hasOne('App\nutfact\olahan','id','olahan');
+        return $this->hasOne('App\pkp\pkp_kategoripangan','id_kategori','olahan');
     }
 
     public function katpangan(){
-        return $this->hasOne('App\nutfact\pangan','id_pangan','kategori_bpom');
+        return $this->hasOne('App\pkp\pkp_datapangan','id_pangan','kategori_bpom');
     }
 
     public function Dklaim(){
@@ -59,5 +59,9 @@ class tipp extends Model
 
     public function perevisi2(){
         return $this->hasOne('App\User','id','perevisi');
+    }
+
+    public function sample(){
+        return $this->hasOne('App\dev\Formula','workbook_id','id');
     }
 }

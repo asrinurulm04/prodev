@@ -10,12 +10,12 @@ use App\dev\Formula;
 use App\dev\Fortail;
 use App\dev\Premix;
 use App\dev\Pretail;
-use App\master\Jenismakanan;
+use App\devnf\hasilpanel;
+use App\devnf\storage;
 use App\master\Brand;
 use App\pkp\pkp_project;
 use App\pkp\tipp;
 use App\User;
-use App\Pesan;
 use Auth;
 use Redirect;
 
@@ -29,24 +29,12 @@ class WorkbookController extends Controller
     public function index(){   
         $id = Auth::id();
         $workbooks = Workbook::where('user_id',$id)->get();
-        $jms = Jenismakanan::all();
         $brands = Brand::all();
         $cw = Workbook::where('user_id',$id)->count();
         $no = 0;
 
         $allproject = collect();
         foreach ($workbooks as $workbook){
-
-            // Hitung Jumlah Pesan
-            $pm =  Pesan::where([
-                ['workbook_id',$workbook->id],
-                ['jenis2','dev'],
-            ])->count(); 
-            
-            $pt = Pesan::where([
-                ['workbook_id',$workbook->id],
-                ['jenis','dev']
-            ])->count(); 
 
             // Hitung Jumlah Versi
             $jv = Formula::where('workbook_id',$workbook->id)->count();
@@ -58,6 +46,7 @@ class WorkbookController extends Controller
                 'jenis' => $workbook->jenis,
                 'revisi' => $workbook->revisi,
                 'deskripsi' => $workbook->deskripsi,
+                'keterangan' => $workbook->keterangan,
                 'status' => $workbook->status,
                 'jv' => $jv,
                 'pm' => $pm,
@@ -68,10 +57,9 @@ class WorkbookController extends Controller
         return view('devwb.workbooks')->with([
             'no' => $no,
             'allproject' => $allproject,
-            'jms' => $jms,
             'brands' => $brands,
             'cw' => $cw
-            ]);
+        ]);
     }
 
     public function store(Request $request)
@@ -86,7 +74,6 @@ class WorkbookController extends Controller
             $workbooks->revisi = $request->revisi;
         }        
         $workbooks->subbrand_id = $request->subbrand;
-        $workbooks->jenismakanan_id = $request->jm;
         $workbooks->tarkon = $request->tarkon;
         $workbooks->deskripsi = $request->deskripsi;
         $workbooks->save();
@@ -105,7 +92,6 @@ class WorkbookController extends Controller
             $workbooks->revisi = $request->revisi;
         }        
         $workbooks->subbrand_id = $request->subbrand;
-        $workbooks->jenismakanan_id = $request->jm;
         $workbooks->tarkon_id = $request->tarkon;
         $workbooks->deskripsi = $request->deskripsi;
         $workbooks->target_serving = $request->target_serving;
@@ -127,33 +113,18 @@ class WorkbookController extends Controller
     {
         $pkp = tipp::where('id_pkp',$id)->join('pkp_project','pkp_project.id_project','=','tippu.id_pkp')->where('status_data','=','active')->get();
         $workbooks = tipp::where('id_pkp',$id)->get();
-        $formulas  = Formula::where('workbook_id', $id)->get();
-        $cf=Formula::where('workbook_id', $id)->count();
+        $formulas = Formula::where('workbook_id', $id)->get();
+        $panel = hasilpanel::where('id_wb',$id)->get();
+        $storage = storage::where('id_formula',$id)->get();
+        $cf =Formula::where('workbook_id', $id)->count();
         $for = Formula::where('workbook_id', $id)->get();
         // Untuk edit Workbook / Alihkan Workbook
-        $jms = Jenismakanan::all();
         $brands = Brand::all();
         $users = DB::table('users')->where([
             ['id',"!=", Auth::id()],
             ['role_id', Auth::user()->role_id],
             ['status', 'active']
             ])->get();
-        
-         // View Pesan 
-        $notif = Pesan::where([
-            ['workbook_id',$id],
-            ['jenis2','dev'],
-        ])->count(); 
-
-        $pesan_masuk = Pesan::where([
-            ['workbook_id',$id],
-            ['jenis2','dev']
-        ])->get();
-
-        $pesan_terkirim = Pesan::where([
-            ['workbook_id',$id],
-            ['jenis','dev']
-        ])->get();      
 
         // View
         $myformula = collect();
@@ -169,9 +140,15 @@ class WorkbookController extends Controller
                 'kode_formula' => $formula->kode_formula,
                 'vv' => $formula->vv,
                 'finance' => $formula->status_fisibility,
+                'tgl_create' => $formula->tgl_create,
+                'catatan_pv' => $formula->catatan_pv,
+                'catatan_rd' => $formula->catatan_rd,
                 'nutfact' => $formula->status_nutfact,
                 'status'  => $formula->status,
-                'keterangan'    => $formula->keterangan
+                'status_panel' =>$formula->status_panel,
+                'status_storage' =>$formula->status_storage,
+                'keterangan'    => $formula->keterangan,
+                'kategori_formula' =>$formula->kategori
             ]);
 
             // VPF
@@ -183,9 +160,14 @@ class WorkbookController extends Controller
                     'turunan' => $formula->turunan,
                     'serving_size' => $formula->serving_size,
                     'kode_formula' => $formula->kode_formula,
+                    'status_panel' =>$formula->status_panel,
+                    'tgl_create' => $formula->tgl_create,
+                    'status_storage' =>$formula->status_storage,
+                    'keterangan' => $formula->keterangan,
                     'vv' => $formula->vv,
                     'finance' => $formula->status_fisibility,
                     'nutfact' => $formula->status_nutfact,
+                    'kategori_formula' =>$formula->kategori,
                     'status'  => $formula->status,
                     'keterangan'    => $formula->keterangan
                 ]);
@@ -197,14 +179,12 @@ class WorkbookController extends Controller
             'pkp' => $pkp,
             'myformula' =>  $myformula,
             'vpf' => $vpf,
+            'panel' => $panel,
+            'storage' => $storage,
             'cf' => $cf,
             'for' => $for,
             'users' => $users,
-            'jms' => $jms,
-            'brands' => $brands,
-            'notif' => $notif,
-            'pesan_masuk' => $pesan_masuk,
-            'pesan_terkirim' => $pesan_terkirim
+            'brands' => $brands
             ]);
     }
 
@@ -225,9 +205,6 @@ class WorkbookController extends Controller
             ['id',$id],
             ['user_id',Auth::id()]
         ])->first();
-
-        // Delete Pesan
-        $pesan = Pesan::where('workbook_id',$id)->delete();
         $n = $workbook->nama_project;
 
         $formulas = Formula::where('workbook_id',$workbook->id)->get();

@@ -20,7 +20,6 @@ use App\pkp\pkp_estimasi_market;
 use App\pkp\promo;
 use App\pkp\data_promo;
 use App\pkp\picture;
-use App\notification;
 use App\pkp\data_sku;
 use App\User;
 use Illuminate\Support\Facades\Auth;
@@ -41,18 +40,12 @@ class promoController extends Controller
         $idea = pkp_uniq_idea::all();
         $market = pkp_estimasi_market::all();
         $pengajuan = pengajuan::count();
-        $notif = notification::where('status','=','active')->count();
-        $pesan = notification::orderBy('updated_at','desc')->get();
-        $hitungnotif = $pengajuan + $notif;
         return view('promo.pkppromo')->with([
             'type' => $type,
             'market' => $market,
             'idea' => $idea,
             'brand' => $brand,
-            'pesan' => $pesan,
-            'notif' =>$notif,
-            'pengajuan' => $pengajuan,
-            'hitungnotif' => $hitungnotif
+            'pengajuan' => $pengajuan
         ]);
     }
 
@@ -70,16 +63,10 @@ class promoController extends Controller
         $data = data_promo::where('id_pkp_promoo',$id_pkp_promo)->get();
         $pengajuan = pengajuan::count();
         $user = user::where('status','=','active')->get();
-        $notif = notification::where('status','=','active')->count();
-        $pesan = notification::orderBy('updated_at','desc')->get();
-        $hitungnotif = $pengajuan + $notif;
         return view('promo.datapromo')->with([
             'pkp' => $pkp,
-            'pesan' => $pesan,
-            'notif' =>$notif,
             'user' => $user,
             'pengajuan' => $pengajuan,
-            'hitungnotif' => $hitungnotif,
             'promo' => $promo,
             'data' => $data
         ]);
@@ -92,17 +79,11 @@ class promoController extends Controller
         $pengajuan = pengajuan::count();
         $idea = promo_idea::where('id_promo',$id_pkp_promo)->where('revisi',$revisi)->where('turunan',$turunan)->get();
         $user = user::where('status','=','active')->get();
-        $notif = notification::where('status','=','active')->count();
-        $pesan = notification::orderBy('updated_at','desc')->get();
-        $hitungnotif = $pengajuan + $notif;
         return view('promo.datapromo1')->with([
             'pkp' => $pkp,
-            'pesan' => $pesan,
-            'notif' =>$notif,
             'idea' => $idea,
             'pengajuan' => $pengajuan,
             'user' => $user,
-            'hitungnotif' => $hitungnotif,
             'promo' => $promo,
             'data' => $data
         ]);
@@ -125,30 +106,18 @@ class promoController extends Controller
     public function drafpromo(){
         $promo = promo::all();
         $pengajuan = pengajuan::count();
-        $notif = notification::where('status','=','active')->count();
-        $pesan = notification::orderBy('updated_at','desc')->get();
-        $hitungnotif = $pengajuan + $notif;
         return view('promo.drafpromo')->with([
             'promo' => $promo,
-            'pesan' => $pesan,
-            'notif' =>$notif,
-            'pengajuan' => $pengajuan,
-            'hitungnotif' => $hitungnotif
+            'pengajuan' => $pengajuan
         ]);
     }
 
     public function listpromo(){
         $promo = promo::orderBy('updated_at','asc')->get();
         $pengajuan = pengajuan::count();
-        $notif = notification::where('status','=','active')->count();
-        $pesan = notification::orderBy('updated_at','desc')->get();
-        $hitungnotif = $pengajuan + $notif;
         return view('promo.listpromo')->with([
             'promo' => $promo,
-            'pesan' => $pesan,
-            'notif' =>$notif,
-            'pengajuan' => $pengajuan,
-            'hitungnotif' => $hitungnotif
+            'pengajuan' => $pengajuan
         ]);
     }
 
@@ -159,11 +128,6 @@ class promoController extends Controller
         $Dpromo= data_promo::where('id_pkp_promoo',$id_pkp_promo)->first();
         if($Dpromo!=NULL){
         $Dpromo->delete();
-        }
-
-        $story= notification::where('id_promo',$id_pkp_promo)->first();
-        if($story!=NULL){
-            $story->delete();
         }
 
         return redirect::back();
@@ -187,18 +151,12 @@ class promoController extends Controller
         $pengajuan = pengajuan::count();
         $sample_project = sample_project::where('id_promo',$id_pkp_promo)->get();
         $status_sample_project = sample_project::where('id_promo',$id_pkp_promo)->where('status','=','final')->count();
-        $notif = notification::where('status','=','active')->count();
-        $pesan = notification::orderBy('updated_at','desc')->get();
-        $hitungnotif = $pengajuan + $notif;
         return view ('promo.daftarpromo')->with([
             'data' => $data,
             'promo' => $promo,
-            'pesan' => $pesan,
             'sample' => $sample_project,
             'status_sample' => $status_sample_project,
-            'notif' =>$notif,
             'pengajuan' => $pengajuan,
-            'hitungnotif' => $hitungnotif,
             'pkp' => $pkp,
             'pengajuanpromo' => $pengajuanpromo
         ]);
@@ -209,9 +167,6 @@ class promoController extends Controller
         $hitung = product_allocation::where('id_pkp_promo',$id_pkp_promo)->count();
         $promo = data_promo::where([ ['id_pkp_promoo',$id_pkp_promo],['revisi',$revisi],['turunan',$turunan]])->get();
         $pengajuan = pengajuan::count();
-        $notif = notification::where('status','=','active')->count();
-        $pesan = notification::orderBy('updated_at','desc')->get();
-        $hitungnotif = $pengajuan + $notif;
         $sku = data_sku::all();
         $sku2 = data_sku::all();
         return view('promo.step4')->with([
@@ -220,10 +175,7 @@ class promoController extends Controller
             'hitung' => $hitung,
             'sku' => $sku,
             'sku2' => $sku2,
-            'pesan' => $pesan,
-            'notif' =>$notif,
-            'pengajuan' => $pengajuan,
-            'hitungnotif' => $hitungnotif
+            'pengajuan' => $pengajuan
         ]);
     }
 
@@ -279,16 +231,10 @@ class promoController extends Controller
         $coba1 = picture::where('promo',$id_pkp_promo)->where('turunan','<=',$turunan)->count();
         $id_pkp= data_promo::where([ ['id_pkp_promoo',$id_pkp_promo], ['revisi',$revisi], ['turunan',$turunan] ])->get();
         $pengajuan = pengajuan::count();
-        $notif = notification::where('status','=','active')->count();
-        $pesan = notification::orderBy('updated_at','desc')->get();
-        $hitungnotif = $pengajuan + $notif;
         return view('promo.step5')->with([
             'pkp' => $pkp,
-            'pesan' => $pesan,
-            'notif' =>$notif,
             'coba1' => $coba1,
             'pengajuan' => $pengajuan,
-            'hitungnotif' => $hitungnotif,
             'pengajuanpromo' => $pengajuanpromo,
             'coba' => $coba,
             'id_pkp' => $id_pkp
@@ -403,9 +349,6 @@ class promoController extends Controller
         $dept = Departement::all();
         $dept1 = Departement::all();
         $pengajuan = pengajuan::count();
-        $notif = notification::where('status','=','active')->count();
-        $pesan = notification::orderBy('updated_at','desc')->get();
-        $hitungnotif = $pengajuan + $notif;
         $allocation = product_allocation::where([ ['id_pkp_promo',$id_pkp_promo], ['revisi',$revisi], ['turunan',$turunan]])->get();
         $user = DB::table('users')->join('pkp_promo','pkp_promo.tujuankirim','=','users.departement_id')->get();
         return view('promo.lihatpromo')->with([
@@ -418,10 +361,7 @@ class promoController extends Controller
             'app2' => $app2,
             'picture' => $picture,
             'pengajuanpromo' => $pengajuanpromo,
-            'pesan' => $pesan,
-            'notif' =>$notif,
             'pengajuan' => $pengajuan,
-            'hitungnotif' => $hitungnotif,
             'allocation' => $allocation,
             'nopromo' => substr("T00".$nopromo,1,3),
             'user' => $user,

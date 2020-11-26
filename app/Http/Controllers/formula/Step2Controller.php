@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Collection;
 use App\User;
+use App\devnf\allergen_formula;
 use App\dev\Workbook;
 use App\dev\Formula;
 use App\dev\Fortail;
@@ -13,6 +14,7 @@ use App\dev\Premix;
 use App\dev\Pretail;
 use App\pkp\tipp;
 use App\dev\Bahan;
+use App\dev\bb_allergen;
 use Auth;
 use DB;
 use Redirect;
@@ -58,8 +60,17 @@ class Step2Controller extends Controller
             $scalecollect->push([
                 
                 'no' => ++$no,                
-                'id' => $fortail->id,
+                'id' => $fortail->id,      
+                'formula_id' => $fortail->formula_id,
                 'nama_sederhana' => $fortail->nama_sederhana,
+                'alternatif1' => $fortail->alternatif1,
+                'alternatif2' => $fortail->alternatif2,
+                'alternatif3' => $fortail->alternatif3,
+                'alternatif4' => $fortail->alternatif4,
+                'alternatif5' => $fortail->alternatif5,
+                'alternatif6' => $fortail->alternatif6,
+                'alternatif7' => $fortail->alternatif7,
+                'nama_bahan' => $fortail->nama_bahan,
                 'per_batch' => $fortail->per_batch,
                 'per_serving' => $fortail->per_serving,
                 'scale_batch' => '',
@@ -98,6 +109,16 @@ class Step2Controller extends Controller
         ]);
     }
 
+    public function update($formula,$id,Request $request){
+        $formula = Formula::where('id',$formula)->first();
+        $formula->catatan_rd = $request->keterangan;
+        $formula->note_formula = $request->formula;
+        $formula->catatan_manager = $request->manager;
+        $formula->save();
+        
+        return Redirect()->back();
+    }
+
     public function insert($vf,Request $request){
         // Check and Recheck
             $formula = Formula::where('id',$vf)->first();
@@ -114,7 +135,6 @@ class Step2Controller extends Controller
             if($ada>0){            
                 $paraFortail= Fortail::where('formula_id',$vf)->get();
             }
-        
         // Persiapan
 
         $bp = Bahan::where('id', $request->prioritas)->first();
@@ -123,8 +143,24 @@ class Step2Controller extends Controller
         $pns = $bp->nama_sederhana;
         $pko = $bp->kode_oracle;
         $pnb = $bp->nama_bahan;
+            
 
-        $fortails = new Fortail; // Start Fortail Baru
+        $fortailss = new Fortail; // Start Fortail Baru
+        $fortailss->formula_id = $vf;
+        
+        $fortailss->kode_komputer = $bp->kode_komputer;
+        $fortailss->id_ingredient = $pin;
+        $fortailss->kode_oracle = $bp->kode_oracle;
+        $fortailss->nama_sederhana = $bp->nama_sederhana;
+        $fortailss->principle = $bp->principle;
+        $fortailss->kode_oracle = $pko;
+        $fortailss->bahan_id = $bp->id;
+        $fortailss->nama_bahan = $bp->nama_bahan;
+
+        $fortailss->save();
+
+        $idmaxfortail = Fortail::where('formula_id',$vf)->max('id');
+        $fortails = Fortail::where('id',$idmaxfortail)->first();
         $c = $request->c;
         // Jika Lebih Dari 1
         if($c>0){
@@ -132,32 +168,97 @@ class Step2Controller extends Controller
                 $ba[$d] =  Bahan::where('id',$request->alternatif[$d])->first();
                 $pkk = $pkk.' / '.$ba[$d]->kode_komputer;
                 // $pin = $pin.' / '.$ba[$d]->id_ingredient;
-                $pns = $pns.' / '.$ba[$d]->nama_sederhana;
-                $pko = $pko.' / '.$ba[$d]->kode_oracle;
-                $pnb = $pnb.' / '.$ba[$d]->nama_bahan;
+                // $pns = $pns.' / '.$ba[$d]->nama_sederhana;
+                // $pko = $pko.' / '.$ba[$d]->kode_oracle;
+                // $pnb = $pnb.' / '.$ba[$d]->nama_bahan;
                 $e=$d+1;
-                
-                $nk = 'kode_komputer'.$e;
-                $fortails->$nk = $ba[$d]->id;
             }
         }
         
-        $fortails->formula_id = $vf;
-        $fortails->kode_komputer = $pkk;
-        $fortails->id_ingredient = $pin;
-        $fortails->nama_sederhana = $pns;
-        $fortails->kode_oracle = $pko;
-        $fortails->bahan_id = $bp->id;
-        $fortails->nama_bahan = $pnb;
-        if($c>0){
-            $fortails->alternatif= $ba[1]->nama_sederhana;
-        }        
         
-        // if($request->per_batch >= 3000){
-        //     $fortails->jenis_timbangan='B';
-        // }elseif($request->per_batch < 3000){
-        //     $fortails->jenis_timbangan='A';
-        // }
+        $all = new allergen_formula;
+        $all->id_bahan=$bp->id;
+        $all->id_formula=$vf;
+        $all->id_fortails=$fortails->id;
+        $all->save();
+
+        if($c>0){
+            $fortails->alternatif1= $ba[1]->nama_sederhana;
+            $fortails->nama_bahan1= $ba[1]->nama_bahan;
+            $fortails->principle1= $ba[1]->principle;
+                    
+            $all1 = new allergen_formula;
+            $all1->id_bahan=$ba[1]->id;
+            $all1->id_formula=$vf;
+            $all1->id_fortails=$fortails->id;
+            $all1->save();
+            if($c>1){
+            $fortails->alternatif2= $ba[2]->nama_sederhana;
+            $fortails->nama_bahan2= $ba[2]->nama_bahan;
+            $fortails->principle2= $ba[2]->principle;
+            
+            $all2 = new allergen_formula;
+            $all2->id_bahan=$ba[2]->id;
+            $all2->id_formula=$vf;
+            $all2->id_fortails=$fortails->id;
+            $all2->save();
+            }
+            if($c>2){
+            $fortails->alternatif3= $ba[3]->nama_sederhana;
+            $fortails->nama_bahan3= $ba[3]->nama_bahan;
+            $fortails->principle3= $ba[3]->principle;
+            
+            $all3 = new allergen_formula;
+            $all3->id_bahan=$ba[3]->id;
+            $all3->id_formula=$vf;
+            $all3->id_fortails=$fortails->id;
+            $all3->save();
+            }
+            if($c>3){
+            $fortails->alternatif4= $ba[4]->nama_sederhana;
+            $fortails->nama_bahan4= $ba[4]->nama_bahan;
+            $fortails->principle4= $ba[4]->principle;
+
+            $all4 = new allergen_formula;
+            $all4->id_bahan=$ba[4]->id;
+            $all4->id_formula=$vf;
+            $all4->id_fortails=$fortails->id;
+            $all4->save();
+            }
+            if($c>4){
+            $fortails->alternatif5= $ba[5]->nama_sederhana;
+            $fortails->nama_bahan5= $ba[5]->nama_bahan;
+            $fortails->principle5= $ba[5]->principle;
+            
+            $all5 = new allergen_formula;
+            $all5->id_bahan=$ba[5]->id;
+            $all5->id_formula=$vf;
+            $all5->id_fortails=$fortails->id;
+            $all5->save();
+            }
+            if($c>5){
+            $fortails->alternatif6= $ba[6]->nama_sederhana;
+            $fortails->nama_bahan6= $ba[6]->nama_bahan;
+            $fortails->principle6= $ba[6]->principle;
+            
+            $all6 = new allergen_formula;
+            $all6->id_bahan=$ba[6]->id;
+            $all6->id_formula=$vf;
+            $all6->id_fortails=$fortails->id;
+            $all6->save();
+            }
+            if($c>6){
+            $fortails->alternatif7= $ba[7]->nama_sederhana;
+            $fortails->nama_bahan7= $ba[7]->nama_bahan;
+            $fortails->principle7= $ba[7]->principle;
+            
+            $all7 = new allergen_formula;
+            $all7->id_bahan=$ba[7]->id;
+            $all7->id_formula=$vf;
+            $all7->id_fortails=$fortails->id;
+            $all7->save();
+            }
+        }        
 
         $fortails->per_serving = $request->per_serving;
         //Check Batch and Base
@@ -209,102 +310,25 @@ class Step2Controller extends Controller
         $formula->serving = $totals;
         $formula->save();
 
-
         $jumlah_bahan = $c + 1;
 
-    // Premix(Bahan Ada Satu)------------------------------------
-        if($jumlah_bahan == 1){
-            $kgbatch = $fortails->per_batch / 1000;
-            $persiapan_utuh = intdiv($kgbatch,$bp->berat);
-            $persiapan_koma = round(fmod($kgbatch,$bp->berat),5);
-            
-            $premix = new Premix;
-            $premix->fortail_id = $fortails->id;
-            $premix->utuh = $persiapan_utuh;
-            $premix->koma = $persiapan_koma;
-            $premix->utuh_cpb = $persiapan_utuh;
-            $premix->koma_cpb = $persiapan_koma;
-            $premix->satuan = $bp->satuan->satuan;
-            $premix->berat = $bp->berat;
-            $premix->save();
-        }
-        
-    // Premix(Bahan Ada Lebih Dari Satu)-----------------
-        if($jumlah_bahan > 1){
-
-            $kgbatch = $fortails->per_batch / 1000;
-            for($i=1;$i<=$jumlah_bahan;$i++){
-                if($i==1){
-                    $persiapan_utuh[1] = intdiv($kgbatch,$bp->berat);
-                    $persiapan_koma[1] = round(fmod($kgbatch,$bp->berat),5);
-                    $persiapan_keterangan[1] = $bp->nama_sederhana;
-                    $persiapan_satuan[1] = $bp->satuan->satuan;
-                    $persiapan_berat[1] = $bp->berat;
-                    $myCollection = collect([
-                        ['utuh' => $persiapan_utuh[1],
-                         'koma' => $persiapan_koma[1], 
-                         'keterangan' => $persiapan_keterangan[1], 
-                         'satuan'=> $persiapan_satuan[1], 
-                         'berat' => $persiapan_berat[1]]
-                    ]);       
-                }
-                else{
-                    $ii = $i - 1;
-                    $persiapan_utuh[$i] = intdiv($kgbatch,$ba[$ii]->berat);
-                    $persiapan_koma[$i] = round(fmod($kgbatch,$ba[$ii]->berat),5);
-                    $persiapan_keterangan[$i] = $ba[$ii]->nama_sederhana;
-                    $persiapan_satuan[$i] = $ba[$ii]->satuan->satuan;
-                    $persiapan_berat[$i] = $ba[$ii]->berat;
-                    $myCollection->push([
-                        'utuh' => $persiapan_utuh[$i], 
-                        'koma' => $persiapan_koma[$i], 
-                        'keterangan' => $persiapan_keterangan[$i],
-                        'satuan' => $persiapan_satuan[$i],
-                        'berat' => $persiapan_berat[$i]
-                    ]);
-                }
-            }
-           
-            $groupMyCollection = $myCollection->groupBy('utuh');
-            // $groupMyCollection->toArray();
-
-        foreach($groupMyCollection as $eachRow){
-            $premix = new Premix;
-            $premix->fortail_id = $fortails->id;
-                $hiji = 1;
-                foreach($eachRow as $each){
-                    if($hiji == 1){
-                        $persiapan_keterangan = 'Jika '.$each['keterangan'];
-                        $premix->utuh = $each['utuh'];
-                        $premix->koma = $each['koma'];
-                        $premix->utuh_cpb = $each['utuh'];
-                        $premix->koma_cpb = $each['koma'];
-                        $premix->satuan = $each['satuan'];
-                        $premix->berat = $each['berat'];
-                    }
-                    else{
-                        $persiapan_keterangan = $persiapan_keterangan.' / '.$each['keterangan'];
-                    }
-                    $hiji = 0;
-                }
-            $premix->keterangan = $persiapan_keterangan;
-            $premix->save();
-        }
-
-        }
-        
+    
+      
         return redirect()->route('step2',['id_workbook' => $vf, 'id_formula' => $formula->id])->with('status','BahanBaku Berhasil Ditambahkan');
     }
 
+    public function hapusall($formula){
+        $fortails = Fortail::where('formula_id',$formula)->delete();
+        $allergen = allergen_formula::where('id_formula',$formula)->delete();
+
+        return redirect::back();
+    }
+
     public function destroy($id,$vf){
-        //dd($id);
         $formula = Formula::where('id',$vf)->first();
         $idfor = $formula->workbook_id;
-        $fortail = Fortail::where([
-            ['id',$id],
-            ['formula_id',$vf]
-            ])->first();
-
+        $fortail = Fortail::where([['id',$id],['formula_id',$vf]])->first();
+        $allergen = allergen_formula::where('id_fortails',$id)->delete();
         if($formula->batch != null){
             $totalb = $formula->batch - $fortail->per_batch;
             $formula->batch = $totalb;

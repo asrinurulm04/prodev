@@ -54,20 +54,20 @@
 					<tbody>
 						@foreach($allergen as $all)
 						<tr>
-							<td class="text-center">{{$all->id_allergen}}</td>
+							<td class="text-center">{{$all->id}}</td>
 							<td>{{$all->allergen}}</td>
 							<td>{{$all->tgl_dibuat}}</td>
 							<td>{{$all->tgl_update}}</td>
 							<td>@if($all->id_user!=NULL){{$all->user->name}}@endif</td>
 							<td class="text-center"><button class="btn btn-warning btn-sm" type="button" data-toggle="modal" data-target="#edit{{$all->id_allergen}}"><i class="fa fa-edit"></i></a></button></td>
 							
-								<!-- Edit Brand -->
+								<!-- Edit Allergen -->
 								<div class="modal fade" id="edit{{$all->id_allergen}}" role="dialog" aria-labelledby="EWBModalLabel" aria-hidden="true">
 									<div class="modal-dialog">
 										<div class="modal-content">
 											<div class="modal-header">
 												<h4 class="modal-title" id="EWBModalLabel"><i class="fa fa-plus"></i> Edit
-												<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button></h4>
+												<button type="button" class="close" data-dismiss="modal" edit-hidden="true">&times;</button></h4>
 											</div>
 											<div class="modal-body">
 												<form method="POST" action="{{ route('edit_allergen',$all->id) }}">

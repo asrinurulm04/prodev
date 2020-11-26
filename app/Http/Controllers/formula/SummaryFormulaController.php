@@ -7,10 +7,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Collection;
 use App\dev\Formula;
 use App\dev\Fortail;
-use App\devnf\tb_vitmin;
 use App\nutfact\tb_ingredient;
-use App\devnf\tb_nutrition;
-use App\nutfact\tb_parameter;
+use App\devnf\allergen_formula;
+use App\devnf\tb_akg;
+use App\devnf\tb_overage;
+use App\dev\bb_allergen;
 use App\master\Curren;
 use App\dev\Bahan;
 use Auth;
@@ -25,65 +26,64 @@ class SummaryFormulaController extends Controller
     }
 
     public function summarry($formula,$id){
-		//dd($id);
-        $data       = formula::with('Workbook')->where('id',$id)->get();
-        $ing        = tb_nutrition::with('get_bahan','get_btp')->get();
-        $tampilkan  = tb_parameter::with('get_akg')->offset(23)->limit(84)->get();
-        
-        //NUTFACT BAYANGAN
-        $vit_a      = tb_vitmin::select('target')->where('parameter','12')->get();
-        $thi        = tb_vitmin::select('target')->where('parameter','2')->get();
-        $rib        = tb_vitmin::select('target')->where('parameter','10')->get();
-        $nia        = tb_vitmin::select('target')->where('parameter','3')->get();
-        $b5         = tb_vitmin::select('target')->where('parameter','20')->get();
-        $pyr        = tb_vitmin::select('target')->where('parameter','21')->get();
-        $b7         = tb_vitmin::select('target')->where('parameter','11')->get();
-        $b12        = tb_vitmin::select('target')->where('parameter','60')->get();
-        $asam       = tb_vitmin::select('target')->where('parameter','4')->get();
-        $vit_c      = tb_vitmin::select('target')->where('parameter','61')->get();
-        $vit_d      = tb_vitmin::select('target')->where('parameter','62')->get();
-        $vit_e      = tb_vitmin::select('target')->where('parameter','14')->get();
-        $mag        = tb_vitmin::select('target')->where('parameter','47')->get();
-        $man        = tb_vitmin::select('target')->where('parameter','16')->get();
-        $zin        = tb_vitmin::select('target')->where('parameter','48')->get();
-        $lod        = tb_vitmin::select('target')->where('parameter','22')->get();
-        $zat        = tb_vitmin::select('target')->where('parameter','45')->get();
-        $sel        = tb_vitmin::select('target')->where('parameter','49')->get();
-        $mol        = tb_vitmin::select('target')->where('parameter','69')->get();
-        $ino        = tb_vitmin::select('target')->where('parameter','68')->get();
-        
+		$data       = formula::with('Workbook')->where('id',$id)->get();
+		$akg = tb_akg::join('formulas','formulas.akg','tb_akg.id_tarkon')->join('tb_overage_inngradient','tb_overage_inngradient.id_formula','formulas.id')->where('id',$id)->get();
         $idf = $id;
-		$formula = Formula::where('workbook_id',$formula)->first();
+		$formula = Formula::where('workbook_id',$formula)->join('tb_overage_inngradient','tb_overage_inngradient.id_formula','formulas.id')->where('id',$id)->first();
         $idfor = $formula->workbook_id;
         $fortails = Fortail::where('formula_id',$id)->get();
         $ingredient = DB::table('fortails')
-        ->join('tb_ingredients','tb_ingredients.id_ingredient','=','fortails.id_ingredient')
+        ->join('tb_nutfact','tb_nutfact.id_ingredient','=','fortails.id_ingredient')
         ->where('fortails.formula_id',$id)
 		->get();
-	//dd($ingredient);
 		$ada = Fortail::where('formula_id',$id)->count();
-
+		$allergen_bb = allergen_formula::join('tb_bb_allergen','id_bb','tb_alergen_formula.id_bahan')->where('id_formula',$id)->where('allergen_countain','!=','')->select(['allergen_countain'])->distinct()->get();
+		$bb_allergen = allergen_formula::join('tb_bb_allergen','id_bb','tb_alergen_formula.id_bahan')->where('id_formula',$id)->where('allergen_countain','!=','')->get();
         if($ada < 1){
             return Redirect::back()->with('error','Data Bahan Formula Versi '.$formula->versi.' Masih Kosong');
         }elseif($formula->batch < 1){
             return Redirect::back()->with('error','Data Bahan Formula Versi '.$formula->versi.'.'.$formula->turunan.' Belum Memliki Batch');
+        }elseif($formula->serving_size != $formula->serving){
+            return Redirect::back()->with('error','Data Serving Formula Versi '.$formula->versi.'.'.$formula->turunan.' Tidak Sesuai Target');
         }
 
         $detail_formula     = collect();  
         $granulasi          = 0;
         $jumlah_granulasi   = 0;
         $biasa              = 0;
-        $one_persen         = $formula->batch / 100;
-
         foreach($fortails as $fortail){
-            // Get Persen
-            $persen = $fortail->per_batch / $one_persen; $persen = round($persen, 2);
+			// Get Persen
+			$one_persen = $fortail->per_batch / $formula->batch  ;
+			$persen = $one_persen * 100;
+			$persen = round($persen, 2);
             $detail_formula->push([
 
                 'id' => $fortail->id,
                 'kode_komputer' => $fortail->kode_komputer,
                 'nama_sederhana' => $fortail->nama_sederhana,
+                'alternatif1' => $fortail->alternatif1,
+                'alternatif2' => $fortail->alternatif2,
+                'alternatif3' => $fortail->alternatif3,
+                'alternatif4' => $fortail->alternatif4,
+                'alternatif5' => $fortail->alternatif5,
+                'alternatif6' => $fortail->alternatif6,
+                'alternatif7' => $fortail->alternatif7,
                 'nama_bahan' => $fortail->nama_bahan,
+                'nama_bahan1' => $fortail->nama_bahan1,
+                'nama_bahan2' => $fortail->nama_bahan2,
+                'nama_bahan3' => $fortail->nama_bahan3,
+                'nama_bahan4' => $fortail->nama_bahan4,
+                'nama_bahan5' => $fortail->nama_bahan5,
+                'nama_bahan6' => $fortail->nama_bahan6,
+				'nama_bahan7' => $fortail->nama_bahan7,
+				'principle' => $fortail->principle,
+				'principle1' => $fortail->principle1,
+				'principle2' => $fortail->principle2,
+				'principle3' => $fortail->principle3,
+				'principle4' => $fortail->principle4,
+				'principle5' => $fortail->principle5,
+				'principle6' => $fortail->principle6,
+				'principle7' => $fortail->principle7,
                 'per_batch' => $fortail->per_batch,
                 'per_serving' => $fortail->per_serving,
                 'granulasi' => $fortail->granulasi,
@@ -149,13 +149,14 @@ class SummaryFormulaController extends Controller
 
         foreach($fortails as $fortail){
 			//Get Needed
-			$ingredients = DB::table('tb_ingredients')->first();
+			$ingredients = DB::table('tb_nutfact')->first();
             $bahan  = Bahan::where('id',$fortail->bahan_id)->first();
 			$curren = Curren::where('id',$bahan->curren_id)->first();
+			$btp = DB::table('tb_btp')->join('bahans','bahans.id','=','tb_btp.id_bahan')->first();
 
             //perhitungan nutfact bayangan
 			//lemak
-			if($fortail->id_ingredient != 'NULL'){
+			if($fortail->nama_sederhana != 'NULL'){
 				$lemak = ($ingredients->fat/100)*($fortail->per_serving);
 				$sfa = ($ingredients->SFA/100)*($fortail->per_serving);
 				$karbohidrat =($ingredients->karbohidrat/100)*($fortail->per_serving);
@@ -249,6 +250,9 @@ class SummaryFormulaController extends Controller
                 'id' => $fortail->id,
                 'kode_komputer' => $bahan->kode_komputer,
                 'nama_sederhana' => $bahan->nama_sederhana,
+				'id_ingeradient' => $bahan->id_ingeradient,
+				'btp' =>$btp->btp_carryover,
+				'list' =>$btp->inggredient_list,
 				'hpg' => $hpg,
 				'lemak' => $lemak,
 				'sfa' => $sfa,
@@ -388,19 +392,64 @@ class SummaryFormulaController extends Controller
             'total_harga_per_kg' => $total_harga_per_kg,                       
 		]);
         
-        return view('formula/summarry', compact('ing','tampilkan','AMC','AMC2','AMC3','AMC4','AMC5','AMC6','AMC7',
-        'data','vit_a','thi','rib','nia','b5','pyr','b7','b12','asam','vit_c',
-        'vit_d','vit_e','mag','man','zin','lod','zat','sel','mol','ino' ,'id'  ))->with([
+        return view('formula/summarry', compact(
+        'data','id'  ))->with([
             'idf' => $idf,
             'ada'     => $ada,
             'formula' => $formula,
             'detail_formula' =>  $detail_formula,
             'granulasi' => $granulasi,
 			'gp' => $gp,
+			'akg' => $akg,
 			'idfor' => $idfor,
-            'ingredient' => $ingredient,
+			'ingredient' => $ingredient,
+			'allergen_bb' => $allergen_bb,
             'detail_harga' => $detail_harga,
             'total_harga' => $total_harga
         ]);
-    }
+	}
+
+	public function overage(Request $request,$id){
+		$formula = formula::where('id',$id)->first();
+		$formula->overage=$request->overage;
+		$formula->save();
+
+		$overage = tb_overage::where('id_formula',$id)->first();
+		$overage->energi_total=$request->energi_total;
+		$overage->energi_lemak=$request->energi_lemak;
+		$overage->energi_lemak_jenuh=$request->energi_lemak_jenuh;$overage->karbohidrat=$request->karbohidrat;
+		$overage->protein1=$request->protein1;$overage->lemak_total=$request->lemak_total;
+		$overage->lemak_trans=$request->lemak_trans;$overage->lemak_jenuh=$request->lemak_jenuh;
+		$overage->lemak_tidak_jenuh_tunggal=$request->lemak_tidak_jenuh_tunggal;$overage->gluten=$request->gluten;
+		$overage->lemak_tidak_jenuh_ganda=$request->lemak_tidak_jenuh_ganda;$overage->kolestrol=$request->kolestrol;
+		$overage->gula=$request->gula;$overage->serat_pangan=$request->serat_pangan;
+		$overage->sukrosa=$request->sukrosa;$overage->laktosa=$request->laktosa;$overage->serat_pangan_larut=$request->serat_pangan_larut;
+		$overage->gula_alkohol=$request->gula_alkohol;$overage->natrium=$request->natrium;$overage->kalium=$request->kalium;
+		$overage->kalsium=$request->kalsium;$overage->zat_besi=$request->zat_besi;$overage->fosfor=$request->fosfor;
+		$overage->magnesium=$request->magnesium;
+		$overage->seng=$request->seng;
+		$overage->selenium=$request->selenium;
+		$overage->lodium=$request->lodium;$overage->mangan=$request->mangan;$overage->flour=$request->flour;
+		$overage->tembaga=$request->tembaga;$overage->vitA=$request->vitA;$overage->vitB1=$request->vitB1;$overage->vitB2=$request->vitB2;
+		$overage->vitB3=$request->vitB3;$overage->vitB5=$request->vitB5;$overage->vitB6=$request->vitB6;$overage->vitB12=$request->vitB12;
+		$overage->vitC=$request->vitC;$overage->vitD3=$request->vitD3;$overage->vitE=$request->vitE;$overage->vitB3=$request->vitB3;
+		$overage->asam_folat=$request->asam_folat;$overage->magnesium_aspartat=$request->magnesium_aspartat;
+		$overage->kolin=$request->kolin;$overage->biotin=$request->biotin;$overage->Inositol=$request->Inositol;
+		$overage->Molibdenum=$request->Molibdenum;$overage->Kromium=$request->Kromium;$overage->EPA=$request->EPA;
+		$overage->DHA=$request->DHA;$overage->Glukosamin=$request->Glukosamin;$overage->Kondroitin=$request->Kondroitin;
+		$overage->Kolagen=$request->Kolagen;$overage->EGCG=$request->EGCG;$overage->Kreatina=$request->Kreatina;
+		$overage->MCT=$request->MCT;$overage->CLA=$request->CLA;$overage->omega3=$request->omega3;
+		$overage->omega6=$request->omega6;$overage->omega9=$request->omega9;$overage->Klorida=$request->Klorida;
+		$overage->asam_linoleat=$request->asam_linoleat;$overage->energi_asam_linoleat=$request->energi_asam_linoleat;
+		$overage->energi_protein=$request->energi_protein;$overage->l_karnitin=$request->l_karnitin;$overage->l_glutamin=$request->l_glutamin;
+		$overage->Thereonin=$request->Thereonin;$overage->Methionin=$request->Methionin;$overage->Phenilalanin=$request->Phenilalanin;
+		$overage->Histidin=$request->Histidin;$overage->Lisin=$request->Lisin;$overage->BCAA=$request->BCAA;
+		$overage->Valin=$request->Valin;$overage->Isoleusin=$request->Isoleusin;$overage->Leusin=$request->Leusin;
+		$overage->Alanin=$request->Alanin;$overage->asam_aspartat=$request->asam_aspartat;$overage->asam_glutamat=$request->asam_glutamat;
+		$overage->sistein=$request->sistein;$overage->serin=$request->serin;$overage->glisin=$request->glisin;
+		$overage->tyrosin=$request->tyrosin;$overage->proline=$request->proline;$overage->arginine=$request->arginine;
+		$overage->save();
+
+		return redirect::back();
+	}
 }

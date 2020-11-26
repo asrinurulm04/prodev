@@ -10,13 +10,13 @@
       <a href="{{ route('listpkprka')}}" class="btn btn-danger btn-sm" type="button"><li class="fa fa-share"></li> Back</a>
       @if($listpkp->status_terima!='proses' || $listpkp->status_terima2!='proses')
         @if(Auth::user()->departement->dept!='RKA')
-        <button class="btn btn-success btn-sm"  data-toggle="modal" data-target="#edit"><li class="fa fa-edit"></li> Edit Type PKP</button>
+        <button class="btn btn-success btn-sm"  data-toggle="modal" data-target="#edit"><li class="fa fa-edit"></li> Confirm Type PKP</button>
         <!-- modal -->
         <div class="modal" id="edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">                 
-                <h3 class="modal-title" id="exampleModalLabel">Edit Type PKP
+                <h3 class="modal-title" id="exampleModalLabel">Confirm Type PKP
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button> </h3>
@@ -28,7 +28,7 @@
                   <div class="col-md-11 col-sm-9 col-xs-12">
                     <select name="type" class="form-control form-control-line" id="type">
                     @foreach($pkp1 as $pkp1)
-                    <option disabled selected value="{{$pkp1->type}}">
+                    <option readonly value="{{$pkp1->type}}">
                     @if($pkp1->type==1)
                     Maklon
                     @elseif($pkp1->type==2)
@@ -237,36 +237,17 @@
                 <span class="label label-primary">Low Priority</span>
                 @endif  
               </td></tr>
-              <tr><td>Perevisi</td><td>:</td><td> {{$listpkp->perevisi2->name}}</td></tr>
+              <tr><td>Author</td><td>:</td><td> {{$listpkp->author1->name}}</td></tr>
+              @if($listpkp->datapkp!=null)
               <tr><td>Idea</td><td>:</td> <td> {{$listpkp->idea}}</td></tr>
-              <tr><td>Packaging</td><td> : </td><td>
-              @if($listpkp->kemas_eksis!=NULL)
-                            (
-                            @if($listpkp->kemas->tersier!=NULL)
-                            {{ $listpkp->kemas->tersier }}{{ $pkp->kemas->s_tersier }}
-                            @elseif($listpkp->kemas->tersier==NULL)
-                            @endif
-
-														@if($listpkp->kemas->sekunder1!=NULL)
-														X {{ $listpkp->kemas->sekunder1 }}{{ $listpkp->kemas->s_sekunder1}}
-														@elseif($listpkp->kemas->sekunder1==NULL)
-														@endif
-
-														@if($listpkp->kemas->sekunder2!=NULL)
-														X {{ $listpkp->kemas->sekunder2 }}{{ $listpkp->kemas->s_sekunder2 }}
-														@elseif($listpkp->kemas->sekunder2==NULL)
-														@endif
-
-                            @if($listpkp->kemas->primer!=NULL)
-														X{{ $listpkp->kemas->primer }}{{ $pkp->kemas->s_primer }}
-														@elseif($listpkp->kemas->primer==NULL)
-														@endif
-                            )
-                            @elseif($listpkp->kemas->primer==NULL)
-                              @if($listpkp->kemas_eksis==NULL)
-                              @endif
-                            @endif
+              <tr><td>Status</td><td>:</td><td>
+                @if($listpkp->status_data=='active')
+                <span class="label label-primary" style="color:white">Active</span>
+                @elseif($listpkp->status_data=='inactive')
+                <span class="label label-danger" style="color:white">Inactive</span>
+                @endif  
               </td></tr>
+              @endif
 						</thead>
 					</table><br>
         </div>
@@ -275,48 +256,65 @@
     </div>
   </div>    
 
+  
   <div class="col-md-7 col-xs-12">
-    <div class="x_panel" style="min-height:380px">
+    <div class="x_panel" style="min-height:435px">
       <div class="x_title">
-        <h3><li class="fa fa-list"></li> Sample Submission List  </h3>
+        <h3><li class="fa fa-list"></li> List Sample Project</h3>
       </div>
       <div class="card-block">
         <div class="x_content">
-					<table class="table table-striped table-bordered">
+					
+          <table class="table table-striped table-bordered">
             <thead>
               <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
-                <th class="text-center">No</th>
+                <th class="text-center" width="8%">Versi</th>
                 <th class="text-center">Sample</th>
-                <th class="text-center">Note</th>
-                <th class="text-center">Approval</th>
-                <th class="text-center">Information</th>
+                <th class="text-center" width="25%">Note RD</th>
+                <th class="text-center" width="25%">Note PV</th>
+                <th class="text-center" width="10%">Status</th>
+                <th class="text-center" width="5%">Action</th>
               </tr>
             </thead>
             <tbody>
-              @php
-                $no = 0;
-              @endphp
-              @foreach($sample as $pkp)
-              @if($pkp->status=='final')
+              @foreach($formula as $for)
+              @if($for->vv=='final')
               <tr style="background-color:springgreen">
+              @elseif($for->vv=='reject')
+              <tr style="background-color:slategray;color:white">
               @else
               <tr>
               @endif
-                <td class="text-center">{{++$no}}</td>
-                <td>{{ $pkp->sample }}</td>
-                <td>{{ $pkp->note}}</td>
+                <td class="text-center">{{$for->versi}}.{{$for->turunan}}</td>
+                <td>{{$for->formula}}</td>
+                <td>{{$for->catatan_rd}}</td>
+                <td>{{$for->catatan_pv}}</td>
                 <td class="text-center">
-                  @if($pkp->status=='reject')
-                  <span class="label label-danger" style="color:white">Reject</span>
-                  @elseif($pkp->status=='approve')
-                  <span class="label label-primary" style="color:white">Approve</span>
-                  @elseif($pkp->status=='send')
-                  <span class="label label-warning" style="color:white">Send</span>
-                  @elseif($pkp->status=='final')
-                  <span class="label label-info" style="color:white">Final Approval</span>
+                  @if($for->vv=='proses')
+                  <span class="label label-primary" style="color:white">New Sample</span>
+                  @elseif($for->vv==NULL)
+                  <span class="label label-primary" style="color:white">Draf</span>
+                  @elseif($for->vv=='approve')
+                    @if($for->status_fisibility=='not_approved')
+                      @if($hasilpanel>=1)
+                      <span class="label label-info" style="color:white">sample Approved</span>
+                      @elseif($hasilpanel==0)
+                      <span class="label label-success" style="color:white">Waiting panel Results</span>
+                      @endif
+                    @elseif($for->status_fisibility=='proses')
+                      <span class="label label-warning" style="color:white">Proses Feasibility And Panel</span>
+                    @elseif($for->status_fisibility=='selesai')
+                      <span class="label label-warning" style="color:white">New Data Feasibility</span>
+                    @endif
+                  @elseif($for->vv=='reject')
+                    <span class="label label-danger" style="color:white">Project rejected</span>
+                  @elseif($for->vv=='final')
+                  <span class="label label-info" style="color:white">Final data Data</span>
                   @endif
                 </td>
-                <td>{{ $pkp->catatan_reject}}</td>
+                <td class="text-center"> 
+                  <a href="{{ route('formula.detail',[$for['workbook_id'],$for['id']]) }}" class="btn btn-info btn-sm" title="show"><li class="fa fa-eye"></li></a>
+                </td>
               </tr>
               @endforeach
             </tbody>
@@ -324,7 +322,7 @@
         </div>
       </div>
     </div>
-  </div>    
+  </div>   
 </div>
 @endsection
 @section('s')

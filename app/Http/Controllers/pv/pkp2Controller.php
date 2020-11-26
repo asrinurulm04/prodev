@@ -18,7 +18,6 @@ use App\master\Brand;
 use App\pkp\menu;
 use App\pkp\notulen;
 use App\master\Tarkon;
-use App\notification;
 use App\pkp\data_klaim;
 use App\pkp\data_detail_klaim;
 use App\pkp\uom;
@@ -182,8 +181,6 @@ class pkp2Controller extends Controller
 
     public function tabulasi(){
         $pengajuan = pengajuan::count();
-        $notif = notification::where('status','=','active')->count();
-        $pesan = notification::orderBy('updated_at','desc')->get();
         $pic = picture::all();
         $pkp = tipp::max('turunan');
         $pdf = coba::max('turunan');
@@ -191,7 +188,6 @@ class pkp2Controller extends Controller
         $notpdf = notulen::where('note','!=',null)->get();
         $notpromo = notulen::where('note','!=',null)->get();
         $promo = data_promo::max('turunan');
-        $hitungnotif = $pengajuan + $notif;
         $datapkp = tipp::where('status_project','!=','draf') ->join('pkp_project','pkp_project.id_project','=','tippu.id_pkp')->where('status_data','=','active')->orderBy('pkp_number','desc')->get();
         $datapdf = coba::where('status_project','!=','draf') ->join('pdf_project','pdf_project.id_project_pdf','=','tipu.pdf_id')->where('status_pdf','=','active')->get();
         $datapromo = promo::where('status_project','!=','draf') ->join('isi_promo','pkp_promo.id_pkp_promo','=','isi_promo.id_pkp_promoo')->where('status_data','=','active')->get();
@@ -204,35 +200,26 @@ class pkp2Controller extends Controller
             'notpromo' => $notpromo,
             'pic' => $pic,
             'datapromo' => $datapromo,
-            'pesan' => $pesan,
-            'notif' =>$notif,
-            'pengajuan' => $pengajuan,
-            'hitungnotif' => $hitungnotif
+            'pengajuan' => $pengajuan
         ]);
     }
 
     public function editpkpall(){
         $pengajuan = pengajuan::count();
-        $notif = notification::where('status','=','active')->count();
-        $pesan = notification::orderBy('updated_at','desc')->get();
         $brand = brand::all();
         $uom = uom::all();
         $par2 = parameter_form::where('user',Auth::user()->id)->limit('1')->get();
         $tarkon = Tarkon::all();
-        $hitungnotif = $pengajuan + $notif;
         $datapkp = pkp_project::where('status_project','!=','draf') ->join('tippu','pkp_project.id_project','=','tippu.id_pkp')
         ->join('tb_edit','tb_edit.id_pkp','=','pkp_project.id_project')
         ->join('tb_parameter_form','tb_parameter_form.id_pkp','pkp_project.id_project')->where('id_user',Auth::user()->id)->where('status_data','=','active')->get();
         return view('pv.editpkpall')->with([
             'datapkp' => $datapkp,
-            'pesan' => $pesan,
-            'notif' =>$notif,
             'brand' => $brand,
             'par2' => $par2,
             'uom' => $uom,
             'tarkon' => $tarkon,
-            'pengajuan' => $pengajuan,
-            'hitungnotif' => $hitungnotif,
+            'pengajuan' => $pengajuan
         ]) ;
     }
 
@@ -244,14 +231,8 @@ class pkp2Controller extends Controller
         $Npromo = notulen::where('id_promo','!=',NULL)->where('note','!=',NULL)->get();
         $DNpromo = notulen::join('pkp_promo','tb_notulen.id_promo','pkp_promo.id_pkp_promo')->orderBy('prioritas','asc')->select(['id_promo'])->distinct()->get();
         $pengajuan = pengajuan::count();
-        $notif = notification::where('status','=','active')->count();
-        $pesan = notification::orderBy('updated_at','desc')->get();
-        $hitungnotif = $pengajuan + $notif;
         return view('pkp.reportnotulen')->with([
-            'pesan' => $pesan,
-            'notif' =>$notif,
             'pengajuan' => $pengajuan,
-            'hitungnotif' => $hitungnotif,
             'DNpdf' => $DNpdf,
             'Npdf' => $Npdf,
             'DNpromo' => $DNpromo,
@@ -281,12 +262,9 @@ class pkp2Controller extends Controller
 
     public function editpdfall(){
         $pengajuan = pengajuan::count();
-        $notif = notification::where('status','=','active')->count();
-        $pesan = notification::orderBy('updated_at','desc')->get();
         $type= pkp_type::all();
         $brand = brand::all();
         $par = parameter_form::where('user',Auth::user()->id)->limit('1')->get();
-        $hitungnotif = $pengajuan + $notif;
         $datapdf = project_pdf::where('status_project','!=','draf') ->join('tipu','pdf_project.id_project_pdf','=','tipu.pdf_id')
         ->join('tb_edit','tb_edit.id_pdf','=','pdf_project.id_project_pdf')
         ->join('tb_parameter_form','tb_parameter_form.id_pdf','pdf_project.id_project_pdf')->where('id_user',Auth::user()->id)->where('status_pdf','=','active')->get();
@@ -296,34 +274,25 @@ class pkp2Controller extends Controller
         return view('pv.editpdfall')->with([
             'datapdf' => $datapdf,
             'brand' => $brand,
-            'pesan' => $pesan,
             'datapdf1' => $datapdf1,
             'type' => $type,
-            'notif' =>$notif,
             'par' => $par,
-            'pengajuan' => $pengajuan,
-            'hitungnotif' => $hitungnotif
+            'pengajuan' => $pengajuan
         ]) ;
     }
 
     public function editpromoall(){
         $pengajuan = pengajuan::count();
         $brand = brand::all();
-        $notif = notification::where('status','=','active')->count();
-        $pesan = notification::orderBy('updated_at','desc')->get();
         $par = parameter_form::where('user',Auth::user()->id)->limit('1')->get();
-        $hitungnotif = $pengajuan + $notif;
         $datapromo = promo::where('status_project','!=','draf') ->join('isi_promo','pkp_promo.id_pkp_promo','=','isi_promo.id_pkp_promoo')
         ->join('tb_edit','tb_edit.id_promo','=','pkp_promo.id_pkp_promo')->where('id_user',Auth::user()->id)
         ->join('tb_parameter_form','tb_parameter_form.id_promo','pkp_promo.id_pkp_promo')->where('status_data','=','active')->get();
         return view('pv.editpromo')->with([
             'datapromo' => $datapromo,
-            'pesan' => $pesan,
             'brand' => $brand,
             'par' => $par,
-            'notif' =>$notif,
-            'pengajuan' => $pengajuan,
-            'hitungnotif' => $hitungnotif,
+            'pengajuan' => $pengajuan
         ]) ;
     }
 
@@ -758,36 +727,24 @@ class pkp2Controller extends Controller
 
     public function notulenpdf(){
         $pengajuan = pengajuan::count();
-        $notif = notification::where('status','=','active')->count();
-        $pesan = notification::orderBy('updated_at','desc')->get();
         $type= pkp_type::all();
         $brand = brand::all();
-        $hitungnotif = $pengajuan + $notif;
         $datapdf = project_pdf::where('status_project','!=','draf') ->join('tipu','pdf_project.id_project_pdf','=','tipu.pdf_id')->where('status_pdf','=','active')->get();
         return view('pdf.notulenpdf')->with([
             'datapdf' => $datapdf,
             'brand' => $brand,
-            'pesan' => $pesan,
             'type' => $type,
-            'notif' =>$notif,
-            'pengajuan' => $pengajuan,
-            'hitungnotif' => $hitungnotif,
+            'pengajuan' => $pengajuan
         ]) ;
     }
 
     public function notulenpkp(){
         $pengajuan = pengajuan::count();
-        $notif = notification::where('status','=','active')->count();
-        $pesan = notification::orderBy('updated_at','desc')->get();
         $brand = brand::all();
-        $hitungnotif = $pengajuan + $notif;
         $datapkp = tipp::where('status_project','!=','draf') ->join('pkp_project','pkp_project.id_project','=','tippu.id_pkp')->where('status_data','=','active')->get();
         return view('pkp.notulen')->with([
             'datapkp' => $datapkp,
-            'pesan' => $pesan,
-            'notif' =>$notif,
-            'brand' => $brand,
-            'hitungnotif' => $hitungnotif,
+            'brand' => $brand
         ]) ;
     }
 
@@ -813,19 +770,13 @@ class pkp2Controller extends Controller
     public function indexnotulenpromo(){
         $pengajuan = pengajuan::count();
         $brand = brand::all();
-        $notif = notification::where('status','=','active')->count();
-        $pesan = notification::orderBy('updated_at','desc')->get();
         $par = parameter_form::where('user',Auth::user()->id)->limit('1')->get();
-        $hitungnotif = $pengajuan + $notif;
         $datapromo = promo::where('status_project','!=','draf') ->join('isi_promo','pkp_promo.id_pkp_promo','=','isi_promo.id_pkp_promoo')->where('status_data','=','active')->get();
         return view('promo.notulenpromo')->with([
             'datapromo' => $datapromo,
-            'pesan' => $pesan,
             'brand' => $brand,
             'par' => $par,
-            'notif' =>$notif,
-            'pengajuan' => $pengajuan,
-            'hitungnotif' => $hitungnotif,
+            'pengajuan' => $pengajuan
         ]) ;
     }
 

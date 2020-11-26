@@ -166,6 +166,14 @@
       @else
         <a href="{{route('pkpklaim',$data->id_project)}}" class="btn btn-primary btn-sm" type="submut"><li class="fa fa-tags"></li> Klaim</a>
       @endif
+      
+      @if(auth()->user()->role->namaRule === 'user_produk')
+      @if($data->workbook>0)
+      <a href="{{route('showworkbook',$pkp->id_pkp)}}" class="btn btn-success btn-sm"><li class=" fa fa-eye"></li> Show Workbook</a>
+      @elseif($data->workbook==0)
+      <a href="{{route('showworkbook',$pkp->id_pkp)}}" class="btn btn-success btn-sm"><li class=" fa fa-plus"></li> Add Workbook</a>
+      @endif
+      @endif
     </div>
 
     <div class="x_panel" style="min-height:295px">
@@ -186,15 +194,45 @@
                 Maklon/Internal
                 @endif
               </td></tr>
-              <tr><td width="20%">PKP Number</td><td> : {{$data->pkp_number}}{{$data->ket_no}}</td></tr>
+              <tr><td width="25%">PKP Number</td><td> : {{$data->pkp_number}}{{$data->ket_no}}</td></tr>
               @if($data->datapkp!=null)
               @foreach($data1 as $data)
               <tr><td>Idea</td> <td> : {{$data->idea}}</td></tr>
+              <tr><td>Packaging Concept</td><td>: 
+                @if($data->kemas_eksis!=NULL)
+                (
+                @if($data->kemas->tersier!=NULL)
+                {{ $data->kemas->tersier }}{{ $pkp->kemas->s_tersier }}
+                @elseif($data->kemas->tersier==NULL)
+                @endif
+
+								@if($data->kemas->sekunder1!=NULL)
+								X {{ $data->kemas->sekunder1 }}{{ $data->kemas->s_sekunder1}}
+								@elseif($data->kemas->sekunder1==NULL)
+								@endif
+
+								@if($data->kemas->sekunder2!=NULL)
+								X {{ $data->kemas->sekunder2 }}{{ $data->kemas->s_sekunder2 }}
+								@elseif($data->kemas->sekunder2==NULL)
+								@endif
+
+                @if($data->kemas->primer!=NULL)
+								X{{ $data->kemas->primer }}{{ $pkp->kemas->s_primer }}
+								@elseif($data->kemas->primer==NULL)
+								@endif
+                )
+                @elseif($data->kemas->primer==NULL)
+                  @if($data->kemas_eksis==NULL)
+                  @endif
+                @endif
+              </td></tr>
+              <tr><td>Launch Deadline</td><td>: {{$data->launch}}{{$data->years}}{{$data->tgl_launch}}</td></tr>
+              <tr><td>Sample Deadline</td><td>: {{$data->jangka}}-  {{$data->waktu}}</td></tr>
+              <tr><td>PV</td><td> : {{$data->perevisi2->name}}</td></tr>
               @endforeach
               @endif
 							<tr><td>Status</td><td> : {{$data->status_data}}</td></tr>
 							<tr><td>Created</td><td> : {{$data->created_date}}</td></tr>
-              <tr><td>Author</td><td> : {{$data->author1->name}}</td></tr>
 						</thead>
 					</table><br>
 				</div>
@@ -203,7 +241,8 @@
     </div>
   </div>
 
-  @if(auth()->user()->role->namaRule == 'user_produk')
+  
+  @if(auth()->user()->role->namaRule =='user_produk')
   <div class="col-md-7 col-xs-12">
     <div class="x_panel" style="min-height:380px">
       <div class="x_title">
@@ -214,7 +253,7 @@
 					<table class="table table-striped table-bordered">
             <thead>
               <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
-                <th class="text-center">No</th>
+                <th class="text-center">Versi</th>
                 <th class="text-center">Sample</th>
                 <th class="text-center">Note</th>
                 <th class="text-center">Approval</th>
@@ -222,14 +261,13 @@
               </tr>
             </thead>
             <tbody>
-              @php $no=0; @endphp
               @foreach($sample as $pkp)
               @if($pkp->status=='final')
               <tr style="background-color:springgreen">
               @else
               <tr>
               @endif
-                <td class="text-center">{{++$no}}</td>
+                <td class="text-center"></td>
                 <td>{{ $pkp->sample }}</td>
                 <td>{{ $pkp->note}}</td>
                 <td class="text-center">
@@ -252,6 +290,72 @@
       </div>
     </div>
   </div>  
+  @elseif(auth()->user()->role->namaRule == 'kemas' || auth()->user()->role->namaRule == 'evaluator' || auth()->user()->role->namaRule =='produksi' || auth()->user()->role->namaRule =='lab' || auth()->user()->role->namaRule =='finance')
+  <div class="col-md-7 col-xs-12">
+    <div class="x_panel" style="min-height:380px">
+      <div class="x_title">
+        <h3><li class="fa fa-list"></li> List request Feasibility  </h3>
+      </div>
+      <div class="card-block">
+        <div class="x_content">
+					<table class="table table-striped table-bordered">
+            <thead>
+              <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
+                <th class="text-center" width="10%">Versi</th>
+                <th class="text-center">Sample</th>
+                <th class="text-center" width="10%">Status</th>
+                <th class="text-center" width="10%">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              @if($hformula >= 1)
+              @foreach($formula as $pkp)
+              @if($pkp->vv=='final')
+              <tr style="background-color:springgreen">
+              @elseif($pkp->vv=='reject')
+              <tr style="background-color:slategray;color:white">
+              @else
+              <tr>
+              @endif
+                <td class="text-center">{{ $pkp->versi }}.{{ $pkp->turunan }}</td>
+                <td class="text-center">
+                  {{$pkp->formula}}
+                </td>
+                <td class="text-center">
+                  @if($pkp->vv=='approve')
+                    @if($pkp->status_fisibility=='proses')
+                    <span class="label label-warning" style="color:white">Request Feasibility</span>
+                    @else
+                    <span class="label label-primary" style="color:white">Approve</span>
+                    @endif
+                  @elseif($pkp->vv=='reject')
+                  <span class="label label-danger" style="color:white">Reject</span>
+                  @elseif($pkp->vv=='final')
+                  <span class="label label-info" style="color:white">Final Approval</span>
+                  @endif
+                </td>
+                <td class="text-center">
+                  @if($pkp->vv=='approve')
+                    @if($pkp->status_fisibility=='proses')
+                      @if(auth()->user()->role->namaRule == 'evaluator')
+                      <a href="{{route('myFeasibility',[$pkp->id])}}" class="btn btn-primary btn-sm" title="lanjut tahap feasibility"><li class="fa fa-edit"></li></a>
+                      @elseif(auth()->user()->role->namaRule == 'kemas' || auth()->user()->role->namaRule == 'lab' || auth()->user()->role->namaRule == 'maklon')
+                      <a href="{{route('workbook.Feasibility',[$pkp->id])}}" class="btn btn-primary btn-sm" title="lanjut tahap feasibility"><li class="fa fa-edit"></li></a>
+                      @endif
+                    @elseif($pkp->status_fisibility=='selesai')
+                    <a href="{{route('myFeasibility',[$pkp->id])}}" class="btn btn-info btn-sm" title="lanjut tahap feasibility"><li class="fa fa-eye"></li></a>
+                    @endif
+                  @endif
+                </td>
+              </tr>
+              @endforeach
+              @endif
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
   @else
   <div class="col-md-7 col-xs-12">
     <div class="x_panel" style="min-height:435px">
@@ -260,69 +364,125 @@
       </div>
       <div class="card-block">
         <div class="x_content">
-          <form action="">
-					<table class="table table-striped table-bordered">
+					
+          <table class="table table-striped table-bordered">
             <thead>
               <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
+                <th class="text-center" width="8%">Versi</th>
                 <th class="text-center">Sample</th>
-                <th class="text-center">Note</th>
-                <th class="text-center" width="17%">Action</th>
+                <th class="text-center" width="30%">Note</th>
+                <th class="text-center" width="10%">Status</th>
+                <th class="text-center" width="22%">Action</th>
               </tr>
             </thead>
             <tbody>
-              @foreach($sample as $pkp)
-              @if($pkp->status=='final')
+              @foreach($formula as $for)
+              @if($for!='proses')
+              @if($for->vv=='final')
               <tr style="background-color:springgreen">
+              @elseif($for->vv=='reject')
+              <tr style="background-color:slategray;color:white">
               @else
               <tr>
               @endif
-                <td>{{ $pkp->sample }}</td>
-                <td>{{ $pkp->note }}</td>
+                <td class="text-center">{{$for->versi}}.{{$for->turunan}}</td>
+                <td>{{$for->formula}}</td>
+                <td>{{$for->catatan_pv}}</td>
                 <td class="text-center">
-                  @if(auth()->user()->role->namaRule == 'pv_lokal')
-                    @if($pkp->status=='send')
-                    <a href="{{route('approvesamplepkp',$pkp->id_sample)}}" class="btn btn-primary btn-sm" title="Approve"><li class="fa fa-check"></li></a>  
-                    <a class="btn btn-danger btn-sm" data-toggle="modal" data-target="#reject{{ $pkp->id_sample  }}" title="Reject"><li class="fa fa-times"></li></a>  
-                    <!-- Modal -->
-                    <div class="modal" id="reject{{ $pkp->id_sample  }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                      <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h3 class="modal-title" id="exampleModalLabel">Reject Sample
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                              <span aria-hidden="true">&times;</span>
-                            </button></h3>
+                  @if($for->vv=='proses')
+                  <span class="label label-primary" style="color:white">New Sample</span>
+                  @elseif($for->vv=='approve')
+                    @if($for->status_fisibility=='not_approved')
+                      @if($hasilpanel>=1)
+                      <span class="label label-info" style="color:white">sample Approved</span>
+                      @elseif($hasilpanel==0)
+                      <span class="label label-success" style="color:white">Waiting panel Results</span>
+                      @endif
+                    @elseif($for->status_fisibility=='proses')
+                      <span class="label label-warning" style="color:white">Proses Feasibility And Panel</span>
+                    @elseif($for->status_fisibility=='selesai')
+                      <span class="label label-warning" style="color:white">New Data Feasibility</span>
+                    @endif
+                  @elseif($for->vv=='reject')
+                    <span class="label label-danger" style="color:white">Project rejected</span>
+                  @elseif($for->vv=='final')
+                  <span class="label label-info" style="color:white">Final data Data</span>
+                  @endif
+                </td>
+                <td class="text-center"> 
+                  @if($for->vv=='proses')
+                    <a class="btn btn-danger btn-sm" data-toggle="modal" data-target="#rejectsample{{ $for->id  }}" title="Reject"><li class="fa fa-times"></li></a>  
+                      <!-- Modal -->
+                      <div class="modal" id="rejectsample{{ $for->id  }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h3 class="modal-title" id="exampleModalLabel">Reject Sample
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button></h3>
+                            </div>
+                            
+                            <div class="modal-body">
+                              <form class="form-horizontal form-label-left" method="POST" action="{{route('rejectsample',$for->id)}}">
+                                <textarea name="note" id="note" rows="2" class="form-control" required></textarea><br>
+                                <div class="modal-footer">
+                                <button class="btn btn-sm btn-primary" type="submit">submit</button>
+                                {{ csrf_field() }}
+                                </form>
+                              </div>
+                            </div>
                           </div>
-                          
-                          <div class="modal-body">
-                            <form action=""></form>
-                            <form class="form-horizontal form-label-left" method="POST" action="{{route('rejectsamplepkp',$pkp->id_sample)}}">
-                              <label for="">Note</label>
-                              <textarea name="note" id="note" rows="2" class="form-control" required></textarea>
+                        </div>
+                      </div>
+                      <!-- Modal Selesai -->
+                    <button class="btn btn-success btn-sm" title="Approve" data-toggle="modal" data-target="#fs{{ $for->id  }}"><i class="fa fa-check"></i></a></button>
+                      <!-- Modal -->
+                      <div class="modal" id="fs{{ $for->id  }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h3 class="modal-title" id="exampleModalLabel">Info
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button></h3>
+                            </div>
+                            <div class="modal-body">
+                            apakah sample ini perlu pengajuan Feasibility? <br><br>
+                            <a href="{{route('pengajuanfs',[$for->workbook_id,$for->id])}}" class="btn btn-sm btn-info"><li class="fa fa-check"></li> Yes</a>
+                            <a href="{{route('tidakajukanfs',[$for->workbook_id,$for->id])}}" class="btn btn-sm btn-dark"><li class="fa fa-times"></li> No</a>
+                            </div>
                             <div class="modal-footer">
-                              <button class="btn btn-sm btn-primary" type="submit">submit</button>
+                              <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> Edit</button>
                               {{ csrf_field() }}
                             </div>
                           </div>
-                        </form>
                         </div>
                       </div>
-                    </div>
-                    <!-- Modal Selesai -->
-                    @elseif($pkp->status=='reject')
-                    <span class="label label-danger" style="color:white">sample rejected</span>
-                    @elseif($pkp->status=='approve')
-                      @if($status_sample==1)
-                      <span class="label label-info" style="color:white">sample Approved</span>
-                      @else
-                      <a href="{{route('finalsamplepkp',[ 'id_project' => $pkp->id_pkp, 'sample' => $pkp->id_sample])}}" class="btn btn-info btn-sm" title="Final Approval"><li class="fa fa-tag"></li> Final Approval</a>
+                      <!-- Modal Selesai -->
+                    <a href="{{ route('formula.detail',[$for['workbook_id'],$for['id']]) }}" class="btn btn-info btn-sm" title="show"><li class="fa fa-eye"></li></a>
+                  @elseif($for->vv=='approve')
+                    @if($for->status_fisibility=='not_approved')
+                      <a href="{{ route('formula.detail',[$for['workbook_id'],$for['id']]) }}" class="btn btn-info btn-sm" title="show"><li class="fa fa-eye"></li></a>
+                      @if($hasilpanel>=1)
+                      <a href="{{route('finalsample',$for->id)}}" class="btn btn-success btn-sm" title="Final Approval btn-sm"><li class="fa fa-tag"></li></a>
                       @endif
-                    @elseif($pkp->status=='final')
-                      <a href="{{route('unfinalsamplepkp',[ 'id_project' => $pkp->id_pkp, 'sample' => $pkp->id_sample])}}" class="btn btn-warning btn-sm" title="Unfinal Approve"><li class="fa fa-times"></li> Unfinal</a>
+                    @elseif($for->status_fisibility=='proses')
+                    <a href="{{ route('formula.detail',[$for['workbook_id'],$for['id']]) }}" class="btn btn-info btn-sm" title="show"><li class="fa fa-eye"></li></a>
+                    @elseif($for->status_fisibility=='selesai')
+                      <a href="{{ route('formula.detail',[$for['workbook_id'],$for['id']]) }}" class="btn btn-info btn-sm" title="show"><li class="fa fa-eye"></li></a>
+                      @if($hasilpanel>=1)
+                      <a href="{{route('finalsample',$for->id)}}" class="btn btn-success btn-sm" title="Final Approval btn-sm"><li class="fa fa-tag"></li></a>
+                      @endif
                     @endif
+                  @elseif($for->vv=='reject')
+                    <a href="{{ route('formula.detail',[$for['workbook_id'],$for['id']]) }}" class="btn btn-info btn-sm" title="show"><li class="fa fa-eye"></li></a>
+                  @elseif($for->vv=='final')
+                    <a href="{{route('unfinalsample',$for->id)}}" class="btn btn-warning btn-sm" title="Unfinal Approve"><li class="fa fa-times"></li> Unfinal</a>
                   @endif
                 </td>
               </tr>
+              @endif
               @endforeach
             </tbody>
           </table>

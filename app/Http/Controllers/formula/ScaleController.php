@@ -115,6 +115,8 @@ class ScaleController extends Controller
         $scalecollect = collect();
         // Hitung Granulasi
         $granulasi = 0;
+        // Hitung premix
+        $premix = 0;
         // Get Fortails;
         $fortails  = Fortail::where('formula_id',$idf)->get();
 
@@ -138,6 +140,7 @@ class ScaleController extends Controller
                 $c_id = $fortail->id;
                 $c_nama_sederhana = $fortail->nama_sederhana;
                 $c_granulasi = $fortail->granulasi;
+                $c_premix = $fortail->premix;
                 $c_per_batch = $fortail->per_batch;
                 $c_per_serving = $fortail->per_serving;
                 // Insert To Collect
@@ -149,12 +152,24 @@ class ScaleController extends Controller
                     'per_serving' => $c_per_serving,
                     'scale_batch' => $c_scale_batch,
                     'scale_serving' => $c_scale_serving,
+                    'alternatif1' => $fortail->alternatif1,
+                    'alternatif2' => $fortail->alternatif2,
+                    'alternatif3' => $fortail->alternatif3,
+                    'alternatif4' => $fortail->alternatif4,
+                    'alternatif5' => $fortail->alternatif5,
+                    'alternatif6' => $fortail->alternatif6,
+                    'alternatif7' => $fortail->alternatif7,
+                    'premix' => $c_premix,
                     'granulasi' => $c_granulasi                
                 ]);
 
                 // Jika Granulasi
                 if($fortail->granulasi == 'ya'){
                     $granulasi = $granulasi + 1;
+                }
+                // Jika premix
+                if($fortail->premix == 'ya'){
+                    $premix = $premix + 1;
                 }
             }                        
         }
@@ -177,6 +192,7 @@ class ScaleController extends Controller
                 $c_id = $fortail->id;
                 $c_nama_sederhana = $fortail->nama_sederhana;
                 $c_granulasi = $fortail->granulasi;
+                $c_premix = $fortail->premix;
                 $c_per_batch = $fortail->per_batch;
                 $c_per_serving = $fortail->per_serving;
                 // Insert To Collect
@@ -188,12 +204,24 @@ class ScaleController extends Controller
                     'per_serving' => $c_per_serving,
                     'scale_batch' => $c_scale_batch,
                     'scale_serving' => $c_scale_serving,
+                    'alternatif1' => $fortail->alternatif1,
+                    'alternatif2' => $fortail->alternatif2,
+                    'alternatif3' => $fortail->alternatif3,
+                    'alternatif4' => $fortail->alternatif4,
+                    'alternatif5' => $fortail->alternatif5,
+                    'alternatif6' => $fortail->alternatif6,
+                    'alternatif7' => $fortail->alternatif7,
+                    'premix' => $fortail->premix,
                     'granulasi' => $c_granulasi                
                 ]);
                 
                 // Jika Granulasi
                 if($fortail->granulasi == 'ya'){
                     $granulasi = $granulasi + 1;
+                }
+                // Jika premix
+                if($fortail->premix == 'ya'){
+                    $premix = $premix + 1;
                 }
             }
         }
@@ -220,6 +248,7 @@ class ScaleController extends Controller
                 $c_id = $fortail->id;
                 $c_nama_sederhana = $fortail->nama_sederhana;
                 $c_granulasi = $fortail->granulasi;
+                $c_premix = $fortail->premix;
                 $c_per_batch = $fortail->per_batch;
                 $c_per_serving = $fortail->per_serving;
                 // Insert To Collect
@@ -231,12 +260,24 @@ class ScaleController extends Controller
                     'per_serving' => $c_per_serving,
                     'scale_batch' => $c_scale_batch,
                     'scale_serving' => $c_scale_serving,
+                    'alternatif1' => $fortail->alternatif1,
+                    'alternatif2' => $fortail->alternatif2,
+                    'alternatif3' => $fortail->alternatif3,
+                    'alternatif4' => $fortail->alternatif4,
+                    'alternatif5' => $fortail->alternatif5,
+                    'alternatif6' => $fortail->alternatif6,
+                    'alternatif7' => $fortail->alternatif7,
+                    'premix' => $fortail->premix,
                     'granulasi' => $c_granulasi                
                 ]);
                 
                 // Jika Granulasi
                 if($fortail->granulasi == 'ya'){
                     $granulasi = $granulasi + 1;
+                }
+                // Jika premix
+                if($fortail->premix == 'ya'){
+                    $premix = $premix + 1;
                 }
             }
         }
@@ -261,6 +302,7 @@ class ScaleController extends Controller
                 $c_id = $fortail->id;
                 $c_nama_sederhana = $fortail->nama_sederhana;
                 $c_granulasi = $fortail->granulasi;
+                $c_premix = $fortail->premix;
                 $c_per_batch = $fortail->per_batch;
                 $c_per_serving = $fortail->per_serving;
                 // Insert To Collect
@@ -272,12 +314,24 @@ class ScaleController extends Controller
                     'per_serving' => $c_per_serving,
                     'scale_batch' => $c_scale_batch,
                     'scale_serving' => $c_scale_serving,
+                    'alternatif1' => $fortail->alternatif1,
+                    'alternatif2' => $fortail->alternatif2,
+                    'alternatif3' => $fortail->alternatif3,
+                    'alternatif4' => $fortail->alternatif4,
+                    'alternatif5' => $fortail->alternatif5,
+                    'alternatif6' => $fortail->alternatif6,
+                    'alternatif7' => $fortail->alternatif7,
+                    'premix' => $fortail->premix,
                     'granulasi' => $c_granulasi                
                 ]);
                 
                 // Jika Granulasi
                 if($fortail->granulasi == 'ya'){
                     $granulasi = $granulasi + 1;
+                }
+                // Jika premix
+                if($fortail->premix == 'ya'){
+                    $premix = $premix + 1;
                 }
             }
         }
@@ -306,6 +360,7 @@ class ScaleController extends Controller
             'idf' => $idf,
             'idfor' => $for,
             'granulasi' => $granulasi,
+            'premix' => $premix,
             'ada' => $ada,
             'sesuai_target' => $sesuai_target
         ]);
