@@ -7,6 +7,7 @@
     </title>
     <link href="{{ asset('img/prod.png') }}" rel="icon">
     <link href="{{ asset('css/asrul.css') }}" rel="stylesheet">
+	  <link href="{{ asset('vendors/bootstrap-daterangepicker/daterangepicker.css') }}" rel="stylesheet">
     <link href="{{ asset('vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('vendors/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
     <link href="{{ asset('build/css/custom.min.css') }}" rel="stylesheet">
@@ -335,6 +336,8 @@
     <script src="{{ asset('lib/advanced-datatable/js/jquery.dataTables.js')}}"></script>
     <script src="{{ asset('lib/advanced-datatable/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{ asset('js/datatables.min.js')}}"></script>
+	  <script src="{{ asset('vendors/moment/min/moment.min.js')}}"></script>
+	  <script src="{{ asset('vendors/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
     <script src="{{ asset('js/select2/select2.min.js') }}"></script>
     <script src="{{ asset('build/js/custom.min.js') }}"></script>
     @yield('s')

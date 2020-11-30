@@ -21,7 +21,7 @@
         <div id="exTab2" class="container">
 					<div class="col-md-11" align="left">
             @foreach($pkpp as $pkp)
-            <a class="btn btn-danger btn-sm" href="{{ route('rekappkp',$pkp->id_project)}}"><i class="fa fa-share"></i>Back</a>
+            <a class="btn btn-danger btn-sm" href="{{ route('rekappkp',$pkp->id_project)}}"><i class="fa fa-share"></i> Back</a>
               @if($pkp->status_pkp=="draf")
                 @if(auth()->user()->role->namaRule === 'pv_lokal')
                   @if($pkp->datapkpp->approval=='approve')
@@ -38,9 +38,9 @@
                           </button>
                         </div>
                         <div class="modal-body">
-                          <form class="form-horizontal form-label-left" method="POST" action="{{ Route('editt',$pkp->id_pkp)}}" novalidate>
+                          <form class="form-horizontal form-label-left" method="POST" action="{{ Route('editt',$pkp->id_pkp)}}">
                           <div class="form-group row">
-                            <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center">Dept 1</label>
+                            <label class="control-label text-bold col-md-2 col-sm-2 col-xs-12 text-center">Dept Produk</label>
                             <div class="col-md-4 col-sm-9 col-xs-12">
                               <select name="kirim" class="form-control form-control-line" id="kirim">
                                 <option disabled selected>Departement</option>
@@ -56,7 +56,7 @@
                               <input id="date" value="{{ $last }}" class="form-control col-md-12 col-xs-12" name="date" required="required" type="hidden" readonly>
                             </div>
                             <input type="hidden" value="{{$pkp->project_name}}" name="name" id="name">
-                            <label class="control-label text-bold col-md-1 col-sm-3 col-xs-12 text-center">Dept 2</label>
+                            <label class="control-label text-bold col-md-2 col-sm-2 col-xs-12 text-center">Dept Kemas</label>
                             <div class="col-md-4 col-sm-9 col-xs-12">
                               <select name="rka" class="form-control form-control-line" id="rka">
                                 <option value="1">RKA</option>
@@ -83,26 +83,29 @@
                             @endif
                           @endif
                           <div class="form-group row">
-                            <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center">Prioritas Project</label>
-                            <div class="col-md-2 col-sm-9 col-xs-12">
-                              <select name="prioritas" class="form-control form-control-line" id="prioritas">
+                            <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center">Priority</label>
+                            <div class="col-md-2 col-sm-2 col-xs-12">
+                              <select name="prioritas" class="form-control form-control-line" id="prioritas" required>
                                 <option disabled selected>Prioritas</option>
-                                <option value="1">prioritas 1</option>
-                                <option value="2">prioritas 2</option>
-                                <option value="3">prioritas 3</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
                               </select>
                             </div>
-                            <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center">Deadline for sending Sample</label>
-                            <div class="col-md-2 col-sm-9 col-xs-12">
-                              <input type="date" class="form-control" name="jangka" id="jangka" placeholder="start date">
+                            <?php
+                            $tgl2 = date('Y-m-d', strtotime('+30 days'));
+                            ?>
+                            <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center">sample deadline</label>
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                              <input type="date" class="form-control" value="<?php echo date('Y-m-d'); ?>" name="jangka" id="jangka" placeholder="start date">
                             </div>
-                            <div class="col-md-1 col-sm-9 col-xs-12"><center> To </center></div>
-                            <div class="col-md-2 col-sm-9 col-xs-12">
-                              <input type="date" class="form-control" name="waktu" id="waktu" placeholder="end date">
+                            <div class="col-md-1 col-sm-1 col-xs-12"><center> To </center></div>
+                            <div class="col-md-2 col-sm-2 col-xs-12">
+                              <input type="date" class="form-control" value="{{$tgl2}}" name="waktu" id="waktu" placeholder="end date">
                             </div>
                           </div>
                           <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Sent</button>
+                            <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-paper-plane"></i> Sent</button>
                             {{ csrf_field() }}
                           </div>
                         </form>
@@ -127,9 +130,9 @@
                         <div class="modal-body">
                           <form class="form-horizontal form-label-left" method="POST" action="{{ url('emailpkp',['id_pkp' => $pkp->id_pkp, 'revisi' => $pkp->revisi, 'turunan' => $pkp->turunan]) }}" novalidate>
                           <div class="form-group row">
-                            <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center">Email</label>
-                            <label class="control-label text-bold col-md-1 col-sm-3 col-xs-12 text-center">To</label>
-                            <div class="col-md-8 col-sm-10 col-xs-12">
+                            <label class="control-label text-bold col-md-1 col-sm-1 col-xs-12 text-center">Email</label>
+                            <label class="control-label text-bold col-md-1 col-sm-1 col-xs-12 text-center">To</label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
                               <input id="email" required class="form-control " type="email" name="email" required>
                               <input type="hidden" value="Pengajuan PKP-{{$pkp->project_name}}" name="judul" id="judul">
                               @foreach($picture as $pic)
@@ -139,20 +142,20 @@
                             </div>
                           </div>
                           <div class="form-group row">
-                            <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center"></label>
-                            <label class="control-label text-bold col-md-1 col-sm-3 col-xs-12 text-center">Cc</label>
+                            <label class="control-label text-bold col-md-1 col-sm-1 col-xs-12 text-center"></label>
+                            <label class="control-label text-bold col-md-1 col-sm-1 col-xs-12 text-center">Cc</label>
                             <div class="col-md-3 col-sm-10 col-xs-12">
-                            <input type="text"  class="form-control " value="{{auth()->user()->email}}" name="pengirim" id="pengirim">
+                            <input type="text" readonly class="form-control " value="{{auth()->user()->email}}" name="pengirim" id="pengirim">
                             </div>
                             <div class="col-md-3 col-sm-10 col-xs-12">
-                            <input type="text" class="form-control"  value="{{$pkp->datapkpp->author1->email}}" name="pengirim1" id="pengirim1">
+                            <input type="text" class="form-control" readonly value="{{$pkp->datapkpp->author1->email}}" name="pengirim1" id="pengirim1">
                             </div>
                             <div class="col-md-3 col-sm-10 col-xs-12">
-                            @if($pkp->perevisi!=NULL)<input type="text"  class="form-control " value="{{$pkp->perevisi2->email}}" name="pengirim2" id="pengirim2">@endif
+                            @if($pkp->perevisi!=NULL)<input type="text" readonly class="form-control " value="{{$pkp->perevisi2->email}}" name="pengirim2" id="pengirim2">@endif
                             </div>
                           </div>
                           <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Sent</button>
+                            <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-paper-plane"></i> Sent</button>
                             {{ csrf_field() }}
                           </div>
                         </form>
@@ -241,7 +244,7 @@
                           </div>
                         </div>
                         <div class="modal-footer">
-                          <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Sent</button>
+                          <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-paper-plane"></i> Sent</button>
                           {{ csrf_field() }}
                         </div>
                         </form>
@@ -281,11 +284,6 @@
               <div class="panel-default">
 								<div class="panel-body badan" >
 									<label>PT. NUTRIFOOD INDONESIA</label>
-                  	<table ALIGN="right">
-    									<tr>
-    									  <th class="text-right">KODE FORM : F.Q.201</th>
-    									</tr>
-  									</table>
 										<center> <h2 style="font-size: 22px;font-weight: bold;">PENGEMBANGAN KONSEP AWAL PRODUK BARU</h2> </center>
   									<center> <h2 style="font-size: 20px;font-weight: bold;">( PKP )</h2> </center><br>
 										<center> <h2 style="font-weight: bold;">[ {{ $pkp->id_brand }} ] &reg;</h2> </center>
@@ -872,10 +870,6 @@
                         </td></tr>
                       </thead>
                     </table>
-        						<table ALIGN="right">
-        							<tr><td>Revisi/Berlaku :  </td></tr>
-        							<tr><td>Masa Berlaku : Selamanya</td></tr>
-        						</table>
 								</div>
 							</div>
             </div>

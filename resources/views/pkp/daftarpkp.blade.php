@@ -60,7 +60,7 @@
                   @endif
                 @endforeach
                 <div class="modal-footer">
-                  <button type="submit" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Submit</button>
+                  <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-plus-circle"></i> Submit</button>
                   {{ csrf_field() }}
                 </div>
                 </form>
@@ -138,7 +138,7 @@
       					</tbody>
     					</table>
                 <div class="modal-footer">
-                  <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Submit</button>
+                  <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-paper-plane"></i> Submit</button>
                   {{ csrf_field() }}
                 </div>
               </form>
@@ -465,14 +465,14 @@
                     @if($for->status_fisibility=='not_approved')
                       <a href="{{ route('formula.detail',[$for['workbook_id'],$for['id']]) }}" class="btn btn-info btn-sm" title="show"><li class="fa fa-eye"></li></a>
                       @if($hasilpanel>=1)
-                      <a href="{{route('finalsample',$for->id)}}" class="btn btn-success btn-sm" title="Final Approval btn-sm"><li class="fa fa-tag"></li></a>
+                      <a href="{{route('finalsample',$for->id)}}" class="btn btn-success btn-sm" title="Final Approva"><li class="fa fa-tag"></li></a>
                       @endif
                     @elseif($for->status_fisibility=='proses')
                     <a href="{{ route('formula.detail',[$for['workbook_id'],$for['id']]) }}" class="btn btn-info btn-sm" title="show"><li class="fa fa-eye"></li></a>
                     @elseif($for->status_fisibility=='selesai')
                       <a href="{{ route('formula.detail',[$for['workbook_id'],$for['id']]) }}" class="btn btn-info btn-sm" title="show"><li class="fa fa-eye"></li></a>
                       @if($hasilpanel>=1)
-                      <a href="{{route('finalsample',$for->id)}}" class="btn btn-success btn-sm" title="Final Approval btn-sm"><li class="fa fa-tag"></li></a>
+                      <a href="{{route('finalsample',$for->id)}}" class="btn btn-success btn-sm" title="Final Approval"><li class="fa fa-tag"></li></a>
                       @endif
                     @endif
                   @elseif($for->vv=='reject')

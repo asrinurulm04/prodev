@@ -167,7 +167,6 @@ class Email extends Controller
         $dataklaim = data_klaim::where('id_pkp',$id_project)->join('klaim','klaim.id','=','id_klaim')->where('revisi',$revisi)->where('turunan',$turunan)->get();
         $pkpp = tipp::join('pkp_project','tippu.id_pkp','=','pkp_project.id_project')->where([ ['id_pkp',$id_project], ['revisi',$revisi], ['turunan',$turunan] ])->get();
         $ses= data_ses::where([ ['id_pkp',$id_project], ['revisi','<=',$revisi], ['turunan','<=',$turunan] ])->orderBy('revisi','desc')->orderBy('turunan','desc')->get();
-        $uom= data_uom::where([ ['id_pkp',$id_project], ['revisi',$revisi], ['turunan',$turunan] ])->get();
         $max = tipp::where('id_pkp',$id_project)->max('turunan');
         $pkp1 = tipp::where('id_pkp',$id_project)->where('revisi',$revisi)->where('turunan',$turunan)->orderBy('turunan','desc')->orderBy('revisi','desc')->get();
         $datadetail = data_detail_klaim::where('id_pkp',$id_project)->where('revisi',$revisi)->where('turunan',$turunan)->get();
@@ -177,7 +176,6 @@ class Email extends Controller
             'pkpp' => $pkpp,
             'pkp' => $pkp,
             'datases' => $ses,
-            'datauom' => $uom,
             'for' => $for,
             'datadetail' => $datadetail,
             'dataklaim' => $dataklaim,

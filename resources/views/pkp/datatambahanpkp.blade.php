@@ -47,7 +47,7 @@
         @endforeach
 				<input type="file" name="filename[]" class="form-control col-md-11 col-sm-12 col-xs-12" multiple>
 		  </div>
-			<button type="submit" class="btn btn-primary" style="margin-top:10px"> Submit</button>
+			<button type="submit" class="btn btn-primary btn-sm" style="margin-top:10px"> Submit</button>
 	    </form>
 		</div>
 	</div>

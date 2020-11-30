@@ -337,8 +337,8 @@
             <input type="hidden" value="{{$teams->user->email}}" name="emailtujuan[]" id="emailtujuan">
             @endforeach
           <div class="col-md-6 col-sm-offset-5 col-md-offset-5">
-            <button type="reset" class="btn btn-danger">Reset</button>
-            <button type="submit" class="btn btn-primary">Submit And Next</button>
+            <button type="reset" class="btn btn-danger btn-sm">Reset</button>
+            <button type="submit" class="btn btn-primary btn-sm">Submit And Next</button>
             {{ csrf_field() }}
           </div>
         </div>
