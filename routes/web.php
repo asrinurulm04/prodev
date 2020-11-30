@@ -242,6 +242,8 @@ Route::get('cetak_my_project','cetakController@download_my_project')->name('ceta
 Route::get('cetak_pdf','cetakController@download_project_pdf')->name('cetak_pdf');
 Route::get('download_my_project_pdf','cetakController@download_my_project_pdf')->name('download_my_project_pdf');
 
+Route::get('FOR_pkp/{formula}','downloadFORController@FOR_pkp')->name('FOR_pkp');
+
 //PKP PROMO
 Route::get('downloadpromo/{id}/{revisi}/{turunan}','pv\promoController@downloadpromo')->name('downloadpromo');
 Route::get('promo','pv\promoController@promo')->name('promo');

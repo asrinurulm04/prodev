@@ -228,7 +228,8 @@
       </div>
       <div class="modal-body">
         <form class="cmxform form-horizontal style-form" method="POST" action="{{ route('addformula') }}">
-        <input class="form-control " id="workbook_id" name="workbook_id" type="hidden" value="{{ $workbooks->id_pkp}}"/>                                       
+        <input class="form-control " id="workbook_id" name="workbook_id" type="hidden" value="{{ $workbooks->id_pkp}}"/>   
+        <input class="form-control " id="akg" name="akg" type="hidden" value="{{ $workbooks->akg}}"/>                                      
         <div class="form-group">
           <label class="col-lg-3 control-label">Formula</label>
           <div class="col-lg-8">
