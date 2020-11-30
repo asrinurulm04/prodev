@@ -56,7 +56,7 @@ class listpkpController extends Controller
     }
 
     public function listpkp(){
-        $pkp = pkp_project::where('status_project','!=','draf')->where('status_project','!=','sent')->get();
+        $pkp = pkp_project::where('status_project','!=','draf')->where('status_project','!=','sent')->orderBy('pkp_number','desc')->get();
         $type = pkp_type::all();
         $brand = brand::all();
         $hitungpkp = tipp::where('status_pkp','=','draf')->count();

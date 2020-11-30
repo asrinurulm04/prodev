@@ -40,6 +40,7 @@ class Step1Controller extends Controller
     public function update($formula,$id,Request $request){
         $formula = Formula::where('id',$formula)->first();
         $formula->catatan_rd = $request->keterangan;
+        $formula->note_formula = $request->formula;
         $formula->serving_size = $request->serving;
         $formula->formula = $request->sample;
         $formula->satuan = $request->satuan;

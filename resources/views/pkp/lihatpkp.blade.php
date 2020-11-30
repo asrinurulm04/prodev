@@ -276,6 +276,13 @@
               @if(auth()->user()->role->namaRule === 'user_produk')
               <a href="{{route('showworkbook',$pkp->id)}}"></a>
               @endif
+              @if(auth()->user()->role->namaRule === 'user_produk')
+                @if($formula==0)
+                <a href="{{route('showworkbook',$pkp->id_pkp)}}" class="btn btn-success btn-sm"><li class=" fa fa-plus"></li> Workbook</a>
+                @else
+                <a href="{{route('showworkbook',$pkp->id_pkp)}}" class="btn btn-success btn-sm"><li class=" fa fa-book"></li> Show Workbook</a>
+                @endif
+              @endif
               <a class="btn btn-warning btn-sm" onclick="return confirm('Print this data PKP ?')" href="{{ Route('download',['id_pkp' => $pkp->id_pkp, 'revisi' => $pkp->revisi, 'turunan' => $pkp->turunan]) }}"><i class="fa fa-print"></i> Download/print PKP</a>
 					</div><br><br>
           <div  class="tab-content panel ">
@@ -315,12 +322,12 @@
                         <th colspan="3" class="text-center"><span style="font-weight: bold;font-size: 20px;" class="card-title">Background</span></th>
                       </tr>
                       <tr>
-                        <td width="300px">Idea</td>
+                        <th width="300px">Idea</th>
                         <td colspan="2"> <?php $ideas = []; foreach ($pkp1 as $key => $data) If (!$ideas || !in_array($data->idea, $ideas)) {$ideas += array($key => $data->idea);
                         if($data->turunan!=$pkp->turunan){ echo" <s><font color='#6594c5'>$data->idea <br></font></s>"; }if($data->turunan==$pkp->turunan){ echo" $data->idea<br>"; } } ?></td>
                       </tr>
                       <tr>
-                        <td>Target market</td>
+                        <th>Target market</th>
                         <td colspan="2">
 													<table>
                             <tr><th style="border:none;">Gender </th><td style="border:none;">
@@ -346,17 +353,17 @@
 												</td>
                       </tr>
                       <tr>
-                      <td>Uniqueness of idea</td>
+                      <th>Uniqueness of idea</th>
                         <td colspan="2"><?php $Uniqueness = []; foreach ($pkp1 as $key => $data) If (!$Uniqueness || !in_array($data->Uniqueness, $Uniqueness)) { $Uniqueness += array( $key => $data->Uniqueness ); 
                         if($data->turunan!=$pkp->turunan){ echo" <s><font color='#6594c5'>$data->Uniqueness <br></font></s>"; } if($data->turunan==$pkp->turunan){ echo" $data->Uniqueness <br>";} } ?></td>
                       </tr>
                       <tr>
-                      <td>Estimated potential market</td>
+                        <th>Estimated potential market</th>
                         <td colspan="2"><?php $Estimated = []; foreach ($pkp1 as $key => $data) If (!$Estimated || !in_array($data->Estimated, $Estimated)) {  $Estimated += array(  $key => $data->Estimated ); 
                         if($data->turunan!=$pkp->turunan){ echo" <s><font color='#6594c5'>$data->Estimated <br></font></s>"; } if($data->turunan==$pkp->turunan){ echo" $data->Estimated <br>"; } } ?></td>
                       </tr>
                       <tr class="table-highlight">
-                        <td>Reason(s)</td>
+                        <th>Reason(s)</th>
                         <td colspan="2"><?php $reason = []; foreach ($pkp1 as $key => $data) If (!$reason || !in_array($data->reason, $reason)) { $reason += array( $key => $data->reason ); 
                          if($data->turunan==$pkp->turunan){ echo" $data->reason <br>"; } } ?></td>
                       </tr>
@@ -364,7 +371,7 @@
                         <th colspan="3" class="text-center"><span style="font-weight: bold;font-size: 20px;" class="card-title">Market Analysis</span></th>
                       </tr>
                       <tr>
-                        <td>Launch Deadline</td>
+                        <th>Launch Deadline</th>
                         <td colspan="2">
 													<table>
                             <tr>
@@ -378,12 +385,12 @@
 												</td>
                       </tr>
                       <tr>
-                        <td>Aisle Placement</td>
+                        <th>Aisle Placement</th>
                         <td colspan="2"><?php $aisle = []; foreach ($pkp1 as $key => $data) If (!$aisle || !in_array($data->aisle, $aisle)) { $aisle += array( $key => $data->aisle ); 
                         if($data->turunan!=$pkp->turunan){ echo" <s><font color='#6594c5'>$data->aisle<br></font></s>"; } if($data->turunan==$pkp->turunan){ echo" $data->aisle<br>"; } } ?></td>
                       </tr>
                       <tr>
-                        <td>Sales Forecast</td>
+                        <th>Sales Forecast</th>
                         <td colspan="2">
                           @foreach($for as $fore)
                           {{$fore->satuan}} = {{$fore->forecast}} <br>
@@ -395,7 +402,7 @@
                         @endif
                       </tr>
 											<tr>
-                        <td>NF Selling Price (Before ppn)</td>
+                        <th>NF Selling Price (Before ppn)</th>
                         <td colspan="2">
                           <table>
                             <tr>
@@ -408,7 +415,7 @@
                         </td>
 											</tr>
                       <tr>
-                        <td>Consumer price target</td>
+                        <th>Consumer price target</th>
                         <td colspan="2">
                           <table>
                             <tr>
@@ -421,19 +428,19 @@
                         </td>
                       </tr>
                       <tr>
-                        <td>UOM</td>
+                        <th>UOM</th>
                         <td colspan="2">
                           <?php $UOM = []; foreach ($pkp1 as $key => $data) If (!$UOM || !in_array($data->UOM, $UOM)) { $UOM += array( $key => $data->UOM ); 
                             if($data->turunan!=$pkp->turunan){ echo" <s><font color='#6594c5'>$data->UOM<br></font></s>"; } if($data->turunan==$pkp->turunan){ echo" $data->UOM <br>"; } } ?>
                         </td>
                       </tr>
                       <tr class="table-highlight">
-                        <td>Main Competitor</td>
+                        <th>Main Competitor</th>
                         <td colspan="2"><?php $competitor = []; foreach ($pkp1 as $key => $data) If (!$competitor || !in_array($data->competitor, $competitor)) {$competitor += array( $key => $data->competitor ); 
                         if($data->turunan!=$pkp->turunan){ echo" <s><font color='#6594c5'>$data->competitor <br></font></s>"; } if($data->turunan==$pkp->turunan){ echo" $data->competitor <br>"; } }  ?></td>
                       </tr>
                       <tr class="table-highlight">
-                        <td>Competitive Analysis</td>
+                        <th>Competitive Analysis</th>
                         <td colspan="2"><?php $competitive = []; foreach ($pkp1 as $key => $data) If (!$competitive || !in_array($data->competitive, $competitive)) { $competitive += array( $key => $data->competitive ); 
                         if($data->turunan!=$pkp->turunan){ echo" <s><font color='#6594c5'>$data->competitive <br></font></s>"; } if($data->turunan==$pkp->turunan){ echo" $data->competitive <br>"; } }  ?></td>
                       </tr>
@@ -441,7 +448,7 @@
                         <th colspan="3" class="text-center"><span style="font-weight: bold;font-size: 20px;" class="card-title">Product features</span></th>
                       </tr>
                       <tr>
-                        <td>Product Form</td>
+                        <th>Product Form</th>
                         <td colspan="2"><?php $product_form = []; foreach ($pkp1 as $key => $data) If (!$product_form || !in_array($data->product_form, $product_form)) { $product_form += array( $key => $data->product_form  ); 
                         if($data->turunan!=$pkp->turunan){ echo" <s><font color='#6594c5'>$data->product_form<br></font></s>"; } if($data->turunan==$pkp->turunan){ echo" $data->product_form<br>"; } }  ?>
                         <br><br>
@@ -449,7 +456,7 @@
                           if($data->turunan!=$pkp->turunan){ echo"Remarks : <s><font color='#6594c5'>$data->remarks_product_form<br></font></s>"; } if($data->turunan==$pkp->turunan){ echo"Remarks: $data->remarks_product_form<br>"; } }  ?></td>
                       </tr>
                       <tr>
-                      <td>Product Packaging</td>
+                      <th>Product Packaging</th>
                         <td colspan="2">
 													<table>
 
@@ -497,26 +504,26 @@
 												</td>
                       </tr>
                       <tr>
-                        <td>Food Category (BPOM)</td>
+                        <th>Food Category (BPOM)</th>
                         @if($pkp->bpom!=NULL && $pkp->kategori_bpom!=NULL)
                         <td colspan="2"><?php $pangan = []; foreach ($pkp1 as $key => $data) If (!$pangan || !in_array($data->katpangan, $pangan)) { $pangan += array( $key => $data->katpangan );  
-                        if($data->turunan==$pkp->turunan){ echo "(".$data->katpangan->no_kategori .") ". $data->katpangan->kategori." <br>"; } }  ?>  
+                        if($data->turunan==$pkp->turunan){ echo "(".$data->katpangan->no_kategori .") ". $data->katpangan->pangan ." <br>"; } }  ?>  
                         <br></td>@endif
                       </tr>
                       <tr>
-                        <td>AKG</td>
+                        <th>AKG</th>
                         <td>
                           <?php $tarkon = []; foreach ($pkp1 as $key => $data) If (!$tarkon || !in_array($data->tarkon, $tarkon)) { $tarkon += array( $key => $data->tarkon ); 
                            if($data->turunan==$pkp->turunan){ echo"". $data->tarkon->tarkon."<br>"; } }  ?>
                         </td>
                       </tr>
                       <tr class="table-highlight">
-                        <td>Prefered Flavour</td>
+                        <th>Prefered Flavour</th>
                         <td colspan="2"><?php $prefered_flavour = []; foreach ($pkp1 as $key => $data) If (!$prefered_flavour || !in_array($data->prefered_flavour, $prefered_flavour)) { $prefered_flavour += array( $key => $data->prefered_flavour ); 
                         if($data->turunan!=$pkp->turunan){  echo" <s><font color='#6594c5'>$data->prefered_flavour<br></font></s>";  } if($data->turunan==$pkp->turunan){ echo" $data->prefered_flavour<br>"; } }  ?></td>
                       </tr>
                       <tr>
-                        <td>Product Benefits</td>
+                        <th>Product Benefits</th>
                         <td colspan="2">
 													<table>
                             <?php $product_benefits= []; foreach ($pkp1 as $key => $data) If (!$product_benefits|| !in_array($data->product_benefits, $product_benefits)) { $product_benefits+= array( $key => $data->product_benefits ); 
@@ -553,36 +560,15 @@
 												</td>
                       </tr>
                       <tr>
-                        <td>Serving Suggestion</td>
+                        <th>Serving Suggestion</th>
                         <td colspan="2"><?php $serving = []; foreach ($pkp1 as $key => $data) If (!$serving || !in_array($data->serving_suggestion, $serving)) { $serving += array( $key => $data->serving_suggestion ); 
                         if($data->turunan!=$pkp->turunan){ echo" <s><font color='#6594c5'>$data->serving_suggestion<br></font></s>"; } if($data->turunan==$pkp->turunan){ echo" $data->serving_suggestion<br>"; } }  ?></td>
                       </tr>
                       <tr>
-                        <td>Mandatory Ingredients</td>
+                        <th>Mandatory Ingredients</th>
                         <td colspan="2"><?php $mandatory_ingredient = []; foreach ($pkp1 as $key => $data) If (!$mandatory_ingredient || !in_array($data->mandatory_ingredient, $mandatory_ingredient)) { $mandatory_ingredient += array( $key => $data->mandatory_ingredient ); 
                         if($data->turunan!=$pkp->turunan){ echo" <s><font color='#6594c5'>$data->mandatory_ingredient<br></font></s>"; } if($data->turunan==$pkp->turunan){ echo" $data->mandatory_ingredient<br>"; } }  ?></td>
                       </tr>
-                      <!-- <tr>
-                        <td>Related Picture</td>
-                        <td colspan="2">
-                          <table class="table table-bordered">
-                            <tr class="text-center" style="font-weight: bold;color:white;background-color: #2a3f54;">
-                              <td class="text-center">Filename</td>
-                              <td class="text-center">File</td>
-                              <td class="text-center">Information</td>
-                              <td class="text-center"></td>
-                            </tr>
-                            @foreach($picture as $pic)
-                            <tr>
-                              <td>{{$pic->filename}} </td>
-                              <td class="text-center"><embed src="{{asset('data_file/'.$pic->filename)}}" width="90px" height="90" type=""></td>
-                              <td width="40%"> &nbsp{{$pic->informasi}}</td>  
-                              <td width="10%" class="text-center"><a href="{{asset('data_file/'.$pic->filename)}}" download="{{$pic->filename}}"><button class="btn btn-primary btn-sm"><li class="fa fa-download"></li></button></a></td>
-                            </tr>
-                            @endforeach
-                          </table>
-                        </td>
-                      </tr> -->
 
                     </table>
                     @else
@@ -591,45 +577,45 @@
                         <th colspan="3" class="text-center"><span style="font-weight: bold;font-size: 20px;" class="card-title">Background</span></th>
                       </tr>
                       <tr>
-                        <td width="300px">Idea</td>
+                        <th width="300px">Idea</th>
                         <td colspan="2"> <?php $ideas = []; foreach ($pkp2 as $key => $data) If (!$ideas || !in_array($data->idea, $ideas)) {$ideas += array($key => $data->idea);
                         if($data->revisi!=$pkp->revisi){ echo" <s><font color='#ffa2a2'>$data->idea<br></font></s>"; }if($data->revisi==$pkp->revisi){ echo" $data->idea<br>"; } } ?></td>
                       </tr>
                       <tr>
-                        <td>Target market</td>
+                        <th>Target market</th>
                         <td colspan="2">
 													<table>
 	
-                            <tr><th style="border:none;">Gender </th><th style="border:none;"> 
+                            <tr><th style="border:none;">Gender </th><td style="border:none;"> 
                             <?php $dataG = []; foreach ($pkp2 as $key => $data) If (!$dataG || !in_array($data->gender, $dataG)) { $dataG += array( $key => $data->gender );if($data->revisi!=$pkp->revisi){
-                            echo": <s><font color='#ffa2a2'>$data->gender<br></font></s>"; } if($data->revisi==$pkp->revisi){ echo": $data->gender <br>"; } } ?></th></tr>
+                            echo": <s><font color='#ffa2a2'>$data->gender<br></font></s>"; } if($data->revisi==$pkp->revisi){ echo": $data->gender <br>"; } } ?></td></tr>
 														
-                            <tr><th style="border:none;">Usia </th><th style="border:none;"> 
+                            <tr><th style="border:none;">Usia </th><td style="border:none;"> 
                             <?php $dariumur = []; foreach ($pkp2 as $key => $data) If (!$dariumur || !in_array($data->dariumur, $dariumur)) { $dariumur += array( $key => $data->dariumur ); if($data->revisi!=$pkp->revisi){
-                            echo": <s><font color='#ffa2a2'>$data->dariumur - $data->sampaiumur<br></font></s>";} if($data->revisi==$pkp->revisi){ echo": $data->dariumur - $data->sampaiumur <br>";} } ?> </th></tr>
+                            echo": <s><font color='#ffa2a2'>$data->dariumur - $data->sampaiumur<br></font></s>";} if($data->revisi==$pkp->revisi){ echo": $data->dariumur - $data->sampaiumur <br>";} } ?> </td></tr>
 														
-                            <tr><th style="border:none;">SES </th><th style="border:none;"> 
+                            <tr><th style="border:none;">SES </th><td style="border:none;"> 
                             <?php $ses = []; foreach ($datases as $key => $data) If (!$ses || !in_array($data->ses, $ses)) { $ses += array( $key => $data->ses ); 
-                            if($data->revisi!=$pkp->revisi){ echo": <s><font color='#ffa2a2'>$data->ses<br></font></s>"; }if($data->revisi==$pkp->revisi){ echo": $data->ses <br>"; } } ?></th></tr>
+                            if($data->revisi!=$pkp->revisi){ echo": <s><font color='#ffa2a2'>$data->ses<br></font></s>"; }if($data->revisi==$pkp->revisi){ echo": $data->ses <br>"; } } ?></td></tr>
                           
-                            <tr><td style="border:none;">Remarks SES </th><th style="border:none;"> 
+                            <tr><th style="border:none;">Remarks SES </th><td style="border:none;"> 
                             <?php $remarks_ses = []; foreach ($pkp2 as $key => $data) If (!$remarks_ses || !in_array($data->remarks_ses, $remarks_ses)) { $remarks_ses += array( $key => $data->remarks_ses ); if($data->revisi!=$pkp->revisi){
                             echo": <s><font color='#ffa2a2'>$data->remarks_ses</font></s>";} if($data->revisi==$pkp->revisi){ echo" : $data->remarks_ses ";} } ?></td></tr>
                           </table>
 												</td>
                       </tr>
                       <tr>
-                      <td>Uniqueness of idea</td>
+                      <th>Uniqueness of idea</th>
                         <td colspan="2"><?php $Uniqueness = []; foreach ($pkp2 as $key => $data) If (!$Uniqueness || !in_array($data->Uniqueness, $Uniqueness)) { $Uniqueness += array( $key => $data->Uniqueness ); 
                         if($data->revisi!=$pkp->revisi){ echo" <s><font color='#ffa2a2'>$data->Uniqueness <br></font></s>"; } if($data->revisi==$pkp->revisi){ echo" $data->Uniqueness <br>";} } ?></td>
                       </tr>
                       <tr>
-                      <td>Estimated potential market</td>
+                      <th>Estimated potential market</th>
                         <td colspan="2"><?php $Estimated = []; foreach ($pkp2 as $key => $data) If (!$Estimated || !in_array($data->Estimated, $Estimated)) {  $Estimated += array(  $key => $data->Estimated ); 
                         if($data->revisi!=$pkp->revisi){ echo" <s><font color='#ffa2a2'>$data->Estimated <br></font></s>"; } if($data->revisi==$pkp->revisi){ echo" $data->Estimated <br>"; } } ?></td>
                       </tr>
                       <tr class="table-highlight">
-                        <td>Reason(s)</td>
+                        <th>Reason(s)</th>
                         <td colspan="2"><?php $reason = []; foreach ($pkp2 as $key => $data) If (!$reason || !in_array($data->reason, $reason)) { $reason += array( $key => $data->reason ); 
                         if($data->revisi!=$pkp->revisi){ echo" <s><font color='#ffa2a2'>$data->reason<br></font></s>";} if($data->revisi==$pkp->revisi){ echo" $data->reason <br>"; } } ?></td>
                       </tr>
@@ -637,7 +623,7 @@
                         <th colspan="3" class="text-center"><span style="font-weight: bold;font-size: 20px;" class="card-title">Market Analysis</span></th>
                       </tr>
                       <tr>
-                        <td>Launch Deadline</td>
+                        <th>Launch Deadline</th>
                         <td colspan="2">
 													<table>
                             <tr>
@@ -651,12 +637,12 @@
 												</td>
                       </tr>
                       <tr>
-                        <td>Aisle Placement</td>
+                        <th>Aisle Placement</th>
                         <td colspan="2"><?php $aisle = []; foreach ($pkp2 as $key => $data) If (!$aisle || !in_array($data->aisle, $aisle)) { $aisle += array( $key => $data->aisle ); 
                         if($data->revisi!=$pkp->revisi){ echo" <s><font color='#ffa2a2'>$data->aisle<br></font></s>"; } if($data->revisi==$pkp->revisi){ echo" $data->aisle<br>"; } } ?></td>
                       </tr>
                       <tr>
-                        <td>Sales Forecast </td>
+                        <th>Sales Forecast </th>
                         <td colspan="2">@foreach($for as $fore)
                           {{$fore->satuan}} = {{$fore->forecast}} <br>
                           @endforeach
@@ -668,26 +654,26 @@
                           @endif
                       </tr>
 											<tr>
-                        <td>NF Selling Price (Before ppn)</td>
+                        <th>NF Selling Price (Before ppn)</th>
                         <td colspan="2"><?php $selling_price = []; foreach ($pkp2 as $key => $data) If (!$selling_price || !in_array($data->selling_price, $selling_price)) { $selling_price += array( $key => $data->selling_price ); 
                         if($data->revisi!=$pkp->revisi){ echo" <s><font color='#ffa2a2'>$data->selling_price<br></font></s>"; } if($data->revisi==$pkp->revisi){ echo" $data->selling_price <br>"; } }  ?></td>
 											</tr>
-                        <td>Consumer price target</td>
+                        <th>Consumer price target</th>
                         <td colspan="2"><?php $price = []; foreach ($pkp2 as $key => $data) If (!$price || !in_array($data->price, $price)) { $price += array( $key => $data->price ); 
                         if($data->revisi!=$pkp->revisi){ echo" <s><font color='#ffa2a2'>$data->price<br></font></s>"; } if($data->revisi==$pkp->revisi){ echo" $data->price <br>"; } } ?></td>
 											</tr>
                       <tr class="table-highlight">
-                        <td>Main Competitor</td>
+                        <th>Main Competitor</th>
                         <td colspan="2"><?php $competitor = []; foreach ($pkp2 as $key => $data) If (!$competitor || !in_array($data->competitor, $competitor)) {$competitor += array( $key => $data->competitor ); 
                         if($data->revisi!=$pkp->revisi){ echo" <s><font color='#ffa2a2'>$data->competitor <br></font></s>"; } if($data->revisi==$pkp->revisi){ echo" $data->competitor <br>"; } }  ?></td>
                       </tr>
                       <tr class="table-highlight">
-                        <td>Competitive Analysis</td>
+                        <th>Competitive Analysis</th>
                         <td colspan="2"><?php $competitive = []; foreach ($pkp2 as $key => $data) If (!$competitive || !in_array($data->competitive, $competitive)) { $competitive += array( $key => $data->competitive ); 
                         if($data->revisi!=$pkp->revisi){ echo" <s><font color='#ffa2a2'>$data->competitive <br></font></s>"; } if($data->revisi==$pkp->revisi){ echo" $data->competitive <br>"; } }  ?></td>
                       </tr>
                       <tr class="table-highlight">
-                        <td>UOM</td>
+                        <th>UOM</th>
                         <td colspan="2"><?php $uom = []; foreach ($pkp2 as $key => $data) If (!$uom || !in_array($data->UOM, $uom)) { $uom += array( $key => $data->UOM ); 
                         if($data->revisi!=$pkp->revisi){ echo "<s><font color='#ffa2a2'>".$data->UOM."<br></font></s>"; } if($data->revisi==$pkp->revisi){ echo"". $data->UOM."<br>"; } }  ?></td>
                       </tr>
@@ -695,15 +681,15 @@
                         <th colspan="3" class="text-center"><span style="font-weight: bold;font-size: 20px;" class="card-title">Product features</span></th>
                       </tr>
                       <tr>
-                        <td>Product Form</td>
+                        <th>Product Form</th>
                         <td colspan="2"><?php $product_form = []; foreach ($pkp2 as $key => $data) If (!$product_form || !in_array($data->product_form, $product_form)) { $product_form += array( $key => $data->product_form  ); 
                         if($data->revisi!=$pkp->revisi){ echo":<s><font color='#ffa2a2'>$data->product_form<br></font></s>"; } if($data->revisi==$pkp->revisi){ echo" $data->product_form<br>"; } }  ?>
-                      <br><br>
-                      <?php $remarks_product_form = []; foreach ($pkp2 as $key => $data) If (!$remarks_product_form || !in_array($data->remarks_product_form, $remarks_product_form)) { $remarks_product_form += array( $key => $data->remarks_product_form  ); 
+                        <br><br>
+                        <?php $remarks_product_form = []; foreach ($pkp2 as $key => $data) If (!$remarks_product_form || !in_array($data->remarks_product_form, $remarks_product_form)) { $remarks_product_form += array( $key => $data->remarks_product_form  ); 
                         if($data->revisi!=$pkp->revisi){ echo"Remarks : <s><font color='#ffa2a2'>$data->remarks_product_form<br></font></s>"; } if($data->revisi==$pkp->revisi){ echo"Remarks: $data->remarks_product_form<br>"; } }  ?></td>
                       </tr>
                       <tr>
-                        <td>Product Packaging</td>
+                        <th>Product Packaging</th>
                         <td colspan="2">
 													<table>
 
@@ -750,26 +736,26 @@
 												</td>
                       </tr>
                       <tr>
-                        <td>Food Category (BPOM)</td>
+                        <th>Food Category (BPOM)</th>
                         @if($pkp->bpom!=NULL && $pkp->kategori_bpom!=NULL)
                         <td colspan="2"><?php $pangan = []; foreach ($pkp2 as $key => $data) If (!$pangan || !in_array($data->katpangan, $pangan)) { $pangan += array( $key => $data->katpangan );  
-                        if($data->revisi==$pkp->revisi){ echo "(".$data->katpangan->no_kategori .") ". $data->katpangan->kategori." <br>"; } }  ?>  
+                        if($data->revisi==$pkp->revisi){ echo "(".$data->katpangan->no_kategori .") ". $data->katpangan->pangan." <br>"; } }  ?>  
                         <br></td>@endif
                       </tr>
                       <tr>
-                        <td>AKG</td>
+                        <th>AKG</th>
                         <td>
                           <?php $tarkon = []; foreach ($pkp2 as $key => $data) If (!$tarkon || !in_array($data->tarkon, $tarkon)) { $tarkon += array( $key => $data->tarkon ); 
                           if($data->revisi==$pkp->revisi){ echo"". $data->tarkon->tarkon."<br>"; } }  ?>
                         </td>
                       </tr>
                       <tr class="table-highlight">
-                        <td>Prefered Flavour</td>
+                        <th>Prefered Flavour</th>
                         <td colspan="2"><?php $prefered_flavour = []; foreach ($pkp2 as $key => $data) If (!$prefered_flavour || !in_array($data->prefered_flavour, $prefered_flavour)) { $prefered_flavour += array( $key => $data->prefered_flavour ); 
                         if($data->revisi!=$pkp->revisi){  echo" <s><font color='#ffa2a2'>$data->prefered_flavour<br></font></s>";  } if($data->revisi==$pkp->revisi){ echo" $data->prefered_flavour<br>"; } }  ?></td>
                       </tr>
                       <tr>
-                        <td>Product Benefits</td>
+                        <th>Product Benefits</th>
                         <td colspan="2">
 													<table>
                             <?php $product_benefits = []; foreach ($pkp2 as $key => $data) If (!$product_benefits || !in_array($data->product_benefits, $product_benefits)) { $product_benefits += array( $key => $data->product_benefits ); 
@@ -807,36 +793,15 @@
                       </tr>
                       
                       <tr>
-                        <td>Serving Suggestion</td>
+                        <th>Serving Suggestion</th>
                         <td colspan="2"><?php $serving = []; foreach ($pkp2 as $key => $data) If (!$serving || !in_array($data->serving_suggestion, $serving)) { $serving += array( $key => $data->serving_suggestion ); 
                         if($data->revisi!=$pkp->revisi){ echo" <s><font color='#ffa2a2'>$data->serving_suggestion<br></font></s>"; } if($data->revisi==$pkp->revisi){ echo" $data->serving_suggestion<br>"; } }  ?></td>
                       </tr>
                       <tr>
-                        <td>Mandatory Ingredients</td>
+                        <th>Mandatory Ingredients</th>
                         <td colspan="2"><?php $mandatory_ingredient = []; foreach ($pkp2 as $key => $data) If (!$mandatory_ingredient || !in_array($data->mandatory_ingredient, $mandatory_ingredient)) { $mandatory_ingredient += array( $key => $data->mandatory_ingredient ); 
                         if($data->revisi!=$pkp->revisi){ echo" <s><font color='#ffa2a2'>$data->mandatory_ingredient<br></font></s>"; } if($data->revisi==$pkp->revisi){ echo" $data->mandatory_ingredient<br>"; } }  ?></td>
                       </tr>
-                      <!-- <tr>
-                        <td>Related Picture</td>
-                        <td colspan="2">
-                          <table class="table table-bordered">
-                            <tr class="text-center" style="font-weight: bold;color:white;background-color: #2a3f54;">
-                              <td class="text-center">Filename</td>
-                              <td class="text-center">File</td>
-                              <td class="text-center">Information</td>
-                              <td class="text-center"></td>
-                            </tr>
-                            @foreach($picture as $pic)
-                            <tr>
-                              <td>{{$pic->filename}} </td>
-                              <td class="text-center"><embed src="{{asset('data_file/'.$pic->filename)}}" width="90px" height="90" type=""></td>
-                              <td width="40%"> &nbsp{{$pic->informasi}}</td>  
-                              <td width="10%" class="text-center"><a href="{{asset('data_file/'.$pic->filename)}}" download="{{$pic->filename}}"><button class="btn btn-primary btn-sm"><li class="fa fa-download"></li></button></a></td>
-                            </tr>
-                            @endforeach
-                          </table>
-                        </td>
-                      </tr> -->
 
                     </table>
                     @endif

@@ -13,7 +13,6 @@ use App\pkp\project_pdf;
 use App\master\Brand;
 use App\pkp\data_ses;
 use App\pkp\promo_idea;
-use App\dev\Formula;
 use App\pkp\sample_project;
 use App\manager\pengajuan;
 use App\pkp\promo;
@@ -47,7 +46,8 @@ class managerController extends Controller
         $hitungpdfselesai2= project_pdf::where('status_terima2','=','proses')->where('status_project','=','sent')->where('tujuankirim2',Auth::user()->Departement->id)->count();$hitungpdfselesai= project_pdf::where('status_terima','=','proses')->where('status_project','=','sent')->where('tujuankirim',Auth::user()->Departement->id)->count();
         $hitungpromoselesai2 = promo::where('status_terima2','=','proses')->where('status_project','=','sent')->where('tujuankirim2',Auth::user()->Departement->id)->count();$hitungpromoselesai = promo::where('status_terima','=','proses')->where('status_project','=','sent')->where('tujuankirim',Auth::user()->Departement->id)->count();
         $hitungnotif2 = $hitungpkpselesai2 + $hitungpdfselesai2 + $hitungpromoselesai2 ;$hitungnotif = $hitungpkpselesai + $hitungpdfselesai + $hitungpromoselesai;
-        $pkp = pkp_project::where('status_project','!=','draf')->orderBy('pkp_number','desc')->get();
+        $pkp = tipp::join('pkp_project','tippu.id_pkp','=','pkp_project.id_project')->where('status_data','active')->where('status_project','!=','draf')->orderBy('pkp_number','desc')->get();
+        
         $pkpname = pkp_project::where('status_project','!=','draf')->get();
         $type = pkp_type::all();
         $brand = brand::all();
@@ -247,13 +247,12 @@ class managerController extends Controller
         $pkp = pkp_project::where('id_project',$id_project)->get();
         $max = tipp::where('id_pkp',$id_project)->max('turunan');
         $max2 = tipp::where('id_pkp',$id_project)->max('revisi');
-        $formula = formula::where('workbook_id',$id_project)->orderBy('versi','asc')->get();
         $user = user::where('status','=','active')->get();
         $datapkp = tipp::where('id_pkp',$id_project)->where('status_pkp','sent')->where('turunan',$max)->where('turunan',$max)->where('revisi',$max2)->get();
         $pkp1 = pkp_project::where('id_project',$id_project)->get();
         $data = pkp_project::where('id_project',$id_project)->get();
         $sample = sample_project::where('id_pkp',$id_project)->get();
-        $listpkp = pkp_project::where('id_project',$id_project)->join('tippu','tippu.id_pkp','=','pkp_project.id_project')->where('status_data','=','active')->get();
+        $listpkp = tipp::where('id_project',$id_project)->join('pkp_project','tippu.id_pkp','=','pkp_project.id_project')->where('status_data','=','active')->get();
         $pengajuan = pengajuan::where('id_pkp',$id_project)->count();
         $dept1 = Departement::where('Divisi','=','RND')->get();
         $dept = Departement::where('Divisi','=','RND')->get();
@@ -266,7 +265,6 @@ class managerController extends Controller
             'pkp1' => $pkp1,
             'user' => $user,
             'sample' => $sample,
-            'formula' => $formula,
             'dept' => $dept,
             'dept1' => $dept1,
             'pengajuan' => $pengajuan,

@@ -9,7 +9,7 @@
       <div class="x_title">
         <h3><li class="fa fa-envelope"></li> Revision Request</h3>
         </div>
-        <div class="" style="overflow-x: scroll;">
+        <div>
           <div class="container"> 
             <section id="fancyTabWidget" class="tabs t-tabs">
             <ul class="nav nav-tabs fancyTabs" role="tablist">
@@ -41,7 +41,6 @@
                       <table class="Table table-bordered">
                         <thead>
                           <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
-                            <td class="text-center" width="5%">No</td>
                             <th class="text-center">From</th>
                             <th class="text-center">Project Name</th>
                             <th class="text-center">Priority</th>
@@ -51,15 +50,8 @@
                           </tr>
                         </thead>
                         <tbody>
-                        @php
-                          $no = 0;
-                        @endphp
                         @foreach($pengajuanpkp as $pkp)
-                        @php
-                          ++$no;
-                        @endphp
                           <tr>
-                            <td width="3%" class="text-center">{{$no}}</td>
                             <td width="10%">Manager {{$pkp->datapkp->departement->dept}}</td>
                             <td>{{$pkp->datapkp->project_name}}</td>
                             <td class="text-center">
@@ -79,7 +71,7 @@
                             </th>
                             <td width="25%">{{$pkp->alasan_pengajuan}}</td>
                             <td width="10%">
-                              <a href="{{Route('rekappkp',$pkp->id_pkp)}}" class="btn btn-info" type="button"><li class="fa fa-edit"> Start revision</li></a>
+                              <a href="{{Route('rekappkp',$pkp->id_pkp)}}" class="btn btn-info btn-sm" type="button"><li class="fa fa-edit"> Start revision</li></a>
             	              </td>
                           </tr>
                         @endforeach

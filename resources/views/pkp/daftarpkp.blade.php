@@ -105,48 +105,6 @@
         <a href="{{ route('listprojectpkp')}}" class="btn btn-danger btn-sm" type="button"><li class="fa fa-share"></li> Back</a>
       @elseif(auth()->user()->role->namaRule === 'user_produk') 
         <a href="{{ route('listprojectpkp')}}" class="btn btn-danger btn-sm" type="button"><li class="fa fa-share"></li> Back</a>
-        <button class="btn btn-dark btn-sm" data-toggle="modal" data-target="#sample{{$data->id_project}}"><i class="fa fa-check"></i> Submit Sample</a></button>
-        <!-- modal -->
-        <div class="modal" id="sample{{$data->id_project}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h3 class="modal-title text-left" id="exampleModalLabel">Submit Sample
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span></h3>
-                </button>
-              </div>
-              <div class="modal-body">
-                <form class="form-horizontal form-label-left" method="POST" action="{{route('samplepkp',$data->id_project)}}" novalidate>
-                <table class="table table-bordered table-hover" id="tabledata">
-      					<thead>
-      						<tr style="font-weight: bold;color:white;background-color: #2a3f54;">
-      					    <th class="text-center" >Sample</th>
-      					    <th class="text-center" >Note</th>
-										<th width="5%"></th>
-      					  </tr>
-      					</thead>
-      					<tbody>
-      						<tr>
-                    <input type="hidden" value="{{$data->id_project}}" name="id">
-      					    <td><input type="text" name='sample[]' class="form-control" /></td>
-      						  <td><textarea rows="2" type="text" required name='note[]' class="form-control" ></textarea></td>
-										<td>
-										<button id="add_data" type="button" class="btn btn-info btn-sm pull-left tr_clone_add"><li class="fa fa-plus"></li> </button>
-										</td>
-									</tr>
-      					</tbody>
-    					</table>
-                <div class="modal-footer">
-                  <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-paper-plane"></i> Submit</button>
-                  {{ csrf_field() }}
-                </div>
-              </form>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Modal Selesai -->
       @endif
 
       @foreach($datapkp as $pkp)

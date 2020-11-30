@@ -375,6 +375,7 @@ class pkpController extends Controller
     }
 
     public function updatetipp(Request $request,$id_project,$revisi,$turunan){
+        dd($request);
         $pkp = tipp::where('id_pkp',$id_project)->max('turunan');
         $naikversi = $pkp + 1;
 
@@ -594,7 +595,7 @@ class pkpController extends Controller
         $tip->remarks_ses=$request->remarks_ses;
         $tip->remarks_forecash=$request->remarks_forecash;
         $tip->remarks_product_form=$request->remarks_product_form;
-        $tip->perevisi=$tip->perevisi;
+        $tip->perevisi=Auth::user()->id;
         $tip->last_update=$request->last_up;
         $tip->Estimated=$request->estimated;
         $tip->launch=$request->launch;

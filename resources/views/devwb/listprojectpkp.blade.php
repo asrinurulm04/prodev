@@ -30,12 +30,13 @@
           <form id="clear">          
           <!--project-->
           <div class="col-md-4 pl-1">
-            <div class="form-group" id="filter_col" data-column="1">
-              <label>Project Name</label>
-              <select name="name" class="form-control column_filter" id="col1_filter">
+            <div class="form-group" id="filter_col" data-column="5">
+              <label>Priority</label>
+              <select name="name" class="form-control column_filter" id="col5_filter">
                 <option disabled selected>-->Select One<--</option>
-                <option>proses</option>
-                <option>close</option>
+                <option>Prioritas 1</option>
+                <option>Prioritas 2</option>
+                <option>Prioritas 3</option>
               </select>
             </div>
           </div>      
@@ -92,6 +93,7 @@
             <th class="text-center">Project Name</th>
             <th class="text-center">Brand</th>
             <th class="text-center">PV</th>
+            <th class="text-center">Priority</th>
             <th class="text-center">Prototype Sample submission status</th>
             <th width="15%" class="text-center">Action</th>
           </tr>
@@ -107,6 +109,15 @@
             <td>{{ $pkp->project_name }}</td>
             <td>{{ $pkp->id_brand}}</td>
             <td>{{ $pkp->datapkp->perevisi2->name }}</td>
+            <td>
+              @if($pkp->prioritas==1)
+              <span class="label label-primary" style="color:white">prioritas 1</span>
+              @elseif($pkp->prioritas==2)
+              <span class="label label-warning" style="color:white">prioritas 2</span>
+              @elseif($pkp->prioritas==3)
+              <span class="label label-success" style="color:white">prioritas 3</span>
+              @endif
+            </td>
             <td class="text-center">
               @if($pkp->status_freeze=='inactive')
                 @if($pkp->pengajuan_sample=='proses')
@@ -155,6 +166,15 @@
             <td>{{ $pkp->project_name }}</td>
             <td>{{ $pkp->id_brand}}</td>
             <td>{{ $pkp->datapkp->perevisi2->name }}</td>
+            <td>
+              @if($pkp->prioritas==1)
+              <span class="label label-primary" style="color:white">prioritas 1</span>
+              @elseif($pkp->prioritas==2)
+              <span class="label label-warning" style="color:white">prioritas 2</span>
+              @elseif($pkp->prioritas==3)
+              <span class="label label-success" style="color:white">prioritas 3</span>
+              @endif
+            </td>
             <td>
               @if($pkp->status_freeze=='inactive')
                 @if($pkp->pengajuan_sample=='proses')
