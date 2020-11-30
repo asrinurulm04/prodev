@@ -1225,7 +1225,6 @@ class pkpController extends Controller
                             $user2 = DB::table('users')->where('id',$dept2->manager_id)->get();
                             foreach($user2 as $user2){
                                 $data2 = [$user2->email,Auth::user()->email];
-                                //dd($data);
                                 $message->cc($data2);
                             }
                         }
