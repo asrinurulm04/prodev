@@ -76,17 +76,14 @@
                       <li><a href="{{ route('akg') }}">Data AKG</a></li>
                       <li><a href="{{ route('sku') }}">Active SKU</a></li>
                       <li><a href="{{ route('klaim') }}">Claim Regulation</a></li>
-                      <li><a href="{{ route('arsen')}}">Logam Berat</a></li>
+                      <li><a href="{{ route('logam.berat')}}">Logam Berat</a></li>
                       <li><a href="{{ route('bahanbaku') }}">Bahan Baku</a></li>
                       <li><a href="{{ route('brand.index') }}">Brand</a></li>
                       <li><a href="{{ route('subbrand.index') }}">Subbrand</a></li>
                       <li><a href="{{ route('curren.index') }}">Currency</a></li>
                       <li><a href="{{ route('satuan.index') }}">Satuan</a></li>
-                      <li><a href="{{ route('gudang.index') }}">Gudang</a></li>
-                      <li><a href="{{ route('produksi.index') }}">Produksi</a></li>
                       <li><a href="{{ route('kategori.index') }}">Kategori</a></li>
                       <li><a href="{{ route('subkategori.index') }}">Sub Kategori</a></li>
-                      <li><a href="{{ route('kelompok.index') }}">Kelompok</a></li>
                     </ul>
                   </li>
                   @elseif(auth()->user()->role->namaRule !== 'admin')
@@ -114,7 +111,7 @@
                       <li><a href="{{ route('akg') }}">Data AKG</a></li>
                       <li><a href="{{ route('sku') }}">Data Kemas</a></li>
                       <li><a href="{{ route('klaim') }}">Komponen Klaim</a></li>
-                      <li><a href="{{ route('arsen')}}">Logam Berat</a></li>
+                      <li><a href="{{ route('logam.berat')}}">Logam Berat</a></li>
                       @if(auth()->user()->role->namaRule == 'user_produk')
                       <li><a href="{{ route('allergen') }}">Allergen</a></li>
                       <li><a href="{{ route('bahanbaku') }}">Bahan Baku</a></li>

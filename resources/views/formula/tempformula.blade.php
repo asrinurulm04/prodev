@@ -74,7 +74,7 @@
                     <li><a href="{{ route('akg') }}">Data AKG</a></li>
                     <li><a href="{{ route('sku') }}">Data Kemas</a></li>
                     <li><a href="{{ route('klaim') }}">Komponen Klaim</a></li>
-                      <li><a href="{{ route('arsen')}}">Logam Berat</a></li>
+                      <li><a href="{{ route('logam.berat')}}">Logam Berat</a></li>
                     @if(auth()->user()->role->namaRule == 'user_produk')
                       <li><a href="{{ route('allergen') }}">Allergen</a></li>
                       <li><a href="{{ route('bahanbaku') }}">Bahan Baku</a></li>

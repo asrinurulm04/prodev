@@ -7,7 +7,6 @@ use App\pkp\project_pdf;
 use App\master\brand;
 use App\pkp\promo;
 use App\User;
-use App\notification;
 use App\pkp\tipp;
 use App\manager\pengajuan;
 use App\pkp\menu;
@@ -42,11 +41,7 @@ class menuController extends Controller
         $dclose = pkp_project::where('status_project','=','close')->join('tippu','tippu.id_pkp','=','pkp_project.id_project')->where('status_data','=','active')->get();$dclose1 = project_pdf::where('status_project','=','close')->join('tipu','tipu.pdf_id','=','pdf_project.id_project_pdf')->where('status_pdf','=','active')->get();
         
         $pengajuan = pengajuan::count();
-        $notif = notification::where('status','=','active')->count();
-        $pesan = notification::orderBy('updated_at','desc')->get();
-        $hitungnotif = $pengajuan + $notif;
         return view('pv.data')->with([
-            'pesan' => $pesan,'notif' =>$notif,
             'hdraf' => $hdraf,'hrevisi' => $hrevisi,
             'hproses' => $proses,'hsent' => $hsent,
             'hclose' => $hclose,'hhilo' => $hhilo,
@@ -61,8 +56,7 @@ class menuController extends Controller
             'drevisi1' => $drevisi1,'drevisi'=>$drevisi,
             'dproses1' => $dproses1,'dproses' => $dproses,
             'dsent1' => $dsent1,'dsent' => $dsent,
-            'dclose1' => $dclose1,'dclose' => $dclose,
-            'pengajuan' => $pengajuan,'hitungnotif' => $hitungnotif
+            'dclose1' => $dclose1,'dclose' => $dclose
         ]);
     }
 }

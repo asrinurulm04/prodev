@@ -93,7 +93,6 @@ Route::get('brand/{id}/destroy', 'datamaster\BrandController@destroy')->name('br
 Route::get('exportBpom','datamaster\masterController@exportBpom')->name('exportBpom');
 Route::get('exportAkg','datamaster\masterController@exportAkg')->name('exportAkg');
 Route::get('exportklaim','datamaster\masterController@export_klaim')->name('exportklaim');
-Route::get('exportarsen','datamaster\masterController@exportarsen')->name('exportarsen');
 Route::get('export','datamaster\masterController@export_excel')->name('export');
 Route::get('exportsku','datamaster\masterController@exportsku')->name('exportsku');
 
@@ -101,7 +100,6 @@ Route::post('editpangan/{id}','datamaster\masterController@editbpom')->name('edi
 Route::post('editakg/{id_akg}','datamaster\masterController@editakg')->name('editakg');
 Route::post('editsku/{id}','datamaster\masterController@editsku')->name('editsku');
 Route::post('editklaim/{id}','datamaster\masterController@editklaim')->name('editklaim');
-Route::post('editarsen/{id}','datamaster\masterController@editarsen')->name('editarsen');
 Route::post('edit_allergen/{id}','datamaster\masterController@edit_allergen')->name('edit_allergen');
 Route::post('edit_principal/{id}','datamaster\masterController@edit_principal')->name('edit_principal');
 Route::post('edit_supplier/{id}','datamaster\masterController@edit_supplier')->name('edit_supplier');
@@ -112,9 +110,7 @@ Route::get('inactive_principal/{id}','datamaster\masterController@inactive_princ
 Route::get('active_principal/{id}','datamaster\masterController@active_principal')->name('active_principal');
 
 Route::post('tambahpangan','datamaster\masterController@tambahpangan')->name('tambahpangan');
-Route::post('tambahakg','datamaster\masterController@tambahakg')->name('tambahakg');
 Route::post('tambahsku','datamaster\masterController@tambahsku')->name('tambahsku');
-Route::post('tambaharsen','datamaster\masterController@tambaharsen')->name('tambaharsen');
 Route::post('add_allergen','datamaster\masterController@add_allergen')->name('add_allergen');
 Route::post('add_principal','datamaster\masterController@add_principal')->name('add_principal');
 Route::post('add_supplier','datamaster\masterController@add_supplier')->name('add_supplier');
@@ -123,7 +119,7 @@ Route::get('kemasexport','datamaster\masterController@kemas')->name('kemasexport
 Route::get('akg','datamaster\masterController@akg')->name('akg');
 Route::get('klaim','datamaster\masterController@klaim')->name('klaim');
 Route::get('sku','datamaster\masterController@sku')->name('sku');
-Route::get('arsen','datamaster\masterController@arsen')->name('arsen');
+Route::get('logamberat','datamaster\masterController@logamberat')->name('logam.berat');
 Route::get('datapangan','datamaster\masterController@index')->name('datapangan');
 Route::get('allergen','datamaster\masterController@allergen')->name('allergen');
 Route::get('principal','datamaster\masterController@principal')->name('principal');

@@ -7,7 +7,6 @@
     </title>
     <link href="{{ asset('img/prod.png') }}" rel="icon">
     <link href="{{ asset('css/asrul.css') }}" rel="stylesheet">
-	  <link href="{{ asset('vendors/bootstrap-daterangepicker/daterangepicker.css') }}" rel="stylesheet">
     <link href="{{ asset('vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('vendors/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
     <link href="{{ asset('build/css/custom.min.css') }}" rel="stylesheet">
@@ -183,7 +182,7 @@
                       <li><a href="{{ route('akg') }}">Data AKG</a></li>
                       <li><a href="{{ route('sku') }}">Active SKU</a></li>
                       <li><a href="{{ route('klaim') }}">Claim Regulation</a></li>
-                      <li><a href="{{ route('arsen')}}">Logam Berat</a></li>
+                      <li><a href="{{ route('logam.berat')}}">Logam Berat</a></li>
                     </ul>
                   </li>
                   @elseif(auth()->user()->role->namaRule === 'admin')
@@ -213,30 +212,22 @@
                     </ul>
                   </li>
                   <li class="mt"><a href="{{ route('dept') }}"><i class="fa fa-group"></i><span>Departement</span></a></li>
-								  <li><a><i class="fa fa-edit"></i> Master Project <span class="fa fa-chevron-down"></span></a>
+								  <li><a><i class="fa fa-book"></i> Master Data <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="{{ route('datases') }}">Data SES</a></li>
-                      <li><a href="{{ route('datauom')}}">Data UOM</a></li>
-                      <li><a href="{{ route('datapangan') }}">BPOM Category</a></li>
+                      <li><a href="{{ route('datases') }}">SES</a></li>
+                      <li><a href="{{ route('datauom')}}">UOM</a></li>
+                      <li><a href="{{ route('datapangan') }}">Microbiology</a></li>
                       <li><a href="{{ route('akg') }}">Data AKG</a></li>
                       <li><a href="{{ route('sku') }}">Active SKU</a></li>
                       <li><a href="{{ route('klaim') }}">Claim Regulation</a></li>
-                      <li><a href="{{ route('arsen')}}">Logam Berat</a></li>
-                    </ul>
-                  </li>
-                  <li><a><i class="fa fa-book"></i> Master Workbook <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
+                      <li><a href="{{ route('logam.berat')}}">Logam Berat</a></li>
                       <li><a href="{{ route('bahanbaku') }}">Bahan Baku</a></li>
                       <li><a href="{{ route('brand.index') }}">Brand</a></li>
                       <li><a href="{{ route('subbrand.index') }}">Subbrand</a></li>
                       <li><a href="{{ route('curren.index') }}">Currency</a></li>
                       <li><a href="{{ route('satuan.index') }}">Satuan</a></li>
-                      <li><a href="{{ route('gudang.index') }}">Gudang</a></li>
-                      <li><a href="{{ route('maklon.index') }}">Maklon</a></li>
                       <li><a href="{{ route('kategori.index') }}">Kategori</a></li>
                       <li><a href="{{ route('subkategori.index') }}">Sub Kategori</a></li>
-                      <li><a href="{{ route('kelompok.index') }}">Kelompok</a></li>
-                      <li><a href="{{ route('tarkon.index') }}">Target Konsumen</a></li>
                     </ul>
                   </li>
                   @endif
@@ -265,7 +256,7 @@
                       <li><a href="{{ route('akg') }}">Data AKG</a></li>
                       <li><a href="{{ route('sku') }}">Active SKU</a></li>
                       <li><a href="{{ route('klaim') }}">Claim Regulation</a></li>
-                      <li><a href="{{ route('arsen')}}">Logam Berat</a></li>
+                      <li><a href="{{ route('logam.berat')}}">Logam Berat</a></li>
                       @if(auth()->user()->role->namaRule == 'user_produk')
                       <li><a href="{{ route('allergen') }}">Allergen</a></li>
                       <li><a href="{{ route('bahanbaku') }}">Bahan Baku</a></li>
@@ -321,6 +312,7 @@
         <!-- footer content -->
         <footer>
           <div class=" text-right">
+            Created By Asrul4238 :)
           </div>
           <div class="clearfix"></div>
         </footer>
@@ -336,8 +328,6 @@
     <script src="{{ asset('lib/advanced-datatable/js/jquery.dataTables.js')}}"></script>
     <script src="{{ asset('lib/advanced-datatable/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{ asset('js/datatables.min.js')}}"></script>
-	  <script src="{{ asset('vendors/moment/min/moment.min.js')}}"></script>
-	  <script src="{{ asset('vendors/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
     <script src="{{ asset('js/select2/select2.min.js') }}"></script>
     <script src="{{ asset('build/js/custom.min.js') }}"></script>
     @yield('s')

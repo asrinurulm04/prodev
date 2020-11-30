@@ -4,9 +4,9 @@ namespace App\nutfact;
 
 use Illuminate\Database\Eloquent\Model;
 
-class pangan extends Model
+class bpom_mikrobiologi extends Model
 {
-    Protected $table = 'fs_kategori_pangan';
+    Protected $table = 'fs_bpom_mikrobiologi';
     
     public function mikroba()
     {

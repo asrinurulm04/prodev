@@ -9,13 +9,11 @@ use App\Exports\AkgExport;
 use App\Exports\BpomExport;
 use App\Exports\klaimexport;
 use App\Exports\SKUExport;
-use App\Exports\arsenexport;
 use Maatwebsite\Excel\Facades\Excel;
 use DB;
 use Auth;
 use redirect;
 
-use App\notification;
 use App\pkp\komponen_klaim;
 use App\pkp\logam_berat;
 use App\pkp\komponen;
@@ -29,9 +27,8 @@ use App\dev\ms_allergen;
 use App\dev\ms_supplier_principals;
 use App\dev\ms_supplier_principal_cps;
 use App\pkp\pkp_datapangan;
-use App\nutfact\pangan;
+use App\nutfact\bpom_mikrobiologi;
 use App\nutfact\mikroba;
-use App\nutfact\bpom;
 use App\manager\pengajuan;
 
 class masterController extends Controller
@@ -41,87 +38,27 @@ class masterController extends Controller
     }
 
     public function index(){
-        $mikroba = mikroba::all();
-        $Kjenispangan = pangan::all();
+        $mikroba = mikroba::get();
+        $Kjenispangan = bpom_mikrobiologi::all();
         $pengajuan = pengajuan::count();
-        $notif = notification::where('status','=','active')->count();
-        $pesan = notification::all();
-        $hitungnotif = $pengajuan + $notif;
         return view('datamaster.datapangan1')->with([
-            'pangan' => $pangan,
-            'pesan' => $pesan,
             'mikroba' => $mikroba,
-            'notif' =>$notif,
             'Kjenispangan' => $Kjenispangan,
-            'pengajuan' => $pengajuan,
-            'hitungnotif' => $hitungnotif
+            'pengajuan' => $pengajuan
         ]);
     }
 
-    public function tambahpangan(Request $request){
-        $pangan = new bpom;
-        $pangan->jenis=$request->jenis;
-        $pangan->no=$request->no;
-        $pangan->kategori_pangan=$request->kategori;
-        $pangan->jenis_mikroba=$request->mikroba;
-        $pangan->n=$request->n;
-        $pangan->c=$request->c;
-        $pangan->m1=$request->m1;
-        $pangan->m2=$request->m2;
-        $pangan->metode_analisa=$request->analisa;
-        $pangan->save();
-
-        return redirect()->back();
-    }
-
-    public function arsen(){
+    public function logamberat(){
         $logam = logam_berat::join('pkp_datapangan','pkp_datapangan.no_kategori','=','tb_logam_berat.pangan_olahan')->get();
         $pengajuan = pengajuan::count();
-        $notif = notification::where('status','=','active')->count();
-        $pesan = notification::all();
-        $hitungnotif = $pengajuan + $notif;
         return view('datamaster.logam_berat')->with([
             'logam' => $logam,
-            'notif' =>$notif,
-            'pesan' => $pesan,
-            'pengajuan' => $pengajuan,
-            'hitungnotif' => $hitungnotif
+            'pengajuan' => $pengajuan
         ]);
-    }
-
-    public function tambaharsen(Request $request){
-        $arsen = new arsen;
-        $arsen->jenis_makanan=$request->jenis;
-        $arsen->batasan_maksimum=$request->batasan_maksimum;
-        $arsen->save();
     }
 
     public function editakg(Request $request,$id_akg){
         $akg = tb_akg::where('id_akg',$id_akg)->first();
-        $akg->satuan=$request->satuan;
-        $akg->umum=$request->umum;
-        $akg->bayi=$request->bayi;
-        $akg->anak7_23bulan=$request->anak7;
-        $akg->anak2_5tahun=$request->anak2;
-        $akg->ibu_hamil=$request->ibuh;
-        $akg->ibu_menyusui=$request->ibum;
-        $akg->save();
-
-        return redirect()->back();
-    }
-
-    public function editarsen(Request $request,$id_arsen){
-        $arsen = arsen::where('id_arsen',$id_arsen)->first();
-        $arsen->jenis_makanan=$request->jenis;
-        $arsen->batasan_maksimum=$request->batasan;
-        $arsen->save();
-
-        return redirect()->back();
-    }
-
-    public function tambahakg(Request $request){
-        $akg = new tb_akg;
-        $akg->zat_gizi=$request->gizi;
         $akg->satuan=$request->satuan;
         $akg->umum=$request->umum;
         $akg->bayi=$request->bayi;
@@ -317,30 +254,18 @@ class masterController extends Controller
     public function akg(){
         $akg = tb_akgs::all();
         $pengajuan = pengajuan::count();
-        $notif = notification::where('status','=','active')->count();
-        $pesan = notification::all();
-        $hitungnotif = $pengajuan + $notif;
         return view('datamaster.akg')->with([
             'akg' => $akg,
-            'pesan' => $pesan,
-            'notif' =>$notif,
-            'pengajuan' => $pengajuan,
-            'hitungnotif' => $hitungnotif
+            'pengajuan' => $pengajuan
         ]);
     }
 
     public function kemas(){
         $kemas = datakemas::all();
         $pengajuan = pengajuan::count();
-        $notif = notification::where('status','=','active')->count();
-        $pesan = notification::all();
-        $hitungnotif = $pengajuan + $notif;
         return view('datamaster.datakemas')->with([
             'kemas' => $kemas,
-            'pesan' => $pesan,
-            'notif' =>$notif,
-            'pengajuan' => $pengajuan,
-            'hitungnotif' => $hitungnotif
+            'pengajuan' => $pengajuan
         ]);
     }
 
@@ -348,31 +273,19 @@ class masterController extends Controller
         $klaim =komponen_klaim::all();
         $komponen = komponen::all();
         $pengajuan = pengajuan::count();
-        $notif = notification::where('status','=','active')->count();
-        $pesan = notification::all();
-        $hitungnotif = $pengajuan + $notif;
         return view('datamaster.komponenklaim1')->with([
             'klaim' => $klaim,
-            'pesan' => $pesan,
-            'notif' =>$notif,
             'komponen' => $komponen,
-            'pengajuan' => $pengajuan,
-            'hitungnotif' => $hitungnotif
+            'pengajuan' => $pengajuan
         ]);
     }
 
     public function sku(){
         $sku = data_sku::all();
         $pengajuan = pengajuan::count();
-        $notif = notification::where('status','=','active')->count();
-        $pesan = notification::all();
-        $hitungnotif = $pengajuan + $notif;
         return view('datamaster.sku1')->with([
             'sku' => $sku,
-            'pesan' => $pesan,
-            'notif' =>$notif,
-            'pengajuan' => $pengajuan,
-            'hitungnotif' => $hitungnotif
+            'pengajuan' => $pengajuan
         ]);
     }
 
@@ -400,9 +313,4 @@ class masterController extends Controller
 	{
 		return Excel::download(new BpomExport, 'BPOM.xlsx');
     }
-    
-    public function exportarsen()
-	{
-		return Excel::download(new arsenExport, 'Logam Berat (Arsen).xlsx');
-	}
 }
