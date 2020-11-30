@@ -1212,7 +1212,6 @@ class pkpController extends Controller
                         foreach($user as $user){
                             $data = $user->email;
                             $cc = [Auth::user()->email,'asrinurul4238@gmail.com'];
-                            //dd($cc);
                             $message->to($data);
                             $message->cc($cc);
                         }
