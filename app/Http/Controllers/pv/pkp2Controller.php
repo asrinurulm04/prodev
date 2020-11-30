@@ -72,6 +72,7 @@ class pkp2Controller extends Controller
                     $tip->launch=$pkpp->launch;
                     $tip->remarks_ses=$pkpp->remarks_ses;
                     $tip->remarks_forecash=$pkpp->remarks_forecash;
+                    $tip->perevisi=Auth::user()->id;
                     $tip->remarks_product_form=$pkpp->remarks_product_form;
                     $tip->years=$pkpp->years;
                     $tip->olahan=$pkpp->olahan;
