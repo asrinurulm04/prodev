@@ -64,8 +64,8 @@
           <input type="radio" name="kategori" oninput="wip()" id="id_wip"> WIP
         </div>
         <div class="col-md-3" id="ditampilkan">
-          <select name="kategori_formula" id="" disabled class="form-control">
-            <option disabled selected>--> Select One <--</option>
+          <select name="kategori_formula" id="" readonly class="form-control">
+            <option readonly selected>--> Select One <--</option>
             <option value="granulasi">Granulasi</option>
             <option value="premix">Premix</option>
           </select>
@@ -76,7 +76,7 @@
           <input type="radio" name="kategori" checked oninput="wip()" id="id_wip"> WIP
         </div>
         <div class="col-md-3" id="ditampilkan">
-          <select name="kategori_formula" id="" disabled class="form-control">
+          <select name="kategori_formula" id="" readonly class="form-control">
             <option readonly selected>{{$formula->kategori}}</option>
             <option value="granulasi">Granulasi</option>
             <option value="premix">Premix</option>
@@ -96,7 +96,7 @@
       	</div>
         <label class="control-label col-md-1 col-sm-1 col-xs-12">Brand </label>
 				<div class="col-md-2 col-sm-2 col-xs-12">
-          <select class="form-control edit" id="subbrand" name="subbrand" disabled>
+          <select class="form-control edit" id="subbrand" name="subbrand" readonly>
             @foreach($subbrands as $subbrand)
             <option value="{{  $subbrand->id }}"{{ ( $subbrand->id == $formula->subbrand_id ) ? ' selected' : '' }} >{{ $formula->workbook->datapkpp->id_brand }}</option>
             @endforeach
@@ -123,13 +123,17 @@
           @endif
       	</div>
       	<label for="middle-name" class="control-label col-md-1 col-sm-1 col-xs-12"> Berat Jenis </label>
-        <div class="col-md-2 col-sm-2 col-xs-12" id="tampilkan">
-          <input class="form-control" placeholder='Berat Jenis' id="" value="{{$formula->berat_jenis}}" readonly name="berat_jenis" type="number" />
-      	</div>
         @if($formula->satuan=='Ml')
+        <div class="col-md-2 col-sm-2 col-xs-12" id="tampilkan">
+          <input class="form-control" placeholder='Berat Jenis' id="" value="{{$formula->berat_jenis}}" name="berat_jenis" type="number" />
+      	</div>
         <div class="col-md-1 col-sm-1 col-xs-12">
         <input class="form-control" placeholder='{{$formula->serving_size / $formula->berat_jenis}} ML' id="" readonly name="" type="number"/>
         </div>
+        @else
+        <div class="col-md-2 col-sm-2 col-xs-12" id="tampilkan">
+          <input class="form-control" placeholder='Berat Jenis' id="" value="{{$formula->berat_jenis}}" readonly name="berat_jenis" type="number" />
+      	</div>
         @endif
       </div>
 
@@ -186,7 +190,7 @@
 
       document.getElementById('tampilkan').innerHTML =
         "<div class='col-md-12 col-sm-12 col-xs-12'>"+
-        "  <input class='form-control' placeholder='Berat Jenis' id='' name='' type='number' required/>"+
+            " <input type='number' placeholder='Berat Jenis' name='berat_jenis' id='berat_jenis' class='form-control col-md-12 col-xs-12' required>"+
       	"</div>"
     }
   }
@@ -200,7 +204,7 @@
 
       document.getElementById('tampilkan').innerHTML =
         "<div class='col-md-12 col-sm-12 col-xs-12'>"+
-        "  <input class='form-control' disabled placeholder='Berat Jenis' id='' name='' type='number' required/>"+
+        "  <input class='form-control' readonly placeholder='Berat Jenis' id='' name='' type='number' required/>"+
       	"</div>"
     }
   }
@@ -213,8 +217,8 @@
     }else{
 
       document.getElementById('ditampilkan').innerHTML =
-        "<select name='' disabled id='' class='form-control'>"+
-        "  <option disabled selected>--> Select One <--</option>"+
+        "<select name='' readonly id='' class='form-control'>"+
+        "  <option readonly selected>--> Select One <--</option>"+
         "  <option value='granulasi'>Granulasi</option>"+
         "  <option value='premix'>Premix</option>"+
         "</select>"
@@ -230,7 +234,7 @@
 
       document.getElementById('ditampilkan').innerHTML =
         "<select name='kategori_formula' id='' class='form-control' required>"+
-        "  <option disabled selected>--> Select One <--</option>"+
+        "  <option readonly selected>--> Select One <--</option>"+
         "  <option value='granulasi'>Granulasi</option>"+
         "  <option value='premix'>Premix</option>"+
         "</select>"

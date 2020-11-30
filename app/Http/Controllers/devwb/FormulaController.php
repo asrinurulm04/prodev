@@ -40,6 +40,7 @@ class FormulaController extends Controller
 		$formulas->serving_size = $request->target_serving;
 		$formulas->satuan=$request->satuan;
 		$formulas->tgl_create=$request->last;
+		$formulas->akg=$request->akg;
 		$formulas->overage='100';
 		$formulas->berat_jenis=$request->berat_jenis;
 		if($request->kategori_formula!=NULL){
@@ -105,7 +106,7 @@ class FormulaController extends Controller
     // Detail Formula----------------------------------------------------------------------------------------------------
     public function detail($formula,$id){
 		$data       = formula::with('Workbook')->where('id',$id)->get();
-		$akg = tb_akg::join('tippu','tippu.akg','tb_akg.id_tarkon')->join('formulas','formulas.workbook_id','tippu.id_pkp')->join('tb_overage_inngradient','tb_overage_inngradient.id_formula','formulas.id')->where('id_pkp',$formula)->where('status_data','active')->get();
+		$akg = tb_akg::join('formulas','formulas.akg','tb_akg.id_tarkon')->join('tb_overage_inngradient','tb_overage_inngradient.id_formula','formulas.id')->where('id',$id)->get();
         $idf = $id;
 		$formula = Formula::where('workbook_id',$formula)->join('tb_overage_inngradient','tb_overage_inngradient.id_formula','formulas.id')->where('id',$id)->first();
         $idfor = $formula->workbook_id;
@@ -123,6 +124,8 @@ class FormulaController extends Controller
             return Redirect::back()->with('error','Data Bahan Formula Versi '.$formula->versi.'.'.$formula->turunan.' Belum Memliki Batch');
         }elseif($formula->serving_size != $formula->serving){
             return Redirect::back()->with('error','Data Serving Formula Versi '.$formula->versi.'.'.$formula->turunan.' Tidak Sesuai Target');
+        }elseif($formula->note_formula == Null){
+            return Redirect::back()->with('error','Note Formula untuk versi '.$formula->versi.'.'.$formula->turunan.' Masih Kosong');
         }
 
         $detail_formula     = collect();  

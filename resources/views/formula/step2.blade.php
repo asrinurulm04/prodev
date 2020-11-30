@@ -352,7 +352,7 @@
             <tbody>
               {{-- Bahan Bukan Granulasi --}}                                    
               @foreach($scalecollect as $fortail)
-              @if($fortail['granulasi'] == 'tidak')                                                                       
+              @if($fortail['granulasi'] == 'tidak' && $fortail['premix'] == 'tidak')                                                                       
               <tr>
                 @php
                   $no = $fortail['no'];
@@ -404,7 +404,7 @@
 
               {{-- Bahan Granulasi --}}  
               @if($granulasi > 0 )
-              @php $rowspan = $ada + 1; @endphp
+              @php $rowspan = $ada; @endphp
 
               <tr style="background-color:#eaeaea;color:red">
                 <td colspan="7">Granulasi &nbsp;
@@ -416,7 +416,7 @@
               <tr>
                 @php $no = $fortail['no']; @endphp                      
                 <td class="text-center">
-                  <a type="button" href="{{ route('editfortail',$fortail['id']) }}" title="edit"><i class="fa fa-edit" ></i></a>
+                  <a type="button" href="{{ route('editfortail',['id'=>$fortail['id'],'vf'=>$idf]) }}" title="edit"><i class="fa fa-edit" ></i></a>
                   <a type="button" onclick="return confirm('Hapus Bahan Baku ?')" href="{{ route('step2destroy',['id'=>$fortail['id'],'vf'=>$idf]) }}"><i class="fa fa-trash"></i></a>
                 </td>
                 <td>
@@ -460,7 +460,63 @@
               @endforeach 
               @endif
 
-              
+              {{-- Bahan Premix --}}  
+              @if($premix > 0 )
+              @php $rowspan = $ada; @endphp
+
+              <tr style="background-color:#eaeaea;color:red">
+                <td colspan="7">Premix &nbsp;
+                  % <input type="number" id="pr" placeholder="0" disabled>  
+                </td>                                            
+              </tr>            
+              @foreach($scalecollect as $fortail)
+              @if($fortail['premix'] == 'ya')                                                                       
+              <tr>
+                @php $no = $fortail['no']; @endphp                      
+                <td class="text-center">
+                  <a type="button" href="{{ route('editfortail',['id'=>$fortail['id'],'vf'=>$idf]) }}" title="edit"><i class="fa fa-edit" ></i></a>
+                  <a type="button" onclick="return confirm('Hapus Bahan Baku ?')" href="{{ route('step2destroy',['id'=>$fortail['id'],'vf'=>$idf]) }}"><i class="fa fa-trash"></i></a>
+                </td>
+                <td>
+                  <table class="table-bordered table">
+                    <tbody>
+                      <tr><td><b>{{ $fortail['nama_sederhana'] }}</td></tr>
+                      @if($fortail['alternatif1'] != Null)<tr><td>{{ $fortail['alternatif1'] }}</td></tr>@endif
+                      @if($fortail['alternatif2'] != Null)<tr><td>{{ $fortail['alternatif2'] }}</td></tr>@endif
+                      @if($fortail['alternatif3'] != Null)<tr><td>{{ $fortail['alternatif3'] }}</td></tr>@endif
+                      @if($fortail['alternatif4'] != Null)<tr><td>{{ $fortail['alternatif4'] }}</td></tr>@endif
+                      @if($fortail['alternatif5'] != Null)<tr><td>{{ $fortail['alternatif5'] }}</td></tr>@endif
+                      @if($fortail['alternatif6'] != Null)<tr><td>{{ $fortail['alternatif6'] }}</td></tr>@endif
+                      @if($fortail['alternatif7'] != Null)<tr><td>{{ $fortail['alternatif7'] }}</td></tr>@endif
+                    </tbody>
+                  </table>
+                </td>
+                {{-- ID Fortail--}}
+                <input type="hidden" id="ftid{{$no}}" name="ftid[{{$no}}]" value="{{$fortail['id']}}">
+                {{-- Premix --}}
+                <input type="hidden" id="premix{{$no}}" value="{{ $fortail['premix'] }}">
+                {{-- For Reset and Check what change --}}
+                <input type="hidden" placeholder="0" id="rServing{{$no}}" value="{{ $fortail['per_serving'] }}">
+                <input type="hidden" placeholder="0" id="rBatch{{$no}}" value="{{ $fortail['per_batch'] }}">
+                <input type="hidden" placeholder="0" id="rsServing{{$no}}" value="{{ $fortail['scale_serving'] }}">
+                <input type="hidden" placeholder="0" id="rsBatch{{$no}}" value="{{ $fortail['scale_batch'] }}">
+
+                {{-- Akhir --}}
+                <td><input type="number" placeholder="0" onkeyup="jServing(this.id)"  id="Serving{{$no}}"  value="{{ $fortail['per_serving'] }}"   name="Serving[{{ $no }}]"></td>
+                <td><input type="number" placeholder="0" onkeyup="jBatch(this.id)"    id="Batch{{$no}}"    value="{{ $fortail['per_batch'] }}"     name="Batch[{{ $no }}]"></td>
+                <td style="background-color:#ffffb3"><input type="number" placeholder="0" onkeyup="jsServing(this.id)" id="sServing{{$no}}" value="{{ $fortail['scale_serving'] }}" name="sServing[{{$no}}]"></td>                                        
+                <td style="background-color:#ffffb3"><input type="number" placeholder="0" onkeyup="jsBatch(this.id)"   id="sBatch{{$no}}"   value="{{ $fortail['scale_batch'] }}"   name="sBatch[{{$no}}]"></td>
+                @if ($c_mybase == 1)
+                <td class="base" style="background-color:#f2f2f2">
+                  <input type="hidden" id="rBase" id="rBase" value="{{ $mybase }}">
+                  X <input type="number" id="base" name="base" value="{{ $mybase }}">
+                </td>
+                @php $c_mybase = 2;@endphp 
+                @endif
+              </tr>
+              @endif                                                                
+              @endforeach 
+              @endif
 
               <tr class="tototal">
                 {{-- For Reset Jumlah --}}

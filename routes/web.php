@@ -479,6 +479,7 @@ Route::post('send','PesanController@send')->name('send.email');
 Route::get('pengajuanfs/{id}/{for}','pv\pengajuansampleController@ajukanfs')->name('pengajuanfs');
 Route::get('tidakajukanfs/{id}/{for}','pv\pengajuansampleController@tidakajukanfs')->name('tidakajukanfs');
 Route::post('rejectsample/{id}','pv\pengajuansampleController@rejectsample')->name('rejectsample');
+Route::post('approvesample/{id}','pv\pengajuansampleController@approvesample')->name('approvesample');
 Route::get('finalsample/{sample}','pv\pengajuansampleController@finalsample')->name('finalsample');
 Route::get('unfinalsample/{sample}','pv\pengajuansampleController@unfinalsample')->name('unfinalsample');
 

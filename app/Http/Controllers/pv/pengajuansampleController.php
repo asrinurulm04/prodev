@@ -23,11 +23,16 @@ class pengajuansampleController extends Controller
         $this->middleware('rule:pv_lokal');
     }
 
-    public function ajukanfs($id_project,$for){
-        $pkp = pkp_project::where('id_project',$id_project)->first();
-        $pkp->pengajuan_sample='approve';
-        $pkp->save();
+    public function approvesample(Request $request,$id_sample){
+        $for = formula::where('id',$id_sample)->first();
+        $for->vv='approve';
+        $for->catatan_pv=$request->note;
+        $for->save();
+        
+        return redirect::back();
+    }
 
+    public function ajukanfs($id_project,$for){
         $sample = formula::where('id',$for)->first();
         $sample->status_fisibility='proses';
         $sample->status_panel='proses';

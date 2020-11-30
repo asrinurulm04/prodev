@@ -56,6 +56,7 @@ class Step2Controller extends Controller
         $rjsBatch   = 0;
         $rjsServing = 0;
         $granulasi  = 0;
+        $premix     = 0;
         foreach($fortails as $fortail){
             $scalecollect->push([
                 
@@ -75,6 +76,7 @@ class Step2Controller extends Controller
                 'per_serving' => $fortail->per_serving,
                 'scale_batch' => '',
                 'scale_serving' => '',
+                'premix' => $fortail->premix,    
                 'granulasi' => $fortail->granulasi                
             ]);
             $rjBatch   = $rjBatch + $fortail->per_batch;
@@ -84,7 +86,13 @@ class Step2Controller extends Controller
             if($fortail->granulasi == 'ya'){
             $granulasi = $granulasi + 1;  
             // dd($scalecollect);        
-            }                                  
+            }       
+            
+            // premix
+            if($fortail->premix == 'ya'){
+                $premix = $premix + 1;  
+                // dd($scalecollect);        
+                } 
         }
 
         // Check Total Serving
@@ -102,7 +110,8 @@ class Step2Controller extends Controller
             'scalecollect' => $scalecollect,
             'bahans' => $bahans,
             'idfor' => $idfor,
-            'granulasi' => $granulasi,            
+            'granulasi' => $granulasi,     
+            'premix' => $premix,          
             'idf' => $idf,
             'ada' => $ada,
             'sesuai_target' => $sesuai_target
@@ -294,6 +303,13 @@ class Step2Controller extends Controller
             }else{
                 $fortails->granulasi = 'tidak';
             }
+
+            // premix
+            if (isset($request->cpremix)){
+                $fortails->premix = 'ya';                
+            }else{
+                $fortails->premix = 'tidak';
+            }
                 
         $fortails->save();
 
@@ -314,7 +330,7 @@ class Step2Controller extends Controller
 
     
       
-        return redirect()->route('step2',['id_workbook' => $vf, 'id_formula' => $formula->id])->with('status','BahanBaku Berhasil Ditambahkan');
+        return redirect()->back()->with('status','BahanBaku Berhasil Ditambahkan');
     }
 
     public function hapusall($formula){

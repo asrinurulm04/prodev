@@ -47,10 +47,8 @@ class UpVersionController extends Controller
         $formulas->revisi = $lastf->revisi;                
         $formulas->versi = $cf;
         $formulas->turunan = 0;
-        $formulas->produksi_id = $lastf->produksi_id;
-        $formulas->maklon_id = $lastf->maklon_id;
-        $formulas->gudang_id = $lastf->gudang_id;
         $formulas->jenis = $lastf->jenis;
+        $formulas->akg = $lastf->akg;
         $formulas->main_item  = $lastf->main_item;
         $formulas->main_item_eks = $lastf->main_item_eks;
         $formulas->overage='100';
@@ -181,9 +179,7 @@ class UpVersionController extends Controller
         $formulas->revisi = $lastf->revisi;
         $formulas->versi = $lastf->versi; // Versi Sama
         $formulas->turunan = $lastturunan; // Turunan Berbeda
-        $formulas->produksi_id = $lastf->produksi_id;
-        $formulas->maklon_id = $lastf->maklon_id;
-        $formulas->gudang_id = $lastf->gudang_id;
+        $formulas->akg = $lastf->akg;
         $formulas->jenis = $lastf->jenis;
         $formulas->main_item  = $lastf->main_item;
         $formulas->main_item_eks = $lastf->main_item_eks;

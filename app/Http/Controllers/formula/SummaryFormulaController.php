@@ -32,10 +32,7 @@ class SummaryFormulaController extends Controller
 		$formula = Formula::where('workbook_id',$formula)->join('tb_overage_inngradient','tb_overage_inngradient.id_formula','formulas.id')->where('id',$id)->first();
         $idfor = $formula->workbook_id;
         $fortails = Fortail::where('formula_id',$id)->get();
-        $ingredient = DB::table('fortails')
-        ->join('tb_nutfact','tb_nutfact.id_ingredient','=','fortails.id_ingredient')
-        ->where('fortails.formula_id',$id)
-		->get();
+        $ingredient = DB::table('fortails')->join('tb_nutfact','tb_nutfact.id_ingredient','=','fortails.id_ingredient')->where('fortails.formula_id',$id)->get();
 		$ada = Fortail::where('formula_id',$id)->count();
 		$allergen_bb = allergen_formula::join('tb_bb_allergen','id_bb','tb_alergen_formula.id_bahan')->where('id_formula',$id)->where('allergen_countain','!=','')->select(['allergen_countain'])->distinct()->get();
 		$bb_allergen = allergen_formula::join('tb_bb_allergen','id_bb','tb_alergen_formula.id_bahan')->where('id_formula',$id)->where('allergen_countain','!=','')->get();
@@ -45,11 +42,15 @@ class SummaryFormulaController extends Controller
             return Redirect::back()->with('error','Data Bahan Formula Versi '.$formula->versi.'.'.$formula->turunan.' Belum Memliki Batch');
         }elseif($formula->serving_size != $formula->serving){
             return Redirect::back()->with('error','Data Serving Formula Versi '.$formula->versi.'.'.$formula->turunan.' Tidak Sesuai Target');
+        }elseif($formula->note_formula == Null){
+            return Redirect::back()->with('error','Note Formula untuk versi '.$formula->versi.'.'.$formula->turunan.' Masih Kosong');
         }
 
         $detail_formula     = collect();  
         $granulasi          = 0;
         $jumlah_granulasi   = 0;
+        $premix          = 0;
+        $jumlah_premix   = 0;
         $biasa              = 0;
         foreach($fortails as $fortail){
 			// Get Persen
@@ -87,17 +88,23 @@ class SummaryFormulaController extends Controller
                 'per_batch' => $fortail->per_batch,
                 'per_serving' => $fortail->per_serving,
                 'granulasi' => $fortail->granulasi,
+                'premix' => $fortail->premix,
                 'persen' => $persen,
 			]);          
 			
             if($fortail->granulasi == 'ya'){
                 $granulasi = $granulasi + 1;
                 $jumlah_granulasi = $jumlah_granulasi + $fortail->per_batch;
+			}
+			if($fortail->premix == 'ya'){
+                $premix = $premix + 1;
+                $jumlah_premix = $jumlah_premix + $fortail->per_batch;
             }
         }
 
         $biasa = $ada - $granulasi;
         $gp    = $jumlah_granulasi / $one_persen; $gp = round($gp , 2);
+        $pr    = $jumlah_premix / $one_persen; $gp = round($gp , 2);
 
         // Tampil Harga Bahan Baku
         $detail_harga = collect();
@@ -399,6 +406,7 @@ class SummaryFormulaController extends Controller
             'formula' => $formula,
             'detail_formula' =>  $detail_formula,
             'granulasi' => $granulasi,
+            'premix' => $premix,
 			'gp' => $gp,
 			'akg' => $akg,
 			'idfor' => $idfor,
