@@ -100,7 +100,7 @@
           <input type="hidden" value="{{$user->email}}" name="emailtujuan[]" id="emailtujuan">
           @endif
           @endforeach
-          <center><button class="btn btn-primary" type="submit"><li class="fa fa-plus"></li> Submit And Next</button></center>
+          <center><button class="btn btn-primary btn-sm" type="submit"><li class="fa fa-plus"></li> Submit And Next</button></center>
           {{ csrf_field() }}
         </div>
       </div>

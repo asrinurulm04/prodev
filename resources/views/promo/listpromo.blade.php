@@ -27,7 +27,7 @@
       </div>
         <div class="clearfix"></div>
         <div class="x_content">
-          <table class="Table table-striped table-bordered">
+          <table class="Table table-bordered table-striped table-bordered">
             <thead>
               <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
                 <td class="text-center">PKP Number</td>

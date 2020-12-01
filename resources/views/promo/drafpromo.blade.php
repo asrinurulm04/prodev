@@ -10,7 +10,7 @@
           <h3><li class="fa fa-file-zip-o"> </li> Draf PROMO</h3>
         </div>
         <div class="x_content">
-          <table class="Table table-striped no-border">
+          <table class="Table table-bordered table-striped no-border">
             <thead>
               <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
                 <th class="text-center">#</th>

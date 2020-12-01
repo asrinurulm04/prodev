@@ -105,7 +105,7 @@
                       
             	</div>
 							<center>
-							<button type="submit" class="btn btn-primary">Save</button>
+							<button type="submit" class="btn btn-primary btn-sm">Save</button>
 							</center>
       				{{ csrf_field() }}				
   						</form>

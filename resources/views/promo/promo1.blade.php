@@ -126,7 +126,7 @@
 </div>
 <div class="x_panel">
   <div class="card-block col-md-6 col-md-offset-5">
-    <button type="submit" class="btn btn-primary">Save And Next</button>
+    <button type="submit" class="btn btn-primary btn-sm">Save And Next</button>
     {{ csrf_field() }}
   </div>
 </div>

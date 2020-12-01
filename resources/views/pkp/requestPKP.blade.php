@@ -20,7 +20,7 @@
 
 <div class="x_panel">
   <div class="btn-group col-md-12 col-sm-12 col-xs-12">
-    <button class="btn btn-info btn-block" data-toggle="modal" data-target="#NW1" type="button"><li class="fa fa-plus"></li> Use Tempale</button>
+    <button class="btn btn-info btn-block btn-sm" data-toggle="modal" data-target="#NW1" type="button"><li class="fa fa-plus"></li> Use Tempale</button>
   </div>
 </div>
 
@@ -115,8 +115,8 @@
   </div>
   <div class="x_panel">
     <div class="card-block col-md-6 col-sm-offset-5 col-md-offset-5">
-      <button type="reset" class="btn btn-danger">Reset</button>
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <button type="reset" class="btn btn-danger btn-sm">Reset</button>
+      <button type="submit" class="btn btn-primary btn-sm">Submit</button>
       {{ csrf_field() }}
     </div>
   </div>
@@ -134,7 +134,7 @@
         </button> </h3>
       </div>
       <div class="modal-body">
-        <table class="Table table-bordered" width="100%">
+        <table class="Table table table-bordered" width="100%">
           <thead>
             <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
               <td width="5%">No</td>
@@ -154,7 +154,7 @@
               <th>{{ $pkp->project_name }}</th>
               <th>{{ $pkp->author1->name }}</th>
               <th class="text-center">
-                <a class="btn btn-warning" onclick="return confirm('Are you sure you want to use this template?')" href="{{Route('temppkp',$pkp->id_project)}}"><i class="fa fa-check"></i></a>
+                <a class="btn btn-warning btn-sm" onclick="return confirm('Are you sure you want to use this template?')" href="{{Route('temppkp',$pkp->id_project)}}"><i class="fa fa-check"></i></a>
               </th>
             </tr>
           @endforeach

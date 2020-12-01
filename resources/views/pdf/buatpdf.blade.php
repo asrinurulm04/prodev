@@ -461,7 +461,7 @@
                   "<option value='P'>P</option>"+
                   "<option value='GST'>GST</option>"+
                   "<option value='BTL'>BTL</option>"+
-                "<option value='B'>B</option>"+
+                  "<option value='B'>B</option>"+
                 "</select>"+
               "</div>"+
               "<div class='col-md-1 col-sm-1 col-xs-12'>"+

@@ -10,12 +10,6 @@
       @if($data->status_project=='revisi')
         <button class="btn btn-success btn-sm"  data-toggle="modal" data-target="#edit"><li class="fa fa-edit"></li> Confirm Type PKP</button>
       @endif
-
-      @if($promo==0)
-        <a href="{{ route('datapromo',$data->id_pkp_promo)}}" class="btn btn-primary btn-sm" type="button"><li class="fa fa-plus"></li> Add Data</a>
-      @elseif($promo>=0)
-      @endif
-
       @if(auth()->user()->role->namaRule != 'user_produk')
         @if($data->status_project=="revisi")
           <button class="btn btn-primary btn-sm" title="note" data-toggle="modal" data-target="#data{{ $data->id_pkp_promo  }}"><i class="fa fa-edit"></i> Edit Timeline</a></button>
@@ -42,7 +36,7 @@
                   </div>
                 </div>
                 <div class="modal-footer">
-                  <button type="submit" class="btn btn-primary"><i class="fa fa-edit"></i> Edit</button>
+                  <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> Edit</button>
                   {{ csrf_field() }}
                 </div>
                 </form>
@@ -92,7 +86,7 @@
                 </tbody>
               </table>
                 <div class="modal-footer">
-                  <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Submit</button>
+                  <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-paper-plane"></i> Submit</button>
                   {{ csrf_field() }}
                 </div>
               </form>
@@ -101,6 +95,10 @@
           </div>
         </div>
         <!-- Modal Selesai -->
+      @endif
+
+      @if($promo==0)
+        <a href="{{ route('datapromo',$data->id_pkp_promo)}}" class="btn btn-primary btn-sm" type="button"><li class="fa fa-plus"></li> Add Data</a>
       @endif
 
       @foreach($pkp as $pkp1)
@@ -305,7 +303,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Submit</button>
+        <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-plus-circle"></i> Submit</button>
         {{ csrf_field() }}
       </div>
       </form>

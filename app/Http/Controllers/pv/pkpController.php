@@ -1323,6 +1323,7 @@ class pkpController extends Controller
         $max = tipp::where('id_pkp',$id_project)->max('turunan');
         $user = user::where('status','=','active')->get();
         $max2 = tipp::where('id_pkp',$id_project)->max('revisi');
+        $cf =Formula::where('workbook_id', $id)->count();
         $datapkp = tipp::where('id_pkp',$id_project)->where('turunan',$max)->where('revisi',$max2)->get();
         $pkp1 = pkp_project::where('id_project',$id_project)->get();
         $hformula = formula::where('workbook_id',$id_project)->count();
@@ -1341,6 +1342,7 @@ class pkpController extends Controller
             'formula' => $formula,
             'hformula' => $hformula,
             'datapkp' => $datapkp,
+            'cf' => $cf,
             'pengajuanpkp' => $pengajuanpkp,
             'data' => $data,
             'hitung' => $hitung

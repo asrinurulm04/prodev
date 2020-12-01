@@ -38,7 +38,7 @@
                 <div>
                   <div class="row">
                     <div class="col-md-12">
-                      <table class="Table table-bordered">
+                      <table class="Table table-bordered table-bordered">
                         <thead>
                           <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
                             <th class="text-center">From</th>
@@ -85,7 +85,7 @@
               <div class="tab-pane  fade" id="tabBody1" role="tabpanel" aria-labelledby="tab1" aria-hidden="true" tabindex="0">
                 <div class="row">
                   <div class="col-md-12">
-                    <table class="table table-bordered">
+                    <table class="table table-bordered table-bordered">
                       <thead>
                         <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
                           <td class="text-center" width="5%">No</td>
@@ -137,7 +137,7 @@
               <div class="tab-pane  fade" id="tabBody2" role="tabpanel" aria-labelledby="tab2" aria-hidden="true" tabindex="0">
                 <div class="row">
                   <div class="col-md-12">
-                    <table class="table table-bordered">
+                    <table class="table table-bordered table-bordered">
                       <thead>
                         <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
                           <td class="text-center" width="5%">No</td>

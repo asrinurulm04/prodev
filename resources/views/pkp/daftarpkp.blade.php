@@ -7,9 +7,6 @@
   <div class="col-md-5 col-xs-12">
 		@foreach($data as $data)
     <div class="x_panel" style="min-height:90px">
-      @if($hitung==0)
-        <a href="{{ route('buatpkp1',$data->id_project)}}" class="btn btn-primary btn-sm" type="button"><li class="fa fa-plus"></li> Add Data</a>
-      @endif
       @if(auth()->user()->role->namaRule != 'user_produk' && auth()->user()->role->namaRule != 'kemas')
         @if($data->status_project=="revisi")
           <a href="{{ route('datapengajuan')}}" class="btn btn-danger btn-sm" type="button"><li class="fa fa-share"></li> Back</a>
@@ -106,7 +103,10 @@
       @elseif(auth()->user()->role->namaRule === 'user_produk') 
         <a href="{{ route('listprojectpkp')}}" class="btn btn-danger btn-sm" type="button"><li class="fa fa-share"></li> Back</a>
       @endif
-
+      
+      @if($hitung==0)
+        <a href="{{ route('buatpkp1',$data->id_project)}}" class="btn btn-primary btn-sm" type="button"><li class="fa fa-plus"></li> Add Data</a>
+      @endif
       @foreach($datapkp as $pkp)
       @if($pkp->kemas_eksis!=NULL)
       <a class="btn btn-info btn-sm" href="{{ Route('lihatpkp',['id_pkp' => $pkp->id_pkp,'revisi' => $pkp->revisi, 'turunan' => $pkp->turunan]) }}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i> Show</a>

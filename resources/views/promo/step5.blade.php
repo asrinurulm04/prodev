@@ -64,7 +64,7 @@
       @endforeach
 				<input type="file" name="filename[]" class="form-control" multiple>
 		  </div>
-			<button type="submit" class="btn btn-primary" style="margin-top:10px"> Submit</button>
+			<button type="submit" class="btn btn-primary btn-sm" style="margin-top:10px"> Submit</button>
 	    </form>        
 		</div>
 	</div>

@@ -505,7 +505,6 @@ Route::get('KonsepKemas/{id}/{id_feasibility}','kemas\KonsepController@index')->
 Route::post('InsertKonsep/{id}','kemas\KonsepController@insert')->name('insertkonsep');
 Route::get('lihat/{id}/{fs}','kemas\KonsepController@hasilnya')->name('lihat');
 Route::get('deletekemas/{id}','kemas\KonsepController@destroykemas')->name('deletekemas');
-Route::get('inboxkemas/{id}/{id_feasibility}','kemas\KonsepController@inboxkemas')->name('inboxkemas');
 Route::get('UploadKemas/{id}/{id_feasibility}','kemas\KemasController@index')->name('uploadkemas');
 Route::post('hasil/{id}', 'kemas\KemasController@storeData')->name('hasil');
 
@@ -514,7 +513,6 @@ Route::get('hasilnya/{id}/{id_feasibility}','mesin\MesinController@hasil')->name
 Route::get('datamesin/{id}/{id_feasibility}','mesin\MesinController@index')->name('datamesin');
 Route::get('ubah/{id}/{id_feasibility}','mesin\MesinController@ubah')->name('ubah');
 Route::get('reference/{id}/{id_feasibility}','mesin\MesinController@reference')->name('reference');
-Route::get('inboxmesin/{id}/{id_feasibility}','mesin\Mesincontroller@inbox')->name('inboxmesin');
 Route::get('/runtimemesin/{id}/{id_feasibility}','mesin\MesinController@createrateM')->name('runtimemesin');
 Route::get('/mesinmixing/{id}/{id_feasibility}','mesin\MesinController@createmixing')->name('mesinmixing');
 Route::get('/mesinpacking/{id}/{id_feasibility}','mesin\MesinController@createpacking')->name('mesinpacking');
@@ -539,13 +537,11 @@ route::post('lab','mesiMesinController@lab')->name('lab');
 route::get('lab/{id}','lab\LabController@lihat')->name('lab');
 Route::get('deletelab/{id}','lab\LabController@destroylab')->name('delete');
 Route::post('/labb', 'lab\LabController@data')->name('labb');
-Route::get('inboxlab/{id}/{id_feasibility}','lab\LabController@inbox')->name('inboxlab');
 route::post('Insertlab/{formula_id}/{cek_lab}/{id}','lab\LabController@create')->name('Insertlab');
 
 //FINANCE
 route::get('summary/{id}/{id_feasibility}','finance\FinanceController@summary')->name('summary');
 route::get('finance/{id}/{id_feasibility}','finance\FinanceController@index')->name('finance');
-route::get('inboxfn/{id}/{id_feasibility}','finance\FinanceController@inboxfn')->name('inboxfn');
 route::get('komentar/{id}/{id_feasibility}','finance\FinanceController@komentar')->name('komentar');
 route::get('pesan/{id}/{id_feasibility}','finance\FinanceController@pesan')->name('pesan');
 route::get('Kkemas/{id}/{id_feasibility}','finance\FinanceController@pesankemas')->name('Kkemas');
