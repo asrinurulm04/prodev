@@ -352,7 +352,6 @@ Route::get('pkplihat/{id}/{revisi}/{turunan}','manager\managerController@lihatpk
 Route::get('promolihat/{id}/{revisi}/{turunan}','manager\managerController@lihatpromo')->name('promolihat');
 
 Route::get('myworkbooks','devwb\WorkbookController@index')->name('myworkbooks');
-Route::get('myworkbooks/{id}/show', ['uses'=>'devwb\WorkbookController@show','as' =>'showworkbook']);
 Route::get('myworkbooks/{id}/delete', ['uses'=>'devwb\WorkbookController@destroy','as' =>'deleteworkbook']);
 Route::post('newworkbook','devwb\WorkbookController@store')->name('newworkbook');
 

@@ -1315,15 +1315,15 @@ class pkpController extends Controller
 
     public function rekappkp($id_project){
         $pengajuanpkp = pkp_project::join('pkp_pengajuan','pkp_project.id_project','=','pkp_pengajuan.id_pkp')->count();
-        $pkp = pkp_project::where('id_project',$id_project)->get();
+        $pkp = tipp::where('id_pkp',$id_project)->join('pkp_project','pkp_project.id_project','=','tippu.id_pkp')->where('status_data','=','active')->get();
         $pengajuan = pengajuan::count();
-        $sample_project = sample_project::where('id_pkp',$id_project)->get();
+        $sample_project = Formula::where('workbook_id', $id_project)->get();
         $status_sample_project = sample_project::where('id_pkp',$id_project)->where('status','=','final')->count();
         $hitung = tipp::where('id_pkp',$id_project)->count();
         $max = tipp::where('id_pkp',$id_project)->max('turunan');
         $user = user::where('status','=','active')->get();
         $max2 = tipp::where('id_pkp',$id_project)->max('revisi');
-        $cf =Formula::where('workbook_id', $id)->count();
+        $cf =Formula::where('workbook_id',$id_project)->count();
         $datapkp = tipp::where('id_pkp',$id_project)->where('turunan',$max)->where('revisi',$max2)->get();
         $pkp1 = pkp_project::where('id_project',$id_project)->get();
         $hformula = formula::where('workbook_id',$id_project)->count();
