@@ -279,7 +279,9 @@ class pkpController extends Controller
         $ses = ses::all();
         $user = user::where('status','=','active')->get();
         $datases = data_ses::where([ ['id_pkp',$id_project], ['revisi',$revisi], ['turunan',$turunan]])->get();
-        $uom = uom::all();
+        $uom = uom::where('note',NULL)->get();
+        $uom_primer = uom::where('note','!=',NULL)->get();
+        $data_uom = uom::all();
         $Ddetail = data_detail_klaim::max('id')+1;
         $tarkon = Tarkon::all();
         $for = data_forecast::where('id_pkp',$id_project)->where('revisi',$revisi)->where('turunan',$turunan)->get();
@@ -307,6 +309,8 @@ class pkpController extends Controller
             'user' => $user,
             'hitung' => $hitung,
             'uom' => $uom,
+            'data_uom' => $data_uom,
+            'uom_primer' => $uom_primer,
             'pengajuan' => $pengajuan,
             'datases' => $datases,
             'ses' => $ses,
@@ -336,7 +340,9 @@ class pkpController extends Controller
         $tarkon = Tarkon::all();
         $pangan = pkp_datapangan::all();
         $kemas = datakemas::get();
-        $uom = uom::all();
+        $uom = uom::where('note',NULL)->get();
+        $uom_primer = uom::where('note','!=',NULL)->get();
+        $data_uom = uom::all();
         $ses = ses::all();
         $Ddetail = data_detail_klaim::max('id')+1;
         $detail = detail_klaim::all();
@@ -366,6 +372,8 @@ class pkpController extends Controller
             'ses' => $ses,
             'Ddetail' => $Ddetail,
             'uom' => $uom,
+            'data_uom' => $data_uom,
+            'uom_primer' => $uom_primer,
             'eksis' => $eksis,
             'kemas' => $kemas,
             'ide' => $ide,
@@ -375,7 +383,6 @@ class pkpController extends Controller
     }
 
     public function updatetipp(Request $request,$id_project,$revisi,$turunan){
-        dd($request);
         $pkp = tipp::where('id_pkp',$id_project)->max('turunan');
         $naikversi = $pkp + 1;
 
@@ -390,8 +397,6 @@ class pkpController extends Controller
         $data->bpom=$request->bpom;
         }if($data->kategori_bpom==null){
         $data->kategori_bpom=$request->katbpom;
-        }if($data->kemas_eksis==null){
-        $data->kemas_eksis=$request->eksis;
         }if($data->akg==null){
         $data->akg=$request->akg;
         }
@@ -412,7 +417,6 @@ class pkpController extends Controller
                 $tip->reason=$request->reason;
                 $tip->Estimated=$request->estimated;
                 $tip->launch=$request->launch;
-                $tip->kemas_eksis=$request->eksis;
                 $tip->perevisi=Auth::user()->id;
                 $tip->last_update=$request->last_up;
                 $tip->years=$request->tahun;
@@ -421,32 +425,13 @@ class pkpController extends Controller
                 $tip->remarks_product_form=$request->remarks_product_form;
                 $tip->tgl_launch=$request->tanggal;
                 $tip->competitive=$request->competitive;
-                $tip->selling_price=$request->Selling_price;
                 $tip->competitor=$request->competitor;
                 $tip->aisle=$request->aisle;
                 $tip->serving_suggestion=$request->suggestion;
-                $tip->price=$request->analysis;
                 $tip->product_form=$request->product;
                 $tip->bpom=$request->bpom;
                 $tip->kategori_bpom=$request->katbpom;
                 $tip->akg=$request->akg;
-                if($request->primer==''){
-                    $tip->kemas_eksis=$request->data_eksis;
-                    }elseif($request->primer!='NULL'){
-                    $tip->kemas_eksis=$request->kemas;
-
-                        $kemas = new datakemas;
-                        $kemas->nama='-';
-                        $kemas->tersier=$request->tersier;
-                        $kemas->s_tersier=$request->s_tersier;
-                        $kemas->primer=$request->primer;
-                        $kemas->s_primer=$request->s_primer;
-                        $kemas->sekunder1=$request->sekunder1;
-                        $kemas->s_sekunder1=$request->s_sekunder1;
-                        $kemas->sekunder2=$request->sekunder2;
-                        $kemas->s_sekunder2=$request->s_sekunder2;
-                        $kemas->save();
-                    }
                 $tip->primery=$request->primary;
                 $tip->status_data='active';
                 $tip->secondary=$request->secondary;
@@ -458,7 +443,6 @@ class pkpController extends Controller
                 $tip->prefered_flavour=$request->prefered;
                 $tip->product_benefits=$request->benefits;
                 $tip->mandatory_ingredient=$request->ingredient;
-                $tip->UOM=$request->uom;
                 $tip->gambaran_proses=$request->proses;
                 $tip->save();
                 }
@@ -474,7 +458,6 @@ class pkpController extends Controller
 				{
 					$pipeline = new data_ses;
                     $pipeline->id_pkp=$id_project;
-                    $pipeline->revisi=$revisi;;
                     $pipeline->turunan=$naikversi;
 					$pipeline->ses = $ids[$i];
 					$pipeline->save();
@@ -482,27 +465,68 @@ class pkpController extends Controller
 				}
 			}
 		}
-        if($request->satuan!=''){
-            $data = array(); 
-            $validator = Validator::make($request->all(), $data);  
+        if($request->forecast!=NULL){
+            $for = array(); 
+            $validator = Validator::make($request->all(), $for);  
             if ($validator->passes()) {
-				$idz = implode(',', $request->input('forecast'));
-				$ids = explode(',', $idz);
-				$ida = implode(',', $request->input('satuan'));
-				$idb = explode(',', $ida);
-				for ($i = 0; $i < count($ids); $i++)
-				{
-					$pipeline = new data_forecast;
-                    $pipeline->id_pkp=$id_project;
-                    $pipeline->revisi=$revisi;;
-                    $pipeline->turunan=$naikversi;
-					$pipeline->forecast = $ids[$i];
-					$pipeline->satuan = $idb[$i];
-					$pipeline->save();
-					$i = $i++;
-				}
-			}
-		}
+                $idz = implode(',', $request->input('forecast'));
+                $ids = explode(',', $idz);
+                $ida = implode(',', $request->input('satuan'));
+                $idb = explode(',', $ida);
+                $uom = implode(',', $request->input('uom'));
+                $Duom = explode(',', $uom);
+                $nfi_price = implode(',', $request->input('price'));
+                $nfi = explode(',', $nfi_price);
+                $costumer_price = implode(',', $request->input('costumer'));
+                $costumer = explode(',', $costumer_price);
+
+                $tersier1 = implode(',', $request->input('tersier'));
+                $data_tersier1 = explode(',', $tersier1);
+                $s_tersier1 = implode(',', $request->input('s_tersier'));
+                $data_s_tersier1 = explode(',', $s_tersier1);
+                $primer1 = implode(',', $request->input('primer'));
+                $data_primer1 = explode(',', $primer1);
+                $s_primer1 = implode(',', $request->input('s_primer'));
+                $data_s_primer1 = explode(',', $s_primer1);
+                if($request->sekunder1!=NULL){
+                    $sekunder11 = implode(',', $request->input('sekunder1'));
+                    $data_sekunder11 = explode(',', $sekunder11);
+                    $s_sekunder11 = implode(',', $request->input('s_sekunder1'));
+                    $data_s_sekunder11 = explode(',', $s_sekunder11);
+                }if($request->sekunder2!=NULL){
+                    $sekunder21 = implode(',', $request->input('sekunder2'));
+                    $data_sekunder21 = explode(',', $sekunder21);
+                    $s_sekunder21 = implode(',', $request->input('s_sekunder2'));
+                    $data_s_sekunder21 = explode(',', $s_sekunder21);
+                }
+                for ($i = 0; $i < count($ids); $i++)
+                {
+                    $kemas = new datakemas;
+                    $kemas->tersier= $data_tersier1[$i];
+                    $kemas->s_tersier= $data_s_tersier1[$i];
+                    $kemas->primer= $data_primer1[$i];
+                    $kemas->s_primer= $data_s_primer1[$i];
+                    $kemas->sekunder1= $data_sekunder11[$i];
+                    $kemas->s_sekunder1= $data_s_sekunder11[$i];
+                    $kemas->sekunder2= $data_sekunder21[$i];
+                    $kemas->s_sekunder2= $data_s_sekunder21[$i];
+                    $kemas->save();
+
+                    $forecash = new data_forecast;
+                    $forecash->id_pkp=$request->id;
+                    $forecash->turunan=$naikversi;
+                    $forecash->satuan = $idb[$i];
+                    $forecash->forecast = $ids[$i];
+                    $forecash->kemas_eksis = $kemas->id_kemas;
+                    $forecash->uom = $Duom[$i];
+                    $forecash->nfi_price = $nfi[$i];
+                    $forecash->costumer = $costumer[$i];
+                    $forecash->save();
+                    $i = $i++;
+                }
+            }
+        }
+
 		if($request->klaim!=''){
 			$dataklaim = array(); 
 			$validator = Validator::make($request->all(), $dataklaim);  
@@ -517,7 +541,6 @@ class pkpController extends Controller
 				{
 					$pipeline = new data_klaim;
 					$pipeline->id_pkp=$id_project;
-					$pipeline->revisi=$revisi;;
 					$pipeline->turunan=$naikversi;
 					$pipeline->id_klaim = $ids[$i];
 					$pipeline->id_komponen = $idb[$i];
@@ -599,36 +622,17 @@ class pkpController extends Controller
         $tip->last_update=$request->last_up;
         $tip->Estimated=$request->estimated;
         $tip->launch=$request->launch;
-        $tip->kemas_eksis=$request->eksis;
         $tip->years=$request->tahun;
         $tip->revisi=$request->revisi;
         $tip->serving_suggestion=$request->suggestion;
         $tip->tgl_launch=$request->tanggal;
         $tip->competitive=$request->competitive;
-        $tip->selling_price=$request->Selling_price;
         $tip->competitor=$request->competitor;
         $tip->aisle=$request->aisle;
-        $tip->price=$request->analysis;
         $tip->product_form=$request->product;
         $tip->bpom=$request->bpom;
         $tip->kategori_bpom=$request->katbpom;
         $tip->akg=$request->akg;
-        if($request->primer==''){
-            $tip->kemas_eksis=$request->data_eksis;
-            }elseif($request->primer!='NULL'){
-            $tip->kemas_eksis=$request->kemas;
-
-                $kemas = new datakemas;
-                $kemas->tersier=$request->tersier;
-                $kemas->s_tersier=$request->s_tersier;
-                $kemas->primer=$request->primer;
-                $kemas->s_primer=$request->s_primer;
-                $kemas->sekunder1=$request->sekunder1;
-                $kemas->s_sekunder1=$request->s_sekunder1;
-                $kemas->sekunder2=$request->sekunder2;
-                $kemas->s_sekunder2=$request->s_sekunder2;
-                $kemas->save();
-            }
         $tip->primery=$request->primary;
         $tip->status_data='active';
         $tip->secondary=$request->secondary;
@@ -637,7 +641,6 @@ class pkpController extends Controller
         $tip->prefered_flavour=$request->prefered;
         $tip->product_benefits=$request->benefits;
         $tip->mandatory_ingredient=$request->ingredient;
-        $tip->UOM=$request->uom;
         $tip->gambaran_proses=$request->proses;
         $tip->save();
 
@@ -661,28 +664,67 @@ class pkpController extends Controller
             }
         }
 
-        if($request->satuan!=''){
-            $datasatuan = data_forecast::where('id_pkp',$id_pkp)->where('revisi',$revisi)->where('turunan',$turunan)->delete();
-            $data = array(); 
-            $validator = Validator::make($request->all(), $data);  
-            if ($validator->passes()) {
-                $idz = implode(',', $request->input('forecast'));
-                $ids = explode(',', $idz);
-                $ida = implode(',', $request->input('satuan'));
-                $idb = explode(',', $ida);
-                for ($i = 0; $i < count($ids); $i++)
-                {
-                    $pipeline = new data_forecast;
-                    $pipeline->id_pkp = $request->id;
-                    $pipeline->turunan = $turunan;
-                    $pipeline->revisi = $revisi;
-                    $pipeline->forecast = $ids[$i];
-                    $pipeline->satuan = $idb[$i];
-                    $pipeline->save();
-                    $i = $i++;
+        if($request->forecast!=NULL){
+                $for = array(); 
+                $validator = Validator::make($request->all(), $for);  
+                if ($validator->passes()) {
+                    $idz = implode(',', $request->input('forecast'));
+                    $ids = explode(',', $idz);
+                    $ida = implode(',', $request->input('satuan'));
+                    $idb = explode(',', $ida);
+                    $uom = implode(',', $request->input('uom'));
+                    $Duom = explode(',', $uom);
+                    $nfi_price = implode(',', $request->input('price'));
+                    $nfi = explode(',', $nfi_price);
+                    $costumer_price = implode(',', $request->input('costumer'));
+                    $costumer = explode(',', $costumer_price);
+
+                    $tersier1 = implode(',', $request->input('tersier'));
+                    $data_tersier1 = explode(',', $tersier1);
+                    $s_tersier1 = implode(',', $request->input('s_tersier'));
+                    $data_s_tersier1 = explode(',', $s_tersier1);
+                    $primer1 = implode(',', $request->input('primer'));
+                    $data_primer1 = explode(',', $primer1);
+                    $s_primer1 = implode(',', $request->input('s_primer'));
+                    $data_s_primer1 = explode(',', $s_primer1);
+                    if($request->sekunder1!=NULL){
+                        $sekunder11 = implode(',', $request->input('sekunder1'));
+                        $data_sekunder11 = explode(',', $sekunder11);
+                        $s_sekunder11 = implode(',', $request->input('s_sekunder1'));
+                        $data_s_sekunder11 = explode(',', $s_sekunder11);
+                    }if($request->sekunder2!=NULL){
+                        $sekunder21 = implode(',', $request->input('sekunder2'));
+                        $data_sekunder21 = explode(',', $sekunder21);
+                        $s_sekunder21 = implode(',', $request->input('s_sekunder2'));
+                        $data_s_sekunder21 = explode(',', $s_sekunder21);
+                    }
+                    for ($i = 0; $i < count($ids); $i++)
+                    {
+                        $kemas = new datakemas;
+                        $kemas->tersier= $data_tersier1[$i];
+                        $kemas->s_tersier= $data_s_tersier1[$i];
+                        $kemas->primer= $data_primer1[$i];
+                        $kemas->s_primer= $data_s_primer1[$i];
+                        $kemas->sekunder1= $data_sekunder11[$i];
+                        $kemas->s_sekunder1= $data_s_sekunder11[$i];
+                        $kemas->sekunder2= $data_sekunder21[$i];
+                        $kemas->s_sekunder2= $data_s_sekunder21[$i];
+                        $kemas->save();
+
+                        $forecash = new data_forecast;
+                        $forecash->id_pkp=$request->id;
+                        $forecash->turunan='0';
+                        $forecash->satuan = $idb[$i];
+                        $forecash->forecast = $ids[$i];
+                        $forecash->kemas_eksis = $kemas->id_kemas;
+                        $forecash->uom = $Duom[$i];
+                        $forecash->nfi_price = $nfi[$i];
+                        $forecash->costumer = $costumer[$i];
+                        $forecash->save();
+                        $i = $i++;
+                    }
                 }
             }
-        }
 
         if($request->klaim!=''){
             $dataklaim = data_klaim::where('id_pkp',$id_pkp)->where('revisi',$revisi)->where('turunan',$turunan)->delete();
@@ -883,28 +925,9 @@ class pkpController extends Controller
             $tip->remarks_forecash=$request->remarks_forecash;
             $tip->remarks_product_form=$request->remarks_product_form;
             $tip->competitive=$request->Competitive;
-            $tip->UOM=$request->uom;
             $tip->revisi='0';
-            $tip->selling_price=$request->Selling_price;
             $tip->competitor=$request->competitor;
             $tip->aisle=$request->aislea;
-            $tip->price=$request->consumer_price;
-                if($request->primer==''){
-                    $tip->kemas_eksis=$request->data_eksis;
-                }elseif($request->primer!='NULL'){
-                $tip->kemas_eksis=$request->kemas;
-
-                    $kemas = new datakemas;
-                    $kemas->tersier=$request->tersier;
-                    $kemas->s_tersier=$request->s_tersier;
-                    $kemas->primer=$request->primer;
-                    $kemas->s_primer=$request->s_primer;
-                    $kemas->sekunder1=$request->sekunder1;
-                    $kemas->s_sekunder1=$request->s_sekunder1;
-                    $kemas->sekunder2=$request->sekunder2;
-                    $kemas->s_sekunder2=$request->s_sekunder2;
-                    $kemas->save();
-                }
             $tip->product_form=$request->product;
             $tip->bpom=$request->bpom;
             $tip->kategori_bpom=$request->katbpom;
@@ -938,22 +961,64 @@ class pkpController extends Controller
                 }
             }
 
-            if($request->forecast!='' && $request->satuan!=''){
-                $data = array(); 
-                $validator = Validator::make($request->all(), $data);  
+            
+            if($request->forecast!=NULL){
+                $for = array(); 
+                $validator = Validator::make($request->all(), $for);  
                 if ($validator->passes()) {
                     $idz = implode(',', $request->input('forecast'));
                     $ids = explode(',', $idz);
                     $ida = implode(',', $request->input('satuan'));
                     $idb = explode(',', $ida);
+                    $uom = implode(',', $request->input('uom'));
+                    $Duom = explode(',', $uom);
+                    $nfi_price = implode(',', $request->input('price'));
+                    $nfi = explode(',', $nfi_price);
+                    $costumer_price = implode(',', $request->input('costumer'));
+                    $costumer = explode(',', $costumer_price);
+
+                    $tersier1 = implode(',', $request->input('tersier'));
+                    $data_tersier1 = explode(',', $tersier1);
+                    $s_tersier1 = implode(',', $request->input('s_tersier'));
+                    $data_s_tersier1 = explode(',', $s_tersier1);
+                    $primer1 = implode(',', $request->input('primer'));
+                    $data_primer1 = explode(',', $primer1);
+                    $s_primer1 = implode(',', $request->input('s_primer'));
+                    $data_s_primer1 = explode(',', $s_primer1);
+                    if($request->sekunder1!=NULL){
+                        $sekunder11 = implode(',', $request->input('sekunder1'));
+                        $data_sekunder11 = explode(',', $sekunder11);
+                        $s_sekunder11 = implode(',', $request->input('s_sekunder1'));
+                        $data_s_sekunder11 = explode(',', $s_sekunder11);
+                    }if($request->sekunder2!=NULL){
+                        $sekunder21 = implode(',', $request->input('sekunder2'));
+                        $data_sekunder21 = explode(',', $sekunder21);
+                        $s_sekunder21 = implode(',', $request->input('s_sekunder2'));
+                        $data_s_sekunder21 = explode(',', $s_sekunder21);
+                    }
                     for ($i = 0; $i < count($ids); $i++)
                     {
-                        $pipeline = new data_forecast;
-                        $pipeline->id_pkp=$request->id;
-                        $pipeline->turunan='0';
-                        $pipeline->forecast = $ids[$i];
-                        $pipeline->satuan = $idb[$i];
-                        $pipeline->save();
+                        $kemas = new datakemas;
+                        $kemas->tersier= $data_tersier1[$i];
+                        $kemas->s_tersier= $data_s_tersier1[$i];
+                        $kemas->primer= $data_primer1[$i];
+                        $kemas->s_primer= $data_s_primer1[$i];
+                        $kemas->sekunder1= $data_sekunder11[$i];
+                        $kemas->s_sekunder1= $data_s_sekunder11[$i];
+                        $kemas->sekunder2= $data_sekunder21[$i];
+                        $kemas->s_sekunder2= $data_s_sekunder21[$i];
+                        $kemas->save();
+
+                        $forecash = new data_forecast;
+                        $forecash->id_pkp=$request->id;
+                        $forecash->turunan='0';
+                        $forecash->satuan = $idb[$i];
+                        $forecash->forecast = $ids[$i];
+                        $forecash->kemas_eksis = $kemas->id_kemas;
+                        $forecash->uom = $Duom[$i];
+                        $forecash->nfi_price = $nfi[$i];
+                        $forecash->costumer = $costumer[$i];
+                        $forecash->save();
                         $i = $i++;
                     }
                 }
@@ -1132,7 +1197,6 @@ class pkpController extends Controller
                         foreach($user as $user){
                             $data = $user->email;
                             $cc = [Auth::user()->email,'asrinurul4238@gmail.com'];
-                            //dd($cc);
                             $message->to($data);
                             $message->cc($cc);
                         }
@@ -1145,7 +1209,6 @@ class pkpController extends Controller
                             $user2 = DB::table('users')->where('id',$dept2->manager_id)->get();
                             foreach($user2 as $user2){
                                 $data2 = [$user2->email,Auth::user()->email];
-                                //dd($data);
                                 $message->cc($data2);
                             }
                         }
@@ -1554,7 +1617,6 @@ class pkpController extends Controller
                 $tip->primery=$pkpp->primery;
                 $tip->secondary=$pkpp->secondary;
                 $tip->tertiary=$pkpp->tertiary;
-                $tip->kemas_eksis=$pkpp->kemas_eksis;
                 $tip->prefered_flavour=$pkpp->prefered_flavour;
                 $tip->product_benefits=$pkpp->product_benefits;
                 $tip->mandatory_ingredient=$pkpp->mandatory_ingredient;

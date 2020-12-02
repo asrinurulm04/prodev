@@ -164,9 +164,6 @@
                   @elseif($data->kemas->primer==NULL)
                   @endif
                   )
-                  @elseif($data->kemas->primer==NULL)
-                    @if($data->kemas_eksis==NULL)
-                    @endif
                   @endif
               </td></tr>
               <tr><th>Launch Deadline</th><td>: {{$data->launch}}{{$data->years}}{{$data->tgl_launch}}</td></tr>

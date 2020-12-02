@@ -16,4 +16,8 @@ class datakemas extends Model
     public function eksiskemas(){
         return $this->hasOne('App\pv\tipp','kemas_eksis','id_kemas');
     }
+
+    public function eksiskemas2(){
+        return $this->hasOne('App\pkp\data_forecash','kemas_eksis','id_kemas');
+    }
 }

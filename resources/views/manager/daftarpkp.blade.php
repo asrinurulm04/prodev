@@ -300,10 +300,10 @@
                     @endif
                   </td>
                   <td class="text-center">
+                  @if(auth()->user()->departement_id == '3' || auth()->user()->departement_id == '4' || auth()->user()->departement_id == '5' || auth()->user()->departement_id == '6')
                     {{csrf_field()}}
                     <a class="btn btn-info btn-sm" href="{{ route('formula.detail',[$pkp->workbook_id,$pkp->id]) }}" data-toggle="tooltip" title="Show"><i style="font-size:12px;" class="fa fa-eye"></i></a>
                     <a class="btn btn-success btn-sm" data-toggle="modal" data-target="#update" data-toggle="tooltip" title="Updata"><i style="font-size:12px;" class="fa fa-arrow-circle-up"></i></a>
-                    
                     <!-- UpVersion -->
                     <div class="modal fade" id="update" role="dialog" aria-labelledby="hm" aria-hidden="true">
                       <div class="modal-dialog modal-sm">
@@ -332,6 +332,7 @@
                       <a class="btn btn-warning btn-sm" href="{{ route('st',[$pkp->workbook_id,$pkp->id]) }}" data-toggle="tooltip" title="Lanjutkan Storage"><li class="fa fa-flask"></li></a>
                       @endif
                     @endif
+                  @endif
                   </td>
                 </tr>
                 @endforeach
