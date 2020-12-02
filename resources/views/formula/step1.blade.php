@@ -165,7 +165,11 @@
   <div class="x_panel">
     <div class="card-block">
 			<div class="col-md-6 col-md-offset-5">
+        @if(auth()->user()->role->namaRule == 'manager')
+        <a class="btn btn-danger btn-sm" href="{{ route('daftarpkp',$formula->workbook_id) }}"><i class="fa fa-ban"></i> Cencel</a>
+        @elseif(auth()->user()->role->namaRule == 'user_produk')
         <a class="btn btn-danger btn-sm" href="{{ route('rekappkp',$formula->workbook_id) }}"><i class="fa fa-ban"></i> Cencel</a>
+        @endif
 				<button type="reset" class="btn btn-warning btn-sm"><li class="fa fa-repeat"></li> Reset</button>
 				<button type="submit" class="btn btn-primary btn-sm"><li class="fa fa-check"></li> Edit And Next</button>
         <input type="hidden" name="_token" value="{{ csrf_token() }}">

@@ -65,7 +65,11 @@
       </div>
       <div class="col-md-3">
         <a class="btn btn-warning btn-sm" href="{{ route('FOR_pkp',$formula->id) }}"><i class="fa fa-download"></i> Download FOR</a>
-        <a class="btn btn-danger btn-sm" href="{{ route('showworkbook',$formula->workbook_id) }}"><i class="fa fa-ban"></i> Bact To Workbook</a>
+        @if(auth()->user()->role->namaRule == 'manager')
+        <a class="btn btn-danger btn-sm" href="{{ route('daftarpkp',$formula->workbook_id) }}"><i class="fa fa-ban"></i> Back To Workbook</a>
+        @elseif(auth()->user()->role->namaRule == 'user_produk')
+        <a class="btn btn-danger btn-sm" href="{{ route('rekappkp',$formula->workbook_id) }}"><i class="fa fa-ban"></i> Back To Workbook</a>
+        @endif
       </div>
     </div>
 

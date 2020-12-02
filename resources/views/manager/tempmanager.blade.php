@@ -93,7 +93,7 @@
                       <li><a href="{{ route('akg') }}">Data AKG</a></li>
                       <li><a href="{{ route('sku') }}">Active SKU</a></li>
                       <li><a href="{{ route('klaim') }}">Claim Regulation</a></li>
-                      <li><a href="{{ route('arsen')}}">Logam Berat</a></li>
+                      <li><a href="{{ route('logam.berat')}}">Logam Berat</a></li>
                     </ul>
                   </li>
                 </ul>
@@ -120,76 +120,6 @@
                     <li><a href="{{ route('signout') }}"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
                   </ul>
                 </li>
-                <li role="presentation" class="dropdown">
-                  <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
-                    <i class="fa fa-envelope-o"></i>
-                    @if(Auth::user()->departement->dept=='RKA')
-                    <span class="badge bg-green">{{$hitungdata2}}</span>
-                    @else
-                    <span class="badge bg-green">{{$hitungdata}}</span>
-                    @endif
-                  </a>
-                  <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu" style="overflow-y: scroll;max-height:370px">
-                    @if($hitungdata>=1 || $hitungdata2>=1)
-                      @if($hitungppkp>=1 || $hitungppkp1>=1)
-                        <li >
-                          <a>
-                            <a href="{{route('listpkprka')}}">
-                              <span class="image"><img src="{{ asset('img/pro.png') }}" alt="Profile Image" /></span>
-                              <span>
-                                @if(Auth::user()->departement->dept!='RKA')
-                                <span>You Have {{$hitungppkp}} new PKP</span>
-                                @elseif(Auth::user()->departement->dept=='RKA')
-                                <span>You Have {{$hitungppkp1}} new PKP</span>
-                                @endif
-                              </span>
-                              <span class="message">
-                                <span>click to show data</span>
-                              </span>
-                            </a>
-                          </a>
-                        </li>
-                      @endif
-                      @if($hitungppdf>=1 || $hitungppdf1>=1)
-                        <li >
-                          <a>
-                            <a href="{{route('listpdfrka')}}">
-                              <span class="image"><img src="{{ asset('img/pro.png') }}" alt="Profile Image" /></span>
-                              <span>
-                                @if(Auth::user()->departement->dept!='RKA')
-                                <span>You Have {{$hitungppdf}} new PDF</span>
-                                @elseif(Auth::user()->departement->dept=='RKA')
-                                <span>You Have {{$hitungppdf1}} new PDF </span>
-                                @endif
-                              </span>
-                              <span class="message">
-                                <span>click to show data</span>
-                              </span>
-                            </a>
-                          </a>
-                        </li>
-                      @endif
-                      @if($hitungppromo>=1 || $hitungppromo1>=1)
-                        <li >
-                          <a>
-                            <a href="{{route('listpromoo')}}">
-                              <span class="image"><img src="{{ asset('img/pro.png') }}" alt="Profile Image" /></span>
-                              <span>
-                                @if(Auth::user()->departement->dept!='RKA')
-                                <span>You Have {{$hitungppromo}} new PROMO</span>
-                                @elseif(Auth::user()->departement->dept=='RKA')
-                                <span>You Have {{$hitungppromo1}} new PROMO</span>
-                                @endif
-                              </span>
-                              <span class="message">
-                                <span>click to show data</span>
-                              </span>
-                            </a>
-                          </a>
-                        </li>
-                      @endif
-                    @endif
-                  </ul>
                 </nav>
               </div>
             </div>

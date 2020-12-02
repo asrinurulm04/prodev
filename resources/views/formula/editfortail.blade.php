@@ -320,7 +320,7 @@
                 {{ csrf_field()}}
                 {{ method_field('PATCH')}}
                 @foreach($for as $for)
-                <a type="button" class="btn btn-danger btn-sm" href="{{route('step2',[$for->workbook_id,$for->id])}}"><i class="fa fa-ban"></i> Cencel</a>                
+                <a type="button" class="btn btn-danger btn-sm" href="{{route('step2',[$for->workbook_id,$for->id])}}"><i class="fa fa-ban"></i> Back</a>                
                 <button type="submit" class="btn btn-info btn-sm" onclick="return confirm('Save Data ?')"><i class="fa fa-edit"></i> Save</button>
                 @endforeach
               </div>

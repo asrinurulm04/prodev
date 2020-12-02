@@ -12,6 +12,7 @@ use App\pkp\pkp_type;
 use App\pkp\project_pdf;
 use App\master\Brand;
 use App\pkp\data_ses;
+use App\dev\formula;
 use App\pkp\promo_idea;
 use App\pkp\sample_project;
 use App\manager\pengajuan;
@@ -251,7 +252,7 @@ class managerController extends Controller
         $datapkp = tipp::where('id_pkp',$id_project)->where('status_pkp','sent')->where('turunan',$max)->where('turunan',$max)->where('revisi',$max2)->get();
         $pkp1 = pkp_project::where('id_project',$id_project)->get();
         $data = pkp_project::where('id_project',$id_project)->get();
-        $sample = sample_project::where('id_pkp',$id_project)->get();
+        $sample = Formula::where('workbook_id', $id_project)->get();
         $listpkp = tipp::where('id_project',$id_project)->join('pkp_project','tippu.id_pkp','=','pkp_project.id_project')->where('status_data','=','active')->get();
         $pengajuan = pengajuan::where('id_pkp',$id_project)->count();
         $dept1 = Departement::where('Divisi','=','RND')->get();

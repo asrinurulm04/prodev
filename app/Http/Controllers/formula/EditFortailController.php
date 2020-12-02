@@ -96,7 +96,7 @@ class EditFortailController extends Controller
         $fortails->bahan_id = $bp->id;
         $fortails->nama_bahan = $bp->nama_bahan;
         }
-            if($c==1){
+            if($c>0){
                 if($ba[1]!=NULL){
                     $fortails->alternatif1= $ba[1]->nama_sederhana;
                     $fortails->nama_bahan1= $ba[1]->nama_bahan;
@@ -108,7 +108,7 @@ class EditFortailController extends Controller
                     $fortails->principle1= NULL;
                 }
             }
-            if($c==2){
+            if($c>1){
                 if($ba[2]!=NULL){
                     $fortails->alternatif2= $ba[2]->nama_sederhana;
                     $fortails->nama_bahan2= $ba[2]->nama_bahan;
@@ -120,7 +120,7 @@ class EditFortailController extends Controller
                     $fortails->principle2= NULL;
                 }
             }
-            if($c==3){
+            if($c>2){
                 if($ba[3]!=NULL){
                     $fortails->alternatif3= $ba[3]->nama_sederhana;
                     $fortails->nama_bahan3= $ba[3]->nama_bahan;
@@ -132,7 +132,7 @@ class EditFortailController extends Controller
                     $fortails->principle3= NULL;
                 }
             }
-            if($c==4){
+            if($c>3){
                 if($ba[4]!=NULL){
                     $fortails->alternatif4= $ba[4]->nama_sederhana;
                     $fortails->nama_bahan4= $ba[4]->nama_bahan;
@@ -144,7 +144,7 @@ class EditFortailController extends Controller
                     $fortails->principle4= NULL;
                 }
             }
-            if($c==5){
+            if($c>4){
             if($ba[5]!=NULL){
                     $fortails->alternatif5= $ba[5]->nama_sederhana;
                     $fortails->nama_bahan5= $ba[5]->nama_bahan;
@@ -156,7 +156,7 @@ class EditFortailController extends Controller
                     $fortails->principle5= NULL;
                 }
             }
-            if($c==6){
+            if($c>5){
             if($ba[6]!=NULL){
                     $fortails->alternatif6= $ba[6]->nama_sederhana;
                     $fortails->nama_bahan6= $ba[6]->nama_bahan;
@@ -168,7 +168,7 @@ class EditFortailController extends Controller
                     $fortails->principle6= NULL;
                 }
             }
-            if($c==7){
+            if($c>6){
             if($ba[7]!=NULL){
                     $fortails->alternatif7= $ba[7]->nama_sederhana;
                     $fortails->nama_bahan7= $ba[7]->nama_bahan;

@@ -6,7 +6,7 @@
 @foreach($data as $data)
 <div class="row">
   <div class="col-md-5 col-xs-12">
-    <div class="x_panel" style="min-height:90px">
+    <div class="x_panel">
       @if($hitung==0)
       <a href="{{ route('buatpdf',$data->id_project_pdf)}}" class="btn btn-primary btn-sm" type="button"><li class="fa fa-plus"></li> Add Data</a>
       @endif
@@ -54,7 +54,6 @@
       <a href="{{ route('listprojectpdf')}}" class="btn btn-danger btn-sm" btn-sm type="button"><li class="fa fa-share"></li> Back</a>
       @elseif(auth()->user()->role->namaRule === 'user_produk')
       <a href="{{ route('listprojectpdf')}}" class="btn btn-danger btn-sm" btn-sm type="button"><li class="fa fa-share"></li> Back</a>
-        @if(auth()->user()->role->namaRule === 'user_produk')
         <button class="btn btn-dark btn-sm" data-toggle="modal" data-target="#sample{{$data->id_project_pdf}}"><i class="fa fa-check"></i> Submit Sample</a></button>
         <!-- modal -->
         <div class="modal" id="sample{{$data->id_project_pdf}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -97,7 +96,6 @@
           </div>
         </div>
         <!-- Modal Selesai -->
-        @endif
       @endif
 
       @foreach($pdff as $data)
@@ -111,14 +109,9 @@
         @endif
         {{csrf_field()}}
       @endforeach
-
-      @if($data->author1->Role->id==1 || $data->author1->Role->id==5)
-      @else
-        <a href="{{route('pdfklaim',$data->id_project_pdf)}}" class="btn btn-primary btn-sm" type="submut"><li class="fa fa-tags"></li> Klaim</a>
-      @endif
     </div>
 
-    <div class="x_panel" style="min-height:270px">
+    <div class="x_panel">
       <div class="x_title">
         <h3><li class="fa fa-star"></li> Project Name : {{ $data->project_name}}</h3>
       </div>

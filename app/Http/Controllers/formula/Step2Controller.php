@@ -29,22 +29,19 @@ class Step2Controller extends Controller
     
     public function create($formula,$id){
         $formula = Formula::where('id',$id)->first();
-        //dd($formula);
         $wb = tipp::where('id_pkp',$id)->first();
         $target_serving = $formula->serving_size;
 
         // checkbase !
         if($formula->batch != null){
             $mybase = $formula->batch / $formula->serving;
-        }
-        else{
+        }else{
             $mybase = 0;
         }
 
         $idf = $id;
         $idfor = $formula->workbook_id;
         $fortails = Fortail::where('formula_id',$id)->get();
-        //dd($fortails);
         $ada= Fortail::where('formula_id',$id)->count();
         $bahans = Bahan::all();
         $no = 0;
