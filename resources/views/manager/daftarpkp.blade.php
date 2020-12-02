@@ -173,6 +173,7 @@
         <div class="col-md-5">
           <table>
 						<thead>
+              <tr><td width="20%">PKP Number</td><td>: </td><td> {{$listpkp->pkp_number}}{{$listpkp->ket_no}}</td></tr>
 							<tr><td>Brand</td><td>: </td><td> {{$listpkp->id_brand}}</td></tr>
 							<tr><td>Type PKP</td><td>: </td><td> 
               @if($listpkp->type==1)
@@ -182,7 +183,6 @@
               @elseif($listpkp->type==3)
               Maklon/Internal
               @endif</td></tr>
-              <tr><td width="20%">PKP Number</td><td>: </td><td> {{$listpkp->pkp_number}}{{$listpkp->ket_no}}</td></tr>
               <tr><td>Last Update</td><td>: </td><td> {{ $listpkp->last_update}}</td></tr>
               <tr><td>Created</td><td>: </td><td> {{$listpkp->created_date}}</td></tr>
 						</thead>

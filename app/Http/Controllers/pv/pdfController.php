@@ -15,6 +15,7 @@ use App\pkp\data_ses;
 use App\pkp\klaim;
 use App\pkp\detail_klaim;
 use App\pkp\komponen;
+use App\dev\formula;
 use App\pkp\data_klaim; 
 use App\manager\pengajuan;
 use App\pkp\project_pdf;
@@ -1229,7 +1230,8 @@ class pdfController extends Controller
         $data1 = project_pdf::where('id_project_pdf',$id_project_pdf)->get();
         $hitung = coba::where('pdf_id',$id_project_pdf)->count();
         $pengajuan = pengajuan::count();
-        $sample_project = sample_project::where('id_pdf',$id_project_pdf)->get();
+        $cf =Formula::where('workbook_pdf_id',$id_project_pdf)->count();
+        $sample_project = Formula::where('workbook_pdf_id', $id_project_pdf)->get();
         $status_sample_project = sample_project::where('id_pdf',$id_project_pdf)->where('status','=','final')->count();
         $max2 = coba::where('pdf_id',$id_project_pdf)->max('revisi');
         $max = coba::where('pdf_id',$id_project_pdf)->max('turunan');
@@ -1241,6 +1243,7 @@ class pdfController extends Controller
             'sample' => $sample_project,
             'status_sample' => $status_sample_project,
             'pengajuan' => $pengajuan,
+            'cf' => $cf,
             'pengajuanpdf' => $pengajuanpdf,
             'hitung' => $hitung,
             'pdff' => $pdff,

@@ -62,7 +62,7 @@
         @endforeach
 				<input type="file" name="filename[]" class="form-control" multiple>
 		  </div>
-			<button type="submit" class="btn btn-primary" style="margin-top:10px"> Submit</button>
+			<button type="submit" class="btn btn-primary btn-sm" style="margin-top:10px"> Submit</button>
 	    </form>        
 		</div>
 	</div>
@@ -80,7 +80,7 @@
       <input name="id" value="{{$pdf->pdf_id}}" type="hidden">
       <input name="informasi[{{$loop->index}}][pic]" value="{{$pdf->id_pictures}}" type="hidden">
       <textarea name="informasi[{{$loop->index}}][info]" class="col-md-7" rows="4">{{$pdf->informasi}}</textarea><br>
-		  <a href="{{ Route('destroydata',$pdf->id_pictures) }}" type="button" class="btn btn-danger" data-toggle="tooltip" title="Delete"><li class="fa fa-trash-o"></li> Delete</a>
+		  <a href="{{ Route('destroydata',$pdf->id_pictures) }}" type="button" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Delete"><li class="fa fa-trash-o"></li> Delete</a>
     </div>
   </div>
 </div>

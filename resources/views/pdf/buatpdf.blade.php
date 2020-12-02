@@ -266,8 +266,8 @@
           </div>
           <div class="ln_solid"></div>
           <div class="col-md-6 col-md-offset-5">
-            <button type="reset" class="btn btn-danger">Reset</button>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="reset" class="btn btn-warning btn-sm"><li class="fa fa-repeat"></li> Reset</button>
+            <button type="submit" class="btn btn-primary btn-sm"><li class="fa fa-check"></li> Submit</button>
             {{ csrf_field() }}
           </div>
         </div>

@@ -30,18 +30,16 @@
           <form id="clear">
           <!--project-->
           <div class="col-md-4 pl-1">
-            <div class="form-group" id="filter_col" data-column="1">
-              <label>Project Name</label>
-              <select name="name" class="form-control column_filter" id="col1_filter">
+            <div class="form-group" id="filter_col" data-column="5">
+              <label>Priority</label>
+              <select name="name" class="form-control column_filter" id="col5_filter">
                 <option disabled selected>-->Select One<--</option>
-                @foreach($pdf as $pdf1)
-                @if($pdf1->status_project=='proses' || $pdf1->status_project=='close')
-                <option>{{$pdf1->project_name}}</option>
-                @endif
-                @endforeach
+                <option>Prioritas 1</option>
+                <option>Prioritas 2</option>
+                <option>Prioritas 3</option>
               </select>
             </div>
-          </div>    
+          </div>      
           <!--brand-->
           <div class="col-md-4 pl-1">
             <div class="form-group" id="filter_col1" data-column="3">
@@ -56,15 +54,13 @@
           </div>
           <!--Data-->
           <div class="col-md-3 pl-1">
-            <div class="form-group" id="filter_col1" data-column="5">
+            <div class="form-group" id="filter_col1" data-column="6">
               <label>Status</label>
-              <select name="status" class="form-control column_filter" id="col5_filter" >
+              <select name="status" class="form-control column_filter" id="col6_filter" >
                 <option disabled selected>-->Select One<--</option>
-                @foreach($pdf as $pdf2)
-                @if($pdf2->status_project=='proses' || $pdf2->status_project=='close')
-                <option>{{$pdf2->status_project}}</option>
-                @endif
-                @endforeach
+                <option>sending sample</option>
+                <option>sent to PV</option>
+                <option>approved by PV</option>
               </select>
             </div>
           </div>
@@ -83,8 +79,8 @@
 </div>
 
 <div class="x_panel">
-  <div class="card-header">
-    <h3><li class="fa fa-wpforms"></li> List PDF</h5>
+  <div class="x_title">
+    <h3><li class="fa fa-wpforms"></li> List PDF</h3>
   </div>
   <div class="card-block">
     <div class="clearfix"></div>
@@ -96,10 +92,10 @@
             <th>PDF Number</th>
             <th>Project Name</th>
             <th>Brand</th>
-            <th>Author</th>
-            <th>Status</th>
-            <th>Created_date</th>
-            <th class="text-center">Action</th>
+            <th>PV</th>
+            <th class="text-center">Priority</th>
+            <th class="text-center">Prototype Sample submission status</th>
+            <th width="15%" class="text-center">Action</th>
           </tr>
         </thead>
         <tbody>
@@ -114,17 +110,45 @@
             <td>{{$pdf->pdf_number}}{{$pdf->ket_no}}</td>
             <td>{{ $pdf->project_name }}</td>
             <td>{{ $pdf->id_brand }}</td>
-            <td>{{ $pdf->author1->name }}</td>
+            <td>{{ $pdf->datappdf->perevisi2->name }}</td>
             <td class="text-center">
-              @if($pdf->status_project=='proses')
-              <span  class="label label-success" style="color:white">Proses</span>
-              @elseif($pdf->status_project=='close')
-              <span  class="label label-info" style="color:white">Close</span>
+              @if($pdf->prioritas=='1')
+              <span class="label label-danger">Prioritas 1</span>
+              @elseif($pdf->prioritas=='2')
+              <span class="label label-warning">Prioritas 2</span>
+              @elseif($pdf->prioritas=='3')
+              <span class="label label-primary">Prioritas 3</span>
               @endif
             </td>
-            <td>{{ $pdf->created_date }}</dh>
-            <td>{{ $pdf->waktu }}</td>
-            <td class="text-center">{{ $pdf->status }}</td>
+            <td>
+              @if($pdf->status_freeze=='inactive')
+                @if($pdf->pengajuan_sample=='proses')
+                <?php
+                  $awal  = date_create( $pdf->waktu );
+                  $akhir = date_create(); // waktu sekarang
+                  if($akhir<=$awal)
+                  {
+                    $diff  = date_diff( $akhir, $awal );
+                    echo ' You Have ';
+                    echo $diff->m . ' Month, ';
+                    echo $diff->d . ' Days, ';
+                    echo $diff->h . ' Hours, ';
+                    echo ' To sending Sample ';
+                  }else{
+                    echo ' Your Time Is Up ';
+                  }
+                ?>
+                @elseif($pdf->pengajuan_sample=='sent')
+                Sample has been sent to PV
+                @elseif($pdf->pengajuan_sample=='reject')
+                Sample rejected by PV
+                @elseif($pdf->pengajuan_sample=='approve')
+                Sample has been approved by PV
+                @endif
+              @elseif($pdf->status_freeze=='active')
+                Project Is Inactive
+              @endif
+            </td>
             <td class="text-center">
               @if($pdf->status_project=='proses')  
                 <a class="btn btn-info btn-sm" href="{{ Route('rekappdf',$pdf->id_project_pdf)}}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
@@ -142,15 +166,46 @@
             <td>{{$pdf->pdf_number}}{{$pdf->ket_no}}</td>
             <td>{{ $pdf->project_name }}</td>
             <td>{{ $pdf->id_brand }}</td>
-            <td>{{ $pdf->author1->name }}</td>
+            <td>{{ $pdf->datappdf->perevisi2->name }}</td>
             <td class="text-center">
-              @if($pdf->status_project=='proses')
-              <span  class="label label-success" style="color:white">Proses</span>
-              @elseif($pdf->status_project=='close')
-              <span  class="label label-info" style="color:white">Close</span>
+              @if($pdf->prioritas=='1')
+              <span class="label label-danger">Prioritas 1</span>
+              @elseif($pdf->prioritas=='2')
+              <span class="label label-warning">Prioritas 2</span>
+              @elseif($pdf->prioritas=='3')
+              <span class="label label-primary">Prioritas 3</span>
+              @endifs="label label-primary">Low Priority</span>
               @endif
             </td>
-            <td>{{ $pdf->created_date }}</td>
+            <td>
+              @if($pdf->status_freeze=='inactive')
+                @if($pdf->pengajuan_sample=='proses')
+                <?php
+                  $awal  = date_create( $pdf->waktu );
+                  $akhir = date_create(); // waktu sekarang
+                  if($akhir<=$awal)
+                  {
+                    $diff  = date_diff( $akhir, $awal );
+                    echo ' You Have ';
+                    echo $diff->m . ' Month, ';
+                    echo $diff->d . ' Days, ';
+                    echo $diff->h . ' Hours, ';
+                    echo ' To sending Sample ';
+                  }else{
+                    echo ' Your Time Is Up ';
+                  }
+                ?>
+                @elseif($pdf->pengajuan_sample=='sent')
+                Sample has been sent to PV
+                @elseif($pdf->pengajuan_sample=='reject')
+                Sample rejected by PV
+                @elseif($pdf->pengajuan_sample=='approve')
+                Sample has been approved by PV
+                @endif
+              @elseif($pdf->status_freeze=='active')
+                Project Is Inactive
+              @endif
+            </td>
             <td class="text-center">
               @if($pdf->status_project=='proses')
               <a class="btn btn-info btn-sm" href="{{ Route('rekappdf',$pdf->id_project_pdf)}}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>

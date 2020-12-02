@@ -279,7 +279,7 @@ class managerController extends Controller
     }
 
     public function daftarpdf($id_project_pdf){
-        $data = project_pdf::where('id_project_pdf',$id_project_pdf)->get();
+        $data = Coba::where('pdf_id',$id_project_pdf)->join('pdf_project','pdf_project.id_project_pdf','tipu.pdf_id')->where('status_pdf','active')->get();
         $hitung = coba::where('pdf_id',$id_project_pdf)->count();
         $dept = Departement::all();
         $sample = sample_project::where('id_pdf',$id_project_pdf)->get();

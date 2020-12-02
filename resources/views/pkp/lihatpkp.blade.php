@@ -86,15 +86,12 @@
                             <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center">Priority</label>
                             <div class="col-md-2 col-sm-2 col-xs-12">
                               <select name="prioritas" class="form-control form-control-line" id="prioritas" required>
-                                <option disabled selected>Prioritas</option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
                               </select>
                             </div>
-                            <?php
-                            $tgl2 = date('Y-m-d', strtotime('+30 days'));
-                            ?>
+                            <?php $tgl2 = date('Y-m-d', strtotime('+30 days')); ?>
                             <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center">sample deadline</label>
                             <div class="col-md-3 col-sm-3 col-xs-12">
                               <input type="date" class="form-control" value="<?php echo date('Y-m-d'); ?>" name="jangka" id="jangka" placeholder="start date">

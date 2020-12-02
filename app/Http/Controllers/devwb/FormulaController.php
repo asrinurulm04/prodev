@@ -36,6 +36,7 @@ class FormulaController extends Controller
         // New Formula        
         $formulas = new Formula;
         $formulas->workbook_id = $request->workbook_id;
+        $formulas->workbook_pdf_id = $request->workbook_pdf_id;
         $formulas->formula = $request->formula;
 		$formulas->serving_size = $request->target_serving;
 		$formulas->satuan=$request->satuan;
@@ -55,13 +56,13 @@ class FormulaController extends Controller
         $overage = new tb_overage;
         $overage->id_formula=$formulas->id;
         $overage->save();
-		
-		$pkp = pkp_project::where('id_project',$request->workbook_id)->first();
-		$pkp->workbook='1';
-		$pkp->save();
 
+        if($request->workbook_id!=NULL){
+			return redirect()->route('step1',['id_workbook' => $request->workbook_id, 'id_formula' => $formulas->id])->with('status', 'Formula '.$formulas->nama_produk.' Telah Ditambahkan!');
+		}else{
+			return redirect()->route('step1',['id_pdf_workbook' => $request->workbook_pdf_id, 'id_formula' => $formulas->id])->with('status', 'Formula '.$formulas->nama_produk.' Telah Ditambahkan!');
+		}
         
-        return redirect()->route('step1',['id_workbook' => $request->workbook_id, 'id_formula' => $formulas->id])->with('status', 'Formula '.$formulas->nama_produk.' Telah Ditambahkan!');
     }
 
     // Hapus Formula-----------------------------------------------------------------------------------------------------    
