@@ -137,31 +137,6 @@
               @if($data->datapkp!=null)
               @foreach($data1 as $data)
               <tr><th>Idea</td> <td> : {{$data->idea}}</td></tr>
-              <tr><th>Packaging Concept</th><td>: 
-                  @if($data->kemas_eksis!=NULL)
-                  (
-                  @if($data->kemas->tersier!=NULL)
-                  {{ $data->kemas->tersier }}{{ $pkp->kemas->s_tersier }}
-                  @elseif($data->kemas->tersier==NULL)
-                  @endif
-
-                  @if($data->kemas->sekunder1!=NULL)
-                  X {{ $data->kemas->sekunder1 }}{{ $data->kemas->s_sekunder1}}
-                  @elseif($data->kemas->sekunder1==NULL)
-                  @endif
-
-                  @if($data->kemas->sekunder2!=NULL)
-                  X {{ $data->kemas->sekunder2 }}{{ $data->kemas->s_sekunder2 }}
-                  @elseif($data->kemas->sekunder2==NULL)
-                  @endif
-
-                  @if($data->kemas->primer!=NULL)
-                  X{{ $data->kemas->primer }}{{ $pkp->kemas->s_primer }}
-                  @elseif($data->kemas->primer==NULL)
-                  @endif
-                  )
-                  @endif
-              </td></tr>
               <tr><th>Launch Deadline</th><td>: {{$data->launch}}{{$data->years}}{{$data->tgl_launch}}</td></tr>
               <tr><th>Sample Deadline</th><td>: {{$data->jangka}}-  {{$data->waktu}}</td></tr>
               <tr><th>PV</th><td> : {{$data->perevisi2->name}}</td></tr>
@@ -296,12 +271,13 @@
           <table class="Table table-striped table-bordered">
             <thead>
               <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
-                <th class="text-center" width="8%">Versi</th>
+                <th width="1%"></th>
+                <th class="text-center" width="3%">Versi</th>
                 <th class="text-center">Sample</th>
-                <th class="text-center" width="30%">Note PV</th>
-                <th class="text-center" width="30%">Note RD</th>
+                <th class="text-center" width="20%">Note PV</th>
+                <th class="text-center" width="20%">Note RD</th>
                 <th class="text-center" width="10%">Status</th>
-                <th class="text-center" width="15%">Action</th>
+                <th class="text-center" width="10%">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -314,9 +290,11 @@
               @else
               <tr>
               @endif
-                <td class="text-center">{{$for->versi}}.{{$for->turunan}}</td>
+                <td></td>
+                <td>{{$for->versi}}.{{$for->turunan}}</td>
                 <td>{{$for->formula}}</td>
                 <td>{{$for->catatan_pv}}</td>
+                <td>{{$for->catatan_rd}}</td>
                 <td class="text-center">
                   @if($for->vv=='proses')
                   <span class="label label-primary" style="color:white">New Sample</span>
@@ -354,12 +332,12 @@
                             
                             <div class="modal-body">
                               <form class="form-horizontal form-label-left" method="POST" action="{{route('rejectsample',$for->id)}}">
-                                <textarea name="note" id="note" rows="2" class="form-control" required></textarea><br>
-                                <div class="modal-footer">
-                                <button class="btn btn-sm btn-primary" type="submit"><li class="fa fa-check"></li> submit</button>
-                                {{ csrf_field() }}
-                                </form>
-                              </div>
+                              <textarea name="note" id="note" rows="2" cols="60" class="form-control" required></textarea><br>
+                            </div>
+                            <div class="modal-footer">
+                              <button class="btn btn-sm btn-primary" type="submit"><li class="fa fa-check"></li> submit</button>
+                              {{ csrf_field() }}
+                              </form>
                             </div>
                           </div>
                         </div>
@@ -376,21 +354,22 @@
                                 <span aria-hidden="true">&times;</span>
                               </button></h3>
                             </div>
-                            
                             <div class="modal-body">
                               <form class="form-horizontal form-label-left" method="POST" action="{{route('approvesample',$for->id)}}">
-                                <textarea name="note" id="note" rows="2" class="form-control" required></textarea><br>
-                                <div class="modal-footer">
-                                <button class="btn btn-sm btn-primary" type="submit"><li class="fa fa-check"></li> submit</button>
-                                {{ csrf_field() }}
-                                </form>
-                              </div>
+                              <textarea name="note" id="note" cols="60" rows="2" class="form-control" required></textarea><br>
+                            </div>
+                            <div class="modal-footer">
+                              <button class="btn btn-sm btn-primary" type="submit">submit</button>
+                              {{ csrf_field() }}
+                              </form>
                             </div>
                           </div>
                         </div>
                       </div>
                       <!-- Modal Selesai -->
                   @elseif($for->vv=='approve')
+                    <a href="{{route('finalsample',$for->id)}}" class="btn btn-primary btn-sm" title="Ajukan FS"><li class="fa fa-paper-plane"></li></a>
+                      <a href="{{route('finalsample',$for->id)}}" class="btn btn-success btn-sm" title="Final Approva"><li class="fa fa-tag"></li></a>
                     @if($for->status_fisibility=='not_approved')
                       @if($hasilpanel>=1)
                       <a href="{{route('finalsample',$for->id)}}" class="btn btn-success btn-sm" title="Final Approva"><li class="fa fa-tag"></li></a>

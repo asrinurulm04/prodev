@@ -55,7 +55,11 @@ class FormulaController extends Controller
 		
         $overage = new tb_overage;
         $overage->id_formula=$formulas->id;
-        $overage->save();
+		$overage->save();
+		
+		$pkp = pkp_project::where('id_project',$request->workbook_id)->first();
+		$pkp->workbook='1';
+		$pkp->save();
 
         if($request->workbook_id!=NULL){
 			return redirect()->route('step1',['id_workbook' => $request->workbook_id, 'id_formula' => $formulas->id])->with('status', 'Formula '.$formulas->nama_produk.' Telah Ditambahkan!');

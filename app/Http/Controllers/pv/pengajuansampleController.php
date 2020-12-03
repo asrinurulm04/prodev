@@ -13,6 +13,7 @@ use DB;
 use App\User;
 use App\dev\formula;
 use App\pkp\pkp_project;
+use App\pkp\data_forecast;
 use App\pkp\tipp;
 use App\modelfn\finance;
 
@@ -28,6 +29,45 @@ class pengajuansampleController extends Controller
         $for->vv='approve';
         $for->catatan_pv=$request->note;
         $for->save();
+
+        $data = $for->workbook_id;
+        $turunan = tipp::where('id_pkp',$data)->max('turunan');
+        $revisi =tipp::where('id_pkp',$data)->max('revisi');
+
+        // kirim email reject final sample (pengirim, Manager, PV)
+        $isipkp = tipp::where('id_pkp',$for->workbook_id)->where('status_data','=','active')->get();
+        $for = data_forecast::where('id_pkp',$data)->where('revisi',$revisi)->where('turunan',$turunan)->get();
+        try{
+            Mail::send('manager.infoemailpkp', [
+                'info' => 'Sample yang anda ajukan disetujui dengan catatan "'.$request->note.'"',
+                'for' => $for,
+                'app'=>$isipkp,],function($message)use($data)
+            {
+                $message->subject('Reject PKP sample');
+                $message->from('app.prodev@nutrifood.co.id', 'Admin PRODEV');
+                
+                $datapkp = pkp_project::where('id_project',$data)->get();
+                foreach($datapkp as $data){
+                    $dept = DB::table('departements')->where('id',$data->tujuankirim)->get();
+                    foreach($dept as $dept){
+                        $user = user::where('id',$dept->manager_id)->get();
+                        foreach($user as $user){
+                            $to = $user->email;
+                            $message->to($to);
+                        }
+                    }
+                    $user1 = user::where('id',$data->userpenerima)->get();
+                    foreach($user1 as $user1){
+                        $cc = [$user1->email,Auth::user()->email];
+                        $message->cc($cc);
+                    }
+                }
+            });
+            return back()->with('status','E-mail Successfully');
+        }
+        catch (Exception $e){
+        return response (['status' => false,'errors' => $e->getMessage()]);
+        }
         
         return redirect::back();
     }
@@ -87,12 +127,16 @@ class pengajuansampleController extends Controller
         $for->save();
 
         $data = $for->workbook_id;
+        $turunan = tipp::where('id_pkp',$data)->max('turunan');
+        $revisi =tipp::where('id_pkp',$data)->max('revisi');
 
         // kirim email reject final sample (pengirim, Manager, PV)
         $isipkp = tipp::where('id_pkp',$for->workbook_id)->where('status_data','=','active')->get();
+        $for = data_forecast::where('id_pkp',$data)->where('revisi',$revisi)->where('turunan',$turunan)->get();
         try{
             Mail::send('manager.infoemailpkp', [
-                'info' => 'Maaf Sampel project PKP yang anda ajukan ditolak karna "'.$request->note.'"',
+                'info' => 'Sample yang anda ajukan disetujui dengan catatan "'.$request->note.'"',
+                'for' => $for,
                 'app'=>$isipkp,],function($message)use($data)
             {
                 $message->subject('Reject PKP sample');

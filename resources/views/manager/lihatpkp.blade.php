@@ -189,49 +189,42 @@
                               </tr>
                             </thead>
                             <tbody>
-                            @foreach($for as $for)
+                              @foreach($for as $for)
                               <tr>
-                                <td>{{$for->forecast}}={{$for->satuan}}</td>
-                                <td></td>
+                                <td>{{$for->satuan}} = {{$for->forecast}}</td>
+                                <td>
+                                @if($for->kemas_eksis!=NULL)
+                                (
+                                @if($for->kemas->tersier!=NULL)
+                                {{ $for->kemas->tersier }}{{ $for->kemas->s_tersier }}
+                                @elseif($for->tersier==NULL)
+                                @endif
+
+                                @if($for->kemas->sekunder1!=NULL)
+                                X {{ $for->kemas->sekunder1 }}{{ $for->kemas->s_sekunder1}}
+                                @elseif($for->kemas->sekunder1==NULL)
+                                @endif
+
+                                @if($for->kemas->sekunder2!=NULL)
+                                X {{ $for->kemas->sekunder2 }}{{ $for->kemas->s_sekunder2 }}
+                                @elseif($for->sekunder2==NULL)
+                                @endif
+
+                                @if($for->kemas->primer!=NULL)
+                                X{{ $for->kemas->primer }}{{ $for->kemas->s_primer }}
+                                @elseif($for->kemas->primer==NULL)
+                                @endif
+                                )
+                                @endif
+                                </td>
                                 <td>{{$for->uom}}</td>
-                                <td>{{$for->nfi_price}}</td>
-                                <th>{{$for->costumer}}</th>
+                                <td>Rp. {{$for->nfi_price}}</td>
+                                <td>Rp. {{$for->costumer}}</td>
                               </tr>
-                            @endforeach
+                              @endforeach
                             </tbody>
                           </table>
                         <td>
-                      </tr>
-											<tr>
-                        <th>NF Selling Price (Before ppn)</th>
-                        <td colspan="2">
-                          <table>
-                            <tr>
-                              <td>
-                                <?php $selling_price = []; foreach ($pkp1 as $key => $data) If (!$selling_price || !in_array($data->selling_price, $selling_price)) { $selling_price += array( $key => $data->selling_price ); 
-                                if($data->revisi!=$pkp->revisi){ echo" <s><font color='#6594c5'>Rp. ". number_format($data->selling_price, 0, ".", "."). " <br></font></s>"; } if($data->revisi==$pkp->revisi){ echo"Rp. ". number_format($data->selling_price, 0, ".", "."). "  <br>"; } }  ?>
-                              </td>
-                            </tr>
-                          </table>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th>Consumer price target</th>
-                        <td colspan="2">
-                          <table>
-                            <tr>
-                              <td>
-                                <?php $price = []; foreach ($pkp1 as $key => $data) If (!$price || !in_array($data->price, $price)) { $price += array( $key => $data->price ); 
-                                if($data->revisi!=$pkp->revisi){ echo" <s><font color='#6594c5'>Rp. ". number_format($data->price, 0, ".", "."). " <br></font></s>"; } if($data->revisi==$pkp->revisi){ echo"Rp. ". number_format($data->price, 0, ".", "."). " <br>"; } } ?>
-                              </td>
-                            </tr>
-                          </table>
-                        </td>
-											</tr>
-                      <tr class="table-highlight">
-                        <th>UOM</th>
-                        <td colspan="2"><?php $uom = []; foreach ($pkp1 as $key => $data) If (!$uom || !in_array($data->UOM, $uom)) { $uom += array( $key => $data->UOM ); 
-                        if($data->revisi!=$pkp->revisi){ echo" <s><font color='#6594c5'>".$data->UOM."<br></font></s>"; } if($data->revisi==$pkp->revisi){ echo" ".$data->UOM."<br>"; } }  ?></td>
                       </tr>
                       <tr class="table-highlight">
                         <th>Competitive Analysis</th>

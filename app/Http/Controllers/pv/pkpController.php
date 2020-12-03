@@ -461,8 +461,7 @@ class pkpController extends Controller
 					$i = $i++;
 				}
 			}
-        }
-        
+		}
         if($request->forecast!=NULL){
             $for = array(); 
             $validator = Validator::make($request->all(), $for);  
@@ -477,6 +476,7 @@ class pkpController extends Controller
                 $nfi = explode(',', $nfi_price);
                 $costumer_price = implode(',', $request->input('costumer'));
                 $costumer = explode(',', $costumer_price);
+                
                 $primary = implode(',', $request->input('primary'));
                 $data_primary = explode(',', $primary);
                 $secondary = implode(',', $request->input('secondary'));
@@ -484,8 +484,6 @@ class pkpController extends Controller
                 $tertiary = implode(',', $request->input('tertiary'));
                 $data_tertiary = explode(',', $tertiary);
 
-                $eksis = implode(',', $request->input('data_eksis'));
-                $data_eksis = explode(',', $eksis);
                 $tersier1 = implode(',', $request->input('tersier'));
                 $data_tersier1 = explode(',', $tersier1);
                 $s_tersier1 = implode(',', $request->input('s_tersier'));
@@ -502,36 +500,31 @@ class pkpController extends Controller
                 $data_sekunder21 = explode(',', $sekunder21);
                 $s_sekunder21 = implode(',', $request->input('s_sekunder2'));
                 $data_s_sekunder21 = explode(',', $s_sekunder21);
-
                 for ($i = 0; $i < count($ids); $i++)
-                
                 {
-                    if($request->data_eksis!=null){
-                        $kemas = new datakemas;
-                        $kemas->tersier= $data_tersier1[$i];
-                        $kemas->s_tersier= $data_s_tersier1[$i];
-                        $kemas->primer= $data_primer1[$i];
-                        $kemas->s_primer= $data_s_primer1[$i];
-                        $kemas->sekunder1= $data_sekunder11[$i];
-                        $kemas->s_sekunder1= $data_s_sekunder11[$i];
-                        $kemas->sekunder2= $data_sekunder21[$i];
-                        $kemas->s_sekunder2= $data_s_sekunder21[$i];
-                        $kemas->save();
-                    }
-
+                    $kemas = new datakemas;
+                    $kemas->tersier= $data_tersier1[$i];
+                    $kemas->s_tersier= $data_s_tersier1[$i];
+                    $kemas->primer= $data_primer1[$i];
+                    $kemas->s_primer= $data_s_primer1[$i];
+                    $kemas->sekunder1= $data_sekunder11[$i];
+                    $kemas->s_sekunder1= $data_s_sekunder11[$i];
+                    $kemas->sekunder2= $data_sekunder21[$i];
+                    $kemas->s_sekunder2= $data_s_sekunder21[$i];
+                    $kemas->save();
+                    
                     $forecash = new data_forecast;
                     $forecash->id_pkp=$request->id;
-                    $forecash->turunan='0';
+                    $forecash->turunan=$naikversi;
                     $forecash->satuan = $idb[$i];
                     $forecash->forecast = $ids[$i];
-                    if($request->data_eksis!=null){
                     $forecash->kemas_eksis = $kemas->id_kemas;
-                    }else{
-                        $forecash->kemas_eksis = $data_eksis[$i];
-                    }
                     $forecash->uom = $Duom[$i];
                     $forecash->nfi_price = $nfi[$i];
                     $forecash->costumer = $costumer[$i];
+                    $forecash->informasi_Primary = $data_primary[$i];
+                    $forecash->Secondary = $data_secondary[$i];
+                    $forecash->Tertiary	 = $data_tertiary[$i];
                     $forecash->save();
                     $i = $i++;
                 }
@@ -644,10 +637,7 @@ class pkpController extends Controller
         $tip->bpom=$request->bpom;
         $tip->kategori_bpom=$request->katbpom;
         $tip->akg=$request->akg;
-        $tip->primery=$request->primary;
         $tip->status_data='active';
-        $tip->secondary=$request->secondary;
-        $tip->tertiary=$request->tertiary;
         $tip->olahan=$request->olahan;
         $tip->prefered_flavour=$request->prefered;
         $tip->product_benefits=$request->benefits;
@@ -689,6 +679,7 @@ class pkpController extends Controller
                 $nfi = explode(',', $nfi_price);
                 $costumer_price = implode(',', $request->input('costumer'));
                 $costumer = explode(',', $costumer_price);
+                
                 $primary = implode(',', $request->input('primary'));
                 $data_primary = explode(',', $primary);
                 $secondary = implode(',', $request->input('secondary'));
@@ -696,8 +687,6 @@ class pkpController extends Controller
                 $tertiary = implode(',', $request->input('tertiary'));
                 $data_tertiary = explode(',', $tertiary);
 
-                $eksis = implode(',', $request->input('data_eksis'));
-                $data_eksis = explode(',', $eksis);
                 $tersier1 = implode(',', $request->input('tersier'));
                 $data_tersier1 = explode(',', $tersier1);
                 $s_tersier1 = implode(',', $request->input('s_tersier'));
@@ -714,38 +703,31 @@ class pkpController extends Controller
                 $data_sekunder21 = explode(',', $sekunder21);
                 $s_sekunder21 = implode(',', $request->input('s_sekunder2'));
                 $data_s_sekunder21 = explode(',', $s_sekunder21);
-
                 for ($i = 0; $i < count($ids); $i++)
                 {
-                    if($request->data_eksis!=null){
-                        $kemas = new datakemas;
-                        $kemas->tersier= $data_tersier1[$i];
-                        $kemas->s_tersier= $data_s_tersier1[$i];
-                        $kemas->primer= $data_primer1[$i];
-                        $kemas->s_primer= $data_s_primer1[$i];
-                        $kemas->sekunder1= $data_sekunder11[$i];
-                        $kemas->s_sekunder1= $data_s_sekunder11[$i];
-                        $kemas->sekunder2= $data_sekunder21[$i];
-                        $kemas->s_sekunder2= $data_s_sekunder21[$i];
-                        $kemas->save();
-                    }
+                    $kemas = new datakemas;
+                    $kemas->tersier= $data_tersier1[$i];
+                    $kemas->s_tersier= $data_s_tersier1[$i];
+                    $kemas->primer= $data_primer1[$i];
+                    $kemas->s_primer= $data_s_primer1[$i];
+                    $kemas->sekunder1= $data_sekunder11[$i];
+                    $kemas->s_sekunder1= $data_s_sekunder11[$i];
+                    $kemas->sekunder2= $data_sekunder21[$i];
+                    $kemas->s_sekunder2= $data_s_sekunder21[$i];
+                    $kemas->save();
 
                     $forecash = new data_forecast;
                     $forecash->id_pkp=$request->id;
-                    $forecash->turunan='0';
+                    $forecash->turunan=$naikversi;
                     $forecash->satuan = $idb[$i];
                     $forecash->forecast = $ids[$i];
-                    if($request->data_eksis!=null){
                     $forecash->kemas_eksis = $kemas->id_kemas;
-                    }else{
-                        $forecash->kemas_eksis = $data_eksis[$i];
-                    }
                     $forecash->uom = $Duom[$i];
                     $forecash->nfi_price = $nfi[$i];
                     $forecash->costumer = $costumer[$i];
                     $forecash->informasi_Primary = $data_primary[$i];
                     $forecash->Secondary = $data_secondary[$i];
-                    $forecash->Tertiary = $data_tertiary[$i];
+                    $forecash->Tertiary	 = $data_tertiary[$i];
                     $forecash->save();
                     $i = $i++;
                 }
@@ -999,15 +981,14 @@ class pkpController extends Controller
                     $nfi = explode(',', $nfi_price);
                     $costumer_price = implode(',', $request->input('costumer'));
                     $costumer = explode(',', $costumer_price);
+                    
                     $primary = implode(',', $request->input('primary'));
                     $data_primary = explode(',', $primary);
                     $secondary = implode(',', $request->input('secondary'));
                     $data_secondary = explode(',', $secondary);
                     $tertiary = implode(',', $request->input('tertiary'));
                     $data_tertiary = explode(',', $tertiary);
-
-                    $eksis = implode(',', $request->input('data_eksis'));
-                    $data_eksis = explode(',', $eksis);
+    
                     $tersier1 = implode(',', $request->input('tersier'));
                     $data_tersier1 = explode(',', $tersier1);
                     $s_tersier1 = implode(',', $request->input('s_tersier'));
@@ -1024,38 +1005,31 @@ class pkpController extends Controller
                     $data_sekunder21 = explode(',', $sekunder21);
                     $s_sekunder21 = implode(',', $request->input('s_sekunder2'));
                     $data_s_sekunder21 = explode(',', $s_sekunder21);
-
                     for ($i = 0; $i < count($ids); $i++)
                     {
-                        if($request->data_eksis!=null){
-                            $kemas = new datakemas;
-                            $kemas->tersier= $data_tersier1[$i];
-                            $kemas->s_tersier= $data_s_tersier1[$i];
-                            $kemas->primer= $data_primer1[$i];
-                            $kemas->s_primer= $data_s_primer1[$i];
-                            $kemas->sekunder1= $data_sekunder11[$i];
-                            $kemas->s_sekunder1= $data_s_sekunder11[$i];
-                            $kemas->sekunder2= $data_sekunder21[$i];
-                            $kemas->s_sekunder2= $data_s_sekunder21[$i];
-                            $kemas->save();
-                        }
-
+                        $kemas = new datakemas;
+                        $kemas->tersier= $data_tersier1[$i];
+                        $kemas->s_tersier= $data_s_tersier1[$i];
+                        $kemas->primer= $data_primer1[$i];
+                        $kemas->s_primer= $data_s_primer1[$i];
+                        $kemas->sekunder1= $data_sekunder11[$i];
+                        $kemas->s_sekunder1= $data_s_sekunder11[$i];
+                        $kemas->sekunder2= $data_sekunder21[$i];
+                        $kemas->s_sekunder2= $data_s_sekunder21[$i];
+                        $kemas->save();
+    
                         $forecash = new data_forecast;
                         $forecash->id_pkp=$request->id;
                         $forecash->turunan='0';
                         $forecash->satuan = $idb[$i];
                         $forecash->forecast = $ids[$i];
-                        if($request->data_eksis!=null){
                         $forecash->kemas_eksis = $kemas->id_kemas;
-                        }else{
-                            $forecash->kemas_eksis = $data_eksis[$i];
-                        }
                         $forecash->uom = $Duom[$i];
                         $forecash->nfi_price = $nfi[$i];
                         $forecash->costumer = $costumer[$i];
                         $forecash->informasi_Primary = $data_primary[$i];
                         $forecash->Secondary = $data_secondary[$i];
-                        $forecash->Tertiary = $data_tertiary[$i];
+                        $forecash->Tertiary	 = $data_tertiary[$i];
                         $forecash->save();
                         $i = $i++;
                     }
@@ -1199,6 +1173,8 @@ class pkpController extends Controller
     }
 
     public function edit(Request $request, $id_project){
+        $turunan = tipp::where('id_pkp',$id_project)->max('turunan');
+        $revisi =tipp::where('id_pkp',$id_project)->max('revisi');
 
         $data = pkp_project::where('id_project',$id_project)->first();
         $data->prioritas=$request->prioritas;
@@ -1218,10 +1194,12 @@ class pkpController extends Controller
         ]);
 
         $isipkp = tipp::where('id_pkp',$id_project)->where('status_data','=','active')->get();
+        $for = data_forecast::where('id_pkp',$id_project)->where('revisi',$revisi)->where('turunan',$turunan)->get();
         try{
             Mail::send('manager.infoemailpkp', [
                 'nama'=>$request->email,
                 'app'=>$isipkp,
+                'for'=>$for,
                 'info' => 'Anda Memiliki Project PKP Baru :)',
                 'jangka' => $request->jangka,
                 'waktu' => $request->waktu,],function($message)use($request)
@@ -1274,6 +1252,9 @@ class pkpController extends Controller
     }
 
     public function sentpkp(Request $request, $id_project,$revisi,$turunan){
+        $turunan = tipp::where('id_pkp',$id_project)->max('turunan');
+        $revisi =tipp::where('id_pkp',$id_project)->max('revisi');
+
         $data = pkp_project::where('id_project',$id_project)->first();
         $data->prioritas=$request->prioritas;
         $data->pkp_number=$request->nopkp;
@@ -1297,10 +1278,12 @@ class pkpController extends Controller
         }
         
         $isipkp = tipp::where('id_pkp',$id_project)->where('status_data','=','active')->get();
+        $for = data_forecast::where('id_pkp',$id_project)->where('revisi',$revisi)->where('turunan',$turunan)->get();
         try{
             Mail::send('manager.infoemailpkp', [
                 'nama'=>$request->email,
                 'app'=>$isipkp,
+                'for' => $for,
                 'info' => 'Project Telah Selesai Di Revisi :)',
                 'jangka' => $request->jangka,
                 'waktu' => $request->waktu,],function($message)use($request)
@@ -1354,6 +1337,10 @@ class pkpController extends Controller
     }
 
     public function edituser(Request $request, $id_project){
+        
+        $turunan = tipp::where('id_pkp',$id_project)->max('turunan');
+        $revisi =tipp::where('id_pkp',$id_project)->max('revisi');
+        
         $edit = pkp_project::where('id_project',$id_project)->first();
         $edit->userpenerima=$request->user;
         $edit->userpenerima2=$request->user2;
@@ -1361,10 +1348,12 @@ class pkpController extends Controller
         $edit->save();
 
         $isipkp = tipp::where('id_pkp',$id_project)->where('status_data','=','active')->get();
+        $for = data_forecast::where('id_pkp',$id_project)->where('revisi',$revisi)->where('turunan',$turunan)->get();
         try{
             Mail::send('manager.infoemailpkp', [
                 'nama'=>$request->email,
                 'app'=>$isipkp,
+                'for' => $for,
                 'info' => 'Anda memiliki project PKP baru',
                 'jangka' => $request->jangka,
                 'waktu' => $request->waktu,

@@ -90,6 +90,7 @@ class Step2Controller extends Controller
                 $premix = $premix + 1;  
                 // dd($scalecollect);        
                 } 
+                
         }
 
         // Check Total Serving

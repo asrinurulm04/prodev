@@ -270,16 +270,6 @@
                   @endif
                 @endif
               @endif
-              @if(auth()->user()->role->namaRule === 'user_produk')
-              <a href="{{route('showworkbook',$pkp->id)}}"></a>
-              @endif
-              @if(auth()->user()->role->namaRule === 'user_produk')
-                @if($formula==0)
-                <a href="{{route('showworkbook',$pkp->id_pkp)}}" class="btn btn-success btn-sm"><li class=" fa fa-plus"></li> Workbook</a>
-                @else
-                <a href="{{route('showworkbook',$pkp->id_pkp)}}" class="btn btn-success btn-sm"><li class=" fa fa-book"></li> Show Workbook</a>
-                @endif
-              @endif
               <a class="btn btn-warning btn-sm" onclick="return confirm('Print this data PKP ?')" href="{{ Route('download',['id_pkp' => $pkp->id_pkp, 'revisi' => $pkp->revisi, 'turunan' => $pkp->turunan]) }}"><i class="fa fa-print"></i> Download/print PKP</a>
 					</div><br><br>
           <div  class="tab-content panel ">
@@ -402,15 +392,39 @@
                               </tr>
                             </thead>
                             <tbody>
-                            @foreach($for as $for)
+                              @foreach($for as $for)
                               <tr>
-                                <td>{{$for->forecast}}={{$for->satuan}}</td>
-                                <td></td>
+                                <td>{{$for->satuan}} = {{$for->forecast}}</td>
+                                <td>
+                                @if($for->kemas_eksis!=NULL)
+                                (
+                                @if($for->kemas->tersier!=NULL)
+                                {{ $for->kemas->tersier }}{{ $for->kemas->s_tersier }}
+                                @elseif($for->tersier==NULL)
+                                @endif
+
+                                @if($for->kemas->sekunder1!=NULL)
+                                X {{ $for->kemas->sekunder1 }}{{ $for->kemas->s_sekunder1}}
+                                @elseif($for->kemas->sekunder1==NULL)
+                                @endif
+
+                                @if($for->kemas->sekunder2!=NULL)
+                                X {{ $for->kemas->sekunder2 }}{{ $for->kemas->s_sekunder2 }}
+                                @elseif($for->sekunder2==NULL)
+                                @endif
+
+                                @if($for->kemas->primer!=NULL)
+                                X{{ $for->kemas->primer }}{{ $for->kemas->s_primer }}
+                                @elseif($for->kemas->primer==NULL)
+                                @endif
+                                )
+                                @endif
+                                </td>
                                 <td>{{$for->uom}}</td>
                                 <td>{{$for->nfi_price}}</td>
-                                <th>{{$for->costumer}}</th>
+                                <td>{{$for->costumer}}</td>
                               </tr>
-                            @endforeach
+                              @endforeach
                             </tbody>
                           </table>
                         </td>
@@ -636,15 +650,39 @@
                               </tr>
                             </thead>
                             <tbody>
-                            @foreach($for as $for)
+                              @foreach($for as $for)
                               <tr>
-                                <td>{{$for->forecast}}={{$for->satuan}}</td>
-                                <td></td>
+                                <td>{{$for->satuan}} = {{$for->forecast}}</td>
+                                <td>
+                                @if($for->kemas_eksis!=NULL)
+                                (
+                                @if($for->kemas->tersier!=NULL)
+                                {{ $for->kemas->tersier }}{{ $for->kemas->s_tersier }}
+                                @elseif($for->tersier==NULL)
+                                @endif
+
+                                @if($for->kemas->sekunder1!=NULL)
+                                X {{ $for->kemas->sekunder1 }}{{ $for->kemas->s_sekunder1}}
+                                @elseif($for->kemas->sekunder1==NULL)
+                                @endif
+
+                                @if($for->kemas->sekunder2!=NULL)
+                                X {{ $for->kemas->sekunder2 }}{{ $for->kemas->s_sekunder2 }}
+                                @elseif($for->sekunder2==NULL)
+                                @endif
+
+                                @if($for->kemas->primer!=NULL)
+                                X{{ $for->kemas->primer }}{{ $for->kemas->s_primer }}
+                                @elseif($for->kemas->primer==NULL)
+                                @endif
+                                )
+                                @endif
+                                </td>
                                 <td>{{$for->uom}}</td>
                                 <td>{{$for->nfi_price}}</td>
-                                <th>{{$for->costumer}}</th>
+                                <td>{{$for->costumer}}</td>
                               </tr>
-                            @endforeach
+                              @endforeach
                             </tbody>
                           </table>
                         </td>

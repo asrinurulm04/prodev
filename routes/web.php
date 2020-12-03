@@ -207,8 +207,6 @@ Route::get('getdetail/{id}','ajax\getGet@getdetailklaim')->name('getdetail');
 Route::get('getbahan/{id}','ajax\getGet@getbahan')->name('getbahan');
 
 Route::get('reportnotulen','pv\pkp2Controller@reportnotulen')->name('reportnotulen');
-Route::get('approvesamplepkp/{id}','pv\pkpController@approvesamplepkp')->name('approvesamplepkp');
-Route::post('rejectsamplepkp/{id}','pv\pkpController@rejectsamplepkp')->name('rejectsamplepkp');
 Route::get('finalsamplepkp/{id}/{sample}','pv\pkpController@finalsamplepkp')->name('finalsamplepkp');
 Route::get('unfinalsamplepkp/{id}/{sample}','pv\pkpController@unfinalsamplepkp')->name('unfinalsamplepkp');
 Route::post('closeproject/{id}','pv\pkpController@closeproject')->name('closeproject');
@@ -252,8 +250,6 @@ Route::post('TMubah/{id}','pv\promoController@TMubah')->name('TMubah');
 Route::post('infogambarpromo','pv\promoController@infogambarpromo')->name('infogambarpromo');
 Route::post('freezepromo/{id}','pv\promoController@freeze')->name('freezepromo');
 
-Route::get('approvesamplepromo/{id}','pv\promoController@approvesamplepromo')->name('approvesamplepromo');
-Route::post('rejectsamplepromo/{id}','pv\promoController@rejectsamplepromo')->name('rejectsamplepromo');
 Route::get('finalsamplepromo/{id}/{sample}','pv\promoController@finalsamplepromo')->name('finalsamplepromo');
 Route::get('unfinalsamplepromo/{id}/{sample}','pv\promoController@unfinalsamplepromo')->name('unfinalsamplepromo');
 
@@ -300,8 +296,6 @@ Route::get('formpdf','pv\pdfController@formpdf')->name('formpdf');
 Route::get('lihatpdf/{id_project_pdf}/{revisi}/{turunan}','pv\pdfController@lihatpdf')->name('lihatpdf');
 Route::post('pos','pv\pdfController@coba')->name('pos');
 
-Route::get('approvesamplepdf/{id}','pv\pdfController@approvesamplepdf')->name('approvesamplepdf');
-Route::post('rejectsamplepdf/{id}','pv\pdfController@rejectsamplepdf')->name('rejectsamplepdf');
 Route::get('finalsamplepdf/{id}/{sample}','pv\pdfController@finalsamplepdf')->name('finalsamplepdf');
 Route::get('unfinalsamplepdf/{id}/{sample}','pv\pdfController@unfinalsamplepdf')->name('unfinalsamplepdf');
 

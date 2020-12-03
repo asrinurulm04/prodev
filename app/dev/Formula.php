@@ -9,7 +9,7 @@ class Formula extends Model
     protected $table = 'formulas';
 
     public function Workbook(){
-        return $this->belongsTo('App\pkp\tipp');
+        return $this->belongsTo('App\pkp\tipp','workbook_id','id_pkp');
     }
 
     public function Fortail(){

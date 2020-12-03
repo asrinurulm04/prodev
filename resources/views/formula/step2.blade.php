@@ -574,7 +574,7 @@
         <form class="form-horizontal form-label-left" method="POST" action="{{ route('updatenote',[$formula->id,$formula->workbook_id]) }}">
         <div class="row">
           <div class="form-group">
-            <label class="control-label col-md-1 col-sm-1 col-xs-12">Note RD</label>
+            <label class="control-label col-md-1 col-sm-1 col-xs-12">Note RD <br><font style="color:red;font-size:11px">* max 200 character</font></label>
             <div class="col-md-4 col-sm-4 col-xs-12">
               <textarea name="keterangan" id="keterangan" value="{{ $formula->catatan_rd }}" maxlength="200" placeholder="max 200 character" class="col-md-12 col-sm-12 col-xs-12" rows="5">{{ $formula->catatan_rd }}</textarea>
             </div>

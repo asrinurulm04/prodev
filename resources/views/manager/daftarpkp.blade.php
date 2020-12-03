@@ -249,8 +249,8 @@
                   <th class="text-center" width="10%">Category Formula</th>  
                   <th class="text-center">Formula</th>
                   <th class="text-center">Status Sample</th>
-                  <th class="text-center">Note RD</th>
-                  <th class="text-center">Note PV</th>
+                  <th class="text-center" width="20%">Note RD</th>
+                  <th class="text-center" width="20%">Note PV</th>
                   <th class="text-center" width="16%">Action</th>
                 </tr>
               </thead> 
