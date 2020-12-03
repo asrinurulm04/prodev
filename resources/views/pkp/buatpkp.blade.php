@@ -309,19 +309,19 @@
                     <div class='form-group'>
                       <label class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>Primary</label>
                       <div class='col-md-10 col-sm-10 col-xs-12'>
-                        <input name="primary" class="col-md-8 col-sm-3 col-xs-12 form-control" id="" value="{{$pkp->primery}}"></textarea>
+                        <input name="primary" class="col-md-8 col-sm-3 col-xs-12 form-control" id="" value="{{$for->informasi_Primary}}"></textarea>
                       </div>
                     </div>
                     <div class='form-group'>
                       <label class='control-label col-md-2 col-sm-3 col-xs-12' for='last-name'>Secondary</label>
                       <div class='col-md-10 col-sm-10 col-xs-12'>
-                        <input name="secondary" class="col-md-8 col-sm-3 col-xs-12 form-control" id="" value="{{$pkp->secondary}}"></textarea>
+                        <input name="secondary" class="col-md-8 col-sm-3 col-xs-12 form-control" id="" value="{{$for->Secondary}}"></textarea>
                       </div>
                     </div>
                     <div class='form-group'>
                       <label for='middle-name' class='control-label col-md-2 col-sm-3 col-xs-12'>Tertiary </label>
                       <div class='col-md-10 col-sm-10 col-xs-12'>
-                        <input name="tertiary" class="col-md-8 col-sm-3 col-xs-12 form-control" id="" value="{{$pkp->tertiary}}"></textarea>
+                        <input name="tertiary" class="col-md-8 col-sm-3 col-xs-12 form-control" id="" value="{{$for->Tertiary}}"></textarea>
                       </div>
                     </div>
                     <div class='ln_solid'></div>
@@ -780,6 +780,67 @@
       datauom += '<option value="'+data_uom[i][i]+'">'+data_uom[i][i]+'</option>';
   }
 
+  var idkemas = []
+  <?php foreach($kemas as $key => $value) { ?>
+  if(!idkemas){
+    idkemas += [ { '<?php echo $key; ?>' : '<?php echo $value->id_kemas; ?>', } ];
+  } else { idkemas.push({ '<?php echo $key; ?>' : '<?php echo $value->id_kemas; ?>', }) }
+  <?php } ?>
+
+  var kemas = []
+  <?php foreach($kemas as $key => $value) { ?>
+  if(!kemas){
+    kemas += [ { '<?php echo $key; ?>' : '<?php echo $value->primer; ?>', } ];
+  } else { kemas.push({ '<?php echo $key; ?>' : '<?php echo $value->primer; ?>', }) }
+  <?php } ?>
+  var kemas1 = []
+  <?php foreach($kemas as $key => $value) { ?>
+  if(!kemas1){
+    kemas1 += [ { '<?php echo $key; ?>' : '<?php echo $value->s_primer; ?>', } ];
+  } else { kemas1.push({ '<?php echo $key; ?>' : '<?php echo $value->s_primer; ?>', }) }
+  <?php } ?>
+  var kemas2 = []
+  <?php foreach($kemas as $key => $value) { ?>
+  if(!kemas2){
+    kemas2 += [ { '<?php echo $key; ?>' : '<?php echo $value->sekunder1; ?>', } ];
+  } else { kemas2.push({ '<?php echo $key; ?>' : '<?php echo $value->sekunder1; ?>', }) }
+  <?php } ?>
+  var kemas3 = []
+  <?php foreach($kemas as $key => $value) { ?>
+  if(!kemas3){
+    kemas3 += [ { '<?php echo $key; ?>' : '<?php echo $value->s_sekunder1; ?>', } ];
+  } else { kemas3.push({ '<?php echo $key; ?>' : '<?php echo $value->s_sekunder1; ?>', }) }
+  <?php } ?>
+  var kemas4 = []
+  <?php foreach($kemas as $key => $value) { ?>
+  if(!kemas4){
+    kemas4 += [ { '<?php echo $key; ?>' : '<?php echo $value->sekunder2; ?>', } ];
+  } else { kemas4.push({ '<?php echo $key; ?>' : '<?php echo $value->sekunder2; ?>', }) }
+  <?php } ?>
+  var kemas5 = []
+  <?php foreach($kemas as $key => $value) { ?>
+  if(!kemas5){
+    kemas5 += [ { '<?php echo $key; ?>' : '<?php echo $value->s_sekunder2; ?>', } ];
+  } else { kemas5.push({ '<?php echo $key; ?>' : '<?php echo $value->s_sekunder2; ?>', }) }
+  <?php } ?>
+  var kemas6 = []
+  <?php foreach($kemas as $key => $value) { ?>
+  if(!kemas6){
+    kemas6 += [ { '<?php echo $key; ?>' : '<?php echo $value->tersier; ?>', } ];
+  } else { kemas6.push({ '<?php echo $key; ?>' : '<?php echo $value->tersier; ?>', }) }
+  <?php } ?>
+  var kemas7 = []
+  <?php foreach($kemas as $key => $value) { ?>
+  if(!kemas7){
+    kemas7 += [ { '<?php echo $key; ?>' : '<?php echo $value->s_tersier; ?>', } ];
+  } else { kemas7.push({ '<?php echo $key; ?>' : '<?php echo $value->s_tersier; ?>', }) }
+  <?php } ?>
+
+  var kemaseksis = '';
+  for(var i = 0; i < Object.keys(kemas).length; i++){
+  kemaseksis += '<option value="'+idkemas[i][i]+'">'+kemas[i][i]+''+kemas1[i][i]+' '+kemas2[i][i]+''+kemas3[i][i]+' '+kemas4[i][i]+''+kemas5[i][i]+' '+kemas6[i][i]+''+kemas7[i][i]+'</option>';
+  }
+
   var i = 1;
   $("#add_data").click(function() {
     $('#addrow' + i).html( 
@@ -796,6 +857,7 @@
       '<input type="radio" name="gramasi'+(i+1)+'[]" required id="rad'+(i+1)+'" value="pertama'+(i+1)+'" class="rad"/> 2 Dimensi &nbsp'+
       '<input type="radio" name="gramasi'+(i+1)+'[]" required id="rad'+(i+1)+'" value="kedua'+(i+1)+'" class="rad"/> 3 Dimensi &nbsp'+
       '<input type="radio" name="gramasi'+(i+1)+'[]" required id="rad'+(i+1)+'" value="ketiga'+(i+1)+'" class="rad"/> 4 Dimensi &nbsp'+
+      '<input type="radio" name="gramasi'+(i+1)+'[]" required id="rad'+(i+1)+'" value="eksis'+(i+1)+'" class="rad"/> konfigurasi eksis &nbsp'+
 			"<div id='tampil"+(i+1)+"'></div>"+
     "<td>"+
       "<select name='uom[]' id='UOM' class='form-control'>"+datauom+"</select>"+
@@ -818,10 +880,9 @@
               "<tr hidden>"+
                 "<td><input name='sekunder1[]' id='sekunder1' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'></td>"+
                 "<td><input name='s_sekunder1[]' id='s_sekunder1' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'></td>"+
-              "</tr>"+
-              "<tr hidden>"+
                 "<td><input name='sekunder2[]' id='sekunder2' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'>"+
                 "<td><input name='s_sekunder2[]' id='s_sekunder2' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'>"+
+                "<td><input name='data_eksis[]' id='data_eksis[]' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'>"+
               "</tr>"+
               "<tr>"+
                 "<td><input name='primer[]' id='primer' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'></td>"+
@@ -835,19 +896,19 @@
             "<div class='form-group'>"+
               "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>Primary</label>"+
               "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-                "<textarea name='primary' id='primary' class='col-md-12 col-sm-12 col-xs-12'></textarea>"+
+                "<input name='primary[]' id='primary' class='form-control col-md-12 col-xs-12' type='text'>"+
               "</div>"+
             "</div>"+
             "<div class='form-group'>"+
               "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='last-name'>Secondary</label>"+
               "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-                "<textarea name='secondary' id='secondary' class='col-md-12 col-sm-12 col-xs-12'></textarea>"+
+                "<input name='secondary[]' id='secondary' class='form-control col-md-12 col-xs-12' type='text'>"+
               "</div>"+
             "</div>"+
             "<div class='form-group'>"+
               "<label for='middle-name' class='control-label col-md-2 col-sm-3 col-xs-12'>Tertiary </label>"+
               "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-                "<textarea name='tertiary' id='tertiary' class='col-md-12 col-sm-12 col-xs-12'></textarea>"+
+                "<input name='tertiary[]' id='tertiary' class='form-control col-md-12 col-xs-12' type='text'>"+
               "</div>"+
             "</div>"+
             "<div class='ln_solid'></div>"
@@ -871,6 +932,7 @@
               "<tr hidden>"+
                 "<td><input name='sekunder2[]' id='sekunder2' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'>"+
                 "<td><input name='s_sekunder2[]' id='s_sekunder2' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'>"+
+                "<td><input name='data_eksis[]' id='data_eksis[]' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'>"+
               "</tr>"+
               "<tr>"+
                 "<td><input name='primer[]' id='primer' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'></td>"+
@@ -884,19 +946,19 @@
             "<div class='form-group'>"+
               "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>Primary</label>"+
               "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-                "<textarea name='primary' id='primary' class='col-md-12 col-sm-12 col-xs-12'></textarea>"+
+                "<input name='primary[]' id='primary' class='form-control col-md-12 col-xs-12' type='text'>"+
               "</div>"+
             "</div>"+
             "<div class='form-group'>"+
               "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='last-name'>Secondary</label>"+
               "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-                "<textarea name='secondary' id='secondary' class='col-md-12 col-sm-12 col-xs-12'></textarea>"+
+                "<input name='secondary[]' id='secondary' class='form-control col-md-12 col-xs-12' type='text'>"+
               "</div>"+
             "</div>"+
             "<div class='form-group'>"+
               "<label for='middle-name' class='control-label col-md-2 col-sm-3 col-xs-12'>Tertiary </label>"+
               "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-                "<textarea name='tertiary' id='tertiary' class='col-md-12 col-sm-12 col-xs-12'></textarea>"+
+                "<input name='tertiary[]' id='tertiary' class='form-control col-md-12 col-xs-12' type='text'>"+
               "</div>"+
             "</div>"+
             "<div class='ln_solid'></div>"
@@ -913,6 +975,7 @@
               "</tr>"+
               "<tr>"+
                 "<td><input name='sekunder1[]' id='sekunder1' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number' required></td>"+
+                "<td><input name='data_eksis[]' id='data_eksis[]' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='hidden'>"+
                 "<td>"+
                   "<select class='form-control' name='s_sekunder1[]' required>"+pilihan_uom+"</select>"+
                 "</td>"+
@@ -935,22 +998,61 @@
             "<div class='form-group'>"+
               "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>Primary</label>"+
               "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-                "<textarea name='primary' id='primary' class='col-md-12 col-sm-12 col-xs-12'></textarea>"+
+                "<input name='primary[]' id='primary' class='form-control col-md-12 col-xs-12' type='text'>"+
               "</div>"+
             "</div>"+
             "<div class='form-group'>"+
               "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='last-name'>Secondary</label>"+
               "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-                "<textarea name='secondary' id='secondary' class='col-md-12 col-sm-12 col-xs-12'></textarea>"+
+                "<input name='secondary[]' id='secondary' class='form-control col-md-12 col-xs-12' type='text'>"+
               "</div>"+
             "</div>"+
             "<div class='form-group'>"+
               "<label for='middle-name' class='control-label col-md-2 col-sm-3 col-xs-12'>Tertiary </label>"+
               "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-                "<textarea name='tertiary' id='tertiary' class='col-md-12 col-sm-12 col-xs-12'></textarea>"+
+                "<input name='tertiary[]' id='tertiary' class='form-control col-md-12 col-xs-12' type='text'>"+
               "</div>"+
             "</div>"+
             "<div class='ln_solid'></div>"
+					}
+
+          if($(this).val() == "eksis"+i){
+						document.getElementById('tampil'+i).innerHTML =
+            "<hr><label class='control-label col-md-3 col-sm-3 col-xs-12' for='first-name'>Configuration</label>"+
+            "<div class='col-md-9 col-sm-10 col-xs-12'>"+
+              '<select name="data_eksis[]" class="form-control" id="eksis" >'+
+                '<option value="" readonly selected>-->Select One<--</option>'+
+                kemaseksis+
+              '</select>'+
+            "</div><br>"+
+            "<input name='tersier[]' id='tersier' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='hidden' >"+
+            "<input name='s_tersier[]' id='s_tersier' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='hidden'>"+
+            "<input name='sekunder1[]' id='sekunder1' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='hidden'>"+
+            "<input name='s_sekunder1[]' id='s_sekunder1' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='hidden'>"+
+            "<input name='sekunder2[]' id='sekunder2' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='hidden'>"+
+            "<input name='s_sekunder2[]' id='s_sekunder2' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='hidden'>"+
+            "<input name='primer[]' id='primer' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='hidden'>"+
+            "<input name='s_primer[]' id='s_primer' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='hidden'>"+
+            "<h4><b><lable class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>*Information</lable></b></h4>"+
+            "<br><br>"+
+            "<div class='form-group'>"+
+              "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>Primary</label>"+
+              "<div class='col-md-10 col-sm-10 col-xs-12'>"+
+                "<input name='primary[]' id='primary' class='form-control col-md-12 col-xs-12' type='text'>"+
+              "</div>"+
+            "</div>"+
+            "<div class='form-group'>"+
+              "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='last-name'>Secondary</label>"+
+              "<div class='col-md-10 col-sm-10 col-xs-12'>"+
+                "<input name='secondary[]' id='secondary' class='form-control col-md-12 col-xs-12' type='text'>"+
+              "</div>"+
+            "</div>"+
+            "<div class='form-group'>"+
+              "<label for='middle-name' class='control-label col-md-2 col-sm-3 col-xs-12'>Tertiary </label>"+
+              "<div class='col-md-10 col-sm-10 col-xs-12'>"+
+                "<input name='tertiary[]' id='tertiary' class='form-control col-md-12 col-xs-12' type='text'>"+
+              "</div>"+
+            "</div>"
 					}
 				});
 			});
@@ -958,157 +1060,6 @@
     $('#tabledata').append('<tr id="addrow' + (i + 1) + '"></tr>');
     i++;
   });
-
-  $(function(){
-				$(":radio.rad").click(function(){
-					if($(this).val() == "pertama1"){
-						document.getElementById('tampil1').innerHTML =
-            "<table class='table'>"+
-              "<tr>"+
-                "<td><input name='tersier[]' id='tersier' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number' ></td>"+
-                "<td>"+
-                  "<select class='form-control' name='s_tersier[]' required>"+pilihan_uom+"</select>"+
-                "</td>"+
-              "</tr>"+
-              "<tr hidden>"+
-                "<td><input name='sekunder1[]' id='sekunder1' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'></td>"+
-                "<td><input name='s_sekunder1[]' id='s_sekunder1' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'></td>"+
-              "</tr>"+
-              "<tr hidden>"+
-                "<td><input name='sekunder2[]' id='sekunder2' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'>"+
-                "<td><input name='s_sekunder2[]' id='s_sekunder2' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'>"+
-              "</tr>"+
-              "<tr>"+
-                "<td><input name='primer[]' id='primer' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'></td>"+
-                "<td>"+
-                  "<select class='form-control' name='s_primer[]'>"+pilihan_uom_primer+"</select>"+
-                "</td>"+
-              "</tr>"+
-            "</table>"+
-            "<h4><b><lable class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>*Information</lable></b></h4>"+
-            "<br><br>"+
-            "<div class='form-group'>"+
-              "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>Primary</label>"+
-              "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-                "<textarea name='primary' id='primary' class='col-md-12 col-sm-12 col-xs-12'></textarea>"+
-              "</div>"+
-            "</div>"+
-            "<div class='form-group'>"+
-              "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='last-name'>Secondary</label>"+
-              "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-                "<textarea name='secondary' id='secondary' class='col-md-12 col-sm-12 col-xs-12'></textarea>"+
-              "</div>"+
-            "</div>"+
-            "<div class='form-group'>"+
-              "<label for='middle-name' class='control-label col-md-2 col-sm-3 col-xs-12'>Tertiary </label>"+
-              "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-                "<textarea name='tertiary' id='tertiary' class='col-md-12 col-sm-12 col-xs-12'></textarea>"+
-              "</div>"+
-            "</div>"+
-            "<div class='ln_solid'></div>"
-					}
-
-          if($(this).val() == "kedua1"){
-						document.getElementById('tampil1').innerHTML =
-            "<table class='table'>"+
-              "<tr>"+
-                "<td><input name='tersier[]' id='tersier' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number' ></td>"+
-                "<td>"+
-                  "<select class='form-control' name='s_tersier[]' required>"+pilihan_uom+"</select>"+
-                "</td>"+
-              "</tr>"+
-              "<tr>"+
-                "<td><input name='sekunder1[]' id='sekunder1' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number' required></td>"+
-                "<td>"+
-                  "<select class='form-control' name='s_sekunder1[]' required>"+pilihan_uom+"</select>"+
-                "</td>"+
-              "</tr>"+
-              "<tr hidden>"+
-                "<td><input name='sekunder2[]' id='sekunder2' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'>"+
-                "<td><input name='s_sekunder2[]' id='s_sekunder2' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'>"+
-              "</tr>"+
-              "<tr>"+
-                "<td><input name='primer[]' id='primer' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'></td>"+
-                "<td>"+
-                  "<select class='form-control' name='s_primer[]'>"+pilihan_uom_primer+"</select>"+
-                "</td>"+
-              "</tr>"+
-            "</table>"+
-            "<h4><b><lable class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>*Information</lable></b></h4>"+
-            "<br><br>"+
-            "<div class='form-group'>"+
-              "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>Primary</label>"+
-              "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-                "<textarea name='primary' id='primary' class='col-md-12 col-sm-12 col-xs-12'></textarea>"+
-              "</div>"+
-            "</div>"+
-            "<div class='form-group'>"+
-              "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='last-name'>Secondary</label>"+
-              "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-                "<textarea name='secondary' id='secondary' class='col-md-12 col-sm-12 col-xs-12'></textarea>"+
-              "</div>"+
-            "</div>"+
-            "<div class='form-group'>"+
-              "<label for='middle-name' class='control-label col-md-2 col-sm-3 col-xs-12'>Tertiary </label>"+
-              "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-                "<textarea name='tertiary' id='tertiary' class='col-md-12 col-sm-12 col-xs-12'></textarea>"+
-              "</div>"+
-            "</div>"+
-            "<div class='ln_solid'></div>"
-					}
-
-          if($(this).val() == "ketiga1"){
-						document.getElementById('tampil1').innerHTML =
-            "<table class='table'>"+
-              "<tr>"+
-                "<td><input name='tersier[]' id='tersier' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number' ></td>"+
-                "<td>"+
-                  "<select class='form-control' name='s_tersier[]' required>"+pilihan_uom+"</select>"+
-                "</td>"+
-              "</tr>"+
-              "<tr>"+
-                "<td><input name='sekunder1[]' id='sekunder1' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number' required></td>"+
-                "<td>"+
-                  "<select class='form-control' name='s_sekunder1[]' required>"+pilihan_uom+"</select>"+
-                "</td>"+
-              "</tr>"+
-              "<tr>"+
-                "<td><input name='sekunder2[]' id='sekunder2' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number' required>"+
-                "<td>"+
-                  "<select class='form-control' name='s_sekunder2[]' required>"+pilihan_uom+"</select>"+
-                "</td>"+
-              "</tr>"+
-              "<tr>"+
-                "<td><input name='primer[]' id='primer' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'></td>"+
-                "<td>"+
-                  "<select class='form-control' name='s_primer[]'>"+pilihan_uom_primer+"</select>"+
-                "</td>"+
-              "</tr>"+
-            "</table>"+
-            "<h4><b><lable class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>*Information</lable></b></h4>"+
-            "<br><br>"+
-            "<div class='form-group'>"+
-              "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>Primary</label>"+
-              "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-                "<textarea name='primary' id='primary' class='col-md-12 col-sm-12 col-xs-12'></textarea>"+
-              "</div>"+
-            "</div>"+
-            "<div class='form-group'>"+
-              "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='last-name'>Secondary</label>"+
-              "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-                "<textarea name='secondary' id='secondary' class='col-md-12 col-sm-12 col-xs-12'></textarea>"+
-              "</div>"+
-            "</div>"+
-            "<div class='form-group'>"+
-              "<label for='middle-name' class='control-label col-md-2 col-sm-3 col-xs-12'>Tertiary </label>"+
-              "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-                "<textarea name='tertiary' id='tertiary' class='col-md-12 col-sm-12 col-xs-12'></textarea>"+
-              "</div>"+
-            "</div>"+
-            "<div class='ln_solid'></div>"
-					}
-				});
-			});
 </script>
 
 <script>

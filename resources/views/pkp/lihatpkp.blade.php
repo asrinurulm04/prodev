@@ -301,7 +301,8 @@
                     <div class="row">
                       <div class="col-sm-6">
                         <table ALIGN="left">
-                          <tr><th class="text-right">Revision Number</th> <th>: {{$pkp->revisi}}.{{$pkp->turunan}}</th></tr>
+                          <tr><th class="text-left">Revision Number</th> <th> : {{$pkp->revisi}}.{{$pkp->turunan}}</th></tr>
+                          <tr><th class="text-left">PKP Number</th> <th> : {{$pkp->pkp_number}}{{$pkp->ket_no}}</th></tr>
                         </table>
                       </div>
                       <div class="col-sm-6">
@@ -309,7 +310,8 @@
                           <tr><th class="text-right">Author </th><th>: {{$pkp->datapkpp->author1->name}}</th></tr>
                           <tr><th class="text-right">Created date</th> <th>: {{$pkp->created_date}}</th></tr>
                           <tr><th class="text-right">Last Upadate On</th> <th>: {{$pkp->last_update}}</th></tr>
-                          <tr><th class="text-right">Revised By</th><th>: @if($pkp->perevisi!=NULL) {{$pkp->perevisi2->name}} @endif</th></tr>
+                          <tr><th class="text-right">Last Sent</th> <th>: {{$pkp->datapkpp->tgl_kirim}}</th></tr>
+                          <tr><th class="text-right">Revised By</th><th>: @if($pkp->perevisi!=NULL) {{$pkp->perevisi2->name}}@endif</th></tr>
                         </table><br><br>
                       </div>
                     </div>
@@ -389,46 +391,28 @@
                       <tr>
                         <th>Sales Forecast</th>
                         <td colspan="2">
-                          @foreach($for as $fore)
-                          {{$fore->satuan}} = {{$fore->forecast}} <br>
-                          @endforeach
-                        <br><br>
-                        @if($pkp->remarks_forecash!='NULL')
-                        <?php $remarks_forecash = []; foreach ($for as $key => $data) If (!$remarks_forecash || !in_array($data->remarks_forecash, $remarks_forecash)) { $remarks_forecash += array( $key => $data->remarks_forecash ); 
-                        if($data->turunan!=$pkp->turunan){ echo"Remarks forecast: <s><font color='#6594c5'>$data->remarks_forecash<br></font></s>"; } if($data->turunan==$pkp->turunan){ echo"Remarks forecast: $data->remarks_forecash <br>";  } } ?></td>
-                        @endif
-                      </tr>
-											<tr>
-                        <th>NF Selling Price (Before ppn)</th>
-                        <td colspan="2">
-                          <table>
-                            <tr>
-                              <td>
-                                <?php $selling_price = []; foreach ($pkp1 as $key => $data) If (!$selling_price || !in_array($data->selling_price, $selling_price)) { $selling_price += array( $key => $data->selling_price ); 
-                                if($data->turunan!=$pkp->turunan){ echo" <s><font color='#6594c5'>$data->selling_price<br></font></s>"; } if($data->turunan==$pkp->turunan){ echo" $data->selling_price <br>"; } }  ?>
-                              </td>
-                            </tr>
+                          <table class="table table-bordered table-hover">
+                            <thead>
+                              <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
+                                <th>Forecash</th>
+                                <th>Configuration</th>
+                                <th>UOM</th>
+                                <th>NFI Price</th>
+                                <th>Costumer Price</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($for as $for)
+                              <tr>
+                                <td>{{$for->forecast}}={{$for->satuan}}</td>
+                                <td></td>
+                                <td>{{$for->uom}}</td>
+                                <td>{{$for->nfi_price}}</td>
+                                <th>{{$for->costumer}}</th>
+                              </tr>
+                            @endforeach
+                            </tbody>
                           </table>
-                        </td>
-											</tr>
-                      <tr>
-                        <th>Consumer price target</th>
-                        <td colspan="2">
-                          <table>
-                            <tr>
-                              <td>
-                                <?php $price = []; foreach ($pkp1 as $key => $data) If (!$price || !in_array($data->price, $price)) { $price += array( $key => $data->price ); 
-                                if($data->turunan!=$pkp->turunan){ echo" <s><font color='#6594c5'>$data->price<br></font></s>"; } if($data->turunan==$pkp->turunan){ echo" $data->price <br>"; } } ?>
-                              </td>
-                            </tr>
-                          </table>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th>UOM</th>
-                        <td colspan="2">
-                          <?php $UOM = []; foreach ($pkp1 as $key => $data) If (!$UOM || !in_array($data->UOM, $UOM)) { $UOM += array( $key => $data->UOM ); 
-                            if($data->turunan!=$pkp->turunan){ echo" <s><font color='#6594c5'>$data->UOM<br></font></s>"; } if($data->turunan==$pkp->turunan){ echo" $data->UOM <br>"; } } ?>
                         </td>
                       </tr>
                       <tr class="table-highlight">
@@ -639,16 +623,31 @@
                         if($data->revisi!=$pkp->revisi){ echo" <s><font color='#ffa2a2'>$data->aisle<br></font></s>"; } if($data->revisi==$pkp->revisi){ echo" $data->aisle<br>"; } } ?></td>
                       </tr>
                       <tr>
-                        <th>Sales Forecast </th>
-                        <td colspan="2">@foreach($for as $fore)
-                          {{$fore->satuan}} = {{$fore->forecast}} <br>
-                          @endforeach
-                          <br><br>
-                          @if($pkp->remarks_forecash!='NULL')
-                          <?php $remarks_forecash = []; foreach ($for as $key => $data) If (!$remarks_forecash || !in_array($data->remarks_forecash, $remarks_forecash)) { $remarks_forecash += array( $key => $data->remarks_forecash ); 
-                          if($data->revisi!=$pkp->revisi){ echo"Remarks forecast: <s><font color='#ffa2a2'>$data->remarks_forecash<br></font></s>"; } if($data->revisi==$pkp->revisi){ echo"Remarks forecast: $data->remarks_forecash <br>";  } } ?>
+                        <th>Sales Forecast</th>
+                        <td colspan="2">
+                          <table class="table table-bordered table-hover">
+                            <thead>
+                              <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
+                                <th>Forecash</th>
+                                <th>Configuration</th>
+                                <th>UOM</th>
+                                <th>NFI Price</th>
+                                <th>Costumer Price</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($for as $for)
+                              <tr>
+                                <td>{{$for->forecast}}={{$for->satuan}}</td>
+                                <td></td>
+                                <td>{{$for->uom}}</td>
+                                <td>{{$for->nfi_price}}</td>
+                                <th>{{$for->costumer}}</th>
+                              </tr>
+                            @endforeach
+                            </tbody>
+                          </table>
                         </td>
-                          @endif
                       </tr>
 											<tr>
                         <th>NF Selling Price (Before ppn)</th>

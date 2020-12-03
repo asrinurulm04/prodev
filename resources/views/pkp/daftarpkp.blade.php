@@ -12,11 +12,7 @@
       </div>
       <div class="col-md-7" align="right">
         @foreach($datapkp as $pkp)
-        @if($pkp->kemas_eksis!=NULL)
         <a class="btn btn-info btn-sm" href="{{ Route('lihatpkp',['id_pkp' => $pkp->id_pkp,'revisi' => $pkp->revisi, 'turunan' => $pkp->turunan]) }}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i> Show</a>
-        @elseif($pkp->kemas_eksis==NULL)
-        <a class="btn btn-info btn-sm" disabled data-toggle="tooltip" title="Please complete the data, to see the final data"><i class="fa fa-folder-open"></i> Show</a>
-        @endif
 
         @if($pkp->status_pkp=='revisi' || $pkp->status_pkp=='draf')
           @if($pkp->status_data=='active')
