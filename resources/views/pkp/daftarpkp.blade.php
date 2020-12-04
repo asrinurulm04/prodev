@@ -368,8 +368,8 @@
                       </div>
                       <!-- Modal Selesai -->
                   @elseif($for->vv=='approve')
-                    <a href="{{route('finalsample',$for->id)}}" class="btn btn-primary btn-sm" title="Ajukan FS"><li class="fa fa-paper-plane"></li></a>
-                      <a href="{{route('finalsample',$for->id)}}" class="btn btn-success btn-sm" title="Final Approva"><li class="fa fa-tag"></li></a>
+                    <a href="" class="btn btn-primary btn-sm" title="Ajukan FS"><li class="fa fa-paper-plane"></li></a>
+                      <a href="{{route('finalsample',$for->id)}}" class="btn btn-success btn-sm" title="Final Approval"><li class="fa fa-tag"></li></a>
                     @if($for->status_fisibility=='not_approved')
                       @if($hasilpanel>=1)
                       <a href="{{route('finalsample',$for->id)}}" class="btn btn-success btn-sm" title="Final Approva"><li class="fa fa-tag"></li></a>

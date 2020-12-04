@@ -687,15 +687,6 @@
                           </table>
                         </td>
                       </tr>
-											<tr>
-                        <th>NF Selling Price (Before ppn)</th>
-                        <td colspan="2"><?php $selling_price = []; foreach ($pkp2 as $key => $data) If (!$selling_price || !in_array($data->selling_price, $selling_price)) { $selling_price += array( $key => $data->selling_price ); 
-                        if($data->revisi!=$pkp->revisi){ echo" <s><font color='#ffa2a2'>$data->selling_price<br></font></s>"; } if($data->revisi==$pkp->revisi){ echo" $data->selling_price <br>"; } }  ?></td>
-											</tr>
-                        <th>Consumer price target</th>
-                        <td colspan="2"><?php $price = []; foreach ($pkp2 as $key => $data) If (!$price || !in_array($data->price, $price)) { $price += array( $key => $data->price ); 
-                        if($data->revisi!=$pkp->revisi){ echo" <s><font color='#ffa2a2'>$data->price<br></font></s>"; } if($data->revisi==$pkp->revisi){ echo" $data->price <br>"; } } ?></td>
-											</tr>
                       <tr class="table-highlight">
                         <th>Main Competitor</th>
                         <td colspan="2"><?php $competitor = []; foreach ($pkp2 as $key => $data) If (!$competitor || !in_array($data->competitor, $competitor)) {$competitor += array( $key => $data->competitor ); 
@@ -705,11 +696,6 @@
                         <th>Competitive Analysis</th>
                         <td colspan="2"><?php $competitive = []; foreach ($pkp2 as $key => $data) If (!$competitive || !in_array($data->competitive, $competitive)) { $competitive += array( $key => $data->competitive ); 
                         if($data->revisi!=$pkp->revisi){ echo" <s><font color='#ffa2a2'>$data->competitive <br></font></s>"; } if($data->revisi==$pkp->revisi){ echo" $data->competitive <br>"; } }  ?></td>
-                      </tr>
-                      <tr class="table-highlight">
-                        <th>UOM</th>
-                        <td colspan="2"><?php $uom = []; foreach ($pkp2 as $key => $data) If (!$uom || !in_array($data->UOM, $uom)) { $uom += array( $key => $data->UOM ); 
-                        if($data->revisi!=$pkp->revisi){ echo "<s><font color='#ffa2a2'>".$data->UOM."<br></font></s>"; } if($data->revisi==$pkp->revisi){ echo"". $data->UOM."<br>"; } }  ?></td>
                       </tr>
                       <tr>
                         <th colspan="3" class="text-center"><span style="font-weight: bold;font-size: 20px;" class="card-title">Product features</span></th>

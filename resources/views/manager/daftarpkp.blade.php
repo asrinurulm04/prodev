@@ -244,7 +244,7 @@
             <table class="Table table-striped table-bordered">
               <thead>
                 <tr style="font-weight: bold;color:white;background-color: #2a3f54;">     
-                  <th class="text-center" width="3%">#</th>                                  
+                  <th class="text-center" width="3%">No</th>                                  
                   <th class="text-center" width="5%">Versi</th>
                   <th class="text-center" width="10%">Category Formula</th>  
                   <th class="text-center">Formula</th>

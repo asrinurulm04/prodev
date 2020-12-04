@@ -206,9 +206,9 @@
             </td>
             <td class="text-center">
               @if($pkp->status_project=='proses')
-              @if($pkp->workbook>0)
+              @if($pkp->workbook==0)
               <a class="btn btn-info btn-sm" href="{{ Route('rekappkp',$pkp->id_project) }}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
-              @elseif($pkp->workbook==0)
+              @elseif($pkp->workbook>0)
               <a class="btn btn-primary btn-sm" href="{{ Route('rekappkp',$pkp->id_project) }}" data-toggle="tooltip" title="Workbook"><i class="fa fa-book"></i></a>
               @endif
               @elseif($pkp->status_project=='close')
