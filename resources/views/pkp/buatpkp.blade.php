@@ -557,8 +557,9 @@
       @endif
       @endforeach
       <div class="col-md-6 col-md-offset-5">
-        <button type="reset" class="btn btn-warning btn-sm">Reset</button>
-        <button type="submit" class="btn btn-primary btn-sm">Submit And Next</button>
+        <a type="button" href="{{route('rekappkp',$pkp->id_pkp)}}" class="btn btn-danger btn-sm"><li class="fa fa-ban"></li> Cencel</a>
+        <button type="reset" class="btn btn-warning btn-sm"><li class="fa fa-repeat"></li> Reset</button>
+        <button type="submit" class="btn btn-primary btn-sm"><li class="fa fa-check"></li> Save And Next</button>
         {{ csrf_field() }}
       </div>
     </div>

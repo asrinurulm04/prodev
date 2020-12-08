@@ -14,7 +14,7 @@
   @if(auth()->user()->role->namaRule == 'pv_lokal')
   <div class="col-md-4 col-sm-4 col-xs-12">
     <div class="x_panel ">
-    <a href="{{Route('formpkp')}}" type="button">
+    <a href="{{Route('formpkp')}}">
       <div class="tile-stats">
         <div class="icon"><i class="fa fa-file"></i></div>
         <div class="count">{{$pkp1}}</div>
@@ -24,7 +24,7 @@
     </div>
   </a>
   </div>  
-  <a href="{{Route('promo')}}" type="button">
+  <a href="{{Route('promo')}}">
   <div class="col-md-4 col-sm-4 col-xs-12">
     <div class="x_panel ">
       <div class="tile-stats">
@@ -49,7 +49,7 @@
   </div>
   </a>
   @elseif(auth()->user()->role->namaRule == 'pv_global')
-  <a href="{{Route('formpdf')}}" type="button" >
+  <a href="{{Route('formpdf')}}">
   <div class="col-md-6 col-sm-6 col-xs-12">
     <div class="x_panel ">
       <div class="tile-stats">

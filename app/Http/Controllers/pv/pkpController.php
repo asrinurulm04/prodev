@@ -666,6 +666,7 @@ class pkpController extends Controller
         }
 
         if($request->forecast!=NULL){
+            $datafor = data_forecast::where('id_pkp',$id_pkp)->where('revisi',$revisi)->where('turunan',$turunan)->delete();
             $for = array(); 
             $validator = Validator::make($request->all(), $for);  
             if ($validator->passes()) {
@@ -718,7 +719,8 @@ class pkpController extends Controller
 
                     $forecash = new data_forecast;
                     $forecash->id_pkp=$request->id;
-                    $forecash->turunan=$naikversi;
+                    $forecash->turunan=$turunan;
+                    $forecash->revisi=$revisi;
                     $forecash->satuan = $idb[$i];
                     $forecash->forecast = $ids[$i];
                     $forecash->kemas_eksis = $kemas->id_kemas;
@@ -1618,6 +1620,7 @@ class pkpController extends Controller
                 $tip->Uniqueness=$pkpp->Uniqueness;
                 $tip->reason=$pkpp->reason;
                 $tip->Estimated=$pkpp->Estimated;
+                $tip->perevisi=Auth::user()->id;
                 $tip->remarks_ses=$pkpp->remarks_ses;
                 $tip->remarks_forecash=$pkpp->remarks_forecash;
                 $tip->remarks_product_form=$pkpp->remarks_product_form;
@@ -1629,7 +1632,6 @@ class pkpController extends Controller
                 $tip->turunan=$pkpp->turunan;
                 $tip->tgl_launch=$pkpp->tgl_launch;
                 $tip->competitive=$pkpp->competitive;
-                $tip->selling_price=$pkpp->selling_price;
                 $tip->competitor=$pkpp->competitor;
                 $tip->aisle=$pkpp->aisle;
                 $tip->product_form=$pkpp->product_form;
@@ -1637,13 +1639,8 @@ class pkpController extends Controller
                 $tip->status_data=$pkpp->status_data;
                 $tip->kategori_bpom=$pkpp->kategori_bpom;
                 $tip->akg=$pkpp->akg;
-                $tip->UOM=$pkpp->UOM;
-                $tip->price=$pkpp->price;
                 $tip->status_pkp='revisi';
                 $tip->status_data='active';
-                $tip->primery=$pkpp->primery;
-                $tip->secondary=$pkpp->secondary;
-                $tip->tertiary=$pkpp->tertiary;
                 $tip->prefered_flavour=$pkpp->prefered_flavour;
                 $tip->product_benefits=$pkpp->product_benefits;
                 $tip->mandatory_ingredient=$pkpp->mandatory_ingredient;
@@ -1675,6 +1672,13 @@ class pkpController extends Controller
                     $for->turunan=$isifor->turunan;
                     $for->forecast=$isifor->forecast;
                     $for->satuan=$isifor->satuan;
+                    $for->kemas_eksis=$isifor->kemas_eksis;
+                    $for->informasi_Primary=$isifor->informasi_Primary;
+                    $for->Secondary=$isifor->Secondary;
+                    $for->Tertiary=$isifor->Tertiary;
+                    $for->uom=$isifor->uom;
+                    $for->nfi_price=$isifor->nfi_price;
+                    $for->costumer=$isifor->costumer;
                     $for->save();
                 }
             }

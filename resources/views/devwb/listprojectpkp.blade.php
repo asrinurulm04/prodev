@@ -1,4 +1,4 @@
-@extends('formula.tempformula')
+@extends('pv.tempvv')
 @section('title', 'List PKP')
 @section('content')
 

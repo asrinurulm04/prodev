@@ -1,4 +1,4 @@
-@extends('formula.tempformula')
+@extends('pv.tempvv')
 @section('title', 'Dasboard')
 @section('content')
 

@@ -27,9 +27,9 @@
             <div class="clearfix"></div>
             <!-- menu profile quick info -->
             <div class="profile clearfix">
-            <center>
+              <center>
                 <a href="{{route('lala')}}"><img style="width:110px" src="{{ asset('img/pro.png') }}" alt="..." class="profile_img"></a><br>
-              <span style="font-weight: bold;color:white;">Welcome, {{ Auth::user()->role->role }}</span>
+                <span style="font-weight: bold;color:white;">Welcome, {{ Auth::user()->role->role }}</span>
                 @if( auth()->check() )
                 <h2 style="color:white;">{{ Auth::user()->name }}</h2>
                 @endif</center>
@@ -39,35 +39,35 @@
             <br>
             <!-- menu profile quick info end -->
             <!-- sidebar menu -->
-            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu" >
+            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
               <div class="menu_section">
                 <h3>General</h3>
                 <ul class="nav side-menu">
                   <li><a><i class="fa fa-user"></i> User Management <span class="label label-success"></span> <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                        <li><a href="{{ route('MyProfile') }}">Profile settings</a></li>
-                        @if(auth()->user()->role->namaRule === 'admin')
-                        <li><a href="{{ route('usermanagement') }}">List Users</a></li>
-                        <li><a href="{{ route('userapproval') }}">Approval</a></li>
-                        @endif
+                      <li><a href="{{ route('MyProfile') }}">Profile settings</a></li>
+                      @if(auth()->user()->role->namaRule === 'admin')
+                      <li><a href="{{ route('usermanagement') }}">List Users</a></li>
+                      <li><a href="{{ route('userapproval') }}">Approval</a></li>
+                      @endif
                     </ul>
                   </li>
                   @if(auth()->user()->role->namaRule == 'pv_lokal')
                   <li><a><i class="fa fa-folder-open"></i> PKP / PDF / PROMO <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                    <li><a><i class="fa fa-edit"></i>Input Project<span class="fa fa-chevron-down"></span></a>
+                    <li><a>Input Project<span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">
                         <li><a href="{{Route('formpkp')}}">Input PKP</a> </li>
                         <li><a href="{{Route('promo')}}">Input PROMO</a> </li>
                       </ul>
                     </li>
-                    <li><a><i class="fa fa-archive"></i>Draf Project<span class="fa fa-chevron-down"></span></a>
+                    <li><a>Draf Project<span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">
                         <li><a href="{{Route('drafpkp')}}">Draf PKP</a> </li>
                         <li><a href="{{Route('drafpromo')}}">Draf PROMO</a> </li>
                       </ul>
                     </li>
-                    <li><a><i class="fa fa-list"></i>List Project<span class="fa fa-chevron-down"></span></a>
+                    <li><a>List Project<span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">
                         <li><a href="{{Route('listpkp')}}">List PKP</a> </li>
                         <li><a href="{{Route('listpromo')}}">List PROMO</a> </li>
@@ -78,17 +78,17 @@
                   @elseif(auth()->user()->role->namaRule == 'pv_global')
                   <li><a><i class="fa fa-folder-open"></i> PKP / PDF / PROMO <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                    <li><a><i class="fa fa-edit"></i>Input Project<span class="fa fa-chevron-down"></span></a>
+                    <li><a>Input Project<span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">
                         <li><a href="{{Route('formpdf')}}">Input PDF</a> </li>
                       </ul>
                     </li>
-                    <li><a><i class="fa fa-archive"></i>Draf Project<span class="fa fa-chevron-down"></span></a>
+                    <li><a>Draf Project<span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">
                         <li><a href="{{Route('drafpdf')}}">Draf PDF</a> </li>
                       </ul>
                     </li>
-                    <li><a><i class="fa fa-list"></i>List Project<span class="fa fa-chevron-down"></span></a>
+                    <li><a>List Project<span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">
                         <li><a href="{{Route('listpdf')}}">List PDF</a> </li>
                       </ul>
@@ -98,21 +98,21 @@
                   @elseif(auth()->user()->role->namaRule == 'marketing' || auth()->user()->role->namaRule == 'NR')
                   <li><a><i class="fa fa-folder-open"></i> PKP / PDF / PROMO <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                    <li><a><i class="fa fa-edit"></i>Input Project<span class="fa fa-chevron-down"></span></a>
+                    <li><a>Input Project<span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">
                         <li><a href="{{Route('formpkp')}}">Input PKP</a> </li>
                         <li><a href="{{Route('formpdf')}}">Input PDF</a> </li>
                         <li><a href="{{Route('promo')}}">Input PROMO</a> </li>
                       </ul>
                     </li>
-                    <li><a><i class="fa fa-archive"></i>Draf Project<span class="fa fa-chevron-down"></span></a>
+                    <li><a>Draf Project<span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">
                         <li><a href="{{Route('drafpkp')}}">Draf PKP</a> </li>
                         <li><a href="{{Route('drafpdf')}}">Draf PDF</a> </li>
                         <li><a href="{{Route('drafpromo')}}">Draf PROMO</a> </li>
                       </ul>
                     </li>
-                    <li><a><i class="fa fa-list"></i>List Project<span class="fa fa-chevron-down"></span></a>
+                    <li><a>List Project<span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">
                         <li><a href="{{Route('listpkp')}}">List PKP</a> </li>
                         <li><a href="{{Route('listpdf')}}">List PDF</a> </li>
@@ -231,13 +231,6 @@
                     </ul>
                   </li>
                   @endif
-                  <!-- <li><a><i class="fa fa-check"></i> Management Formula <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="{{ route('approvalformula') }}">Approval</a></li>
-                      <li><a href="{{ route('approvedformula') }}">approved</a></li>
-                    </ul>
-                  </li> -->
-
                   @if(auth()->user()->role->namaRule !== 'admin' && auth()->user()->role->namaRule !== 'manager')
                   <li><a><i class="fa fa-file-text"></i> Project Recapitulation <span class="label label-success"></span> <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
@@ -264,7 +257,7 @@
                     </ul>
                   </li>
                   @endif
-                  </ul>
+                </ul>
               </div>
             </div>
             <!-- /sidebar menu -->
@@ -275,10 +268,7 @@
         <div class="top_nav" >
           <div class="nav_menu" >
             <nav >
-              <div class="nav toggle" >
-                <a id="menu_toggle" style="color:#353d48"><i class="fa fa-bars" ></i></a>
-              </div>
-              <ul class="nav navbar-nav navbar-right">
+                <ul class=" navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                     <img src="{{ asset('img/pro.png') }}" alt="">{{ Auth::user()->name }}

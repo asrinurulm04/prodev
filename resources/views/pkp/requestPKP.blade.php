@@ -20,7 +20,7 @@
 
 <div class="x_panel">
   <div class="btn-group col-md-12 col-sm-12 col-xs-12">
-    <button class="btn btn-info btn-block btn-sm" data-toggle="modal" data-target="#NW1" type="button"><li class="fa fa-plus"></li> Use Tempale</button>
+    <button class="btn btn-info btn-block btn-sm" data-toggle="modal" data-target="#NW1" type="button"><li class="fa fa-plus"></li><b> Use Tempale</b></button>
   </div>
 </div>
 
@@ -115,8 +115,8 @@
   </div>
   <div class="x_panel">
     <div class="card-block col-md-6 col-sm-offset-5 col-md-offset-5">
-      <button type="reset" class="btn btn-danger btn-sm">Reset</button>
-      <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+      <button type="reset" class="btn btn-warning btn-sm"><li class="fa fa-repeat"></li> Reset</button>
+      <button type="submit" class="btn btn-primary btn-sm"><li class="fa fa-check"></li> Submit</button>
       {{ csrf_field() }}
     </div>
   </div>
@@ -148,14 +148,14 @@
           @php $nol = 0; @endphp
           @foreach($pkp1 as $pkp)
             <tr>
-              <th class="text-center">{{ ++$nol }}</th>
-              <th>{{ $pkp->pkp_number }}{{ $pkp->ket_no }}</th>
-              <th>{{ $pkp->id_brand }}</th>
-              <th>{{ $pkp->project_name }}</th>
-              <th>{{ $pkp->author1->name }}</th>
-              <th class="text-center">
-                <a class="btn btn-warning btn-sm" onclick="return confirm('Are you sure you want to use this template?')" href="{{Route('temppkp',$pkp->id_project)}}"><i class="fa fa-check"></i></a>
-              </th>
+              <td class="text-center">{{ ++$nol }}</td>
+              <td>{{ $pkp->pkp_number }}{{ $pkp->ket_no }}</td>
+              <td>{{ $pkp->id_brand }}</td>
+              <td>{{ $pkp->project_name }}</td>
+              <td>{{ $pkp->author1->name }}</td>
+              <td class="text-center">
+                <a class="btn btn-warning btn-sm" href="{{url('temppkp',$pkp->id_project)}}" onclick="return confirm('Are you sure you want to use this template?')" ><i class="fa fa-check"></i></a>
+              </td>
             </tr>
           @endforeach
         </table>

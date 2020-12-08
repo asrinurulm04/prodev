@@ -160,7 +160,7 @@
 <div class="col-md-12 col-xs-12">
   <div class="x_panel">
     <div class="card-block">
-			<div class="col-md-6 col-md-offset-5">
+			<div class="col-md-4 col-md-offset-5">
         @if(auth()->user()->role->namaRule == 'manager')
         <a class="btn btn-danger btn-sm" href="{{ route('daftarpkp',$formula->workbook_id) }}"><i class="fa fa-ban"></i> Cencel</a>
         @elseif(auth()->user()->role->namaRule == 'user_produk')

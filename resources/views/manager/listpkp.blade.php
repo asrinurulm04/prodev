@@ -103,7 +103,7 @@
     <div class="clearfix"></div>
     <div class="x_content">
     <a href="{{route('cetak_my_project')}}" class="btn btn-warning btn-sm" type="button"><li class="fa fa-download"></li> Download My Project</a>
-      <table class="Table table-striped no-border" id="ex"> 
+      <table class="Table table-bordered table-striped no-border" id="ex"> 
         <thead>
           <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
             <th>No</th>
@@ -126,7 +126,7 @@
             @if($pkp->tujuankirim2=="1")
               @if($pkp->datapkpp->departement->dept==Auth::user()->departement->dept ||  $pkp->datapkpp->departement2->dept==Auth::user()->departement->dept)
               <tr>
-                <td>{{ ++$no}}</td>
+                <td class="text-center">{{ ++$no}}</td>
                 <td>{{$pkp->pkp_number}}{{$pkp->ket_no}}</td>
                 <td>{{$pkp->id_brand}}</td>
                 <td>
@@ -295,7 +295,7 @@
               @endif
             @elseif($pkp->tujuankirim2==0)  
               @if($pkp->departement->dept==Auth::user()->departement->dept )
-              <tr>
+              <tr class="text-center">
                 <td>{{ ++$no}}</td>
                 <td>{{$pkp->pkp_number}}{{$pkp->ket_no}}</td>
                 <td>{{$pkp->id_brand}}</td>

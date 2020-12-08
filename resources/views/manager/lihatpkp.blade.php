@@ -477,7 +477,7 @@
           <input type="hidden" value="{{$pic->lokasi}}" name="pic[]" id="pic">
         @endforeach
         <div class="modal-footer">
-          <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Assign</button>
+          <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-paper-plane"></i> Assign</button>
           {{ csrf_field() }}
         </div>
         </form>
@@ -539,7 +539,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Sent</button>
+          <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-paper-plane"></i> Sent</button>
           {{ csrf_field() }}
         </div>
         </form>

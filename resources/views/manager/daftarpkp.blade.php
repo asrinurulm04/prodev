@@ -72,7 +72,7 @@
                   </div>
                 </div>
                 <div class="modal-footer">
-                  <button type="submit" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Submit</button>
+                  <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-plus-circle"></i> Submit</button>
                   {{ csrf_field() }}
                 </div>
                 </form>
@@ -88,17 +88,17 @@
         <div class="modal" id="alihkan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
-              <div class="modal-header">                 
-                <h3 class="modal-title" id="exampleModalLabel">Divert Project
+              <div class="modal-header">
+                <h3 class="modal-title text-left" id="exampleModalLabel">Divert Project
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button> </h3>
+                  <span aria-hidden="true">&times;</span></h3>
+                </button>
               </div>
               <div class="modal-body">
               <form class="form-horizontal form-label-left" method="POST" action="{{ route('alihkan',$listpkp->id_project) }}" novalidate>
                 <div class="form-group row">
-                  <label class="control-label text-bold col-md-1 col-sm-3 col-xs-12 text-center">Dept1</label>
-                  <div class="col-md-11 col-sm-9 col-xs-12">
+                  <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center">Dept Product</label>
+                  <div class="col-md-10 col-sm-9 col-xs-12">
                     <select name="tujuankirim" class="form-control form-control-line" id="type">
                     <option disabled selected>{{$listpkp->departement->dept}} ({{$listpkp->departement->nama_dept}})</option>
                     @foreach($dept as $dept)
@@ -108,8 +108,8 @@
                   </div>
                 </div>
                 <div class="form-group row">
-                  <label class="control-label text-bold col-md-1 col-sm-3 col-xs-12 text-center">Dept2</label>
-                  <div class="col-md-11 col-sm-9 col-xs-12">
+                  <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center">Dept kemas</label>
+                  <div class="col-md-10 col-sm-9 col-xs-12">
                     <select name="tujuankirim2" class="form-control form-control-line" id="type">
                     @if($listpkp->tujuankirim2==0)
                       <option value="0" disabled selected>No Departement Selected</option>
@@ -123,7 +123,7 @@
                 </div>
               </div>
               <div class="modal-footer">
-                <button type="submit" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Submit</button>
+                <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-plus-circle"></i> Submit</button>
                 {{ csrf_field() }}
               </div>
               </form>
@@ -154,7 +154,7 @@
                       </div>
                     </div>
                     <div class="modal-footer">
-                      <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i> Submit</button>
+                      <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> Submit</button>
                       {{ csrf_field() }}
                     </div>
                   </form>
@@ -202,31 +202,6 @@
               </td></tr>
               <tr><td>Perevisi</td><td>:</td><td> {{$listpkp->perevisi2->name}}</td></tr>
               <tr><td>Idea</td><td>:</td> <td> {{$listpkp->idea}}</td></tr>
-              <tr><td>Packaging</td><td> : </td><td>
-                @if($listpkp->kemas_eksis!=NULL)
-                (
-                  @if($listpkp->kemas->tersier!=NULL)
-                  {{ $listpkp->kemas->tersier }}{{ $pkp->kemas->s_tersier }}
-                  @elseif($listpkp->kemas->tersier==NULL)
-                  @endif
-
-                  @if($listpkp->kemas->sekunder1!=NULL)
-                  X {{ $listpkp->kemas->sekunder1 }}{{ $listpkp->kemas->s_sekunder1}}
-                  @elseif($listpkp->kemas->sekunder1==NULL)
-                  @endif
-
-                  @if($listpkp->kemas->sekunder2!=NULL)
-                  X {{ $listpkp->kemas->sekunder2 }}{{ $listpkp->kemas->s_sekunder2 }}
-                  @elseif($listpkp->kemas->sekunder2==NULL)
-                  @endif
-
-                  @if($listpkp->kemas->primer!=NULL)
-                  X{{ $listpkp->kemas->primer }}{{ $pkp->kemas->s_primer }}
-                  @elseif($listpkp->kemas->primer==NULL)
-                  @endif
-                )
-                @endif
-              </td></tr>
 						</thead>
 					</table>
         </div>

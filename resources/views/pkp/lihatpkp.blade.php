@@ -84,7 +84,7 @@
                           @endif
                           <div class="form-group row">
                             <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center">Priority</label>
-                            <div class="col-md-2 col-sm-2 col-xs-12">
+                            <div class="col-md-1 col-sm-1 col-xs-12">
                               <select name="prioritas" class="form-control form-control-line" id="prioritas" required>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
@@ -97,7 +97,7 @@
                               <input type="date" class="form-control" value="<?php echo date('Y-m-d'); ?>" name="jangka" id="jangka" placeholder="start date">
                             </div>
                             <div class="col-md-1 col-sm-1 col-xs-12"><center> To </center></div>
-                            <div class="col-md-2 col-sm-2 col-xs-12">
+                            <div class="col-md-3 col-sm-3 col-xs-12">
                               <input type="date" class="form-control" value="{{$tgl2}}" name="waktu" id="waktu" placeholder="end date">
                             </div>
                           </div>
@@ -180,7 +180,7 @@
                       <div class="modal-body">
                         <form class="form-horizontal form-label-left" method="POST" action="{{ Route('sentpkp',['id_pkp' => $pkp->id_pkp, 'revisi' => $pkp->revisi, 'turunan' => $pkp->turunan])}}" novalidate>
                         <div class="form-group row">
-                          <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center">Select Departement</label>
+                          <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center">Dept Product</label>
                           <div class="col-md-4 col-sm-9 col-xs-12">
                             <select name="kirim" class="form-control form-control-line" id="kirim">
                               <option readonly value="{{$pkp->tujuankirim}}" selected>{{$pkp->departement->dept}}</option>
@@ -194,7 +194,8 @@
                           <?php $last = Date('j-F-Y'); ?>
                           <input id="date" value="{{ $last }}" class="form-control col-md-12 col-xs-12" name="date" required="required" type="hidden" readonly>
                           <input type="hidden" value="{{$pkp->project_name}}" name="name" id="name">
-                          <div class="col-md-5 col-sm-9 col-xs-12">
+                          <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center">Dept Product</label>
+                          <div class="col-md-4 col-sm-9 col-xs-12">
                             <select name="rka" class="form-control form-control-line" id="rka">
                               <option value="1">RKA</option>
                               <option value="0">No Departement Selected</option>
@@ -218,25 +219,25 @@
                         @endif
                         <div class="form-group row">
                         <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center">Prioritas Project</label>
-                          <div class="col-md-2 col-sm-9 col-xs-12">
+                          <div class="col-md-1 col-sm-1 col-xs-12">
                             <select name="prioritas" class="form-control form-control-line" id="prioritas">
-                              <option readonly selected value="{{$pkp->prioritas}}">
-                                @if($pkp->prioritas==1)prioritas 1
-                                @elseif($pkp->prioritas==2)prioritas 2
-                                @elseif($pkp->prioritas==3)prioritas 3
+                              <option  selected value="{{$pkp->prioritas}}" readonly>
+                                @if($pkp->prioritas==1)1
+                                @elseif($pkp->prioritas==2)2
+                                @elseif($pkp->prioritas==3)3
                                 @endif
                               </option>
-                              <option value="1">prioritas 1</option>
-                              <option value="2">prioritas 2</option>
-                              <option value="3">prioritas 3</option>
+                              <option value="1">1</option>
+                              <option value="2">2</option>
+                              <option value="3">3</option>
                             </select>
                           </div>
-                          <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center">Deadline for sending Sample</label>
-                          <div class="col-md-2 col-sm-9 col-xs-12">
+                          <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center">sending Sample</label>
+                          <div class="col-md-3 col-sm-3 col-xs-12">
                             <input type="date" class="form-control" value="{{$pkp->jangka}}" name="jangka" id="jangka" placeholder="start date">
                           </div>
-                          <div class="col-md-1 col-sm-9 col-xs-12"><center> To </center></div>
-                          <div class="col-md-2 col-sm-9 col-xs-12">
+                          <div class="col-md-1 col-sm-1 col-xs-12"><center> To </center></div>
+                          <div class="col-md-3 col-sm-3 col-xs-12">
                             <input type="date" class="form-control" value="{{$pkp->waktu}}" name="waktu" id="waktu" placeholder="end date">
                           </div>
                         </div>
@@ -451,53 +452,6 @@
                           if($data->turunan!=$pkp->turunan){ echo"Remarks : <s><font color='#6594c5'>$data->remarks_product_form<br></font></s>"; } if($data->turunan==$pkp->turunan){ echo"Remarks: $data->remarks_product_form<br>"; } }  ?></td>
                       </tr>
                       <tr>
-                      <th>Product Packaging</th>
-                        <td colspan="2">
-													<table>
-
-                            @if($pkp->kemas_eksis!=NULL)
-                            (
-                            @if($pkp->kemas->tersier!=NULL)
-                            {{ $pkp->kemas->tersier }}{{ $pkp->kemas->s_tersier }}
-                            @elseif($pkp->tersier==NULL)
-                            @endif
-
-														@if($pkp->kemas->sekunder1!=NULL)
-														X {{ $pkp->kemas->sekunder1 }}{{ $pkp->kemas->s_sekunder1}}
-														@elseif($pkp->kemas->sekunder1==NULL)
-														@endif
-
-														@if($pkp->kemas->sekunder2!=NULL)
-														X {{ $pkp->kemas->sekunder2 }}{{ $pkp->kemas->s_sekunder2 }}
-														@elseif($pkp->sekunder2==NULL)
-														@endif
-
-                            @if($pkp->kemas->primer!=NULL)
-														X{{ $pkp->kemas->primer }}{{ $pkp->kemas->s_primer }}
-														@elseif($pkp->kemas->primer==NULL)
-														@endif
-                            )
-                            @elseif($pkp->primer==NULL)
-                              @if($pkp->kemas_eksis==NULL)
-                              @endif
-                            @endif
-                            <br>
-														<br>
-                            @if($pkp->primery!=NULL)
-                            <tr><th style="border:1px;" width="45%">Primary information</th><th>:</th><td width="55%" style="border:none;"><?php $primery = []; foreach ($pkp1 as $key => $data) If (!$primery || !in_array($data->primery, $primery)) { $primery += array( $key => $data->primery ); 
-                              if($data->turunan!=$pkp->turunan){  echo" <s><font color='#6594c5'>$data->primery<br></font></s>";  } if($data->turunan==$pkp->turunan){ echo" $data->primery<br>"; } }  ?></td></tr>
-                            @endif
-                            @if($pkp->secondary!=NULL)
-                            <tr><th style="border:none;" width="45%">Secondary information</th><th>:</th><td width="55%" style="border:none;"><?php $secondary = []; foreach ($pkp1 as $key => $data) If (!$secondary || !in_array($data->secondary, $secondary)) { $secondary += array( $key => $data->secondary ); 
-                              if($data->turunan!=$pkp->turunan){  echo" <s><font color='#6594c5'>$data->secondary<br></font></s>";  } if($data->turunan==$pkp->turunan){ echo" $data->secondary<br>"; } }  ?></td></tr>
-                            @endif
-                            @if($pkp->tertiary!=NULL)
-                            <tr><th style="border:none;" width="45%">Teriery information</th><th>:</th><td width="55%" style="border:none;"><?php $tertiary = []; foreach ($pkp1 as $key => $data) If (!$tertiary || !in_array($data->tertiary, $tertiary)) { $tertiary += array( $key => $data->tertiary ); 
-                              if($data->turunan!=$pkp->turunan){  echo" <s><font color='#6594c5'>$data->tertiary<br></font></s>";  } if($data->turunan==$pkp->turunan){ echo" $data->tertiary<br>"; } }  ?></td></tr>
-                            @endif
-                          </table>
-												</td>
-                      </tr>
                       <tr>
                         <th>Food Category (BPOM)</th>
                         @if($pkp->bpom!=NULL && $pkp->kategori_bpom!=NULL)
@@ -707,53 +661,6 @@
                         <br><br>
                         <?php $remarks_product_form = []; foreach ($pkp2 as $key => $data) If (!$remarks_product_form || !in_array($data->remarks_product_form, $remarks_product_form)) { $remarks_product_form += array( $key => $data->remarks_product_form  ); 
                         if($data->revisi!=$pkp->revisi){ echo"Remarks : <s><font color='#ffa2a2'>$data->remarks_product_form<br></font></s>"; } if($data->revisi==$pkp->revisi){ echo"Remarks: $data->remarks_product_form<br>"; } }  ?></td>
-                      </tr>
-                      <tr>
-                        <th>Product Packaging</th>
-                        <td colspan="2">
-													<table>
-
-                            @if($pkp->kemas_eksis!=NULL)
-                            (
-                            @if($pkp->kemas->primer!=NULL)
-														{{ $pkp->kemas->primer }}{{ $pkp->kemas->s_primer }}
-														@elseif($pkp->kemas->primer==NULL)
-														@endif
-
-														@if($pkp->kemas->sekunder1!=NULL)
-														X {{ $pkp->kemas->sekunder1 }}{{ $pkp->kemas->s_sekunder1}}
-														@elseif($pkp->kemas->sekunder1==NULL)
-														@endif
-
-														@if($pkp->kemas->sekunder2!=NULL)
-														X {{ $pkp->kemas->sekunder2 }}{{ $pkp->kemas->s_sekunder2 }}
-														@elseif($pkp->sekunder2==NULL)
-														@endif
-
-														@if($pkp->kemas->tersier!=NULL)
-														X {{ $pkp->kemas->tersier }}{{ $pkp->kemas->s_tersier }}
-														@elseif($pkp->tersier==NULL)
-														@endif
-                            )
-                            @elseif($pkp->primer==NULL)
-                              @if($pkp->kemas_eksis==NULL)
-                              @endif
-                            @endif
-                            <br><br>
-                            @if($pkp->primery!=NULL)
-														<tr><th width="35%">Primary information</th><th>:</th><td style="border:none;"><?php $primery = []; foreach ($pkp1 as $key => $data) If (!$primery || !in_array($data->primery, $primery)) { $primery += array( $key => $data->primery ); 
-                              if($data->revisi!=$pkp->revisi){  echo" <s><font color='#ffa2a2'>$data->primery<br></font></s>";  } if($data->revisi==$pkp->revisi){ echo" $data->primery<br>"; } }  ?></td></tr>
-                            @endif
-                            @if($pkp->secondary!=NULL)
-                            <tr><th width="35%">Secondary information</th><th>:</th><td style="border:none;"><?php $secondary = []; foreach ($pkp1 as $key => $data) If (!$secondary || !in_array($data->secondary, $secondary)) { $secondary += array( $key => $data->secondary ); 
-                              if($data->revisi!=$pkp->revisi){  echo" <s><font color='#ffa2a2'>$data->secondary<br></font></s>";  } if($data->revisi==$pkp->revisi){ echo" $data->secondary<br>"; } }  ?></td></tr>
-                            @endif
-                            @if($pkp->tertiary!=NULL)
-                            <tr><th width="35%">Teriery information</th><th>:</th><td style="border:none;"><?php $tertiary = []; foreach ($pkp1 as $key => $data) If (!$tertiary || !in_array($data->tertiary, $tertiary)) { $tertiary += array( $key => $data->tertiary ); 
-                              if($data->revisi!=$pkp->revisi){  echo" <s><font color='#ffa2a2'>$data->tertiary<br></font></s>";  } if($data->revisi==$pkp->revisi){ echo" $data->tertiary<br>"; } }  ?></td></tr>
-                            @endif
-                          </table>
-												</td>
                       </tr>
                       <tr>
                         <th>Food Category (BPOM)</th>

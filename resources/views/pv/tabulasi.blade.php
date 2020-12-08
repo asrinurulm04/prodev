@@ -27,7 +27,7 @@
         </li>
                
       </ul>
-      <div id="myTabContent" class="tab-content fancyTabContent" aria-live="polite">
+      <div id="myTabContent" class="tab-content fancyTabContent" aria-live="polite" style="overflow-x: scroll;">
         <!-- PKP -->
         <div class="tab-pane  fade active in" id="tabBody0" role="tabpanel" aria-labelledby="tab0" aria-hidden="false" tabindex="0" >
           <div>
@@ -93,7 +93,6 @@
                       <td class="text-center">No</td>
                       <td class="text-center">Sent to RND</td>
                       <th class="text-center">Brand</th>
-                      <th class="text-center">Kemas</th>
                       <th class="text-center">Idea</th>
                       <th class="text-center">Target Launch</th>
                       <th class="text-center">Age</th>
@@ -119,34 +118,6 @@
                       <td>{{$Dpkp->pkp_number}}{{$Dpkp->ket_no}}</td>
                       <td>{{$Dpkp->tgl_kirim}}</td>
                       <td>{{$Dpkp->id_brand}}</td>
-                      <td>
-                        @if($Dpkp->kemas_eksis!=NULL)
-                        (
-                        @if($Dpkp->kemas->tersier!=NULL)
-                        {{ $Dpkp->kemas->tersier }}{{ $Dpkp->kemas->s_tersier }}
-                        @elseif($Dpkp->tersier==NULL)
-                        @endif
-
-												@if($Dpkp->kemas->sekunder1!=NULL)
-												X {{ $Dpkp->kemas->sekunder1 }}{{ $Dpkp->kemas->s_sekunder1}}
-												@elseif($Dpkp->kemas->sekunder1==NULL)
-												@endif
-
-												@if($Dpkp->kemas->sekunder2!=NULL)
-												X {{ $Dpkp->kemas->sekunder2 }}{{ $Dpkp->kemas->s_sekunder2 }}
-												@elseif($Dpkp->sekunder2==NULL)
-												@endif
-
-                        @if($Dpkp->kemas->primer!=NULL)
-												X{{ $Dpkp->kemas->primer }}{{ $Dpkp->kemas->s_primer }}
-												@elseif($Dpkp->kemas->primer==NULL)
-												@endif
-                        )
-                        @elseif($Dpkp->primer==NULL)
-                          @if($Dpkp->kemas_eksis==NULL)
-                          @endif
-                        @endif
-                      </td>
                       <td width="8%">{{$Dpkp->idea}}</td>
                       <td>{{$Dpkp->launch}} {{$Dpkp->years}}{{$Dpkp->tgl_launch}}</td>
                       <td>{{$Dpkp->dariumur}}-{{$Dpkp->sampaiumur}}</td>
@@ -236,7 +207,6 @@
                     <td class="text-center">No</td>
                     <td class="text-center">Sent to RND</td>
                     <th class="text-center">Brand</th>
-                    <th class="text-center">kemas</th>
                     <th class="text-center">Type</th>
                     <th class="text-center">Prioritas</th>
                     <th class="text-center">country</th>
@@ -260,30 +230,6 @@
                     <td>{{$Dpdf->pdf_number}}{{$Dpdf->ket_no}}</td>
                     <td>{{$Dpdf->tgl_kirim}}</td>
                     <td>{{$Dpdf->id_brand}}</td>
-                    <td>
-                      @if($Dpdf->kemas_eksis!=NULL)
-                        @if($Dpdf->kemas->tersier!=NULL)
-                        {{ $Dpdf->kemas->tersier }}{{ $Dpdf->kemas->s_tersier }}
-                        @elseif($Dpdf->tersier==NULL)
-                        @endif
-
-                        @if($Dpdf->kemas->sekunder1!=NULL)
-                        X {{ $Dpdf->kemas->sekunder1 }}{{ $Dpdf->kemas->s_sekunder1}}
-                        @elseif($Dpdf->kemas->sekunder1==NULL)
-                        @endif
-
-                        @if($Dpdf->kemas->sekunder2!=NULL)
-                        X {{ $Dpdf->kemas->sekunder2 }}{{ $Dpdf->kemas->s_sekunder2 }}
-                        @elseif($Dpdf->sekunder2==NULL)
-                        @endif
-
-                        X @if($Dpdf->kemas->primer!=NULL)
-                        {{ $Dpdf->kemas->primer }}{{ $Dpdf->kemas->s_primer }}
-                        @elseif($Dpdf->kemas->primer==NULL)
-                        @endif
-                      @elseif($Dpdf->primer==NULL)
-                      @endif
-                    </td>
                     <td>{{$Dpdf->datapdf->type->type}}</td>
                     <td>
                       @if($Dpdf->prioritas==1)
