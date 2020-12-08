@@ -75,6 +75,22 @@
                     </li>
                     </ul>
                   </li>
+                  <li><a><i class="fa fa-file-text"></i> Project Recapitulation <span class="label label-success"></span> <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{{ route('datareport') }}">Data Project Summary</a></li>
+                      <li><a href="{{ route('tabulasi') }}">Data Project Tabulation</a></li>
+                      <li><a href="{{ route('reportnotulen') }}">Meeting Minutes</a></li>
+                      <li><a href="{{ route('datapengajuan') }}">Revision Request</a></li>
+                    </ul>
+                  </li>
+                  <li><a><i class="fa fa-book"></i> Master Data <span class="label label-success"></span> <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{{ route('datapangan') }}">Microbiology</a></li>
+                      <li><a href="{{ route('akg') }}">Data AKG</a></li>
+                      <li><a href="{{ route('sku') }}">Active SKU</a></li>
+                      <li><a href="{{ route('klaim') }}">Claim Regulation</a></li>
+                    </ul>
+                  </li>
                   @elseif(auth()->user()->role->namaRule == 'pv_global')
                   <li><a><i class="fa fa-folder-open"></i> PKP / PDF / PROMO <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
@@ -93,6 +109,22 @@
                         <li><a href="{{Route('listpdf')}}">List PDF</a> </li>
                       </ul>
                     </li>
+                    </ul>
+                  </li>
+                  <li><a><i class="fa fa-file-text"></i> Project Recapitulation <span class="label label-success"></span> <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{{ route('datareport') }}">Data Project Summary</a></li>
+                      <li><a href="{{ route('tabulasi') }}">Data Project Tabulation</a></li>
+                      <li><a href="{{ route('reportnotulen') }}">Meeting Minutes</a></li>
+                      <li><a href="{{ route('datapengajuan') }}">Revision Request</a></li>
+                    </ul>
+                  </li>
+                  <li><a><i class="fa fa-book"></i> Master Data <span class="label label-success"></span> <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{{ route('datapangan') }}">Microbiology</a></li>
+                      <li><a href="{{ route('akg') }}">Data AKG</a></li>
+                      <li><a href="{{ route('sku') }}">Active SKU</a></li>
+                      <li><a href="{{ route('klaim') }}">Claim Regulation</a></li>
                     </ul>
                   </li>
                   @elseif(auth()->user()->role->namaRule == 'marketing' || auth()->user()->role->namaRule == 'NR')
@@ -121,6 +153,14 @@
                     </li>
                     </ul>
                   </li>
+                  <li><a><i class="fa fa-book"></i> Master Data <span class="label label-success"></span> <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{{ route('datapangan') }}">Microbiology</a></li>
+                      <li><a href="{{ route('akg') }}">Data AKG</a></li>
+                      <li><a href="{{ route('sku') }}">Active SKU</a></li>
+                      <li><a href="{{ route('klaim') }}">Claim Regulation</a></li>
+                    </ul>
+                  </li>
                   @endif
                   @if(auth()->user()->role->namaRule === 'user_produk')
                   <li><a><i class="fa fa-folder-open"></i> PKP / PDF / PROMO <span class="fa fa-chevron-down"></span></a>
@@ -128,6 +168,23 @@
                       <li><a href="{{ route('listprojectpkp') }}">List PKP</a> </li>
                       <li><a href="{{ route('listprojectpdf') }}">List PDF</a> </li>
                       <li><a href="{{ route('listprojectpromo') }}">List PROMO</a> </li>
+                    </ul>
+                  </li>
+                  <li><a><i class="fa fa-file-text"></i> Project Recapitulation <span class="label label-success"></span> <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{{ route('datareport') }}">Data Project Summary</a></li>
+                    </ul>
+                  </li>
+                  <li><a><i class="fa fa-book"></i> Master Data <span class="label label-success"></span> <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{{ route('datapangan') }}">Microbiology</a></li>
+                      <li><a href="{{ route('akg') }}">Data AKG</a></li>
+                      <li><a href="{{ route('sku') }}">Active SKU</a></li>
+                      <li><a href="{{ route('klaim') }}">Claim Regulation</a></li>
+                      <li><a href="{{ route('logam.berat')}}">Logam Berat</a></li>
+                      <li><a href="{{ route('allergen') }}">Allergen</a></li>
+                      <li><a href="{{ route('bahanbaku') }}">Bahan Baku</a></li>
+                      <li><a href="{{ route('bbrd') }}">Bahan Baku RD</a></li>
                     </ul>
                   </li>
                   @elseif(auth()->user()->role->namaRule === 'CS')
@@ -228,32 +285,6 @@
                       <li><a href="{{ route('satuan.index') }}">Satuan</a></li>
                       <li><a href="{{ route('kategori.index') }}">Kategori</a></li>
                       <li><a href="{{ route('subkategori.index') }}">Sub Kategori</a></li>
-                    </ul>
-                  </li>
-                  @endif
-                  @if(auth()->user()->role->namaRule !== 'admin' && auth()->user()->role->namaRule !== 'manager')
-                  <li><a><i class="fa fa-file-text"></i> Project Recapitulation <span class="label label-success"></span> <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="{{ route('datapengajuan') }}">Revision Request</a></li>
-                      <li><a href="{{ route('datareport') }}">Data Project Summary</a></li>
-                      @if(auth()->user()->role->namaRule === 'pv_lokal' || auth()->user()->role->namaRule === 'pv_global' || auth()->user()->role->namaRule === 'manager')
-                      <li><a href="{{ route('tabulasi') }}">Data Project Tabulation</a></li>
-                      <li><a href="{{ route('reportnotulen') }}">Meeting Minutes</a></li>
-                      @endif
-                    </ul>
-                  </li>
-                  <li><a><i class="fa fa-book"></i> Master Data <span class="label label-success"></span> <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="{{ route('datapangan') }}">Microbiology</a></li>
-                      <li><a href="{{ route('akg') }}">Data AKG</a></li>
-                      <li><a href="{{ route('sku') }}">Active SKU</a></li>
-                      <li><a href="{{ route('klaim') }}">Claim Regulation</a></li>
-                      <li><a href="{{ route('logam.berat')}}">Logam Berat</a></li>
-                      @if(auth()->user()->role->namaRule == 'user_produk')
-                      <li><a href="{{ route('allergen') }}">Allergen</a></li>
-                      <li><a href="{{ route('bahanbaku') }}">Bahan Baku</a></li>
-                      <li><a href="{{ route('bbrd') }}">Bahan Baku RD</a></li>
-                      @endif
                     </ul>
                   </li>
                   @endif

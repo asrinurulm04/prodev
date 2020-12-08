@@ -81,7 +81,7 @@
           </div> 
           <div class="col-md-1 pl-1">
             <div class="form-group" id="filter_col1" data-column="5">
-              <label class="text-center">refresh</label>    
+              <label class="text-center">refresh</label><br>  
               <a href="" class="btn btn-info btn-sm"><li class="fa fa-refresh"></li></a>
             </div>
           </div>
@@ -100,18 +100,18 @@
         <div class="x_title">
           <h3><li class="fa fa-wpforms"> List PKP Promo</h3>
         </div>
-        <div class="x_content">
-          <table class="Table table-striped no-border" id="ex">
+        <div class="card-box table-responsive">
+          <table class="Table table-striped table-bordered" id="ex">
             <thead>
               <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
                 <td>No</td>
                 <td>PKP Promo Number</td>
                 <td>Brand</td>
-                <td>PV</td>
+                <td width="10%">PV</td>
                 <td class="text-center">Status RD Kemas</td>
                 <td class="text-center">Status RD Produk</td>
                 <td class="text-center">Priority</td>
-                <td width="15%" class="text-center">Action</td>
+                <td width="8%" class="text-center">Action</td>
                 <td width="15%">Information</td>
               </tr>
             </thead>
@@ -187,13 +187,6 @@
                   @if($pkp->status_project=='sent')
                   <td class="text-center">
                     <a class="btn btn-info btn-sm" href="{{ Route('daftarpromo',$pkp->id_pkp_promo)}}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
-                    @if($pkp->prioritas=='1')
-                    <a href="{{route('kalenderpromo',$pkp->id_pkp_promo)}}"  data-toggle="tooltip" class="btn btn-danger btn-sm" title="calendar hight priority"><li class="fa fa-calendar"></li></a>
-                    @elseif($pkp->prioritas=='2')
-                    <a href="{{route('kalenderpromo',$pkp->id_pkp_promo)}}"  data-toggle="tooltip" class="btn btn-warning btn-sm" title="calendar standar priority"><li class="fa fa-calendar"></li></a>
-                    @elseif($pkp->prioritas=='3')
-                    <a href="{{route('kalenderpromo',$pkp->id_pkp_promo)}}"  data-toggle="tooltip" class="btn btn-success btn-sm" title="calendar low priority"><li class="fa fa-calendar"></li></a>
-                    @endif
                   </td>
                   <td>
                     @if($pkp->status_freeze=="inactive")
@@ -234,38 +227,7 @@
                   @elseif($pkp->status_project=='proses')
                   <td class="text-center">
                     <a class="btn btn-info btn-sm" href="{{ Route('daftarpromo',$pkp->id_pkp_promo) }}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
-                    @if(Auth::user()->departement->dept!='RKA')
-                    <button class="btn btn-primary btn-sm" data-toggle="tooltip" title="Close" data-toggle="modal" data-target="#close{{$pkp->id_pkp_promo}}"><i class="fa fa-power-off"></i></button>
-                    @endif
                   </td>
-                  <!-- modal -->
-                  <div class="modal" id="close{{$pkp->id_pkp_promo}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                      <div class="modal-content">
-                        <div class="modal-header">                 
-                          <h3 class="modal-title text-left" id="exampleModalLabel" >Close Data
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span></h3>
-                          </button>
-                        </div>
-                        <div class="modal-body">
-                          <form class="form-horizontal form-label-left" method="POST" action="{{route('closepromo',$pkp->id_pkp_promo)}}" novalidate>
-                          <div class="form-group row">
-                            <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center">Note</label>
-                            <div class="col-md-9 col-sm-9 col-xs-12">
-                              <textarea name="note" id="note" class="col-md-12 col-sm-12 col-xs-12"></textarea>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="modal-footer">
-                          <button class="btn btn-success" title="Close Project"><li class="fa fa-check"></li> Close</button>
-                          {{ csrf_field() }}
-                        </div>
-                        </form>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Modal Selesai -->
                   <td>
                     @if($pkp->status_freeze=='inactive')
                       @if($pkp->userpenerima2==NULL)
@@ -337,13 +299,6 @@
                   @if($pkp->status_project=='sent')
                   <td class="text-center">
                     <a class="btn btn-info btn-sm" href="{{ Route('daftarpromo',$pkp->id_pkp_promo)}}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
-                    @if($pkp->prioritas=='1')
-                    <a href="{{route('kalenderpromo',$pkp->id_pkp_promo)}}" data-toggle="tooltip" class="btn btn-danger btn-sm" title="calendar hight priority"><li class="fa fa-calendar"></li></a>
-                    @elseif($pkp->prioritas=='2')
-                    <a href="{{route('kalenderpromo',$pkp->id_pkp_promo)}}" data-toggle="tooltip" class="btn btn-warning btn-sm" title="calendar standar priority"><li class="fa fa-calendar"></li></a>
-                    @elseif($pkp->prioritas=='3')
-                    <a href="{{route('kalenderpromo',$pkp->id_pkp_promo)}}" data-toggle="tooltip" class="btn btn-success btn-sm" title="calendar low priority"><li class="fa fa-calendar"></li></a>
-                    @endif
                   </td>
                   <td>
                     @if($pkp->status_freeze=="inactive")
@@ -384,38 +339,7 @@
                   @elseif($pkp->status_project=='proses')
                   <td class="text-center">
                     <a class="btn btn-info btn-sm" href="{{ Route('daftarpromo',$pkp->id_pkp_promo) }}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
-                    @if(Auth::user()->departement->dept!='RKA')
-                    <button class="btn btn-primary btn-sm" data-toggle="tooltip" title="Close" data-toggle="modal" data-target="#close{{$pkp->id_pkp_promo}}"><i class="fa fa-power-off"></i></button>
-                  @endif
                   </td>
-                  <!-- modal -->
-                  <div class="modal" id="close{{$pkp->id_pkp_promo}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                      <div class="modal-content">
-                        <div class="modal-header">                 
-                          <h3 class="modal-title text-left" id="exampleModalLabel" >Close Data
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span></h3>
-                          </button>
-                        </div>
-                        <div class="modal-body">
-                          <form class="form-horizontal form-label-left" method="POST" action="{{route('closepromo',$pkp->id_pkp_promo)}}" novalidate>
-                          <div class="form-group row">
-                            <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center">Note</label>
-                            <div class="col-md-9 col-sm-9 col-xs-12">
-                              <textarea name="note" id="note" class="col-md-12 col-sm-12 col-xs-12"></textarea>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="modal-footer">
-                          <button class="btn btn-success" title="Close Project"><li class="fa fa-check"></li> Close</button>
-                          {{ csrf_field() }}
-                        </div>
-                        </form>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Modal Selesai -->
                   <td>
                     @if($pkp->status_freeze=='inactive')
                       @if($pkp->userpenerima2==NULL)

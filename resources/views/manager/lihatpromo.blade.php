@@ -21,48 +21,32 @@
         <div id="exTab2" class="container">                   
 					<div class="col-md-11" align="left">
             @foreach($promoo as $promo)
-            
+            <a class="btn btn-danger btn-sm" href="{{ route('daftarpromo',$promo->id_pkp_promo)}}"><i class="fa fa-share"></i>Back</a>
+            <a class="btn btn-warning btn-sm" href="" onclick="return confirm('Print this data PROMO ?')"><i class="fa fa-download"></i> Download/print PROMO</a>
+            <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#ajukan{{ $promo->id_pkp_promo  }}"><i class="fa fa-comments-o"></i> Sent Revision request</a></button>
             <?php $last = Date('j-F-Y'); ?>
             @if(Auth::user()->departement->dept!='RKA')
               @if($promo->status_terima=='proses')
               <form class="form-horizontal form-label-left" method="POST" action="{{ route('approvepromo1',$promo->id_pkp_promo) }}" novalidate>
-                <a class="btn btn-danger btn-sm" href="{{ route('daftarpromo',$promo->id_pkp_promo)}}"><i class="fa fa-share"></i>Back</a>
-                <a class="btn btn-warning btn-sm" href="" onclick="return confirm('Print this data PROMO ?')"><i class="fa fa-download"></i> Download/print PROMO</a>
                 <input type="hidden" value="{{$last}}" name="tgl">
                 <button type="submit" class="btn btn-dark btn-sm"><li class="fa fa-check"></li> Approve data</button>
                 {{ csrf_field() }}
               </form>
-              @elseif($promo->status_terima!='proses')
-              <a class="btn btn-danger btn-sm" href="{{ route('daftarpromo',$promo->id_pkp_promo)}}"><i class="fa fa-share"></i>Back</a>
-              <a class="btn btn-warning btn-sm" href="" onclick="return confirm('Print this data PROMO ?')"><i class="fa fa-download"></i> Download/print PROMO</a>
+              @elseif($promo->status_terima=='terima')
+                @if($hitung==0)
+                <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#kirim{{ $promo->id_pkp_promo  }}"><i class="fa fa-paper-plane"></i> Assign</a></button>
+                @endif
               @endif
             @elseif(Auth::user()->departement->dept=='RKA')
               @if($promo->status_terima2=='proses')
               <form class="form-horizontal form-label-left" method="POST" action="{{ route('approvepromo2',$promo->id_pkp_promo) }}" novalidate>
-                <a class="btn btn-danger btn-sm" href="{{ route('daftarpromo',$promo->id_pkp_promo)}}"><i class="fa fa-share"></i>Back</a>
-                <a class="btn btn-warning btn-sm" href="" onclick="return confirm('Print this data PROMO ?')"><i class="fa fa-download"></i> Download/print PROMO</a>
                 <input type="hidden" value="{{$last}}" name="tgl">
                 <button type="submit" class="btn btn-dark btn-sm"><li class="fa fa-check"></li> Approve data</button>
                 {{ csrf_field() }}
               </form>
-              @endif
-            @endif
-            @if($promo->status_project=='sent' || $promo->status_project=='proses')
-              @if(Auth::user()->departement->dept!='RKA')
-                @if($promo->status_terima=='terima')
-                  @if($hitung==0)
-                  <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#kirim{{ $promo->id_pkp_promo  }}"><i class="fa fa-paper-plane"></i> Assign</a></button>
-                  @endif
-                  @endif
-              <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#ajukan{{ $promo->id_pkp_promo  }}"><i class="fa fa-comments-o"></i> Sent Revision request</a></button>
-                @elseif(Auth::user()->departement->dept=='RKA')
-                @if($promo->status_terima2=='terima')
-                  @if($hitung==0)
-                  <a class="btn btn-danger btn-sm" href="{{ route('daftarpromo',$promo->id_pkp_promo)}}"><i class="fa fa-share"></i>Back</a>
-                   <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#kirim{{ $promo->id_pkp_promo  }}"><i class="fa fa-paper-plane"></i> Assign</a></button>
-                  @endif
-                  <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#ajukan{{ $promo->id_pkp_promo  }}"><i class="fa fa-comments-o"></i> Sent Revision request</a></button>
-                  
+              @elseif($promo->status_terima2=='terima')
+                @if($hitung==0)
+                 <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#kirim{{ $promo->id_pkp_promo  }}"><i class="fa fa-paper-plane"></i> Assign</a></button>
                 @endif
               @endif
             @endif
@@ -121,7 +105,7 @@
                     <td width="65%">
                       <table class="table table-striped table-bordered nowrap">
                         <thead>
-                          <tr style="background-color:#13699a;color:white;">
+                          <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
                             <th class="text-center">Idea</th>
                             <th class="text-center">Dimension</th>
                           </tr>
@@ -155,7 +139,7 @@
                 <label for="">Product And Allocation :</label>
                 <table class="table table-striped table-bordered nowrap" id="table">
                     <thead>
-                        <tr style="background-color:#13699a;color:white;">
+                        <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
                           <td>Product SKU Name</td>
                           <td>Allocation</td>
                           <td>Remarks</td>
@@ -244,7 +228,7 @@
           @endif
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Sent</button>
+          <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-paper-plane"></i> Sent</button>
           {{ csrf_field() }}
         </div>
         </form>
@@ -308,7 +292,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Sent</button>
+          <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-paper-plane"></i> Sent</button>
           {{ csrf_field() }}
         </div>
         </form>

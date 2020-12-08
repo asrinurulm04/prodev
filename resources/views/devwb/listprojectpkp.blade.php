@@ -9,13 +9,6 @@
     {{ session('status') }}
   </div>
 </div>
-@elseif(session('error'))
-<div class="col-lg-12 col-md-12 col-sm-12">
-  <div class="alert alert-danger">
-    <button type="button" class="close" data-dismiss="alert">×</button>
-    {{ session('error') }}
-  </div>
-</div>
 @endif
 
 <div class="col-md-12 col-sm-12 col-xs-12">
@@ -66,7 +59,7 @@
           </div>
           <div class="col-md-1 pl-1">
             <div class="form-group" id="filter_col1" data-column="5">
-              <label class="text-center">refresh</label>    
+              <label class="text-center">refresh</label>   <br> 
               <a href="" class="btn btn-info btn-sm"><li class="fa fa-refresh"></li></a>
             </div>
           </div>
@@ -85,14 +78,14 @@
   <div class="card-block">
     <div class="clearfix"></div>
       <div class="x_content" style="overflow-x: scroll;">
-      <table id="ex" class="Table table-striped nowrap">
+      <table id="ex" class="Table table-striped nowrap table-bordered">
         <thead>
           <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
             <th class="text-center">#</th>
             <th class="text-center">PKP Number</th>
             <th class="text-center">Project Name</th>
             <th class="text-center">Brand</th>
-            <th class="text-center">PV</th>
+            <th class="text-center" width="10%">PV</th>
             <th class="text-center">Priority</th>
             <th class="text-center">Prototype Sample submission status</th>
             <th width="15%" class="text-center">Action</th>

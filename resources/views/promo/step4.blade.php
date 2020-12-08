@@ -56,7 +56,7 @@
         <div class="x_content">
           <div class="col-md-12 col-xs-12">
 						<div class="form-group">
-							<div class="col-md-12 col-sm-12 col-xs-12">
+							<div class="col-md-12 col-sm-12 col-xs-12"  style="overflow-x: scroll;">
   							<form class="form-horizontal form-label-left" method="POST" action="{{Route('allocation')}}" novalidate> 
 								<br>
 								@foreach($promo as $promo)
@@ -105,7 +105,7 @@
                       
             	</div>
 							<center>
-							<button type="submit" class="btn btn-primary btn-sm">Save</button>
+							<button type="submit" class="btn btn-primary btn-sm"><li class="fa fa-check"></li> Submit</button>
 							</center>
       				{{ csrf_field() }}				
   						</form>
@@ -209,7 +209,7 @@
 											        </div>
 											      </div>
 											      <div class="modal-footer">
-											        <button type="submit" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Submit</button>
+											        <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-check"></i> Save</button>
 											        {{ csrf_field() }}
 											      </div>
 											      </form>
@@ -222,7 +222,7 @@
 								@endforeach
         				</tbody>
       				</table>
-							<center><a href="{{Route('uploadpkppromo',['id_pkp_promo' => $promo->datapromoo->id_pkp_promo, ' revisi' => $promo->revisi, ' turunan' => $promo->turunan])}}" type="button" class="btn btn-warning"><li class="fa fa-hand-o-right"></li> Next</a></center>
+							<center><a href="{{Route('uploadpkppromo',['id_pkp_promo' => $promo->datapromoo->id_pkp_promo, ' revisi' => $promo->revisi, ' turunan' => $promo->turunan])}}" type="button" class="btn btn-warning btn-sm"><li class="fa fa-hand-o-right"></li> Next</a></center>
             </div>
           </div>
     		</div>

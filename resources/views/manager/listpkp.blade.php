@@ -83,7 +83,7 @@
           </div> 
           <div class="col-md-1 pl-1">
             <div class="form-group" id="filter_col1" data-column="5">
-              <label class="text-center">refresh</label>    
+              <label class="text-center">refresh</label>  <br>  
               <a href="" class="btn btn-info btn-sm"><li class="fa fa-refresh"></li></a>
             </div>
           </div>

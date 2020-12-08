@@ -7,10 +7,7 @@
   <div class="col-md-5 col-xs-12">
 		@foreach($data as $data)
     <div class="x_panel">
-      @if($data->status_project=='revisi')
-        <button class="btn btn-success btn-sm"  data-toggle="modal" data-target="#edit"><li class="fa fa-edit"></li> Confirm Type PKP</button>
-      @endif
-      @if(auth()->user()->role->namaRule != 'user_produk')
+      @if(auth()->user()->role->namaRule == 'pv_lokal')
         @if($data->status_project=="revisi")
           <button class="btn btn-primary btn-sm" title="note" data-toggle="modal" data-target="#data{{ $data->id_pkp_promo  }}"><i class="fa fa-edit"></i> Edit Timeline</a></button>
           <!-- Modal -->
@@ -107,14 +104,9 @@
       <a class="btn btn-warning btn-sm" href="{{ route('datapromo11', ['id_pkp_promo' => $pkp1->id_pkp_promoo, 'revisi' => $pkp1->revisi, 'turunan' => $pkp1->turunan]) }}" data-toggle="tooltip" title="Edit"><i class="fa fa-edit"></i> Edit</a>
       @endif
       @endforeach
-
-      @if($data->author1->Role->id==1 || $data->author1->Role->id==14)
-      @else
-        <a href="{{route('promoklaim',$data->id_pkp_promo)}}" class="btn btn-primary btn-sm" type="submut"><li class="fa fa-tags"></li> Klaim</a>
-      @endif
     </div>
 
-    <div class="x_panel" style="min-height:340px">
+    <div class="x_panel" style="min-height:330px">
       <div class="x_title">
         <h3><li class="fa fa-star"></li> Project Name : {{ $data->project_name}}</h3>
       </div>
@@ -144,7 +136,7 @@
 
   @if(auth()->user()->role->namaRule == 'user_produk')
   <div class="col-md-7 col-xs-12">
-    <div class="x_panel" style="min-height:380px">
+    <div class="x_panel" style="min-height:390px">
       <div class="x_title">
         <h3><li class="fa fa-list"></li> Sample Submission List  </h3>
       </div>
@@ -193,7 +185,7 @@
   </div>   
   @else
   <div class="col-md-7 col-xs-12">
-    <div class="x_panel" style="min-height:435px">
+    <div class="x_panel" style="min-height:390px">
       <div class="x_title">
         <h3><li class="fa fa-list"></li> List Sample Project</h3>
       </div>
@@ -270,47 +262,6 @@
   </div>
   @endif
 </div>
-
-<!-- modal -->
-<div class="modal" id="edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">                 
-        <h3 class="modal-title" id="exampleModalLabel">Confirm Type PKP 
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button></h3>
-      </div>
-      <div class="modal-body">
-      <form class="form-horizontal form-label-left" method="POST" action="{{ route('edittypepromo',$data->id_pkp_promo) }}" novalidate>
-        <div class="form-group row">
-          <label class="control-label text-bold col-md-1 col-sm-3 col-xs-12 text-center">Type</label>
-          <div class="col-md-11 col-sm-9 col-xs-12">
-            <select name="type" class="form-control form-control-line" id="type">
-              <option readonly value="{{$data->type}}">
-              @if($data->type==1)
-              Maklon
-              @elseif($data->type==2)
-              Internal
-              @elseif($data->type==3)
-              Maklon/Internal
-              @endif</option>
-              <option value="1">Maklon</option>
-              <option value="2">Internal</option>
-              <option value="3">Maklon & Internal</option>
-            </select>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-plus-circle"></i> Submit</button>
-        {{ csrf_field() }}
-      </div>
-      </form>
-    </div>
-  </div>
-</div>
-<!-- modal selesai -->
 
 @endsection
 
