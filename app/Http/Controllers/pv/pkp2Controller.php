@@ -81,11 +81,8 @@ class pkp2Controller extends Controller
                     $tip->turunan='0';
                     $tip->tgl_launch=$pkpp->tgl_launch;
                     $tip->competitive=$pkpp->competitive;
-                    $tip->selling_price=$pkpp->selling_price;
                     $tip->competitor=$pkpp->competitor;
                     $tip->aisle=$pkpp->aisle;
-                    $tip->UOM=$pkpp->UOM;
-                    $tip->price=$pkpp->price;
                     $tip->product_form=$pkpp->product_form;
                     $tip->bpom=$pkpp->bpom;
                     $tip->status_data=$pkpp->status_data;
@@ -96,7 +93,6 @@ class pkp2Controller extends Controller
                     $tip->primery=$pkpp->primery;
                     $tip->secondary=$pkpp->secondary;
                     $tip->tertiary=$pkpp->tertiary;
-                    $tip->kemas_eksis=$pkpp->kemas_eksis;
                     $tip->prefered_flavour=$pkpp->prefered_flavour;
                     $tip->product_benefits=$pkpp->product_benefits;
                     $tip->mandatory_ingredient=$pkpp->mandatory_ingredient;
@@ -139,9 +135,9 @@ class pkp2Controller extends Controller
                 foreach ($isifor as $isifor)
                 {
                     $for= new data_forecast;
-                    $for->id_pkp=$isifor->id_pkp;
-                    $for->revisi=$naikversi;
-                    $for->turunan=$isifor->turunan;
+                    $for->id_pkp=$project->id_project;
+                    $for->revisi='0';
+                    $for->turunan='0';
                     $for->forecast=$isifor->forecast;
                     $for->satuan=$isifor->satuan;
                     $for->kemas_eksis=$isifor->kemas_eksis;

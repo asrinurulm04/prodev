@@ -134,7 +134,7 @@
         </button> </h3>
       </div>
       <div class="modal-body">
-        <table class="Table table table-bordered" width="100%">
+        <table class="Table table-bordered" width="100%">
           <thead>
             <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
               <td width="5%">No</td>
@@ -148,14 +148,14 @@
           @php $nol = 0; @endphp
           @foreach($pkp1 as $pkp)
             <tr>
-              <td class="text-center">{{ ++$nol }}</td>
-              <td>{{ $pkp->pkp_number }}{{ $pkp->ket_no }}</td>
-              <td>{{ $pkp->id_brand }}</td>
-              <td>{{ $pkp->project_name }}</td>
-              <td>{{ $pkp->author1->name }}</td>
-              <td class="text-center">
-                <a class="btn btn-warning btn-sm" href="{{url('temppkp',$pkp->id_project)}}" onclick="return confirm('Are you sure you want to use this template?')" ><i class="fa fa-check"></i></a>
-              </td>
+              <th class="text-center">{{ ++$nol }}</th>
+              <th>{{ $pkp->pkp_number }}{{ $pkp->ket_no }}</th>
+              <th>{{ $pkp->id_brand }}</th>
+              <th>{{ $pkp->project_name }}</th>
+              <th>{{ $pkp->author1->name }}</th>
+              <th class="text-center">
+                <a class="btn btn-warning btn-sm" onclick="return confirm('Are you sure you want to use this template?')" href="{{Route('temppkp',$pkp->id_project)}}"><i class="fa fa-check"></i></a>
+              </th>
             </tr>
           @endforeach
         </table>

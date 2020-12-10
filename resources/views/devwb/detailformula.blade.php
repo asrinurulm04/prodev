@@ -1,4 +1,4 @@
-@extends('formula.tempformula')
+@extends('pv.tempvv')
 @section('title', 'Summarry Formula')
 @section('judul', 'Summarry Formula')
 @section('content')

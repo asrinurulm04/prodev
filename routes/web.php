@@ -172,7 +172,6 @@ Route::get('BatalkanProject/{id}','pv\FormulaApprovalController@batalkanproject'
 Route::get('datapengajuan','pv\pkpController@pengajuan')->name('datapengajuan');
 Route::get('datapengajuan1','pv\pkpController@pengajuan1')->name('datapengajuan1');
 Route::get('approvedformula','pv\FormulaApprovalController@listapproved')->name('approvedformula');
-Route::get('story','pv\pkpController@story')->name('story');
 Route::get('catatanrevisi','pv\pkpController@catatanrevisi')->name('catatanrevisi');
 Route::post('prioritas/{id}','pv\pkpController@prioritas')->name('prioritas');
 
@@ -196,7 +195,7 @@ Route::get('buatpkp/{id_project}/{revisi}/{turunan}','pv\pkpController@buatpkp')
 Route::get('buatpkp1/{id_project}','pv\pkpController@buatpkp1')->name('buatpkp1');
 Route::get('lihatpkp/{id_project}/{revisi}/{turunan}','pv\pkpController@lihatpkp')->name('lihatpkp');
 Route::post('terima/{id_project}','pv\pkpController@terima')->name('terima');
-Route::get('temppkp','pv\pkp2Controller@template')->name('temppkp');
+Route::get('temppkp/{id}','pv\pkp2Controller@template')->name('temppkp');
 
 Route::get('konfigurasi/{id}/{revisi}/{turunan}','pv\pkpController@konfigurasi')->name('konfigurasi');
 Route::get('getpangan/{id}','ajax\getGet@getpangan')->name('getpangan');
