@@ -225,7 +225,7 @@
                   <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
                     <th colspan="2" width="25%" class="text-center">Forecast</th>
                     <th class="text-center" width="35%">Configuration Concept</th>
-                    <th width="10%" class="text-center">UOM</th>
+                    <th  colspan="2" width="20%" class="text-center">UOM</th>
                     <th width="10%" class="text-center">NFI Price</th>
                     <th width="10%" class="text-center">Costumer Price</th>
                     <th width="5%"></th>
@@ -244,87 +244,89 @@
                       </select>
                     </td>
                     <td class="text-center">
-                    <table class='table'>
-                      <tr>
-                        <td><input name='tersier[]' value="{{$for->kemas->tersier}}" id='tersier' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number' ></td>
-                        <td>
-                          <select class='form-control' name='s_tersier[]' required>
-                          <option value="{{$for->kemas->s_tersier}}">{{$for->kemas->s_tersier}}</option>
-                          @foreach($data_uom as $data)
-                          <option value="{{$data->kode}}">{{$data->kode}}</option>
-                          @endforeach
-                          </select>
-                        </td>
-                      </tr>
-                      @if($for->kemas->sekunder1!= NULL)
-                      <tr>
-                        <td><input name='sekunder1[]' value="{{$for->kemas->sekunder1}}" id='sekunder1' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number' required></td>
-                        <td>
-                          <select class='form-control' name='s_sekunder1[]' required>
-                            <option value="{{$for->kemas->s_sekunder1}}">{{$for->kemas->s_sekunder1}}</option>
+                      <table class='table'>
+                        <tr>
+                          <td><input name='tersier[]' value="{{$for->kemas->tersier}}" id='tersier' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number' ></td>
+                          <td>
+                            <select class='form-control' name='s_tersier[]' required>
+                            <option value="{{$for->kemas->s_tersier}}">{{$for->kemas->s_tersier}}</option>
                             @foreach($data_uom as $data)
                             <option value="{{$data->kode}}">{{$data->kode}}</option>
                             @endforeach
-                          </select>
-                        </td>
-                      </tr>
-                      @else
-                      <tr hidden>
-                        <td><input name='sekunder1[]' id='sekunder1' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'></td>
-                        <td><input name='s_sekunder1[]' id='s_sekunder1' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'></td>
-                      </tr>
-                      @endif
-                      @if($for->kemas->sekunder2!= NULL)
-                      <tr>
-                        <td><input name='sekunder2[]' id='sekunder2' value="{{$for->kemas->sekunder2}}" class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number' required>
-                        <td>
-                          <select class='form-control' name='s_sekunder2[]' required>
-                            <option value="{{$for->kemas->s_sekunder2}}">{{$for->kemas->s_sekunder2}}</option>
-                            @foreach($data_uom as $data)
-                            <option value="{{$data->kode}}">{{$data->kode}}</option>
-                            @endforeach
-                          </select>
-                        </td>
-                      </tr>
-                      @else
-                      <tr hidden>
-                        <td><input name='sekunder2[]' id='sekunder2' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'>
-                        <td><input name='s_sekunder2[]' id='s_sekunder2' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'>
-                      </tr>
-                      @endif
-                      <tr>
-                        <td><input name='primer[]' id='primer' value="{{$for->kemas->primer}}" class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'></td>
-                        <td>
-                          <select class='form-control' name='s_primer[]'>
-                            <option value="{{$for->kemas->s_primer}}">{{$for->kemas->s_primer}}</option>
-                            @foreach($uom_primer as $data)
-                            <option value="{{$data->kode}}">{{$data->kode}}</option>
-                            @endforeach
-                          </select>
-                        </td>
-                      </tr>
-                    </table>
-                    <h4><b><lable class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>*Information</lable></b></h4>
-                    <br><br>
-                    <div class='form-group'>
-                      <label class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>Primary</label>
-                      <div class='col-md-10 col-sm-10 col-xs-12'>
-                      <input name='primary[]' id='primary' class='form-control col-md-12 col-xs-12' value="{{$for->informasi_Primary}}" type='text' required>
+                            </select>
+                          </td>
+                        </tr>
+                        @if($for->kemas->sekunder1!= NULL)
+                        <tr>
+                          <td><input name='sekunder1[]' value="{{$for->kemas->sekunder1}}" id='sekunder1' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number' required></td>
+                          <td>
+                            <select class='form-control' name='s_sekunder1[]' required>
+                              <option value="{{$for->kemas->s_sekunder1}}">{{$for->kemas->s_sekunder1}}</option>
+                              @foreach($data_uom as $data)
+                              <option value="{{$data->kode}}">{{$data->kode}}</option>
+                              @endforeach
+                            </select>
+                          </td>
+                        </tr>
+                        @else
+                        <tr hidden>
+                          <td><input name='sekunder1[]' id='sekunder1' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'></td>
+                          <td><input name='s_sekunder1[]' id='s_sekunder1' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'></td>
+                        </tr>
+                        @endif
+                        @if($for->kemas->sekunder2!= NULL)
+                        <tr>
+                          <td><input name='sekunder2[]' id='sekunder2' value="{{$for->kemas->sekunder2}}" class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number' required>
+                          <td>
+                            <select class='form-control' name='s_sekunder2[]' required>
+                              <option value="{{$for->kemas->s_sekunder2}}">{{$for->kemas->s_sekunder2}}</option>
+                              @foreach($data_uom as $data)
+                              <option value="{{$data->kode}}">{{$data->kode}}</option>
+                              @endforeach
+                            </select>
+                          </td>
+                        </tr>
+                        @else
+                        <tr hidden>
+                          <td><input name='sekunder2[]' id='sekunder2' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'>
+                          <td><input name='s_sekunder2[]' id='s_sekunder2' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'>
+                        </tr>
+                        @endif
+                        <tr>
+                          <td><input name='primer[]' id='primer' value="{{$for->kemas->primer}}" class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'></td>
+                          <td>
+                            <select class='form-control' name='s_primer[]'>
+                              <option value="{{$for->kemas->s_primer}}">{{$for->kemas->s_primer}}</option>
+                              @foreach($uom_primer as $data)
+                              <option value="{{$data->kode}}">{{$data->kode}}</option>
+                              @endforeach
+                            </select>
+                          </td>
+                        </tr>
+                      </table>
+                      <h4><b><lable class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>*Information</lable></b></h4>
+                      <br><br>
+                      <div class='form-group'>
+                        <label class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>Primary</label>
+                        <div class='col-md-10 col-sm-10 col-xs-12'>
+                        <input name='primary[]' id='primary' class='form-control col-md-12 col-xs-12' value="{{$for->informasi_Primary}}" type='text' required>
+                        </div>
                       </div>
-                    </div>
-                    <div class='form-group'>
-                      <label class='control-label col-md-2 col-sm-3 col-xs-12' for='last-name'>Secondary</label>
-                      <div class='col-md-10 col-sm-10 col-xs-12'>
-                      <input name='secondary[]' id='secondary' class='form-control col-md-12 col-xs-12' value="{{$for->Secondary}}" type='text' required>
+                      <div class='form-group'>
+                        <label class='control-label col-md-2 col-sm-3 col-xs-12' for='last-name'>Secondary</label>
+                        <div class='col-md-10 col-sm-10 col-xs-12'>
+                        <input name='secondary[]' id='secondary' class='form-control col-md-12 col-xs-12' value="{{$for->Secondary}}" type='text' required>
+                        </div>
                       </div>
-                    </div>
-                    <div class='form-group'>
-                      <label for='middle-name' class='control-label col-md-2 col-sm-3 col-xs-12'>Tertiary </label>
-                      <div class='col-md-10 col-sm-10 col-xs-12'>
-                      <input name='tertiary[]' id='tertiary' class='form-control col-md-12 col-xs-12' value="{{$for->Tertiary}}" type='text' required>
+                      <div class='form-group'>
+                        <label for='middle-name' class='control-label col-md-2 col-sm-3 col-xs-12'>Tertiary </label>
+                        <div class='col-md-10 col-sm-10 col-xs-12'>
+                        <input name='tertiary[]' id='tertiary' class='form-control col-md-12 col-xs-12' value="{{$for->Tertiary}}" type='text' required>
+                        </div>
                       </div>
-                    </div>
-                    <div class='ln_solid'></div>
+                      <div class='ln_solid'></div>
+                    </td>
+                    <td><input type="number" value="{{$for->jlh_uom}}" required class="form-control" name="satuan_uom[]" id="satuan_uom"></td>
                     <td>
                       <select name="uom[]" id="UOM" class="form-control">
                         <option value="{{$for->uom}}">{{$for->uom}}</option>
@@ -798,6 +800,8 @@
       '<input type="radio" name="gramasi'+(i+1)+'[]" required id="rad'+(i+1)+'" value="kedua'+(i+1)+'" class="rad"/> 3 Dimensi &nbsp'+
       '<input type="radio" name="gramasi'+(i+1)+'[]" required id="rad'+(i+1)+'" value="ketiga'+(i+1)+'" class="rad"/> 4 Dimensi &nbsp'+
 			"<div id='tampil"+(i+1)+"'></div>"+
+    "</td>"+
+    "<td><input type='number' class='form-control' required name='satuan_uom[]' id='satuan_uom'></td>"+
     "<td>"+
       "<select name='uom[]' id='UOM' class='form-control'>"+datauom+"</select>"+
     "</td>"+

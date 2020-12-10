@@ -11,6 +11,10 @@ class Formula extends Model
     public function Workbook(){
         return $this->belongsTo('App\pkp\tipp','workbook_id','id_pkp');
     }
+    
+    public function Workbook_pdf(){
+        return $this->belongsTo('App\pkp\coba','workbook_pdf_id','pdf_id');
+    }
 
     public function Fortail(){
         return $this->hasMany('App\dev\Fortail');

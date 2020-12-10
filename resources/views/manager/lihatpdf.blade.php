@@ -93,7 +93,7 @@
                               @endif
                           </div>
                           <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Sent</button>
+                            <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-paper-plane"></i> Sent</button>
                             {{ csrf_field() }}
                           </div>
                           </form>
@@ -158,7 +158,7 @@
                               </div>
                             </div>
                             <div class="modal-footer">
-                              <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Sent</button>
+                              <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-paper-plane"></i> Sent</button>
                               {{ csrf_field() }}
                             </div>
                           </form>
@@ -217,7 +217,7 @@
                             @endif
                         </div>
                         <div class="modal-footer">
-                          <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Sent</button>
+                          <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-paper-plane"></i> Sent</button>
                           {{ csrf_field() }}
                         </div>
                         </form>
@@ -315,24 +315,6 @@
                                 if($data->revisi!=$pdf->revisi){ echo" <s><font color='#ffa2a2'>$data->retailer_price<br></font></s>"; } if($data->revisi==$pdf->revisi){ echo" $data->retailer_price<br>"; } } ?></td></tr>
 													      <tr><th>What's Special</th><th>&nbsp :</th><td style="border:none;"><?php $special = []; foreach ($pdf1 as $key => $data) If (!$special || !in_array($data->special, $special)) { $special += array( $key => $data->special );
                                 if($data->revisi!=$pdf->revisi){ echo" <s><font color='#ffa2a2'> $data->special <br></font></s>"; } if($data->revisi==$pdf->revisi){ echo" $data->special <br>"; } } ?></tr>
-													      <!-- <tr><td style="border:none;">File </th><td style="border:none;"> 
-                                  <table class="table-bordered">
-                                    <tr class="text-center">
-                                      <td>Filename</td>
-                                      <td>File</td>
-                                      <td>Information</td>
-                                      <td></td>
-                                    </tr>
-                                    @foreach($picture as $pic)
-                                    <tr>
-                                      <td>{{$pic->filename}} </td>
-                                      <td class="text-center"><embed src="{{asset('data_file/'.$pic->filename)}}" width="90px" height="90" type=""></td>
-                                      <td width="40%"> &nbsp{{$pic->informasi}}</td>  
-                                      <td width="10%" class="text-center"><a href="{{asset('data_file/'.$pic->filename)}}" download="{{$pic->filename}}"><button class="btn btn-primary btn-sm"><li class="fa fa-download"></li></button></a></td>
-                                    </tr>
-                                    @endforeach
-                                  </table>
-                                </td></tr> -->
 													    </table>
 												    </td>
                           </tr>

@@ -158,7 +158,7 @@
                   <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
                     <th colspan="2" width="25%" class="text-center">Forecast</th>
                     <th class="text-center">Configuration Concept</th>
-                    <th width="10%" class="text-center">UOM</th>
+                    <th colspan="2" width="20%" class="text-center">UOM</th>
                     <th width="10%" class="text-center">NFI Price</th>
                     <th width="10%" class="text-center">Costumer Price</th>
                     <th width="5%"></th>
@@ -180,6 +180,7 @@
                       <input type="radio" name="gramasi1[]" required id="rad1" value="kedua1" class="rad"/> 3 Dimensi &nbsp
                       <input type="radio" name="gramasi1[]" required id="rad1" value="ketiga1" class="rad"/> 4 Dimensi &nbsp
 					            <div id='tampil1'></div>
+                    <td><input type="number" required class="form-control" name="satuan_uom[]" id="satuan_uom"></td>
                     <td>
                       <select name="uom[]" id="UOM" class="form-control">
                         @foreach($data_uom as $data)
@@ -575,6 +576,8 @@
       '<input type="radio" name="gramasi'+(i+1)+'[]" required id="rad'+(i+1)+'" value="kedua'+(i+1)+'" class="rad"/> 3 Dimensi &nbsp'+
       '<input type="radio" name="gramasi'+(i+1)+'[]" required id="rad'+(i+1)+'" value="ketiga'+(i+1)+'" class="rad"/> 4 Dimensi &nbsp'+
 			"<div id='tampil"+(i+1)+"'></div>"+
+    "</td>"+
+    "<td><input type='number' class='form-control' required name='satuan_uom[]' id='satuan_uom'></td>"+
     "<td>"+
       "<select name='uom[]' id='UOM' class='form-control'>"+datauom+"</select>"+
     "</td>"+
@@ -627,8 +630,7 @@
               "<div class='col-md-10 col-sm-10 col-xs-12'>"+
                 "<input name='tertiary[]' id='tertiary' class='form-control col-md-12 col-xs-12' type='text' required>"+
               "</div>"+
-            "</div>"+
-            "<div class='ln_solid'></div>"
+            "</div>"
 					}
 
           if($(this).val() == "kedua"+i){
@@ -676,8 +678,7 @@
               "<div class='col-md-10 col-sm-10 col-xs-12'>"+
                 "<input name='tertiary[]' id='tertiary' class='form-control col-md-12 col-xs-12' type='text' required>"+
               "</div>"+
-            "</div>"+
-            "<div class='ln_solid'></div>"
+            "</div>"
 					}
 
           if($(this).val() == "ketiga"+i){
@@ -727,8 +728,7 @@
               "<div class='col-md-10 col-sm-10 col-xs-12'>"+
                 "<input name='tertiary[]' id='tertiary' class='form-control col-md-12 col-xs-12' type='text' required>"+
               "</div>"+
-            "</div>"+
-            "<div class='ln_solid'></div>"
+            "</div>"
 					}
 				});
 			});
@@ -782,8 +782,7 @@
               "<div class='col-md-10 col-sm-10 col-xs-12'>"+
                 "<input name='tertiary[]' id='tertiary' class='form-control col-md-12 col-xs-12' type='text' required>"+
               "</div>"+
-            "</div>"+
-            "<div class='ln_solid'></div>"
+            "</div>"
 					}
 
           if($(this).val() == "kedua1"){
@@ -831,8 +830,7 @@
               "<div class='col-md-10 col-sm-10 col-xs-12'>"+
                 "<input name='tertiary[]' id='tertiary' class='form-control col-md-12 col-xs-12' type='text'required>"+
               "</div>"+
-            "</div>"+
-            "<div class='ln_solid'></div>"
+            "</div>"
 					}
 
           if($(this).val() == "ketiga1"){
@@ -882,8 +880,7 @@
               "<div class='col-md-10 col-sm-10 col-xs-12'>"+
                 "<input name='tertiary[]' id='tertiary' class='form-control col-md-12 col-xs-12' type='text' required>"+
               "</div>"+
-            "</div>"+
-            "<div class='ln_solid'></div>"
+            "</div>"
 					}
 				});
 			});

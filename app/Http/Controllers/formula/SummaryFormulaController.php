@@ -29,8 +29,9 @@ class SummaryFormulaController extends Controller
 		$data       = formula::with('Workbook')->where('id',$id)->get();
 		$akg = tb_akg::join('formulas','formulas.akg','tb_akg.id_tarkon')->join('tb_overage_inngradient','tb_overage_inngradient.id_formula','formulas.id')->where('id',$id)->get();
         $idf = $id;
-		$formula = Formula::where('workbook_id',$formula)->join('tb_overage_inngradient','tb_overage_inngradient.id_formula','formulas.id')->where('id',$id)->first();
+		$formula = Formula::where('id',$id)->join('tb_overage_inngradient','tb_overage_inngradient.id_formula','formulas.id')->first();
         $idfor = $formula->workbook_id;
+        $idfor_pdf = $formula->workbook_pdf_id;
         $fortails = Fortail::where('formula_id',$id)->get();
         $ingredient = DB::table('fortails')->join('tb_nutfact','tb_nutfact.id_ingredient','=','fortails.id_ingredient')->where('fortails.formula_id',$id)->get();
 		$ada = Fortail::where('formula_id',$id)->count();
@@ -410,6 +411,7 @@ class SummaryFormulaController extends Controller
 			'gp' => $gp,
 			'akg' => $akg,
 			'idfor' => $idfor,
+			'idfor_pdf' => $idfor_pdf,
 			'ingredient' => $ingredient,
 			'allergen_bb' => $allergen_bb,
             'detail_harga' => $detail_harga,
@@ -423,39 +425,39 @@ class SummaryFormulaController extends Controller
 		$formula->save();
 
 		$overage = tb_overage::where('id_formula',$id)->first();
-		$overage->energi_total=$request->energi_total;
-		$overage->energi_lemak=$request->energi_lemak;
-		$overage->energi_lemak_jenuh=$request->energi_lemak_jenuh;$overage->karbohidrat=$request->karbohidrat;
-		$overage->protein1=$request->protein1;$overage->lemak_total=$request->lemak_total;
-		$overage->lemak_trans=$request->lemak_trans;$overage->lemak_jenuh=$request->lemak_jenuh;
-		$overage->lemak_tidak_jenuh_tunggal=$request->lemak_tidak_jenuh_tunggal;$overage->gluten=$request->gluten;
-		$overage->lemak_tidak_jenuh_ganda=$request->lemak_tidak_jenuh_ganda;$overage->kolestrol=$request->kolestrol;
-		$overage->gula=$request->gula;$overage->serat_pangan=$request->serat_pangan;
-		$overage->sukrosa=$request->sukrosa;$overage->laktosa=$request->laktosa;$overage->serat_pangan_larut=$request->serat_pangan_larut;
-		$overage->gula_alkohol=$request->gula_alkohol;$overage->natrium=$request->natrium;$overage->kalium=$request->kalium;
-		$overage->kalsium=$request->kalsium;$overage->zat_besi=$request->zat_besi;$overage->fosfor=$request->fosfor;
-		$overage->magnesium=$request->magnesium;
-		$overage->seng=$request->seng;
-		$overage->selenium=$request->selenium;
-		$overage->lodium=$request->lodium;$overage->mangan=$request->mangan;$overage->flour=$request->flour;
-		$overage->tembaga=$request->tembaga;$overage->vitA=$request->vitA;$overage->vitB1=$request->vitB1;$overage->vitB2=$request->vitB2;
-		$overage->vitB3=$request->vitB3;$overage->vitB5=$request->vitB5;$overage->vitB6=$request->vitB6;$overage->vitB12=$request->vitB12;
-		$overage->vitC=$request->vitC;$overage->vitD3=$request->vitD3;$overage->vitE=$request->vitE;$overage->vitB3=$request->vitB3;
-		$overage->asam_folat=$request->asam_folat;$overage->magnesium_aspartat=$request->magnesium_aspartat;
-		$overage->kolin=$request->kolin;$overage->biotin=$request->biotin;$overage->Inositol=$request->Inositol;
-		$overage->Molibdenum=$request->Molibdenum;$overage->Kromium=$request->Kromium;$overage->EPA=$request->EPA;
-		$overage->DHA=$request->DHA;$overage->Glukosamin=$request->Glukosamin;$overage->Kondroitin=$request->Kondroitin;
-		$overage->Kolagen=$request->Kolagen;$overage->EGCG=$request->EGCG;$overage->Kreatina=$request->Kreatina;
-		$overage->MCT=$request->MCT;$overage->CLA=$request->CLA;$overage->omega3=$request->omega3;
-		$overage->omega6=$request->omega6;$overage->omega9=$request->omega9;$overage->Klorida=$request->Klorida;
-		$overage->asam_linoleat=$request->asam_linoleat;$overage->energi_asam_linoleat=$request->energi_asam_linoleat;
-		$overage->energi_protein=$request->energi_protein;$overage->l_karnitin=$request->l_karnitin;$overage->l_glutamin=$request->l_glutamin;
-		$overage->Thereonin=$request->Thereonin;$overage->Methionin=$request->Methionin;$overage->Phenilalanin=$request->Phenilalanin;
-		$overage->Histidin=$request->Histidin;$overage->Lisin=$request->Lisin;$overage->BCAA=$request->BCAA;
-		$overage->Valin=$request->Valin;$overage->Isoleusin=$request->Isoleusin;$overage->Leusin=$request->Leusin;
-		$overage->Alanin=$request->Alanin;$overage->asam_aspartat=$request->asam_aspartat;$overage->asam_glutamat=$request->asam_glutamat;
-		$overage->sistein=$request->sistein;$overage->serin=$request->serin;$overage->glisin=$request->glisin;
-		$overage->tyrosin=$request->tyrosin;$overage->proline=$request->proline;$overage->arginine=$request->arginine;
+		$overage->overage_energi_total=$request->energi_total;
+		$overage->overage_energi_lemak=$request->energi_lemak;
+		$overage->overage_energi_lemak_jenuh=$request->energi_lemak_jenuh;$overage->overage_karbohidrat=$request->karbohidrat;
+		$overage->overage_protein1=$request->protein1;$overage->overage_lemak_total=$request->lemak_total;
+		$overage->overage_lemak_trans=$request->lemak_trans;$overage->overage_lemak_jenuh=$request->lemak_jenuh;
+		$overage->overage_lemak_tidak_jenuh_tunggal=$request->lemak_tidak_jenuh_tunggal;$overage->overage_gluten=$request->gluten;
+		$overage->overage_lemak_tidak_jenuh_ganda=$request->lemak_tidak_jenuh_ganda;$overage->overage_kolestrol=$request->kolestrol;
+		$overage->overage_gula=$request->gula;$overage->overage_serat_pangan=$request->serat_pangan;
+		$overage->overage_sukrosa=$request->sukrosa;$overage->overage_laktosa=$request->laktosa;$overage->overage_serat_pangan_larut=$request->serat_pangan_larut;
+		$overage->overage_gula_alkohol=$request->gula_alkohol;$overage->overage_natrium=$request->natrium;$overage->overage_kalium=$request->kalium;
+		$overage->overage_kalsium=$request->kalsium;$overage->overage_zat_besi=$request->zat_besi;$overage->overage_fosfor=$request->fosfor;
+		$overage->overage_magnesium=$request->magnesium;
+		$overage->overage_seng=$request->seng;
+		$overage->overage_selenium=$request->selenium;
+		$overage->overage_lodium=$request->lodium;$overage->overage_mangan=$request->mangan;$overage->overage_flour=$request->flour;
+		$overage->overage_tembaga=$request->tembaga;$overage->overage_vitA=$request->vitA;$overage->overage_vitB1=$request->vitB1;$overage->overage_vitB2=$request->vitB2;
+		$overage->overage_vitB3=$request->vitB3;$overage->overage_vitB5=$request->vitB5;$overage->overage_vitB6=$request->vitB6;$overage->overage_vitB12=$request->vitB12;
+		$overage->overage_vitC=$request->vitC;$overage->overage_vitD3=$request->vitD3;$overage->overage_vitE=$request->vitE;$overage->overage_vitB3=$request->vitB3;
+		$overage->overage_asam_folat=$request->asam_folat;$overage->overage_magnesium_aspartat=$request->magnesium_aspartat;
+		$overage->overage_kolin=$request->kolin;$overage->overage_biotin=$request->biotin;$overage->overage_Inositol=$request->Inositol;
+		$overage->overage_Molibdenum=$request->Molibdenum;$overage->overage_Kromium=$request->Kromium;$overage->overage_EPA=$request->EPA;
+		$overage->overage_DHA=$request->DHA;$overage->overage_Glukosamin=$request->Glukosamin;$overage->overage_Kondroitin=$request->Kondroitin;
+		$overage->overage_Kolagen=$request->Kolagen;$overage->overage_EGCG=$request->EGCG;$overage->overage_Kreatina=$request->Kreatina;
+		$overage->overage_MCT=$request->MCT;$overage->overage_CLA=$request->CLA;$overage->overage_omega3=$request->omega3;
+		$overage->overage_omega6=$request->omega6;$overage->overage_omega9=$request->omega9;$overage->overage_Klorida=$request->Klorida;
+		$overage->overage_asam_linoleat=$request->asam_linoleat;$overage->overage_energi_asam_linoleat=$request->energi_asam_linoleat;
+		$overage->overage_energi_protein=$request->energi_protein;$overage->overage_l_karnitin=$request->l_karnitin;$overage->overage_l_glutamin=$request->l_glutamin;
+		$overage->overage_Thereonin=$request->Thereonin;$overage->overage_Methionin=$request->Methionin;$overage->overage_Phenilalanin=$request->Phenilalanin;
+		$overage->overage_Histidin=$request->Histidin;$overage->overage_Lisin=$request->Lisin;$overage->overage_BCAA=$request->BCAA;
+		$overage->overage_Valin=$request->Valin;$overage->overage_Isoleusin=$request->Isoleusin;$overage->overage_Leusin=$request->Leusin;
+		$overage->overage_Alanin=$request->Alanin;$overage->overage_asam_aspartat=$request->asam_aspartat;$overage->overage_asam_glutamat=$request->asam_glutamat;
+		$overage->overage_sistein=$request->sistein;$overage->overage_serin=$request->serin;$overage->overage_glisin=$request->glisin;
+		$overage->overage_tyrosin=$request->tyrosin;$overage->overage_proline=$request->proline;$overage->overage_arginine=$request->arginine;
 		$overage->save();
 
 		return redirect::back();

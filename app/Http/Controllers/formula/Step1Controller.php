@@ -37,6 +37,23 @@ class Step1Controller extends Controller
         ]);
     }
 
+    public function step1_pdf($formula,$id){
+        $depts = Departement::all();
+        $subbrands = Subbrand::all();
+        $produksis = Produksi::all();
+        $formula = Formula::where('id',$id)->first();
+        $idfor_pdf = $formula->workbook_pdf_id;
+        $idf = $id;
+        return view('formula/step1_pdf')->with([
+            'idf' => $idf,
+            'formula' => $formula,
+            'depts' => $depts,
+            'subbrands' => $subbrands,
+            'idfor_pdf' => $idfor_pdf,
+            'produksis' => $produksis
+        ]);
+    }
+
     public function update($formula,$id,Request $request){
         $formula = Formula::where('id',$formula)->first();
         $formula->catatan_rd = $request->keterangan;

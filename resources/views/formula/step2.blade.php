@@ -40,9 +40,15 @@
   <div class="col-md-7">
     <div class="tabbable">
       <ul class="nav nav-tabs wizard">
+        @if($formula->workbook_id!=NULL)
         <li class="active"><a href="{{ route('step1',[ $idfor, $idf]) }}"><span class="nmbr">1</span>Information</a></li>
         <li class="completed"><a href="{{ route('step2',[ $idfor, $idf]) }}"><span class="nmbr">2</span>Penyusunan</a></li>
         <li class="active"><a href="{{ route('summarry',[ $idfor, $idf]) }}"><span class="nmbr">3</span>Summary</a></li>
+        @elseif($formula->workbook_pdf_id!=NULL)
+        <li class="active"><a href="{{ route('step1_pdf',[ $idfor_pdf, $idf]) }}"><span class="nmbr">1</span>Information</a></li>
+        <li class="completed"><a href="{{ route('step2',[ $idfor_pdf, $idf]) }}"><span class="nmbr">2</span>Penyusunan</a></li>
+        <li class="active"><a href="{{ route('summarry',[ $idfor_pdf, $idf]) }}"><span class="nmbr">3</span>Summary</a></li>
+        @endif
       </ul>
     </div>
   </div>
@@ -77,14 +83,23 @@
       <div class="panel-body">
         <div class="col-md-4">
           <table>
+            @if($formula->workbook_id!=NULL)
             <tr>
               <th>Nama Produk</th><td>&nbsp; : {{ $formula->Workbook->datapkpp->project_name }}</td>                    
             </tr>
             <tr>
-              <th>Versi</th><td>&nbsp; : {{ $formula->versi }}.{{ $formula->turunan }}</td>
+              <th>PV</th><td>&nbsp; : {{ $formula->workbook->perevisi2->name }} </td>
+            </tr>
+            @else
+            <tr>
+              <th>Nama Produk</th><td>&nbsp; : {{ $formula->Workbook_pdf->datapdf->project_name }}</td>                    
             </tr>
             <tr>
-              <th>PV</th><td>&nbsp; : {{ $formula->workbook->perevisi2->name }} </td>
+              <th>PV</th><td>&nbsp; : {{ $formula->workbook_pdf->perevisi2->name }} </td>
+            </tr>
+            @endif
+            <tr>
+              <th>Versi</th><td>&nbsp; : {{ $formula->versi }}.{{ $formula->turunan }}</td>
             </tr>
           </table>
         </div>
@@ -275,11 +290,7 @@
                 <input type="checkbox" value="yes" name="cbase" id="cbase">
                 <label for="cbase" >Jadikan Base Perhitungan</label>                                        
               </div>                                                                 
-              @endif  
-              <!-- <div class="col-md-2"><br>
-                <input type="radio" value="yes" name="cgranulasi" id="cgranulasi"><label for="cgranulasi" >Granulasi</label> &nbsp &nbsp
-                <input type="radio" value="yes" name="cpremix" id="cpremix"><label for="cpremix" >Premix</label>
-              </div>                              -->
+              @endif 
               <div class="col-md-6"><br>
               	{{ csrf_field()}}
               	<input type="submit" class="btn btn-primary btn-sm" value="+ Masukan Bahan"></td>
@@ -548,8 +559,7 @@
               @else
               <a class="btn btn-success btn-sm" href="{{ route('getTemplate',[$idfor,$idf]) }}" type="button" id="buttonformcheckscale"><i class="fa fa-eye"></i> Import Granulasi/Premix</a>
               <a class="btn btn-primary btn-sm" type="button" id="buttonformsavechanges"><i class="fa fa-save"></i> Simpan Perubahan Serving</a>                            
-              @endif                                                      
-              <a class="btn btn-danger btn-sm" href="{{ route('showworkbook',$formula->workbook_id) }}"><i class="fa fa-ban"></i> Cencel</a>
+              @endif
             </div>
             <div class="col-md-4">
               <div>
@@ -571,7 +581,11 @@
           </div>
         </div>  
         <hr>
+        @if($formula->workbook_id!=NULL)
         <form class="form-horizontal form-label-left" method="POST" action="{{ route('updatenote',[$formula->id,$formula->workbook_id]) }}">
+        @elseif($formula->workbook_pdf_id!=NULL)
+        <form class="form-horizontal form-label-left" method="POST" action="{{ route('updatenote',[$formula->id,$formula->workbook_pdf_id]) }}">
+        @endif
         <div class="row">
           <div class="form-group">
             <label class="control-label col-md-1 col-sm-1 col-xs-12">Note RD <br><font style="color:red;font-size:11px">* max 200 character</font></label>

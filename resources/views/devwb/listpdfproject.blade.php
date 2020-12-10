@@ -208,12 +208,15 @@
             </td>
             <td class="text-center">
               @if($pdf->status_project=='proses')
-              <a class="btn btn-info btn-sm" href="{{ Route('rekappdf',$pdf->id_project_pdf)}}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
+                @if($pdf->workbook!='0')
+                <a class="btn btn-primary btn-sm" href="{{ Route('rekappdf',$pdf->id_project_pdf)}}" data-toggle="tooltip" title="Show"><i class="fa fa-book"></i></a>
+                @elseif($pdf->workbook=='0')
+                <a class="btn btn-info btn-sm" href="{{ Route('rekappdf',$pdf->id_project_pdf)}}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
+                @endif
               @elseif($pdf->status_project=='revisi')
                 The Project in the revised proses
               @elseif($pdf->status_project=='close')
               <a class="btn btn-info btn-sm" href="{{ Route('rekappdf',$pdf->id_project_pdf)}}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
-              <button class="btn btn-info btn-sm" disabled><li class="fa fa-smile-o" title="close"></li></button>
               @endif
             </td>
             @endif

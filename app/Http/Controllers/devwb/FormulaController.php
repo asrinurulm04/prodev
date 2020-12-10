@@ -16,6 +16,7 @@ use App\dev\Fortail;
 use App\dev\Premix;
 use App\dev\Pretail;
 use App\dev\Bahan;
+use App\pkp\project_pdf;
 use App\pkp\pkp_project;
 use App\master\Curren;
 use App\Pesan;
@@ -57,14 +58,19 @@ class FormulaController extends Controller
         $overage->id_formula=$formulas->id;
 		$overage->save();
 		
+		if($request->workbook_id!=NULL){
 		$pkp = pkp_project::where('id_project',$request->workbook_id)->first();
 		$pkp->workbook='1';
 		$pkp->save();
 
-        if($request->workbook_id!=NULL){
 			return redirect()->route('step1',['id_workbook' => $request->workbook_id, 'id_formula' => $formulas->id])->with('status', 'Formula '.$formulas->nama_produk.' Telah Ditambahkan!');
 		}else{
-			return redirect()->route('step1',['id_pdf_workbook' => $request->workbook_pdf_id, 'id_formula' => $formulas->id])->with('status', 'Formula '.$formulas->nama_produk.' Telah Ditambahkan!');
+			
+		$pdf = project_pdf::where('id_project_pdf',$request->workbook_pdf_id)->first();
+		$pdf->workbook='1';
+		$pdf->save();
+
+			return redirect()->route('step1_pdf',['id_pdf_workbook' => $request->workbook_pdf_id, 'id_formula' => $formulas->id])->with('status', 'Formula '.$formulas->nama_produk.' Telah Ditambahkan!');
 		}
         
     }
@@ -100,10 +106,17 @@ class FormulaController extends Controller
 			$storage1 = storage::where('id_formula',$id)->delete();
 		}
 
-		$pkp_hitung = pkp_project::where('id_project',$formula->workbook_id)->max('workbook')-1;
-		$pkp = pkp_project::where('id_project',$formula->workbook_id)->first();
-		$pkp->workbook=$pkp_hitung;
-		$pkp->save();
+		if($formula->workbook_id!=NULL){
+			$pkp_hitung = pkp_project::where('id_project',$formula->workbook_id)->max('workbook')-1;
+			$pkp = pkp_project::where('id_project',$formula->workbook_id)->first();
+			$pkp->workbook=$pkp_hitung;
+			$pkp->save();
+		}elseif($formula->worbook_pdf_id!=NULL){
+			$pdf_hitung = project_pdf::where('id_project_pdf',$formula->workbook_pdf_id)->max('workbook')-1;
+			$pdf = project_pdf::where('id_project_pdf',$formula->workbook_pdf_id)->first();
+			$pdf->workbook=$pdf_hitung;
+			$pdf->save();
+		}
 
         return Redirect::back()->with('error', 'Formula Versi '.$formula->versi.'.'.$formula->turunan.' Telah Dihapus!');
     }
@@ -113,7 +126,7 @@ class FormulaController extends Controller
 		$data       = formula::with('Workbook')->where('id',$id)->get();
 		$akg = tb_akg::join('formulas','formulas.akg','tb_akg.id_tarkon')->join('tb_overage_inngradient','tb_overage_inngradient.id_formula','formulas.id')->where('id',$id)->get();
         $idf = $id;
-		$formula = Formula::where('workbook_id',$formula)->join('tb_overage_inngradient','tb_overage_inngradient.id_formula','formulas.id')->where('id',$id)->first();
+		$formula = Formula::where('id',$id)->join('tb_overage_inngradient','tb_overage_inngradient.id_formula','formulas.id')->first();
         $idfor = $formula->workbook_id;
         $fortails = Fortail::where('formula_id',$id)->get();
         $ingredient = DB::table('fortails')

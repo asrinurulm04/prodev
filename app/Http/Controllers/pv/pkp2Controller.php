@@ -138,13 +138,21 @@ class pkp2Controller extends Controller
                 $isifor=data_forecast::where('id_pkp',$id_project)->where('revisi',$max)->where('turunan',$pkp)->get();
                 foreach ($isifor as $isifor)
                 {
-                    $data1= new data_forecast;
-                    $data1->id_pkp=$project->id_project;
-                    $data1->turunan='0';
-                    $data1->revisi='0';
-                    $data1->forecast=$isifor->forecast;
-                    $data1->satuan=$isifor->satuan;
-                    $data1->save();
+                    $for= new data_forecast;
+                    $for->id_pkp=$isifor->id_pkp;
+                    $for->revisi=$naikversi;
+                    $for->turunan=$isifor->turunan;
+                    $for->forecast=$isifor->forecast;
+                    $for->satuan=$isifor->satuan;
+                    $for->kemas_eksis=$isifor->kemas_eksis;
+                    $for->informasi_Primary=$isifor->informasi_Primary;
+                    $for->Secondary=$isifor->Secondary;
+                    $for->Tertiary=$isifor->Tertiary;
+                    $for->uom=$isifor->uom;
+                    $for->jlh_uom=$isifor->jlh_uom;
+                    $for->nfi_price=$isifor->nfi_price;
+                    $for->costumer=$isifor->costumer;
+                    $for->save();
                 }
             }
 

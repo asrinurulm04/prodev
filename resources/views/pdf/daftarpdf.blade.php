@@ -251,7 +251,7 @@
                     </div>
                   </div>
                   @if($sample->status!='proses')
-                  <a class="btn btn-primary btn-sm" href="{{ route('step1',[$sample->workbook_pdf_id,$sample->id]) }}"><i style="font-size:12px;" class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a>
+                  <a class="btn btn-primary btn-sm" href="{{ route('step1_pdf',[$sample->workbook_pdf_id,$sample->id]) }}"><i style="font-size:12px;" class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a>
                   <a class="btn btn-dark btn-sm" href="{{ route('ajukanvp',[$sample->workbook_pdf_id,$sample->id]) }}" onclick="return confirm('Ajukan Formula Kepada PV?')" data-toggle="tooltip" title="Ajukan PV"><li class="fa fa-paper-plane"></li></a>
                   @elseif($sample->vv == 'approve')
                     @if($sample->status_panel=='proses')

@@ -9,9 +9,15 @@
   <div class="col-md-7">
     <div class="tabbable">
       <ul class="nav nav-tabs wizard">
+        @if($formula->workbook_id!=NULL)
         <li class="active"><a href="{{ route('step1',[ $idfor, $idf]) }}"><span class="nmbr">1</span>Information</a></li>
-        <li class="active"><a href="{{ route('step2',[ $idfor, $idf]) }}"><span class="nmbr">2</span>Penyusunan</a></li>
-        <li class="completed"><a href="{{ route('summarry',[ $idfor, $idf]) }}"><span class="nmbr">3</span>Summary</a></li>
+        <li class="completed"><a href="{{ route('step2',[ $idfor, $idf]) }}"><span class="nmbr">2</span>Penyusunan</a></li>
+        <li class="active"><a href="{{ route('summarry',[ $idfor, $idf]) }}"><span class="nmbr">3</span>Summary</a></li>
+        @elseif($formula->workbook_pdf_id!=NULL)
+        <li class="active"><a href="{{ route('step1_pdf',[ $idfor_pdf, $idf]) }}"><span class="nmbr">1</span>Information</a></li>
+        <li class="completed"><a href="{{ route('step2',[ $idfor_pdf, $idf]) }}"><span class="nmbr">2</span>Penyusunan</a></li>
+        <li class="active"><a href="{{ route('summarry',[ $idfor_pdf, $idf]) }}"><span class="nmbr">3</span>Summary</a></li>
+        @endif
       </ul>
     </div>
   </div>
@@ -25,21 +31,19 @@
   	<div class="row">
       <div class="col-md-4">
         <table>
-          {{-- <tr>
-						@foreach($ingredient as $ig)
+						 <!-- @foreach($ingredient as $ig)
 						{{ $ig->fat/100 }}
-						@endforeach
-            <td>Nama Produk</td><td>&nbsp; : {{ $formula->Workbook->datapkpp->project_name }}</td>                    
-					</tr> --}}
-					<tr>
-					<td>No.PKP</td><td>&nbsp; : {{ $formula->Workbook->datapkpp->pkp_number }}{{$formula->Workbook->datapkpp->ket_no}}</td>
-          </tr>
-          <tr>
-            <td>Versi</td><td>&nbsp; : {{ $formula->versi }}.{{ $formula->turunan }}</td>
-          </tr>
-          <tr>
-            <td>Perevisi</td><td>&nbsp; : {{ $formula->workbook->perevisi2->name }} </td>
-          </tr>
+						@endforeach  -->
+					@if($formula->workbook_id!=NULL)
+          <tr><td>Nama Produk</td><td>&nbsp; : {{ $formula->Workbook->datapkpp->project_name }}</td></tr>
+					<tr><td>No.PKP</td><td>&nbsp; : {{ $formula->Workbook->datapkpp->pkp_number }}{{$formula->Workbook->datapkpp->ket_no}}</td></tr>
+          <tr><td>Perevisi</td><td>&nbsp; : {{ $formula->workbook->perevisi2->name }} </td></tr>
+					@elseif($formula->workbook_pdf_id!=NULL)
+          <tr><td>Nama Produk</td><td>&nbsp; : {{ $formula->Workbook_pdf->datapdf->project_name }}</td></tr>
+					<tr><td>No.PKP</td><td>&nbsp; : {{ $formula->Workbook_pdf->datapdf->pdf_number }}{{$formula->Workbook_pdf->datapdf->ket_no}}</td></tr>
+          <tr><td>Perevisi</td><td>&nbsp; : {{ $formula->Workbook_pdf->perevisi2->name }} </td></tr>
+					@endif
+          <tr><td>Versi</td><td>&nbsp; : {{ $formula->versi }}.{{ $formula->turunan }}</td></tr>
         </table>
       </div>
       <div class="col-md-3">
@@ -65,11 +69,19 @@
       </div>
       <div class="col-md-3">
         <a class="btn btn-warning btn-sm" href="{{ route('FOR_pkp',$formula->id) }}"><i class="fa fa-download"></i> Download FOR</a>
-        @if(auth()->user()->role->namaRule == 'manager')
-        <a class="btn btn-danger btn-sm" href="{{ route('daftarpkp',$formula->workbook_id) }}"><i class="fa fa-ban"></i> Back To Workbook</a>
-        @elseif(auth()->user()->role->namaRule == 'user_produk')
-        <a class="btn btn-danger btn-sm" href="{{ route('rekappkp',$formula->workbook_id) }}"><i class="fa fa-ban"></i> Back To Workbook</a>
-        @endif
+				@if($formula->workbook_id!=NULL)
+					@if(auth()->user()->role->namaRule == 'manager')
+					<a class="btn btn-danger btn-sm" href="{{ route('daftarpkp',$formula->workbook_id) }}"><i class="fa fa-ban"></i> Back To Workbook</a>
+					@elseif(auth()->user()->role->namaRule == 'user_produk')
+					<a class="btn btn-danger btn-sm" href="{{ route('rekappkp',$formula->workbook_id) }}"><i class="fa fa-ban"></i> Back To Workbook</a>
+					@endif
+				@elseif($formula->workbook_pdf_id!=NULL)
+					@if(auth()->user()->role->namaRule == 'manager')
+					<a class="btn btn-danger btn-sm" href="{{ route('daftarpdf',$formula->workbook_pdf_id) }}"><i class="fa fa-ban"></i> Back To Workbook</a>
+					@elseif(auth()->user()->role->namaRule == 'user_produk')
+					<a class="btn btn-danger btn-sm" href="{{ route('rekappdf',$formula->workbook_pdf_id) }}"><i class="fa fa-ban"></i> Back To Workbook</a>
+					@endif
+				@endif
       </div>
     </div>
 
@@ -96,7 +108,11 @@
 									<table class="col-md-5 col-sm- col-xs-12">
 										<tr>
 											<th width="10%">Product Name </th>
+											@if($formula->workbook_id!=NULL)
 											<th width="45%">: {{ $formula->Workbook->datapkpp->project_name }}</th>
+											@elseif($formula->workbook_pdf_id!=NULL)
+											<th width="45%">: {{ $formula->Workbook_pdf->datapdf->project_name }}</th>
+											@endif
 										<tr>
 									</table>
 				
@@ -516,7 +532,7 @@
 																	@foreach($akg as $akg)
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->energi_total!='yes')<input type="checkbox" class="data1" name="energi_total" value="yes" id="energi_total">
+																			@if($akg->overage_energi_total!='yes')<input type="checkbox" class="data1" name="energi_total" value="yes" id="energi_total">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="energi_total" id="energi_total">@endif
 																		</td>
 																		<td>Energi Total</td>
@@ -524,13 +540,13 @@
 																		<td class="text-right"></td>
 																		<td class="text-right">{{$akg->energi}}</td><td class="text-center">kkal</td>
 																		<td class="text-right" style="background-color:#d1d1d1;">
-																			@if($akg->energi_total!='yes'){{ $total_harga['total_kalori'] }}
-																			@else($akg->energi_total!='no'){{ $total_harga['total_kalori'] * ($formula->overage/100) }}@endif
+																			@if($akg->overage_energi_total!='yes'){{ $total_harga['total_kalori'] }}
+																			@else($akg->overage_energi_total!='no'){{ $total_harga['total_kalori'] * ($formula->overage/100) }}@endif
 																		</td>
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->energi_lemak!='yes')<input type="checkbox" class="data1" name="energi_lemak" value="yes" id="energi_lemak">
+																			@if($akg->overage_energi_lemak!='yes')<input type="checkbox" class="data1" name="energi_lemak" value="yes" id="energi_lemak">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="energi_lemak" id="energi_lemak">@endif
 																		</td>
 																		<td>Energi Dari Lemak</td>
@@ -538,13 +554,13 @@
 																		<td class="text-right">NA</td>
 																		<td class="text-right">NA</td><td class="text-center">kkal</td>
 																		<td class="text-right" style="background-color:#d1d1d1;">
-																			@if($akg->energi_lemak!='yes'){{ $total_harga['total_lemak']*9 }}
+																			@if($akg->overage_energi_lemak!='yes'){{ $total_harga['total_lemak']*9 }}
 																			@else {{ ($total_harga['total_lemak']*9) * ($formula->overage/100) }} @endif
 																		</td>
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->energi_lemak_jenuh!='yes')<input type="checkbox" class="data1" name="energi_lemak_jenuh" value="yes" id="energi_lemak_jenuh">
+																			@if($akg->overage_energi_lemak_jenuh!='yes')<input type="checkbox" class="data1" name="energi_lemak_jenuh" value="yes" id="energi_lemak_jenuh">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="energi_lemak_jenuh" id="energi_lemak_jenuh">@endif
 																		</td>
 																		<td>Energi Dari Lemak Jenuh</td>
@@ -554,13 +570,13 @@
 																		<td class="text-right">NA</td>
 																		<td class="text-center">kkal</td>
 																		<td class="text-right" style="background-color:#d1d1d1;">
-																			@if($akg->energi_lemak_jenuh!='yes'){{ $total_harga['total_lemak']*9 }}
+																			@if($akg->overage_energi_lemak_jenuh!='yes'){{ $total_harga['total_lemak']*9 }}
 																			@else {{ ($total_harga['total_lemak']*9) * ($formula->overage/100) }} @endif
 																		</td>
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->karbohidrat!='yes')<input type="checkbox" class="data1" name="karbohidrat" value="yes" id="karbohidrat">
+																			@if($akg->overage_karbohidrat!='yes')<input type="checkbox" class="data1" name="karbohidrat" value="yes" id="karbohidrat">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="karbohidrat" id="karbohidrat">@endif
 																		</td>
 																		<td>Karbohidrat Total</td>
@@ -570,13 +586,13 @@
 																		<td class="text-right">{{$akg->karbohidrat_total}}</td>
 																		<td class="text-center">g</td>
 																		<td class="text-right" style="background-color:#d1d1d1;">
-																			@if($akg->karbohidrat!='yes') {{ $total_harga['total_karbohidrat'] }}
+																			@if($akg->overage_karbohidrat!='yes') {{ $total_harga['total_karbohidrat'] }}
 																			@else {{ $total_harga['total_karbohidrat'] * ($formula->overage/100) }} @endif
 																		</td>
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->protein1!='yes')<input type="checkbox" class="data1" name="protein1" value="yes" id="protein1">
+																			@if($akg->overage_protein1!='yes')<input type="checkbox" class="data1" name="protein1" value="yes" id="protein1">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="protein1" id="protein1">@endif
 																		</td>
 																		<td>Protein</td>
@@ -584,13 +600,13 @@
 																		<td class="text-right"><?php $protein = $total_harga['total_protein']*($akg->protein/100); $angka_protein = number_format($protein,2,",","."); echo $angka_protein; ?></td>
 																		<td class="text-right">{{$akg->protein}}</td><td class="text-center">g</td>
 																		<td class="text-right" style="background-color:#d1d1d1;">
-																			@if($akg->protein1!='yes') {{ $total_harga['total_protein'] }}
+																			@if($akg->overage_protein1!='yes') {{ $total_harga['total_protein'] }}
 																			@else {{ $total_harga['total_protein'] * ($formula->overage/100) }} @endif
 																		</td>
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->lemak_total!='yes')<input type="checkbox" class="data1" name="lemak_total" value="yes" id="lemak_total">
+																			@if($akg->overage_lemak_total!='yes')<input type="checkbox" class="data1" name="lemak_total" value="yes" id="lemak_total">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="lemak_total" id="lemak_total">@endif
 																		</td>
 																		<td>Lemak Total</td>
@@ -598,13 +614,13 @@
 																		<td class="text-right"><?php $lemak = $total_harga['total_lemak']* ($akg->lemak_total*100); $angka_lemak = number_format($lemak,2,",","."); echo $angka_lemak; ?></td>
 																		<td class="text-right">{{$akg->lemak_total}}</td><td class="text-center">g</td>
 																		<td class="text-right" style="background-color:#d1d1d1;">
-																			@if($akg->lemak_total!='yes') {{ $total_harga['total_lemak'] }}
+																			@if($akg->overage_lemak_total!='yes') {{ $total_harga['total_lemak'] }}
 																			@else {{ $total_harga['total_lemak'] * ($formula->overage/100) }} @endif
 																		</td>
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->lemak_trans!='yes')<input type="checkbox" class="data1" name="lemak_trans" value="yes" id="lemak_trans">
+																			@if($akg->overage_lemak_trans!='yes')<input type="checkbox" class="data1" name="lemak_trans" value="yes" id="lemak_trans">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="lemak_trans" id="lemak_trans">@endif
 																		</td>
 																		<td>Lemak Trans</td>
@@ -615,7 +631,7 @@
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->lemak_jenuh!='yes')<input type="checkbox" class="data1" name="lemak_jenuh" value="yes" id="lemak_jenuh">
+																			@if($akg->overage_lemak_jenuh!='yes')<input type="checkbox" class="data1" name="lemak_jenuh" value="yes" id="lemak_jenuh">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="lemak_jenuh" id="lemak_jenuh">@endif
 																		</td>
 																		<td>Lemak Jenuh</td>
@@ -623,13 +639,13 @@
 																		<td class="text-right"><?php $sfa = $total_harga['total_sfa']*($akg->lemak_jenuh/100); $angka_sfa = number_format($sfa,2,",","."); echo $angka_sfa; ?></td>
 																		<td class="text-right">{{$akg->lemak_jenuh}}</td><td class="text-center">g</td>
 																		<td class="text-right" style="background-color:#d1d1d1;">
-																			@if($akg->lemak_jenuh!='yes') {{ $total_harga['total_sfa'] }}
+																			@if($akg->overage_lemak_jenuh!='yes') {{ $total_harga['total_sfa'] }}
 																			@else {{ $total_harga['total_sfa'] * ($formula->overage/100) }} @endif
 																		</td>
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->lemak_tidak_jenuh_tunggal!='yes')<input type="checkbox" class="data1" name="lemak_tidak_jenuh_tunggal" value="yes" id="lemak_tidak_jenuh_tunggal">
+																			@if($akg->overage_lemak_tidak_jenuh_tunggal!='yes')<input type="checkbox" class="data1" name="lemak_tidak_jenuh_tunggal" value="yes" id="lemak_tidak_jenuh_tunggal">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="lemak_tidak_jenuh_tunggal" id="lemak_tidak_jenuh_tunggal">@endif
 																		</td>
 																		<td>Lemak Tidak Jenuh Tunggal</td>
@@ -640,7 +656,7 @@
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->lemak_tidak_jenuh_ganda!='yes')<input type="checkbox" class="data1" name="lemak_tidak_jenuh_ganda" value="yes" id="lemak_tidak_jenuh_ganda">
+																			@if($akg->overage_lemak_tidak_jenuh_ganda!='yes')<input type="checkbox" class="data1" name="lemak_tidak_jenuh_ganda" value="yes" id="lemak_tidak_jenuh_ganda">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="lemak_tidak_jenuh_ganda" id="lemak_tidak_jenuh_ganda">@endif
 																		</td>
 																		<td>Lemak Tidak Jenuh Ganda</td>
@@ -651,7 +667,7 @@
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->kolestrol!='yes')<input type="checkbox" class="data1" name="kolestrol" value="yes" id="kolestrol">
+																			@if($akg->overage_kolestrol!='yes')<input type="checkbox" class="data1" name="kolestrol" value="yes" id="kolestrol">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="kolestrol" id="kolestrol">@endif
 																		</td>
 																		<td>Kolestrol</td>
@@ -662,7 +678,7 @@
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->gula!='yes')<input type="checkbox" class="data1" name="gula" value="yes" id="gula">
+																			@if($akg->overage_gula!='yes')<input type="checkbox" class="data1" name="gula" value="yes" id="gula">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="gula" id="gula">@endif
 																		</td>
 																		<td>Gula</td>
@@ -670,13 +686,13 @@
 																		<td class="text-right">NA</td>
 																		<td class="text-right">NA</td><td class="text-center">g</td>
 																		<td class="text-right" style="background-color:#d1d1d1;">
-																			@if($akg->gula!='yes'){{ $total_harga['total_gula'] }}
+																			@if($akg->overage_gula!='yes'){{ $total_harga['total_gula'] }}
 																			@else	{{ $total_harga['total_gula'] * ($formula->overage/100) }} @endif
 																		</td>
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->serat_pangan!='yes')<input type="checkbox" class="data1" name="serat_pangan" value="yes" id="serat_pangan">
+																			@if($akg->overage_serat_pangan!='yes')<input type="checkbox" class="data1" name="serat_pangan" value="yes" id="serat_pangan">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="serat_pangan" id="serat_pangan">@endif
 																		</td>
 																		<td>Serat Pangan</td>
@@ -684,13 +700,13 @@
 																		<td class="text-right"><?php $serat = $total_harga['total_serat']*($akg->serat_pangan/100); $angka_serat = number_format($serat,2,",","."); echo $angka_serat; ?></td>
 																		<td class="text-right">{{$akg->serat_pangan}}</td><td class="text-center">g</td>
 																		<td class="text-right" style="background-color:#d1d1d1;">
-																			@if($akg->serat_pangan!='yes'){{ $total_harga['total_serat'] }}
+																			@if($akg->overage_serat_pangan!='yes'){{ $total_harga['total_serat'] }}
 																			@else	{{ $total_harga['total_serat'] * ($formula->overage/100) }} @endif
 																		</td>
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->serat_pangan_larut!='yes')<input type="checkbox" class="data1" name="serat_pangan_larut" value="yes" id="serat_pangan_larut">
+																			@if($akg->overage_serat_pangan_larut!='yes')<input type="checkbox" class="data1" name="serat_pangan_larut" value="yes" id="serat_pangan_larut">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="serat_pangan_larut" id="serat_pangan_larut">@endif
 																		</td>
 																		<td>Serat Pangan Larut</td>
@@ -698,13 +714,13 @@
 																		<td class="text-right">NA</td>
 																		<td class="text-right">NA</td><td class="text-center">g</td>
 																		<td class="text-right" style="background-color:#d1d1d1;">
-																			@if($akg->serat_pangan_larut!='yes'){{ $total_harga['total_seratL'] }}
+																			@if($akg->overage_serat_pangan_larut!='yes'){{ $total_harga['total_seratL'] }}
 																			@else {{ $total_harga['total_seratL'] * ($formula->overage/100) }} @endif
 																		</td>
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->sukrosa!='yes')<input type="checkbox" class="data1" name="sukrosa" value="yes" id="sukrosa">
+																			@if($akg->overage_sukrosa!='yes')<input type="checkbox" class="data1" name="sukrosa" value="yes" id="sukrosa">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="sukrosa" id="sukrosa">@endif
 																		</td>
 																		<td>Serat Pangan Tidak Larut</td>
@@ -715,7 +731,7 @@
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->laktosa!='yes')<input type="checkbox" class="data1" name="laktosa" value="yes" id="laktosa">
+																			@if($akg->overage_laktosa!='yes')<input type="checkbox" class="data1" name="laktosa" value="yes" id="laktosa">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="laktosa" id="laktosa">@endif
 																		</td>
 																		<td>Sukrosa</td>
@@ -723,13 +739,13 @@
 																		<td class="text-right">NA</td>
 																		<td class="text-right">NA</td><td class="text-center">g</td>
 																		<td class="text-right" style="background-color:#d1d1d1;">
-																			@if($akg->laktosa!='yes'){{ $total_harga['total_sukrosa'] }}
+																			@if($akg->overage_laktosa!='yes'){{ $total_harga['total_sukrosa'] }}
 																			@else	{{ $total_harga['total_sukrosa'] * ($formula->overage/100) }} @endif
 																		</td>
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->laktosa!='yes')<input type="checkbox" class="data1" name="laktosa" value="yes" id="laktosa">
+																			@if($akg->overage_laktosa!='yes')<input type="checkbox" class="data1" name="laktosa" value="yes" id="laktosa">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="laktosa" id="laktosa">@endif
 																		</td>
 																		<td>Laktosa</td>
@@ -737,13 +753,13 @@
 																		<td class="text-right">NA</td>
 																		<td class="text-right">NA</td><td class="text-center">g</td>
 																		<td class="text-right" style="background-color:#d1d1d1;">
-																			@if($akg->laktosa!='yes'){{ $total_harga['total_laktosa'] }}
+																			@if($akg->overage_laktosa!='yes'){{ $total_harga['total_laktosa'] }}
 																			@else	{{ $total_harga['total_laktosa'] * ($formula->overage/100) }} @endif
 																		</td>
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->gula_alkohol!='yes')<input type="checkbox" class="data1" name="gula_alkohol" value="yes" id="gula_alkohol">
+																			@if($akg->overage_gula_alkohol!='yes')<input type="checkbox" class="data1" name="gula_alkohol" value="yes" id="gula_alkohol">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="gula_alkohol" id="gula_alkohol">@endif
 																		</td>
 																		<td>Gula Alkohol</td>
@@ -754,7 +770,7 @@
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->natrium!='yes')<input type="checkbox" class="data1" name="natrium" value="yes" id="natrium">
+																			@if($akg->overage_natrium!='yes')<input type="checkbox" class="data1" name="natrium" value="yes" id="natrium">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="natrium" id="natrium">@endif
 																		</td>
 																		<td>Natrium</td>
@@ -762,13 +778,13 @@
 																		<td class="text-right"><?php $na = $total_harga['total_na']*($akg->natrium/100); $angka_na = number_format($na,2,",","."); echo $angka_na; ?></td>
 																		<td class="text-right">{{$akg->natrium}}</td><td class="text-center">mg</td>
 																		<td class="text-right" style="background-color:#d1d1d1;">
-																			@if($akg->natrium!='yes'){{ $total_harga['total_na'] }}
+																			@if($akg->overage_natrium!='yes'){{ $total_harga['total_na'] }}
 																			@else	{{ $total_harga['total_na'] * ($formula->overage/100) }} @endif
 																		</td>
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->kalium!='yes')<input type="checkbox" class="data1" name="kalium" value="yes" id="kalium">
+																			@if($akg->overage_kalium!='yes')<input type="checkbox" class="data1" name="kalium" value="yes" id="kalium">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="kalium" id="kalium">@endif
 																		</td>
 																		<td>Kalium</td>
@@ -776,13 +792,13 @@
 																		<td class="text-right"><?php $k = $total_harga['total_k']* ($akg->kalium/100); $angka_k = number_format($k,2,",","."); echo $angka_k; ?></td>
 																		<td class="text-right">{{$akg->kalium}}</td><td class="text-center">mg</td>
 																		<td class="text-right" style="background-color:#d1d1d1;">
-																			@if($akg->kalium!='yes'){{ $total_harga['total_k'] }}
+																			@if($akg->overage_kalium!='yes'){{ $total_harga['total_k'] }}
 																			@else	{{ $total_harga['total_k'] * ($formula->overage/100) }} @endif
 																		</td>
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->kalsium!='yes')<input type="checkbox" class="data1" name="kalsium" value="yes" id="kalsium">
+																			@if($akg->overage_kalsium!='yes')<input type="checkbox" class="data1" name="kalsium" value="yes" id="kalsium">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="kalsium" id="kalsium">@endif
 																		</td>
 																		<td>Kalsium</td>
@@ -790,13 +806,13 @@
 																		<td class="text-right"><?php $ca = $total_harga['total_ca']*($akg->kalsium/100); $angka_ca = number_format($ca,2,",","."); echo $angka_ca; ?></td>
 																		<td class="text-right">{{$akg->kalsium}}</td><td class="text-center">mg</td>
 																		<td class="text-right" style="background-color:#d1d1d1;">
-																			@if($akg->kalsium!='yes'){{ $total_harga['total_ca'] }}
+																			@if($akg->overage_kalsium!='yes'){{ $total_harga['total_ca'] }}
 																			@else	{{ $total_harga['total_ca'] * ($formula->overage/100) }} @endif
 																		</td>
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->zat_besi!='yes')<input type="checkbox" class="data1" name="zat_besi" value="yes" id="zat_besi">
+																			@if($akg->overage_zat_besi!='yes')<input type="checkbox" class="data1" name="zat_besi" value="yes" id="zat_besi">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="zat_besi" id="zat_besi">@endif
 																		</td>
 																		<td>Zat Besi</td>
@@ -807,7 +823,7 @@
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->fosfor!='yes')<input type="checkbox" class="data1" name="fosfor" value="yes" id="fosfor">
+																			@if($akg->overage_fosfor!='yes')<input type="checkbox" class="data1" name="fosfor" value="yes" id="fosfor">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="fosfor" id="fosfor">@endif
 																		</td>
 																		<td>Fosfor</td>
@@ -815,13 +831,13 @@
 																		<td class="text-right"><?php $p = $total_harga['total_p']*($akg->fosfor/100); $angka_p = number_format($p,2,",","."); echo $angka_p; ?></td>
 																		<td class="text-right">{{$akg->fosfor}}</td><td class="text-center">mg</td>
 																		<td class="text-right" style="background-color:#d1d1d1;">
-																			@if($akg->fosfor!='yes'){{ $total_harga['total_p'] }}
+																			@if($akg->overage_fosfor!='yes'){{ $total_harga['total_p'] }}
 																			@else	{{ $total_harga['total_p'] * ($formula->overage/100) }} @endif
 																		</td>
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->magnesium!='yes')<input type="checkbox" class="data1" name="magnesium" value="yes" id="magnesium">
+																			@if($akg->overage_magnesium!='yes')<input type="checkbox" class="data1" name="magnesium" value="yes" id="magnesium">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="magnesium" id="magnesium">@endif
 																		</td>
 																		<td>Magnesium</td>
@@ -829,13 +845,13 @@
 																		<td class="text-right"><?php $mg = $total_harga['total_mg']*($akg->magnesium*100); $angka_mg = number_format($mg,2,",","."); echo $angka_mg; ?></td>
 																		<td class="text-right">{{$akg->magnesium}}</td><td class="text-center">mg</td>
 																		<td class="text-right" style="background-color:#d1d1d1;">
-																			@if($akg->magnesium!='yes') {{ $total_harga['total_mg'] }}
+																			@if($akg->overage_magnesium!='yes') {{ $total_harga['total_mg'] }}
 																			@else	{{ $total_harga['total_mg'] * ($formula->overage/100) }} @endif
 																		</td>
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->seng!='yes')<input type="checkbox" class="data1" name="seng" value="yes" id="seng">
+																			@if($akg->overage_seng!='yes')<input type="checkbox" class="data1" name="seng" value="yes" id="seng">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="seng" id="seng">@endif
 																		</td>
 																		<td>Seng</td>
@@ -846,7 +862,7 @@
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->selenium!='yes')<input type="checkbox" class="data1" name="selenium" value="yes" id="selenium">
+																			@if($akg->overage_selenium!='yes')<input type="checkbox" class="data1" name="selenium" value="yes" id="selenium">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="selenium" id="selenium">@endif
 																		</td>
 																		<td>Selenium</td>
@@ -857,7 +873,7 @@
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->lodium!='yes')<input type="checkbox" class="data1" name="lodium" value="yes" id="lodium">
+																			@if($akg->overage_lodium!='yes')<input type="checkbox" class="data1" name="lodium" value="yes" id="lodium">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="lodium" id="lodium">@endif
 																		</td>
 																		<td>Lodium</td>
@@ -868,7 +884,7 @@
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->mangan!='yes')<input type="checkbox" class="data1" name="mangan" value="yes" id="mangan">
+																			@if($akg->overage_mangan!='yes')<input type="checkbox" class="data1" name="mangan" value="yes" id="mangan">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="mangan" id="mangan">@endif
 																		</td>
 																		<td>Mangan</td>
@@ -879,7 +895,7 @@
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->flour!='yes')<input type="checkbox" class="data1" name="flour" value="yes" id="flour">
+																			@if($akg->overage_flour!='yes')<input type="checkbox" class="data1" name="flour" value="yes" id="flour">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="flour" id="flour">@endif
 																		</td>
 																		<td>Flour</td>
@@ -890,7 +906,7 @@
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->tembaga!='yes')<input type="checkbox" class="data1" name="tembaga" value="yes" id="tembaga">
+																			@if($akg->overage_tembaga!='yes')<input type="checkbox" class="data1" name="tembaga" value="yes" id="tembaga">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="tembaga" id="tembaga">@endif
 																		</td>
 																		<td>Tembaga</td>
@@ -901,7 +917,7 @@
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->vitA!='yes')<input type="checkbox" class="data1" name="vitA" value="yes" id="vitA">
+																			@if($akg->overage_vitA!='yes')<input type="checkbox" class="data1" name="vitA" value="yes" id="vitA">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="vitA" id="vitA">@endif
 																		</td>
 																		<td>Vitamin A</td>
@@ -912,7 +928,7 @@
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->vitB1!='yes')<input type="checkbox" class="data1" name="vitB1" value="yes" id="vitB1">
+																			@if($akg->overage_vitB1!='yes')<input type="checkbox" class="data1" name="vitB1" value="yes" id="vitB1">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="vitB1" id="vitB1">@endif
 																		</td>
 																		<td>Vitamin B1</td>
@@ -923,7 +939,7 @@
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->vitB2!='yes')<input type="checkbox" class="data1" name="vitB2" value="yes" id="vitB2">
+																			@if($akg->overage_vitB2!='yes')<input type="checkbox" class="data1" name="vitB2" value="yes" id="vitB2">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="vitB2" id="vitB2">@endif
 																		</td>
 																		<td>Vitamin B2</td>
@@ -934,7 +950,7 @@
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->vitB3!='yes')<input type="checkbox" class="data1" name="vitB3" value="yes" id="vitB3">
+																			@if($akg->overage_vitB3!='yes')<input type="checkbox" class="data1" name="vitB3" value="yes" id="vitB3">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="vitB3" id="vitB3">@endif
 																		</td>
 																		<td>Vitamin B3</td>
@@ -945,7 +961,7 @@
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->vitB5!='yes')<input type="checkbox" class="data1" name="vitB5" value="yes" id="vitB5">
+																			@if($akg->overage_vitB5!='yes')<input type="checkbox" class="data1" name="vitB5" value="yes" id="vitB5">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="vitB5" id="vitB5">@endif
 																		</td>
 																		<td>Vitamin B5</td>
@@ -956,7 +972,7 @@
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->vitB6!='yes')<input type="checkbox" class="data1" name="vitB6" value="yes" id="vitB6">
+																			@if($akg->overage_vitB6!='yes')<input type="checkbox" class="data1" name="vitB6" value="yes" id="vitB6">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="vitB6" id="vitB6">@endif
 																		</td>
 																		<td>Vitamin B6</td>
@@ -967,7 +983,7 @@
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->vitB12!='yes')<input type="checkbox" class="data1" name="vitB12" value="yes" id="vitB12">
+																			@if($akg->overage_vitB12!='yes')<input type="checkbox" class="data1" name="vitB12" value="yes" id="vitB12">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="vitB12" id="vitB12">@endif
 																		</td>
 																		<td>Vitamin B12</td>
@@ -978,7 +994,7 @@
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->vitC!='yes')<input type="checkbox" class="data1" name="vitC" value="yes" id="vitC">
+																			@if($akg->overage_vitC!='yes')<input type="checkbox" class="data1" name="vitC" value="yes" id="vitC">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="vitC" id="vitC">@endif
 																		</td>
 																		<td>Vitamin C</td><td class="text-right"></td>
@@ -989,7 +1005,7 @@
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->vitD3!='yes')<input type="checkbox" class="data1" name="vitD3" value="yes" id="vitD3">
+																			@if($akg->overage_vitD3!='yes')<input type="checkbox" class="data1" name="vitD3" value="yes" id="vitD3">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="vitD3" id="vitD3">@endif
 																		</td>
 																		<td>Vitamin D3</td>
@@ -997,13 +1013,13 @@
 																		<td class="text-right">{{ $total_harga['total_vitD'] * ($akg->vitamin_d/100) }}</td>
 																		<td class="text-right">{{$akg->vitamin_d}}</td><td class="text-center">IU</td>
 																		<td class="text-right" style="background-color:#d1d1d1;">
-																			@if($akg->vitD3!='yes') {{ $total_harga['total_vitD'] }}
+																			@if($akg->overage_vitD3!='yes') {{ $total_harga['total_vitD'] }}
 																			@else	{{ $total_harga['total_vitD']* ($formula->overage/100) }} @endif
 																		</td>
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->vitE!='yes')<input type="checkbox" class="data1" name="vitE" value="yes" id="vitE">
+																			@if($akg->overage_vitE!='yes')<input type="checkbox" class="data1" name="vitE" value="yes" id="vitE">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="vitE" id="vitE">@endif
 																		</td>
 																		<td>Vitamin E</td>
@@ -1014,7 +1030,7 @@
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->asam_folat!='yes')<input type="checkbox" class="data1" name="asam_folat" value="yes" id="asam_folat">
+																			@if($akg->overage_asam_folat!='yes')<input type="checkbox" class="data1" name="asam_folat" value="yes" id="asam_folat">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="asam_folat" id="asam_folat">@endif
 																		</td>
 																		<td>Asam Folat</td>
@@ -1025,7 +1041,7 @@
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->magnesium_aspartat!='yes')<input type="checkbox" class="data1" name="magnesium_aspartat" value="yes" id="magnesium_aspartat">
+																			@if($akg->overage_magnesium_aspartat!='yes')<input type="checkbox" class="data1" name="magnesium_aspartat" value="yes" id="magnesium_aspartat">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="magnesium_aspartat" id="magnesium_aspartat">@endif
 																		</td>
 																		<td>Magnesium Aspartat</td>
@@ -1036,7 +1052,7 @@
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->kolin!='yes')<input type="checkbox" class="data1" name="kolin" value="yes" id="kolin">
+																			@if($akg->overage_kolin!='yes')<input type="checkbox" class="data1" name="kolin" value="yes" id="kolin">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="kolin" id="kolin">@endif
 																		</td>
 																		<td>Kolin</td>
@@ -1044,13 +1060,13 @@
 																		<td class="text-right"><?php $kolin = $total_harga['total_kolin']*($akg->kolin*100); $angka_kolin = number_format($kolin,2,",","."); echo $angka_kolin; ?></td>
 																		<td class="text-right">{{$akg->kolin}}</td><td class="text-center">mg</td>
 																		<td class="text-right" style="background-color:#d1d1d1;">
-																			@if($akg->kolin!='yes') {{ $total_harga['total_kolin']}}
+																			@if($akg->overage_kolin!='yes') {{ $total_harga['total_kolin']}}
 																			@else	{{ $total_harga['total_kolin']* ($formula->overage/100)}} @endif
 																		</td>
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->biotin!='yes')<input type="checkbox" class="data1" name="biotin" value="yes" id="biotin">
+																			@if($akg->overage_biotin!='yes')<input type="checkbox" class="data1" name="biotin" value="yes" id="biotin">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="biotin" id="biotin">@endif
 																		</td>
 																		<td>Biotin</td>
@@ -1061,7 +1077,7 @@
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->Inositol!='yes')<input type="checkbox" class="data1" name="Inositol" value="yes" id="Inositol">
+																			@if($akg->overage_Inositol!='yes')<input type="checkbox" class="data1" name="Inositol" value="yes" id="Inositol">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="Inositol" id="Inositol">@endif
 																		</td>
 																		<td>Inositol</td>
@@ -1072,7 +1088,7 @@
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->Molibdenum!='yes')<input type="checkbox" class="data1" name="Molibdenum" value="yes" id="Molibdenum">
+																			@if($akg->overage_Molibdenum!='yes')<input type="checkbox" class="data1" name="Molibdenum" value="yes" id="Molibdenum">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="Molibdenum" id="Molibdenum">@endif
 																		</td>
 																		<td>Molibdenum</td>
@@ -1083,7 +1099,7 @@
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->Kromium!='yes')<input type="checkbox" class="data1" name="Kromium" value="yes" id="Kromium">
+																			@if($akg->overage_Kromium!='yes')<input type="checkbox" class="data1" name="Kromium" value="yes" id="Kromium">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="Kromium" id="Kromium">@endif
 																		</td>
 																		<td>Kromium</td>
@@ -1091,13 +1107,13 @@
 																		<td class="text-right"><?php $cr = $total_harga['total_cr']*($akg->kromium*100); $angka_cr = number_format($cr,2,",","."); echo $angka_cr; ?></td>
 																		<td class="text-right">{{$akg->kromium}}</td><td class="text-center">mcg</td>
 																		<td class="text-right" style="background-color:#d1d1d1;">
-																			@if($akg->Kromium!='yes') {{ $total_harga['total_cr'] }}
+																			@if($akg->overage_Kromium!='yes') {{ $total_harga['total_cr'] }}
 																			@else	{{ $total_harga['total_cr']* ($formula->overage/100) }} @endif
 																		</td>
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->EPA!='yes')<input type="checkbox" class="data1" name="EPA" value="yes" id="EPA">
+																			@if($akg->overage_EPA!='yes')<input type="checkbox" class="data1" name="EPA" value="yes" id="EPA">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="EPA" id="EPA">@endif
 																		</td>
 																		<td>EPA</td>
@@ -1105,13 +1121,13 @@
 																		<td class="text-right">na</td>
 																		<td class="text-right">na</td><td class="text-center">mg</td>
 																		<td class="text-right" style="background-color:#d1d1d1;">
-																			@if($akg->EPA!='yes') {{ $total_harga['total_epa'] }} 
+																			@if($akg->overage_EPA!='yes') {{ $total_harga['total_epa'] }} 
 																			@else	{{ $total_harga['total_epa']* ($formula->overage/100) }} @endif
 																		</td>
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->DHA!='yes')<input type="checkbox" class="data1" name="DHA" value="yes" id="DHA">
+																			@if($akg->overage_DHA!='yes')<input type="checkbox" class="data1" name="DHA" value="yes" id="DHA">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="DHA" id="DHA">@endif
 																		</td>
 																		<td>DHA</td>
@@ -1119,13 +1135,13 @@
 																		<td class="text-right">NA</td>
 																		<td class="text-right">NA</td><td class="text-center">mg</td>
 																		<td class="text-right" style="background-color:#d1d1d1;">
-																			@if($akg->DHA!='yes') {{ $total_harga['total_dha'] }}
+																			@if($akg->overage_DHA!='yes') {{ $total_harga['total_dha'] }}
 																			@else	{{ $total_harga['total_dha']* ($formula->overage/100) }} @endif
 																		</td>
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->Glukosamin!='yes')<input type="checkbox" class="data1" name="Glukosamin" value="yes" id="Glukosamin">
+																			@if($akg->overage_Glukosamin!='yes')<input type="checkbox" class="data1" name="Glukosamin" value="yes" id="Glukosamin">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="Glukosamin" id="Glukosamin">@endif
 																		</td>
 																		<td>Glukosamin</td>
@@ -1133,13 +1149,13 @@
 																		<td class="text-right">NA</td>
 																		<td class="text-right">NA</td><td class="text-center">mg</td>
 																		<td class="text-right" style="background-color:#d1d1d1;">
-																			@if($akg->Glukosamin!='yes'){{ $total_harga['total_glucosamine']}}
+																			@if($akg->overage_Glukosamin!='yes'){{ $total_harga['total_glucosamine']}}
 																			@else	{{ $total_harga['total_glucosamine']* ($formula->overage/100)}} @endif
 																		</td>
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->Kondroitin!='yes')<input type="checkbox" class="data1" name="Kondroitin" value="yes" id="Kondroitin">
+																			@if($akg->overage_Kondroitin!='yes')<input type="checkbox" class="data1" name="Kondroitin" value="yes" id="Kondroitin">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="Kondroitin" id="Kondroitin">@endif
 																		</td>
 																		<td>Kondroitin</td>
@@ -1147,13 +1163,13 @@
 																		<td class="text-right">NA</td>
 																		<td class="text-right">NA</td><td class="text-center">mg</td>
 																		<td class="text-right" style="background-color:#d1d1d1;">
-																			@if($akg->Kondroitin!='yes') {{ $total_harga['total_chondroitin'] }}
+																			@if($akg->overage_Kondroitin!='yes') {{ $total_harga['total_chondroitin'] }}
 																			@else	{{ $total_harga['total_chondroitin']* ($formula->overage/100) }} @endif
 																		</td>
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->Kolagen!='yes')<input type="checkbox" class="data1" name="Kolagen" value="yes" id="Kolagen">
+																			@if($akg->overage_Kolagen!='yes')<input type="checkbox" class="data1" name="Kolagen" value="yes" id="Kolagen">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="Kolagen" id="Kolagen">@endif
 																		</td>
 																		<td>Kolagen</td>
@@ -1164,7 +1180,7 @@
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->EGCG!='yes')<input type="checkbox" class="data1" name="EGCG" value="yes" id="EGCG">
+																			@if($akg->overage_EGCG!='yes')<input type="checkbox" class="data1" name="EGCG" value="yes" id="EGCG">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="EGCG" id="EGCG">@endif
 																		</td>
 																		<td>EGCG</td>
@@ -1175,7 +1191,7 @@
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->Kreatina!='yes')<input type="checkbox" class="data1" name="Kreatina" value="yes" id="Kreatina">
+																			@if($akg->overage_Kreatina!='yes')<input type="checkbox" class="data1" name="Kreatina" value="yes" id="Kreatina">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="Kreatina" id="Kreatina">@endif
 																		</td>
 																		<td>Kreatina</td>
@@ -1183,13 +1199,13 @@
 																		<td class="text-right">NA</td>
 																		<td class="text-right">NA</td><td class="text-center">mg</td>
 																		<td class="text-right" style="background-color:#d1d1d1;">
-																			@if($akg->Kreatina!='yes') {{ $total_harga['total_creatine'] }}
+																			@if($akg->overage_Kreatina!='yes') {{ $total_harga['total_creatine'] }}
 																			@else	{{ $total_harga['total_creatine']* ($formula->overage/100) }} @endif
 																		</td>
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->MCT!='yes')<input type="checkbox" class="data1" name="MCT" value="yes" id="MCT">
+																			@if($akg->overage_MCT!='yes')<input type="checkbox" class="data1" name="MCT" value="yes" id="MCT">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="MCT" id="MCT">@endif
 																		</td>
 																		<td>MCT</td>
@@ -1200,7 +1216,7 @@
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->CLA!='yes')<input type="checkbox" class="data1" name="CLA" value="yes" id="CLA">
+																			@if($akg->overage_CLA!='yes')<input type="checkbox" class="data1" name="CLA" value="yes" id="CLA">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="CLA" id="CLA">@endif
 																		</td>
 																		<td>CLA</td>
@@ -1208,13 +1224,13 @@
 																		<td class="text-right">NA</td>
 																		<td class="text-right">NA</td><td class="text-center">mg</td>
 																		<td class="text-right" style="background-color:#d1d1d1;">
-																			@if($akg->CLA!='yes') {{ $total_harga['total_cla'] }}
+																			@if($akg->overage_CLA!='yes') {{ $total_harga['total_cla'] }}
 																			@else	{{ $total_harga['total_cla']* ($formula->overage/100) }} @endif
 																		</td>
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->omega3!='yes')<input type="checkbox" class="data1" name="omega3" value="yes" id="omega3">
+																			@if($akg->overage_omega3!='yes')<input type="checkbox" class="data1" name="omega3" value="yes" id="omega3">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="omega3" id="omega3">@endif
 																		</td>
 																		<td>Omega 3</td>
@@ -1222,13 +1238,13 @@
 																		<td class="text-right">NA</td>
 																		<td class="text-right">NA</td><td class="text-center">g</td>
 																		<td class="text-right" style="background-color:#d1d1d1;">
-																			@if($akg->omega3!='yes'){{ $total_harga['total_omega3'] }}
+																			@if($akg->overage_omega3!='yes'){{ $total_harga['total_omega3'] }}
 																			@else	{{ $total_harga['total_omega3']* ($formula->overage/100) }} @endif
 																		</td>
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->omega6!='yes')<input type="checkbox" class="data1" name="omega6" value="yes" id="omega6">
+																			@if($akg->overage_omega6!='yes')<input type="checkbox" class="data1" name="omega6" value="yes" id="omega6">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="omega6" id="omega6">@endif
 																		</td>
 																		<td>Omega 6</td>
@@ -1236,13 +1252,13 @@
 																		<td class="text-right">NA</td>
 																		<td class="text-right">NA</td><td class="text-center">g</td>
 																		<td class="text-right" style="background-color:#d1d1d1;">
-																			@if($akg->omega6!='yes'){{ $total_harga['total_linoleic6'] }}
+																			@if($akg->overage_omega6!='yes'){{ $total_harga['total_linoleic6'] }}
 																			@else	{{ $total_harga['total_linoleic6']* ($formula->overage/100) }} @endif
 																		</td>
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->omega9!='yes')<input type="checkbox" class="data1" name="omega9" value="yes" id="omega9">
+																			@if($akg->overage_omega9!='yes')<input type="checkbox" class="data1" name="omega9" value="yes" id="omega9">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="omega9" id="omega9">@endif
 																		</td>
 																		<td>Omega 9</td>
@@ -1253,7 +1269,7 @@
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->Klorida!='yes')<input type="checkbox" class="data1" name="Klorida" value="yes" id="Klorida">
+																			@if($akg->overage_Klorida!='yes')<input type="checkbox" class="data1" name="Klorida" value="yes" id="Klorida">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="Klorida" id="Klorida">@endif
 																		</td>
 																		<td>Klorida</td>
@@ -1264,7 +1280,7 @@
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->asam_linoleat!='yes')<input type="checkbox" class="data1" name="asam_linoleat" value="yes" id="asam_linoleat">
+																			@if($akg->overage_asam_linoleat!='yes')<input type="checkbox" class="data1" name="asam_linoleat" value="yes" id="asam_linoleat">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="asam_linoleat" id="asam_linoleat">@endif
 																		</td>
 																		<td>Asam Linoleat</td>
@@ -1272,13 +1288,13 @@
 																		<td class="text-right"><?php $linoleat = $total_harga['total_linoleic6']*($akg->asam_linoleat*100); $angka_linoleat = number_format($linoleat,2,",","."); echo $angka_linoleat; ?></td>
 																		<td class="text-right">{{$akg->asam_linoleat}}</td><td class="text-center">g</td>
 																		<td class="text-right" style="background-color:#d1d1d1;">
-																			@if($akg->asam_linoleat!='yes') {{ $total_harga['total_linoleic6'] }}
+																			@if($akg->overage_asam_linoleat!='yes') {{ $total_harga['total_linoleic6'] }}
 																			@else	{{ $total_harga['total_linoleic6']* ($formula->overage/100) }} @endif
 																		</td>
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->energi_asam_linoleat!='yes')<input type="checkbox" class="data1" name="energi_asam_linoleat" value="yes" id="energi_asam_linoleat">
+																			@if($akg->overage_energi_asam_linoleat!='yes')<input type="checkbox" class="data1" name="energi_asam_linoleat" value="yes" id="energi_asam_linoleat">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="energi_asam_linoleat" id="energi_asam_linoleat">@endif
 																		</td>
 																		<td>Energi dari Asam Linoleat</td>
@@ -1289,7 +1305,7 @@
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->energi_protein!='yes')<input type="checkbox" class="data1" name="energi_protein" value="yes" id="energi_protein">
+																			@if($akg->overage_energi_protein!='yes')<input type="checkbox" class="data1" name="energi_protein" value="yes" id="energi_protein">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="energi_protein" id="energi_protein">@endif
 																		</td>
 																		<td>Energi dari Protein</td>
@@ -1297,13 +1313,13 @@
 																		<td class="text-right">NA</td>
 																		<td class="text-right">NA</td><td class="text-center">kkal</td>
 																		<td class="text-right" style="background-color:#d1d1d1;">
-																			@if($akg->energi_protein!='yes'){{ $total_harga['total_protein']*4 }}
+																			@if($akg->overage_energi_protein!='yes'){{ $total_harga['total_protein']*4 }}
 																			@else	{{ ($total_harga['total_protein']*4)* ($formula->overage/100) }} @endif
 																		</td>
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->l_karnitin!='yes')<input type="checkbox" class="data1" name="l_karnitin" value="yes" id="l_karnitin">
+																			@if($akg->overage_l_karnitin!='yes')<input type="checkbox" class="data1" name="l_karnitin" value="yes" id="l_karnitin">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="l_karnitin" id="l_karnitin">@endif
 																		</td>
 																		<td>L-Karnitin</td>
@@ -1311,13 +1327,13 @@
 																		<td class="text-right"><?php $carnitin = $total_harga['total_carnitin']*($akg->l_karnitin*100); $angka_carnitin = number_format($carnitin,2,",","."); echo $angka_carnitin; ?></td>
 																		<td class="text-right">{{$akg->l_karnitin}}</td><td class="text-center">mg</td>
 																		<td class="text-right" style="background-color:#d1d1d1;">
-																			@if($akg->l_karnitin!='yes'){{ $total_harga['total_carnitin'] }}
+																			@if($akg->overage_l_karnitin!='yes'){{ $total_harga['total_carnitin'] }}
 																			@else	{{ $total_harga['total_carnitin']* ($formula->overage/100) }} @endif
 																		</td>
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->l_glutamin!='yes')<input type="checkbox" class="data1" name="l_glutamin" value="yes" id="l_glutamin">
+																			@if($akg->overage_l_glutamin!='yes')<input type="checkbox" class="data1" name="l_glutamin" value="yes" id="l_glutamin">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="l_glutamin" id="l_glutamin">@endif
 																		</td>
 																		<td>L-Glutamin</td>
@@ -1328,7 +1344,7 @@
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->Thereonin!='yes')<input type="checkbox" class="data1" name="Thereonin" value="yes" id="Thereonin">
+																			@if($akg->overage_Thereonin!='yes')<input type="checkbox" class="data1" name="Thereonin" value="yes" id="Thereonin">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="Thereonin" id="Thereonin">@endif
 																		</td>
 																		<td>**Thereonin</td>
@@ -1339,7 +1355,7 @@
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->Methionin!='yes')<input type="checkbox" class="data1" name="Methionin" value="yes" id="Methionin">
+																			@if($akg->overage_Methionin!='yes')<input type="checkbox" class="data1" name="Methionin" value="yes" id="Methionin">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="Methionin" id="Methionin">@endif
 																		</td>
 																		<td>**Methionin</td>
@@ -1350,7 +1366,7 @@
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->Phenilalanin!='yes')<input type="checkbox" class="data1" name="Phenilalanin" value="yes" id="Phenilalanin">
+																			@if($akg->overage_Phenilalanin!='yes')<input type="checkbox" class="data1" name="Phenilalanin" value="yes" id="Phenilalanin">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="Phenilalanin" id="Phenilalanin">@endif
 																		</td>
 																		<td>**Phenilalanin</td>
@@ -1361,7 +1377,7 @@
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->Histidin!='yes')<input type="checkbox" class="data1" name="Histidin" value="yes" id="Histidin">
+																			@if($akg->overage_Histidin!='yes')<input type="checkbox" class="data1" name="Histidin" value="yes" id="Histidin">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="Histidin" id="Histidin">@endif
 																		</td>
 																		<td>**Histidin</td>
@@ -1372,7 +1388,7 @@
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->Lisin!='yes')<input type="checkbox" class="data1" name="Lisin" value="yes" id="Lisin">
+																			@if($akg->overage_Lisin!='yes')<input type="checkbox" class="data1" name="Lisin" value="yes" id="Lisin">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="Lisin" id="Lisin">@endif
 																		</td>
 																		<td>**Lisin</td>
@@ -1383,7 +1399,7 @@
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->BCAA!='yes')<input type="checkbox" class="data1" name="BCAA" value="yes" id="BCAA">
+																			@if($akg->overage_BCAA!='yes')<input type="checkbox" class="data1" name="BCAA" value="yes" id="BCAA">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="BCAA" id="BCAA">@endif
 																		</td>
 																		<td>**BCAA</td>
@@ -1394,7 +1410,7 @@
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->Valin!='yes')<input type="checkbox" class="data1" name="Valin" value="yes" id="Valin">
+																			@if($akg->overage_Valin!='yes')<input type="checkbox" class="data1" name="Valin" value="yes" id="Valin">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="Valin" id="Valin">@endif
 																		</td>
 																		<td>**Valin</td>
@@ -1405,7 +1421,7 @@
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->Isoleusin!='yes')<input type="checkbox" class="data1" name="Isoleusin" value="yes" id="Isoleusin">
+																			@if($akg->overage_Isoleusin!='yes')<input type="checkbox" class="data1" name="Isoleusin" value="yes" id="Isoleusin">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="Isoleusin" id="Isoleusin">@endif
 																		</td>
 																		<td>**Isoleusin</td>
@@ -1416,7 +1432,7 @@
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->Leusin!='yes')<input type="checkbox" class="data1" name="Leusin" value="yes" id="Leusin">
+																			@if($akg->overage_Leusin!='yes')<input type="checkbox" class="data1" name="Leusin" value="yes" id="Leusin">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="Leusin" id="Leusin">@endif
 																		</td>
 																		<td>**Leusin</td>
@@ -1427,7 +1443,7 @@
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->Alanin!='yes')<input type="checkbox" class="data1" name="Alanin" value="yes" id="Alanin">
+																			@if($akg->overage_Alanin!='yes')<input type="checkbox" class="data1" name="Alanin" value="yes" id="Alanin">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="Alanin" id="Alanin">@endif
 																		</td>
 																		<td>Alanin</td>
@@ -1438,7 +1454,7 @@
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->asam_aspartat!='yes')<input type="checkbox" class="data1" name="asam_aspartat" value="yes" id="asam_aspartat">
+																			@if($akg->overage_asam_aspartat!='yes')<input type="checkbox" class="data1" name="asam_aspartat" value="yes" id="asam_aspartat">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="asam_aspartat" id="asam_aspartat">@endif
 																		</td>
 																		<td>Asam Aspartat</td>
@@ -1449,7 +1465,7 @@
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->asam_glutamat!='yes')<input type="checkbox" class="data1" name="asam_glutamat" value="yes" id="asam_glutamat">
+																			@if($akg->overage_asam_glutamat!='yes')<input type="checkbox" class="data1" name="asam_glutamat" value="yes" id="asam_glutamat">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="asam_glutamat" id="asam_glutamat">@endif
 																		</td>
 																		<td>Asam Glutamat</td>
@@ -1460,7 +1476,7 @@
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->sistein!='yes')<input type="checkbox" class="data1" name="sistein" value="yes" id="sistein">
+																			@if($akg->overage_sistein!='yes')<input type="checkbox" class="data1" name="sistein" value="yes" id="sistein">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="sistein" id="sistein">@endif
 																		</td>
 																		<td>Sistein</td>
@@ -1471,7 +1487,7 @@
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->serin!='yes')<input type="checkbox" class="data1" name="serin" value="yes" id="serin">
+																			@if($akg->overage_serin!='yes')<input type="checkbox" class="data1" name="serin" value="yes" id="serin">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="serin" id="serin">@endif
 																		</td>
 																		<td>Serin</td>
@@ -1482,7 +1498,7 @@
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->glisin!='yes')<input type="checkbox" class="data1" name="glisin" value="yes" id="glisin">
+																			@if($akg->overage_glisin!='yes')<input type="checkbox" class="data1" name="glisin" value="yes" id="glisin">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="glisin" id="glisin">@endif
 																		</td>
 																		<td>Glisin</td>
@@ -1493,7 +1509,7 @@
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->tyrosin!='yes')<input type="checkbox" class="data1" name="tyrosin" value="yes" id="tyrosin">
+																			@if($akg->overage_tyrosin!='yes')<input type="checkbox" class="data1" name="tyrosin" value="yes" id="tyrosin">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="tyrosin" id="tyrosin">@endif
 																		</td>
 																		<td>Tyrosin</td>
@@ -1504,7 +1520,7 @@
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->proline!='yes')<input type="checkbox" class="data1" name="proline" value="yes" id="proline">
+																			@if($akg->overage_proline!='yes')<input type="checkbox" class="data1" name="proline" value="yes" id="proline">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="proline" id="proline">@endif
 																		</td>
 																		<td>Proline</td>
@@ -1515,7 +1531,7 @@
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->arginine!='yes')<input type="checkbox" class="data1" name="arginine" value="yes" id="arginine">
+																			@if($akg->overage_arginine!='yes')<input type="checkbox" class="data1" name="arginine" value="yes" id="arginine">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="arginine" id="arginine">@endif
 																		</td>
 																		<td>Arginine</td>
@@ -1526,7 +1542,7 @@
 																	</tr>
 																	<tr class="" style=" color: black;">
 																		<td>
-																			@if($akg->gluten!='yes')<input type="checkbox" class="data1" name="gluten" value="yes" id="gluten">
+																			@if($akg->overage_gluten!='yes')<input type="checkbox" class="data1" name="gluten" value="yes" id="gluten">
 																			@else<input type="checkbox" class="data1" value="yes" checked name="gluten" id="gluten">@endif
 																		</td>
 																		<td>Gluten</td>

@@ -448,17 +448,17 @@
               <input required value="{{ $pdf->special }}" id="special" class="form-control col-md-12 col-xs-12" placeholder="Special Ingredient" type="text" name="special">
             </div>
           </div>
-          <input type="text" value="{{$pdf->datapdf->author1->email}}" name="pengirim1" id="pengirim1">
+          <input type="hidden" value="{{$pdf->datapdf->author1->email}}" name="pengirim1" id="pengirim1">
           @foreach($user as $user)
           @if($user->role_id=='5')
-          <input type="text" value="{{$user->name}}" name="namatujuan[]" id="namatujuan">
-          <input type="text" value="{{$user->email}}" name="emailtujuan[]" id="emailtujuan">
+          <input type="hidden" value="{{$user->name}}" name="namatujuan[]" id="namatujuan">
+          <input type="hidden" value="{{$user->email}}" name="emailtujuan[]" id="emailtujuan">
           @endif
           @endforeach
           <div class="ln_solid"></div>
           <div class="col-md-6 col-md-offset-5">
-            <button type="reset" class="btn btn-danger">Reset</button>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="reset" class="btn btn-warning"><li class="fa fa-repeat"></li> Reset</button>
+            <button type="submit" class="btn btn-primary"><li class="fa fa-check"></li> Submit</button>
             {{ csrf_field() }}
           </div>
         </div>

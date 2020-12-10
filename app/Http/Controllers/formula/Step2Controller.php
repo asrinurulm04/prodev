@@ -41,6 +41,7 @@ class Step2Controller extends Controller
 
         $idf = $id;
         $idfor = $formula->workbook_id;
+        $idfor_pdf = $formula->workbook_pdf_id;
         $fortails = Fortail::where('formula_id',$id)->get();
         $ada= Fortail::where('formula_id',$id)->count();
         $bahans = Bahan::all();
@@ -108,6 +109,7 @@ class Step2Controller extends Controller
             'scalecollect' => $scalecollect,
             'bahans' => $bahans,
             'idfor' => $idfor,
+            'idfor_pdf' => $idfor_pdf,
             'granulasi' => $granulasi,     
             'premix' => $premix,          
             'idf' => $idf,

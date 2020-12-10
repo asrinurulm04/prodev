@@ -408,6 +408,7 @@ Route::get('DestroyFormula/{id}','devwb\FormulaController@deleteformula')->name(
 Route::get('ajukanvp/{wb}/{id}','devwb\PengajuanFormulaController@vp')->name('ajukanvp');
 Route::get('ajukanf/{id}','devwb\PengajuanFormulaController@vp')->name('ajukannf');
 Route::get('formulainformation/{wb}/{id}','formula\Step1Controller@create')->name('step1');
+Route::get('formulainformation_pdf/{wb}/{id}','formula\Step1Controller@step1_pdf')->name('step1_pdf');
 Route::patch('updateformula/{wb}/{id}','formula\Step1Controller@update')->name('step1update');
 Route::get('registrasi_formula/{wb}','formula\registrasiformulaController@registrasi')->name('registrasi_formula');
 Route::post('new_registrasi','formula\registrasiformulaController@new_registrasi')->name('new_registrasi');

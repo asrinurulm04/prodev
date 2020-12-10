@@ -23,7 +23,7 @@ use App\pkp\project_launching;
 use App\pkp\pkp_estimasi_market;
 use App\master\Brand;
 use App\pkp\jenismenu;
-use App\dev\formula;
+use App\dev\Formula;
 use App\User;
 use App\master\Tarkon;
 use App\pkp\sample_project;
@@ -472,6 +472,8 @@ class pkpController extends Controller
                 $idb = explode(',', $ida);
                 $uom = implode(',', $request->input('uom'));
                 $Duom = explode(',', $uom);
+                $satuan_uom = implode(',', $request->input('satuan_uom'));
+                $Dsatuan_uom = explode(',', $satuan_uom);
                 $nfi_price = implode(',', $request->input('price'));
                 $nfi = explode(',', $nfi_price);
                 $costumer_price = implode(',', $request->input('costumer'));
@@ -520,6 +522,7 @@ class pkpController extends Controller
                     $forecash->forecast = $ids[$i];
                     $forecash->kemas_eksis = $kemas->id_kemas;
                     $forecash->uom = $Duom[$i];
+                    $forecash->jlh_uom = $Dsatuan_uom[$i];
                     $forecash->nfi_price = $nfi[$i];
                     $forecash->costumer = $costumer[$i];
                     $forecash->informasi_Primary = $data_primary[$i];
@@ -676,6 +679,8 @@ class pkpController extends Controller
                 $idb = explode(',', $ida);
                 $uom = implode(',', $request->input('uom'));
                 $Duom = explode(',', $uom);
+                $satuan_uom = implode(',', $request->input('satuan_uom'));
+                $Dsatuan_uom = explode(',', $satuan_uom);
                 $nfi_price = implode(',', $request->input('price'));
                 $nfi = explode(',', $nfi_price);
                 $costumer_price = implode(',', $request->input('costumer'));
@@ -725,6 +730,7 @@ class pkpController extends Controller
                     $forecash->forecast = $ids[$i];
                     $forecash->kemas_eksis = $kemas->id_kemas;
                     $forecash->uom = $Duom[$i];
+                    $forecash->jlh_uom = $Dsatuan_uom[$i];
                     $forecash->nfi_price = $nfi[$i];
                     $forecash->costumer = $costumer[$i];
                     $forecash->informasi_Primary = $data_primary[$i];
@@ -979,6 +985,8 @@ class pkpController extends Controller
                     $idb = explode(',', $ida);
                     $uom = implode(',', $request->input('uom'));
                     $Duom = explode(',', $uom);
+                    $satuan_uom = implode(',', $request->input('satuan_uom'));
+                    $Dsatuan_uom = explode(',', $satuan_uom);
                     $nfi_price = implode(',', $request->input('price'));
                     $nfi = explode(',', $nfi_price);
                     $costumer_price = implode(',', $request->input('costumer'));
@@ -1027,6 +1035,7 @@ class pkpController extends Controller
                         $forecash->forecast = $ids[$i];
                         $forecash->kemas_eksis = $kemas->id_kemas;
                         $forecash->uom = $Duom[$i];
+                        $forecash->jlh_uom = $Dsatuan_uom[$i];
                         $forecash->nfi_price = $nfi[$i];
                         $forecash->costumer = $costumer[$i];
                         $forecash->informasi_Primary = $data_primary[$i];
@@ -1400,11 +1409,6 @@ class pkpController extends Controller
         return redirect::Route('listpkprka');
     }
 
-    public function downloadfile($filename){
-        $url = Storage::disk('public')->url('$filename');
-        return response()->download(storage_path("app/public/{$filename}"));
-    }
-
     public function rekappkp($id_project){
         $pengajuanpkp = pkp_project::join('pkp_pengajuan','pkp_project.id_project','=','pkp_pengajuan.id_pkp')->count();
         $pkp = tipp::where('id_pkp',$id_project)->join('pkp_project','pkp_project.id_project','=','tippu.id_pkp')->where('status_data','=','active')->get();
@@ -1677,6 +1681,7 @@ class pkpController extends Controller
                     $for->Secondary=$isifor->Secondary;
                     $for->Tertiary=$isifor->Tertiary;
                     $for->uom=$isifor->uom;
+                    $for->jlh_uom=$isifor->jlh_uom;
                     $for->nfi_price=$isifor->nfi_price;
                     $for->costumer=$isifor->costumer;
                     $for->save();

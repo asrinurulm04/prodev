@@ -26,21 +26,15 @@
   <div class="col-md-7">
     <div class="tabbable">
       <ul class="nav nav-tabs wizard">
-        @if($formula->workbook_id!=NULL)
-        <li class="completed"><a href="{{ route('step1',[ $idfor, $idf]) }}"><span class="nmbr">1</span>Information</a></li>
-        <li class="active"><a href="{{ route('step2',[ $idfor, $idf]) }}"><span class="nmbr">2</span>Penyusunan</a></li>
-        <li class="active"><a href="{{ route('summarry',[ $idfor, $idf]) }}"><span class="nmbr">3</span>Summary</a></li>
-        @elseif($formula->workbook_pdf_id!=NULL)
         <li class="completed"><a href="{{ route('step1',[ $idfor_pdf, $idf]) }}"><span class="nmbr">1</span>Information</a></li>
         <li class="active"><a href="{{ route('step2',[ $idfor_pdf, $idf]) }}"><span class="nmbr">2</span>Penyusunan</a></li>
         <li class="active"><a href="{{ route('summarry',[ $idfor_pdf, $idf]) }}"><span class="nmbr">3</span>Summary</a></li>
-        @endif
       </ul>
     </div>
   </div>
 </div>
 
-<form method="POST" class="form-horizontal form-label-left" action="{{ route('step1update',[$formula->id,$formula->workbook_id]) }}">
+<form method="POST" class="form-horizontal form-label-left" action="{{ route('step1update',[$formula->id,$formula->workbook_pdf_id]) }}">
 <div class="col-md-12 col-xs-12">
   <div class="x_panel">
     <div class="x_title">
@@ -50,18 +44,18 @@
     	<div class="form-group row">
       	<label for="middle-name" class="control-label col-md-2 col-sm-2 col-xs-12"> Project Name </label>
       	<div class="col-md-3 col-sm-3 col-xs-12">
-          <input class="form-control edit" id="nama_produk" name="nama_produk" minlength="2" type="text" value="{{ $formula->workbook->datapkpp->project_name }}" readonly />
+          <input class="form-control edit" id="nama_produk" name="nama_produk" minlength="2" type="text" value="{{ $formula->workbook_pdf->datapdf->project_name }}" readonly />
       	</div>
       	<label for="middle-name" class="control-label col-md-1 col-sm-1 col-xs-12"> PKP Number </label>
       	<div class="col-md-4 col-sm-4 col-xs-12">
-          <input class="form-control edit" id="pkp" name="pkp" type="text" value="{{ $formula->workbook->datapkpp->pkp_number }}{{ $formula->workbook->datapkpp->ket_no }}" readonly />  
+          <input class="form-control edit" id="pkp" name="pkp" type="text" value="{{ $formula->workbook_pdf->datapdf->pdf_number }}{{ $formula->workbook_pdf->datapdf->ket_no }}" readonly />  
       	</div>
     	</div>
 
 			<div class="form-group row">
         <label class="control-label col-md-2 col-sm-2 col-xs-12">PV </label>
 				<div class="col-md-2 col-sm-2 col-xs-12">
-          <input class="form-control edit" id="pv" name="pv" minlength="2" type="text" value="{{ $formula->workbook->perevisi2->name }}" readonly />
+          <input class="form-control edit" id="pv" name="pv" minlength="2" type="text" value="{{ $formula->workbook_pdf->perevisi2->name }}" readonly />
       	</div>
         <label class="control-label col-md-1 col-sm-1 col-xs-12">Kategori </label>
         @if($formula->kategori=='fg')
@@ -104,7 +98,7 @@
 				<div class="col-md-2 col-sm-2 col-xs-12">
           <select class="form-control edit" id="subbrand" name="subbrand" disabled>
             @foreach($subbrands as $subbrand)
-            <option value="{{  $subbrand->id }}"{{ ( $subbrand->id == $formula->subbrand_id ) ? ' selected' : '' }} >{{ $formula->workbook->datapkpp->id_brand }}</option>
+            <option value="{{  $subbrand->id }}"{{ ( $subbrand->id == $formula->subbrand_id ) ? ' selected' : '' }} >{{ $formula->workbook_pdf->datapdf->id_brand }}</option>
             @endforeach
           </select>
       	</div>
@@ -142,7 +136,7 @@
     	<div class="form-group row">
       	<label for="middle-name" class="control-label col-md-2 col-sm-2 col-xs-12"> Idea </label>
       	<div class="col-md-8 col-sm-8 col-xs-12">
-          <input class="form-control edit" id="idea" name="idea" minlength="2" type="text" value="{{ $formula->workbook->idea }}" readonly />
+          <input class="form-control edit" id="idea" name="idea" minlength="2" type="text" value="{{ $formula->workbook_pdf->idea }}" readonly />
       	</div>
     	</div>
 
@@ -168,9 +162,9 @@
     <div class="card-block">
 			<div class="col-md-4 col-md-offset-5">
         @if(auth()->user()->role->namaRule == 'manager')
-        <a class="btn btn-danger btn-sm" href="{{ route('daftarpkp',$formula->workbook_id) }}"><i class="fa fa-ban"></i> Cencel</a>
+        <a class="btn btn-danger btn-sm" href="{{ route('daftarpkp',$formula->workbook_pdf_id) }}"><i class="fa fa-ban"></i> Cencel</a>
         @elseif(auth()->user()->role->namaRule == 'user_produk')
-        <a class="btn btn-danger btn-sm" href="{{ route('rekappkp',$formula->workbook_id) }}"><i class="fa fa-ban"></i> Cencel</a>
+        <a class="btn btn-danger btn-sm" href="{{ route('rekappkp',$formula->workbook_pdf_id) }}"><i class="fa fa-ban"></i> Cencel</a>
         @endif
 				<button type="reset" class="btn btn-warning btn-sm"><li class="fa fa-repeat"></li> Reset</button>
 				<button type="submit" class="btn btn-primary btn-sm"><li class="fa fa-check"></li> Edit And Next</button>

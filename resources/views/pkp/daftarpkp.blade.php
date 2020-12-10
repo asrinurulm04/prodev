@@ -273,9 +273,9 @@
               <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
                 <th width="1%"></th>
                 <th class="text-center" width="3%">Versi</th>
-                <th class="text-center">Sample</th>
-                <th class="text-center" width="20%">Note PV</th>
-                <th class="text-center" width="20%">Note RD</th>
+                <th class="text-center">Formula</th>
+                <th class="text-center" width="25%">Note PV</th>
+                <th class="text-center" width="25%">Note RD</th>
                 <th class="text-center" width="10%">Status</th>
                 <th class="text-center" width="10%">Action</th>
               </tr>
@@ -290,11 +290,11 @@
               @else
               <tr>
               @endif
-                <td></td>
+                <td width="1%"></td>
                 <td>{{$for->versi}}.{{$for->turunan}}</td>
                 <td>{{$for->formula}}</td>
-                <td>{{$for->catatan_pv}}</td>
-                <td>{{$for->catatan_rd}}</td>
+                <td width="25%">{{$for->catatan_pv}}</td>
+                <td width="25%">{{$for->catatan_rd}}</td>
                 <td class="text-center">
                   @if($for->vv=='proses')
                   <span class="label label-primary" style="color:white">New Sample</span>
@@ -359,7 +359,7 @@
                               <textarea name="note" id="note" cols="60" rows="2" class="form-control" required></textarea><br>
                             </div>
                             <div class="modal-footer">
-                              <button class="btn btn-sm btn-primary" type="submit">submit</button>
+                              <button class="btn btn-sm btn-primary" type="submit"><li classs="fa fa-check"></li> submit</button>
                               {{ csrf_field() }}
                               </form>
                             </div>
