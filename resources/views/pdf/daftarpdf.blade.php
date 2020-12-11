@@ -350,31 +350,73 @@
   </div>
 </div>
 @endsection
-
 @section('s')
-<script>
-  $(document).ready(function() {
-		$('#tabledata').on('click', 'tr a', function(e) {
-        e.preventDefault();
-        var lenRow = $('#tabledata tbody tr').length;
-        if (lenRow == 1 || lenRow <= 1) {
-            alert("Tidak bisa hapus semua baris!!");
-        } else {
-            $(this).parents('tr').remove();
-        }
-    });
+<script type="text/javascript">
 
-    var i = 1;
-    $("#add_data").click(function() {
-      $('#addrow' + i).html( "<td>"+
-        "<input type='text' name='sample[]'class='form-control data' /></td>"+
-        "<td><textarea rows='2' type='text' required name='note[]' placeholder='Note' class='form-control' ></textarea></td>"+
-        "<td><a href='' class='btn btn-danger btn-sm'><li class='fa fa-trash'></li></a>"+
-        "</td>");
+  function satuan_ml(){
+    var satuan_ml = document.getElementById('id_ml')
 
-      $('#tabledata').append('<tr id="addrow' + (i + 1) + '"></tr>');
-      i++;
-    });
-  });
+    if(satuan_ml.checked != true){
+      document.getElementById('tampilkan').innerHTML = "";
+    }else{
+
+      document.getElementById('tampilkan').innerHTML =
+            "<div class='form-group row'>"+
+            "  <label class='control-label col-md-3 col-sm-3 col-xs-12'>Berat Jenis</label>"+
+            "  <div class='col-md-8 col-sm-9 col-xs-12'>"+
+            "    <input type='number' placeholder='Berat Jenis' name='berat_jenis' id='berat_jenis' class='form-control col-md-12 col-xs-12' required>"+
+            "  </div>"+
+            "</div>"
+    }
+  }
+
+  function satuan_gram(){
+    var satuan_gram = document.getElementById('id_gram')
+
+    if(satuan_gram.checked != true){
+      document.getElementById('tampilkan').innerHTML = "";
+    }else{
+
+      document.getElementById('tampilkan').innerHTML =
+            "<div class='form-group row'>"+
+            "  <label class='control-label col-md-3 col-sm-3 col-xs-12'>Berat Jenis</label>"+
+            "  <div class='col-md-8 col-sm-9 col-xs-12'>"+
+            "    <input type='number' placeholder='Berat Jenis' disabled name='' id='' class='form-control col-md-12 col-xs-12'>"+
+            "  </div>"+
+            "</div>"
+    }
+  }
+
+  function finis_good(){
+    var finis_good = document.getElementById('id_finis')
+
+    if(finis_good.checked != true){
+      document.getElementById('ditampilkan').innerHTML = "";
+    }else{
+
+      document.getElementById('ditampilkan').innerHTML =
+        "<select name='' disabled id='' class='form-control'>"+
+        "  <option disabled selected>--> Select One <--</option>"+
+        "  <option value='granulasi'>Granulasi</option>"+
+        "  <option value='premix'>Premix</option>"+
+        "</select>"
+    }
+  }
+
+  function wip(){
+    var wip = document.getElementById('id_wip')
+
+    if(wip.checked != true){
+      document.getElementById('ditampilkan').innerHTML = "";
+    }else{
+
+      document.getElementById('ditampilkan').innerHTML =
+        "<select name='kategori_formula' id='' class='form-control' required>"+
+        "  <option disabled selected>--> Select One <--</option>"+
+        "  <option value='granulasi'>Granulasi</option>"+
+        "  <option value='premix'>Premix</option>"+
+        "</select>"
+    }
+  }
 </script>
 @endsection

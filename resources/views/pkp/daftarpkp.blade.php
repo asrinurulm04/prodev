@@ -497,47 +497,6 @@
 @endsection
 @section('s')
 <script type="text/javascript">
-  $('.cari').select2();
-  $('#brand').select2();
-  $('#subbrand').select2();
-  $('#jm').select2();
-
-  $(document).ready(function(){  
-    $("#tfl").click(function(e) {
-      e.preventDefault();
-      $('html, body').animate({
-        scrollTop: $($.attr(this, 'href')).offset().top
-      }, 1000);
-    });
-
-    // Get Subbrand
-    $('#brand').on('change', function(){
-      var myId = $(this).val();
-      if(myId){
-        $.ajax({
-          url: '{{URL::to('getSubbrand')}}/'+myId,
-          type: "GET",
-          dataType: "json",
-          beforeSend: function(){
-            $('#loader').css("visibility", "visible");
-          },
-
-          success:function(data){
-            $('#subbrand').empty();
-            $.each(data, function(key, value){
-              $('#subbrand').append('<option value="'+ key +'">' + value + '</option>');
-            });                                
-          },
-          complete: function(){
-            $('#loader').css("visibility","hidden");
-          }
-        });
-      }
-      else{
-        $('#subbrand').empty();
-      }           
-    });
-  });
 
   function satuan_ml(){
     var satuan_ml = document.getElementById('id_ml')
