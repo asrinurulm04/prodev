@@ -624,7 +624,6 @@ class pkp2Controller extends Controller
                 $pipeline->id_pdf = $ids[$i];
                 $pipeline->save();
                 $i = $i++;
-
             }
         }
 

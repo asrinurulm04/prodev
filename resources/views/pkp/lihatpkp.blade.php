@@ -21,7 +21,7 @@
         <div id="exTab2" class="container">
 					<div class="col-md-11" align="left">
             @foreach($pkpp as $pkp)
-            <a class="btn btn-danger btn-sm" href="{{ route('rekappkp',$pkp->id_project)}}"><i class="fa fa-share"></i> Back</a>
+              <a class="btn btn-danger btn-sm" href="{{ route('rekappkp',$pkp->id_project)}}"><i class="fa fa-share"></i> Back</a>
               @if($pkp->status_pkp=="draf")
                 @if(auth()->user()->role->namaRule === 'pv_lokal')
                   @if($pkp->datapkpp->approval=='approve')
@@ -164,110 +164,98 @@
                 @endif
               @elseif($pkp->status_pkp=='revisi')
                 @if(auth()->user()->role->namaRule === 'pv_lokal')
-                @if($pkp->datapkpp->approval=='approve')
-                <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#revisi{{$pkp->id_pkp}}{{$pkp->turunan}}"><i class="fa fa-paper-plane"></i> Sent To RND</a></button>
-                @endif
-                <!-- modal -->
-                <div class="modal" id="revisi{{$pkp->id_pkp}}{{$pkp->turunan}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                  <div class="modal-dialog modal-lg" role="document">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h3 class="modal-title text-left" id="exampleModalLabel" >Sent Data Revision
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span></h3>
-                        </button>
-                      </div>
-                      <div class="modal-body">
-                        <form class="form-horizontal form-label-left" method="POST" action="{{ Route('sentpkp',['id_pkp' => $pkp->id_pkp, 'revisi' => $pkp->revisi, 'turunan' => $pkp->turunan])}}" novalidate>
-                        <div class="form-group row">
-                          <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center">Dept Product</label>
-                          <div class="col-md-4 col-sm-9 col-xs-12">
-                            <select name="kirim" class="form-control form-control-line" id="kirim">
-                              <option readonly value="{{$pkp->tujuankirim}}" selected>{{$pkp->departement->dept}}</option>
-                              @foreach($dept1 as $dept)
-                              @if($dept->Divisi=='RND')
-                              <option value="{{$dept->id}}"> Manager {{ $dept->dept }} ({{$dept->users->name}})</option>
-                              @endif
-                              @endforeach
-                            </select>
-                          </div>
-                          <?php $last = Date('j-F-Y'); ?>
-                          <input id="date" value="{{ $last }}" class="form-control col-md-12 col-xs-12" name="date" required="required" type="hidden" readonly>
-                          <input type="hidden" value="{{$pkp->project_name}}" name="name" id="name">
-                          <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center">Dept Product</label>
-                          <div class="col-md-4 col-sm-9 col-xs-12">
-                            <select name="rka" class="form-control form-control-line" id="rka">
-                              <option value="1">RKA</option>
-                              <option value="0">No Departement Selected</option>
-                            </select>
-                          </div>
+                  @if($pkp->datapkpp->approval=='approve')
+                  <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#revisi{{$pkp->id_pkp}}{{$pkp->turunan}}"><i class="fa fa-paper-plane"></i> Sent To RND</a></button>
+                  @endif
+                  <!-- modal -->
+                  <div class="modal" id="revisi{{$pkp->id_pkp}}{{$pkp->turunan}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h3 class="modal-title text-left" id="exampleModalLabel" >Sent Data Revision
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></h3>
+                          </button>
                         </div>
-                        <input type="hidden" value="{{$pkp->pkp_number}}" name="nopkp" id="nopkp">
-                        <?php $tanggal = Date("Y"); ?>
-                        @if($pkp->jenis!='Umum')
-                          @if($pkp->type=='Maklon')
-                          <input type="hidden" value="_{{$tanggal}}/PKP{{$pkp->jenis}}-M_{{ $pkp->project_name }}_{{ $pkp->revisi }}.{{ $pkp->turunan }}" name="ket_no" id="ket_no">
-                          @elseif($pkp->type!='Maklon')
-                          <input type="hidden" value="_{{$tanggal}}/PKP{{$pkp->jenis}}_{{ $pkp->project_name }} _{{ $pkp->revisi }}.{{ $pkp->turunan }}" name="ket_no" id="ket_no">
-                          @endif
-                        @elseif($pkp->jenis=='Umum')
-                          @if($pkp->type=='Maklon')
-                          <input type="hidden" value="_{{$tanggal}}/PKP-M_{{ $pkp->project_name }}_{{ $pkp->revisi }}.{{ $pkp->turunan }}" name="ket_no" id="ket_no">
-                          @elseif($pkp->type!='Maklon')
-                          <input type="hidden" value="_{{$tanggal}}/PKP_{{ $pkp->project_name }} _{{ $pkp->revisi }}.{{ $pkp->turunan }}" name="ket_no" id="ket_no">
-                          @endif
-                        @endif
-                        <div class="form-group row">
-                        <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center">Prioritas Project</label>
-                          <div class="col-md-1 col-sm-1 col-xs-12">
-                            <select name="prioritas" class="form-control form-control-line" id="prioritas">
-                              <option  selected value="{{$pkp->prioritas}}" readonly>
-                                @if($pkp->prioritas==1)1
-                                @elseif($pkp->prioritas==2)2
-                                @elseif($pkp->prioritas==3)3
+                        <div class="modal-body">
+                          <form class="form-horizontal form-label-left" method="POST" action="{{ Route('sentpkp',['id_pkp' => $pkp->id_pkp, 'revisi' => $pkp->revisi, 'turunan' => $pkp->turunan])}}" novalidate>
+                          <div class="form-group row">
+                            <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center">Dept Product</label>
+                            <div class="col-md-4 col-sm-9 col-xs-12">
+                              <select name="kirim" class="form-control form-control-line" id="kirim">
+                                <option readonly value="{{$pkp->tujuankirim}}" selected>{{$pkp->departement->dept}}</option>
+                                @foreach($dept1 as $dept)
+                                @if($dept->Divisi=='RND')
+                                <option value="{{$dept->id}}"> Manager {{ $dept->dept }} ({{$dept->users->name}})</option>
                                 @endif
-                              </option>
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
-                            </select>
+                                @endforeach
+                              </select>
+                            </div>
+                            <?php $last = Date('j-F-Y'); ?>
+                            <input id="date" value="{{ $last }}" class="form-control col-md-12 col-xs-12" name="date" required="required" type="hidden" readonly>
+                            <input type="hidden" value="{{$pkp->project_name}}" name="name" id="name">
+                            <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center">Dept Product</label>
+                            <div class="col-md-4 col-sm-9 col-xs-12">
+                              <select name="rka" class="form-control form-control-line" id="rka">
+                                <option value="1">RKA</option>
+                                <option value="0">No Departement Selected</option>
+                              </select>
+                            </div>
                           </div>
-                          <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center">sending Sample</label>
-                          <div class="col-md-3 col-sm-3 col-xs-12">
-                            <input type="date" class="form-control" value="{{$pkp->jangka}}" name="jangka" id="jangka" placeholder="start date">
+                          <input type="hidden" value="{{$pkp->pkp_number}}" name="nopkp" id="nopkp">
+                          <?php $tanggal = Date("Y"); ?>
+                          @if($pkp->jenis!='Umum')
+                            @if($pkp->type=='Maklon')
+                            <input type="hidden" value="_{{$tanggal}}/PKP{{$pkp->jenis}}-M_{{ $pkp->project_name }}_{{ $pkp->revisi }}.{{ $pkp->turunan }}" name="ket_no" id="ket_no">
+                            @elseif($pkp->type!='Maklon')
+                            <input type="hidden" value="_{{$tanggal}}/PKP{{$pkp->jenis}}_{{ $pkp->project_name }} _{{ $pkp->revisi }}.{{ $pkp->turunan }}" name="ket_no" id="ket_no">
+                            @endif
+                          @elseif($pkp->jenis=='Umum')
+                            @if($pkp->type=='Maklon')
+                            <input type="hidden" value="_{{$tanggal}}/PKP-M_{{ $pkp->project_name }}_{{ $pkp->revisi }}.{{ $pkp->turunan }}" name="ket_no" id="ket_no">
+                            @elseif($pkp->type!='Maklon')
+                            <input type="hidden" value="_{{$tanggal}}/PKP_{{ $pkp->project_name }} _{{ $pkp->revisi }}.{{ $pkp->turunan }}" name="ket_no" id="ket_no">
+                            @endif
+                          @endif
+                          <div class="form-group row">
+                          <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center">Prioritas Project</label>
+                            <div class="col-md-1 col-sm-1 col-xs-12">
+                              <select name="prioritas" class="form-control form-control-line" id="prioritas">
+                                <option  selected value="{{$pkp->prioritas}}" readonly>
+                                  @if($pkp->prioritas==1)1
+                                  @elseif($pkp->prioritas==2)2
+                                  @elseif($pkp->prioritas==3)3
+                                  @endif
+                                </option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                              </select>
+                            </div>
+                            <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center">sending Sample</label>
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                              <input type="date" class="form-control" value="{{$pkp->jangka}}" name="jangka" id="jangka" placeholder="start date">
+                            </div>
+                            <div class="col-md-1 col-sm-1 col-xs-12"><center> To </center></div>
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                              <input type="date" class="form-control" value="{{$pkp->waktu}}" name="waktu" id="waktu" placeholder="end date">
+                            </div>
                           </div>
-                          <div class="col-md-1 col-sm-1 col-xs-12"><center> To </center></div>
-                          <div class="col-md-3 col-sm-3 col-xs-12">
-                            <input type="date" class="form-control" value="{{$pkp->waktu}}" name="waktu" id="waktu" placeholder="end date">
+                          <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-paper-plane"></i> Sent</button>
+                            {{ csrf_field() }}
                           </div>
+                          </form>
                         </div>
-                        <div class="modal-footer">
-                          <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-paper-plane"></i> Sent</button>
-                          {{ csrf_field() }}
-                        </div>
-                        </form>
                       </div>
                     </div>
                   </div>
-                </div>
-                <!-- Modal Selesai -->
+                  <!-- Modal Selesai -->
                 @endif
-              @elseif($pkp->datapkpp->status_project=="revisi")
+              @elseif($pkp->status_pkp!='draf')
                 @if(auth()->user()->role->namaRule === 'pv_lokal' || auth()->user()->role->namaRule === 'marketing')
                   @if($pkp->status_data=='active')
-                    @if($pengajuanpkp!=0)
-                    <a class="btn btn-info btn-sm" onclick="return confirm('Up PKP Version ?')" href="{{Route('naikversipkp',['id_project' => $pkp->id_project, 'revisi' => $pkp->revisi, 'turunan' => $pkp->turunan])}}"><i class="fa fa-arrow-up" onclick="return confirm('Up PKP Version ?')"></i> Up Version</a>
-                    @endif
-                  @endif
-                @endif
-              @elseif($pkp->status_pkp!='revisi' || $pkp->status_pkp!='draf')
-                @if(auth()->user()->role->namaRule === 'pv_lokal' || auth()->user()->role->namaRule === 'marketing')
-                  @if($pkp->status_data=='active')
-                    @if($pkp->status_freeze=='inactive')
                     <a class="btn btn-info btn-sm" onclick="return confirm('Up PKP Version ?')" href="{{Route('naikversipkp',['id_project' => $pkp->id_project, 'revisi' => $pkp->revisi, 'turunan' => $pkp->turunan])}}"><i class="fa fa-arrow-up" onclick="return confirm('Up PKP Version ?')"></i> Edit And Up Version</a>
-                    @else
-                    <a class="btn btn-info btn-sm" disabled title="this project is inactive"></i> Edit And Up Version</a>
-                    @endif
                   @endif
                 @endif
               @endif
@@ -387,7 +375,7 @@
                               <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
                                 <th>Forecash</th>
                                 <th>Configuration</th>
-                                <th>UOM</th>
+                                <th colspan="2">UOM</th>
                                 <th>NFI Price</th>
                                 <th>Costumer Price</th>
                               </tr>
@@ -421,6 +409,7 @@
                                 )
                                 @endif
                                 </td>
+                                <td>{{$for->jlh_uom}}</td>
                                 <td>{{$for->uom}}</td>
                                 <td>{{$for->nfi_price}}</td>
                                 <td>{{$for->costumer}}</td>
@@ -598,7 +587,7 @@
                               <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
                                 <th>Forecash</th>
                                 <th>Configuration</th>
-                                <th>UOM</th>
+                                <th colspan="2">UOM</th>
                                 <th>NFI Price</th>
                                 <th>Costumer Price</th>
                               </tr>
@@ -632,6 +621,7 @@
                                 )
                                 @endif
                                 </td>
+                                <td>{{$for->jlh_uom}}</td>
                                 <td>{{$for->uom}}</td>
                                 <td>{{$for->nfi_price}}</td>
                                 <td>{{$for->costumer}}</td>

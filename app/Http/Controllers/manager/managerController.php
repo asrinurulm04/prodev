@@ -550,7 +550,7 @@ class managerController extends Controller
         $datapkp = tipp::where('id_pkp',$id_project)->count();
         $nopkp = DB::table('pkp_project')->max('pkp_number')+1;
         $pkp = pkp_project::where('id_project',$id_project)->get();
-        $for = data_forecast::where('id_pkp',$id_project)->where('turunan',$turunan)->get();
+        $for = data_forecast::where('id_pkp',$id_project)->where('revisi',$revisi)->where('turunan',$turunan)->get();
         $dataklaim = data_klaim::where('id_pkp',$id_project)->join('klaim','klaim.id','=','id_klaim')->where('revisi',$revisi)->where('turunan',$turunan)->get();
         $pkpp = tipp::join('pkp_project','tippu.id_pkp','=','pkp_project.id_project')->where([ ['id_project',$id_project], ['revisi',$revisi], ['turunan',$turunan] ])->get();
         $ses= data_ses::where([ ['id_pkp',$id_project], ['turunan',$turunan] ])->get();

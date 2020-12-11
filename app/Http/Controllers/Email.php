@@ -210,14 +210,19 @@ class Email extends Controller
     }
 
     public function approveemailpkp(Request $request,$id_project){
+        $turunan = tipp::where('id_pkp',$id_project)->max('turunan');
+        $revisi =tipp::where('id_pkp',$id_project)->max('revisi');
+
         $app1 = pkp_project::where('id_project',$id_project)->first();
         $app1->approval='approve';
         $app1->save();
 
+        $for = data_forecast::where('id_pkp',$id_project)->where('revisi',$revisi)->where('turunan',$turunan)->get();
         $isipkp = tipp::where('id_pkp',$id_project)->where('status_data','=','active')->get();
         try{
             Mail::send('manager.infoemailpkp', [
                 'info'=>'selamat project anda telah disetujui :)',
+                'for' => $for,
                 'app'=>$isipkp,
             ],function($message)use($request,$id_project)
             {
@@ -242,14 +247,19 @@ class Email extends Controller
     }
 
     public function rejectemailpkp(Request $request,$id_project){
+        $turunan = tipp::where('id_pkp',$id_project)->max('turunan');
+        $revisi =tipp::where('id_pkp',$id_project)->max('revisi');
+
         $app = pkp_project::where('id_project',$id_project)->first();
         $app->approval='reject';
         $app->save();
 
+        $for = data_forecast::where('id_pkp',$id_project)->where('revisi',$revisi)->where('turunan',$turunan)->get();
         $isipkp = tipp::where('id_pkp',$id_project)->where('status_data','=','active')->get();
         try{
             Mail::send('manager.infoemailpkp', [
                 'info'=>'Project anda di tolak, silahkan hubungi pihak yang bersangkutan :)',
+                'for' => $for,
                 'app'=>$isipkp,
             ],function($message)use($request,$id_project)
             {

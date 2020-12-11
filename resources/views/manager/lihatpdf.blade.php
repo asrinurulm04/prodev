@@ -22,32 +22,85 @@
 					<div class="col-md-11" align="left">
             @foreach($pdf as $pdf)
             <?php $last = Date('j-F-Y'); ?>
-            @if(Auth::user()->departement->dept!='RKA')
-              @if($pdf->status_terima=='proses')
-              <form class="form-horizontal form-label-left" method="POST" action="{{ route('approvepdf1',$pdf->id_project_pdf) }}" novalidate>
-                <a class="btn btn-danger btn-sm" href="{{ route('daftarpdf',$pdf->id_project_pdf)}}"><i class="fa fa-share"></i> Back</a>
-                <a class="btn btn-warning btn-sm" onclick="return confirm('Print this data PDF ?')" href="{{ Route('downloadpdf',['id_project_pdf' => $pdf->id_project_pdf, 'revisi' => $pdf->revisi, 'turunan' => $pdf->turunan]) }}"><li class="fa fa-print"></li> Download/print PDF</a>
-                <input type="hidden" value="{{$last}}" name="tgl">
-                <button type="submit" class="btn btn-dark btn-sm"><li class="fa fa-check"></li> Approve data</button>
-                {{ csrf_field() }}
-              </form>
+              <a class="btn btn-danger btn-sm" href="{{ route('daftarpdf',$pdf->id_project_pdf)}}"><i class="fa fa-share"></i> Back</a>
+              <a class="btn btn-warning btn-sm" onclick="return confirm('Print this data PDF ?')" href="{{ Route('downloadpdf',['id_project_pdf' => $pdf->id_project_pdf, 'revisi' => $pdf->revisi, 'turunan' => $pdf->turunan]) }}"><li class="fa fa-print"></li> Download/print PDF</a>
+              
+              @if($hitung==0)
+						    <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#ajukan{{ $pdf->id_project_pdf  }}"><i class="fa fa-comments-o"></i> Sent Revision request</a></button>
+                <!-- Modal -->
+                <div class="modal" id="ajukan{{ $pdf->id_project_pdf  }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">                 
+                        <h3 class="modal-title text-left" id="exampleModalLabel">Sent Revision request
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button></h3>
+                      </div>
+                      <div class="modal-body">
+                      <form class="form-horizontal form-label-left" method="POST" action="{{ Route('pengajuanpdf')}}" novalidate>
+                        <div class="form-group row">
+                          <input type="hidden" value="{{$pdf->id_project_pdf}}" name="pdf">
+                          <input type="hidden" value="{{$pdf->turunan}}" name="turunan">
+                          <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center">Destination</label>
+                          <div class="col-md-9 col-sm-9 col-xs-12">
+                            <select name="penerima" class="form-control form-control-line" id="penerima">
+                              <option disabled selected>--> Select One <--</option>
+                              <option value="5">PV</option>
+                              <option value="1">Marketing</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center">Note</label>
+                          <div class="col-md-9 col-sm-9 col-xs-12">
+                            <textarea name="catatan" id="catatan" class="col-md-12 col-sm-12 col-xs-12"></textarea>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center">request Priority</label>
+                          <div class="col-md-3 col-sm-3 col-xs-12">
+                            <select name="prioritas" id="prioritas" class="form-control form-control-line">
+                              <option value="1">High Priority</option>
+                              <option value="2">Standar Priority</option>
+                              <option value="3">Low Priority</option>
+                            </select>
+                          </div>
+                          <div class="col-md-6 col-sm-3 col-xs-12">
+                            <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center">time</label>
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                              <input type="number" class="form-control form-control-line col-md-12 col-sm-12 col-xs-12" name="jangka" id="jangka">
+                            </div>
+                            <div class="col-md-6 col-sm-3 col-xs-12">
+                              <select name="waktu" id="waktu" class="form-control form-control-line col-md-12 col-sm-12 col-xs-12">
+                                <option value="Month">Month</option>
+                                <option value="Week">Week</option>
+                                <option value="Day">Day</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-paper-plane"></i> Sent</button>
+                          {{ csrf_field() }}
+                        </div>
+                      </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Modal Selesai -->
               @endif
-            @elseif(Auth::user()->departement->dept=='RKA')
-              @if($pdf->status_terima2=='proses')
-              <form class="form-horizontal form-label-left" method="POST" action="{{ route('approvepdf2',$pdf->id_project_pdf) }}" novalidate>
-                <a class="btn btn-danger btn-sm" href="{{ route('daftarpdf',$pdf->id_project_pdf)}}"><i class="fa fa-share"></i> Back</a>
-                <a class="btn btn-warning btn-sm" onclick="return confirm('Print this data PDF ?')" href="{{ Route('downloadpdf',['id_project_pdf' => $pdf->id_project_pdf, 'revisi' => $pdf->revisi, 'turunan' => $pdf->turunan]) }}"><li class="fa fa-print"></li> Download/print PDF</a>
-                <input type="hidden" value="{{$last}}" name="tgl">
-                <button type="submit" class="btn btn-dark btn-sm"><li class="fa fa-check"></li> Approve data</button>
-                {{ csrf_field() }}
-              </form>
-              @endif
-            @endif
-            @if($pdf->status_project=='sent' || $pdf->status_project=='proses')
+
               @if(Auth::user()->departement->dept!='RKA')
-                @if($pdf->status_terima=='terima')
-                <a class="btn btn-danger btn-sm" href="{{ route('daftarpdf',$pdf->id_project_pdf)}}"><i class="fa fa-share"></i> Back</a>
-                <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#kirim{{ $pdf->id_project_pdf  }}"><i class="fa fa-paper-plane"></i> Assign</a></button>
+                @if($pdf->status_terima=='proses')
+                  <form class="form-horizontal form-label-left" method="POST" action="{{ route('approvepdf1',$pdf->id_project_pdf) }}" novalidate>
+                    <input type="hidden" value="{{$last}}" name="tgl">
+                    <button type="submit" class="btn btn-dark btn-sm"><li class="fa fa-check"></li> Approve data</button>
+                    {{ csrf_field() }}
+                  </form>
+                @elseif($pdf->status_terima=='terima')
+                  <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#kirim{{ $pdf->id_project_pdf  }}"><i class="fa fa-paper-plane"></i> Assign</a></button>
                   <!-- Modal -->
                   <div class="modal" id="kirim{{ $pdf->id_project_pdf  }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
@@ -102,137 +155,71 @@
                     </div>
                   </div>
                   <!-- Modal Selesai -->
-                  @if($hitung==0)
-						      <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#ajukan{{ $pdf->id_project_pdf  }}"><i class="fa fa-comments-o"></i> Sent Revision request</a></button>
-                    <!-- Modal -->
-                    <div class="modal" id="ajukan{{ $pdf->id_project_pdf  }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                      <div class="modal-dialog modal-lg" role="document">
-                        <div class="modal-content">
-                          <div class="modal-header">                 
-                            <h3 class="modal-title text-left" id="exampleModalLabel">Sent Revision request
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                              <span aria-hidden="true">&times;</span>
-                            </button></h3>
-                          </div>
-                          <div class="modal-body">
-                          <form class="form-horizontal form-label-left" method="POST" action="{{ Route('pengajuanpdf')}}" novalidate>
-                            <div class="form-group row">
-                              <input type="hidden" value="{{$pdf->id_project_pdf}}" name="pdf">
-                              <input type="hidden" value="{{$pdf->turunan}}" name="turunan">
-                              <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center">Destination</label>
-                              <div class="col-md-9 col-sm-9 col-xs-12">
-                                <select name="penerima" class="form-control form-control-line" id="penerima">
-                                  <option disabled selected>--> Select One <--</option>
-                                  <option value="5">PV</option>
-                                  <option value="1">Marketing</option>
-                                </select>
-                              </div>
-                            </div>
-                            <div class="form-group row">
-                              <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center">Note</label>
-                              <div class="col-md-9 col-sm-9 col-xs-12">
-                                <textarea name="catatan" id="catatan" class="col-md-12 col-sm-12 col-xs-12"></textarea>
-                              </div>
-                            </div>
-                            <div class="form-group row">
-                              <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center">request Priority</label>
-                              <div class="col-md-3 col-sm-3 col-xs-12">
-                                <select name="prioritas" id="prioritas" class="form-control form-control-line">
-                                  <option value="1">High Priority</option>
-                                  <option value="2">Standar Priority</option>
-                                  <option value="3">Low Priority</option>
-                                </select>
-                              </div>
-                              <div class="col-md-6 col-sm-3 col-xs-12">
-                                <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center">time</label>
-                                <div class="col-md-3 col-sm-3 col-xs-12">
-                                  <input type="number" class="form-control form-control-line col-md-12 col-sm-12 col-xs-12" name="jangka" id="jangka">
-                                </div>
-                                <div class="col-md-6 col-sm-3 col-xs-12">
-                                  <select name="waktu" id="waktu" class="form-control form-control-line col-md-12 col-sm-12 col-xs-12">
-                                    <option value="Month">Month</option>
-                                    <option value="Week">Week</option>
-                                    <option value="Day">Day</option>
-                                  </select>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="modal-footer">
-                              <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-paper-plane"></i> Sent</button>
-                              {{ csrf_field() }}
-                            </div>
-                          </form>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- Modal Selesai -->
-                  @endif
-                  <a class="btn btn-warning btn-sm" onclick="return confirm('Print this data PDF ?')" href="{{ Route('downloadpdf',['id_project_pdf' => $pdf->id_project_pdf, 'revisi' => $pdf->revisi, 'turunan' => $pdf->turunan]) }}"><li class="fa fa-print"></li> Download/print PDF</a>
                 @endif
               @elseif(Auth::user()->departement->dept=='RKA')
-                @if($pdf->status_terima2=='terima')
-                <a class="btn btn-danger btn-sm" href="{{ route('daftarpdf',$pdf->id_project_pdf)}}"><i class="fa fa-share"></i> Back</a>
-                <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#kirim{{ $pdf->id_project_pdf  }}"><i class="fa fa-paper-plane"></i> Assign</a></button>
-                <!-- Modal -->
-                <div class="modal" id="kirim{{ $pdf->id_project_pdf  }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                  <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                      <div class="modal-header">                 
-                        <h3 class="modal-title text-left" id="exampleModalLabel">Sent Data
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                        </button></h3>
-                      </div>
-                      <div class="modal-body">
-                        <form class="form-horizontal form-label-left" method="POST" action="{{ Route('eedituser',$pdf->id_project_pdf)}}" novalidate>
-                        <div class="form-group row">
-                          <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center"> User</label>
-                          @if(Auth::user()->departement->dept!="RKA")
-                          @if($pdf->userpenerima2!='NULL')
-                          <input type="hidden" value="{{$pdf->userpenerima2}}" name="user2">
-                          @endif
-                          <div class="col-md-9 col-sm-9 col-xs-12">
-                            <select name="user" class="form-control form-control-line" id="user">
-                              <option disabled selected>--> select One <--</option>
-                              @foreach($user as $user)
-                              @if($user->id!=Auth::user()->id)
-                              <option value="{{$user->id}}">{{ $user->name }}</option>
-                              @endif
-                              @endforeach
-                            </select>
-                          </div>
-                          @elseif(Auth::user()->departement->dept=="RKA")
-                            @if($pdf->userpenerima!='NULL')
-                            <input type="hidden" value="{{$pdf->userpenerima}}" name="user">
+                  @if($pdf->status_terima2=='proses')
+                  <form class="form-horizontal form-label-left" method="POST" action="{{ route('approvepdf2',$pdf->id_project_pdf) }}" novalidate>
+                    <input type="hidden" value="{{$last}}" name="tgl">
+                    <button type="submit" class="btn btn-dark btn-sm"><li class="fa fa-check"></li> Approve data</button>
+                    {{ csrf_field() }}
+                  </form>
+                @elseif($pdf->status_terima2=='terima')
+                  <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#kirim{{ $pdf->id_project_pdf  }}"><i class="fa fa-paper-plane"></i> Assign</a></button>
+                  <!-- Modal -->
+                  <div class="modal" id="kirim{{ $pdf->id_project_pdf  }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">                 
+                          <h3 class="modal-title text-left" id="exampleModalLabel">Sent Data
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button></h3>
+                        </div>
+                        <div class="modal-body">
+                          <form class="form-horizontal form-label-left" method="POST" action="{{ Route('eedituser',$pdf->id_project_pdf)}}" novalidate>
+                          <div class="form-group row">
+                            <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center"> User</label>
+                            @if(Auth::user()->departement->dept!="RKA")
+                            @if($pdf->userpenerima2!='NULL')
+                            <input type="hidden" value="{{$pdf->userpenerima2}}" name="user2">
                             @endif
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                              <select name="user2" class="form-control form-control-line" id="user2">
+                              <select name="user" class="form-control form-control-line" id="user">
                                 <option disabled selected>--> select One <--</option>
                                 @foreach($user as $user)
+                                @if($user->id!=Auth::user()->id)
                                 <option value="{{$user->id}}">{{ $user->name }}</option>
+                                @endif
                                 @endforeach
                               </select>
                             </div>
-                            @endif
+                            @elseif(Auth::user()->departement->dept=="RKA")
+                              @if($pdf->userpenerima!='NULL')
+                              <input type="hidden" value="{{$pdf->userpenerima}}" name="user">
+                              @endif
+                              <div class="col-md-9 col-sm-9 col-xs-12">
+                                <select name="user2" class="form-control form-control-line" id="user2">
+                                  <option disabled selected>--> select One <--</option>
+                                  @foreach($user as $user)
+                                  <option value="{{$user->id}}">{{ $user->name }}</option>
+                                  @endforeach
+                                </select>
+                              </div>
+                              @endif
+                          </div>
+                          <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-paper-plane"></i> Sent</button>
+                            {{ csrf_field() }}
+                          </div>
+                          </form>
                         </div>
-                        <div class="modal-footer">
-                          <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-paper-plane"></i> Sent</button>
-                          {{ csrf_field() }}
-                        </div>
-                        </form>
                       </div>
                     </div>
                   </div>
-                </div>
-                <!-- Modal Selesai -->  
-                  @if($hitung==0)
-						      <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#ajukan{{ $pdf->id_project_pdf  }}"><i class="fa fa-comments-o"></i> Sent Revision request</a></button>
-                  @endif
-                <a class="btn btn-warning btn-sm" onclick="return confirm('Print this data PDF ?')" href="{{ Route('downloadpdf',['id_project_pdf' => $pdf->id_project_pdf, 'revisi' => $pdf->revisi, 'turunan' => $pdf->turunan]) }}"><li class="fa fa-print"></li> Download/print PDF</a>
+                  <!-- Modal Selesai -->  
                 @endif
               @endif
-            @endif
+              
           </div> 
           <div class="tab-content panel ">
             <div class="tab-pane active" id="1">

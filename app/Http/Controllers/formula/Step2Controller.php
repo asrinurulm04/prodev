@@ -82,16 +82,13 @@ class Step2Controller extends Controller
             
             // Granulasi
             if($fortail->granulasi == 'ya'){
-            $granulasi = $granulasi + 1;  
-            // dd($scalecollect);        
+            $granulasi = $granulasi + 1;     
             }       
             
             // premix
             if($fortail->premix == 'ya'){
-                $premix = $premix + 1;  
-                // dd($scalecollect);        
+                $premix = $premix + 1;         
                 } 
-                
         }
 
         // Check Total Serving
@@ -144,7 +141,6 @@ class Step2Controller extends Controller
             if($ada>0){            
                 $paraFortail= Fortail::where('formula_id',$vf)->get();
             }
-        // Persiapan
 
         $bp = Bahan::where('id', $request->prioritas)->first();
         $pin = $bp->id_ingredient;
@@ -183,7 +179,6 @@ class Step2Controller extends Controller
                 $e=$d+1;
             }
         }
-        
         
         $all = new allergen_formula;
         $all->id_bahan=$bp->id;
@@ -328,8 +323,6 @@ class Step2Controller extends Controller
 
         $jumlah_bahan = $c + 1;
 
-    
-      
         return redirect()->back()->with('status','BahanBaku Berhasil Ditambahkan');
     }
 
@@ -354,15 +347,7 @@ class Step2Controller extends Controller
         $formula->serving = $totals;
         $formula->save();
        
-        $premixs = Premix::where('fortail_id',$fortail->id)->get();
-                foreach($premixs as $premix){
-                    $pretails = Pretail::where('premix_id',$premix->id)->get();
-                    foreach($pretails as $pretail){
-                        $pretail->delete();
-                    }
-                $premix->delete();
-                }
-            $fortail->delete();
+        $fortail->delete();
         return redirect()->route('step2',[$idfor,$vf])->with('error','BahanBaku Telah Berhasil Dihapus');
     }
 

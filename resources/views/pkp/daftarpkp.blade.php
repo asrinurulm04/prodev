@@ -4,6 +4,24 @@
 @section('content')
 
 <div class="row">
+  @if (session('status'))
+  <div class="col-lg-12 col-md-12 col-sm-12">
+    <div class="alert alert-success">
+    	<button type="button" class="close" data-dismiss="alert">×</button>
+      {{ session('status') }}
+    </div>
+  </div>
+  @elseif(session('error'))
+  <div class="col-lg-12 col-md-12 col-sm-12">
+    <div class="alert alert-danger">
+    	<button type="button" class="close" data-dismiss="alert">×</button>
+      {{ session('error') }}
+    </div>
+  </div>
+  @endif
+</div>
+
+<div class="row">
   <div class="col-md-12 col-xs-12">
 		@foreach($data as $data)
     <div class="x_panel">
@@ -137,7 +155,7 @@
               @if($data->datapkp!=null)
               @foreach($data1 as $data)
               <tr><th>Idea</td> <td> : {{$data->idea}}</td></tr>
-              <tr><th>Launch Deadline</th><td>: {{$data->launch}}{{$data->years}}{{$data->tgl_launch}}</td></tr>
+              <tr><th>Launch Deadline</th><td>: {{$data->launch}} {{$data->years}} {{$data->tgl_launch}}</td></tr>
               <tr><th>Sample Deadline</th><td>: {{$data->jangka}}-  {{$data->waktu}}</td></tr>
               <tr><th>PV</th><td> : {{$data->perevisi2->name}}</td></tr>
               @endforeach

@@ -124,10 +124,8 @@ class pkpController extends Controller
     }
 
     public function lihatpkp($id_project,$revisi,$turunan){
-        $pengajuanpkp = pkp_project::join('pkp_pengajuan','pkp_project.id_project','=','pkp_pengajuan.id_pkp')->count();
         $datapkp = tipp::where('id_pkp',$id_project)->count();
         $nopkp = DB::table('pkp_project')->max('pkp_number')+1;
-        $pkp = pkp_project::where('id_project',$id_project)->get();
         $for = data_forecast::where('id_pkp',$id_project)->where('revisi',$revisi)->where('turunan',$turunan)->get();
         $pkpp = tipp::join('pkp_project','tippu.id_pkp','=','pkp_project.id_project')->where([ ['id_pkp',$id_project], ['revisi',$revisi], ['turunan',$turunan] ])->get();
         $ses= data_ses::where([ ['id_pkp',$id_project], ['revisi','<=',$revisi], ['turunan','<=',$turunan] ])->orderBy('revisi','desc')->orderBy('turunan','desc')->get();
@@ -145,7 +143,6 @@ class pkpController extends Controller
         return view('pkp.lihatpkp')->with([
             'pkpp' => $pkpp,
             'pengajuan' => $pengajuan,
-            'pkp' => $pkp,
             'datases' => $ses,
             'for' => $for,
             'formula' => $formula,
@@ -153,9 +150,7 @@ class pkpController extends Controller
             'dataklaim' => $dataklaim,
             'pkp2' => $pkp2,
             'pkp1' => $pkp1,
-            'pengajuanpkp' => $pengajuanpkp,
             'user' => $user,
-            'datapkp' => $datapkp,
             'nopkp' => substr("T00".$nopkp,1,3),
             'picture' => $picture,
             'dept' => $dept,
@@ -1413,7 +1408,7 @@ class pkpController extends Controller
         $pengajuanpkp = pkp_project::join('pkp_pengajuan','pkp_project.id_project','=','pkp_pengajuan.id_pkp')->count();
         $pkp = tipp::where('id_pkp',$id_project)->join('pkp_project','pkp_project.id_project','=','tippu.id_pkp')->where('status_data','=','active')->get();
         $pengajuan = pengajuan::count();
-        $sample_project = Formula::where('workbook_id', $id_project)->get();
+        $sample_project = Formula::where('workbook_id', $id_project)->orderBy('versi','asc')->get();
         $status_sample_project = sample_project::where('id_pkp',$id_project)->where('status','=','final')->count();
         $hitung = tipp::where('id_pkp',$id_project)->count();
         $max = tipp::where('id_pkp',$id_project)->max('turunan');

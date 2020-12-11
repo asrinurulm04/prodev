@@ -106,7 +106,7 @@
                 </option>
               </select>
             </div>
-       			<a type="buton" href="{{ Route('konfig',$pdf->id)}}" class="fa fa-trash btn btn-danger btn-lg" title="Remove the configuration and create a new configuration"></a>
+       			<a type="buton" href="{{ Route('konfig',[$pdf->id,$pdf->turunan])}}" class="btn btn-danger btn-sm" title="Remove the configuration and create a new configuration"><li class="fa fa-trash "></li></a>
             <div class="col-md-9 col-sm-9 col-xs-12">
             @elseif($pdf->kemas_eksis==NULL)
               <input type="hidden" value="{{$eksis+1}}" name="kemas" id="kemas">
@@ -457,8 +457,8 @@
           @endforeach
           <div class="ln_solid"></div>
           <div class="col-md-6 col-md-offset-5">
-            <button type="reset" class="btn btn-warning"><li class="fa fa-repeat"></li> Reset</button>
-            <button type="submit" class="btn btn-primary"><li class="fa fa-check"></li> Submit</button>
+            <button type="reset" class="btn btn-warning btn-sm"><li class="fa fa-repeat"></li> Reset</button>
+            <button type="submit" class="btn btn-primary btn-sm"><li class="fa fa-check"></li> Submit</button>
             {{ csrf_field() }}
           </div>
         </div>
@@ -659,7 +659,7 @@
     "<option value='1 Month'>1 Month</option>"+
     "<option value='2 Month'>2 Month</option>"+
     "<option value='3 Month'>3 Month</option>"+
-    "</select></td><td><input type='text' name='keterangan[]' class='form-control'></td><td><a hreaf='' class='btn btn-danger'><li class='fa fa-trash'></li> Delete</a></td>");
+    "</select></td><td><input type='text' name='keterangan[]' class='form-control'></td><td><a hreaf='' class='btn btn-danger btn-sm'><li class='fa fa-trash'></li> Delete</a></td>");
 
     $('#tabledata').append('<tr id="addrow' + (i + 1) + '"></tr>');
     i++;

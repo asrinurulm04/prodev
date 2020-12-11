@@ -21,10 +21,12 @@ class TemplateFormulaController extends Controller
 
     public function index($ftujuan,$id){
         $ada= Fortail::where('formula_id',$id)->count();
-        $formulas = Formula::all();
+        $formulas = Formula::join('pkp_project','pkp_project.id_project','formulas.workbook_id')->orderBy('pkp_number','asc')->orderBy('versi','asc')->get();
+        $formulas_pdf = Formula::join('pdf_project','pdf_project.id_project_pdf','formulas.workbook_pdf_id')->orderBy('pdf_number','asc')->orderBy('versi','asc')->get();
         return view('devwb.template')->with([
             'ada' => $ada,
             'formulas' => $formulas,
+            'formulas_pdf' => $formulas_pdf,
             'ftujuan' => $ftujuan,
             'for' => $id
         ]);
@@ -85,38 +87,6 @@ class TemplateFormulaController extends Controller
                 $fortails->granulasi = $tfortail->granulasi;
                 $fortails->premix = $tfortail->premix;
                 $fortails->save();
-
-                $clp=Premix::where('fortail_id',$tfortail->id)->count();
-                if($clp>0){
-                    $lpremix=Premix::where('fortail_id',$tfortail->id)->get();
-                    foreach($lpremix as $lp){
-                        $premixs = new Premix;
-                        $premixs->fortail_id = $fortails->id;
-                        $premixs->utuh = $lp->utuh;
-                        $premixs->koma = $lp->koma;
-                        $premixs->utuh_cpb = $lp->utuh_cpb;
-                        $premixs->koma_cpb = $lp->koma_cpb;
-                        $premixs->satuan = $lp->satuan;
-                        $premixs->berat = $lp->berat;
-                        $premixs->keterangan = $lp->keterangan;
-                        $premixs->save();
-
-                        $clpt=Pretail::where('premix_id',$lp->id)->count();
-                        if($clpt>0){
-                            $lpretail=Pretail::where('premix_id',$lp->id)->get();
-                            foreach ($lpretail as $lpt){
-                                $pretails =  new Pretail;
-                                $pretails->premix_id = $premixs->id;
-                                $pretails->premix_ke = $lpt->premix_ke;
-                                $pretails->awalan = $lpt->awalan;
-                                $pretails->turunan = $lpt->turunan;
-                                $pretails->jumlah = $lpt->jumlah;
-                                $pretails->kode_kantong = $lpt->kode_kantong;
-                                $pretails->save();
-                            }
-                        }
-                    }
-                }
             }
         }
         return Redirect()->route('step2',[$formula_Tujuan->workbook_id,$ftujuan])->with('status','Struktur Formula '.$namaformAsal.' Telah Dimasukan');

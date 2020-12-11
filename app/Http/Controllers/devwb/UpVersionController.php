@@ -108,38 +108,6 @@ class UpVersionController extends Controller
                 $fortails->granulasi = $lastft->granulasi;
                 $fortails->premix = $lastft->premix;
                 $fortails->save();
-
-                $clp=Premix::where('fortail_id',$lastft->id)->count();
-                if($clp>0){
-                    $lpremix=Premix::where('fortail_id',$lastf->id)->get();
-                    foreach($lpremix as $lp){
-                        $premixs = new Premix;
-                        $premixs->fortail_id = $fortails->id;
-                        $premixs->utuh = $lp->utuh;
-                        $premixs->koma = $lp->koma;
-                        $premixs->utuh_cpb = $lp->utuh_cpb;
-                        $premixs->koma_cpb = $lp->koma_cpb;
-                        $premixs->satuan = $lp->satuan;
-                        $premixs->berat = $lp->berat;
-                        $premixs->keterangan = $lp->keterangan;
-                        $premixs->save();
-
-                        $clpt=Pretail::where('premix_id',$lp->id)->count();
-                        if($clpt>0){
-                            $lpretail=Pretail::where('premix_id',$lp->id)->get();
-                            foreach ($lpretail as $lpt){
-                                $pretails = new Pretail;
-                                $pretails->premix_id = $premixs->id;
-                                $pretails->premix_ke = $lpt->premix_ke;
-                                $pretails->awalan = $lpt->awalan;
-                                $pretails->turunan = $lpt->turunan;
-                                $pretails->jumlah = $lpt->jumlah;
-                                $pretails->kode_kantong = $lpt->kode_kantong;
-                                $pretails->save();
-                            }
-                        }
-                    }
-                } 
    
                 $allergen= allergen_formula::where('id_formula',$lastf->id)->count();
                 if($allergen>0){
@@ -241,38 +209,6 @@ class UpVersionController extends Controller
                 $fortails->granulasi = $lastft->granulasi;
                 $fortails->premix = $lastft->premix;
                 $fortails->save();
-
-                $clp=Premix::where('fortail_id',$lastft->id)->count();
-                if($clp>0){
-                    $lpremix=Premix::where('fortail_id',$lastf->id)->get();
-                    foreach($lpremix as $lp){
-                        $premixs = new Premix;
-                        $premixs->fortail_id = $fortails->id;
-                        $premixs->utuh = $lp->utuh;
-                        $premixs->koma = $lp->koma;
-                        $premixs->utuh_cpb = $lp->utuh_cpb;
-                        $premixs->koma_cpb = $lp->koma_cpb;
-                        $premixs->satuan = $lp->satuan;
-                        $premixs->berat = $lp->berat;
-                        $premixs->keterangan = $lp->keterangan;
-                        $premixs->save();
-
-                        $clpt=Pretail::where('premix_id',$lp->id)->count();
-                        if($clpt>0){
-                            $lpretail=Pretail::where('premix_id',$lp->id)->get();
-                            foreach ($lpretail as $lpt){
-                                $pretails = new Pretail;
-                                $pretails->premix_id = $premixs->id;
-                                $pretails->premix_ke = $lpt->premix_ke;
-                                $pretails->awalan = $lpt->awalan;
-                                $pretails->turunan = $lpt->turunan;
-                                $pretails->jumlah = $lpt->jumlah;
-                                $pretails->kode_kantong = $lpt->kode_kantong;
-                                $pretails->save();
-                            }
-                        }
-                    }
-                } 
 
                 $allergen= allergen_formula::where('id_formula',$lastf->id)->count();
                 if($allergen>0){

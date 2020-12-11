@@ -83,14 +83,6 @@ class FormulaController extends Controller
         // Delete Pesan
         $fortails = Fortail::where('formula_id',$id)->get();
         foreach($fortails as $fortail){
-            $premixs = Premix::where('fortail_id',$fortail->id)->get();
-            foreach($premixs as $premix){
-                $pretails = Pretail::where('premix_id',$premix->id)->get();
-                foreach($pretails as $pretail){
-                    $pretail->delete();
-                }
-            $premix->delete();
-            }
         $fortail->delete();
         }
         $formula->delete();

@@ -15,7 +15,7 @@ use App\pkp\data_ses;
 use App\pkp\klaim;
 use App\pkp\detail_klaim;
 use App\pkp\komponen;
-use App\dev\formula;
+use App\dev\Formula;
 use App\pkp\data_klaim; 
 use App\manager\pengajuan;
 use App\pkp\project_pdf;
@@ -51,6 +51,7 @@ class pdfController extends Controller
         $pdf->id_type=$request->type;
         $pdf->author=$request->author;
         $pdf->created_date=$request->date;
+        $pdf->workbook='0';
         $pdf->country=$request->country;
         $pdf->save();
 
@@ -1137,7 +1138,7 @@ class pdfController extends Controller
     public function sentpdf(Request $request, $id_project_pdf,$revisi,$turunan){
         $edit = project_pdf::where('id_project_pdf',$id_project_pdf)->first();
         $edit->tujuankirim=$request->kirim;
-        $edit->status_project='proses';
+        $edit->status_project='sent';
         $edit->pdf_number=$request->nopdf;
         $edit->ket_no=$request->ket_no;
         $edit->jangka=$request->jangka;
@@ -1283,6 +1284,7 @@ class pdfController extends Controller
                 $coba ->kemas_eksis=$pdfp->kemas_eksis;
                 $coba ->wight=$pdfp->wight;
                 $coba ->serving=$pdfp->serving;
+                $coba->perevisi=Auth::user()->id;
                 $coba ->target_price=$pdfp->target_price;
                 $coba->claim=$pdfp->claim;
                 $coba->ingredient=$pdfp->ingredient;

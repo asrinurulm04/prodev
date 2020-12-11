@@ -1,4 +1,4 @@
-@extends('formula.tempformula')
+@extends('pv.tempvv')
 @section('title', 'Template Formula')
 @section('content')
 
@@ -20,11 +20,12 @@
           </tr>
         </thead>
         <tbody>
+        <!-- Untuk Project PKP -->
         @foreach ($formulas as $formula)
-          @if($ada==0)
+        @if($ada==0)
           @if($for!=$formula->id)
           <tr style="background-color:white">
-            <td>{{ $formula->workbook->datapkpp->pkp_number}}{{ $formula->workbook->datapkpp->ket_no}}</td>
+            <td>{{ $formula->pkp_number}}{{ $formula->ket_no}}</td>
             <td class="text-center" width="15%">
               @if($formula->kategori!='fg')
               {{$formula->kategori}}
@@ -34,34 +35,143 @@
             </td>
             <td class="text-center">{{ $formula->formula}}</td>
             <td class="text-center">{{ $formula->versi}}.{{ $formula->turunan }}</td>
-            <td class="text-center">{{ $formula->vv}}</td>
+            <td class="text-center">
+              @if ($formula->vv == 'proses')
+              <span class="label label-warning">Proses</span>                        
+              @endif
+              @if ($formula->vv == 'reject')
+              <span class="label label-danger">Rejected</span>                        
+              @endif 
+              @if ($formula->vv == 'approve')
+              <span class="label label-success">Approved</span>                        
+              @endif 
+              @if ($formula->vv == 'final')
+              <span class="label label-info">Final Approved</span>                        
+              @endif 
+              @if ($formula->vv == '')
+              <span class="label label-primary">Belum Diajukan</span>                        
+              @endif  
+            </td>
             <td class="text-center">
               {{csrf_field()}}
               <a class="btn btn-warning btn-sm" href="{{ route('insertTemplate',['ftujuan'=>$for,'fasal'=>$formula->id]) }}" onclick="return confirm('Jadikan Template ?')"><i class="fa fa-download"></i> Jadikan Template</a>
             </td>
           </tr>
           @endif
-          @else
-            @if($formula->kategori=='granulasi')
-            <tr style="background-color:white">
-              <td>{{ $formula->workbook->datapkpp->pkp_number}}{{ $formula->workbook->datapkpp->ket_no}}</td>
-              <td class="text-center" width="15%">
-                @if($formula->kategori!='fg')
-                {{$formula->kategori}}
-                @elseif($formula->kategori=='fg')
-                Finished Good
-                @endif
-              </td>
-              <td class="text-center">{{ $formula->formula}}</td>
-              <td class="text-center">{{ $formula->versi}}.{{ $formula->turunan }}</td>
-              <td class="text-center">{{ $formula->vv}}</td>
-              <td class="text-center">
-                {{csrf_field()}}
-                <a class="btn btn-warning btn-sm" href="{{ route('insertTemplate',['ftujuan'=>$for,'fasal'=>$formula->id]) }}" onclick="return confirm('Jadikan Template ?')"><i class="fa fa-download"></i> Jadikan Template</a>
-              </td>
-            </tr>
-            @endif
+        @else
+          @if($formula->kategori=='granulasi')
+          <tr style="background-color:white">
+            <td>{{ $formula->pkp_number}}{{ $formula->ket_no}}</td>
+            <td class="text-center" width="15%">
+              @if($formula->kategori!='fg')
+              {{$formula->kategori}}
+              @elseif($formula->kategori=='fg')
+              Finished Good
+              @endif
+            </td>
+            <td class="text-center">{{ $formula->formula}}</td>
+            <td class="text-center">{{ $formula->versi}}.{{ $formula->turunan }}</td>
+            <td class="text-center">
+              @if ($formula->vv == 'proses')
+              <span class="label label-warning">Proses</span>                        
+              @endif
+              @if ($formula->vv == 'reject')
+              <span class="label label-danger">Rejected</span>                        
+              @endif 
+              @if ($formula->vv == 'approve')
+              <span class="label label-success">Approved</span>                        
+              @endif 
+              @if ($formula->vv == 'final')
+              <span class="label label-info">Final Approved</span>                        
+              @endif 
+              @if ($formula->vv == '')
+              <span class="label label-primary">Belum Diajukan</span>                        
+              @endif 
+            </td>
+            <td class="text-center">
+              {{csrf_field()}}
+              <a class="btn btn-warning btn-sm" href="{{ route('insertTemplate',['ftujuan'=>$for,'fasal'=>$formula->id]) }}" onclick="return confirm('Jadikan Template ?')"><i class="fa fa-download"></i> Jadikan Template</a>
+            </td>
+          </tr>
           @endif
+        @endif
+        @endforeach
+
+        <!-- Untuk Project PDF -->
+        @foreach ($formulas_pdf as $formula)
+        @if($ada==0)
+          @if($for!=$formula->id)
+          <tr style="background-color:white">
+            <td>{{ $formula->pkp_number}}{{ $formula->ket_no}}</td>
+            <td class="text-center" width="15%">
+              @if($formula->kategori!='fg')
+              {{$formula->kategori}}
+              @elseif($formula->kategori=='fg')
+              Finished Good
+              @endif
+            </td>
+            <td class="text-center">{{ $formula->formula}}</td>
+            <td class="text-center">{{ $formula->versi}}.{{ $formula->turunan }}</td>
+            <td class="text-center">
+              @if ($formula->vv == 'proses')
+              <span class="label label-warning">Proses</span>                        
+              @endif
+              @if ($formula->vv == 'reject')
+              <span class="label label-danger">Rejected</span>                        
+              @endif 
+              @if ($formula->vv == 'approve')
+              <span class="label label-success">Approved</span>                        
+              @endif 
+              @if ($formula->vv == 'final')
+              <span class="label label-info">Final Approved</span>                        
+              @endif 
+              @if ($formula->vv == '')
+              <span class="label label-primary">Belum Diajukan</span>                        
+              @endif  
+            </td>
+            <td class="text-center">
+              {{csrf_field()}}
+              <a class="btn btn-warning btn-sm" href="{{ route('insertTemplate',['ftujuan'=>$for,'fasal'=>$formula->id]) }}" onclick="return confirm('Jadikan Template ?')"><i class="fa fa-download"></i> Jadikan Template</a>
+            </td>
+          </tr>
+          @endif
+        @else
+          @if($formula->kategori=='granulasi')
+          <tr style="background-color:white">
+            <td>{{ $formula->pkp_number}}{{ $formula->ket_no}}</td>
+            <td class="text-center" width="15%">
+              @if($formula->kategori!='fg')
+              {{$formula->kategori}}
+              @elseif($formula->kategori=='fg')
+              Finished Good
+              @endif
+            </td>
+            <td class="text-center">{{ $formula->formula}}</td>
+            <td class="text-center">{{ $formula->versi}}.{{ $formula->turunan }}</td>
+            <td class="text-center">
+              @if ($formula->vv == 'proses')
+              <span class="label label-warning">Proses</span>                        
+              @endif
+              @if ($formula->vv == 'reject')
+              <span class="label label-danger">Rejected</span>                        
+              @endif 
+              @if ($formula->vv == 'approve')
+              <span class="label label-success">Approved</span>                        
+              @endif 
+              @if ($formula->vv == 'final')
+              <span class="label label-info">Final Approved</span>                        
+              @endif 
+              @if ($formula->vv == '')
+              <span class="label label-primary">Belum Diajukan</span>                        
+              @endif 
+            </td>
+            <td class="text-center">
+              {{csrf_field()}}
+              <a class="btn btn-warning btn-sm" href="{{ route('insertTemplate',['ftujuan'=>$for,'fasal'=>$formula->id]) }}" onclick="return confirm('Jadikan Template ?')"><i class="fa fa-download"></i> Jadikan Template</a>
+            </td>
+          </tr>
+          @endif
+        @endif
         @endforeach
         </tbody>        
       </table>

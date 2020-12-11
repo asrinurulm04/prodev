@@ -21,8 +21,8 @@
         <div id="exTab2" class="container">
 					<div class="col-md-11" align="left">
             @foreach($pdf as $pdf)
+            <a class="btn btn-danger btn-sm" href="{{ route('rekappdf',$pdf->id_project_pdf)}}"><i class="fa fa-share"></i> Back</a>
             @if($pdf->status_data=="draf")
-              <a class="btn btn-danger btn-sm" href="{{ route('rekappdf',$pdf->id_project_pdf)}}"><i class="fa fa-share"></i> Back</a>
               @if(auth()->user()->role->namaRule === 'pv_global')
                 @if($pdf->approval=='approve')
                 <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#NW{{ $pdf->id_project_pdf  }}"><i class="fa fa-paper-plane"></i> Sent To RND</a></button>
@@ -148,7 +148,6 @@
               @endif
             @elseif($pdf->status_data=="revisi")
               @if(auth()->user()->role->namaRule === 'pv_global')
-                <a class="btn btn-danger btn-sm" href="{{ route('rekappdf',$pdf->id_project_pdf)}}"><i class="fa fa-share"></i> Back</a>
                 @if($pdf->approval=='approve')
                 <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#revisi{{ $pdf->id_project_pdf  }}"><i class="fa fa-paper-plane"></i> Sent To RND</a></button>
                 @endif
@@ -165,8 +164,8 @@
                       <div class="modal-body">
                         <form class="form-horizontal form-label-left" method="POST" action="{{ Route('sentpdf',['pdf_id' => $pdf->id_project_pdf, 'revisi' => $pdf->revisi, 'turunan' => $pdf->turunan])}}" novalidate>
                         <div class="form-group row">
-                          <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center">Pilih Departement</label>
-                          <div class="col-md-5 col-sm-9 col-xs-12">
+                          <label class="control-label text-bold col-md-2 col-sm-2 col-xs-12 text-center">Dept Produk</label>
+                          <div class="col-md-4 col-sm-9 col-xs-12">
                             <select name="kirim" class="form-control form-control-line" id="kirim">
                               <option value="{{$pdf->tujuankirim}}">{{$pdf->departement->dept}}</option>
                               @foreach($dept1 as $dept)
@@ -178,6 +177,7 @@
                             </select>
                           </div>
                           <input type="hidden" value="{{$pdf->project_name}}" name="name" id="name">
+                          <label class="control-label text-bold col-md-2 col-sm-2 col-xs-12 text-center">Dept Kemas</label>
                           <div class="col-md-4 col-sm-9 col-xs-12">
                             <select name="rka" class="form-control form-control-line" id="rka">
                               <option value="1">RKA</option>
@@ -190,7 +190,7 @@
                         <input type="hidden" value="_{{$tanggal}}/PDF_{{ $pdf->project_name }}_{{ $pdf->revisi }}.{{ $pdf->turunan }}" name="ket_no" id="ket_no">
                         <div class="form-group row">
                           <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center">Project priority</label>
-                          <div class="col-md-2 col-sm-9 col-xs-12">
+                          <div class="col-md-3 col-sm-9 col-xs-12">
                             <select name="prioritas" class="form-control form-control-line" id="prioritas">
                               <option value="{{$pdf->prioritas}}" readonly>
                                 @if($pdf->prioritas==1) prioritas 1
@@ -221,21 +221,10 @@
                 </div>
                 <!-- Modal Selesai -->
               @endif
-            @elseif($pdf->status_project=='revisi')
-              @if(auth()->user()->role->namaRule === 'marketing' || auth()->user()->role->namaRule === 'pv_global')
-                @if($pengajuanpdf!=0)
-                <a class="btn btn-info btn-sm" onclick="return confirm('Naik Versi PDF ?')" href="{{Route('naikversipdf',['id_project_pdf' => $pdf->id_project_pdf, 'revisi' => $pdf->revisi, 'turunan' => $pdf->turunan])}}"><i class="fa fa-arrow-up"></i> Up Version</a>
-                @endif
-              @endif
-            @elseif($pdf->status_data!="revisi" || $pdf->status_data!="draf")
-              <a class="btn btn-danger btn-sm" href="{{ route('rekappdf',$pdf->id_project_pdf)}}"><i class="fa fa-share"></i>Back</a>
+            @elseif($pdf->status_data!="draf")
               @if(auth()->user()->role->namaRule === 'pv_global' || auth()->user()->role->namaRule === 'marketing')
                 @if($pdf->status_pdf=='active')
-                  @if($pdf->status_freeze=='inactive')
                   <a class="btn btn-info btn-sm" onclick="return confirm('Naik Versi PDF ?')" href="{{Route('naikversipdf',['id_project_pdf' => $pdf->id_project_pdf, 'revisi' => $pdf->revisi, 'turunan' => $pdf->turunan])}}"><i class="fa fa-arrow-up"></i> Edit And Up Version</a>
-                  @else
-                  <a class="btn btn-info btn-sm" disabled title="this project is inactive"></i> Edit And Up Version</a>
-                  @endif
                 @endif
               @endif
             @endif

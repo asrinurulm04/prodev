@@ -20,54 +20,37 @@
         <div id="exTab2" class="container">	
 					<div class="col-md-11" align="left">
             @foreach($pkpp as $pkp)
+            <a class="btn btn-sm btn-danger" href="{{ route('daftarpkp',$pkp->id_project)}}"><i class="fa fa-share"></i>Back</a>
+            @if($pengajuan==0)
+              <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#ajukan{{ $pkp->id_project  }}"><i class="fa fa-comments-o"></i> Sent Revision request</a></button>
+            @endif
+            <a class="btn btn-sm btn-warning" onclick="return confirm('Print this data PKP ?')" href="{{ Route('download',['id_project' => $pkp->id_project, 'revisi' => $pkp->revisi, 'turunan' => $pkp->turunan]) }}"><li class="fa fa-print"></li> Download/print PKP</a>
+            
             @if($pkp->status_project=='sent' || $pkp->status_project=='proses')
               @if(Auth::user()->departement->dept!='RKA')
                 @if($pkp->status_terima=='terima')
-                <a class="btn btn-sm btn-danger" href="{{ route('daftarpkp',$pkp->id_project)}}"><i class="fa fa-share"></i>Back</a>
                 <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#kirim{{ $pkp->id_project  }}"><i class="fa fa-paper-plane"></i> Assign</a></button>
-                  @if($pengajuan==0)
-                    <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#ajukan{{ $pkp->id_project  }}"><i class="fa fa-comments-o"></i> Sent Revision request</a></button>
-                  @endif
-                  <a class="btn btn-sm btn-warning" onclick="return confirm('Print this data PKP ?')" href="{{ Route('download',['id_project' => $pkp->id_project, 'revisi' => $pkp->revisi, 'turunan' => $pkp->turunan]) }}"><li class="fa fa-print"></li> Download/print PKP</a>
                 @elseif($pkp->status_terima=='proses')
                 <?php $last = Date('j-F-Y'); ?>
                 <form class="form-horizontal form-label-left" method="POST" action="{{ route('approve1',$pkp->id_project) }}" novalidate>
-                  <a class="btn btn-sm btn-danger" href="{{ route('daftarpkp',$pkp->id_project)}}"><i class="fa fa-share"></i>Back</a>
                   <input type="hidden" value="{{$last}}" name="tgl">
-                  @if($pengajuan==0)
-                    <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#ajukan{{ $pkp->id_project  }}"><i class="fa fa-comments-o"></i> Sent Revision request</a></button>
-                  @endif
                   <button type="submit" class="btn btn-dark btn-sm"><li class="fa fa-check"></li> Approve data</button>
-                  <a class="btn btn-sm btn-warning" onclick="return confirm('Print this data PKP ?')" href="{{ Route('download',['id_project' => $pkp->id_project, 'revisi' => $pkp->revisi, 'turunan' => $pkp->turunan]) }}"><li class="fa fa-print"></li> Download/print PKP</a>
                   {{ csrf_field() }}
                 </form>
                 @endif
               @elseif(Auth::user()->departement->dept=='RKA')
                 @if($pkp->status_terima2=='terima')
-                <a class="btn btn-sm btn-danger" href="{{ route('daftarpkp',$pkp->id_project)}}"><i class="fa fa-share"></i>Back</a>
                 <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#kirim{{ $pkp->id_project  }}"><i class="fa fa-paper-plane"></i> Assign</a></button>
-                  @if($pengajuan==0)
-                    <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#ajukan{{ $pkp->id_project  }}"><i class="fa fa-comments-o"></i> Sent Revision request</a></button>
-                  @endif
-                  <a class="btn btn-sm btn-warning" onclick="return confirm('Print this data PKP ?')" href="{{ Route('download',['id_project' => $pkp->id_project, 'revisi' => $pkp->revisi, 'turunan' => $pkp->turunan]) }}"><li class="fa fa-print"></li> Download/print PKP</a>
                 @elseif($pkp->status_terima2=='proses')
                 <?php $last = Date('j-F-Y'); ?>
                 <form class="form-horizontal form-label-left" method="POST" action="{{ route('approve2',$pkp->id_project) }}" novalidate>
-                  <a class="btn btn-sm btn-danger" href="{{ route('daftarpkp',$pkp->id_project)}}"><i class="fa fa-share"></i>Back</a>
                   <input type="hidden" value="{{$last}}" name="tgl">
-                  @if($pengajuan==0)
-                    <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#ajukan{{ $pkp->id_project  }}"><i class="fa fa-comments-o"></i> Sent Revision request</a></button>
-                  @endif
                   <button type="submit" class="btn btn-dark btn-sm"><li class="fa fa-check"></li> Approve data</button>
-                  {{ csrf_field() }}<a class="btn btn-sm btn-warning" onclick="return confirm('Print this data PKP ?')" href="{{ Route('download',['id_project' => $pkp->id_project, 'revisi' => $pkp->revisi, 'turunan' => $pkp->turunan]) }}"><li class="fa fa-print"></li> Download/print PKP</a>
                 </form>
                 @endif
               @endif
-            @else
-              <a class="btn btn-sm btn-danger" href="{{ route('daftarpkp',$pkp->id_project)}}"><i class="fa fa-share"></i>Back</a>
-              <a class="btn btn-sm btn-warning" onclick="return confirm('Print this data PKP ?')" href="{{ Route('download',['id_project' => $pkp->id_project, 'revisi' => $pkp->revisi, 'turunan' => $pkp->turunan]) }}"><li class="fa fa-print"></li> Download/print PKP</a>
             @endif
-            
+           
             
           </div> 
           <div class="tab-content panel ">
@@ -177,13 +160,13 @@
                       </tr>
                       <tr>
                         <th>Sales Forecast</th>
-                        <td colspan="2">
+                        <td>
                           <table class="table table-bordered table-hover">
                             <thead>
                               <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
                                 <th>Forecash</th>
                                 <th>Configuration</th>
-                                <th>UOM</th>
+                                <th colspan="2" class="text-center">UOM</th>
                                 <th>NFI Price</th>
                                 <th>Costumer Price</th>
                               </tr>
@@ -217,7 +200,8 @@
                                 )
                                 @endif
                                 </td>
-                                <td>{{$for->uom}}</td>
+                                <td class="text-center">{{$for->jlh_uom}}</td>
+                                <td class="text-center">{{$for->uom}}</td>
                                 <td>Rp. {{$for->nfi_price}}</td>
                                 <td>Rp. {{$for->costumer}}</td>
                               </tr>

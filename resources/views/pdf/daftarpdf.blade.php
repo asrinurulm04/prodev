@@ -5,7 +5,7 @@
 
 <div class="row">
   <div class="col-md-12 col-xs-12">
-    @foreach($data as $data)
+    @foreach($pdff as $data)
     <div class="x_panel">
       <div class="col-md-5">
         <h3><li class="fa fa-star"></li> Project Name: {{ $data->project_name}}</h3>
@@ -14,28 +14,20 @@
         @if($hitung==0)
         <a href="{{ route('buatpdf',$data->id_project_pdf)}}" class="btn btn-primary btn-sm" type="button"><li class="fa fa-plus"></li> Add Data</a>
         @endif
-
-        @foreach($pdff as $data)
-        @if($data->kemas_eksis!=NULL)
-          <a class="btn btn-info btn-sm" href="{{ Route('lihatpdf',['id_project_pdf' => $data->id_project_pdf, 'revisi' => $data->revisi, 'turunan' => $data->turunan]) }}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i> Show</a>
-        @elseif($data->kemas_eksis==NULL)
-          <a class="btn btn-info btn-sm" disabled data-toggle="tooltip" title="Please complete the data, to see the final data"><i class="fa fa-folder-open"></i> Show</a>
-        @endif
-          @if($data->status_data=='draf' || $data->status_data=='revisi')
+        <a class="btn btn-info btn-sm" href="{{ Route('lihatpdf',['id_project_pdf' => $data->id_project_pdf, 'revisi' => $data->revisi, 'turunan' => $data->turunan]) }}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i> Show</a>
+      
+        @if(auth()->user()->role->namaRule=='pv_global')
+          @if($data->status_data=='draf')
           <a class="btn btn-warning btn-sm" href="{{ route('buatpdf1',['id_project_pdf' => $data->id_project_pdf, 'revisi' => $data->revisi, 'turunan' => $data->turunan])}}" data-toggle="tooltip" title="Edit"><i class="fa fa-edit"></i> Edit</a>
-          @endif
-          {{csrf_field()}}
-        @endforeach
-
-        @if(auth()->user()->role->namaRule!='user_produk' && auth()->user()->role->namaRule != 'kemas')
-          @if($data->status_project=="revisi")
+          <a href="{{ route('drafpdf')}}" class="btn btn-danger btn-sm" type="button"><li class="fa fa-share"></li> Back</a>
+          @elseif($data->status_project=="revisi")
           <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#data{{ $data->id_project_pdf  }}" ><i class="fa fa-edit"></i> Edit Timeline</a></button>
           <!-- Modal -->
           <div class="modal" id="data{{ $data->id_project_pdf  }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                <h3 class="modal-title" id="exampleModalLabel">Timeline Project : {{$data->project_name}}
+                <h3 class="modal-title text-center" id="exampleModalLabel">Timeline Project : {{$data->project_name}}
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button></h3>
@@ -61,11 +53,10 @@
             </div>
           </div>
           <!-- Modal Selesai -->
+          <a class="btn btn-warning btn-sm" href="{{ route('buatpdf1',['id_project_pdf' => $data->id_project_pdf, 'revisi' => $data->revisi, 'turunan' => $data->turunan])}}" data-toggle="tooltip" title="Edit"><i class="fa fa-edit"></i> Edit</a>
           <a href="{{ route('datapengajuan')}}" class="btn btn-danger btn-sm" type="button"><li class="fa fa-share"></li> Back</a>
-          @elseif($data->status_project!="draf" && $data->status_project!="revisi")
+          @elseif($data->status_project=="sent" && $data->status_project=="proses")
           <a href="{{ route('listpdf')}}" class="btn btn-danger btn-sm" type="button"><li class="fa fa-share"></li> Back</a>
-          @elseif($data->status_project=="draf")
-          <a href="{{ route('drafpdf')}}" class="btn btn-danger btn-sm" type="button"><li class="fa fa-share"></li> Back</a>
           @endif
         @elseif(auth()->user()->role->namaRule === 'kemas')
         <a href="{{ route('listprojectpdf')}}" class="btn btn-danger btn-sm" type="button"><li class="fa fa-share"></li> Back</a>
