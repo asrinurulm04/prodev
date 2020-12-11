@@ -182,7 +182,11 @@
 									
 									<div class="row">
 										@if(auth()->user()->role->namaRule =='manager')
+										@if($formula->workbook_id!=NULL)
 										<form class="form-horizontal form-label-left" method="POST" action="{{ route('updatenote',[$formula->id,$formula->workbook_id]) }}">
+										@elseif($formula->workbook_pdf_id!=NULL)
+										<form class="form-horizontal form-label-left" method="POST" action="{{ route('updatenote',[$formula->id,$formula->workbook_pdf_id]) }}">
+										@endif
 										<div class="form-group">
 											<label class="control-label col-md-1 col-sm-1 col-xs-12">Note Formula</label>
 											<div class="col-md-4 col-sm-4 col-xs-12">

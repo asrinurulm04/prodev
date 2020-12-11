@@ -122,7 +122,7 @@ class Step2Controller extends Controller
         $formula->catatan_manager = $request->manager;
         $formula->save();
         
-        return Redirect()->back();
+        return Redirect::back();
     }
 
     public function insert($vf,Request $request){

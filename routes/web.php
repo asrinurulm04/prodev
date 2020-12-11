@@ -236,6 +236,7 @@ Route::get('cetak_pdf','cetakController@download_project_pdf')->name('cetak_pdf'
 Route::get('download_my_project_pdf','cetakController@download_my_project_pdf')->name('download_my_project_pdf');
 
 Route::get('FOR_pkp/{formula}','downloadFORController@FOR_pkp')->name('FOR_pkp');
+Route::get('FOR_pdf/{formula}','downloadFORController@FOR_pdf')->name('FOR_pdf');
 
 //PKP PROMO
 Route::get('downloadpromo/{id}/{revisi}/{turunan}','pv\promoController@downloadpromo')->name('downloadpromo');

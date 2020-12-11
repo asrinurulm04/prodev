@@ -68,14 +68,15 @@
       <div class="col-md-2">
       </div>
       <div class="col-md-3">
-        <a class="btn btn-warning btn-sm" href="{{ route('FOR_pkp',$formula->id) }}"><i class="fa fa-download"></i> Download FOR</a>
 				@if($formula->workbook_id!=NULL)
+        	<a class="btn btn-warning btn-sm" href="{{ route('FOR_pkp',$formula->id) }}"><i class="fa fa-download"></i> Download FOR</a>
 					@if(auth()->user()->role->namaRule == 'manager')
 					<a class="btn btn-danger btn-sm" href="{{ route('daftarpkp',$formula->workbook_id) }}"><i class="fa fa-ban"></i> Back To Workbook</a>
 					@elseif(auth()->user()->role->namaRule == 'user_produk')
 					<a class="btn btn-danger btn-sm" href="{{ route('rekappkp',$formula->workbook_id) }}"><i class="fa fa-ban"></i> Back To Workbook</a>
 					@endif
 				@elseif($formula->workbook_pdf_id!=NULL)
+        	<a class="btn btn-warning btn-sm" href="{{ route('FOR_pdf',$formula->id) }}"><i class="fa fa-download"></i> Download FOR</a>
 					@if(auth()->user()->role->namaRule == 'manager')
 					<a class="btn btn-danger btn-sm" href="{{ route('daftarpdf',$formula->workbook_pdf_id) }}"><i class="fa fa-ban"></i> Back To Workbook</a>
 					@elseif(auth()->user()->role->namaRule == 'user_produk')
