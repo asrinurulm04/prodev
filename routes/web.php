@@ -366,7 +366,7 @@ Route::post('closepkp/{id}','devwb\listpkpController@closepkp')->name('closepkp'
 Route::post('closepdf/{id}','devwb\listpkpController@closepdf')->name('closepdf');
 Route::post('closepromo/{id}','devwb\listpkpController@closepromo')->name('closepromo');
 Route::get('allproject','devwb\listpkpController@allproject')->name('allproject');
-Route::get('datareport','menuController@data')->name('datareport');
+Route::get('datareport','reportController@data')->name('datareport');
 
 // FEASIBILITY
 Route::get('PengajuanSelesai','feasibility\ListFormulaController@sudah')->name('formula.selesai');
