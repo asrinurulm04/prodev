@@ -6,8 +6,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\model\dev\Formula;
 use App\model\dev\Fortail;
-use App\model\dev\Premix;
-use App\model\dev\Pretail;
 use App\model\dev\Bahan;
 use Redirect;
 

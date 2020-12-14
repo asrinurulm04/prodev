@@ -6,12 +6,12 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
 
-use App\users\users\User;
-use App\users\modelfn\finance;
-use App\users\dev\formula;
-use App\users\pkp\pkp_project;
-use App\users\pkp\data_forecast;
-use App\users\pkp\tipp;
+use App\model\users\User;
+use App\model\modelfn\finance;
+use App\model\dev\Formula;
+use App\model\pkp\pkp_project;
+use App\model\pkp\data_forecast;
+use App\model\pkp\tipp;
 use Auth;
 use Redirect;
 use DB;

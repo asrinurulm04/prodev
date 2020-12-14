@@ -15,7 +15,6 @@ use App\model\dev\Formula;
 use App\model\pkp\pkp_type;
 use App\model\pkp\uom;
 use App\model\pkp\data_detail_klaim;
-use App\model\pkp\sample_project;
 use App\model\pkp\data_ses;
 use App\model\pkp\klaim;
 use App\model\pkp\detail_klaim;
@@ -138,117 +137,6 @@ class pdfController extends Controller
         $Dpdf= coba::where('pdf_id',$id_project_pdf)->first();
         if($Dpdf!=NULL){
             $Dpdf->delete();
-        }
-
-        return redirect::back();
-    }
-
-    public function approvesamplepdf($id_sample){
-        $pdf = sample_project::where('id_sample',$id_sample)->first();
-        $pdf->status='approve';
-        $pdf->save();
-
-        return redirect::back();
-    }
-
-    public function rejectsamplepdf(Request $request,$id_sample){
-        $pdf = sample_project::where('id_sample',$id_sample)->first();
-        $pdf->status='reject';
-        $pdf->catatan_reject=$request->note;
-        $pdf->save();
-
-        return redirect::back();
-    }
-
-    public function finalsamplepdf($id_project_pdf,$id_sample){
-        $sample = project_pdf::where('id_project_pdf',$id_project_pdf)->first();
-        $sample->pengajuan_sample='approve';
-        $sample->save();
-        
-        $pdf = sample_project::where('id_sample',$id_sample)->first();
-        $pdf->status='final';
-        $pdf->save();
-
-        // kirim email final sample (pengirim, pv)
-        $isipdf = coba::where('pdf_id',$id_project_pdf)->where('status_pdf','=','active')->get();
-        try{
-            Mail::send('manager.infoemailpdf', [
-                'info' => 'Sample project PDF yang diajukan telah disetujui',
-                'app'=>$isipdf,],function($message)use($id_project_pdf)
-            {
-                $message->subject('Approved PDF sample');
-                $message->from('app.prodev@nutrifood.co.id', 'Admin PRODEV');
-                
-                $datapdf = project_pdf::where('id_project_pdf',$id_project_pdf)->get();
-                foreach($datapdf as $data){
-                    $dept = DB::table('departements')->where('id',$data->tujuankirim)->get();
-                    foreach($dept as $dept){
-                        $user = user::where('id',$dept->manager_id)->get();
-                        foreach($user as $user){
-                            $to = $user->email;
-                            // dd($to);
-                            $message->to($to);
-                        }
-                    }
-                    $user1 = user::where('id',$data->userpenerima)->get();
-                    foreach($user1 as $user1){
-                        $cc = [$user1->email,Auth::user()->email];
-                        // dd($cc);
-                        $message->cc($cc);
-                    }
-                }
-
-            });
-            return back()->with('status','E-mail Successfully');
-        }
-        catch (Exception $e){
-        return response (['status' => false,'errors' => $e->getMessage()]);
-        }
-
-        return redirect::back();
-    }
-
-    public function unfinalsamplepdf($id_project_pdf,$id_sample){
-        $sample = project_pdf::where('id_project_pdf',$id_project_pdf)->first();
-        $sample->pengajuan_sample='sent';
-        $sample->save();
-
-        $pdf = sample_project::where('id_sample',$id_sample)->first();
-        $pdf->status='approve';
-        $pdf->save();
-
-        // kirim email unfinal sample (pengirim, pv)
-        $isipdf = coba::where('pdf_id',$id_project_pdf)->where('status_pdf','=','active')->get();
-        try{
-            Mail::send('manager.infoemailpdf', [
-                'info' => 'Sample project PDF yang diajukan batal disetujui',
-                'app'=>$isipdf,],function($message)use($id_project_pdf)
-            {
-                $message->subject('Cancellation of sample approval');
-                $message->from('app.prodev@nutrifood.co.id', 'Admin PRODEV');
-                
-                $datapdf = project_pdf::where('id_project_pdf',$id_project_pdf)->get();
-                foreach($datapdf as $data){
-                    $dept = DB::table('departements')->where('id',$data->tujuankirim)->get();
-                    foreach($dept as $dept){
-                        $user = user::where('id',$dept->manager_id)->get();
-                        foreach($user as $user){
-                            $to = $user->email;
-                            $message->to($to);
-                        }
-                    }
-                    $user1 = user::where('id',$data->userpenerima)->get();
-                    foreach($user1 as $user1){
-                        $cc = [$user1->email,Auth::user()->email];
-                        $message->cc($cc);
-                    }
-                }
-
-            });
-            return back()->with('status','E-mail Successfully');
-        }
-        catch (Exception $e){
-        return response (['status' => false,'errors' => $e->getMessage()]);
         }
 
         return redirect::back();
@@ -1227,26 +1115,20 @@ class pdfController extends Controller
     public function daftarpdf($id_project_pdf){
         $pengajuanpdf = project_pdf::join('pkp_pengajuan','pdf_project.id_project_pdf','=','pkp_pengajuan.id_pdf')->count();
         $data = project_pdf::where('id_project_pdf',$id_project_pdf)->get();
-        $data1 = project_pdf::where('id_project_pdf',$id_project_pdf)->get();
         $hitung = coba::where('pdf_id',$id_project_pdf)->count();
         $pengajuan = pengajuan::count();
         $cf =Formula::where('workbook_pdf_id',$id_project_pdf)->count();
         $sample_project = Formula::where('workbook_pdf_id', $id_project_pdf)->get();
-        $status_sample_project = sample_project::where('id_pdf',$id_project_pdf)->where('status','=','final')->count();
         $max2 = coba::where('pdf_id',$id_project_pdf)->max('revisi');
         $max = coba::where('pdf_id',$id_project_pdf)->max('turunan');
-        $pdf = project_pdf::where('id_project_pdf',$id_project_pdf)->join('tipu','tipu.pdf_id','pdf_project.id_project_pdf')->where('turunan',$max)->where('revisi',$max2)->get();
-        $pdff = project_pdf::where('id_project_pdf',$id_project_pdf)->join('tipu','tipu.pdf_id','pdf_project.id_project_pdf')->where('turunan',$max)->where('revisi',$max2)->get();
+        $pdf = coba::where('turunan',$max)->where('revisi',$max2)->where('status_pdf','active')->get();
         return view('pdf.daftarpdf')->with([
             'data' => $data,
-            'data1' => $data1,
             'sample' => $sample_project,
-            'status_sample' => $status_sample_project,
             'pengajuan' => $pengajuan,
             'cf' => $cf,
             'pengajuanpdf' => $pengajuanpdf,
             'hitung' => $hitung,
-            'pdff' => $pdff,
             'pdf' => $pdf
         ]);
     }

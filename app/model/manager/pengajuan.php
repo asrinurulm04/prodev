@@ -22,6 +22,6 @@ class pengajuan extends Model
     }
 
     public function user(){
-        return $this->hasOne('App\model\Role','id','penerima');
+        return $this->hasOne('App\model\users\Role','id','penerima');
     }
 }

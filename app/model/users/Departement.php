@@ -14,7 +14,7 @@ class Departement extends Model
     }
 
     public function users(){
-        return $this->hasOne('App\model\user\sUser','id','manager_id');
+        return $this->hasOne('App\model\users\User','id','manager_id');
     }
 
     protected $fillable = [

@@ -7,8 +7,6 @@ use App\Http\Controllers\Controller;
 use App\model\dev\Bahan;
 use App\model\master\Brand;
 use App\model\master\Subbrand;
-use App\model\nutfact\pangan;
-
 use DB;
 
 class getGet extends Controller

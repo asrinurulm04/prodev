@@ -556,9 +556,9 @@
             <div class="col-md-8">
             @if($formula->workbook_id!=NULL)
               @if($ada==0)                                    
-              <a type="button" class="btn btn-warning btn-sm" href="{{ route('getTemplate',[$idfor_pdf,$idf]) }}"><i class="fa fa-download"></i> Import Template Formula</a>        
+              <a type="button" class="btn btn-warning btn-sm" href="{{ route('getTemplate',[$idfor,$idf]) }}"><i class="fa fa-download"></i> Import Template Formula</a>        
               @else
-              <a class="btn btn-success btn-sm" href="{{ route('getTemplate',[$idfor_pdf,$idf]) }}" type="button" id="buttonformcheckscale"><i class="fa fa-eye"></i> Import Granulasi/Premix</a>
+              <a class="btn btn-success btn-sm" href="{{ route('getTemplate',[$idfor,$idf]) }}" type="button" id="buttonformcheckscale"><i class="fa fa-eye"></i> Import Granulasi/Premix</a>
               <a class="btn btn-primary btn-sm" type="button" id="buttonformsavechanges"><i class="fa fa-save"></i> Simpan Perubahan Serving</a>                            
               @endif
             @elseif($formula->workbook_pdf_id!=NULL)
@@ -641,7 +641,11 @@
         </form>
       </div>
       <div class="col-md-2">
+        @if($formula->workbook_id!=NULL)
         <form action="{{ route('cekscale',[ $idfor, $idf]) }}" id="formcheckscale" method="POST">
+        @elseif($formula->workbook_pdf_id!=NULL)
+        <form action="{{ route('cekscale',[ $idfor_pdf, $idf]) }}" id="formcheckscale" method="POST">
+        @endif
           {{-- Form Check Scale --}}
           <label>Check Scale</label><br>
           <input type="text" id="scale_option2" name="scale_option" value="gram">

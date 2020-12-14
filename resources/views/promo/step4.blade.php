@@ -57,7 +57,7 @@
           <div class="col-md-12 col-xs-12">
 						<div class="form-group">
 							<div class="col-md-12 col-sm-12 col-xs-12"  style="overflow-x: scroll;">
-  							<form class="form-horizontal form-label-left" method="POST" action="{{Route('allocation')}}" novalidate> 
+  							<form class="form-horizontal form-label-left" method="POST" action="{{Route('allocation')}}"> 
 								<br>
 								@foreach($promo as $promo)
 								<input type="hidden" value="{{ $promo->datapromoo->id_pkp_promo }}" name="promo" id="promo">
@@ -80,13 +80,13 @@
       						<tbody>
         						<tr>
         					    <td>
-												<select name='sku[]' style="width:280px;" class="form-control items">
+												<select name='sku[]' required style="width:280px;" class="form-control items">
 													@foreach($sku as $sku)
 													<option class="col-md-12 col-xs-12" value="{{$sku->id}}">{{$sku->nama_sku}}</option>
 													@endforeach
 												</select>
 											</td>
-      						    <td><input type="number" name='pcs[]' placeholder='Allocation ' class="form-control" /></td>
+      						    <td><input type="number" required name='pcs[]' placeholder='Allocation ' class="form-control" /></td>
 											<td><select require name="opsi[]" id="opsi" class="form-control">
 												<option value="pcs">PCS</option>
 												<option value="forecast">forecast</option>

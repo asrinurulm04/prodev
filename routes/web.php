@@ -166,7 +166,6 @@ Route::get('LihatFormulaPv/{id}','pv\FormulaApprovalController@lihatformulapv')-
 Route::get('BatalkanProject/{id}','pv\FormulaApprovalController@batalkanproject')->name('batalkanprojectbypv');
 
 Route::get('datapengajuan','pv\pkpController@pengajuan')->name('datapengajuan');
-Route::get('datapengajuan1','pv\pkpController@pengajuan1')->name('datapengajuan1');
 Route::get('approvedformula','pv\FormulaApprovalController@listapproved')->name('approvedformula');
 Route::get('catatanrevisi','pv\pkpController@catatanrevisi')->name('catatanrevisi');
 Route::post('prioritas/{id}','pv\pkpController@prioritas')->name('prioritas');
@@ -202,8 +201,6 @@ Route::get('getdetail/{id}','ajax\getGet@getdetailklaim')->name('getdetail');
 Route::get('getbahan/{id}','ajax\getGet@getbahan')->name('getbahan');
 
 Route::get('reportnotulen','pv\pkp2Controller@reportnotulen')->name('reportnotulen');
-Route::get('finalsamplepkp/{id}/{sample}','pv\pkpController@finalsamplepkp')->name('finalsamplepkp');
-Route::get('unfinalsamplepkp/{id}/{sample}','pv\pkpController@unfinalsamplepkp')->name('unfinalsamplepkp');
 Route::post('closeproject/{id}','pv\pkpController@closeproject')->name('closeproject');
 
 Route::get('merk/{id}','pv\pkpController@merkAjax')->name('merk');
@@ -226,13 +223,13 @@ Route::get('naikversipkp/{id}/{revisi}/{turunan}','pv\pkpController@upversionpkp
 Route::post('updatetipp/{id_pkp}/{revisi}/{turunan}', 'pv\pkpController@updatetipp')->name('updatetipp');
 Route::post('updatetipp2/{id_pkp}/{revisi}/{turunan}', 'pv\pkpController@updatetipp2')->name('updatetipp2');
 
-Route::get('cetak','cetakController@download_project')->name('cetak');
-Route::get('cetak_my_project','cetakController@download_my_project')->name('cetak_my_project');
-Route::get('cetak_pdf','cetakController@download_project_pdf')->name('cetak_pdf');
-Route::get('download_my_project_pdf','cetakController@download_my_project_pdf')->name('download_my_project_pdf');
+Route::get('cetak','report\cetakController@download_project')->name('cetak');
+Route::get('cetak_my_project','report\cetakController@download_my_project')->name('cetak_my_project');
+Route::get('cetak_pdf','report\cetakController@download_project_pdf')->name('cetak_pdf');
+Route::get('download_my_project_pdf','report\cetakController@download_my_project_pdf')->name('download_my_project_pdf');
 
-Route::get('FOR_pkp/{formula}','downloadFORController@FOR_pkp')->name('FOR_pkp');
-Route::get('FOR_pdf/{formula}','downloadFORController@FOR_pdf')->name('FOR_pdf');
+Route::get('FOR_pkp/{formula}','report\downloadFORController@FOR_pkp')->name('FOR_pkp');
+Route::get('FOR_pdf/{formula}','report\downloadFORController@FOR_pdf')->name('FOR_pdf');
 
 //PKP PROMO
 Route::get('downloadpromo/{id}/{revisi}/{turunan}','pv\promoController@downloadpromo')->name('downloadpromo');
@@ -246,13 +243,8 @@ Route::post('TMubah/{id}','pv\promoController@TMubah')->name('TMubah');
 Route::post('infogambarpromo','pv\promoController@infogambarpromo')->name('infogambarpromo');
 Route::post('freezepromo/{id}','pv\promoController@freeze')->name('freezepromo');
 
-Route::get('finalsamplepromo/{id}/{sample}','pv\promoController@finalsamplepromo')->name('finalsamplepromo');
-Route::get('unfinalsamplepromo/{id}/{sample}','pv\promoController@unfinalsamplepromo')->name('unfinalsamplepromo');
-
 Route::get('drafpromo','pv\promoController@drafpromo')->name('drafpromo');
 Route::get('rekappromo/{id_pkp_promo}','pv\promoController@daftarpromo')->name('rekappromo');
-Route::get('promo1/{id_pkp_promo}','pv\promoController@step1')->name('promo1');
-Route::get('promo11/{id_pkp_promo}/{revisi}/{turunan}','pv\promoController@promo1')->name('promo11');
 Route::get('promo4/{id_pkp_promo}/{revisi}/{turunan}','pv\promoController@step4')->name('promo4');
 Route::post('uploadpromo','pv\promoController@uploaddatapkp')->name('uploadpromo');
 Route::get('uploadpkppromo/{id_pkp_promo}/{revisi}/{turunan}','pv\promoController@uploadpromo')->name('uploadpkppromo');
@@ -291,9 +283,6 @@ Route::get('buatpdf1/{id_project_pdf}/{revisi}/{turunan}','pv\pdfController@buat
 Route::get('formpdf','pv\pdfController@formpdf')->name('formpdf');
 Route::get('lihatpdf/{id_project_pdf}/{revisi}/{turunan}','pv\pdfController@lihatpdf')->name('lihatpdf');
 Route::post('pos','pv\pdfController@coba')->name('pos');
-
-Route::get('finalsamplepdf/{id}/{sample}','pv\pdfController@finalsamplepdf')->name('finalsamplepdf');
-Route::get('unfinalsamplepdf/{id}/{sample}','pv\pdfController@unfinalsamplepdf')->name('unfinalsamplepdf');
 
 Route::get('hapuspdf/{id}','pv\pdfController@hapuspdf')->name('hapuspdf');
 Route::post('eedit/{id_project_pdf}/{revisi}/{turunan}','pv\pdfController@edit')->name('eedit');
@@ -362,7 +351,7 @@ Route::post('closepkp/{id}','devwb\listpkpController@closepkp')->name('closepkp'
 Route::post('closepdf/{id}','devwb\listpkpController@closepdf')->name('closepdf');
 Route::post('closepromo/{id}','devwb\listpkpController@closepromo')->name('closepromo');
 Route::get('allproject','devwb\listpkpController@allproject')->name('allproject');
-Route::get('datareport','reportController@data')->name('datareport');
+Route::get('datareport','report\reportController@data')->name('datareport');
 
 // FEASIBILITY
 Route::get('PengajuanSelesai','feasibility\ListFormulaController@sudah')->name('formula.selesai');
@@ -394,7 +383,7 @@ Route::get('endproject/{id}','devwb\WorkbookController@endproject')->name('workb
 Route::get('batalkanproject/{id}','devwb\WorkbookController@batalproject')->name('workbook.batal');
 
 Route::post('addformula','devwb\FormulaController@new')->name('addformula');
-Route::get('upversion/{id}','devwb\UpVersionController@upversion')->name('upversion');
+Route::get('upversion/{id}/{wb}','devwb\UpVersionController@upversion')->name('upversion');
 Route::get('upversion2/{id}/{rev}','devwb\UpVersionController@upversion2')->name('upversion2');
 Route::get('tambahformula/{id}','devwb\UpVersionController@tambahformula')->name('tambahformula');
 Route::get('DetailFormula/{id}/{for}','devwb\FormulaController@detail')->name('formula.detail');

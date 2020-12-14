@@ -10,8 +10,6 @@ use Illuminate\Support\Facades\Mail;
 use App\model\master\tb_teams_brand;
 use App\model\master\Brand;
 use App\model\master\Tarkon;
-use App\model\Mail\kirimemail;
-use App\model\Modelfn\finance;
 use App\model\kemas\datakemas;
 use App\model\devnf\hasilpanel;
 use App\model\pkp\pkp_type;
@@ -26,7 +24,6 @@ use App\model\pkp\project_launching;
 use App\model\pkp\pkp_estimasi_market;
 use App\model\pkp\jenismenu;
 use App\model\dev\Formula;
-use App\model\pkp\sample_project;
 use App\model\pkp\promo;
 use App\model\pkp\coba;
 use App\model\pkp\klaim;
@@ -219,12 +216,9 @@ class pkpController extends Controller
 
     public function TMubah(Request $request,$id_project){
         $data= pkp_project::where('id_project',$id_project)->first();
-        $data->status_project='sent';
         $data->jangka=$request->jangka;
         $data->waktu=$request->waktu;
         $data->status_freeze='inactive';
-        $data->pengajuan_sample='reject';
-        $data->prioritas=$request->prioritas;
         $data->freeze_diaktifkan=Carbon::now();
         $data->save();
 
@@ -1408,7 +1402,6 @@ class pkpController extends Controller
         $pkp = tipp::where('id_pkp',$id_project)->join('pkp_project','pkp_project.id_project','=','tippu.id_pkp')->where('status_data','=','active')->get();
         $pengajuan = pengajuan::count();
         $sample_project = Formula::where('workbook_id', $id_project)->orderBy('versi','asc')->get();
-        $status_sample_project = sample_project::where('id_pkp',$id_project)->where('status','=','final')->count();
         $hitung = tipp::where('id_pkp',$id_project)->count();
         $max = tipp::where('id_pkp',$id_project)->max('turunan');
         $user = user::where('status','=','active')->get();
@@ -1425,7 +1418,6 @@ class pkpController extends Controller
             'pkp' => $pkp,
             'pkp1' => $pkp1,
             'sample' => $sample_project,
-            'status_sample' => $status_sample_project,
             'hasilpanel' => $hasilpanel,
             'user' => $user,
             'data1' => $data1,

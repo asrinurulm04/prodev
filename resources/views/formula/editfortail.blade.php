@@ -1,4 +1,4 @@
-@extends('formula.tempformula')
+@extends('pv.tempvv')
 @section('title', 'Edit BahanBaku')
 @section('judulnya', 'Edit BahanBaku')
 @section('content')
@@ -320,7 +320,11 @@
                 {{ csrf_field()}}
                 {{ method_field('PATCH')}}
                 @foreach($for as $for)
-                <a type="button" class="btn btn-danger btn-sm" href="{{route('step2',[$for->workbook_id,$for->id])}}"><i class="fa fa-ban"></i> Back</a>                
+                @if($for->workbook_id!=NULL)
+                <a type="button" class="btn btn-danger btn-sm" href="{{route('step2',[$for->workbook_id,$for->id])}}"><i class="fa fa-ban"></i> Back</a>    
+                @elseif($for->workbook_pdf_id!=NULL)
+                <a type="button" class="btn btn-danger btn-sm" href="{{route('step2',[$for->workbook_pdf_id,$for->id])}}"><i class="fa fa-ban"></i> Back</a>     
+                @endif           
                 <button type="submit" class="btn btn-info btn-sm" onclick="return confirm('Save Data ?')"><i class="fa fa-edit"></i> Save</button>
                 @endforeach
               </div>

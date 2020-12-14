@@ -1,10 +1,10 @@
 <?php
 
-namespace App\model\dev;
+namespace App\dev;
 
 use Illuminate\Database\Eloquent\Model;
 
-class formula_allergen extends Model
+class bb_allergen extends Model
 {
     protected $table = 'tb_bb_allergen';
 }

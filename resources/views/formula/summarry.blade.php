@@ -11,12 +11,12 @@
       <ul class="nav nav-tabs wizard">
         @if($formula->workbook_id!=NULL)
         <li class="active"><a href="{{ route('step1',[ $idfor, $idf]) }}"><span class="nmbr">1</span>Information</a></li>
-        <li class="completed"><a href="{{ route('step2',[ $idfor, $idf]) }}"><span class="nmbr">2</span>Penyusunan</a></li>
-        <li class="active"><a href="{{ route('summarry',[ $idfor, $idf]) }}"><span class="nmbr">3</span>Summary</a></li>
+        <li class="active"><a href="{{ route('step2',[ $idfor, $idf]) }}"><span class="nmbr">2</span>Penyusunan</a></li>
+        <li class="completed"><a href="{{ route('summarry',[ $idfor, $idf]) }}"><span class="nmbr">3</span>Summary</a></li>
         @elseif($formula->workbook_pdf_id!=NULL)
         <li class="active"><a href="{{ route('step1_pdf',[ $idfor_pdf, $idf]) }}"><span class="nmbr">1</span>Information</a></li>
-        <li class="completed"><a href="{{ route('step2',[ $idfor_pdf, $idf]) }}"><span class="nmbr">2</span>Penyusunan</a></li>
-        <li class="active"><a href="{{ route('summarry',[ $idfor_pdf, $idf]) }}"><span class="nmbr">3</span>Summary</a></li>
+        <li class="active"><a href="{{ route('step2',[ $idfor_pdf, $idf]) }}"><span class="nmbr">2</span>Penyusunan</a></li>
+        <li class="completed"><a href="{{ route('summarry',[ $idfor_pdf, $idf]) }}"><span class="nmbr">3</span>Summary</a></li>
         @endif
       </ul>
     </div>

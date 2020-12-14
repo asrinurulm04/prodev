@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 
 use App\model\Modelmesin\datamesin;
-use App\model\Modelmesin\std;
 use App\model\Modelmesin\Dmesin;
 use App\model\modelkemas\konsep;
 use App\model\Modelkemas\userkemas;

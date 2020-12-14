@@ -21,7 +21,7 @@
         <div id="exTab2" class="container">                   
 					<div class="col-md-11" align="left">
             @foreach($promoo as $promo)
-            <a class="btn btn-danger btn-sm" href="{{ route('daftarpromo',$promo->id_pkp_promo)}}"><i class="fa fa-share"></i>Back</a>
+            <a class="btn btn-danger btn-sm" href="{{ route('daftarpromo',$promo->id_pkp_promo)}}"><i class="fa fa-share"></i> Back</a>
             <a class="btn btn-warning btn-sm" href="" onclick="return confirm('Print this data PROMO ?')"><i class="fa fa-download"></i> Download/print PROMO</a>
             <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#ajukan{{ $promo->id_pkp_promo  }}"><i class="fa fa-comments-o"></i> Sent Revision request</a></button>
             <?php $last = Date('j-F-Y'); ?>
@@ -33,9 +33,7 @@
                 {{ csrf_field() }}
               </form>
               @elseif($promo->status_terima=='terima')
-                @if($hitung==0)
                 <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#kirim{{ $promo->id_pkp_promo  }}"><i class="fa fa-paper-plane"></i> Assign</a></button>
-                @endif
               @endif
             @elseif(Auth::user()->departement->dept=='RKA')
               @if($promo->status_terima2=='proses')
@@ -45,9 +43,7 @@
                 {{ csrf_field() }}
               </form>
               @elseif($promo->status_terima2=='terima')
-                @if($hitung==0)
                  <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#kirim{{ $promo->id_pkp_promo  }}"><i class="fa fa-paper-plane"></i> Assign</a></button>
-                @endif
               @endif
             @endif
           </div> 
@@ -255,11 +251,8 @@
         <input type="hidden" value="{{$promo->turunan}}" name="turunan">
           <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center">Destination</label>
           <div class="col-md-9 col-sm-9 col-xs-12">
-            <select name="penerima" class="form-control form-control-line" id="penerima">
-            <option disabled selected>--> Select One <--</option>
-            <option value="14">PV</option>
-            <option value="1">Marketing</option>
-            </select>
+          <input type="hidden" value="{{$promo->perevisi}}" class="form-control" id="penerima" name="penerima">
+          <input type="text" value="{{$promo->perevisi2->name}}" class="form-control" readonly>
           </div>
         </div>
         <div class="form-group row">

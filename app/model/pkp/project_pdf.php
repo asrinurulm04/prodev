@@ -25,19 +25,19 @@ class project_pdf extends Model
     }
 
     public function users(){
-        return $this->hasOne('App\model\User','id','userpenerima');
+        return $this->hasOne('App\model\users\User','id','userpenerima');
     }
 
     public function author1(){
-        return $this->hasOne('App\model\User','id','author');
+        return $this->hasOne('App\model\users\User','id','author');
     }
 
     public function perevisi1(){
-        return $this->hasOne('App\model\User','id','perevisi');
+        return $this->hasOne('App\model\users\User','id','perevisi');
     }
 
     public function users2(){
-        return $this->hasOne('App\model\User','id','userpenerima2');
+        return $this->hasOne('App\model\users\User','id','userpenerima2');
     }
 
     public function type(){

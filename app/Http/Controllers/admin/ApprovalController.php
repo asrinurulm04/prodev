@@ -4,10 +4,10 @@ namespace App\Http\Controllers\admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Yajra\Datatables\Datatables;
 use App\model\users\User;
 use DB;
 use Redirect;
-use Yajra\Datatables\Datatables;
 
 class ApprovalController extends Controller
 {

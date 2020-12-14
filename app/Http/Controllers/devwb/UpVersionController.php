@@ -7,10 +7,9 @@ use App\Http\Controllers\Controller;
 use App\model\devnf\allergen_formula;
 use App\model\devnf\tb_overage;
 use App\model\pkp\pkp_project;
+use App\model\pkp\project_pdf;
 use App\model\dev\Formula;
 use App\model\dev\Fortail;
-use App\model\dev\Premix;
-use App\model\dev\Pretail;
 use App\model\dev\Bahan;
 use Redirect;
 
@@ -21,28 +20,43 @@ class UpVersionController extends Controller
         $this->middleware('rule:user_rd_proses' || 'rule:user_produk');
     }
 
-    public function upversion($id){  
-        $pkp_hitung = pkp_project::where('id_project',$id)->max('workbook')+1;
-		$pkp = pkp_project::where('id_project',$id)->first();
-		$pkp->workbook=$pkp_hitung;
-        $pkp->save();
-        
-        $lastversion = Formula::where('workbook_id',$id)->max('versi');
-        $myformulas  = Formula::where([
-            ['versi',$lastversion],
-            ['workbook_id',$id]
-            ])->get();
-        $lastturunan = $myformulas->max('turunan');         
-        
-        $lastf=Formula::where([
-            ['workbook_id', $id],
-            ['versi', $lastversion],
-            ['turunan', $lastturunan],
-        ])->first();
-        $cf = $lastversion + 1;    
+    public function upversion($id,$wb){  
+        $lastf=Formula::where('id', $id)->first();
+        if($lastf->workbook_id!='NULL'){
+            $pkp_hitung = pkp_project::where('id_project',$wb)->max('workbook')+1;
+            $pkp = pkp_project::where('id_project',$wb)->first();
+            $pkp->workbook=$pkp_hitung;
+            $pkp->save();
+            
+            $lastversion = Formula::where('workbook_id',$wb)->max('versi');
+            $myformulas  = Formula::where([
+                ['versi',$lastversion],
+                ['workbook_id',$wb]
+                ])->get();
+            $lastturunan = $myformulas->max('turunan');    
+            $cf = $lastversion + 1;   
+        }
+        if($lastf->workbook_pdf_id!='NULL'){
+            $pdf_hitung = project_pdf::where('id_project_pdf',$wb)->max('workbook')+1;
+            $pdf = project_pdf::where('id_project_pdf',$wb)->first();
+            $pdf->workbook=$pdf_hitung;
+            $pdf->save();
+            
+            $lastversion = Formula::where('workbook_pdf_id',$wb)->max('versi');
+            $myformulas  = Formula::where([
+                ['versi',$lastversion],
+                ['workbook_pdf_id',$wb]
+                ])->get();
+            $lastturunan = $myformulas->max('turunan');   
+            $cf = $lastversion + 1;    
+        }
 
         $formulas = new Formula;
-        $formulas->workbook_id = $id;
+        if($lastf->workbook_pdf_id!=NULL){
+        $formulas->workbook_pdf_id = $wb;
+        }if($lastf->workbook_id!=NULL){
+            $formulas->workbook_id = $wb;
+        }
         $formulas->formula = $lastf->formula; 
         $formulas->revisi = $lastf->revisi;                
         $formulas->versi = $cf;
@@ -129,21 +143,49 @@ class UpVersionController extends Controller
         $overage->id_formula=$formulas->id;
         $overage->save();
 
-        return redirect()->route('step1',[$formulas->workbook_id,$formulas->id])->with('status', 'Formula '.$lastf->nama_produk.' Sudah Naik Versi!');
+        if($lastf->workbook_id!=NULL){
+            return redirect()->route('step1',[$lastf->workbook_id,$formulas->id])->with('status', 'Formula '.$lastf->nama_produk.' Sudah Naik Versi!');
+        }if($lastf->workbook_pdf_id!=NULL){
+            return redirect()->route('step1_pdf',[$lastf->workbook_pdf_id,$formulas->id])->with('status', 'Formula '.$lastf->nama_produk.' Sudah Naik Versi!');
+        }
     }
 
-    public function upversion2($id,$revisi){             
+    public function upversion2($id,$revisi){        
         $lastf=Formula::where('id',$id)->first();
+        
+        if($lastf->workbook_id!=NULL){
+            $pkp_hitung = pkp_project::where('id_project',$lastf->workbook_id)->max('workbook')+1;
+            $pkp = pkp_project::where('id_project',$lastf->workbook_id)->first();
+            $pkp->workbook=$pkp_hitung;
+            $pkp->save();
+            
+            $lastversion = Formula::where('workbook_id',$lastf->workbook_id)->max('versi');
+            $myformulas  = Formula::where([
+                ['versi',$lastversion],
+                ['workbook_id',$lastf->workbook_id]
+                ])->get();
+            $lastturunan = Formula::where('id',$id)->max('turunan')+1;
+        }
+        if($lastf->workbook_pdf_id!=NULL){
+            $pdf_hitung = project_pdf::where('id_project_pdf',$lastf->workbook_pdf_id)->max('workbook')+1;
+            $pdf = project_pdf::where('id_project_pdf',$lastf->workbook_pdf_id)->first();
+            $pdf->workbook=$pdf_hitung;
+            $pdf->save();
+            
+            $lastversion = Formula::where('workbook_pdf_id',$lastf->workbook_pdf_id)->max('versi');
+            $myformulas  = Formula::where([
+                ['versi',$lastversion],
+                ['workbook_pdf_id',$lastf->workbook_pdf_id]
+                ])->get();
+            $lastturunan = Formula::where('id',$id)->max('turunan')+1;
+        }
 
-        $pkp_hitung = pkp_project::where('id_project',$lastf->workbook_id)->max('workbook')+1;
-		$pkp = pkp_project::where('id_project',$lastf->workbook_id)->first();
-		$pkp->workbook=$pkp_hitung;
-        $pkp->save();
-
-        $last=formula::where('workbook_id',$lastf->workbook_id)->get();
-        $lastturunan = $last->where('versi',$revisi)->max('turunan')+1;
         $formulas = new Formula;
-        $formulas->workbook_id = $lastf->workbook_id; 
+        if($lastf->workbook_pdf_id!=NULL){
+            $formulas->workbook_pdf_id = $lastf->workbook_pdf_id; 
+        }if($lastf->workbook_id!=NULL){
+            $formulas->workbook_id = $lastf->workbook_id; 
+        }
         $formulas->formula = $lastf->formula; 
         $formulas->revisi = $lastf->revisi;
         $formulas->versi = $lastf->versi; // Versi Sama
@@ -229,7 +271,10 @@ class UpVersionController extends Controller
         $overage = new tb_overage;
         $overage->id_formula=$formulas->id;
         $overage->save();
-        
-        return redirect()->route('step1',[$formulas->workbook_id,$formulas->id])->with('status', 'Formula '.$lastf->nama_produk.' Sudah Naik Versi!');
+        if($lastf->workbook_id!=NULL){
+            return redirect()->route('step1',[$formulas->workbook_id,$formulas->id])->with('status', 'Formula '.$lastf->nama_produk.' Sudah Naik Versi!');
+        }if($lastf->workbook_pdf_id!=NULL){
+            return redirect()->route('step1_pdf',[$formulas->workbook_pdf_id,$formulas->id])->with('status', 'Formula '.$lastf->nama_produk.' Sudah Naik Versi!');
+        }
     }
 }

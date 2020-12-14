@@ -317,7 +317,6 @@ class pkp2Controller extends Controller
             $tambah->years=$row['years'];
             $tambah->tgl_launch=$row['tgl'];
             $tambah->competitive=$row['competitive'];
-            $tambah->selling_price=$row['selling'];
             $tambah->competitor=$row['competitor'];
             $tambah->aisle=$row['aisle'];
             $tambah->product_form=$row['form'];
@@ -329,12 +328,9 @@ class pkp2Controller extends Controller
             $tambah->primery=$row['primary'];
             $tambah->secondary=$row['secondary'];
             $tambah->tertiary=$row['tertiary'];
-            $tambah->kemas_eksis=$row['eksis'];
             $tambah->prefered_flavour=$row['prefered'];
             $tambah->product_benefits=$row['benefits'];
             $tambah->mandatory_ingredient=$row['ingredient'];
-            $tambah->price=$row['price'];
-            $tambah->UOM=$row['uom'];
             $tambah->status_pkp=$row['data'];
             $tambah->save();
 

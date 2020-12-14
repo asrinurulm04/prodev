@@ -10,7 +10,6 @@ use App\model\Modelfn\finance;
 use App\model\Modelfn\pesan;
 use App\model\Modelkemas\konsep;
 use App\model\Modelkemas\userkemas;
-use App\model\Modelkemas\gramasi;
 use App\model\pkp\tipp;
 use Redirect;
 use Auth;

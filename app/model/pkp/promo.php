@@ -18,15 +18,15 @@ class promo extends Model
     }
 
     public function users(){
-        return $this->hasOne('App\model\User','id','userpenerima');
+        return $this->hasOne('App\model\users\User','id','userpenerima');
     }
 
     public function author1(){
-        return $this->hasOne('App\model\User','id','Author');
+        return $this->hasOne('App\model\users\User','id','Author');
     }
 
     public function perevisi1(){
-        return $this->hasOne('App\model\User','id','perevisi');
+        return $this->hasOne('App\model\users\User','id','perevisi');
     }
 
     public function not(){
@@ -34,7 +34,7 @@ class promo extends Model
     }
 
     public function users2(){
-        return $this->hasOne('App\model\user','id','userpenerima2');
+        return $this->hasOne('App\model\users\user','id','userpenerima2');
     }
 
     public function datapromo(){

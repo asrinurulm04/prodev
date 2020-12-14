@@ -21,7 +21,6 @@ use App\model\kemas\datakemas;
 use App\model\pkp\data_sku;
 use App\model\pkp\ses;
 use App\model\pkp\data_ses;
-use App\model\nutfact\datapangan;
 use App\model\dev\ms_allergen;
 use App\model\dev\ms_supplier_principals;
 use App\model\dev\ms_supplier_principal_cps;

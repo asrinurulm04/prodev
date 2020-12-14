@@ -4,9 +4,9 @@
 @section('content')
 
 <div class="row">
-  <div class="col-md-5 col-xs-12">
+  <div class="col-md-12 col-xs-12">
 		@foreach($data as $data)
-    <div class="x_panel" style="min-height:90px">
+    <div class="x_panel">
       <a href="{{ route('listpromoo')}}" class="btn btn-danger btn-sm" type="button"><li class="fa fa-share"></li> Back</a>
       @if($data->type==3)
       @if(Auth::user()->departement->dept!='RKA')
@@ -105,58 +105,7 @@
       </div>
 			@endforeach
     </div>
-  </div>    
-
-  <div class="col-md-7 col-xs-12">
-    <div class="x_panel" style="min-height:380px">
-      <div class="x_title">
-        <h3><li class="fa fa-list"></li> Sample Submission List  </h3>
-      </div>
-      <div class="card-block">
-        <div class="x_content">
-					<table class="table table-striped table-bordered">
-            <thead>
-              <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
-                <th class="text-center">No</th>
-                <th class="text-center">Sample</th>
-                <th class="text-center">Note</th>
-                <th class="text-center">Approval</th>
-                <th class="text-center">Information</th>
-              </tr>
-            </thead>
-            <tbody>
-              @php
-                $no = 0;
-              @endphp
-              @foreach($sample as $pkp)
-              @if($pkp->status=='final')
-              <tr style="background-color:springgreen">
-              @else
-              <tr>
-              @endif
-                <td class="text-center">{{++$no}}</td>
-                <td>{{ $pkp->sample }}</td>
-                <td>{{ $pkp->note}}</td>
-                <td class="text-center">
-                  @if($pkp->status=='reject')
-                  <span class="label label-danger" style="color:white">Reject</span>
-                  @elseif($pkp->status=='approve')
-                  <span class="label label-primary" style="color:white">Approve</span>
-                  @elseif($pkp->status=='send')
-                  <span class="label label-warning" style="color:white">Send</span>
-                  @elseif($pkp->status=='final')
-                  <span class="label label-info" style="color:white">Final Approval</span>
-                  @endif
-                </td>
-                <td>{{ $pkp->catatan_reject}}</td>
-              </tr>
-              @endforeach
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>     
+  </div>       
 </div>
 
 <!-- modal -->

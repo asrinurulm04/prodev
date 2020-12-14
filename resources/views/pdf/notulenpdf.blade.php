@@ -94,7 +94,7 @@
                     <td><input type="text" disabled name="datapdf[{{$loop->index}}][name]" class="form-control" value="{{$Dpdf->project_name}}"></td>
                     <td><input type="text" disabled name="datapdf[{{$loop->index}}][brand]" class="form-control" value="{{$Dpdf->id_brand}}"></td>
                     <td>
-                      <select name="note[{{$loop->index}}][prioritas]" id="priotitas">
+                      <select name="note[{{$loop->index}}][prioritas]" class="form-control" id="priotitas">
                         @if($Dpdf->prioritas==1)
                         <option value="1" style="font-weight: bold;color:white;background-color: #2a3f54;">Priority 1</option>
                         @elseif($Dpff->prioritas==2)
@@ -122,9 +122,9 @@
                   @endforeach
                 </tbody>
               </table>
-              <button class="btn btn-primary" type="submit"><li class="fa fa-check"></li> Submit</button>
+              <button class="btn btn-primary btn-sm" type="submit"><li class="fa fa-check"></li> Submit</button>
               {{ csrf_field() }}
-              <a href="{{route('hapuscheckpdf')}}" class="btn btn-danger"><li class="fa fa-arrow-left"></li> Back</a>
+              <a href="{{route('hapuscheckpdf')}}" class="btn btn-danger btn-sm"><li class="fa fa-arrow-left"></li> Back</a>
             </form>
           </div>
         </div>

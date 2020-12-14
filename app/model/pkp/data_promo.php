@@ -26,6 +26,6 @@ class data_promo extends Model
     }
 
     public function perevisi2(){
-        return $this->hasOne('App\model\User','id','perevisi');
+        return $this->hasOne('App\model\users\User','id','perevisi');
     }
 }

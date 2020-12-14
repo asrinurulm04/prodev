@@ -48,7 +48,7 @@
       	</div>
       	<label for="middle-name" class="control-label col-md-1 col-sm-1 col-xs-12"> PKP Number </label>
       	<div class="col-md-4 col-sm-4 col-xs-12">
-          <input class="form-control edit" id="pkp" name="pkp" type="text" value="{{ $formula->workbook_pdf->datapdf->pdf_number }}{{ $formula->workbook_pdf->datapdf->ket_no }}" readonly />  
+          <input class="form-control edit" id="pdf" name="pdf" type="text" value="{{ $formula->workbook_pdf->datapdf->pdf_number }}{{ $formula->workbook_pdf->datapdf->ket_no }}" readonly />  
       	</div>
     	</div>
 
@@ -162,9 +162,9 @@
     <div class="card-block">
 			<div class="col-md-4 col-md-offset-5">
         @if(auth()->user()->role->namaRule == 'manager')
-        <a class="btn btn-danger btn-sm" href="{{ route('daftarpkp',$formula->workbook_pdf_id) }}"><i class="fa fa-ban"></i> Cencel</a>
+        <a class="btn btn-danger btn-sm" href="{{ route('daftarpdf',$formula->workbook_pdf_id) }}"><i class="fa fa-ban"></i> Cencel</a>
         @elseif(auth()->user()->role->namaRule == 'user_produk')
-        <a class="btn btn-danger btn-sm" href="{{ route('rekappkp',$formula->workbook_pdf_id) }}"><i class="fa fa-ban"></i> Cencel</a>
+        <a class="btn btn-danger btn-sm" href="{{ route('rekappdf',$formula->workbook_pdf_id) }}"><i class="fa fa-ban"></i> Cencel</a>
         @endif
 				<button type="reset" class="btn btn-warning btn-sm"><li class="fa fa-repeat"></li> Reset</button>
 				<button type="submit" class="btn btn-primary btn-sm"><li class="fa fa-check"></li> Edit And Next</button>

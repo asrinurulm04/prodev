@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\report;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\model\pkp\pkp_project;
@@ -8,7 +9,7 @@ use App\model\pkp\project_pdf;
 use App\model\pkp\promo;
 use App\model\pkp\tipp;
 use App\model\users\User;
-use App\model\master\brand;
+use App\model\master\Brand;
 use App\model\manager\pengajuan;
 use Auth;
 use DB;

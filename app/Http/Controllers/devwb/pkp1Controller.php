@@ -64,8 +64,11 @@ class pkp1Controller extends Controller
         $data->freeze_diaktifkan=Carbon::now();
         $data->save();
 
-        $pengajuan = pengajuan::where('id_pkp',$id_project)->first();
-        $pengajuan->delete();
+        $pengajuan_hitung = pengajuan::where('id_pkp',$id_project)->first();
+        if($pengajuan_hitung!=0){
+            $pengajuan = pengajuan::where('id_pkp',$id_project)->first();
+            $pengajuan->delete();
+        }
 
         return redirect::back();
     }

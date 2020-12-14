@@ -209,7 +209,7 @@
                             <h4 class="modal-title" id="hm" style="font-weight: bold;color:black;"> Update Data</h4>
                           </div>
                           <div class="modal-body">
-                            <a class="btn btn-primary btn-sm" href="{{ route('upversion',$pdf->workbook_pdf_id) }}" onclick="return confirm('Up Version ?')"><i style="font-size:12px;" class="fa fa-arrow-circle-up"></i> Up Version</a><br><br>
+                            <a class="btn btn-primary btn-sm" href="{{ route('upversion',[$pdf->id,$pdf->workbook_pdf_id]) }}" onclick="return confirm('Up Version ?')"><i style="font-size:12px;" class="fa fa-arrow-circle-up"></i> Up Version</a><br><br>
                             <a class="btn btn-warning btn-sm" href="{{ route('upversion2',[$pdf->id,$pdf->versi]) }}" onclick="return confirm('Up Sub Version ?')"><i style="font-size:12px;" class="fa fa-arrow-circle-up"></i> Up Sub Version</a>
                           </div
                           <div class="modal-footer">

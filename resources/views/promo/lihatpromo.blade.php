@@ -46,7 +46,9 @@
                             <option disabled selected> Departement</option>
                             @foreach($dept as $dept)
                             @if($dept->Divisi=='RND')
-                            <option value="{{$dept->id}}">{{ $dept->dept }} ({{ $dept->nama_dept }})</option>
+                              @if($dept->dept!='RKA')
+                              <option value="{{$dept->id}}"> Manager {{ $dept->dept }} ({{$dept->users->name}})</option>
+                              @endif
                             @endif
                             @endforeach
                           </select>
@@ -75,22 +77,22 @@
                       <input type="hidden" value="_{{$tanggal}}/PROMO_{{ $promo->project_name }}_{{ $promo->revisi }}.{{ $promo->turunan }}" name="ket_no" id="ket_no">
                       @endif
                       <div class="form-group row">
-                        <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center">Project priority</label>
-                        <div class="col-md-2 col-sm-9 col-xs-12">
-                          <select name="prioritas" class="form-control form-control-line" id="prioritas">
-                            <option disabled selected>Prioritas</option>
-                            <option value="1">prioritas 1</option>
-                            <option value="2">prioritas 2</option>
-                            <option value="3">prioritas 3</option>
+                        <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center">Priority</label>
+                        <div class="col-md-1 col-sm-1 col-xs-12">
+                          <select name="prioritas" class="form-control form-control-line" id="prioritas" required>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
                           </select>
                         </div>
-                        <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center">Deadline for sending Sample</label>
-                        <div class="col-md-2 col-sm-2 col-xs-12">
-                          <input type="date" class="form-control" name="jangka" id="jangka" placeholder="start date">
+                        <?php $tgl2 = date('Y-m-d', strtotime('+30 days')); ?>
+                        <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center">sample deadline</label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                          <input type="date" class="form-control" value="<?php echo date('Y-m-d'); ?>" name="jangka" id="jangka" placeholder="start date">
                         </div>
                         <div class="col-md-1 col-sm-1 col-xs-12"><center> To </center></div>
                         <div class="col-md-3 col-sm-3 col-xs-12">
-                          <input type="date" class="form-control" name="waktu" id="waktu" placeholder="end date">
+                          <input type="date" class="form-control" value="{{$tgl2}}" name="waktu" id="waktu" placeholder="end date">
                         </div>
                       </div>
                       <div class="modal-footer">

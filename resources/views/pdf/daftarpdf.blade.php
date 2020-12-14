@@ -5,57 +5,32 @@
 
 <div class="row">
   <div class="col-md-12 col-xs-12">
-    @foreach($pdff as $data)
+    @foreach($data as $data)
     <div class="x_panel">
       <div class="col-md-5">
         <h3><li class="fa fa-star"></li> Project Name: {{ $data->project_name}}</h3>
       </div>
       <div class="col-md-7" align="right">
-        @if($hitung==0)
-        <a href="{{ route('buatpdf',$data->id_project_pdf)}}" class="btn btn-primary btn-sm" type="button"><li class="fa fa-plus"></li> Add Data</a>
+        @foreach($pdf as $pdf)
+        <a class="btn btn-info btn-sm" href="{{ Route('lihatpdf',['pdf_id' => $pdf->pdf_id,'revisi' => $pdf->revisi, 'turunan' => $pdf->turunan]) }}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i> Show</a>
+        @if($pdf->status_data=='revisi' || $pdf->status_data=='draf')
+          @if($pdf->status_pdf=='active')
+          <a class="btn btn-warning btn-sm" href="{{ route('buatpdf1', ['pdf_id' => $pdf->pdf_id,'revisi' => $pdf->revisi, 'turunan' => $pdf->turunan]) }}" data-toggle="tooltip" title="Edit"><i class="fa fa-edit"></i> Edit</a>
+          @endif
         @endif
-        <a class="btn btn-info btn-sm" href="{{ Route('lihatpdf',['id_project_pdf' => $data->id_project_pdf, 'revisi' => $data->revisi, 'turunan' => $data->turunan]) }}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i> Show</a>
-      
+        @endforeach
+          
+        @if($hitung==0)
+          <a href="{{ route('buatpdf',$data->id_project_pdf)}}" class="btn btn-primary btn-sm" type="button"><li class="fa fa-plus"></li> Add Data</a>
+        @endif
+
         @if(auth()->user()->role->namaRule=='pv_global')
-          @if($data->status_data=='draf')
-          <a class="btn btn-warning btn-sm" href="{{ route('buatpdf1',['id_project_pdf' => $data->id_project_pdf, 'revisi' => $data->revisi, 'turunan' => $data->turunan])}}" data-toggle="tooltip" title="Edit"><i class="fa fa-edit"></i> Edit</a>
+          @if($data->status_project=='draf')
           <a href="{{ route('drafpdf')}}" class="btn btn-danger btn-sm" type="button"><li class="fa fa-share"></li> Back</a>
           @elseif($data->status_project=="revisi")
-          <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#data{{ $data->id_project_pdf  }}" ><i class="fa fa-edit"></i> Edit Timeline</a></button>
-          <!-- Modal -->
-          <div class="modal" id="data{{ $data->id_project_pdf  }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                <h3 class="modal-title text-center" id="exampleModalLabel">Timeline Project : {{$data->project_name}}
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button></h3>
-                </div>
-                <form class="form-horizontal form-label-left" method="POST" action="{{ Route('TMubahpdf',$data->id_project_pdf)}}" novalidate>    
-                <div class="modal-body">
-                  <div class="row x_panel">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12 text-center">Deadline for sending Sample</label>
-                    <div class="col-md-4 col-sm-9 col-xs-12">
-                      <input type="date" class="form-control" value="{{$data->jangka}}" name="jangka" id="jangka" placeholder="start date">
-                    </div>
-                    <div class="col-md-4 col-sm-9 col-xs-12">
-                      <input type="date" class="form-control" value="{{$data->waktu}}" name="waktu" id="waktu" placeholder="end date">
-                    </div>
-                </div>
-                </div>
-                <div class="modal-footer">
-                  <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> Edit</button>
-                  {{ csrf_field() }}
-                </div>
-                </form>
-              </div>
-            </div>
-          </div>
-          <!-- Modal Selesai -->
-          <a class="btn btn-warning btn-sm" href="{{ route('buatpdf1',['id_project_pdf' => $data->id_project_pdf, 'revisi' => $data->revisi, 'turunan' => $data->turunan])}}" data-toggle="tooltip" title="Edit"><i class="fa fa-edit"></i> Edit</a>
           <a href="{{ route('datapengajuan')}}" class="btn btn-danger btn-sm" type="button"><li class="fa fa-share"></li> Back</a>
-          @elseif($data->status_project=="sent" && $data->status_project=="proses")
+          @elseif($data->status_project=="sent" || $data->status_project=="close" || $data->status_project=="proses")
+          <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#data{{ $data->id_project_pdf  }}" ><i class="fa fa-edit"></i> Edit Timeline</a></button>
           <a href="{{ route('listpdf')}}" class="btn btn-danger btn-sm" type="button"><li class="fa fa-share"></li> Back</a>
           @endif
         @elseif(auth()->user()->role->namaRule === 'kemas')
@@ -233,7 +208,7 @@
                           <h4 class="modal-title" id="hm" style="font-weight: bold;color:black;"> Update Data</h4>
                         </div>
                         <div class="modal-body">
-                          <a class="btn btn-primary btn-sm" href="{{ route('upversion',$sample->workbook_pdf_id) }}" onclick="return confirm('Up Version ?')"><i style="font-size:12px;" class="fa fa-arrow-circle-up"></i> Up Version</a><br><br>
+                          <a class="btn btn-primary btn-sm" href="{{ route('upversion',[$sample->id,$sample->workbook_pdf_id]) }}" onclick="return confirm('Up Version ?')"><i style="font-size:12px;" class="fa fa-arrow-circle-up"></i> Up Version</a><br><br>
                           <a class="btn btn-warning btn-sm" href="{{ route('upversion2',[$sample->id,$sample->versi]) }}" onclick="return confirm('Up Sub Version ?')"><i style="font-size:12px;" class="fa fa-arrow-circle-up"></i> Up Sub Version</a>
                         </div
                         <div class="modal-footer">
@@ -349,6 +324,38 @@
     @endif
   </div>
 </div>
+<!-- Modal -->
+<div class="modal" id="data{{ $data->id_project_pdf  }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                <h3 class="modal-title text-center" id="exampleModalLabel">Timeline Project : {{$data->project_name}}
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button></h3>
+                </div>
+                <form class="form-horizontal form-label-left" method="POST" action="{{ Route('TMubahpdf',$data->id_project_pdf)}}" novalidate>    
+                <div class="modal-body">
+                  <div class="row x_panel">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12 text-center">Deadline for sending Sample</label>
+                    <div class="col-md-4 col-sm-9 col-xs-12">
+                      <input type="date" class="form-control" value="{{$data->jangka}}" name="jangka" id="jangka" placeholder="start date">
+                    </div>
+                    <div class="col-md-4 col-sm-9 col-xs-12">
+                      <input type="date" class="form-control" value="{{$data->waktu}}" name="waktu" id="waktu" placeholder="end date">
+                    </div>
+                </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> Edit</button>
+                  {{ csrf_field() }}
+                </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <!-- Modal Selesai -->
+
 @endsection
 @section('s')
 <script type="text/javascript">

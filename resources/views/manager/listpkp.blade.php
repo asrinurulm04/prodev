@@ -131,7 +131,6 @@
                 <td>{{$pkp->id_brand}}</td>
                 <td>
                   @if($pkp->perevisi!=null){{$pkp->perevisi2->name}}
-                  @elseif($pkp->perevisi==null){{$pkp->author1->name}}
                   @endif
                 </td>
                 <td>{{$pkp->tgl_kirim}}</td>

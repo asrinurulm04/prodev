@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Collection;
 use App\model\dev\Formula;
 use App\model\dev\Fortail;
-use App\model\nutfact\tb_ingredient;
 use App\model\devnf\allergen_formula;
 use App\model\devnf\tb_akg;
 use App\model\devnf\tb_overage;

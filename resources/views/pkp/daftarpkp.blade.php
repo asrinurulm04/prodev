@@ -31,7 +31,6 @@
       <div class="col-md-7" align="right">
         @foreach($datapkp as $pkp)
         <a class="btn btn-info btn-sm" href="{{ Route('lihatpkp',['id_pkp' => $pkp->id_pkp,'revisi' => $pkp->revisi, 'turunan' => $pkp->turunan]) }}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i> Show</a>
-
         @if($pkp->status_pkp=='revisi' || $pkp->status_pkp=='draf')
           @if($pkp->status_data=='active')
           <a class="btn btn-warning btn-sm" href="{{ route('buatpkp', ['id_pkp' => $pkp->id_pkp,'revisi' => $pkp->revisi, 'turunan' => $pkp->turunan]) }}" data-toggle="tooltip" title="Edit"><i class="fa fa-edit"></i> Edit</a>
@@ -238,10 +237,10 @@
                 <td class="text-center">
                   {{csrf_field()}}
                   <a class="btn btn-info btn-sm" href="{{ route('formula.detail',[$pkp->workbook_id,$pkp->id]) }}" data-toggle="tooltip" title="Show"><i style="font-size:12px;" class="fa fa-eye"></i></a>
-                  <a class="btn btn-success btn-sm" data-toggle="modal" data-target="#update" data-toggle="tooltip" title="Updata"><i style="font-size:12px;" class="fa fa-arrow-circle-up"></i></a>
+                  <a class="btn btn-success btn-sm" data-toggle="modal" data-target="#update{{$pkp->id}}" data-toggle="tooltip" title="Updata"><i style="font-size:12px;" class="fa fa-arrow-circle-up"></i></a>
                   
                   <!-- UpVersion -->
-                  <div class="modal fade" id="update" role="dialog" aria-labelledby="hm" aria-hidden="true">
+                  <div class="modal fade" id="update{{$pkp->id}}" role="dialog" aria-labelledby="hm" aria-hidden="true">
                     <div class="modal-dialog modal-sm">
                       <div class="modal-content">
                         <div class="modal-header">
@@ -249,7 +248,7 @@
                           <h4 class="modal-title" id="hm" style="font-weight: bold;color:black;"> Update Data</h4>
                         </div>
                         <div class="modal-body">
-                          <a class="btn btn-primary btn-sm" href="{{ route('upversion',$pkp->workbook_id) }}" onclick="return confirm('Up Version ?')"><i style="font-size:12px;" class="fa fa-arrow-circle-up"></i> Up Version</a><br><br>
+                          <a class="btn btn-primary btn-sm" href="{{ route('upversion',[$pkp->id,$pkp->workbook_id]) }}" onclick="return confirm('Up Version ?')"><i style="font-size:12px;" class="fa fa-arrow-circle-up"></i> Up Version</a><br><br>
                           <a class="btn btn-warning btn-sm" href="{{ route('upversion2',[$pkp->id,$pkp->versi]) }}" onclick="return confirm('Up Sub Version ?')"><i style="font-size:12px;" class="fa fa-arrow-circle-up"></i> Up Sub Version</a>
                         </div
                         <div class="modal-footer">
@@ -377,7 +376,7 @@
                               <textarea name="note" id="note" cols="60" rows="2" class="form-control" required></textarea><br>
                             </div>
                             <div class="modal-footer">
-                              <button class="btn btn-sm btn-primary" type="submit"><li classs="fa fa-check"></li> submit</button>
+                              <button class="btn btn-sm btn-primary" type="submit"><li class="fa fa-check"></li> submit</button>
                               {{ csrf_field() }}
                               </form>
                             </div>
@@ -462,6 +461,7 @@
   </div>
 </div>
 <!-- modal selesai -->
+
 <!-- Modal -->
 <div class="modal" id="data1{{ $data->id_project  }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">

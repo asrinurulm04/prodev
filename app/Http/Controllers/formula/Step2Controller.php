@@ -5,7 +5,7 @@ namespace App\Http\Controllers\formula;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Collection;
-use App\users\User;
+use App\model\users\User;
 use App\model\devnf\allergen_formula;
 use App\model\dev\Formula;
 use App\model\dev\Fortail;

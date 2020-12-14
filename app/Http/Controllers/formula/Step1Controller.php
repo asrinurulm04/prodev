@@ -68,7 +68,11 @@ class Step1Controller extends Controller
 			$formula->kategori='fg';
 		}
         $formula->save();
-        
-        return Redirect()->route('step2', [$formula->id,$formula]);
+        if($formula->workbook_id!=NULL){
+            return Redirect()->route('step2', [$formula->workbook_id,$formula->id]);
+        }
+        if($formula->workbook_pdf_id!=NULL){
+            return Redirect()->route('step2', [$formula->workbook_pdf_id,$formula->id]);
+        }
     }
 }

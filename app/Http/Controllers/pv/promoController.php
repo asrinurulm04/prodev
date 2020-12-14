@@ -4,15 +4,14 @@ namespace App\Http\Controllers\pv;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\pkp\pkp_type;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
 
+use App\model\pkp\pkp_type;
 use App\model\master\Brand;
 use App\model\manager\pengajuan;
 use App\model\pkp\product_allocation;
 use App\model\pkp\pkp_uniq_idea;
-use App\model\pkp\sample_project;
 use App\model\pkp\promo_idea;
 use App\model\pkp\pkp_estimasi_market;
 use App\model\pkp\promo;
@@ -23,7 +22,6 @@ use App\model\users\User;
 use App\model\users\Departement;
 use Auth;
 use DB;
-use Calendar;
 use Redirect;
 use Carbon\Carbon;
 
@@ -149,13 +147,9 @@ class promoController extends Controller
         $pkp = data_promo::where('id_pkp_promoo',$id_pkp_promo)->where('turunan',$max)->orderBy('turunan','desc')->where('revisi',$max2)->get();
         $promo = data_promo::where('id_pkp_promoo',$id_pkp_promo)->count();
         $pengajuan = pengajuan::count();
-        $sample_project = sample_project::where('id_promo',$id_pkp_promo)->get();
-        $status_sample_project = sample_project::where('id_promo',$id_pkp_promo)->where('status','=','final')->count();
         return view ('promo.daftarpromo')->with([
             'data' => $data,
             'promo' => $promo,
-            'sample' => $sample_project,
-            'status_sample' => $status_sample_project,
             'pengajuan' => $pengajuan,
             'pkp' => $pkp,
             'pengajuanpromo' => $pengajuanpromo
@@ -300,8 +294,11 @@ class promoController extends Controller
         $data->freeze_diaktifkan=Carbon::now();
         $data->save();
 
-        $pengajuan = pengajuan::where('id_promo',$id_pkp_promo)->first();
-        $pengajuan->delete();
+        $pengajuan_hitung = pengajuan::where('id_promo',$id_pkp_promo)->count();
+        if($pengajuan_hitung!=0){
+            $pengajuan = pengajuan::where('id_promo',$id_pkp_promo)->first();
+            $pengajuan->delete();
+        }
 
         return redirect::back();
     }
@@ -484,69 +481,6 @@ class promoController extends Controller
         }
 
         return redirect::route('promo4',['id_pkp_promo'=> $promo->id_pkp_promoo,'revisi' => $promo->revisi,'turunan' => $promo->turunan])->with('status', 'Data has been added up');
-    }
-
-    public function approvesamplepromo($id_sample){
-        $pkp = sample_project::where('id_sample',$id_sample)->first();
-        $pkp->status='approve';
-        $pkp->save();
-
-        return redirect::back();
-    }
-
-    public function rejectsamplepromo(Request $request,$id_sample){
-        $pkp = sample_project::where('id_sample',$id_sample)->first();
-        $pkp->status='reject';
-        $pkp->catatan_reject=$request->note;
-        $pkp->save();
-
-        return redirect::back();
-    }
-
-    public function finalsamplepromo($id_pkp_promo,$id_sample){ 
-        $sample = promo::where('id_pkp_promo',$id_pkp_promo)->first();
-        $sample->pengajuan_sample='approve';
-        $sample->save();
-
-        $pkp = sample_project::where('id_sample',$id_sample)->first();
-        $pkp->status='final';
-        $pkp->save();
-
-        // kirim email final sample (pengirim, pv)
-        $isipromo = data_promo::where('id_pkp_promoo',$id_pkp_promo)->where('status_data','=','active')->get();
-        try{
-            Mail::send('manager.infoemailpromo', [
-                'info' => 'Sample project PROMO yang diajukan telah disetujui',
-                'app'=>$isipromo,],function($message)use($id_pkp_promo)
-            {
-                $message->subject('Approved PROMO sample');
-                $message->from('app.prodev@nutrifood.co.id', 'Admin PRODEV');
-                
-                $datapromo = promo::where('id_pkp_promo',$id_pkp_promo)->get();
-                foreach($datapromo as $data){
-                    $dept = DB::table('departements')->where('id',$data->tujuankirim)->get();
-                    foreach($dept as $dept){
-                        $user = user::where('id',$dept->manager_id)->get();
-                        foreach($user as $user){
-                            $to = $user->email;
-                            $message->to($to);
-                        }
-                    }
-                    $user1 = user::where('id',$data->userpenerima)->get();
-                    foreach($user1 as $user1){
-                        $cc = [$user1->email,Auth::user()->email];
-                        $message->cc($cc);
-                    }
-                }
-
-            });
-            return back()->with('status','E-mail Successfully');
-        }
-        catch (Exception $e){
-        return response (['status' => false,'errors' => $e->getMessage()]);
-        }
-
-        return redirect::back();
     }
 
     public function unfinalsamplepromo($id_pkp_promo,$id_sample){
@@ -824,9 +758,12 @@ class promoController extends Controller
         $promo->status_promo='sent';
         $promo->save();
 
+        $pengajuan_hitung = pengajuan::where('id_promo',$id_pkp_promo)->count();
+        if($pengajuan_hitung!=0){
         $pengajuan = pengajuan::where('id_promo',$id_pkp_promo)->first();
         $pengajuan->delete();
-
+        }
+        
         return redirect::Route('listpromo');
     }
 
@@ -907,8 +844,6 @@ class promoController extends Controller
             {
                 $ppromo = new data_promo;
                 $ppromo->id_pkp_promoo=$promoo->id_pkp_promoo;
-                $ppromo->promo_idea=$promoo->promo_idea;
-                $ppromo->dimension=$promoo->dimension;
                 $ppromo->application=$promoo->application;
                 $ppromo->promo_readiness=$promoo->promo_readiness;
                 $ppromo->rto=$promoo->rto;
@@ -939,7 +874,21 @@ class promoController extends Controller
                 $al->save();
             }
         }
-        return Redirect::Route('promo11',['id_pkp_promo'=> $ppromo->id_pkp_promoo,'revisi' => $naikversi,'turunan' => $ppromo->turunan]);
+        $idea = promo_idea::where('id_promo',$id_pkp_promo)->where('revisi',$revisi)->where('turunan',$turunan)->count();
+        if($idea>0){
+            $isiidea = promo_idea::where('id_promo',$id_pkp_promo)->where('revisi',$revisi)->where('turunan',$turunan)->get();
+            foreach($isiidea as $all)
+            {
+                $ide= new promo_idea;
+                $ide->id_promo=$all->id_promo;
+                $ide->promo_idea=$all->promo_idea;
+                $ide->dimension=$all->dimension;
+                $ide->turunan=$all->turunan;
+                $ide->revisi=$all->revisi+1;
+                $ide->save();
+            }
+        }
+        return Redirect::Route('datapromo11',['id_pkp_promo'=> $ppromo->id_pkp_promoo,'revisi' => $naikversi,'turunan' => $ppromo->turunan]);
     }
 
 }

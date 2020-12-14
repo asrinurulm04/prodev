@@ -15,7 +15,6 @@ use App\model\pkp\project_pdf;
 use App\model\pkp\data_ses;
 use App\model\dev\Formula;
 use App\model\pkp\promo_idea;
-use App\model\pkp\sample_project;
 use App\model\pkp\promo;
 use App\model\pkp\kemaspdf;
 use App\model\pkp\picture;
@@ -311,7 +310,6 @@ class managerController extends Controller
     public function daftarpromo($id_pkp_promo){
         $data = promo::where('id_pkp_promo',$id_pkp_promo)->get();
         $dept = Departement::all();
-        $sample = sample_project::where('id_promo',$id_pkp_promo)->get();
         $max = data_promo::where('id_pkp_promoo',$id_pkp_promo)->max('turunan');
         $max2 = data_promo::where('id_pkp_promoo',$id_pkp_promo)->max('revisi');
         $pkp = data_promo::where('id_pkp_promoo',$id_pkp_promo)->where('status_promo','=','sent')->where('turunan',$max)->where('revisi',$max2)->get();
@@ -324,7 +322,7 @@ class managerController extends Controller
         return view ('manager.daftarpromo')->with([
             'data' => $data,
             'promo' => $promo,
-            'pkp' => $pkp,'sample' => $sample,
+            'pkp' => $pkp,
             'dept' => $dept,
             'pengajuan' => $pengajuan,
             'hitungnotif' => $hitungnotif,'hitungnotif2' => $hitungnotif2,
@@ -332,181 +330,6 @@ class managerController extends Controller
             'hitungpdfselesai' => $hitungpdfselesai,'hitungpdfselesai2' => $hitungpdfselesai2,
             'hitungpromoselesai' => $hitungpromoselesai,'hitungpromoselesai2' => $hitungpromoselesai2
         ]);
-    }
-
-    public function samplepkp(Request $request,$id_project){
-        $pkp = pkp_project::where('id_project',$id_project)->first();
-        $pkp->pengajuan_sample='sent';
-        $pkp->save();
-
-        $rules = array(
-        ); 
-        
-        $validator = Validator::make($request->all(), $rules);  
-        if ($validator->passes()) {
-            $idz = implode("|", $request->input('sample'));
-            $ids = explode("|", $idz);
-            $tgz = implode("|", $request->input('note'));
-            $tgs = explode("|", $tgz);
-            for ($i = 0; $i < count($ids); $i++)
-            {
-                $pipeline = new sample_project;
-                $pipeline->id_pkp=$request->id;
-                $pipeline->sample = $ids[$i];
-                $pipeline->note = $tgs[$i];
-                $pipeline->status = 'send';
-                $pipeline->save();
-                $i = $i++;
-
-            }
-            // kirim email sample (pengirim, pv)
-            $isipkp = tipp::where('id_pkp',$id_project)->where('status_data','=','active')->get();
-            try{
-                Mail::send('manager.infoemailpkp', [
-                    'info' => 'RND telah mengirim sample untuk project PKP',
-                    'app'=>$isipkp,],function($message)use($request,$id_project)
-                {
-                    $message->subject('Request Sample PKP');
-                    $message->from('app.prodev@nutrifood.co.id', 'Admin PRODEV');
-                    
-                    $datapkp = tipp::where('id_pkp',$id_project)->get();
-                    foreach($datapkp as $data){
-                        $user = user::where('id',$data->perevisi)->get();
-                        foreach($user as $user){
-                            $to = $user->email;
-                            //  dd($to);
-                            $message->to($to);
-                        }
-                    }
-                    // dd(Auth::user()->email);
-                    $message->cc(Auth::user()->email);
-
-                });
-                return back()->with('status','E-mail Successfully');
-            }
-            catch (Exception $e){
-            return response (['status' => false,'errors' => $e->getMessage()]);
-            }
-
-            return redirect::back();
-        }
-    }
-
-    public function samplepdf(Request $request,$id_project_pdf){
-        $pdf = project_pdf::where('id_project_pdf',$id_project_pdf)->first();
-        $pdf->pengajuan_sample='sent';
-        $pdf->save();
-
-        $rules = array(
-        ); 
-        
-        $validator = Validator::make($request->all(), $rules);  
-        if ($validator->passes()) {
-            $idz = implode("|", $request->input('sample'));
-            $ids = explode("|", $idz);
-            $tgz = implode("|", $request->input('note'));
-            $tgs = explode("|", $tgz);
-            for ($i = 0; $i < count($ids); $i++)
-            {
-                $pipeline = new sample_project;
-                $pipeline->id_pdf=$request->id;
-                $pipeline->sample = $ids[$i];
-                $pipeline->note = $tgs[$i];
-                $pipeline->status = 'send';
-                $pipeline->save();
-                $i = $i++;
-
-            }
-
-            // kirim email sample (pengirim, pv)
-            $isipdf = coba::where('pdf_id',$id_project_pdf)->where('status_pdf','=','active')->get();
-            try{
-                Mail::send('manager.infoemailpdf', [
-                    'info' => 'RND telah mengirim sample untuk project PDF',
-                    'app'=>$isipdf,],function($message)use($request,$id_project_pdf)
-                {
-                    $message->subject('Request Sample PDF');
-                    $message->from('app.prodev@nutrifood.co.id', 'Admin PRODEV');
-                    
-                    $datapdf = coba::where('pdf_id',$id_project_pdf)->get();
-                    foreach($datapdf as $data){
-                        $user = user::where('id',$data->perevisi)->get();
-                        foreach($user as $user){
-                            $to = $user->email;
-                            // dd($to);
-                            $message->to('asrimarifah0402@gmail.com');
-                        }
-                    }
-                    // dd(Auth::user()->email);
-                    $message->cc('asrimarifah0402@gmail.com');
-
-                });
-                return back()->with('status','E-mail Successfully');
-            }
-            catch (Exception $e){
-            return response (['status' => false,'errors' => $e->getMessage()]);
-            }
-
-            return redirect::back();
-        }
-    }
-
-    public function samplepromo(Request $request,$id_pkp_promo){
-        $pkp = promo::where('id_pkp_promo',$id_pkp_promo)->first();
-        $pkp->pengajuan_sample='sent';
-        $pkp->save();
-
-        $rules = array(
-        ); 
-        
-        $validator = Validator::make($request->all(), $rules);  
-        if ($validator->passes()) {
-            $idz = implode(",", $request->input('sample'));
-            $ids = explode(",", $idz);
-            $tgz = implode(",", $request->input('note'));
-            $tgs = explode(",", $tgz);
-            for ($i = 0; $i < count($ids); $i++)
-            {
-                $pipeline = new sample_project;
-                $pipeline->id_promo=$request->id;
-                $pipeline->sample = $ids[$i];
-                $pipeline->note = $tgs[$i];
-                $pipeline->status = 'send';
-                $pipeline->save();
-                $i = $i++;
-
-            }
-
-            $isipromo = data_promo::where('id_pkp_promoo',$id_pkp_promo)->where('status_data','=','active')->get();
-            try{
-                Mail::send('manager.infoemailpromo', [
-                    'info' => 'RND telah mengirim sample untuk project PROMO',
-                    'app'=>$isipromo,],function($message)use($request,$id_pkp_promo)
-                {
-                    $message->subject('Request Sample PKP');
-                    $message->from('app.prodev@nutrifood.co.id', 'Admin PRODEV');
-                    
-                    $datapromo = data_promo::where('id_pkp_promoo',$id_pkp_promo)->get();
-                    foreach($datapromo as $data){
-                        $user = user::where('id',$data->perevisi)->get();
-                        foreach($user as $user){
-                            $to = $user->email;
-                            // dd($to);
-                            $message->to($to);
-                        }
-                    }
-                    // dd(Auth::user()->email);
-                    $message->cc(Auth::user()->email);
-
-                });
-                return back()->with('status','E-mail Successfully');
-            }
-            catch (Exception $e){
-            return response (['status' => false,'errors' => $e->getMessage()]);
-            }
-
-            return redirect::back();
-        }
     }
 
     public function lihatpdf($id_project_pdf,$revisi,$turunan){

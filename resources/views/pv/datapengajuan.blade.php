@@ -125,7 +125,7 @@
                             @endif
                           </td>
                           <td width="25%">{{$pdf->alasan_pengajuan}}</td>
-                          <td width="10%"><a href="{{Route('rekappdf',$pdf->id_pdf)}}" class="btn btn-info" type="button"><li class="fa fa-edit"> Start revision</li></a></td>
+                          <td width="10%"><a href="{{Route('rekappdf',$pdf->id_pdf)}}" class="btn btn-info btn-sm" type="button"><li class="fa fa-edit"> Start revision</li></a></td>
                         </tr>
                         @endforeach
                       </tbody>
@@ -174,7 +174,7 @@
                           </td>
                           <td width="25%">{{$promo->alasan_pengajuan}}</td>
                           <td width="10%">
-                              <a href="{{Route('rekappromo',$promo->id_promo)}}" class="btn btn-info" type="button"><li class="fa fa-edit"> Start revision</li></a>
+                              <a href="{{Route('rekappromo',$promo->id_promo)}}" class="btn btn-info btn-sm" type="button"><li class="fa fa-edit"> Start revision</li></a>
                           </td>
                           </tr>
                         @endforeach

@@ -5,7 +5,6 @@ namespace App\Http\Controllers\formula;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\model\dev\Bahan;
-use App\model\dev\Workbook;
 use App\model\dev\Formula;
 use App\model\dev\Fortail;
 
@@ -20,23 +19,6 @@ class ScaleController extends Controller
         $this->middleware('auth');
         $this->middleware('rule:user_rd_proses' || 'rule:user_produk');
     }    
-
-    // HAPUS BASE -----------------------------------------------
-    public function hapusbase($id){
-        //dd($id);
-        $formula = Formula::where('id',$id)->first();
-        $formula->batch = null;
-        $formula->save();
-
-        $wb = $formula->workbook_id;
-        $fortails = Fortail::where('formula_id',$id)->get();
-        foreach($fortails as $fortail){
-            $fortail->per_batch = null;
-            $fortail->save();
-        }
-
-        return redirect()->route('step2',['workbook_id' => $id,'id'=>$wb])->with('error','Base Telah Terhapus');
-    }
 
     // GANTI BASE ----------------------------------------------
     public function gantibase($idf,Request $request){
@@ -64,7 +46,7 @@ class ScaleController extends Controller
         $wb = $formula->workbook_id;
         //dd($wb);
 
-        return redirect()->route('step2',['workbook_id' => $idf,'id'=>$wb])->with('status','Base Telah Diubah menjadi '.$base);
+        return redirect::back()->with('status','Base Telah Diubah menjadi '.$base);
 
     }
 
@@ -359,6 +341,7 @@ class ScaleController extends Controller
             'bahans' => $bahans,
             'idf' => $idf,
             'idfor' => $for,
+            'idfor_pdf' => $for,
             'granulasi' => $granulasi,
             'premix' => $premix,
             'ada' => $ada,
@@ -393,9 +376,13 @@ class ScaleController extends Controller
         $formula->serving = $total_serving;
         $formula->save();        
         
-        $wb = $formula->workbook_id;
-        
-        return redirect()->route('step2',['id'=>$wb,'workbook_id' => $for])->with('status','Scale Berhasil Tersimpan');
+        if($formula->workbook_id!=NULL){
+            $wb = $formula->workbook_id;
+            return redirect()->route('step2',['id'=>$wb,'workbook_id' => $for])->with('status','Scale Berhasil Tersimpan');
+        }if($formula->workbook_pdf_id!=NULL){
+            $wb = $formula->workbook_pdf_id;
+            return redirect()->route('step2',['id'=>$wb,'workbook_id' => $for])->with('status','Scale Berhasil Tersimpan');
+        }
 
     }
 
@@ -431,6 +418,6 @@ class ScaleController extends Controller
         $formula->serving = $total_serving;
         $formula->save();
 
-        return redirect()->route('step2',['id'=>$wb,'workbook_id' => $idf])->with('status','Serving Berhasil Tersimpan');
+        return redirect::back()->with('status','Serving Berhasil Tersimpan');
     }    
 }

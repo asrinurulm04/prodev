@@ -107,7 +107,7 @@
                   @elseif($Dpromo->type!='Maklon')
                   <input type="hidden" value="_{{$tanggal}}/PKP_PROMO_{{ $Dpromo->project_name }}_{{ $Dpromo->revisi+1 }}.{{$Dpromo->turunan}}" name="datapromo[{{$loop->index}}][ket]" id="ket_no">
                   @endif
-                  <td><a href="{{route('deletepromo1',$Dpromo->id_pkp_promo)}}"" class="btn btn-danger" type="button"><li class="fa fa-trash"></li></a></td>
+                  <td><a href="{{route('deletepromo1',$Dpromo->id_pkp_promo)}}"" class="btn btn-danger btn-sm" type="button"><li class="fa fa-trash"></li></a></td>
                   @if($Dpromo->form1=='ya')<td><input type="text" name="datapromo[{{$loop->index}}][name]" class="form-control" value="{{$Dpromo->project_name}}"></td>
                   @elseif($Dpromo->form1=='')<input type="hidden" name="datapromo[{{$loop->index}}][name]" class="form-control" value="{{$Dpromo->project_name}}">@endif
                   @if($Dpromo->form2=='ya')<td>
@@ -241,9 +241,9 @@
             @if($Dpromo->form10=='ya')<input type="hidden" name="datapromo1[{{$loop->index}}][rto]" class="form-control" value="{{$Dpromo->rto}}">
             @elseif($Dpromo->form10=='')<input type="hidden" name="datapromo1[{{$loop->index}}][rto]" class="form-control" value="{{$Dpromo->rto}}">@endif
             @endforeach
-            <button class="btn btn-primary" type="submit"><li class="fa fa-check"></li> Submit</button>
+            <button class="btn btn-primary btn-sm" type="submit"><li class="fa fa-check"></li> Submit</button>
             {{ csrf_field() }}
-            <a href="{{route('hapuscheckpromo')}}" class="btn btn-danger"><li class="fa fa-arrow-left"></li> Back</a>
+            <a href="{{route('hapuscheckpromo')}}" class="btn btn-danger btn-sm"><li class="fa fa-arrow-left"></li> Back</a>
           </form>
           </div>
         </div>

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-use App\model\PKP\jenis;
+use App\model\pkp\jenis;
 use App\model\users\Departement;
 use App\model\users\User;
 use App\model\users\Role;
