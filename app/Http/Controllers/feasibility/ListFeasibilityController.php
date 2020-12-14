@@ -50,7 +50,7 @@ class ListFeasibilityController extends Controller
             $change_status->status_feasibility='selesai';
             $change_status->save();
 
-        $status  = formula::where('id',$id)->first();
+        $status  = Formula::where('id',$id)->first();
             $status->status_fisibility='approved';
             $status->save();
 

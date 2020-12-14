@@ -34,7 +34,7 @@ class downloadFORController extends Controller
         $awal=1;
         $pertama=2;
 
-        $data = formula::where('id',$formula)->join('pkp_project','pkp_project.id_project','=','formulas.workbook_id')->first();
+        $data = Formula::where('id',$formula)->join('pkp_project','pkp_project.id_project','=','formulas.workbook_id')->first();
         $allergen_bb = allergen_formula::join('tb_bb_allergen','id_bb','tb_alergen_formula.id_bahan')->where('id_formula',$formula)->where('allergen_countain','!=','')->select(['allergen_countain'])->distinct()->get();
 		$fortails = Fortail::where('formula_id',$formula)->get();
         
@@ -263,7 +263,7 @@ class downloadFORController extends Controller
         $awal=1;
         $pertama=2;
 
-        $data = formula::where('id',$formula)->join('pdf_project','pdf_project.id_project_pdf','=','formulas.workbook_pdf_id')->first();
+        $data = Formula::where('id',$formula)->join('pdf_project','pdf_project.id_project_pdf','=','formulas.workbook_pdf_id')->first();
         $allergen_bb = allergen_formula::join('tb_bb_allergen','id_bb','tb_alergen_formula.id_bahan')->where('id_formula',$formula)->where('allergen_countain','!=','')->select(['allergen_countain'])->distinct()->get();
 		$fortails = Fortail::where('formula_id',$formula)->get();
         

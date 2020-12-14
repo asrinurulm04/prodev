@@ -428,7 +428,7 @@ class FinanceController extends Controller
         $statuss->status_feasibility='selesai';
         $statuss->save();
 
-        $formula = formula::where('id',$id)->first();
+        $formula = Formula::where('id',$id)->first();
         $formula->status_fisibility='selesai';
         $formula->save();
 

@@ -22,7 +22,7 @@ class storageController extends Controller
 
     public function st($formula,$id){
         $formula = Formula::where('id',$id)->first();;
-        $fo=formula::where('id',$id)->first();;
+        $fo=Formula::where('id',$id)->first();;
         $panel =panel::all();
         $proses=hasilstorage::where('id_formula',$id)->get();
         $idfor = $formula->workbook_id;

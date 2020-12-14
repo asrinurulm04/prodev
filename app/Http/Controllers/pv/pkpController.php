@@ -129,7 +129,7 @@ class pkpController extends Controller
         $pkp2 = tipp::where('id_pkp',$id_project)->where('revisi','<=',$revisi)->where('turunan',$max)->orderBy('turunan','desc')->orderBy('revisi','desc')->get();
         $pkp1 = tipp::where('id_pkp',$id_project)->where('revisi','<=',$revisi)->where('turunan','<=',$turunan)->orderBy('turunan','desc')->orderBy('revisi','desc')->get();
         $pengajuan = pengajuan::count();
-        $formula = formula::where('workbook_id',$id_project)->count();
+        $formula = Formula::where('workbook_id',$id_project)->count();
         $dataklaim = data_klaim::where('id_pkp',$id_project)->join('klaim','klaim.id','=','id_klaim')->where('revisi',$revisi)->where('turunan',$turunan)->get();
         $datadetail = data_detail_klaim::where('id_pkp',$id_project)->where('revisi',$revisi)->where('turunan',$turunan)->get();
         $user = DB::table('users')->join('pdf_project','pdf_project.tujuankirim','=','users.departement_id')->join('tipu','tipu.pdf_id','=','pdf_project.id_project_pdf')->where([ ['pdf_id',$id_project], ['revisi',$revisi], ['turunan',$turunan] ])->get();
@@ -1409,8 +1409,8 @@ class pkpController extends Controller
         $cf =Formula::where('workbook_id',$id_project)->count();
         $datapkp = tipp::where('id_pkp',$id_project)->where('turunan',$max)->where('revisi',$max2)->get();
         $pkp1 = pkp_project::where('id_project',$id_project)->get();
-        $hformula = formula::where('workbook_id',$id_project)->count();
-        $formula = formula::where('workbook_id',$id_project)->where('vv','!=','null')->orderBy('versi','asc')->get();
+        $hformula = Formula::where('workbook_id',$id_project)->count();
+        $formula = Formula::where('workbook_id',$id_project)->where('vv','!=','null')->orderBy('versi','asc')->get();
         $data = pkp_project::where('id_project',$id_project)->get();
         $data1 = tipp::where('id_project',$id_project)->join('pkp_project','tippu.id_pkp','pkp_project.id_project')->where('status_data','=','active')->get();
         $hasilpanel = hasilpanel::where('id_wb',$id_project)->count();

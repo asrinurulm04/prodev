@@ -44,7 +44,7 @@ class panelController extends Controller
         $formula = Formula::where('id',$id)->first();
         //dd($formula);
         $idfor = $formula->workbook_id;
-        $fo=formula::where('id',$id)->first();
+        $fo=Formula::where('id',$id)->first();
         $panel =panel::all();
         $pn = hasilpanel::where('id_formula',$id)->get();
         $idf = $formula->id;

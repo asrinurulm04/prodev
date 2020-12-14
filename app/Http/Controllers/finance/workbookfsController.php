@@ -24,7 +24,7 @@ class workbookfsController extends Controller
     }
 
     public function workbookFS($wb){
-        $workbook = formula::where('id',$wb)->first();
+        $workbook = Formula::where('id',$wb)->first();
         $myFormula = tipp::where('id_pkp',$workbook->workbook_id)->first();
         $hitungkemas = workbook_kemas::where('id_formula',$workbook->id)->count();
         $hitunglab = workbook_lab::where('id_formula',$workbook->id)->count();

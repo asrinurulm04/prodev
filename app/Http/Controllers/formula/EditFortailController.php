@@ -21,7 +21,7 @@ class EditFortailController extends Controller
         $fortail = Fortail::where('id',$id)->get();
         $edit = Fortail::where('id',$id)->get();
         $fortails = Fortail::where('id',$id)->first();
-        $for = formula::where('id',$fortails->formula_id)->get();
+        $for = Formula::where('id',$fortails->formula_id)->get();
         $idf = $fortails->formula_id;
         $myprioritas = Bahan::where('id',$fortails->bahan_id)->first();
         $bahans = Bahan::where('status','active')->orWhere('user_id',Auth::id())->get();

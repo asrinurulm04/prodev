@@ -25,7 +25,7 @@ class SummaryFormulaController extends Controller
     }
 
     public function summarry($formula,$id){
-		$data       = formula::with('Workbook')->where('id',$id)->get();
+		$data       = Formula::with('Workbook')->where('id',$id)->get();
 		$akg = tb_akg::join('formulas','formulas.akg','tb_akg.id_tarkon')->join('tb_overage_inngradient','tb_overage_inngradient.id_formula','formulas.id')->where('id',$id)->get();
         $idf = $id;
 		$formula = Formula::where('id',$id)->join('tb_overage_inngradient','tb_overage_inngradient.id_formula','formulas.id')->first();
@@ -419,7 +419,7 @@ class SummaryFormulaController extends Controller
 	}
 
 	public function overage(Request $request,$id){
-		$formula = formula::where('id',$id)->first();
+		$formula = Formula::where('id',$id)->first();
 		$formula->overage=$request->overage;
 		$formula->save();
 

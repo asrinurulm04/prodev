@@ -24,7 +24,7 @@ class pengajuansampleController extends Controller
     }
 
     public function approvesample(Request $request,$id_sample){
-        $for = formula::where('id',$id_sample)->first();
+        $for = Formula::where('id',$id_sample)->first();
         $for->vv='approve';
         $for->catatan_pv=$request->note;
         $for->save();
@@ -72,7 +72,7 @@ class pengajuansampleController extends Controller
     }
 
     public function ajukanfs($id_project,$for){
-        $sample = formula::where('id',$for)->first();
+        $sample = Formula::where('id',$for)->first();
         $sample->status_fisibility='proses';
         $sample->status_panel='proses';
         $sample->status_storage='proses';
@@ -93,7 +93,7 @@ class pengajuansampleController extends Controller
         $pkp->pengajuan_sample='approve';
         $pkp->save();
 
-        $sample = formula::where('id',$for)->first();
+        $sample = Formula::where('id',$for)->first();
         $sample->status_fisibility='not_approved';
         $sample->status_panel='proses';
         $sample->status_storage='proses';
@@ -104,7 +104,7 @@ class pengajuansampleController extends Controller
     }
 
     public function unfinalsample($for){
-        $pkp = formula::where('id',$for)->first();
+        $pkp = Formula::where('id',$for)->first();
         $pkp->vv='approve';
         $pkp->save();
 
@@ -112,7 +112,7 @@ class pengajuansampleController extends Controller
     }
 
     public function finalsample($id_sample){
-        $pkp = formula::where('id',$id_sample)->first();
+        $pkp = Formula::where('id',$id_sample)->first();
         $pkp->vv='final';
         $pkp->save();
 
@@ -120,7 +120,7 @@ class pengajuansampleController extends Controller
     }
 
     public function rejectsample(Request $request,$id_sample){
-        $for = formula::where('id',$id_sample)->first();
+        $for = Formula::where('id',$id_sample)->first();
         $for->vv='reject';
         $for->catatan_pv=$request->note;
         $for->save();
@@ -168,7 +168,7 @@ class pengajuansampleController extends Controller
     }
 
     public function approvefs($id_sample){
-        $for = formula::where('id',$id_sample)->first();
+        $for = ormula::where('id',$id_sample)->first();
         $for->status_fisibility='approve';
         $for->save();
 

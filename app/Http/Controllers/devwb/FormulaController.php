@@ -111,7 +111,7 @@ class FormulaController extends Controller
 
     // Detail Formula----------------------------------------------------------------------------------------------------
     public function detail($formula,$id){
-		$data       = formula::with('Workbook')->where('id',$id)->get();
+		$data       = Formula::with('Workbook')->where('id',$id)->get();
 		$akg = tb_akg::join('formulas','formulas.akg','tb_akg.id_tarkon')->join('tb_overage_inngradient','tb_overage_inngradient.id_formula','formulas.id')->where('id',$id)->get();
         $idf = $id;
 		$formula = Formula::where('id',$id)->join('tb_overage_inngradient','tb_overage_inngradient.id_formula','formulas.id')->first();
