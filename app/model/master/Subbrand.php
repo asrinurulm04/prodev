@@ -9,9 +9,6 @@ class Subbrand extends Model
     protected $table = 'subbrands';
     protected $primaryKey ='id';
 
-    public function Workbook(){
-        return $this->hasMany('App\model\dev\Workbook');
-    }
     
     public function Formula(){
         return $this->hasMany('App\model\dev\Formula');
@@ -21,7 +18,7 @@ class Subbrand extends Model
         return $this->hasOne('App\model\master\Brand','id','brand_id');    }
 
     public function User(){
-        return $this->belongsTo('App\model\User');
+        return $this->belongsTo('App\model\users\User');
     }
 
     protected $fillabble = [

@@ -1,4 +1,4 @@
-@extends('admin.tempadmin')
+@extends('pv.tempvv')
 @section('title', 'Data Produksi')
 @section('judulnya','Data Produksi')
 @section('content')
@@ -66,8 +66,8 @@
                     <input class="form-control" id="Keterangan" name="Keterangan" placeholder="Keterangan" value="{{ $produksi->keterangan }}" required />
                 </div>
                 <div class="modal-footer">
-                  <button class="btn btn-primary" type="submit"><i class="fa fa-edit"></i> Submit</button>
-                  <a type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Cencel</a>
+                  <button class="btn btn-primary btn-sm" type="submit"><i class="fa fa-edit"></i> Submit</button>
+                  <a type="button" class="btn btn-danger btn-sm" data-dismiss="modal"><i class="fa fa-times"></i> Cencel</a>
                   {{ csrf_field() }}
                   {{ method_field('PATCH') }}
                   </form>
@@ -100,8 +100,8 @@
         {{ csrf_field() }}
       </div>
       <div class="modal-footer">
-        <button class="btn btn-primary" type="submit"><i class="fa fa-plus"></i> Submit</button>
-        <a type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> BATAL</a>
+        <button class="btn btn-primary btn-sm" type="submit"><i class="fa fa-plus"></i> Submit</button>
+        <a type="button" class="btn btn-danger btn-sm" data-dismiss="modal"><i class="fa fa-times"></i> BATAL</a>
         </form>
       </div>
     </div>

@@ -1,4 +1,4 @@
-@extends('admin.tempadmin')
+@extends('pv.tempvv')
 @section('title', 'Master Data | List Principal')
 @section('content')
 

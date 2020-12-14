@@ -1,4 +1,4 @@
-@extends('admin.tempadmin')
+@extends('pv.tempvv')
 @section('title', 'DataDepartement')
 @section('judulhalaman','User Management')
 @section('content')

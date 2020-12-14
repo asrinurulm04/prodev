@@ -24,22 +24,19 @@ Route::get('signout', function(){
 /****** ADMIN**/
 //email
 Route::get('/email', function () { return view('send_email');});
-Route::post('sendEmail/{id}', 'Email@sendEmail');
-Route::post('sendEmailreject/{id}', 'Email@sendEmailreject');
-Route::post('emailpkp/{id}/{revisi}/{turunan}', 'Email@emailpkp');
-Route::get('approveemailpkp\{id}','Email@approveemailpkp')->name('approveemailpkp');
-Route::get('rejectemailpkp\{id}','Email@rejectemailpkp')->name('rejectemailpkp');
-Route::get('approveemailpdf\{id}','Email@approveemailpdf')->name('approveemailpdf');
-Route::get('rejectemailpdf\{id}','Email@rejectemailpdf')->name('rejectemailpdf');
-Route::get('approveemailpromo\{id}','Email@approveemailpromo')->name('approveemailpromo');
-Route::get('rejectemailpromo\{id}','Email@rejectemailpromo')->name('rejectemailpromo');
-Route::post('emailpromo/{id}/{revisi}/{turunan}', 'Email@emailpromo');
-Route::post('emailpdf/{id}/{revisi}/{turunan}', 'Email@emailpdf');
-Route::get('REmail','Email@REmail')->name('REmail');
+Route::post('sendEmail/{id}', 'users\Email@sendEmail');
+Route::post('sendEmailreject/{id}', 'users\Email@sendEmailreject');
+Route::post('emailpkp/{id}/{revisi}/{turunan}', 'users\Email@emailpkp');
+Route::get('approveemailpkp\{id}','users\Email@approveemailpkp')->name('approveemailpkp');
+Route::get('rejectemailpkp\{id}','users\Email@rejectemailpkp')->name('rejectemailpkp');
+Route::get('approveemailpdf\{id}','users\Email@approveemailpdf')->name('approveemailpdf');
+Route::get('rejectemailpdf\{id}','users\Email@rejectemailpdf')->name('rejectemailpdf');
+Route::get('approveemailpromo\{id}','users\Email@approveemailpromo')->name('approveemailpromo');
+Route::get('rejectemailpromo\{id}','users\Email@rejectemailpromo')->name('rejectemailpromo');
+Route::post('emailpromo/{id}/{revisi}/{turunan}', 'users\Email@emailpromo');
+Route::post('emailpdf/{id}/{revisi}/{turunan}', 'users\Email@emailpdf');
+Route::get('REmail','users\Email@REmail')->name('REmail');
 // perubahan data form
-
-Route::get('datases','admin\ApprovalController@datases')->name('datases');
-Route::post('ses','admin\ApprovalController@ses')->name('ses');
 Route::get('bacapesan/{id}','pv\pkpController@bacapesan')->name('bacapesan');
 Route::get('pkpklaim/{id}','pv\pkpController@klaim')->name('pkpklaim');
 
@@ -68,9 +65,6 @@ Route::get('DataDepartement','datamaster\DepartementController@dept')->name('dep
 Route::get('DeleteDepartement/{id}','datamaster\DepartementController@deldept')->name('deldept');
 Route::post('AddDepartement','datamaster\DepartementController@adddept')->name('adddept');
 Route::patch('storeupdatedept/{id}','datamaster\DepartementController@saveupdateDept')->name('storeupdatedept');
-
-Route::get('datauom','admin\ApprovalController@datauom')->name('datauom');
-Route::post('uom','admin\ApprovalController@uom')->name('uom');
 Route::post('ubahjenis/{id_jenis}','admin\UserListController@isijenis')->name('ubahjenis');
 
 Route::get('bbrd','datamaster\bbRDController@bahan')->name('bbrd');
@@ -90,14 +84,17 @@ Route::post('brand/store','datamaster\BrandController@store')->name('brand.store
 Route::post('brand/{id}/update', 'datamaster\BrandController@update')->name('brand.update');
 Route::get('brand/{id}/destroy', 'datamaster\BrandController@destroy')->name('brand.destroy');
 
-Route::get('exportBpom','datamaster\masterController@exportBpom')->name('exportBpom');
 Route::get('exportAkg','datamaster\masterController@exportAkg')->name('exportAkg');
 Route::get('exportklaim','datamaster\masterController@export_klaim')->name('exportklaim');
 Route::get('export','datamaster\masterController@export_excel')->name('export');
 Route::get('exportsku','datamaster\masterController@exportsku')->name('exportsku');
 
+Route::get('datauom','datamaster\masterController@datauom')->name('datauom');
+Route::post('uom','datamaster\masterController@uom')->name('uom');
+Route::get('datases','datamaster\masterController@datases')->name('datases');
+Route::post('ses','datamaster\masterController@ses')->name('ses');
+
 Route::post('editpangan/{id}','datamaster\masterController@editbpom')->name('editpangan');
-Route::post('editakg/{id_akg}','datamaster\masterController@editakg')->name('editakg');
 Route::post('editsku/{id}','datamaster\masterController@editsku')->name('editsku');
 Route::post('editklaim/{id}','datamaster\masterController@editklaim')->name('editklaim');
 Route::post('edit_allergen/{id}','datamaster\masterController@edit_allergen')->name('edit_allergen');
@@ -125,10 +122,10 @@ Route::get('allergen','datamaster\masterController@allergen')->name('allergen');
 Route::get('principal','datamaster\masterController@principal')->name('principal');
 Route::get('supplier','datamaster\masterController@supplier')->name('supplier');
 
+Route::post('editsubbrand/{id}','datamaster\subbrandController@update')->name('update.subbrand');
 Route::resource('subbrand', 'datamaster\subbrandController',['except' => [ 'show','create' ]]);
 Route::resource('curren', 'datamaster\CurrensController',['except' => [ 'show','create' ]]);
 Route::resource('satuan', 'datamaster\SatuanController',['except' => [ 'show','create' ]]);
-Route::resource('gudang', 'datamaster\GudangController',['except' => [ 'show','create' ]]);
 Route::resource('kategori', 'datamaster\KategoriController',['except' => [ 'show','create' ]]);
 Route::resource('subkategori', 'datamaster\SubkategoriController',['except' => [ 'show','create' ]]);
 Route::resource('kelompok', 'datamaster\KelompokController',['except' => [ 'show','create' ]]);

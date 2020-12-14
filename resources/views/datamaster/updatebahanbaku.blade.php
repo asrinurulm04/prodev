@@ -1,4 +1,4 @@
-@extends('admin.tempadmin')
+@extends('pv.tempvv')
 @section('title', 'Edit Bahan Baku')
 @section('content')
 
@@ -97,8 +97,8 @@
           {{ csrf_field() }}
           {{ method_field('PATCH') }}
           <input type="hidden" name="user" value="{{ Auth::id() }}">
-          <button type="submit" class="btn btn-primary"><i class="fa fa-edit"></i> Simpan Perubahan</button>
-          <a type="button" class="btn btn-danger" id="xx" href="{{ route('bahanbaku') }}"><i class="fa fa-times"></i> BATAL</a>
+          <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> Simpan Perubahan</button>
+          <a type="button" class="btn btn-danger btn-sm" id="xx" href="{{ route('bahanbaku') }}"><i class="fa fa-times"></i> BATAL</a>
           </form>
         </div>
       </div>

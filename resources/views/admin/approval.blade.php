@@ -83,7 +83,7 @@
 			            	<input type="hidden" value="Account Confirmation" class="form-control" id="judul" name="judul"/>
 			            	<input type="hidden" id="pesan" name="pesan" value="Akun yang anda buat sudah kami approve, sekarang anda bisa masuk dengan akun yang telah anda buat..">
                     <div class="modal-footer">
-                      <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Send</button>
+                      <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-paper-plane"></i> Send</button>
                       {{ csrf_field() }}
                     </div>
                     </form>
@@ -118,7 +118,7 @@
 			            	<input type="hidden" value="Account Confirmation" class="form-control" id="judul" name="judul"/>
 			            	<input type="hidden" id="pesan" name="pesan" value="Tapi maaf jika kami tidak dapat menerima akun yang telah anda ajukan, silahkan untuk kembali membuat akun dengan data yang sesuai... :)">
                     <div class="modal-footer">
-                      <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Send</button>
+                      <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-paper-plane"></i> Send</button>
                       {{ csrf_field() }}
                     </div>
                     </form>

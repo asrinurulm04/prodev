@@ -41,7 +41,7 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="submit" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Submit</button>
+						<button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-plus-circle"></i> Submit</button>
 						{{ csrf_field() }}
 					</div>
 					</form>
@@ -102,7 +102,7 @@
 									</div>
 								</div>
 								<div class="modal-footer">
-									<button type="submit" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Submit</button>
+									<button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-plus-circle"></i> Submit</button>
 									{{ csrf_field() }}
 								</div>
 								</form>

@@ -1,4 +1,4 @@
-@extends('admin.tempadmin')
+@extends('pv.tempvv')
 @section('title', 'Data BahanBaku')
 @section('content')
 
@@ -59,7 +59,7 @@
               <td>{{ $bahan->curren->currency  }}</td>
               <td>
                 <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#edit_bahan{{$bahan->id}}" data-toggle="tooltip"  title="Edit"><i class="fa fa-edit"></i></a>
-                {{-- <a class="btn btn-danger" onclick="return confirm('Hapus Bahan Baku ?')" href="{{ route('delbahan',$bahan->id) }}"><i class="fa fa-trash-o"></i></a> --}}
+                {{-- <a class="btn btn-danger btn-sm" onclick="return confirm('Hapus Bahan Baku ?')" href="{{ route('delbahan',$bahan->id) }}"><i class="fa fa-trash-o"></i></a> --}}
                 @if($bahan->status == 'active')
                 <!-- <a class="btn btn-warning btn-sm" onclick="return confirm('NonAktif BahanBaku ?')" href="{{ route('nonactivebahan',$bahan->id) }}" data-toggle="tooltip" data-placement="top" title="NonActive"><i class="fa fa-minus"></i></a> -->
                 @elseif($bahan->status == 'nonactive')

@@ -13,8 +13,4 @@ class Brand extends Model
         return $this->hasMany('App\model\master\Subbrand');
     }    
 
-    protected $fillable = [
-        'brand',
-    ];
-
 }

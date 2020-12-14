@@ -19,7 +19,7 @@
   <body class="nav-md ">
     <div class="container body">
       <div class="main_container">
-        <div class="col-md-3 left_col" style="position:fixed; min-height:880;">
+        <div class="col-md-3 left_col" style="min-height:880;">
           <div class="left_col scroll-view" >
             <div class="navbar nav_title" style="border: 2;">
             <center><a href="{{route('lala')}}" class="site_title"><img src="{{ asset('img/logo.png') }}" width="70%" alt="..."></a></center>

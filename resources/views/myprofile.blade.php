@@ -120,7 +120,7 @@
                     <input class="form-control" id="email" name="email" placeholder="E-mail@Nutrifood.co.id" value="{{ $users->email }}" type="email" required/>
                   </div>
                 </div><br><br>
-                <center><button class="btn btn-theme btn-info" type="submit"><i class="fa fa-edit"></i> Save </button></center>
+                <center><button class="btn btn-sm btn-info" type="submit"><i class="fa fa-edit"></i> Save </button></center>
                 {{ csrf_field() }}
                 {{ method_field('PATCH') }}
                 @include('formerrors')

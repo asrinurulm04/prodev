@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\datamaster;
 
 use Illuminate\Http\Request;
-use App\model\Http\Controllers\Controller;
+use App\Http\Controllers\Controller;
 use Maatwebsite\Excel\Facades\Excel;
 use App\model\Exports\KemasExport;
 use App\model\Exports\AkgExport;
-use App\model\Exports\BpomExport;
 use App\model\Exports\klaimexport;
 use App\model\Exports\SKUExport;
 
@@ -17,8 +16,11 @@ use App\model\pkp\komponen;
 use App\model\devnf\tb_akg;
 use App\model\devnf\tb_akgs;
 use App\model\pkp\klaim;
+use App\model\pkp\uom;
 use App\model\kemas\datakemas;
 use App\model\pkp\data_sku;
+use App\model\pkp\ses;
+use App\model\pkp\data_ses;
 use App\model\nutfact\datapangan;
 use App\model\dev\ms_allergen;
 use App\model\dev\ms_supplier_principals;
@@ -35,6 +37,21 @@ class masterController extends Controller
 {
     public function __construct(){
         $this->middleware('auth');
+    }
+
+    public function datauom(){
+        $uom = uom::all();
+        return view('datamaster.datauom')->with([
+            'uom' => $uom
+        ]);
+    }
+
+    public function uom(Request $request){
+        $uom = new uom;
+        $uom->primary_uom=$request->uom;
+        $uom->save();
+
+        return redirect::back();
     }
 
     public function index(){
@@ -55,20 +72,6 @@ class masterController extends Controller
             'logam' => $logam,
             'pengajuan' => $pengajuan
         ]);
-    }
-
-    public function editakg(Request $request,$id_akg){
-        $akg = tb_akg::where('id_akg',$id_akg)->first();
-        $akg->satuan=$request->satuan;
-        $akg->umum=$request->umum;
-        $akg->bayi=$request->bayi;
-        $akg->anak7_23bulan=$request->anak7;
-        $akg->anak2_5tahun=$request->anak2;
-        $akg->ibu_hamil=$request->ibuh;
-        $akg->ibu_menyusui=$request->ibum;
-        $akg->save();
-
-        return redirect()->back();
     }
 
     public function editsku(Request $request,$id){
@@ -289,6 +292,21 @@ class masterController extends Controller
         ]);
     }
 
+    public function datases(){
+        $ses= ses::all();
+        return view('admin.ses')->with([
+            'ses' => $ses
+        ]);
+    }
+
+    public function ses(Request $request){
+        $ses = new ses;
+        $ses->ses=$request->ses;
+        $ses->save();
+
+        return redirect::back();
+    }
+
     public function exportsku()
 	{
 		return Excel::download(new SKUExport, 'SKU.xlsx');
@@ -307,10 +325,5 @@ class masterController extends Controller
     public function exportAkg()
 	{
 		return Excel::download(new AkgExport, 'Akg.xlsx');
-    }
-    
-    public function exportBpom()
-	{
-		return Excel::download(new BpomExport, 'BPOM.xlsx');
     }
 }

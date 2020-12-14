@@ -9,8 +9,7 @@ use App\model\master\Satuan;
 use App\model\master\Subkategori;
 use App\model\master\Curren;
 use App\model\master\Kelompok;
-
-use App\User;
+use App\model\users\User;
 use Redirect;
 use DB;
 

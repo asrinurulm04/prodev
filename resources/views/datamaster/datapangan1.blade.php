@@ -8,7 +8,6 @@
 		<div class="x_title">
 			<h3><li class="fa fa-file"></li> PKBPOM No 16 thn.2016 tentang kriteria Mikrobiologi dalam olahan pangan</h3>
 		  </div>
-		<a href="{{route('exportBpom')}}" class="btn btn-info btn-sm"><li class="fa fa-download"></li> Export Data BPOMa</a>
 		@if(auth()->user()->role->namaRule == 'admin')
 		<button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#pangan"><i class="fa fa-plus"></i> Add Mikro Biologi</button>
 		<!-- modal -->
@@ -68,7 +67,7 @@
 							</div>
 						</div>
 						<div class="modal-footer">
-							<button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i> Submit</button>
+							<button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> Submit</button>
 							{{ csrf_field() }}
 						</div>
 					</form>
