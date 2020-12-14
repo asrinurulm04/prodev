@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 use Redirect;
-use App\User;
+use App\model\users\User;
 
 class homeController extends Controller
 {

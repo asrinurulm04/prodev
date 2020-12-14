@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modellab;
+namespace App\model\Modellab;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,11 +12,11 @@ class Dlab extends Model
 
     public function id()
     {
-        return $this->hasOne('App\Modelfn\finance','id_feasibility','id_lab');
+        return $this->hasOne('App\model\Modelfn\finance','id_feasibility','id_lab');
     }
 
     public function datalab()
     {
-        return $this->belongsTo('App\Modelfn\finance','id_feasibility','id_lab');
+        return $this->belongsTo('App\model\Modelfn\finance','id_feasibility','id_lab');
     }
 }

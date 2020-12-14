@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Exports;
+namespace App\model\Exports;
 
-use App\pkp\arsen;
+use App\model\pkp\arsen;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;

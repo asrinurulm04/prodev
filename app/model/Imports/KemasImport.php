@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Imports;
+namespace App\model\Imports;
 
-use App\Modelkemas\userkemas;
+use App\model\Modelkemas\userkemas;
 use Maatwebsite\Excel\Concerns\ToModel;
 
 class KemasImport implements ToModel

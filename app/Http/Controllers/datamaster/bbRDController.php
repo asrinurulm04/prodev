@@ -4,14 +4,13 @@ namespace App\Http\Controllers\datamaster;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\master\bahan_rd;
-use App\master\Satuan;
-use App\master\kategori;
-use App\master\Subkategori;
-use App\master\Curren;
-use App\master\Kelompok;
-
-use App\User;
+use App\model\master\bahan_rd;
+use App\model\master\Satuan;
+use App\model\master\kategori;
+use App\model\master\Subkategori;
+use App\model\master\Curren;
+use App\model\master\Kelompok;
+use App\model\users\User;
 use Redirect;
 use DB;
 

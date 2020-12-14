@@ -4,17 +4,15 @@ namespace App\Http\Controllers\feasibility;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\dev\Formula;
-use App\Modelfn\finance;
 use Redirect;
 
-use App\Modelmesin\Dmesin;//banyak
-use App\Modelmesin\oh;//banyak
-use App\Modelmesin\std;//satu
-use App\Modellab\Dlab;//satu
-use App\Modelkemas\konsep;//satu
-use App\Modelkemas\userkemas;//banyak
-use App\Modelfn\pesan;//satu
+use App\model\dev\Formula;
+use App\model\Modelfn\finance;
+use App\model\Modelmesin\Dmesin;//banyak
+use App\model\Modellab\Dlab;//satu
+use App\model\Modelkemas\konsep;//satu
+use App\model\Modelkemas\userkemas;//banyak
+use App\model\Modelfn\pesan;//satu
 
 class UpFeasibility extends Controller
 {
@@ -32,27 +30,10 @@ class UpFeasibility extends Controller
         $feasibility_baru->id_formula = $id;
         $feasibility_baru->kemungkinan = $hitung_feasibility_terakhir+1;
         // $feasibility_baru->status_mesin = $feasibility_terakhir->status_mesin;
-        // $feasibility_baru->status_sdm = $feasibility_terakhir->status_sdm;
         // $feasibility_baru->status_kemas = $feasibility_terakhir->status_kemas;
         $feasibility_baru->status_lab = $feasibility_terakhir->status_lab;
         // $feasibility_baru->message = $feasibility_terakhir->message;
         $feasibility_baru->save();
-
-        // UpSTD 
-        $check_last_STD = std::where('id_feasibility',$feasibility_terakhir->id)->count();
-        if($check_last_STD > 0){
-            
-        $last_STD = std::where('id_feasibility',$feasibility_terakhir->id)->first();
-        $std = new std;
-        $std->id_feasibility = $feasibility_baru->id;
-        $std->rever_exist = $last_STD->rever_exist;
-        $std->nama_item = $last_STD->nama_item;
-        $std->yield_baru = $last_STD->yield_baru;
-        $std->box = $last_STD->box;
-        $std->acid = $last_STD->acid;
-        $std->lye = $last_STD->lye;
-        $std->save();
-        }
 
         //upUserKemas
         $check_last_userkemas = userkemas::where('id_feasibility',$feasibility_terakhir->id)->count();
@@ -161,22 +142,6 @@ class UpFeasibility extends Controller
                 $mesin->rate_sdm = $mes->rate_sdm;
                 $mesin->standar_sdm = $mes->standar_sdm;
                 $mesin->save();
-            }
-        }
-
-        //upoh
-        $check_last_oh = oh::where('id_feasibility',$feasibility_terakhir->id)->count();
-        if($check_last_oh > 0){
-            $last_oh = oh::where('id_feasibility',$feasibility_terakhir->id)->get();
-            foreach($last_oh as $ohh){
-                $oh = new oh;
-                $oh->id_feasibility = $feasibility_baru->id;
-                $oh->SDM = $last_oh->SDM;
-                $oh->rate_mesin = $last_oh->rate_mesin;
-                $oh->rate_sdm = $last_oh->rate_sdm;
-                $oh->standar_sdm = $last_oh->standar_sdm;
-                $oh->id_aktifitas_OH = $last_oh->id_aktifitasOH;
-                $oh->save();
             }
         }
 

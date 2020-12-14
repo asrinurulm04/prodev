@@ -5,13 +5,13 @@ namespace App\Http\Controllers\kemas;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-use App\dev\Formula;
-use App\Modelfn\finance;
-use App\Modelfn\pesan;
-use App\Modelkemas\konsep;
-use App\Modelkemas\userkemas;
-use App\Modelkemas\gramasi;
-use App\pkp\tipp;
+use App\model\dev\Formula;
+use App\model\Modelfn\finance;
+use App\model\Modelfn\pesan;
+use App\model\Modelkemas\konsep;
+use App\model\Modelkemas\userkemas;
+use App\model\Modelkemas\gramasi;
+use App\model\pkp\tipp;
 use Redirect;
 use Auth;
 

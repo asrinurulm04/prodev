@@ -1,6 +1,6 @@
 <?php
 
-namespace App\pkp;
+namespace App\model\pkp;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,7 +10,7 @@ class sub extends Model
     protected $primaryKey ='id_subkategori';
 
     public function kategori(){
-        return $this->belongsTo('App\pkp\kategori','id_kategori','id');
+        return $this->belongsTo('App\model\pkp\kategori','id_kategori','id');
     }
 
     protected $fillable = [    

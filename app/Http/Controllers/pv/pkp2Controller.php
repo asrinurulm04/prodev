@@ -6,33 +6,31 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
+use App\model\master\Brand;
+use App\model\master\Tarkon;
+use App\model\pkp\pkp_type;
+use App\model\pkp\pkp_project;
+use App\model\pkp\project_pdf;
+use App\model\pkp\notulen;
+use App\model\pkp\data_klaim;
+use App\model\pkp\data_detail_klaim;
+use App\model\pkp\uom;
+use App\model\pkp\tb_edit;
+use App\model\pkp\promo;
+use App\model\pkp\data_forecast;
+use App\model\pkp\product_allocation;
+use App\model\pkp\data_ses;
+use App\model\pkp\data_promo;
+use App\model\pkp\parameter_form;
+use App\model\pkp\coba;
+use App\model\pkp\tipp;
+use App\model\pkp\picture;
+use App\model\users\User;
+use App\model\manager\pengajuan;
 use Auth;
 use Redirect;
 use DB;
 use Carbon\Carbon;
-
-use App\pkp\pkp_type;
-use App\pkp\pkp_project;
-use App\pkp\project_pdf;
-use App\master\Brand;
-use App\pkp\menu;
-use App\pkp\notulen;
-use App\master\Tarkon;
-use App\pkp\data_klaim;
-use App\pkp\data_detail_klaim;
-use App\pkp\uom;
-use App\pkp\tb_edit;
-use App\pkp\promo;
-use App\pkp\data_forecast;
-use App\pkp\product_allocation;
-use App\pkp\data_ses;
-use App\pkp\data_promo;
-use App\pkp\parameter_form;
-use App\pkp\coba;
-use App\pkp\tipp;
-use App\User;
-use App\manager\pengajuan;
-use App\pkp\picture;
 
 class pkp2Controller extends Controller
 {

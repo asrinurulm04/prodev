@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\formula;
 
-use Illuminate\Http\Request;
-use App\devnf\panel;
-use App\devnf\hasilpanel;
-use App\dev\Formula;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\model\devnf\panel;
+use App\model\devnf\hasilpanel;
+use App\model\dev\Formula;
 use Auth;
 use Redirect;
 

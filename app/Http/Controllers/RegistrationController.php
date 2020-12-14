@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\users;
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\users\Departement;
-use App\Role;
-use App\User;
+use App\model\users\Departement;
+use App\model\users\Role;
+use App\model\users\User;
 
 class RegistrationController extends Controller
 {

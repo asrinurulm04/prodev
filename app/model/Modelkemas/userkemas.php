@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modelkemas;
+namespace App\model\Modelkemas;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,11 +13,11 @@ class userkemas extends Model
 
     public function kemas()
     {
-        return $this->hasOne('App\Modelmesin\datayield','id_yield','id_yield');
+        return $this->hasOne('App\model\Modelmesin\datayield','id_yield','id_yield');
     }
 
     public function konsepkemas()
     {
-        return $this->hasOne('App\Modelfn\finance','id_fk','id_konsepkemas');
+        return $this->hasOne('App\model\Modelfn\finance','id_fk','id_konsepkemas');
     }
 }

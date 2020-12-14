@@ -1,5 +1,5 @@
 <?php
-namespace App\Modelfn;
+namespace App\model\Modelfn;
 use Illuminate\Database\Eloquent\Model;
 
 class pesan extends Model
@@ -9,17 +9,17 @@ class pesan extends Model
 
     public function chat()
     {
-        return $this->hasOne('App\Modelfn\finance','id_feasibility','id_chat');
+        return $this->hasOne('App\model\Modelfn\finance','id_feasibility','id_chat');
     }
 
     public function chatproduksi()
     {
-        return $this->hasOne('App\Modelsdm\sdm','id_sdm','id_chat');
+        return $this->hasOne('App\model\Modelsdm\sdm','id_sdm','id_chat');
     }
 
     public function chatinputor()
     {
-        return $this->hasOne('App\Modelmesin\oh','id_sdm','id_chat');
+        return $this->hasOne('App\model\Modelmesin\oh','id_sdm','id_chat');
     }
 
     public static function getExcerpt($str, $startPos = 0, $maxLength = 50) {

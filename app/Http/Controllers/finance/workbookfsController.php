@@ -5,14 +5,12 @@ namespace App\Http\Controllers\finance;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-use App\Modelfn\finance;
-use App\Modelfn\pesan;
-use App\dev\Formula;
-use App\pkp\tipp;
-use App\pkp\pkp_project;
-use App\modelkemas\workbook_kemas;
-use App\modellab\workbook_lab;
-use App\modelmaklon\workbook_maklon;
+use App\model\Modelfn\finance;
+use App\model\Modelfn\pesan;
+use App\model\dev\Formula;
+use App\model\pkp\tipp;
+use App\model\pkp\pkp_project;
+use App\model\modelmaklon\workbook_maklon;
 
 use Auth;
 use DB;

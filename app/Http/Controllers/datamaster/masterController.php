@@ -3,33 +3,33 @@
 namespace App\Http\Controllers\datamaster;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Exports\KemasExport;
-use App\Exports\AkgExport;
-use App\Exports\BpomExport;
-use App\Exports\klaimexport;
-use App\Exports\SKUExport;
+use App\model\Http\Controllers\Controller;
 use Maatwebsite\Excel\Facades\Excel;
+use App\model\Exports\KemasExport;
+use App\model\Exports\AkgExport;
+use App\model\Exports\BpomExport;
+use App\model\Exports\klaimexport;
+use App\model\Exports\SKUExport;
+
+use App\model\pkp\komponen_klaim;
+use App\model\pkp\logam_berat;
+use App\model\pkp\komponen;
+use App\model\devnf\tb_akg;
+use App\model\devnf\tb_akgs;
+use App\model\pkp\klaim;
+use App\model\kemas\datakemas;
+use App\model\pkp\data_sku;
+use App\model\nutfact\datapangan;
+use App\model\dev\ms_allergen;
+use App\model\dev\ms_supplier_principals;
+use App\model\dev\ms_supplier_principal_cps;
+use App\model\pkp\pkp_datapangan;
+use App\model\nutfact\bpom_mikrobiologi;
+use App\model\nutfact\mikroba;
+use App\model\manager\pengajuan;
 use DB;
 use Auth;
 use redirect;
-
-use App\pkp\komponen_klaim;
-use App\pkp\logam_berat;
-use App\pkp\komponen;
-use App\devnf\tb_akg;
-use App\devnf\tb_akgs;
-use App\pkp\klaim;
-use App\kemas\datakemas;
-use App\pkp\data_sku;
-use App\nutfact\datapangan;
-use App\dev\ms_allergen;
-use App\dev\ms_supplier_principals;
-use App\dev\ms_supplier_principal_cps;
-use App\pkp\pkp_datapangan;
-use App\nutfact\bpom_mikrobiologi;
-use App\nutfact\mikroba;
-use App\manager\pengajuan;
 
 class masterController extends Controller
 {

@@ -6,12 +6,11 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Illuminate\Support\Facades\Validator;
-use App\pkp\tipp;
-use App\dev\Formula;
-use App\pkp\pkp_project;
-use App\devnf\allergen_formula;
-use App\dev\Fortail;
-
+use App\model\pkp\tipp;
+use App\model\pkp\pkp_project;
+use App\model\dev\Formula;
+use App\model\dev\Fortail;
+use App\model\devnf\allergen_formula;
 use DB;
 
 class downloadFORController extends Controller

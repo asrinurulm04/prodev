@@ -6,13 +6,13 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 
-use App\Modellab\Dlab;
-use App\Modellab\analisa;
-use App\Modelfn\finance;
-use App\Modelfn\pesan;
-use App\dev\Formula;
-use App\pkp\tipp;
-use App\pkp\pkp_project;
+use App\model\Modellab\Dlab;
+use App\model\Modellab\analisa;
+use App\model\Modelfn\finance;
+use App\model\Modelfn\pesan;
+use App\model\pkp\tipp;
+use App\model\pkp\pkp_project;
+use App\model\dev\Formula;
 use redirect;
 
 class LabController extends Controller

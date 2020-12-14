@@ -4,14 +4,14 @@ namespace App\Http\Controllers\devwb;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\devnf\allergen_formula;
-use App\dev\Formula;
-use App\devnf\tb_overage;
-use App\pkp\pkp_project;
-use App\dev\Fortail;
-use App\dev\Premix;
-use App\dev\Pretail;
-use App\dev\Bahan;
+use App\model\devnf\allergen_formula;
+use App\model\devnf\tb_overage;
+use App\model\pkp\pkp_project;
+use App\model\dev\Formula;
+use App\model\dev\Fortail;
+use App\model\dev\Premix;
+use App\model\dev\Pretail;
+use App\model\dev\Bahan;
 use Redirect;
 
 class UpVersionController extends Controller

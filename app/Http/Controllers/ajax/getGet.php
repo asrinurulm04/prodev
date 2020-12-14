@@ -4,11 +4,10 @@ namespace App\Http\Controllers\ajax;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\dev\Bahan;
-use App\master\Jenismakanan;
-use App\master\Brand;
-use App\nutfact\pangan;
-use App\master\Subbrand;
+use App\model\dev\Bahan;
+use App\model\master\Brand;
+use App\model\master\Subbrand;
+use App\model\nutfact\pangan;
 
 use DB;
 
@@ -19,13 +18,6 @@ class getGet extends Controller
         $alternatif = DB::table('bahans')->where('subkategori_id',$prioritas->subkategori_id)->pluck('nama_sederhana','id');
 
         return json_encode($alternatif);
-    }
-
-    public function getBatasMax($id){
-        $JM = Jenismakanan::where('id',$id)->first();
-        $batas_max = $JM->batas_max;
-
-        return json_encode($batas_max);
     }
 
     public function getSubbrand($id){

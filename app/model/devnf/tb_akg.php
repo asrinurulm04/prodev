@@ -1,6 +1,6 @@
 <?php
 
-namespace App\devnf;
+namespace App\model\devnf;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,11 +12,11 @@ class tb_akg extends Model
 
     public function get_tarkon()
     {
-    	return $this->belongsTo('App\master\Tarkon','tarkon','id');
+    	return $this->belongsTo('App\model\master\Tarkon','tarkon','id');
     }
 
     public function akg()
     {
-    	return $this->hasMany('App\nutfact\tb_parameter','akg','id_akg');
+    	return $this->hasMany('App\model\nutfact\tb_parameter','akg','id_akg');
     }
 }

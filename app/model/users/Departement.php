@@ -1,6 +1,6 @@
 <?php
 
-namespace App\users;
+namespace App\model\users;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,11 +10,11 @@ class Departement extends Model
     protected $primaryKey ='id';
 
     public function User(){
-        return $this->hasOne('App\User');
+        return $this->hasOne('App\model\users\User');
     }
 
     public function users(){
-        return $this->hasOne('App\User','id','manager_id');
+        return $this->hasOne('App\model\user\sUser','id','manager_id');
     }
 
     protected $fillable = [

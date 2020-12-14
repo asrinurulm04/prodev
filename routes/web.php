@@ -129,7 +129,6 @@ Route::resource('subbrand', 'datamaster\subbrandController',['except' => [ 'show
 Route::resource('curren', 'datamaster\CurrensController',['except' => [ 'show','create' ]]);
 Route::resource('satuan', 'datamaster\SatuanController',['except' => [ 'show','create' ]]);
 Route::resource('gudang', 'datamaster\GudangController',['except' => [ 'show','create' ]]);
-Route::resource('maklon', 'datamaster\MaklonController',['except' => [ 'show','create' ]]);
 Route::resource('kategori', 'datamaster\KategoriController',['except' => [ 'show','create' ]]);
 Route::resource('subkategori', 'datamaster\SubkategoriController',['except' => [ 'show','create' ]]);
 Route::resource('kelompok', 'datamaster\KelompokController',['except' => [ 'show','create' ]]);
@@ -387,7 +386,6 @@ Route::get('activepromo2/{id}','devwb\pkp1Controller@activeprom')->name('activep
 Route::post('TMubahpromo1/{id}','devwb\pkp1Controller@TMubahpromo')->name('TMubahpromo1');
 
 /***** Workbook Development**/
-Route::get('getBatasMax/{id}','ajax\getGet@getBatasMax');
 Route::get('getSubbrand/{id}','ajax\getGet@getSubbrand');
 Route::get('myworkbooks','devwb\WorkbookController@index')->name('myworkbooks');
 Route::get('myworkbooks/{id}/show', ['uses'=>'devwb\WorkbookController@show','as' =>'showworkbook']);
@@ -421,10 +419,6 @@ Route::patch('updatenote/{wb}/{id}','formula\Step2Controller@update')->name('upd
 Route::get('hapusall/{formula}','formula\Step2Controller@hapusall')->name('hapusall');
 Route::get('getAlternatif/{id}','ajax\getGet@getAlternatif');
 
-Route::get('penyusunan.formula/{registrasi}/{wb}','formula\penyusunanformulaController@penyusunan')->name('penyusunan.formula');
-Route::post('formula/{registrasi}','formula\penyusunanformulaController@formula')->name('formula');
-Route::post('updateregis/{registrasi}/{id}','formula\penyusunanformulaController@updateregis')->name('updateregis');
-
 Route::get('HapusBase/{id}','formula\ScaleController@hapusbase')->name('hapusbase');
 Route::post('GantiBase/{id}','formula\ScaleController@gantibase')->name('gantibase');
 Route::post('savechanges/{id}','formula\ScaleController@savechanges')->name('savechanges');
@@ -433,20 +427,11 @@ Route::post('cekscale/{id}/{formula}','formula\ScaleController@cekscale')->name(
 Route::post('savescale/{id}','formula\ScaleController@savescale')->name('savescale');
 Route::get('getTemplate/{id}/{formula}','devwb\TemplateFormulaController@index')->name('getTemplate');
 Route::get('InsertTemplate/{ftujuan}/{fasal}','devwb\TemplateFormulaController@template')->name('insertTemplate');
-
-Route::get('MyRamen/{id}','formula\MyRamenController@index')->name('ramen');
-Route::post('MyRamenInsert/{id}','formula\MyRamenController@insert')->name('MyRamen.insert');
 Route::get('EditDetailPenyusunan/{id}/{for}','formula\EditFortailController@index')->name('editfortail');
 Route::patch('SaveDetailPenyusunan/{idf}/{id}','formula\EditFortailController@update')->name('updatefortail');
 
-Route::get('penyusunanpremix/{id}/{formula}','formula\Step3Controller@create')->name('step3');
-Route::get('InsertPremix/{id}','formula\Step3Controller@insert')->name('step3insert');
 Route::get('summarryformula/{id}/{formula}','formula\SummaryFormulaController@summarry')->name('summarry');
-Route::post('vit15/{id}','formula\SummaryFormulaController@vit15')->name('vit15');
-Route::post('vit20/{id}','formula\SummaryFormulaController@vit20')->name('vit20');
 Route::post('overage/{id}','formula\SummaryFormulaController@overage')->name('overage');
-
-Route::get('penyusunan.alternatif/{registrasi}/{id}','formula\penyusunanalternatifCOntroller@alternatif')->name('penyusunan.alternatif');
 
 // panel
 Route::get('panel/{id}/{formula}','formula\panelController@panel')->name('panel');
@@ -481,15 +466,6 @@ Route::post('kirimWB/{id}/{id_feasibility}', 'feasibility\ListFeasibilityControl
 
 //  WORKBOOK FEASIBILITY
 Route::get('workbookfs/{wb}','finance\workbookfsController@workbookfS')->name('workbook.Feasibility');
-Route::get('workbookkemas/{wb}','finance\workbookfsController@addwbkemas')->name('workbook.kemas');
-Route::get('workbooklab/{wb}','finance\workbookfsController@addwblab')->name('workbook.lab');
-Route::get('workbookmaklon/{wb}','finance\workbookfsController@addwbmaklon')->name('workbook.maklon');
-
-//  WORKBOOK KEMAS
-route::get('wbkemas/{wb}/{id}','kemas\workbookkemasController@workbookkemas')->name('wbkemas');
-
-//  WORKBOOK LAB
-route::get('datalab/{wb}/{id}','lab\workbooklabController@index')->name('datalab');
 
 //  WORKBOOK MAKLON
 route::get('wbmaklon/{wb}/{id}','maklon\workbookmaklonController@workbookmaklon')->name('wbmaklon');

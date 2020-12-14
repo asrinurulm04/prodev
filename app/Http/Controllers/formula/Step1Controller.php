@@ -4,13 +4,13 @@ namespace App\Http\Controllers\formula;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\master\Subbrand;
-use App\master\Produksi;
-use App\pkp\tipp;
-use App\pkp\pkp_project;
-use App\User;
-use App\users\Departement;
-use App\dev\Formula;
+use App\model\master\Subbrand;
+use App\model\master\Produksi;
+use App\model\pkp\tipp;
+use App\model\pkp\pkp_project;
+use App\model\users\User;
+use App\model\users\Departement;
+use App\model\dev\Formula;
 
 class Step1Controller extends Controller
 {

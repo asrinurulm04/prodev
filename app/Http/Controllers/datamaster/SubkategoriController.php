@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\datamaster;
 
-use App\master\Subkategori;
-use App\master\Kategori;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\model\master\Subkategori;
+use App\model\master\Kategori;
 use Redirect;
 
 class SubkategoriController extends Controller

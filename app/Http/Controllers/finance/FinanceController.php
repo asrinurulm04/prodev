@@ -4,26 +4,23 @@ namespace App\Http\Controllers\finance;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+
+use App\model\Modelmesin\Dmesin;
+use App\model\Modelmesin\datamesin;
+use App\model\Modelfn\finance;
+use App\model\Modelfn\pesan;
+use App\model\Modellab\Dlab;
+use App\model\modelkemas\konsep;
+use App\model\Modelkemas\userkemas;
+use App\model\dev\Bahan;
+use App\model\dev\Formula;
+use App\model\dev\Fortail;
+use App\model\master\Curren;
+use Auth;
 use DB;
 use Redirect;
 use Input;
 use Validator;
-
-use App\Modelmesin\Dmesin;
-use App\Modelmesin\oh;
-use App\Modelfn\finance;
-use App\Modelfn\pesan;
-use App\dev\Formula;
-use App\Modellab\Dlab;
-use App\modelkemas\konsep;
-use App\Modelkemas\userkemas;
-use App\Modelmesin\aktifitasOH;
-use App\Modelmesin\workcenter;
-use App\Modelmesin\datamesin;
-use App\dev\Bahan;
-use App\master\Curren;
-use App\dev\Fortail;
-use Auth;
 
 class FinanceController extends Controller
 {

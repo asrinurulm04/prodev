@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modelmesin;
+namespace App\model\Modelmesin;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,6 +15,6 @@ class datamesin extends Model
 
     public function datamesin()
     {
-        return $this->hasMany('App\Modelmesin\Dmesin','id_data_mesin','id_data_mesin');
+        return $this->hasMany('App\model\Modelmesin\Dmesin','id_data_mesin','id_data_mesin');
     }
 }

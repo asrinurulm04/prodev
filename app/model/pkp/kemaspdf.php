@@ -1,6 +1,6 @@
 <?php
 
-namespace App\pkp;
+namespace App\model\pkp;
 
 use Illuminate\Database\Eloquent\Model;
 

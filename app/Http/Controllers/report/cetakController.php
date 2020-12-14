@@ -8,11 +8,11 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Illuminate\Support\Facades\Validator;
-use App\pkp\tipp;
-use App\pkp\coba;
-use App\pkp\pdf_project;
-use App\pkp\pkp_project;
-use App\pkp\data_forecast;
+use App\model\pkp\tipp;
+use App\model\pkp\coba;
+use App\model\pkp\pdf_project;
+use App\model\pkp\pkp_project;
+use App\model\pkp\data_forecast;
 use DB;
 use Auth;
 

@@ -5,22 +5,18 @@ namespace App\Http\Controllers\mesin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
-use Redirect;
 
-use App\Modelmesin\aktifitasOH;
-use App\Modelmesin\workcenter;
-use App\Modelmesin\kategori;
-use App\Modelmesin\datamesin;
-use App\Modelkemas\userkemas;
-use App\Modelfn\finance;
-use App\modelfn\pesan;
-use App\modelkemas\konsep;
-use App\Modelmesin\Dmesin;
-use App\pkp\tipp;
-use App\Modelmesin\oh;
-use App\dev\Formula;
-use App\Modelmesin\std;
+use App\model\Modelmesin\datamesin;
+use App\model\Modelmesin\std;
+use App\model\Modelmesin\Dmesin;
+use App\model\modelkemas\konsep;
+use App\model\Modelkemas\userkemas;
+use App\model\Modelfn\finance;
+use App\model\modelfn\pesan;
+use App\model\pkp\tipp;
+use App\model\dev\Formula;
 use Auth;
+use Redirect;
 
 class MesinController extends Controller
 {

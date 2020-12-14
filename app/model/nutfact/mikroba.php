@@ -1,6 +1,6 @@
 <?php
 
-namespace App\nutfact;
+namespace App\model\nutfact;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,6 +10,6 @@ class mikroba extends Model
 
     public function mikro()
     {
-    	return 	$this->hasMany('App\nutfact\pangan','no_kategori','no_kategori');
+    	return 	$this->hasMany('App\model\nutfact\pangan','no_kategori','no_kategori');
     }
 }

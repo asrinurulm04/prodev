@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modellab;
+namespace App\model\Modellab;
 
 use Illuminate\Database\Eloquent\Model;
 

@@ -1,31 +1,35 @@
 <?php
 
-namespace App\Exports;
+namespace App\model\Exports;
 
-use App\pkp\data_sku;
+use App\model\nutfact\bpom;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
-class SKUExport implements FromCollection, WithHeadings, ShouldAutoSize
+class BpomExport implements FromCollection, WithHeadings, ShouldAutoSize
 {
     /**
     * @return \Illuminate\Support\Collection
     */
     public function collection()
     {
-        return data_sku::all();
+        return bpom::all();
     }
 
     public function headings(): array
     {
         return [
             '#',
-            'no_formula',
-            'nama_produk',
+            'Nama',
             'no',
-            'nama_sku',
-            'kode_item'
+            'kategori_pangan',
+            'jenis_mikroba',
+            'n',
+            'c',
+            'm1',
+            'm2',
+            'metode_analisa'
         ];
     }
 }

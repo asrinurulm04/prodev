@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Exports;
+namespace App\model\Exports;
 
-use App\devnf\tb_akg;
+use App\model\devnf\tb_akg;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;

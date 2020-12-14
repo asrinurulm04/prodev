@@ -1,35 +1,29 @@
 <?php
 
-namespace App\Exports;
+namespace App\model\Exports;
 
-use App\nutfact\bpom;
+use App\model\pkp\komponen_klaim;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
-class BpomExport implements FromCollection, WithHeadings, ShouldAutoSize
+class klaimexport implements FromCollection, WithHeadings, ShouldAutoSize
 {
     /**
     * @return \Illuminate\Support\Collection
     */
     public function collection()
     {
-        return bpom::all();
+        return komponen_klaim::all();
     }
 
     public function headings(): array
     {
         return [
             '#',
-            'Nama',
-            'no',
-            'kategori_pangan',
-            'jenis_mikroba',
-            'n',
-            'c',
-            'm1',
-            'm2',
-            'metode_analisa'
+            'komponen',
+            'klaim',
+            'persyaratan'
         ];
     }
 }

@@ -4,11 +4,11 @@ namespace App\Http\Controllers\formula;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\User;
-use App\dev\Formula;
-use App\dev\Fortail;
-use App\dev\Premix;
-use App\dev\Pretail;
+use App\model\users\User;
+use App\model\dev\Formula;
+use App\model\dev\Fortail;
+use App\model\dev\Premix;
+use App\model\dev\Pretail;
 
 class Step3Controller extends Controller
 {

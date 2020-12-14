@@ -4,11 +4,11 @@ namespace App\Http\Controllers\formula;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\devnf\storage;
-use App\devnf\panel;
-use App\devnf\hasilpanel;
-use App\devnf\hasilstorage;
-use App\dev\Formula;
+use App\model\devnf\storage;
+use App\model\devnf\panel;
+use App\model\devnf\hasilpanel;
+use App\model\devnf\hasilstorage;
+use App\model\dev\Formula;
 use auth;
 use redirect;
 

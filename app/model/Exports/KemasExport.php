@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Exports;
+namespace App\model\Exports;
 
-use App\kemas\datakemas;
+use App\model\kemas\datakemas;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;

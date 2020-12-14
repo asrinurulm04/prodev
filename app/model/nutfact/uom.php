@@ -1,6 +1,6 @@
 <?php
 
-namespace App\nutfact;
+namespace App\model\nutfact;
 
 use Illuminate\Database\Eloquent\Model;
 

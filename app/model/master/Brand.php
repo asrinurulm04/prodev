@@ -1,6 +1,6 @@
 <?php
 
-namespace App\master;
+namespace App\model\master;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,7 +10,7 @@ class Brand extends Model
     protected $primaryKey ='id';
 
     public function Subbrand(){
-        return $this->hasMany('App\master\Subbrand');
+        return $this->hasMany('App\model\master\Subbrand');
     }    
 
     protected $fillable = [

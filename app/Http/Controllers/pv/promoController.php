@@ -8,24 +8,24 @@ use App\pkp\pkp_type;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
 
-use App\pkp\product_allocation;
-use Carbon\Carbon;
-use App\master\Brand;
-use App\manager\pengajuan;
-use App\pkp\pkp_uniq_idea;
-use App\pkp\sample_project;
-use App\pkp\promo_idea;
-use App\users\Departement;
-use App\pkp\pkp_estimasi_market;
-use App\pkp\promo;
-use App\pkp\data_promo;
-use App\pkp\picture;
-use App\pkp\data_sku;
-use App\User;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use App\model\master\Brand;
+use App\model\manager\pengajuan;
+use App\model\pkp\product_allocation;
+use App\model\pkp\pkp_uniq_idea;
+use App\model\pkp\sample_project;
+use App\model\pkp\promo_idea;
+use App\model\pkp\pkp_estimasi_market;
+use App\model\pkp\promo;
+use App\model\pkp\data_promo;
+use App\model\pkp\picture;
+use App\model\pkp\data_sku;
+use App\model\users\User;
+use App\model\users\Departement;
+use Auth;
+use DB;
 use Calendar;
 use Redirect;
+use Carbon\Carbon;
 
 class promoController extends Controller
 {

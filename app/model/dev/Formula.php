@@ -1,6 +1,6 @@
 <?php
 
-namespace App\dev;
+namespace App\model\dev;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -9,39 +9,39 @@ class Formula extends Model
     protected $table = 'formulas';
 
     public function Workbook(){
-        return $this->belongsTo('App\pkp\tipp','workbook_id','id_pkp');
+        return $this->belongsTo('App\model\pkp\tipp','workbook_id','id_pkp');
     }
     
     public function Workbook_pdf(){
-        return $this->belongsTo('App\pkp\coba','workbook_pdf_id','pdf_id');
+        return $this->belongsTo('App\model\pkp\coba','workbook_pdf_id','pdf_id');
     }
 
     public function Fortail(){
-        return $this->hasMany('App\dev\Fortail');
+        return $this->hasMany('App\model\dev\Fortail');
     }
 
     public function Brand(){
-        return $this->belongsTo('App\master\Brand');
+        return $this->belongsTo('App\model\master\Brand');
     }
 
     public function Produksi(){
-        return $this->belongsTo('App\master\Produksi');
+        return $this->belongsTo('App\model\master\Produksi');
     }
 
     public function Maklon(){
-        return $this->belongsTo('App\master\Maklon');
+        return $this->belongsTo('App\model\master\Maklon');
     }
 
     public function Gudang(){
-        return $this->belongsTo('App\master\Gudang');
+        return $this->belongsTo('App\model\master\Gudang');
     }
 
     public function finance(){
-        return $this->hasMany('App\Modelfn\finance','id_feasibility','id');
+        return $this->hasMany('App\model\Modelfn\finance','id_feasibility','id');
     }
 
     public function Pesan(){
-        return $this->hasMany('App\Pesan');
+        return $this->hasMany('App\model\Pesan');
     }    
 
 

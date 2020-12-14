@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modelmesin;
+namespace App\model\Modelmesin;
 
 
 use Illuminate\Database\Eloquent\Model;
@@ -17,7 +17,7 @@ class Dmesin extends Model
 
     public function meesin()
     {
-        return $this->belongsTo('App\Modelmesin\datamesin','id_data_mesin','id_data_mesin');
+        return $this->belongsTo('App\model\Modelmesin\datamesin','id_data_mesin','id_data_mesin');
     }
 
     public static function getExcerpt($str, $startPos = 0, $maxLength = 50) {

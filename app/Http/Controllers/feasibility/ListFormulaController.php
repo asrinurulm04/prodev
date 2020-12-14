@@ -4,10 +4,10 @@ namespace App\Http\Controllers\feasibility;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\dev\Formula;
-use App\pkp\tipp;
-use App\pkp\pkp_project;
-use App\Modelfn\feasibility;
+use App\model\dev\Formula;
+use App\model\pkp\tipp;
+use App\model\pkp\pkp_project;
+use App\model\Modelfn\feasibility;
 use Redirect;
 
 class ListFormulaController extends Controller

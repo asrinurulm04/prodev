@@ -4,10 +4,10 @@ namespace App\Http\Controllers\formula;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\dev\Bahan;
-use App\dev\Workbook;
-use App\dev\Formula;
-use App\dev\Fortail;
+use App\model\dev\Bahan;
+use App\model\dev\Workbook;
+use App\model\dev\Formula;
+use App\model\dev\Fortail;
 
 use Redirect;
 use DB;

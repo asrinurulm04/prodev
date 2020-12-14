@@ -1,6 +1,6 @@
 <?php
 
-namespace App\devnf;
+namespace App\model\devnf;
 
 use Illuminate\Database\Eloquent\Model;
 

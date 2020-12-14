@@ -1,35 +1,34 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\users;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
+
+use App\model\pkp\pkp_project;
+use App\model\pkp\project_pdf;
+use App\model\pkp\uom;
+use App\model\pkp\data_uom;
+use App\model\pkp\data_ses;
+use App\model\pkp\ses;
+use App\model\pkp\promo_idea;
+use App\model\pkp\promo;
+use App\model\pkp\product_allocation;
+use App\model\pkp\data_promo;
+use App\model\pkp\coba;
+use App\model\pkp\kemaspdf;
+use App\model\pkp\klaim;
+use App\model\pkp\detail_klaim;
+use App\model\pkp\komponen;
+use App\model\pkp\data_klaim;
+use App\model\pkp\data_detail_klaim;
+use App\model\pkp\tipp;
+use App\model\pkp\picture;
+use App\model\pkp\data_forecast;
+use App\model\users\User;
 use Redirect;
 use DB;
-
-use App\pkp\pkp_project;
-use App\pkp\project_pdf;
-use App\pkp\uom;
-use App\pkp\data_uom;
-use App\pkp\data_ses;
-use App\pkp\ses;
-use App\notification;
-use App\User;
-use App\pkp\promo_idea;
-use App\pkp\promo;
-use App\pkp\product_allocation;
-use App\pkp\data_promo;
-use App\pkp\coba;
-use App\pkp\kemaspdf;
-use App\pkp\klaim;
-use App\pkp\detail_klaim;
-use App\pkp\komponen;
-use App\pkp\data_klaim;
-use App\pkp\data_detail_klaim;
-use App\pkp\tipp;
-use App\pkp\picture;
-use App\pkp\data_forecast;
 
 class Email extends Controller
 {

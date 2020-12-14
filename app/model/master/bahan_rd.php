@@ -1,6 +1,6 @@
 <?php
 
-namespace App\master;
+namespace App\model\master;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,45 +12,45 @@ class bahan_rd extends Model
     // Kebutuhan Formula
 
     public function Fortail(){
-        return $this->hasMany('App\dev\Fortail');
+        return $this->hasMany('App\model\dev\Fortail');
     }
 
     public function k2(){
-        return $this->hasMany('App\dev\Fortail','kode_komputer2','id');
+        return $this->hasMany('App\model\dev\Fortail','kode_komputer2','id');
     }
 
     public function k3(){
-        return $this->hasMany('App\dev\Fortail','kode_komputer3','id');
+        return $this->hasMany('App\model\dev\Fortail','kode_komputer3','id');
     }
 
     public function k4(){
-        return $this->hasMany('App\dev\Fortail','kode_komputer4','id');
+        return $this->hasMany('App\model\dev\Fortail','kode_komputer4','id');
     }
 
     public function k5(){
-        return $this->hasMany('App\dev\Fortail','kode_komputer5','id');
+        return $this->hasMany('App\model\dev\Fortail','kode_komputer5','id');
     }
 
     // Other
 
     public function Satuan(){
-        return $this->belongsTo('App\master\Satuan');
+        return $this->belongsTo('App\model\master\Satuan');
     }
 
     public function Subkategori(){
-        return $this->belongsTo('App\master\Subkategori');
+        return $this->belongsTo('App\model\master\Subkategori');
     }
 
     public function Curren(){
-        return $this->belongsTo('App\master\Curren');
+        return $this->belongsTo('App\model\master\Curren');
     }
 
     public function Kelompok(){
-        return $this->belongsTo('App\master\Kelompok');
+        return $this->belongsTo('App\model\master\Kelompok');
     }
 
     public function User(){
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\model\User');
     }
 
     protected $fillable = [

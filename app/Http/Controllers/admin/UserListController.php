@@ -5,11 +5,10 @@ namespace App\Http\Controllers\admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-use App\PKP\jenis;
-use App\users\Departement;
-
-use App\User;
-use App\Role;
+use App\model\PKP\jenis;
+use App\model\users\Departement;
+use App\model\users\User;
+use App\model\users\Role;
 use Redirect;
 use DB;
 

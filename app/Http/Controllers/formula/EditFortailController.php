@@ -4,11 +4,9 @@ namespace App\Http\Controllers\formula;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\dev\Fortail;
-use App\dev\Bahan;
-use App\dev\Premix;
-use App\dev\Formula;
-use App\dev\Pretail;
+use App\model\dev\Fortail;
+use App\model\dev\Bahan;
+use App\model\dev\Formula;
 use Auth;
 
 class EditFortailController extends Controller
@@ -52,14 +50,6 @@ class EditFortailController extends Controller
 
     public function update($idf,$id,Request $request)
     {
-        $delpremix = Premix::where('fortail_id',$id)->get();
-        foreach($delpremix as $px){
-            $delpretail = Pretail::where('premix_id')->get();
-            foreach($delpretail as $pt){
-                $pt->delete();
-            }
-            $px->delete();
-        }
         if($request->prioritas!=NULL){
             $bp = Bahan::where('id', $request->prioritas)->first();
             $pin = $bp->id_ingredient;

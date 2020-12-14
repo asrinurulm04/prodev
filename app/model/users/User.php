@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\model\users;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -10,23 +10,23 @@ class User extends Authenticatable
     protected $table = 'users';
     
     public function Role(){
-        return $this->belongsTo('App\Role');
+        return $this->belongsTo('App\model\users\Role');
     }
 
     public function Departement(){
-        return $this->belongsTo('App\users\Departement');
+        return $this->belongsTo('App\model\users\Departement');
     }
 
     public function Workbook(){
-        return $this->hasMany('App\dev\Workbook');
+        return $this->hasMany('App\model\dev\Workbook');
     }
 
     public function User(){
-        return $this->hasMany('App\dev\Bahan');
+        return $this->hasMany('App\model\dev\Bahan');
     }
 
     public function Subbrand(){
-        return $this->hasOne('App\master\Subbrand');
+        return $this->hasOne('App\model\master\Subbrand');
     }
 
 

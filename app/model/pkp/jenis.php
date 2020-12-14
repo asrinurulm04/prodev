@@ -1,6 +1,6 @@
 <?php
 
-namespace App\pkp;
+namespace App\model\pkp;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,7 +10,7 @@ class jenis extends Model
     protected $primaryKey ='id_jenis';
 
     public function kategori(){
-        return $this->hasMany('App\pkp\kategori','id_jenis','id_jenis');
+        return $this->hasMany('App\model\pkp\kategori','id_jenis','id_jenis');
     }
 
     protected $fillable = [    

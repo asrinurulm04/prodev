@@ -1,16 +1,15 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\pkp\pkp_project;
-use App\pkp\project_pdf;
-use App\master\brand;
-use App\pkp\promo;
-use App\User;
-use App\pkp\tipp;
-use App\manager\pengajuan;
-use App\pkp\menu;
 use Illuminate\Http\Request;
+
+use App\model\pkp\pkp_project;
+use App\model\pkp\project_pdf;
+use App\model\pkp\promo;
+use App\model\pkp\tipp;
+use App\model\users\User;
+use App\model\master\brand;
+use App\model\manager\pengajuan;
 use Auth;
 use DB;
 use redirect;

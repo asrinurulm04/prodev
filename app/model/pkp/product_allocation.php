@@ -1,6 +1,6 @@
 <?php
 
-namespace App\pkp;
+namespace App\model\pkp;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,6 +10,6 @@ class product_allocation extends Model
     protected $primaryKey ='id_product_allocation';
 
     public function sku(){
-        return $this->hasOne('App\pkp\data_sku','id','product_sku');
+        return $this->hasOne('App\model\pkp\data_sku','id','product_sku');
     }
 }

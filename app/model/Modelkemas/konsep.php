@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modelkemas;
+namespace App\model\Modelkemas;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,6 +12,6 @@ class konsep extends Model
     
     public function konsep()
     {
-        return $this->hasOne('App\Modelfn\finance','id_fk','id_konsepkemas');
+        return $this->hasOne('App\model\Modelfn\finance','id_fk','id_konsepkemas');
     }
 }

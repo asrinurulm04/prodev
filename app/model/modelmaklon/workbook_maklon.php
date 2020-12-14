@@ -1,6 +1,6 @@
 <?php
 
-namespace App\modelmaklon;
+namespace App\model\modelmaklon;
 
 use Illuminate\Database\Eloquent\Model;
 

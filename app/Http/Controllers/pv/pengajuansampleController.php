@@ -6,16 +6,15 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
 
+use App\users\users\User;
+use App\users\modelfn\finance;
+use App\users\dev\formula;
+use App\users\pkp\pkp_project;
+use App\users\pkp\data_forecast;
+use App\users\pkp\tipp;
 use Auth;
 use Redirect;
 use DB;
-
-use App\User;
-use App\dev\formula;
-use App\pkp\pkp_project;
-use App\pkp\data_forecast;
-use App\pkp\tipp;
-use App\modelfn\finance;
 
 class pengajuansampleController extends Controller
 {

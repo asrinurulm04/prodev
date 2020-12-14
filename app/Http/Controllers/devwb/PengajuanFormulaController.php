@@ -4,14 +4,14 @@ namespace App\Http\Controllers\devwb;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\dev\Formula;
-use App\dev\Workbook;
-use App\Modelfn\finance;
-use App\pkp\tipp;
-use App\dev\Fortail;
-use App\dev\Premix;
-use App\dev\Pretail;
-use App\pkp\pkp_project;
+use App\model\Modelfn\finance;
+use App\model\dev\Formula;
+use App\model\dev\Workbook;
+use App\model\dev\Fortail;
+use App\model\dev\Premix;
+use App\model\dev\Pretail;
+use App\model\pkp\tipp;
+use App\model\pkp\pkp_project;
 use Redirect;
 
 class PengajuanFormulaController extends Controller

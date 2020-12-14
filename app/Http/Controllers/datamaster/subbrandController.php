@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\datamaster;
 
-use App\master\Subbrand;
-use App\master\Brand;
-use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\modal\master\Subbrand;
+use App\modal\master\Brand;
+use App\modal\users\User;
 use Redirect;
 
 class subbrandController extends Controller
