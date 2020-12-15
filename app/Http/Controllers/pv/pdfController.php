@@ -1118,7 +1118,7 @@ class pdfController extends Controller
         $hitung = coba::where('pdf_id',$id_project_pdf)->count();
         $pengajuan = pengajuan::count();
         $cf =Formula::where('workbook_pdf_id',$id_project_pdf)->count();
-        $sample_project = Formula::where('workbook_pdf_id', $id_project_pdf)->where('vv','!=',NULL)->orderBy('versi','asc')->orderBy('turunan','asc')->get();
+        $sample_project = Formula::where('workbook_pdf_id', $id_project_pdf)->orderBy('versi','asc')->orderBy('turunan','asc')->get();
         $sample_project_PV = Formula::where('workbook_pdf_id', $id_project_pdf)->where('vv','!=',NULL)->orderBy('versi','asc')->orderBy('turunan','asc')->get();
         $max2 = coba::where('pdf_id',$id_project_pdf)->max('revisi');
         $max = coba::where('pdf_id',$id_project_pdf)->max('turunan');

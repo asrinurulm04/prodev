@@ -276,7 +276,7 @@
                 </tr>
               </thead> 
               <tbody>
-                @foreach($sample_pv as $sample)
+                @foreach($sample_pv as $sample1)
                 @if($sample->status=='final')
                 <tr style="background-color:springgreen">
                 @elseif($sample->vv=='reject')
@@ -285,47 +285,47 @@
                 <tr>
                 @endif
                   <td width="2%" class="text-center">
-                    <a href="{{ route('deleteFormula',$sample->id) }}" onclick="return confirm('Hapus Formula ?')"><i style="font-size:12px;" class="fa fa-trash" data-toggle="tooltip" title="Delete"></i></a>
+                    <a href="{{ route('deleteFormula',$sample1->id) }}" onclick="return confirm('Hapus Formula ?')"><i style="font-size:12px;" class="fa fa-trash" data-toggle="tooltip" title="Delete"></i></a>
                   </td> 
-                  <td>{{ $sample->versi }}.{{ $sample->turunan }}</td>
+                  <td>{{ $sample1->versi }}.{{ $sample1->turunan }}</td>
                   <td>
-                    @if($sample->kategori!='fg')
-                    {{$sample->kategori}}
-                    @elseif($sample->kategori=='fg')
+                    @if($sample1->kategori!='fg')
+                    {{$sample1->kategori}}
+                    @elseif($sample1->kategori=='fg')
                     Finished Good
                     @endif
                   </td>
-                  <td>{{ $sample->formula}}</td>
+                  <td>{{ $sample1->formula}}</td>
                   <td class="text-center" width="10%">
-                    @if ($sample->vv == 'proses')
+                    @if ($sample1->vv == 'proses')
                     <span class="label label-warning">Proses</span>                        
                     @endif
-                    @if ($sample->vv == 'reject')
+                    @if ($sample1->vv == 'reject')
                     <span class="label label-danger">Rejected</span>                        
                     @endif 
-                    @if ($sample->vv == 'approve')
+                    @if ($sample1->vv == 'approve')
                     <span class="label label-success">Approved</span>                        
                     @endif 
                     @if ($sample->vv == 'final')
                     <span class="label label-info">Final Approved</span>                        
                     @endif 
-                    @if ($sample->vv == '')
+                    @if ($sample1->vv == '')
                     <span class="label label-primary">Belum Diajukan</span>                        
                     @endif   
                   </td>
                   <td class="text-center">
-                  {{$sample->catatan_rd}}
+                  {{$sample1->catatan_rd}}
                   </td>
                   <td class="text-center">
-                    @if($sample->vv == 'reject')
-                    {{$sample->catatan_pv}}    
+                    @if($sample1->vv == 'reject')
+                    {{$sample1->catatan_pv}}    
                     @endif
                   </td>
                   <td class="text-center"> 
-                  @if($sample->vv=='proses')
-                    <a class="btn btn-danger btn-sm" data-toggle="modal" data-target="#rejectsample{{ $sample->id  }}" title="Reject"><li class="fa fa-times"></li></a>  
+                  @if($sample1->vv=='proses')
+                    <a class="btn btn-danger btn-sm" data-toggle="modal" data-target="#rejectsample{{ $sample1->id  }}" title="Reject"><li class="fa fa-times"></li></a>  
                       <!-- Modal -->
-                      <div class="modal" id="rejectsample{{ $sample->id  }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal" id="rejectsample{{ $sample1->id  }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                           <div class="modal-content">
                             <div class="modal-header">
@@ -336,7 +336,7 @@
                             </div>
                             
                             <div class="modal-body">
-                              <form class="form-horizontal form-label-left" method="POST" action="{{route('rejectsample',$sample->id)}}">
+                              <form class="form-horizontal form-label-left" method="POST" action="{{route('rejectsample',$sample1->id)}}">
                               <textarea name="note" id="note" rows="2" cols="60" class="form-control" required></textarea><br>
                             </div>
                             <div class="modal-footer">
@@ -348,9 +348,9 @@
                         </div>
                       </div>
                       <!-- Modal Selesai -->
-                    <button class="btn btn-success btn-sm" title="Approve" data-toggle="modal" data-target="#fs{{ $sample->id  }}"><i class="fa fa-check"></i></a></button>
+                    <button class="btn btn-success btn-sm" title="Approve" data-toggle="modal" data-target="#fs{{ $sample1->id  }}"><i class="fa fa-check"></i></a></button>
                       <!-- Modal -->
-                      <div class="modal" id="fs{{ $sample->id  }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal" id="fs{{ $sample1->id  }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                           <div class="modal-content">
                             <div class="modal-header">
@@ -360,7 +360,7 @@
                               </button></h3>
                             </div>
                             <div class="modal-body">
-                              <form class="form-horizontal form-label-left" method="POST" action="{{route('approvesample',$sample->id)}}">
+                              <form class="form-horizontal form-label-left" method="POST" action="{{route('approvesample',$sample1->id)}}">
                               <textarea name="note" id="note" cols="60" rows="2" class="form-control" required></textarea><br>
                             </div>
                             <div class="modal-footer">
@@ -374,18 +374,18 @@
                       <!-- Modal Selesai -->
                   @elseif($sample->vv=='approve')
                     <a href="" class="btn btn-primary btn-sm" title="Ajukan FS"><li class="fa fa-paper-plane"></li></a>
-                      <a href="{{route('finalsample',$sample->id)}}" class="btn btn-success btn-sm" title="Final Approval"><li class="fa fa-tag"></li></a>
+                      <a href="{{route('finalsample',$sample1->id)}}" class="btn btn-success btn-sm" title="Final Approval"><li class="fa fa-tag"></li></a>
                     @if($sample->status_fisibility=='not_approved')
                       @if($hasilpanel>=1)
-                      <a href="{{route('finalsample',$sample->id)}}" class="btn btn-success btn-sm" title="Final Approva"><li class="fa fa-tag"></li></a>
+                      <a href="{{route('finalsample',$sample1->id)}}" class="btn btn-success btn-sm" title="Final Approva"><li class="fa fa-tag"></li></a>
                       @endif
                     @elseif($sample->status_fisibility=='selesai')
                       @if($hasilpanel>=1)
-                      <a href="{{route('finalsample',$sample->id)}}" class="btn btn-success btn-sm" title="Final Approval"><li class="fa fa-tag"></li></a>
+                      <a href="{{route('finalsample',$sample1->id)}}" class="btn btn-success btn-sm" title="Final Approval"><li class="fa fa-tag"></li></a>
                       @endif
                     @endif
                   @elseif($sample->vv=='final')
-                    <a href="{{route('unfinalsample',$sample->id)}}" class="btn btn-warning btn-sm" title="Unfinal Approve"><li class="fa fa-times"></li> Unfinal</a>
+                    <a href="{{route('unfinalsample',$sample1->id)}}" class="btn btn-warning btn-sm" title="Unfinal Approve"><li class="fa fa-times"></li> Unfinal</a>
                   @endif
                 </td>
                 </tr>

@@ -99,7 +99,7 @@ class FormulaController extends Controller
 			$pkp = pkp_project::where('id_project',$formula->workbook_id)->first();
 			$pkp->workbook=$pkp_hitung;
 			$pkp->save();
-		}elseif($formula->worbook_pdf_id!=NULL){
+		}if($formula->worbook_pdf_id!=NULL){
 			$pdf_hitung = project_pdf::where('id_project_pdf',$formula->workbook_pdf_id)->max('workbook')-1;
 			$pdf = project_pdf::where('id_project_pdf',$formula->workbook_pdf_id)->first();
 			$pdf->workbook=$pdf_hitung;
