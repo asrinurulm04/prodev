@@ -24,7 +24,6 @@ class pengajuansampleController extends Controller
     }
 
     public function approvesample(Request $request,$id_sample){
-        dd($request->all());
         $for = Formula::where('id',$id_sample)->first();
         $for->vv='approve';
         $for->catatan_pv=$request->note;
