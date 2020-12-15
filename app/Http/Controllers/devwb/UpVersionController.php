@@ -177,7 +177,7 @@ class UpVersionController extends Controller
                 ['versi',$lastversion],
                 ['workbook_pdf_id',$lastf->workbook_pdf_id]
                 ])->get();
-            $lastturunan = Formula::where('workbook_id',$lastf->workbook_id)->max('turunan')+1;
+            $lastturunan = Formula::where('workbook_pdf_id',$lastf->workbook_pdf_id)->max('turunan')+1;
         }
 
         $formulas = new Formula;

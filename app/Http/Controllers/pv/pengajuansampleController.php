@@ -20,10 +20,11 @@ class pengajuansampleController extends Controller
 {
     public function __construct(){
         $this->middleware('auth');
-        $this->middleware('rule:pv_lokal');
+        $this->middleware('rule:pv_lokal' || 'rule:pv_global' );
     }
 
     public function approvesample(Request $request,$id_sample){
+        dd($request->all());
         $for = Formula::where('id',$id_sample)->first();
         $for->vv='approve';
         $for->catatan_pv=$request->note;

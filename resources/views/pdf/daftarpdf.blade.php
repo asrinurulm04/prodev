@@ -4,6 +4,24 @@
 @section('content')
 
 <div class="row">
+  @if (session('status'))
+  <div class="col-lg-12 col-md-12 col-sm-12">
+    <div class="alert alert-success">
+    	<button type="button" class="close" data-dismiss="alert">×</button>
+      {{ session('status') }}
+    </div>
+  </div>
+  @elseif(session('error'))
+  <div class="col-lg-12 col-md-12 col-sm-12">
+    <div class="alert alert-danger">
+    	<button type="button" class="close" data-dismiss="alert">×</button>
+      {{ session('error') }}
+    </div>
+  </div>
+  @endif
+</div>
+
+<div class="row">
   <div class="col-md-12 col-xs-12">
     @foreach($data as $data)
     <div class="x_panel">
@@ -149,88 +167,88 @@
                 </tr>
               </thead>
               <tbody>
-              @foreach($sample as $sample)
-              @if($sample->status=='final')
-              <tr style="background-color:springgreen">
-              @elseif($sample->vv=='reject')
-              <tr style="background-color:slategray;color:white">
-              @else
-              <tr>
-              @endif
-                <td width="2%" class="text-center">
-                  <a href="{{ route('deleteFormula',$sample->id) }}" onclick="return confirm('Hapus Formula ?')"><i style="font-size:12px;" class="fa fa-trash" data-toggle="tooltip" title="Delete"></i></a>
-                </td> 
-                <td>{{ $sample->versi }}.{{ $sample->turunan }}</td>
-                <td>
-                  @if($sample->kategori!='fg')
-                  {{$sample->kategori}}
-                  @elseif($sample->kategori=='fg')
-                  Finished Good
-                  @endif
-                </td>
-                <td>{{ $sample->formula}}</td>
-                <td class="text-center" width="10%">
-                  @if ($sample->vv == 'proses')
-                  <span class="label label-warning">Proses</span>                        
-                  @endif
-                  @if ($sample->vv == 'reject')
-                  <span class="label label-danger">Rejected</span>                        
-                  @endif 
-                  @if ($sample->vv == 'approve')
-                  <span class="label label-success">Approved</span>                        
-                  @endif 
-                  @if ($sample->vv == 'final')
-                  <span class="label label-info">Final Approved</span>                        
-                  @endif 
-                  @if ($sample->vv == '')
-                  <span class="label label-primary">Belum Diajukan</span>                        
-                  @endif   
-                </td>
-                <td class="text-center">
-                {{$sample->catatan_rd}}
-                </td>
-                <td class="text-center">
-                  @if($sample->vv == 'reject')
-                  {{$sample->catatan_pv}}    
-                  @endif
-                </td>
-                <td class="text-center">
-                  {{csrf_field()}}
-                  <a class="btn btn-info btn-sm" href="{{ route('formula.detail',[$sample->workbook_pdf_id,$sample->id]) }}" data-toggle="tooltip" title="Show"><i style="font-size:12px;" class="fa fa-eye"></i></a>
-                  <a class="btn btn-success btn-sm" data-toggle="modal" data-target="#update" data-toggle="tooltip" title="Updata"><i style="font-size:12px;" class="fa fa-arrow-circle-up"></i></a>
-                  
-                  <!-- UpVersion -->
-                  <div class="modal fade" id="update" role="dialog" aria-labelledby="hm" aria-hidden="true">
-                    <div class="modal-dialog modal-sm">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                          <h4 class="modal-title" id="hm" style="font-weight: bold;color:black;"> Update Data</h4>
-                        </div>
-                        <div class="modal-body">
-                          <a class="btn btn-primary btn-sm" href="{{ route('upversion',[$sample->id,$sample->workbook_pdf_id]) }}" onclick="return confirm('Up Version ?')"><i style="font-size:12px;" class="fa fa-arrow-circle-up"></i> Up Version</a><br><br>
-                          <a class="btn btn-warning btn-sm" href="{{ route('upversion2',[$sample->id,$sample->versi]) }}" onclick="return confirm('Up Sub Version ?')"><i style="font-size:12px;" class="fa fa-arrow-circle-up"></i> Up Sub Version</a>
-                        </div
-                        <div class="modal-footer">
+                @foreach($sample as $sample)
+                @if($sample->status=='final')
+                <tr style="background-color:springgreen">
+                @elseif($sample->vv=='reject')
+                <tr style="background-color:slategray;color:white">
+                @else
+                <tr>
+                @endif
+                  <td width="2%" class="text-center">
+                    <a href="{{ route('deleteFormula',$sample->id) }}" onclick="return confirm('Hapus Formula ?')"><i style="font-size:12px;" class="fa fa-trash" data-toggle="tooltip" title="Delete"></i></a>
+                  </td> 
+                  <td>{{ $sample->versi }}.{{ $sample->turunan }}</td>
+                  <td>
+                    @if($sample->kategori!='fg')
+                    {{$sample->kategori}}
+                    @elseif($sample->kategori=='fg')
+                    Finished Good
+                    @endif
+                  </td>
+                  <td>{{ $sample->formula}}</td>
+                  <td class="text-center" width="10%">
+                    @if ($sample->vv == 'proses')
+                    <span class="label label-warning">Proses</span>                        
+                    @endif
+                    @if ($sample->vv == 'reject')
+                    <span class="label label-danger">Rejected</span>                        
+                    @endif 
+                    @if ($sample->vv == 'approve')
+                    <span class="label label-success">Approved</span>                        
+                    @endif 
+                    @if ($sample->vv == 'final')
+                    <span class="label label-info">Final Approved</span>                        
+                    @endif 
+                    @if ($sample->vv == '')
+                    <span class="label label-primary">Belum Diajukan</span>                        
+                    @endif   
+                  </td>
+                  <td class="text-center">
+                  {{$sample->catatan_rd}}
+                  </td>
+                  <td class="text-center">
+                    @if($sample->vv == 'reject')
+                    {{$sample->catatan_pv}}    
+                    @endif
+                  </td>
+                  <td class="text-center">
+                    {{csrf_field()}}
+                    <a class="btn btn-info btn-sm" href="{{ route('formula.detail',[$sample->workbook_pdf_id,$sample->id]) }}" data-toggle="tooltip" title="Show"><i style="font-size:12px;" class="fa fa-eye"></i></a>
+                    <a class="btn btn-success btn-sm" data-toggle="modal" data-target="#update{{$sample->id}}" data-toggle="tooltip" title="Updata"><i style="font-size:12px;" class="fa fa-arrow-circle-up"></i></a>
+                    
+                    <!-- UpVersion -->
+                    <div class="modal fade" id="update{{$sample->id}}" role="dialog" aria-labelledby="hm" aria-hidden="true">
+                      <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title" id="hm" style="font-weight: bold;color:black;"> Update Data</h4>
+                          </div>
+                          <div class="modal-body">
+                            <a class="btn btn-primary btn-sm" href="{{ route('upversion',[$sample->id,$sample->workbook_pdf_id]) }}" onclick="return confirm('Up Version ?')"><i style="font-size:12px;" class="fa fa-arrow-circle-up"></i> Up Version</a><br><br>
+                            <a class="btn btn-warning btn-sm" href="{{ route('upversion2',[$sample->id,$sample->versi]) }}" onclick="return confirm('Up Sub Version ?')"><i style="font-size:12px;" class="fa fa-arrow-circle-up"></i> Up Sub Version</a>
+                          </div
+                          <div class="modal-footer">
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  @if($sample->status!='proses')
-                  <a class="btn btn-primary btn-sm" href="{{ route('step1_pdf',[$sample->workbook_pdf_id,$sample->id]) }}"><i style="font-size:12px;" class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a>
-                  <a class="btn btn-dark btn-sm" href="{{ route('ajukanvp',[$sample->workbook_pdf_id,$sample->id]) }}" onclick="return confirm('Ajukan Formula Kepada PV?')" data-toggle="tooltip" title="Ajukan PV"><li class="fa fa-paper-plane"></li></a>
-                  @elseif($sample->vv == 'approve')
-                    @if($sample->status_panel=='proses')
-                    <a class="btn btn-primary btn-sm" href="{{ route('panel',[$sample->workbook_pdf_id,$sample->id]) }}" data-toggle="tooltip" title="Lanjutkan Panel"><li class="fa fa-glass"></li></a>
+                    @if($sample->status!='proses')
+                    <a class="btn btn-primary btn-sm" href="{{ route('step1_pdf',[$sample->workbook_pdf_id,$sample->id]) }}"><i style="font-size:12px;" class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a>
+                    <a class="btn btn-dark btn-sm" href="{{ route('ajukanvp',[$sample->workbook_pdf_pdf_id,$sample->id]) }}" onclick="return confirm('Ajukan Formula Kepada PV?')" data-toggle="tooltip" title="Ajukan PV"><li class="fa fa-paper-plane"></li></a>
+                    @elseif($sample->vv == 'approve')
+                      @if($sample->status_panel=='proses')
+                      <a class="btn btn-primary btn-sm" href="{{ route('panel',[$sample->workbook_pdf_id,$sample->id]) }}" data-toggle="tooltip" title="Lanjutkan Panel"><li class="fa fa-glass"></li></a>
+                      @endif
+                      @if($sample->status_storage=='proses')
+                      <a class="btn btn-warning btn-sm" href="{{ route('st',[$sample->workbook_pdf_id,$sample->id]) }}" data-toggle="tooltip" title="Lanjutkan Storage"><li class="fa fa-flask"></li></a>
+                      @endif
                     @endif
-                    @if($sample->status_storage=='proses')
-                    <a class="btn btn-warning btn-sm" href="{{ route('st',[$sample->workbook_pdf_id,$sample->id]) }}" data-toggle="tooltip" title="Lanjutkan Storage"><li class="fa fa-flask"></li></a>
-                    @endif
-                  @endif
-                </td>
-              </tr>
-              @endforeach
-            </tbody>
+                  </td>
+                </tr>
+                @endforeach
+              </tbody>
             </table>
           </div>
         </div>
@@ -244,7 +262,6 @@
         </div>
         <div class="card-block">
           <div class="x_content">
-            <form action="">
             <table class="Table table-bordered table-striped table-bordered">
               <thead>
                 <tr style="font-weight: bold;color:white;background-color: #2a3f54;">     
@@ -259,60 +276,118 @@
                 </tr>
               </thead> 
               <tbody>
-                @foreach($sample as $pdf)
-                @if($pdf->status=='final')
+                @foreach($sample_pv as $sample)
+                @if($sample->status=='final')
                 <tr style="background-color:springgreen">
-                @elseif($pdf->vv=='reject')
+                @elseif($sample->vv=='reject')
                 <tr style="background-color:slategray;color:white">
                 @else
                 <tr>
                 @endif
-                  <td>{{ $pdf->sample }}</td>
-                  <td>{{ $pdf->note }}</td>
+                  <td width="2%" class="text-center">
+                    <a href="{{ route('deleteFormula',$sample->id) }}" onclick="return confirm('Hapus Formula ?')"><i style="font-size:12px;" class="fa fa-trash" data-toggle="tooltip" title="Delete"></i></a>
+                  </td> 
+                  <td>{{ $sample->versi }}.{{ $sample->turunan }}</td>
+                  <td>
+                    @if($sample->kategori!='fg')
+                    {{$sample->kategori}}
+                    @elseif($sample->kategori=='fg')
+                    Finished Good
+                    @endif
+                  </td>
+                  <td>{{ $sample->formula}}</td>
+                  <td class="text-center" width="10%">
+                    @if ($sample->vv == 'proses')
+                    <span class="label label-warning">Proses</span>                        
+                    @endif
+                    @if ($sample->vv == 'reject')
+                    <span class="label label-danger">Rejected</span>                        
+                    @endif 
+                    @if ($sample->vv == 'approve')
+                    <span class="label label-success">Approved</span>                        
+                    @endif 
+                    @if ($sample->vv == 'final')
+                    <span class="label label-info">Final Approved</span>                        
+                    @endif 
+                    @if ($sample->vv == '')
+                    <span class="label label-primary">Belum Diajukan</span>                        
+                    @endif   
+                  </td>
                   <td class="text-center">
-                    @if(auth()->user()->role->namaRule == 'pv_global')
-                      @if($pdf->status=='send')
-                      <a href="{{route('approvesamplepdf',$pdf->id_sample)}}" class="btn btn-primary btn-sm" title="Approve"><li class="fa fa-check"></li></a>  
-                      <a class="btn btn-danger btn-sm" data-toggle="modal" data-target="#reject{{ $pdf->id_sample  }}" title="Reject"><li class="fa fa-times"></li></a>  
+                  {{$sample->catatan_rd}}
+                  </td>
+                  <td class="text-center">
+                    @if($sample->vv == 'reject')
+                    {{$sample->catatan_pv}}    
+                    @endif
+                  </td>
+                  <td class="text-center"> 
+                  @if($sample->vv=='proses')
+                    <a class="btn btn-danger btn-sm" data-toggle="modal" data-target="#rejectsample{{ $sample->id  }}" title="Reject"><li class="fa fa-times"></li></a>  
                       <!-- Modal -->
-                      <div class="modal" id="reject{{ $pdf->id_sample  }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal" id="rejectsample{{ $sample->id  }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                           <div class="modal-content">
                             <div class="modal-header">
-                              <h3 class="modal-title" id="exampleModalLabel">Reject Sample {{ $pdf->id_sample  }}
+                              <h3 class="modal-title" id="exampleModalLabel">Reject Sample
                               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                               </button></h3>
                             </div>
                             
                             <div class="modal-body">
-                              <form action=""></form>
-                              <form class="form-horizontal form-label-left" method="POST" action="{{route('rejectsamplepdf',$pdf->id_sample)}}">
-                                <label for="">Note</label>
-                                <textarea name="note" id="note" rows="2" class="form-control" required></textarea>
-                              <div class="modal-footer">
-                                <button class="btn btn-sm btn-primary btn-sm" type="submit">submit</button>
-                                {{ csrf_field() }}
-                              </div>
+                              <form class="form-horizontal form-label-left" method="POST" action="{{route('rejectsample',$sample->id)}}">
+                              <textarea name="note" id="note" rows="2" cols="60" class="form-control" required></textarea><br>
                             </div>
-                          </form>
+                            <div class="modal-footer">
+                              <button class="btn btn-sm btn-primary" type="submit"><li class="fa fa-check"></li> submit</button>
+                              {{ csrf_field() }}
+                              </form>
+                            </div>
                           </div>
                         </div>
                       </div>
                       <!-- Modal Selesai -->
-                      @elseif($pdf->status=='reject')
-                      <span class="label label-danger" style="color:white">sample rejected</span>
-                      @elseif($pdf->status=='approve')
-                        @if($status_sample==1)
-                        <span class="label label-info" style="color:white">sample Approved</span>
-                        @else
-                        <a href="{{route('finalsamplepdf',[ 'id_project_pdf' => $pdf->id_pdf, 'sample' => $pdf->id_sample])}}" class="btn btn-info btn-sm" title="Final Approval"><li class="fa fa-tag"></li> Final Approval</a>
-                        @endif
-                      @elseif($pdf->status=='final')
-                        <a href="{{route('unfinalsamplepdf',[ 'id_project_pdf' => $pdf->id_pdf, 'sample' => $pdf->id_sample])}}" class="btn btn-warning btn-sm" title="Unfinal Approve"><li class="fa fa-times"></li> Unfinal</a>
+                    <button class="btn btn-success btn-sm" title="Approve" data-toggle="modal" data-target="#fs{{ $sample->id  }}"><i class="fa fa-check"></i></a></button>
+                      <!-- Modal -->
+                      <div class="modal" id="fs{{ $sample->id  }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h3 class="modal-title" id="exampleModalLabel">Approve Sample
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button></h3>
+                            </div>
+                            <div class="modal-body">
+                              <form class="form-horizontal form-label-left" method="POST" action="{{route('approvesample',$sample->id)}}">
+                              <textarea name="note" id="note" cols="60" rows="2" class="form-control" required></textarea><br>
+                            </div>
+                            <div class="modal-footer">
+                              <button class="btn btn-sm btn-primary" type="submit"><li class="fa fa-check"></li> submit</button>
+                              {{ csrf_field() }}
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- Modal Selesai -->
+                  @elseif($sample->vv=='approve')
+                    <a href="" class="btn btn-primary btn-sm" title="Ajukan FS"><li class="fa fa-paper-plane"></li></a>
+                      <a href="{{route('finalsample',$sample->id)}}" class="btn btn-success btn-sm" title="Final Approval"><li class="fa fa-tag"></li></a>
+                    @if($sample->status_fisibility=='not_approved')
+                      @if($hasilpanel>=1)
+                      <a href="{{route('finalsample',$sample->id)}}" class="btn btn-success btn-sm" title="Final Approva"><li class="fa fa-tag"></li></a>
+                      @endif
+                    @elseif($sample->status_fisibility=='selesai')
+                      @if($hasilpanel>=1)
+                      <a href="{{route('finalsample',$sample->id)}}" class="btn btn-success btn-sm" title="Final Approval"><li class="fa fa-tag"></li></a>
                       @endif
                     @endif
-                  </td>
+                  @elseif($sample->vv=='final')
+                    <a href="{{route('unfinalsample',$sample->id)}}" class="btn btn-warning btn-sm" title="Unfinal Approve"><li class="fa fa-times"></li> Unfinal</a>
+                  @endif
+                </td>
                 </tr>
                 @endforeach
               </tbody>

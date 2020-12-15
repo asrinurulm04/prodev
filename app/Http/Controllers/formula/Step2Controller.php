@@ -333,6 +333,7 @@ class Step2Controller extends Controller
     public function destroy($id,$vf){
         $formula = Formula::where('id',$vf)->first();
         $idfor = $formula->workbook_id;
+        $idfor_pdf = $formula->workbook_pdf_id;
         $fortail = Fortail::where([['id',$id],['formula_id',$vf]])->first();
         $allergen = allergen_formula::where('id_fortails',$id)->delete();
         if($formula->batch != null){
@@ -345,7 +346,11 @@ class Step2Controller extends Controller
         $formula->save();
        
         $fortail->delete();
-        return redirect()->route('step2',[$idfor,$vf])->with('error','BahanBaku Telah Berhasil Dihapus');
+        if($formula->workbook_id!=NULL){
+            return redirect()->route('step2',[$idfor,$vf])->with('error','BahanBaku Telah Berhasil Dihapus');
+        }if($formula->workbook_pdf_id!=NULL){
+            return redirect()->route('step2',[$idfor_pdf,$vf])->with('error','BahanBaku Telah Berhasil Dihapus');
+        }
     }
 
 }

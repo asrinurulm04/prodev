@@ -1561,11 +1561,19 @@
 				</div>
 			</div>
 			<div class="col-md-offset-5 col-sm-offset-5"><br>
+			@if($formula->workbook_id!=NULL)
 				@if(auth()->user()->role->namaRule == 'user_produk' || auth()->user()->role->namaRule == 'pv_lokal')
 				<a href="{{ route('rekappkp',$formula->workbook_id) }}" type="button" class="btn btn-sm btn-danger"><li class="fa fa-arrow-left"></li> Back</a>
 				@elseif(auth()->user()->role->namaRule == 'manager')
 				<a href="{{ route('daftarpkp',$formula->workbook_id) }}" type="button" class="btn btn-sm btn-danger"><li class="fa fa-arrow-left"></li> Back</a>
 				@endif
+			@elseif($formula->workbook_pdf_id!=NULL)
+				@if(auth()->user()->role->namaRule == 'user_produk' || auth()->user()->role->namaRule == 'pv_global')
+				<a href="{{ route('rekappdf',$formula->workbook_pdf_id) }}" type="button" class="btn btn-sm btn-danger"><li class="fa fa-arrow-left"></li> Back</a>
+				@elseif(auth()->user()->role->namaRule == 'manager')
+				<a href="{{ route('daftarpdf',$formula->workbook_pdf_id) }}" type="button" class="btn btn-sm btn-danger"><li class="fa fa-arrow-left"></li> Back</a>
+				@endif
+			@endif
 			</div>
 		</div>    
 	</div>

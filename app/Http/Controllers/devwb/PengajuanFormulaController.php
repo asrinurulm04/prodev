@@ -19,7 +19,7 @@ class PengajuanFormulaController extends Controller
     }
     
     public function vp($wb,$id){
-        $formula = Formula::where('workbook_id',$wb)->where('id',$id)->first();
+        $formula = Formula::where('id',$id)->first();
         $ada = Fortail::where('formula_id',$formula->id)->count();
         if($ada < 1){
             return Redirect::back()->with('error','Data Bahan Formula Versi '.$formula->versi.' Masih Kosong');

@@ -285,7 +285,7 @@ class managerController extends Controller
         $data = Coba::where('pdf_id',$id_project_pdf)->join('pdf_project','pdf_project.id_project_pdf','tipu.pdf_id')->where('status_pdf','active')->get();
         $hitung = coba::where('pdf_id',$id_project_pdf)->count();
         $dept = Departement::all();
-        $sample = Formula::where('workbook_pdf_id', $id_project_pdf)->get();
+        $sample = Formula::where('workbook_pdf_id', $id_project_pdf)->orderBy('versi','asc')->orderBy('turunan','asc')->get();
         $max = coba::where('pdf_id',$id_project_pdf)->max('turunan');
         $max2 = coba::where('pdf_id',$id_project_pdf)->max('revisi');
         $pdf = project_pdf::where('id_project_pdf',$id_project_pdf)->join('tipu','pdf_project.id_project_pdf','tipu.pdf_id')->where('revisi',$max2)->where('turunan',$max)->get();
