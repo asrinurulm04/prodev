@@ -277,9 +277,9 @@
               </thead> 
               <tbody>
                 @foreach($sample_pv as $sample1)
-                @if($sample->status=='final')
+                @if($sample1->status=='final')
                 <tr style="background-color:springgreen">
-                @elseif($sample->vv=='reject')
+                @elseif($sample1->status=='reject')
                 <tr style="background-color:slategray;color:white">
                 @else
                 <tr>
@@ -306,7 +306,7 @@
                     @if ($sample1->vv == 'approve')
                     <span class="label label-success">Approved</span>                        
                     @endif 
-                    @if ($sample->vv == 'final')
+                    @if ($sample1->vv == 'final')
                     <span class="label label-info">Final Approved</span>                        
                     @endif 
                     @if ($sample1->vv == '')
