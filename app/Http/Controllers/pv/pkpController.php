@@ -129,7 +129,6 @@ class pkpController extends Controller
         $pkp2 = tipp::where('id_pkp',$id_project)->where('revisi','<=',$revisi)->where('turunan',$max)->orderBy('turunan','desc')->orderBy('revisi','desc')->get();
         $pkp1 = tipp::where('id_pkp',$id_project)->where('revisi','<=',$revisi)->where('turunan','<=',$turunan)->orderBy('turunan','desc')->orderBy('revisi','desc')->get();
         $pengajuan = pengajuan::count();
-        $formula = Formula::where('workbook_id',$id_project)->count();
         $dataklaim = data_klaim::where('id_pkp',$id_project)->join('klaim','klaim.id','=','id_klaim')->where('revisi',$revisi)->where('turunan',$turunan)->get();
         $datadetail = data_detail_klaim::where('id_pkp',$id_project)->where('revisi',$revisi)->where('turunan',$turunan)->get();
         $user = DB::table('users')->join('pdf_project','pdf_project.tujuankirim','=','users.departement_id')->join('tipu','tipu.pdf_id','=','pdf_project.id_project_pdf')->where([ ['pdf_id',$id_project], ['revisi',$revisi], ['turunan',$turunan] ])->get();
@@ -141,7 +140,6 @@ class pkpController extends Controller
             'pengajuan' => $pengajuan,
             'datases' => $ses,
             'for' => $for,
-            'formula' => $formula,
             'datadetail' => $datadetail,
             'dataklaim' => $dataklaim,
             'pkp2' => $pkp2,
