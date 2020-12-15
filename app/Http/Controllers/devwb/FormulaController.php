@@ -73,7 +73,6 @@ class FormulaController extends Controller
 
     // Hapus Formula-----------------------------------------------------------------------------------------------------    
     public function deleteformula($id){
-		//dd($id);
 		$formula = Formula::where('id',$id)->first();
 		$allergen = allergen_formula::where('id_formula',$id)->delete();
         // Delete Pesan
@@ -93,13 +92,14 @@ class FormulaController extends Controller
 		if($storage>='1'){
 			$storage1 = storage::where('id_formula',$id)->delete();
 		}
-
+		
 		if($formula->workbook_id!=NULL){
 			$pkp_hitung = pkp_project::where('id_project',$formula->workbook_id)->max('workbook')-1;
 			$pkp = pkp_project::where('id_project',$formula->workbook_id)->first();
 			$pkp->workbook=$pkp_hitung;
 			$pkp->save();
-		}if($formula->worbook_pdf_id!=NULL){
+		}
+		if($formula->workbook_pdf_id!=NULL){
 			$pdf_hitung = project_pdf::where('id_project_pdf',$formula->workbook_pdf_id)->max('workbook')-1;
 			$pdf = project_pdf::where('id_project_pdf',$formula->workbook_pdf_id)->first();
 			$pdf->workbook=$pdf_hitung;
