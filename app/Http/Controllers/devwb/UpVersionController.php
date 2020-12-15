@@ -22,7 +22,7 @@ class UpVersionController extends Controller
 
     public function upversion($id,$wb){  
         $lastf=Formula::where('id', $id)->first();
-        if($lastf->workbook_id!='NULL'){
+        if($lastf->workbook_id!=NULL){
             $pkp_hitung = pkp_project::where('id_project',$wb)->max('workbook')+1;
             $pkp = pkp_project::where('id_project',$wb)->first();
             $pkp->workbook=$pkp_hitung;
@@ -36,7 +36,7 @@ class UpVersionController extends Controller
             $lastturunan = $myformulas->max('turunan');    
             $cf = $lastversion + 1;   
         }
-        if($lastf->workbook_pdf_id!='NULL'){
+        if($lastf->workbook_pdf_id!=NULL){
             $pdf_hitung = project_pdf::where('id_project_pdf',$wb)->max('workbook')+1;
             $pdf = project_pdf::where('id_project_pdf',$wb)->first();
             $pdf->workbook=$pdf_hitung;
@@ -164,7 +164,7 @@ class UpVersionController extends Controller
                 ['versi',$lastversion],
                 ['workbook_id',$lastf->workbook_id]
                 ])->get();
-            $lastturunan = Formula::where('id',$id)->max('turunan')+1;
+            $lastturunan = Formula::where('workbook_id',$lastf->workbook_id)->max('turunan')+1;
         }
         if($lastf->workbook_pdf_id!=NULL){
             $pdf_hitung = project_pdf::where('id_project_pdf',$lastf->workbook_pdf_id)->max('workbook')+1;
@@ -177,7 +177,7 @@ class UpVersionController extends Controller
                 ['versi',$lastversion],
                 ['workbook_pdf_id',$lastf->workbook_pdf_id]
                 ])->get();
-            $lastturunan = Formula::where('id',$id)->max('turunan')+1;
+            $lastturunan = Formula::where('workbook_id',$lastf->workbook_id)->max('turunan')+1;
         }
 
         $formulas = new Formula;
@@ -197,6 +197,7 @@ class UpVersionController extends Controller
         $formulas->bj = $lastf->bj;
         $formulas->batch = $lastf->batch;
         $formulas->overage='100';
+        $formulas->kategori=$lastf->kategori;
         $formulas->serving = $lastf->serving;
         $formulas->berat_jenis = $lastf->berat_jenis;
         $formulas->satuan = $lastf->satuan;
