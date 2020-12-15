@@ -372,19 +372,19 @@
                         </div>
                       </div>
                       <!-- Modal Selesai -->
-                  @elseif($sample->vv=='approve')
+                  @elseif($sample1->vv=='approve')
                     <a href="" class="btn btn-primary btn-sm" title="Ajukan FS"><li class="fa fa-paper-plane"></li></a>
                       <a href="{{route('finalsample',$sample1->id)}}" class="btn btn-success btn-sm" title="Final Approval"><li class="fa fa-tag"></li></a>
-                    @if($sample->status_fisibility=='not_approved')
+                    @if($sample1->status_fisibility=='not_approved')
                       @if($hasilpanel>=1)
                       <a href="{{route('finalsample',$sample1->id)}}" class="btn btn-success btn-sm" title="Final Approva"><li class="fa fa-tag"></li></a>
                       @endif
-                    @elseif($sample->status_fisibility=='selesai')
+                    @elseif($sample1->status_fisibility=='selesai')
                       @if($hasilpanel>=1)
                       <a href="{{route('finalsample',$sample1->id)}}" class="btn btn-success btn-sm" title="Final Approval"><li class="fa fa-tag"></li></a>
                       @endif
                     @endif
-                  @elseif($sample->vv=='final')
+                  @elseif($sample1->vv=='final')
                     <a href="{{route('unfinalsample',$sample1->id)}}" class="btn btn-warning btn-sm" title="Unfinal Approve"><li class="fa fa-times"></li> Unfinal</a>
                   @endif
                 </td>
