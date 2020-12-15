@@ -55,6 +55,7 @@ class Step1Controller extends Controller
     }
 
     public function update($formula,$id,Request $request){
+        //dd($request->all());
         $formula = Formula::where('id',$formula)->first();
         $formula->catatan_rd = $request->keterangan;
         $formula->note_formula = $request->formula;

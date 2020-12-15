@@ -70,7 +70,7 @@
           <input type="radio" name="kategori" oninput="wip()" id="id_wip"> WIP
         </div>
         <div class="col-md-3" id="ditampilkan">
-          <select name="kategori_formula" id="" disabled class="form-control">
+          <select name="kategori_formula" id="kategori_formula" disabled class="form-control">
             <option disabled selected>--> Select One <--</option>
             <option value="granulasi">Granulasi</option>
             <option value="premix">Premix</option>
@@ -82,8 +82,8 @@
           <input type="radio" name="kategori" checked oninput="wip()" id="id_wip"> WIP
         </div>
         <div class="col-md-3" id="ditampilkan">
-          <select name="kategori_formula" id="" disabled class="form-control">
-            <option readonly selected>{{$formula->kategori}}</option>
+          <select name="kategori_formula" id="kategori_formula" class="form-control">
+            <option readonly value="{{$formula->kategori}}" selected>{{$formula->kategori}}</option>
             <option value="granulasi">Granulasi</option>
             <option value="premix">Premix</option>
           </select>
