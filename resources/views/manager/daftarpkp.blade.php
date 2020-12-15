@@ -270,7 +270,7 @@
                   {{$pkp->catatan_rd}}
                   </td>
                   <td class="text-center">
-                    @if($pkp->vv == 'reject')
+                    @if($pkp->vv == 'reject' || $pkp->vv == 'approve')
                     {{$pkp->catatan_pv}}    
                     @endif
                   </td>
