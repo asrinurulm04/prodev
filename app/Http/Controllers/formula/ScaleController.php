@@ -381,7 +381,7 @@ class ScaleController extends Controller
             return redirect()->route('step2',['id'=>$wb,'workbook_id' => $for])->with('status','Scale Berhasil Tersimpan');
         }if($formula->workbook_pdf_id!=NULL){
             $wb = $formula->workbook_pdf_id;
-            return redirect()->route('step2',['id'=>$wb,'workbook_id' => $for])->with('status','Scale Berhasil Tersimpan');
+            return redirect()->route('step2',['id'=>$wb,'workbook_pdf_id' => $for])->with('status','Scale Berhasil Tersimpan');
         }
 
     }

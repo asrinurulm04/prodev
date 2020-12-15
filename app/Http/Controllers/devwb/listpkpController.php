@@ -170,6 +170,7 @@ class listpkpController extends Controller
         $project->jenis=$pdf1->jenis;
         $project->product_type=$pdf1->product_type;
         $project->country=$pdf1->country;
+        $project->workbook='0';
         $project->author=Auth::user()->id;
         $project->save();
 

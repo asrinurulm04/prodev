@@ -63,7 +63,7 @@ class managerController extends Controller
     }
 
     public function listpdf(){
-        $pdf = project_pdf::where('status_project','!=','draf')->orderBy('pdf_number','desc')->get();
+        $pdf = project_pdf::where('status_project','!=','draf')->join('tipu','tipu.pdf_id','pdf_project.id_project_pdf')->where('status_pdf','=','active')->where('status_data','!=','draf')->orderBy('pdf_number','desc')->get();
         $type = pkp_type::all();
         $brand = brand::all();
         $hitungpkpselesai2 = pkp_project::where('status_terima2','=','proses')->where('status_project','=','sent')->where('tujuankirim2',Auth::user()->Departement->id)->count();$hitungpkpselesai = pkp_project::where('status_terima','=','proses')->where('status_project','=','sent')->where('tujuankirim',Auth::user()->Departement->id)->count();

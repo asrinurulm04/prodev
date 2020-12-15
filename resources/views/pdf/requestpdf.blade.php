@@ -171,7 +171,7 @@
               <td>{{$pdf->project_name}}</td>
               <td>{{$pdf->author1->name}}</td>
               <td class="text-center">
-              <a href="{{route('temppdf',$pdf->id_project_pdf)}}" class="btn btn-warning" onclick="return confirm('Are you sure you want to use this template ?')"><i class="fa fa-check"></i></a>
+              <a href="{{route('temppdf',$pdf->id_project_pdf)}}" class="btn btn-warning btn-sm" onclick="return confirm('Are you sure you want to use this template ?')"><i class="fa fa-check"></i></a>
               </td>
             </tr>
             @endforeach

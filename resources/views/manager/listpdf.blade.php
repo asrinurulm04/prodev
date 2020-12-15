@@ -227,7 +227,11 @@
                 <td>Data In The Revision Process</td>
                 @elseif($pdf->status_project=='proses')
                 <td class="text-center">
+                  @if($pdf->workbook=='0')
                   <a class="btn btn-info btn-sm" href="{{ Route('daftarpdf',$pdf->id_project_pdf )}}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
+                  @elseif($pdf->workbook>='1')
+                  <a class="btn btn-primary btn-sm" href="{{ Route('daftarpdf',$pdf->id_project_pdf )}}" data-toggle="tooltip" title="Show"><i class="fa fa-book"></i></a>
+                  @endif
                 </td>
                 <td>
                   @if($pdf->tujuankirim!=1)

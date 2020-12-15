@@ -47,7 +47,7 @@
           <div class="form-group">
             <label class="control-label col-md-2 col-sm-3 col-xs-12" style="color:#258039">Project Name</label>
             <div class="col-md-8 col-sm-8 col-xs-12">
-              <input required value="{{ $pdf->project_name }}" id="name" class="form-control col-md-12 col-xs-12" type="text" name="name">
+              <input required value="{{ $pdf->project_name }}" onkeyup="this.value = this.value.toUpperCase()" id="name" class="form-control col-md-12 col-xs-12" type="text" name="name">
             </div>
           </div>
           <div class="form-group">
