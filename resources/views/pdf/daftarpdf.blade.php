@@ -279,7 +279,7 @@
                 @foreach($sample_pv as $sample1)
                 @if($sample1->status=='final')
                 <tr style="background-color:springgreen">
-                @elseif($sample1->status=='reject')
+                @elseif($sample1->vv=='reject')
                 <tr style="background-color:slategray;color:white">
                 @else
                 <tr>
