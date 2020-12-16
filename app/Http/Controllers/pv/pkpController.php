@@ -271,38 +271,30 @@ class pkpController extends Controller
         $Ddetail = data_detail_klaim::max('id')+1;
         $tarkon = Tarkon::all();
         $for = data_forecast::where('id_pkp',$id_project)->where('revisi',$revisi)->where('turunan',$turunan)->get();
-        $for2 = data_forecast::where('id_pkp',$id_project)->where('revisi',$revisi)->where('turunan',$turunan)->count();
         $kemas = datakemas::all();
-        $eksis=datakemas::count();
         $datadetail = data_detail_klaim::where('id_pkp',$id_project)->where('turunan',$turunan)->where('revisi',$revisi)->get();
         $pangan = pkp_datapangan::all();
-        $hitung = tipp::where([ ['id_pkp',$id_project], ['revisi',$revisi], ['turunan',$turunan] ])->count();
         $id_pkp = pkp_project::find($id_project);
         $idea = pkp_uniq_idea::all();
         $dataklaim = data_klaim::where('id_pkp',$id_project)->where('turunan',$turunan)->where('revisi',$revisi)->get();
         $ide = pkp_uniq_idea::all();
         $market = pkp_estimasi_market::all();
         $mar = pkp_estimasi_market::all();
-        $pengajuan = pengajuan::count();
         $detail = detail_klaim::all();
         $klaim = klaim::all();
         $komponen = komponen::all();
         return view('pkp.buatpkp')->with([
             'brand' => $brand,
-            'for2' => $for2,
             'datadetail' => $datadetail,
             'for' => $for,
             'user' => $user,
-            'hitung' => $hitung,
             'uom' => $uom,
             'data_uom' => $data_uom,
             'uom_primer' => $uom_primer,
-            'pengajuan' => $pengajuan,
             'datases' => $datases,
             'ses' => $ses,
             'tarkon' => $tarkon,
             'dataklaim' => $dataklaim,
-            'eksis' => $eksis,
             'project' => $project,
             'Ddetail' => $Ddetail,
             'pangan' => $pangan,
@@ -334,12 +326,10 @@ class pkpController extends Controller
         $detail = detail_klaim::all();
         $klaim = klaim::all();
         $komponen = komponen::all();
-        $pengajuan = pengajuan::count();
         $teams = tb_teams_brand::where('brand',$pkp->id_brand)->get();
         $id_pkp = pkp_project::find($id_project);
         $idea = pkp_uniq_idea::all();
         $project = tipp::where('status_pkp','!=','draf')->where('status_data','=','active') ->join('pkp_project','pkp_project.id_project','=','tippu.id_pkp')->get();
-        $eksis=datakemas::count();
         $ide = pkp_uniq_idea::all();
         $market = pkp_estimasi_market::all();
         $mar = pkp_estimasi_market::all();
@@ -351,7 +341,6 @@ class pkpController extends Controller
             'detail' => $detail,
             'tarkon' => $tarkon,
             'pangan' => $pangan,
-            'pengajuan' => $pengajuan,
             'id_pkp' => $id_pkp,
             'teams' => $teams,
             'idea' => $idea,
@@ -360,7 +349,6 @@ class pkpController extends Controller
             'uom' => $uom,
             'data_uom' => $data_uom,
             'uom_primer' => $uom_primer,
-            'eksis' => $eksis,
             'kemas' => $kemas,
             'ide' => $ide,
             'mar' => $mar,
@@ -447,7 +435,8 @@ class pkpController extends Controller
 					$i = $i++;
 				}
 			}
-		}
+        }
+        
         if($request->forecast!=NULL){
             $for = array(); 
             $validator = Validator::make($request->all(), $for);  

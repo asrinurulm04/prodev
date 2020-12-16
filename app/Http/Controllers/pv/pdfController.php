@@ -65,13 +65,11 @@ class pdfController extends Controller
     }
 
     public function lihatpdf($id_project_pdf,$revisi,$turunan){
-        $pengajuanpdf = project_pdf::join('pkp_pengajuan','pdf_project.id_project_pdf','=','pkp_pengajuan.id_pdf')->count();
-        $datapdf = coba::where('pdf_id',$id_project_pdf)->count();
         $max = coba::where('pdf_id',$id_project_pdf)->max('turunan');
         $pdf1 = coba::where('pdf_id',$id_project_pdf)->where('revisi','<=',$revisi)->where('turunan','<=',$turunan)->orderBy('turunan','desc')->get();
         $pdf2 = coba::where('pdf_id',$id_project_pdf)->where('revisi','<=',$revisi)->where('turunan',$max)->orderBy('revisi','desc')->get();
         $pdf = coba::join('pdf_project','tipu.pdf_id','=','pdf_project.id_project_pdf')->where('id_project_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->get();
-        $for = data_forecast::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan','<=',$turunan)->orderBy('turunan','desc')->get();
+        $for = data_forecast::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->orderBy('turunan','desc')->get();
         $ses = data_ses::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan','<=',$turunan)->orderBy('turunan','desc')->get();
         $nopdf = DB::table('pdf_project')->max('pdf_number')+1;
         $kemaspdf = kemaspdf::where('id_pdf',$id_project_pdf)->where('revisi','=',$revisi)->where('turunan','=',$turunan)->get();
@@ -80,8 +78,6 @@ class pdfController extends Controller
         $dept = Departement::all();
         $dataklaim = data_klaim::where('id_pdf',$id_project_pdf)->join('klaim','klaim.id','=','id_klaim')->where('revisi',$revisi)->where('turunan',$turunan)->get();
         $datadetail = data_detail_klaim::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->get();
-        $pengajuan = pengajuan::count();
-        
         $user = DB::table('users')->join('pdf_project','pdf_project.tujuankirim','=','users.departement_id')->get();
         $picture = picture::where('pdf_id',$id_project_pdf)->where('turunan','<=',$turunan)->orderBy('turunan','desc')->get();
         return view('pdf.lihatpdf')->with([
@@ -92,13 +88,10 @@ class pdfController extends Controller
             'dataklaim' => $dataklaim,
             'kemaspdf' => $kemaspdf,
             'hitungkemaspdf' => $hitungkemaspdf,
-            'pengajuanpdf' => $pengajuanpdf,
-            'pengajuan' => $pengajuan,
             'datases' => $ses,
             'dept' => $dept,
             'for' => $for,
             'dept1' => $dept1,
-            'datapdf' => $datapdf,
             'user' => $user,
             'nopdf' => substr("T00".$nopdf,1,3),
             'picture' => $picture
@@ -246,13 +239,14 @@ class pdfController extends Controller
         $eksis=datakemas::count();
         $Ddetail = data_detail_klaim::max('id')+1;
         $detail = detail_klaim::all();
+        $uom = uom::where('note',NULL)->get();
+        $uom_primer = uom::where('note','!=',NULL)->get();
         $klaim = klaim::all();
         $komponen = komponen::all();
+        $data_uom = uom::all();
         $user = user::where('status','=','active')->get();
         $project = coba::where('status_data','!=','draf')->where('status_pdf','=','active')->join('pdf_project','pdf_project.id_project_pdf','=','tipu.pdf_id')->get();
-        $hitung =coba::where('pdf_id',$id_project_pdf)->count();
         $pdf = coba::where('pdf_id',$id_project_pdf)->get();
-        $pengajuan = pengajuan::count();
         $id_pdf = project_pdf::find($id_project_pdf);
         return view('pdf.buatpdf')->with([
             'jenis' => $jenis,
@@ -262,13 +256,14 @@ class pdfController extends Controller
             'detail' => $detail,
             'klaim' => $klaim,
             'komponen' => $komponen,
-            'hitung' => $hitung,
             'kemas' => $kemas,
+            'uom' => $uom,
+            'data_uom' => $data_uom,
+            'uom_primer' => $uom_primer,
             'project' => $project,
             'eksis' => $eksis,
             'pdf' => $pdf,
-            'id_pdf' => $id_pdf,
-            'pengajuan' => $pengajuan
+            'id_pdf' => $id_pdf
         ]);
     }
 
@@ -284,7 +279,6 @@ class pdfController extends Controller
 
     public function buatpdf1($id_project_pdf,$revisi,$turunan){
         $jenis = jenis::all();
-        $hitung =coba::where('pdf_id',$id_project_pdf)->count();
         $pdf = coba::where([ ['pdf_id',$id_project_pdf], ['revisi',$revisi], ['turunan',$turunan] ])->join('pdf_project','pdf_project.id_project_pdf','tipu.pdf_id')->get();
         $datases = data_ses::where([ ['id_pdf',$id_project_pdf], ['revisi',$revisi], ['turunan',$turunan] ])->get();
         $project = coba::where('status_data','!=','draf')->where('status_pdf','=','active')->join('pdf_project','pdf_project.id_project_pdf','=','tipu.pdf_id')->get();
@@ -297,24 +291,26 @@ class pdfController extends Controller
         $datadetail = data_detail_klaim::where('id_pdf',$id_project_pdf)->where('turunan',$turunan)->where('revisi',$revisi)->get();
         $detail = detail_klaim::all();
         $klaim = klaim::all();
+        $uom = uom::where('note',NULL)->get();
+        $uom_primer = uom::where('note','!=',NULL)->get();
+        $data_uom = uom::all();
         $Ddetail = data_detail_klaim::max('id')+1;
         $komponen = komponen::all();
         $for = data_forecast::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->get();
-        $for2 = data_forecast::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->count();
-        $eksis=datakemas::count();
         $user = user::where('status','=','active')->get();
-        $pengajuan = pengajuan::count();
         $id_pdf = project_pdf::find($id_project_pdf);
         return view('pdf.buatpdf1')->with([
             'jenis' => $jenis,
             'project' => $project,
-            'eksis' => $eksis,
             'ses' => $ses,
             'kemas' => $kemas,
             'brand' => $brand,
             'Ddetail' => $Ddetail,
             'kemaspdf' => $kemaspdf,
             'hitungkemaspdf' => $hitungkemaspdf,
+            'uom' => $uom,
+            'data_uom' => $data_uom,
+            'uom_primer' => $uom_primer,
             'komponen' => $komponen,
             'klaim' => $klaim,
             'detail' => $detail,
@@ -322,10 +318,7 @@ class pdfController extends Controller
             'dataklaim' => $dataklaim,
             'for' => $for,
             'user' => $user,
-            'for2' => $for2,
             'datases' => $datases,
-            'hitung' => $hitung,
-            'pengajuan' => $pengajuan,
             'pdf' => $pdf,
             'id_pdf' => $id_pdf
         ]);
@@ -346,25 +339,6 @@ class pdfController extends Controller
 
             $coba = new coba;
             $coba ->pdf_id=$request->id;
-            if($request->primer==''){
-                $coba->kemas_eksis=$request->data_eksis;
-                }elseif($request->primer!='NULL'){
-                    $coba->kemas_eksis=$request->kemas;
-
-                    $kemas = new datakemas;
-                    $kemas->tersier=$request->tersier;
-                    $kemas->s_tersier=$request->s_tersier;
-                    $kemas->primer=$request->primer;
-                    $kemas->s_primer=$request->s_primer;
-                    $kemas->sekunder1=$request->sekunder1;
-                    $kemas->s_sekunder1=$request->s_sekunder1;
-                    $kemas->sekunder2=$request->sekunder2;
-                    $kemas->s_sekunder2=$request->s_sekunder2;
-                    $kemas->save();
-                }
-            $coba ->primery=$request->primary;
-            $coba ->secondery=$request->secondary;
-            $coba ->Tertiary=$request->tertiary;
             $coba ->last_update=$request->last_up;
             $coba ->dariusia=$request->dariumur;
             $coba ->perevisi=Auth::user()->id;
@@ -373,7 +347,6 @@ class pdfController extends Controller
             $coba ->other=$request->other;
             $coba ->wight=$request->weight;
             $coba ->serving=$request->serving;
-            $coba ->target_price=$request->target_price;
             $coba ->claim=$request->claim;
             $coba ->ingredient=$request->ingredient;
             $coba ->background=$request->background;
@@ -382,7 +355,6 @@ class pdfController extends Controller
             $coba ->turunan='0';
             $coba ->revisi='0';
             $coba ->name=$request->name_competitors;
-            $coba ->retailer_price=$request->retailer_price;
             $coba ->special=$request->special;
             $coba ->save();
 
@@ -450,25 +422,73 @@ class pdfController extends Controller
                 }
             }
 
-            if($request->forecast!='' && $request->satuan!=''){
-                $data = array(); 
-                $validator = Validator::make($request->all(), $data);  
+            if($request->forecast!=NULL){
+                $for = array(); 
+                $validator = Validator::make($request->all(), $for);  
                 if ($validator->passes()) {
                     $idz = implode(',', $request->input('forecast'));
                     $ids = explode(',', $idz);
                     $ida = implode(',', $request->input('satuan'));
                     $idb = explode(',', $ida);
-                    $idc = implode(',', $request->input('keterangan'));
-                    $idd = explode(',', $idc);
+                    $uom = implode(',', $request->input('uom'));
+                    $Duom = explode(',', $uom);
+                    $satuan_uom = implode(',', $request->input('satuan_uom'));
+                    $Dsatuan_uom = explode(',', $satuan_uom);
+                    $nfi_price = implode(',', $request->input('price'));
+                    $nfi = explode(',', $nfi_price);
+                    $costumer_price = implode(',', $request->input('costumer'));
+                    $costumer = explode(',', $costumer_price);
+                    
+                    $primary = implode(',', $request->input('primary'));
+                    $data_primary = explode(',', $primary);
+                    $secondary = implode(',', $request->input('secondary'));
+                    $data_secondary = explode(',', $secondary);
+                    $tertiary = implode(',', $request->input('tertiary'));
+                    $data_tertiary = explode(',', $tertiary);
+    
+                    $tersier1 = implode(',', $request->input('tersier'));
+                    $data_tersier1 = explode(',', $tersier1);
+                    $s_tersier1 = implode(',', $request->input('s_tersier'));
+                    $data_s_tersier1 = explode(',', $s_tersier1);
+                    $primer1 = implode(',', $request->input('primer'));
+                    $data_primer1 = explode(',', $primer1);
+                    $s_primer1 = implode(',', $request->input('s_primer'));
+                    $data_s_primer1 = explode(',', $s_primer1);
+                    $sekunder11 = implode(',', $request->input('sekunder1'));
+                    $data_sekunder11 = explode(',', $sekunder11);
+                    $s_sekunder11 = implode(',', $request->input('s_sekunder1'));
+                    $data_s_sekunder11 = explode(',', $s_sekunder11);
+                    $sekunder21 = implode(',', $request->input('sekunder2'));
+                    $data_sekunder21 = explode(',', $sekunder21);
+                    $s_sekunder21 = implode(',', $request->input('s_sekunder2'));
+                    $data_s_sekunder21 = explode(',', $s_sekunder21);
                     for ($i = 0; $i < count($ids); $i++)
                     {
-                        $pipeline = new data_forecast;
-                        $pipeline->id_pdf=$request->id;
-                        $pipeline->turunan='0';
-                        $pipeline->forecast = $ids[$i];
-                        $pipeline->satuan = $idb[$i];
-                        $pipeline->keterangan = $idd[$i];
-                        $pipeline->save();
+                        $kemas = new datakemas;
+                        $kemas->tersier= $data_tersier1[$i];
+                        $kemas->s_tersier= $data_s_tersier1[$i];
+                        $kemas->primer= $data_primer1[$i];
+                        $kemas->s_primer= $data_s_primer1[$i];
+                        $kemas->sekunder1= $data_sekunder11[$i];
+                        $kemas->s_sekunder1= $data_s_sekunder11[$i];
+                        $kemas->sekunder2= $data_sekunder21[$i];
+                        $kemas->s_sekunder2= $data_s_sekunder21[$i];
+                        $kemas->save();
+    
+                        $forecash = new data_forecast;
+                        $forecash->id_pdf=$request->id;
+                        $forecash->turunan='0';
+                        $forecash->satuan = $idb[$i];
+                        $forecash->forecast = $ids[$i];
+                        $forecash->kemas_eksis = $kemas->id_kemas;
+                        $forecash->uom = $Duom[$i];
+                        $forecash->jlh_uom = $Dsatuan_uom[$i];
+                        $forecash->nfi_price = $nfi[$i];
+                        $forecash->costumer = $costumer[$i];
+                        $forecash->informasi_Primary = $data_primary[$i];
+                        $forecash->Secondary = $data_secondary[$i];
+                        $forecash->Tertiary	 = $data_tertiary[$i];
+                        $forecash->save();
                         $i = $i++;
                     }
                 }
@@ -512,25 +532,6 @@ class pdfController extends Controller
 
         $coba = coba::where([ ['pdf_id',$pdf_id], ['revisi',$revisi], ['turunan',$turunan] ])->first();
         $coba ->pdf_id=$request->id;
-        if($request->primer==''){
-            $coba->kemas_eksis=$request->data_eksis;
-            }elseif($request->primer!='NULL'){
-            $coba->kemas_eksis=$request->kemas;
-
-                $kemas = new datakemas;
-                $kemas->tersier=$request->tersier;
-                $kemas->s_tersier=$request->s_tersier;
-                $kemas->primer=$request->primer;
-                $kemas->s_primer=$request->s_primer;
-                $kemas->sekunder1=$request->sekunder1;
-                $kemas->s_sekunder1=$request->s_sekunder1;
-                $kemas->sekunder2=$request->sekunder2;
-                $kemas->s_sekunder2=$request->s_sekunder2;
-                $kemas->save();
-            }
-        $coba ->primery=$request->primary;
-        $coba ->secondery=$request->secondary;
-        $coba ->Tertiary=$request->tertiary;
         $coba ->dariusia=$request->dariumur;
         $coba ->sampaiusia=$request->sampaiumur;
         $coba ->gender=$request->gender;
@@ -539,7 +540,6 @@ class pdfController extends Controller
         $coba ->perevisi=Auth::user()->id;
         $coba ->last_update=$request->last_up;
         $coba ->serving=$request->serving;
-        $coba ->target_price=$request->target_price;
         $coba->claim=$request->claim;
         $coba->revisi=$revisi;
         $coba->turunan=$turunan;
@@ -548,7 +548,6 @@ class pdfController extends Controller
         $coba->attractiveness=$request->attractive;
         $coba->rto=$request->rto;
         $coba->name=$request->name_competitors;
-        $coba->retailer_price=$request->retailer_price;
         $coba->special=$request->special;
         $coba->save();
 
@@ -597,27 +596,76 @@ class pdfController extends Controller
             }
         }
 
-        if($request->forecast!=''){
-            $data = array(); 
-            $for = data_forecast::where('id_pdf',$pdf_id)->where('revisi',$revisi)->where('turunan',$turunan)->delete();
-            $validator = Validator::make($request->all(), $data);  
+        
+        if($request->forecast!=NULL){
+            $datafor = data_forecast::where('id_pkp',$id_pkp)->where('revisi',$revisi)->where('turunan',$turunan)->delete();
+            $for = array(); 
+            $validator = Validator::make($request->all(), $for);  
             if ($validator->passes()) {
                 $idz = implode(',', $request->input('forecast'));
                 $ids = explode(',', $idz);
                 $ida = implode(',', $request->input('satuan'));
                 $idb = explode(',', $ida);
-                $idc = implode(',', $request->input('keterangan'));
-                $idd = explode(',', $idc);
+                $uom = implode(',', $request->input('uom'));
+                $Duom = explode(',', $uom);
+                $satuan_uom = implode(',', $request->input('satuan_uom'));
+                $Dsatuan_uom = explode(',', $satuan_uom);
+                $nfi_price = implode(',', $request->input('price'));
+                $nfi = explode(',', $nfi_price);
+                $costumer_price = implode(',', $request->input('costumer'));
+                $costumer = explode(',', $costumer_price);
+                
+                $primary = implode(',', $request->input('primary'));
+                $data_primary = explode(',', $primary);
+                $secondary = implode(',', $request->input('secondary'));
+                $data_secondary = explode(',', $secondary);
+                $tertiary = implode(',', $request->input('tertiary'));
+                $data_tertiary = explode(',', $tertiary);
+
+                $tersier1 = implode(',', $request->input('tersier'));
+                $data_tersier1 = explode(',', $tersier1);
+                $s_tersier1 = implode(',', $request->input('s_tersier'));
+                $data_s_tersier1 = explode(',', $s_tersier1);
+                $primer1 = implode(',', $request->input('primer'));
+                $data_primer1 = explode(',', $primer1);
+                $s_primer1 = implode(',', $request->input('s_primer'));
+                $data_s_primer1 = explode(',', $s_primer1);
+                $sekunder11 = implode(',', $request->input('sekunder1'));
+                $data_sekunder11 = explode(',', $sekunder11);
+                $s_sekunder11 = implode(',', $request->input('s_sekunder1'));
+                $data_s_sekunder11 = explode(',', $s_sekunder11);
+                $sekunder21 = implode(',', $request->input('sekunder2'));
+                $data_sekunder21 = explode(',', $sekunder21);
+                $s_sekunder21 = implode(',', $request->input('s_sekunder2'));
+                $data_s_sekunder21 = explode(',', $s_sekunder21);
                 for ($i = 0; $i < count($ids); $i++)
                 {
-                    $pipeline = new data_forecast;
-                    $pipeline->id_pdf=$request->id;
-                    $pipeline->turunan=$turunan;
-                    $pipeline->revisi=$revisi;
-                    $pipeline->forecast = $ids[$i];
-                    $pipeline->satuan = $idb[$i];
-                    $pipeline->keterangan = $idd[$i];
-                    $pipeline->save();
+                    $kemas = new datakemas;
+                    $kemas->tersier= $data_tersier1[$i];
+                    $kemas->s_tersier= $data_s_tersier1[$i];
+                    $kemas->primer= $data_primer1[$i];
+                    $kemas->s_primer= $data_s_primer1[$i];
+                    $kemas->sekunder1= $data_sekunder11[$i];
+                    $kemas->s_sekunder1= $data_s_sekunder11[$i];
+                    $kemas->sekunder2= $data_sekunder21[$i];
+                    $kemas->s_sekunder2= $data_s_sekunder21[$i];
+                    $kemas->save();
+
+                    $forecash = new data_forecast;
+                    $forecash->id_pdf=$request->id;
+                    $forecash->turunan=$turunan;
+                    $forecash->revisi=$revisi;
+                    $forecash->satuan = $idb[$i];
+                    $forecash->forecast = $ids[$i];
+                    $forecash->kemas_eksis = $kemas->id_kemas;
+                    $forecash->uom = $Duom[$i];
+                    $forecash->jlh_uom = $Dsatuan_uom[$i];
+                    $forecash->nfi_price = $nfi[$i];
+                    $forecash->costumer = $costumer[$i];
+                    $forecash->informasi_Primary = $data_primary[$i];
+                    $forecash->Secondary = $data_secondary[$i];
+                    $forecash->Tertiary	 = $data_tertiary[$i];
+                    $forecash->save();
                     $i = $i++;
                 }
             }
@@ -716,25 +764,6 @@ class pdfController extends Controller
                 {
                 $coba= new coba;
                 $coba ->pdf_id=$request->id;
-                if($request->primer==''){
-                    $coba->kemas_eksis=$request->data_eksis;
-                    }elseif($request->primer!='NULL'){
-                    $coba->kemas_eksis=$request->kemas;
-
-                        $kemas = new datakemas;
-                        $kemas->tersier=$request->tersier;
-                        $kemas->s_tersier=$request->s_tersier;
-                        $kemas->primer=$request->primer;
-                        $kemas->s_primer=$request->s_primer;
-                        $kemas->sekunder1=$request->sekunder1;
-                        $kemas->s_sekunder1=$request->s_sekunder1;
-                        $kemas->sekunder2=$request->sekunder2;
-                        $kemas->s_sekunder2=$request->s_sekunder2;
-                        $kemas->save();
-                    }
-                $coba ->primery=$request->primary;
-                $coba ->secondery=$request->secondary;
-                $coba ->Tertiary=$request->tertiary;
                 $coba ->perevisi=Auth::user()->id;
                 $coba ->last_update=$request->last_up;
                 $coba ->dariusia=$request->dariumur;
@@ -745,7 +774,6 @@ class pdfController extends Controller
                 $coba ->revisi=$pdfp->revisi;
                 $coba ->wight=$request->weight;
                 $coba ->serving=$request->serving;
-                $coba ->target_price=$request->target_price;
                 $coba ->claim=$request->claim;
                 $coba ->ingredient=$request->ingredient;
                 $coba ->background=$request->background;
@@ -753,7 +781,6 @@ class pdfController extends Controller
                 $coba ->rto=$request->rto;
                 $coba ->status_pdf='active';
                 $coba ->name=$request->name_competitors;
-                $coba ->retailer_price=$request->retailer_price;
                 $coba ->special=$request->special;
                 $coba ->save();
 
@@ -781,26 +808,73 @@ class pdfController extends Controller
                 }
             } 
 
-            if($request->forecast!='' && $request->satuan!=''){
-                $data = array(); 
-                $validator = Validator::make($request->all(), $data);  
+            if($request->forecast!=NULL){
+                $for = array(); 
+                $validator = Validator::make($request->all(), $for);  
                 if ($validator->passes()) {
                     $idz = implode(',', $request->input('forecast'));
                     $ids = explode(',', $idz);
                     $ida = implode(',', $request->input('satuan'));
                     $idb = explode(',', $ida);
-                    $idc = implode(',', $request->input('keterangan'));
-                    $idd = explode(',', $idc);
+                    $uom = implode(',', $request->input('uom'));
+                    $Duom = explode(',', $uom);
+                    $satuan_uom = implode(',', $request->input('satuan_uom'));
+                    $Dsatuan_uom = explode(',', $satuan_uom);
+                    $nfi_price = implode(',', $request->input('price'));
+                    $nfi = explode(',', $nfi_price);
+                    $costumer_price = implode(',', $request->input('costumer'));
+                    $costumer = explode(',', $costumer_price);
+                    
+                    $primary = implode(',', $request->input('primary'));
+                    $data_primary = explode(',', $primary);
+                    $secondary = implode(',', $request->input('secondary'));
+                    $data_secondary = explode(',', $secondary);
+                    $tertiary = implode(',', $request->input('tertiary'));
+                    $data_tertiary = explode(',', $tertiary);
+    
+                    $tersier1 = implode(',', $request->input('tersier'));
+                    $data_tersier1 = explode(',', $tersier1);
+                    $s_tersier1 = implode(',', $request->input('s_tersier'));
+                    $data_s_tersier1 = explode(',', $s_tersier1);
+                    $primer1 = implode(',', $request->input('primer'));
+                    $data_primer1 = explode(',', $primer1);
+                    $s_primer1 = implode(',', $request->input('s_primer'));
+                    $data_s_primer1 = explode(',', $s_primer1);
+                    $sekunder11 = implode(',', $request->input('sekunder1'));
+                    $data_sekunder11 = explode(',', $sekunder11);
+                    $s_sekunder11 = implode(',', $request->input('s_sekunder1'));
+                    $data_s_sekunder11 = explode(',', $s_sekunder11);
+                    $sekunder21 = implode(',', $request->input('sekunder2'));
+                    $data_sekunder21 = explode(',', $sekunder21);
+                    $s_sekunder21 = implode(',', $request->input('s_sekunder2'));
+                    $data_s_sekunder21 = explode(',', $s_sekunder21);
                     for ($i = 0; $i < count($ids); $i++)
                     {
-                        $pipeline = new data_forecast;
-                        $pipeline->id_pdf=$request->id;
-                        $pipeline->turunan=$naikversi;
-                        $pipeline->revisi='0';
-                        $pipeline->forecast = $ids[$i];
-                        $pipeline->satuan = $idb[$i];
-                        $pipeline->keterangan = $idd[$i];
-                        $pipeline->save();
+                        $kemas = new datakemas;
+                        $kemas->tersier= $data_tersier1[$i];
+                        $kemas->s_tersier= $data_s_tersier1[$i];
+                        $kemas->primer= $data_primer1[$i];
+                        $kemas->s_primer= $data_s_primer1[$i];
+                        $kemas->sekunder1= $data_sekunder11[$i];
+                        $kemas->s_sekunder1= $data_s_sekunder11[$i];
+                        $kemas->sekunder2= $data_sekunder21[$i];
+                        $kemas->s_sekunder2= $data_s_sekunder21[$i];
+                        $kemas->save();
+                        
+                        $forecash = new data_forecast;
+                        $forecash->id_pdf=$request->id;
+                        $forecash->turunan=$naikversi;
+                        $forecash->satuan = $idb[$i];
+                        $forecash->forecast = $ids[$i];
+                        $forecash->kemas_eksis = $kemas->id_kemas;
+                        $forecash->uom = $Duom[$i];
+                        $forecash->jlh_uom = $Dsatuan_uom[$i];
+                        $forecash->nfi_price = $nfi[$i];
+                        $forecash->costumer = $costumer[$i];
+                        $forecash->informasi_Primary = $data_primary[$i];
+                        $forecash->Secondary = $data_secondary[$i];
+                        $forecash->Tertiary	 = $data_tertiary[$i];
+                        $forecash->save();
                         $i = $i++;
                     }
                 }
@@ -947,7 +1021,6 @@ class pdfController extends Controller
     }
 
     public function edit(Request $request, $id_project_pdf,$revisi,$turunan){
-        //dd($request->date);
         $edit = project_pdf::where('id_project_pdf',$id_project_pdf)->first();
         $edit->tujuankirim=$request->kirim;
         $edit->status_project='sent';
@@ -1122,7 +1195,7 @@ class pdfController extends Controller
         $sample_project_PV = Formula::where('workbook_pdf_id', $id_project_pdf)->where('vv','!=',NULL)->orderBy('versi','asc')->orderBy('turunan','asc')->get();
         $max2 = coba::where('pdf_id',$id_project_pdf)->max('revisi');
         $max = coba::where('pdf_id',$id_project_pdf)->max('turunan');
-        $pdf = coba::where('turunan',$max)->where('revisi',$max2)->where('status_pdf','active')->get();
+        $pdf = coba::where('pdf_id',$id_project_pdf)->where('turunan',$max)->where('revisi',$max2)->where('status_pdf','active')->get();
         return view('pdf.daftarpdf')->with([
             'data' => $data,
             'sample' => $sample_project,
@@ -1210,6 +1283,14 @@ class pdfController extends Controller
                     $for->turunan=$isifor->turunan;
                     $for->forecast=$isifor->forecast;
                     $for->satuan=$isifor->satuan;
+                    $for->kemas_eksis=$isifor->kemas_eksis;
+                    $for->informasi_Primary=$isifor->informasi_Primary;
+                    $for->Secondary=$isifor->Secondary;
+                    $for->Tertiary=$isifor->Tertiary;
+                    $for->uom=$isifor->uom;
+                    $for->jlh_uom=$isifor->jlh_uom;
+                    $for->nfi_price=$isifor->nfi_price;
+                    $for->costumer=$isifor->costumer;
                     $for->keterangan=$isifor->keterangan;
                     $for->save();
                 }

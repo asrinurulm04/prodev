@@ -171,6 +171,7 @@ Route::get('catatanrevisi','pv\pkpController@catatanrevisi')->name('catatanrevis
 Route::post('prioritas/{id}','pv\pkpController@prioritas')->name('prioritas');
 
 Route::post('approve1/{id}','pv\pkpController@approve1')->name('approve1');
+Route::post('approvepkp2/{id}','pv\pkpController@approve2')->name('approvepkp2');
 Route::post('approve2/{id}','pv\pkpController@approve2')->name('approve2');
 Route::get('dasboardpv','pv\pkpController@dasboardpv')->name('dasboardpv');
 Route::get('dasboardnr','pv\pkpController@dasboardnr')->name('dasboardnr');

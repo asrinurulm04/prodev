@@ -46,6 +46,7 @@
                 <form class="form-horizontal form-label-left" method="POST" action="{{ route('approve2',$pkp->id_project) }}" novalidate>
                   <input type="hidden" value="{{$last}}" name="tgl">
                   <button type="submit" class="btn btn-dark btn-sm"><li class="fa fa-check"></li> Approve data</button>
+                  {{ csrf_field() }}
                 </form>
                 @endif
               @endif

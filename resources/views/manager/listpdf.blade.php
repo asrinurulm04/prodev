@@ -112,7 +112,7 @@
             <td class="text-center">Status RD Kemas</td>
             <td class="text-center">Status RD Produk</td>
             <td class="text-center">Priority</td>
-            <td class="text-center" width="13%">Action</td>
+            <td class="text-center" width="8%">Action</td>
             <td width="15%">Information</td>
           </tr>
         </thead>

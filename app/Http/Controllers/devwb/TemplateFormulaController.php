@@ -87,6 +87,10 @@ class TemplateFormulaController extends Controller
                 $fortails->save();
             }
         }
-        return Redirect()->route('step2',[$formula_Tujuan->workbook_id,$ftujuan])->with('status','Struktur Formula '.$namaformAsal.' Telah Dimasukan');
+        if($formula_Tujuan->workbook_id!=NULL){
+            return Redirect()->route('step2',[$formula_Tujuan->workbook_id,$ftujuan])->with('status','Struktur Formula '.$namaformAsal.' Telah Dimasukan');
+        }if($formula_Tujuan->workbook_pdf_id!=NULL){
+            return Redirect()->route('step2',[$formula_Tujuan->workbook_pdf_id,$ftujuan])->with('status','Struktur Formula '.$namaformAsal.' Telah Dimasukan');
+        }
     }
 }

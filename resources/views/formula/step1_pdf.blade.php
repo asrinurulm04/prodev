@@ -136,7 +136,7 @@
     	<div class="form-group row">
       	<label for="middle-name" class="control-label col-md-2 col-sm-2 col-xs-12"> Idea </label>
       	<div class="col-md-8 col-sm-8 col-xs-12">
-          <input class="form-control edit" id="idea" name="idea" minlength="2" type="text" value="{{ $formula->workbook_pdf->idea }}" readonly />
+          <input class="form-control edit" id="idea" name="idea" minlength="2" type="text" value="{{ $formula->workbook_pdf->background }}" readonly />
       	</div>
     	</div>
 

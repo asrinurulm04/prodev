@@ -233,6 +233,14 @@ class listpkpController extends Controller
                     $for->turunan='0';
                     $for->forecast=$isifor->forecast;
                     $for->satuan=$isifor->satuan;
+                    $for->kemas_eksis=$isifor->kemas_eksis;
+                    $for->informasi_Primary=$isifor->informasi_Primary;
+                    $for->Secondary=$isifor->Secondary;
+                    $for->Tertiary=$isifor->Tertiary;
+                    $for->uom=$isifor->uom;
+                    $for->jlh_uom=$isifor->jlh_uom;
+                    $for->nfi_price=$isifor->nfi_price;
+                    $for->costumer=$isifor->costumer;
                     $for->keterangan=$isifor->keterangan;
                     $for->save();
                 }

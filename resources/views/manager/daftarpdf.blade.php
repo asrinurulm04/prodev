@@ -18,7 +18,7 @@
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">                 
-                  <h3 class="modal-title" id="exampleModalLabel">Divert Project
+                  <h3 class="modal-title text-center" id="exampleModalLabel">Divert Project
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button> </h3>
@@ -31,7 +31,7 @@
                       <select name="tujuankirim" class="form-control form-control-line" id="type">
                         <option disabled selected>{{$data->departement->dept}} ({{$data->departement->nama_dept}})</option>
                         @foreach($dept as $dept)
-                        @if($dept->Divisi=='RND')
+                          @if($dept->dept=='RPE')
                           <option value="{{$dept->id}}">{{$dept->dept}} ({{$dept->nama_dept}})</option>
                           @endif
                         @endforeach
@@ -53,7 +53,7 @@
                   </div>
                 </div>
                 <div class="modal-footer">
-                  <button type="submit" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Submit</button>
+                  <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-plus-circle"></i> Submit</button>
                   {{ csrf_field() }}
                 </div>
                 </form>

@@ -92,15 +92,10 @@
                               <td>Competitor</td>
                               <td colspan="2">
                                 <table>
-                                  <?php $name = []; foreach ($pdf1 as $key => $data) If (!$name || !in_array($data->name, $name)) { $name += array( $key => $data->name );} ?>
-                                  <tr><td style="border:none;">Nama </td><td style="border:none;"> @foreach($name as $name) : {{$name}}<br>@endforeach</td></tr>
-                                  <?php $retailer_price = []; foreach ($pdf1 as $key => $data) If (!$retailer_price || !in_array($data->retailer_price, $retailer_price)) { $retailer_price += array( $key => $data->retailer_price );} ?>
-                                  <tr><td style="border:none;">Retailer Price </td><td style="border:none;"> @foreach($retailer_price as $retailer_price): {{$retailer_price}}<br>@endforeach</td></tr>
-                                  <?php $special = []; foreach ($pdf1 as $key => $data) If (!$special || !in_array($data->special, $special)) { $special += array( $key => $data->special );} ?>
-                                  <tr><td style="border:none;">What's Special </td><td style="border:none;"> @foreach($special as $special): {{$special}}<br>@endforeach</td></tr>
-                                  <tr><td style="border:none;">Photo </td><td style="border:none;"> :
-                                  @foreach($picture as $pic)<embed src="{{asset('data_file/'.$pic->filename)}}" width="135px" height="140" type="">
-                                  @endforeach</td></tr>
+                                  <tr><th>Name</th><td style="border:none;"><?php $name = []; foreach ($pdf1 as $key => $data) If (!$name || !in_array($data->name, $name)) { $name += array( $key => $data->name );
+                                  if($data->turunan!=$pdf->turunan){ echo" : <s><font color='#6594c5'>$data->name <br></font></s>"; } if($data->turunan==$pdf->turunan){ echo" : $data->name <br>"; } } ?></td></tr>
+                                  <tr><th>What's Special</th><td style="border:none;"><?php $special = []; foreach ($pdf1 as $key => $data) If (!$special || !in_array($data->special, $special)) { $special += array( $key => $data->special );
+                                  if($data->turunan!=$pdf->turunan){ echo" <s><font color='#6594c5'> :$data->special <br></font></s>"; } if($data->turunan==$pdf->turunan){ echo" : $data->special <br>"; } } ?></tr>
                                 </table>
                               </td>
                             </tr>
@@ -111,8 +106,6 @@
                                   <?php $wight = []; foreach ($pdf1 as $key => $data) If (!$wight || !in_array($data->wight, $wight)) { $wight += array( $key => $data->wight );} ?>
                                   <tr><td style="border:none;">Weight/Serving </td><td style="border:none;"> @foreach($wight as $wight): {{$wight}} / {{$pdf->serving}}<br>@endforeach</td></tr>
                                   <?php $target_price = [];foreach ($pdf1 as $key => $data)If (!$target_price || !in_array($data->target_price, $target_price)) { $target_price += array($key => $data->target_price);}?>
-                                  <tr><td style="border:none;">Target NFI price / ctn </td><td style="border:none;"> @foreach($target_price as $target_price): {{$target_price}}<br>@endforeach</td></tr>
-                                  <?php $claim = []; foreach ($pdf1 as $key => $data) If (!$claim || !in_array($data->claim, $claim)) { $claim += array( $key => $data->claim );} ?>
                                   <tr><td style="border:none;">Claim / function </td><td style="border:none;"> @foreach($claim as $claim): {{$claim}}<br>@endforeach</td></tr>
                                   <?php $ingredient = []; foreach ($pdf1 as $key => $data) If (!$ingredient || !in_array($data->ingredient, $ingredient)) { $ingredient += array( $key => $data->ingredient );} ?>
                                   <tr><td style="border:none;">Special Ingredient </td><td style="border:none;"> @foreach($ingredient as $ingredient): {{$ingredient}}<br>@endforeach</td></tr>

@@ -136,7 +136,6 @@ class managerController extends Controller
                     $user = DB::table('users')->where('id',$request->kirim)->get();
                     foreach($user as $user){
                         $data = $user->email;
-                        // dd($data);
                         $message->to($data);
                     }
 
@@ -144,7 +143,6 @@ class managerController extends Controller
                     $user2 = DB::table('users')->where('id',$request->kirimauthor)->get();
                     foreach($user2 as $user2){
                         $data2 = $user2->email;
-                        // dd($data);
                         $message->cc($data2);
                     }
                 });
@@ -337,7 +335,7 @@ class managerController extends Controller
         $ses = data_ses::where([ ['id_pdf',$id_project_pdf], ['revisi',$revisi], ['turunan',$turunan] ])->get();
         $pdf1 = coba::where('pdf_id',$id_project_pdf)->where('revisi','<=',$revisi)->where('turunan','<=',$turunan)->orderBy('revisi','desc')->get();
         $pdf = coba::join('pdf_project','tipu.pdf_id','=','pdf_project.id_project_pdf')->where('id_project_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->get();
-        $for = data_forecast::where('id_pdf',$id_project_pdf)->where('revisi','<=',$revisi)->where('turunan','<=',$turunan)->orderBy('revisi','desc')->get();
+        $for = data_forecast::where('id_pdf',$id_project_pdf)->where('revisi','<=',$revisi)->where('turunan',$turunan)->orderBy('revisi','desc')->get();
         $hitungkemaspdf = kemaspdf::where('id_pdf',$id_project_pdf)->where('revisi','=',$revisi)->where('turunan','=',$turunan)->count();
         $kemaspdf = kemaspdf::where('id_pdf',$id_project_pdf)->where('revisi','=',$revisi)->where('turunan','=',$turunan)->get();
         $nopdf = DB::table('pdf_project')->max('pdf_number')+1;

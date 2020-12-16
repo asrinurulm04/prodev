@@ -162,7 +162,7 @@
                     </ul>
                   </li>
                   @endif
-                  @if(auth()->user()->role->namaRule === 'user_produk')
+                  @if(auth()->user()->role->namaRule === 'user_produk' || auth()->user()->role->namaRule === 'kemas')
                   <li><a><i class="fa fa-folder-open"></i> PKP / PDF / PROMO <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="{{ route('listprojectpkp') }}">List PKP</a> </li>
