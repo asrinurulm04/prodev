@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\datamaster;
 
-use App\master\Produksi;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\model\master\Produksi;
 use Redirect;
 
 class ProduksiController extends Controller

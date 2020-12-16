@@ -1,4 +1,4 @@
-@extends('admin.tempadmin')
+@extends('pv.tempvv')
 @section('title', 'Data SubBrand')
 @section('judulhalaman','Data Master')
 @section('content')
@@ -27,14 +27,14 @@
     <h3><li class="fa fa-list"> List Brand</li></h3>
   </div>
   <div class="card-block">
-    <a type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#add_subbrand" id="tambah"><i class="fa fa-plus"></i> Tambah Subbrand</a>
+    <a type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#add_subbrand" id="tambah"><i class="fa fa-plus"></i> Add Subbrand</a>
 	  <div class="dt-responsive table-responsive">
       <table class="Table table-striped table-bordered nowrap">
         <thead>
           <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
             <th>ID</th>
             <th>Subbrand</th>
-            <th>Manager</th>
+            <th>Brand</th>
             <th class="text-center">Action</th>
           </tr>
         </thead>
@@ -43,7 +43,7 @@
           <tr>
             <td>{{ $subbrand->id }}</td>
             <td>{{ $subbrand->subbrand }}</td>
-            <td>{{ $subbrand->user->name }}</td>
+            <td>{{ $subbrand->databrand->brand }}</td>
             <td  class="text-center">
               <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#edit_subbrand{{ $subbrand->id }}"><i class="fa fa-edit"></i></a></button>
               <button class="btn btn-danger btn-sm" onclick="return confirm('Hapus Subbrand ?')" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash-o"></i></button>
@@ -59,26 +59,20 @@
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button></h4>
                 </div>
                 <div class="modal-body">
-                  <form method="POST" action="{{ route('subbrand.store') }}">
+                  <form method="POST" action="{{ route('update.subbrand',$subbrand->id) }}">
                   <label for="" class="control-label">Subbrand</label>
                   <input class="form-control" id="subbrand" name="subbrand" placeholder="Subbrand" value="{{ $subbrand->subbrand }}" required /><br>
                   <label for="" class="control-label">Brand</label><br>
                   <select id="brand" name="brand" class="form-control">
+                    <option value="{{$subbrand->brand_id}}"> {{$subbrand->databrand->brand}}</option>
                     @foreach($brands as $brand) 
                     <option value="{{  $brand->id }}" {{ old('brand_id') == $brand->id ? 'selected' : '' }}>{{ $brand->brand}}</option>
                     @endforeach
-                  </select><br>
-                  <label for="" class="control-label">Manager</label><br>
-                  <select id="manager" name="manager" class="form-control">
-                    @foreach($users as $user) 
-                    <option value="{{  $user->id }}" {{ old('manager') == $user->id ? 'selected' : '' }}>{{ $user->role->namaRule}} - {{ $user->name }}</option>
-                    @endforeach
-                  </select><br><br>
+                  </select>
                   {{ csrf_field() }}
                 </div>
                 <div class="modal-footer">
-                  <button class="btn btn-primary" type="submit"><i class="fa fa-edit"></i> Submit</button>
-                  <a type="button" class="btn btn-danger" data-dismiss="modal" ><li class="fa fa-times"></li> Cencel</a>
+                  <button class="btn btn-primary btn-sm" type="submit"><i class="fa fa-edit"></i> Save</button>
                   </form>
                 </div>
               </div>
@@ -97,7 +91,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="EWBModalLabel"><i class="fa fa-plus"></i> Tambah Subbrand--
+        <h4 class="modal-title" id="EWBModalLabel"><i class="fa fa-plus"></i> Add Subbrand--
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button></h4>
       </div>
       <div class="modal-body">
@@ -109,18 +103,11 @@
           @foreach($brands as $brand) 
           <option value="{{  $brand->id }}" {{ old('brand_id') == $brand->id ? 'selected' : '' }}>{{ $brand->brand}}</option>
           @endforeach
-        </select><br>
-        <label for="" class="control-label">Manager</label><br>
-        <select id="manager" name="manager" class="form-control" style="width:450px;">
-          @foreach($users as $user) 
-          <option value="{{  $user->id }}" {{ old('manager') == $user->id ? 'selected' : '' }}>{{ $user->role->namaRule}} - {{ $user->name }}</option>
-          @endforeach
-        </select><br><br>
+        </select>
         {{ csrf_field() }}
       </div>
       <div class="modal-footer">
-        <button class="btn btn-primary" type="submit"><i class="fa fa-plus"></i> Submit</button>
-        <a type="button" class="btn btn-danger" data-dismiss="modal" class="fa fa-times"></i> BATAL</a>
+        <button class="btn btn-primary btn-sm" type="submit"><i class="fa fa-plus"></i> Add</button>
         </form>
       </div>
     </div>

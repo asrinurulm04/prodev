@@ -54,7 +54,7 @@
 <div class="col-md-12 col-sm-12 col-xs-12">
   <div class="x_panel">
     <div class="x_title">
-			<h3 class="jumbotron"><li class=" fa fa-upload"></li> File Upload (Max 5MB)</h3>
+			<h3 class="jumbotron"><li class=" fa fa-upload"></li> File Upload (Max 2MB)</h3>
       <form method="post" action="{{url('uploadpromo')}}" enctype="multipart/form-data">
 		  {{csrf_field()}}
 			<div class="input-group control-group increment" >
@@ -64,7 +64,7 @@
       @endforeach
 				<input type="file" name="filename[]" class="form-control" multiple>
 		  </div>
-			<button type="submit" class="btn btn-primary" style="margin-top:10px"> Submit</button>
+			<button type="submit" class="btn btn-primary btn-sm" style="margin-top:10px"> Submit</button>
 	    </form>        
 		</div>
 	</div>

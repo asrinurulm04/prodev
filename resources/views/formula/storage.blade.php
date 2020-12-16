@@ -21,33 +21,18 @@
   @endif
 </div>
 
-<div class="row">
-  @include('formerrors')
-  <div class="col-md-3"></div>
-  <div class="col-md-8">
-    <div class="tabbable">
-      <ul class="nav nav-tabs wizard">
-        <li class="active"><a href="{{ route('step2',$idf) }}"><span class="nmbr">1</span>Penyusunan</a></li>
-        <li class="active"><a href="{{ route('summarry',$idf) }}"><span class="nmbr">2</span>Summary</a></li>
-        <li class="active"><a href="{{ route('step3',$idf) }}"><span class="nmbr">3</span>Premix</a></li>
-        <li class="completed"><a href="{{ route('panel',$idf) }}"><span class="nmbr">4</span>Data Panel</a></li>
-      </ul>
-    </div>
-  </div>
-</div>
-
 <div class="col-md-12 col-sm-12 col-xs-12 content-panel">
   <div class="panel panel-default"><br>
     <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
-      <li role="presentation" class=""><a href="{{ route('panel',$idf) }}">DATA PANEL</a></li>
-      <li role="presentation" class="active"><a href="{{ route('st',$idf) }}">DATA STOREGE</a></li>
+      <li role="presentation" class=""><a href="{{ route('panel',[ $idfor, $idf]) }}">DATA PANEL</a></li>
+      <li role="presentation" class="active"><a href="{{ route('st',[ $idfor, $idf]) }}">DATA STOREGE</a></li>
     </ul>
 	  <div class="panel-body">
       <div class="form-group">
         @if($cek_storage=='0')
         <div class="col-md-12 col-sm-12 col-xs-12">
           <form class="form-horizontal form-label-left" method="POST" action="{{ route('hasilstorage') }}" novalidate>
-            <input type='hidden' name='idf' maxlength='45' value='{{$fo->workbook_id}}' class='form-control col-md-7 col-xs-12'>
+            <input type='hidden' name='idf' maxlength='45' value='{{$fo->id}}' class='form-control col-md-7 col-xs-12'>
             <div class="item form-group">
               <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">No.PST</label>
               <div class="col-md-6 col-sm-8 col-xs-12">
@@ -87,23 +72,19 @@
         <div class="modal fade" id="panel" role="dialog" aria-labelledby="NWModalLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="NWModalLabel">Data Storage Baru </h4>
-              </div>
               <div class="modal-body" style="overflow-x: scroll;">
                 <form class="form-horizontal form-label-left" method="POST" action="{{ route('hasilstorage') }}" novalidate>
                   <span class="section">Form Storage</span>
-                  <input type='hidden' name='idf' maxlength='45' value='{{$fo->workbook_id}}' class='form-control col-md-7 col-xs-12'>
+                  <input type='hidden' name='idf' maxlength='45' value='{{$fo->id}}' class='form-control col-md-7 col-xs-12'>
                   <div class="item form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">No.PST</label>
-                    <div class="col-md-6 col-sm-8 col-xs-12">
+                    <div class="col-md-8 col-sm-8 col-xs-12">
                       <input type="text" id="spt" name="spt" required="required" data-validate-minmax="10,100" class="form-control col-md-7 col-xs-12">
                     </div>
                   </div>
                   <div class="item form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Suhu</label>
-                    <div class="col-md-6 col-sm-8 col-xs-12">
+                    <div class="col-md-8 col-sm-8 col-xs-12">
                       <select class="form-control" name="suhu" id="suhu">
                         <option type="disabled">---</option>
                         <option value="27">27</option>
@@ -114,13 +95,13 @@
                   </div>
                   <div class="item form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Estimasi Selesai</label>
-                    <div class="col-md-6 col-sm-8 col-xs-12">
+                    <div class="col-md-8 col-sm-8 col-xs-12">
                       <input type="date" id="estimasi" name="estimasi" required="required" data-validate-minmax="10,100" class="form-control col-md-7 col-xs-12">
                     </div>
                   </div>
                   <div class="ln_solid"></div>
                   <div class="form-group">
-                    <div class="col-md-6 col-md-offset-3">
+                    <div class="col-md-12 col-md-offset-6">
                       <button type="reset" class="btn btn-danger">Reset</button>
                       <button type="submit" class="btn btn-primary">Submit</button>
                       {{ csrf_field() }}
@@ -154,10 +135,11 @@
               <td>{{ $value->estimasi_selesai }}</td>
               <td>{{ $value->no_HSA }}</td>
               <td>{{ $value->keterangan }}</td>
-              <td width="12%" class="text-center">
+              <td width="14%" class="text-center">
                 <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#ayo{{$value->id}}"><li class="fa fa-eye"></li></button>
                 <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ayoedit{{$value->id}}"><li class="fa fa-edit"></li></button>  
-							    <!-- modal info -->
+                <a href="{{route('deletest',$value->id)}}" class="btn btn-danger btn-sm"><li class="fa fa-trash"></li></a>  
+                <!-- modal info -->
                   <div class="modal fade" id="ayo{{ $value->id }}" role="dialog" aria-labelledby="NWModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
                       <div class="modal-content">
@@ -261,10 +243,10 @@
 				    @endforeach
           </tbody>
         </table>
-        @endif
         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-5"><br>
           <a href="{{ route('showworkbook',$formula->workbook_id) }}" class="btn btn-primary" type="submit"><li class="fa fa-check"></li> Proses Selesai</a>
         </div>
+        @endif
       </div>
     </div>
   </div>

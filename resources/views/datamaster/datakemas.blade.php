@@ -5,7 +5,7 @@
 
 <div class="row">
 	<div class="x_panel">
-	<a href="{{route('export')}}" class="btn btn-info"><li class="fa fa-download"></li> Export Data Kemas</a>
+	<a href="{{route('export')}}" class="btn btn-info btn-sm"><li class="fa fa-download"></li> Export Data Kemas</a>
 		<table class="Table table-bordered">
 			<thead>
 				<tr style="font-weight: bold;color:white;background-color: #2a3f54;">

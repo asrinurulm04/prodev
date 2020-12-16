@@ -5,26 +5,25 @@ namespace App\Http\Controllers\devwb;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-use App\pkp\pkp_type;
-use App\pkp\pkp_project;
-use App\pkp\project_pdf;
-use App\pkp\data_forecast;
-use App\master\Brand;
-use App\pkp\menu;
-use App\notification;
-use App\pkp\klaim;
-use App\pkp\detail_klaim;
-use App\pkp\komponen;
-use App\pkp\data_klaim;
-use App\pkp\data_detail_klaim;
-use App\pkp\data_ses;
-use App\pkp\promo;
-use App\kemas\datakemas;
-use App\pkp\data_promo;
-use App\pkp\coba;
-use App\pkp\tipp;
-use App\manager\pengajuan;
-use App\pkp\picture;
+use App\model\pkp\pkp_type;
+use App\model\pkp\pkp_project;
+use App\model\pkp\project_pdf;
+use App\model\pkp\data_forecast;
+use App\model\pkp\klaim;
+use App\model\pkp\kemaspdf;
+use App\model\pkp\detail_klaim;
+use App\model\pkp\komponen;
+use App\model\pkp\data_klaim;
+use App\model\pkp\data_detail_klaim;
+use App\model\pkp\data_ses;
+use App\model\pkp\promo;
+use App\model\pkp\data_promo;
+use App\model\pkp\coba;
+use App\model\pkp\tipp;
+use App\model\pkp\picture;
+use App\model\master\Brand;
+use App\model\kemas\datakemas;
+use App\model\manager\pengajuan;
 
 use Auth;
 use DB;
@@ -55,7 +54,7 @@ class listpkpController extends Controller
     }
 
     public function listpkp(){
-        $pkp = pkp_project::where('status_project','!=','draf')->where('status_project','!=','sent')->get();
+        $pkp = pkp_project::where('status_project','!=','draf')->where('status_project','!=','sent')->orderBy('pkp_number','desc')->get();
         $type = pkp_type::all();
         $brand = brand::all();
         $hitungpkp = tipp::where('status_pkp','=','draf')->count();
@@ -75,7 +74,7 @@ class listpkpController extends Controller
     }
 
     public function listpdf(){
-        $pdf = DB::table('pdf_project')->get();
+        $pdf = project_pdf::all();
         $type = pkp_type::all();
         $brand = brand::all();
         $hitungpkp = tipp::where('status_pkp','=','draf')->count();
@@ -83,7 +82,7 @@ class listpkpController extends Controller
         $hitungpdf = coba::where('status_data','=','draf')->count();
         $jumlah = $hitungpkp+$hitungpromo+$hitungpdf;
         
-        return view('devwb.listprojectpdf')->with([
+        return view('devwb.listpdfproject')->with([
             'type' => $type,
             'pdf' => $pdf,
             'brand' => $brand,
@@ -171,6 +170,7 @@ class listpkpController extends Controller
         $project->jenis=$pdf1->jenis;
         $project->product_type=$pdf1->product_type;
         $project->country=$pdf1->country;
+        $project->workbook='0';
         $project->author=Auth::user()->id;
         $project->save();
 
@@ -214,7 +214,7 @@ class listpkpController extends Controller
                 foreach ($isises as $isises)
                 {
                     $data1= new data_ses;
-                    $data1->id_pdf=$isises->id_pdf;
+                    $data1->id_pdf=$project->id_project_pdf;
                     $data1->revisi='0';
                     $data1->turunan='0';
                     $data1->ses=$isises->ses;
@@ -228,11 +228,20 @@ class listpkpController extends Controller
                 foreach ($isifor as $isifor)
                 {
                     $for= new data_forecast;
-                    $for->id_pdf=$isifor->id_pdf;
+                    $for->id_pdf=$project->id_project_pdf;
                     $for->revisi='0';
                     $for->turunan='0';
                     $for->forecast=$isifor->forecast;
                     $for->satuan=$isifor->satuan;
+                    $for->kemas_eksis=$isifor->kemas_eksis;
+                    $for->informasi_Primary=$isifor->informasi_Primary;
+                    $for->Secondary=$isifor->Secondary;
+                    $for->Tertiary=$isifor->Tertiary;
+                    $for->uom=$isifor->uom;
+                    $for->jlh_uom=$isifor->jlh_uom;
+                    $for->nfi_price=$isifor->nfi_price;
+                    $for->costumer=$isifor->costumer;
+                    $for->keterangan=$isifor->keterangan;
                     $for->save();
                 }
             }
@@ -243,7 +252,7 @@ class listpkpController extends Controller
                 foreach ($isiklaim as $isiklaim)
                 {
                     $klaim= new data_klaim;
-                    $klaim->id_pdf=$isiklaim->id_pdf;
+                    $klaim->id_pdf=$project->id_project_pdf;
                     $klaim->revisi='0';
                     $klaim->turunan='0';
                     $klaim->id_komponen=$isiklaim->id_komponen;
@@ -258,7 +267,7 @@ class listpkpController extends Controller
                 foreach ($isidetail as $isidetail)
                 {
                     $detail= new data_detail_klaim;
-                    $detail->id_pdf=$isidetail->id_pdf;
+                    $detail->id_pdf=$project->id_project_pdf;
                     $detail->revisi='0';
                     $detail->turunan='0';
                     $detail->id_detail=$isidetail->id_detail;
@@ -266,6 +275,22 @@ class listpkpController extends Controller
                 }
             }
 
-            return redirect::route('pdf2',['pdf_id' => $tip->pdf_id, 'revisi' => $tip->revisi, 'turunan' => $tip->turunan]);
+            $detailkemaspdf=kemaspdf::where('id_pdf',$id_project_pdf)->where('revisi',$max)->where('turunan',$pdf)->count();
+            if($detailkemaspdf>0){
+                $isikemaspdf=kemaspdf::where('id_pdf',$id_project_pdf)->where('revisi',$max)->where('turunan',$pdf)->get();
+                foreach ($isikemaspdf as $isikemaspdf)
+                {
+                    $detail= new kemaspdf;
+                    $detail->id_pdf=$project->id_project_pdf;
+                    $detail->revisi='0';
+                    $detail->turunan='0';
+                    $detail->oracle=$isikemaspdf->oracle;
+                    $detail->kk=$isikemaspdf->kk;
+                    $detail->information=$isikemaspdf->information;
+                    $detail->save();
+                }
+            }
+
+            return redirect::route('buatpdf1',['pdf_id' => $tip->pdf_id, 'revisi' => $tip->revisi, 'turunan' => $tip->turunan]);
     }
 }

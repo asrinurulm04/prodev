@@ -4,12 +4,9 @@ namespace App\Http\Controllers\ajax;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\dev\Bahan;
-use App\master\Jenismakanan;
-use App\master\Brand;
-use App\nutfact\pangan;
-use App\master\Subbrand;
-
+use App\model\dev\Bahan;
+use App\model\master\Brand;
+use App\model\master\Subbrand;
 use DB;
 
 class getGet extends Controller
@@ -19,13 +16,6 @@ class getGet extends Controller
         $alternatif = DB::table('bahans')->where('subkategori_id',$prioritas->subkategori_id)->pluck('nama_sederhana','id');
 
         return json_encode($alternatif);
-    }
-
-    public function getBatasMax($id){
-        $JM = Jenismakanan::where('id',$id)->first();
-        $batas_max = $JM->batas_max;
-
-        return json_encode($batas_max);
     }
 
     public function getSubbrand($id){
@@ -42,12 +32,12 @@ class getGet extends Controller
     }
 
     public function getpangan($id_pangan){
-        $pangan = DB::table('fs_kategori_pangan')->where('id_pangan',$id_pangan)->pluck('kategori','id_pangan');
+        $pangan = DB::table('pkp_datapangan')->where('id_pangan',$id_pangan)->pluck('pangan','id_pangan');
         return json_encode($pangan);
     }
 
     public function getkatpangan($id_pangan){
-        $pangan = DB::table('fs_kategori_pangan')->where('id_pangan',$id_pangan)->pluck('no_kategori','id_pangan');
+        $pangan = DB::table('pkp_datapangan')->where('id_pangan',$id_pangan)->pluck('no_kategori','id_pangan');
         return json_encode($pangan);
     }
 

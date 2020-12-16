@@ -12,7 +12,6 @@
 <body class="nav-md">
 
 <!-- top navigation -->
-
 <div class="top_nav">
   <div class="nav_menu">
     <nav>
@@ -121,9 +120,9 @@
                   @endforeach
                 </tbody>
               </table>
-              <button class="btn btn-primary" type="submit"><li class="fa fa-check"></li> Submit</button>
+              <button class="btn btn-primary btn-sm" type="submit"><li class="fa fa-check"></li> Submit</button>
               {{ csrf_field() }}
-              <a href="{{route('hapuscheck')}}" class="btn btn-danger"><li class="fa fa-arrow-left"></li> Back</a>
+              <a href="{{route('hapuscheck')}}" class="btn btn-danger btn-sm"><li class="fa fa-arrow-left"></li> Back</a>
             </form>
           </div>
         </div>

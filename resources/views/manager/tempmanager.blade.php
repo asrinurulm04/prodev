@@ -18,14 +18,14 @@
         <div class="col-md-3 left_col" style="position:fixed; min-height:880;">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 2;">
-              <a href="{{route('lala')}}" class="site_title"><i class="fa fa-laptop"></i><img src="{{ asset('img/logo.png') }}" width="70%" alt="..."></a>
+              <center><a href="{{route('lala')}}" class="site_title"><img src="{{ asset('img/logo.png') }}" width="70%" alt="..."></a></center>
             </div>
             <div class="clearfix"></div>
             <!-- menu profile quick info -->
             <div class="profile clearfix">
               <center>
                 <a href="{{route('lala')}}"><img style="width:100px" src="{{ asset('img/pro.png') }}" alt="..." class="profile_img"></a><br>
-                <span style="font-weight: bold;color:white;">Welcome, {{ Auth::user()->role->role }} ({{ Auth::user()->Departement->dept }})</span>
+                <span style="font-weight: bold;color:white;">Welcome, {{ Auth::user()->role->role }} </span>
                   @if( auth()->check() )
                   <h2 style="color:white;">{{ Auth::user()->name }}</h2>
                   @endif
@@ -89,14 +89,13 @@
                   </li>
                   <li><a><i class="fa fa-book"></i> Master Data <span class="label label-success"></span> <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="{{ route('datapangan') }}">BPOM Category</a></li>
+                      <li><a href="{{ route('datapangan') }}">Microbiology</a></li>
                       <li><a href="{{ route('akg') }}">Data AKG</a></li>
                       <li><a href="{{ route('sku') }}">Active SKU</a></li>
                       <li><a href="{{ route('klaim') }}">Claim Regulation</a></li>
-                      <li><a href="{{ route('arsen')}}">Logam Berat</a></li>
+                      <li><a href="{{ route('logam.berat')}}">Logam Berat</a></li>
                     </ul>
                   </li>
-                  <li class="mt"><a href="{{ route('menucalender') }}"><i class="fa fa-calendar"></i><span>Project Calendar</span></a></li>
                 </ul>
               </div>
             </div>
@@ -107,10 +106,7 @@
         <div class="top_nav" >
           <div class="nav_menu" >
             <nav >
-              <div class="nav toggle" >
-                <a id="menu_toggle" style="color:#353d48"><i class="fa fa-bars" ></i></a>
-              </div>
-              <ul class="nav navbar-nav navbar-right">
+                <ul class=" navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                     <img src="{{ asset('img/pro.png') }}" alt="">{{ Auth::user()->name }}
@@ -121,79 +117,10 @@
                     <li><a href="{{ route('signout') }}"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
                   </ul>
                 </li>
-                <li role="presentation" class="dropdown">
-                  <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
-                    <i class="fa fa-envelope-o"></i>
-                    @if(Auth::user()->departement->dept=='RKA')
-                    <span class="badge bg-green">{{$hitungdata2}}</span>
-                    @else
-                    <span class="badge bg-green">{{$hitungdata}}</span>
-                    @endif
-                  </a>
-                  <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu" style="overflow-y: scroll;max-height:370px">
-                    @if($hitungdata>=1 || $hitungdata2>=1)
-                      @if($hitungppkp>=1 || $hitungppkp1>=1)
-                        <li >
-                          <a>
-                            <a href="{{route('listpkprka')}}">
-                              <span class="image"><img src="{{ asset('img/pro.png') }}" alt="Profile Image" /></span>
-                              <span>
-                                @if(Auth::user()->departement->dept!='RKA')
-                                <span>You Have {{$hitungppkp}} new PKP</span>
-                                @elseif(Auth::user()->departement->dept=='RKA')
-                                <span>You Have {{$hitungppkp1}} new PKP</span>
-                                @endif
-                              </span>
-                              <span class="message">
-                                <span>click to show data</span>
-                              </span>
-                            </a>
-                          </a>
-                        </li>
-                      @endif
-                      @if($hitungppdf>=1 || $hitungppdf1>=1)
-                        <li >
-                          <a>
-                            <a href="{{route('listpdfrka')}}">
-                              <span class="image"><img src="{{ asset('img/pro.png') }}" alt="Profile Image" /></span>
-                              <span>
-                                @if(Auth::user()->departement->dept!='RKA')
-                                <span>You Have {{$hitungppdf}} new PDF</span>
-                                @elseif(Auth::user()->departement->dept=='RKA')
-                                <span>You Have {{$hitungppdf1}} new PDF </span>
-                                @endif
-                              </span>
-                              <span class="message">
-                                <span>click to show data</span>
-                              </span>
-                            </a>
-                          </a>
-                        </li>
-                      @endif
-                      @if($hitungppromo>=1 || $hitungppromo1>=1)
-                        <li >
-                          <a>
-                            <a href="{{route('listpromoo')}}">
-                              <span class="image"><img src="{{ asset('img/pro.png') }}" alt="Profile Image" /></span>
-                              <span>
-                                @if(Auth::user()->departement->dept!='RKA')
-                                <span>You Have {{$hitungppromo}} new PROMO</span>
-                                @elseif(Auth::user()->departement->dept=='RKA')
-                                <span>You Have {{$hitungppromo1}} new PROMO</span>
-                                @endif
-                              </span>
-                              <span class="message">
-                                <span>click to show data</span>
-                              </span>
-                            </a>
-                          </a>
-                        </li>
-                      @endif
-                    @endif
-                  </ul>
-                </nav>
-              </div>
-            </div>
+              </ul>
+            </nav>
+          </div>
+        </div>
          <!-- /top navigation -->
 
         <!-- page content -->
@@ -251,10 +178,9 @@
           "last": "Akhir",
           "next": ">",
           "previous": "<"
-          }
         }
-      });
-    </script>
+      }
+    });</script>
     <script>
       $('#exampleModal').on('show.bs.modal', function (event) {
       var button = $(event.relatedTarget) // Button that triggered the modal

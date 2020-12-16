@@ -17,7 +17,7 @@
         <div class="col-md-3 left_col" style="min-height:1280;">
           <div class="left_col scroll-view" >
             <div class="navbar nav_title" style="border: 2;">
-              <a href="{{route('lala')}}" class="site_title"><i class="fa fa-laptop"></i><img src="{{ asset('img/logo.png') }}" width="70%" alt="..."></a>
+              <center><a href="{{route('lala')}}" class="site_title"><img src="{{ asset('img/logo.png') }}" width="70%" alt="..."></a></center>
             </div>
             <div class="clearfix"></div>
             <!-- menu profile quick info -->
@@ -34,6 +34,7 @@
               <div class="menu_section">
                 <h3>General</h3>
                 <ul class="nav side-menu">
+                  @if(auth()->user()->role->namaRule == 'admin')
                   <li><a><i class="fa fa-user"></i> User Management <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="{{ route('MyProfile') }}">Profil</a></li>
@@ -67,32 +68,60 @@
                     </ul>
                   </li>
                   <li class="mt"><a href="{{ route('dept') }}"><i class="fa fa-group"></i><span>Departement</span></a></li>
-								  <li><a><i class="fa fa-edit"></i> Master Data <span class="fa fa-chevron-down"></span></a>
+								  <li><a><i class="fa fa-book"></i> Master Data <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="{{ route('datases') }}">SES</a></li>
                       <li><a href="{{ route('datauom')}}">UOM</a></li>
-                      <li><a href="{{ route('datapangan') }}">BPOM Category</a></li>
+                      <li><a href="{{ route('datapangan') }}">Microbiology</a></li>
                       <li><a href="{{ route('akg') }}">Data AKG</a></li>
                       <li><a href="{{ route('sku') }}">Active SKU</a></li>
                       <li><a href="{{ route('klaim') }}">Claim Regulation</a></li>
-                      <li><a href="{{ route('arsen')}}">Logam Berat</a></li>
-                    </ul>
-                  </li>
-                  <li><a><i class="fa fa-book"></i> Master Workbook <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
+                      <li><a href="{{ route('logam.berat')}}">Logam Berat</a></li>
                       <li><a href="{{ route('bahanbaku') }}">Bahan Baku</a></li>
                       <li><a href="{{ route('brand.index') }}">Brand</a></li>
                       <li><a href="{{ route('subbrand.index') }}">Subbrand</a></li>
                       <li><a href="{{ route('curren.index') }}">Currency</a></li>
                       <li><a href="{{ route('satuan.index') }}">Satuan</a></li>
-                      <li><a href="{{ route('gudang.index') }}">Gudang</a></li>
-                      <li><a href="{{ route('maklon.index') }}">Maklon</a></li>
-                      <li><a href="{{ route('produksi.index') }}">Produksi</a></li>
                       <li><a href="{{ route('kategori.index') }}">Kategori</a></li>
                       <li><a href="{{ route('subkategori.index') }}">Sub Kategori</a></li>
-                      <li><a href="{{ route('kelompok.index') }}">Kelompok</a></li>
                     </ul>
                   </li>
+                  @elseif(auth()->user()->role->namaRule !== 'admin')
+                  <li><a><i class="fa fa-user"></i> User Management <span class="label label-success"></span> <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{{ route('MyProfile') }}">Profile settings</a></li>
+                    </ul>
+                  </li>
+                  <li><a><i class="fa fa-folder-open"></i> PKP / PDF / PROMO <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{{ route('listprojectpkp') }}"> List   PKP</a></li>
+                      <li><a href="{{ route('listprojectpdf') }}"> List   PDF</a></li>
+                      <li><a href="{{ route('listprojectpromo') }}"> List   PROMO</a></li>
+                    </ul>
+                  </li>
+                  <li><a><i class="fa fa-file-text"></i> Project Recapitulation <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{{ route('datareport') }}">Data Project Summary</a></li>
+                      <li><a href="{{ route('allproject') }}">Data Project Tabulation</a></li>
+                    </ul>
+                  </li>
+                  <li><a><i class="fa fa-book"></i> Master Data <span class="label label-success"></span> <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{{ route('datapangan') }}">Microbiology</a></li>
+                      <li><a href="{{ route('akg') }}">Data AKG</a></li>
+                      <li><a href="{{ route('sku') }}">Data Kemas</a></li>
+                      <li><a href="{{ route('klaim') }}">Komponen Klaim</a></li>
+                      <li><a href="{{ route('logam.berat')}}">Logam Berat</a></li>
+                      @if(auth()->user()->role->namaRule == 'user_produk')
+                      <li><a href="{{ route('allergen') }}">Allergen</a></li>
+                      <li><a href="{{ route('bahanbaku') }}">Bahan Baku</a></li>
+                      <li><a href="{{ route('principal') }}">Principal</a></li>
+                      <li><a href="{{ route('supplier') }}">Supplier</a></li>
+                      <!-- <li><a href="{{ route('bbrd') }}">Bahan Baku RD</a></li> -->
+                      @endif
+                    </ul>
+                  </li>
+                  @endif
                 </ul>
               </div>
             </div>

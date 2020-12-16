@@ -185,7 +185,7 @@
         </div>
       </div>
       <div class="panel-body">    
-        {{--DATA FORMULA YANG DIPILIH--}}
+        <!-- DATA FORMULA YANG DIPILIH -->
         @foreach($data as $datas)
         <dl class="row">
           <dt class="col-sm-2"><h4><b>Workbook</b></h4> </dt>
@@ -203,7 +203,7 @@
         </dl>
         @endforeach
       	<div class="accordion" id="accordionExample">
-          {{--LIST INGREDIENT--}}
+          <!-- LIST INGREDIENT -->
           <div class="panel panel-info">
             <div class="panel-heading" id="headingOne">
               <h5 class="mb-0">
@@ -373,7 +373,7 @@
             </div>
           </div> 
 
-          {{--CCT FORMAT & NUTFACT BAYANGAN--}}
+          <!-- CCT FORMAT & NUTFACT BAYANGAN -->
           <div class="panel panel-info">
             <div class="panel-heading" id="headingTwo">
               <h5 class="mb-0">
@@ -1077,256 +1077,256 @@
                 </div>
                 <div class="col-md-6">
                   <section class="performance-facts">
-                  <header class="performance-facts__header">
-                    <h1 class="performance-facts__title" align="center">INFORMASI NILAI GIZI</h1>
-                    <h1 class="performance-facts__title" align="center">(NUTRITION FACT)</h1><br><br>
-                    <p>Takaran Saji (Serving Size) {{$datas->sum('id')}}</p>
-                  </header>
-                  <table class="performance-facts__table">
-                    <thead>
-                      <tr>
-                        <th colspan="4" class="performance-facts__titles" align="center">
-                          <p align="center">JUMLAH PER SAJIAN (AMOUNT PER SERVING)</p>
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <th><b>Energi Total (Total Calories)</b></th>
-                        <td></td>
-                        <td></td>
-                        <td>{{round($i->sum('kalori'))}} kkal</td>
-                      </tr>
-                      <tr class="thin-end">
-                        <th><b>Energi Dari Lemak (Calories from Fat)</b></th>
-                        <td></td>
-                        <td></td>
-                        <td>{{round($i->sum('Lemak')*9)}} kkal</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                  <table class="performance-facts__table">
-                    <tbody>
-                      <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>% AKG</td>
-                      </tr>
-                      <tr>
-                        <td>Lemak Total (Total Fat)</td>
-                        <td></td>
-                        <td></td>
-                        <td>{{round($i->sum('Lemak'))}} g</td>
-                        <td>{{round($i->sum('Lemak')*100/67)}} %</td>
-                      </tr>
-                      <tr>
-                        <td></td>
-                        <td>SFA</td>
-                        <td></td>
-                        <td>{{round($i->sum('SFA'))}} g</td>
-                        <td>{{round($i->sum('SFA')*100/20)}} %</td>
-                      </tr>
-                      <tr>    
-                        <td>Protein</td>
-                        <td></td>
-                        <td></td>
-                        <td>{{round($i->sum('protein'))}} g</td>
-                        <td>{{round($i->sum('protein')*100/60)}} %</td>
-                      </tr>
-                      <tr>
-                        <td>Karbohidrat Total (Total Carbohydrate)</td>
-                        <td></td>
-                        <td></td>
-                        <td>{{round($i->sum('karbohidrat'))}} g</td>
-                        <td>{{round($i->sum('karbohidrat')*100/325)}} %</td>
-											</tr>
-											<tr>
-												<td></td>
-												<td>Gula (Sugars)</td>
-												<td></td>
-												<td>{{round($i->sum('gula_total'))}} g</td>
-												<td></td>
-											</tr>
-											<tr>
-												<td></td>
-												<td>Laktosa (Lactose)</td>
-												<td></td>
-												<td>{{round($i->sum('laktosa'))}} g</td>
-												<td></td>
-											</tr>
-											<tr>
-												<td></td>
-												<td>Sukrosa</td>
-												<td></td>
-												<td>{{$i->sum('sukrosa')}} g</td>
-												<td></td>
-											</tr>
-											<tr>
-												<td>Natrium (Sodium)</td>
-												<td></td>
-												<td></td>
-												<td>{{round($i->sum('na'))}} mg</td>
-												<td>{{round($i->sum('na')*100/1500)}} %</td>
-											</tr>
-											<tr class="thin-end">
-												<td>Kalium</td>
-												<td></td>
-												<td></td>
-												<td>{{round($i->sum('na'))}} mg</td>
-												<td>{{round($i->sum('na')*100/1500)}} %</td>
-											</tr>
-										</tbody>
-									</table>
-									<table class="performance-facts__table">
-										<tbody>
-											<tr>
-												<td>Vitamin A</td>
-												<td></td>
-												<td></td>
-												<td>{{round($vit_a->sum('target')*5)}} IU</td>
-												<td>{{round($vit_a->sum('target')*5*100/1980)}} %</td>
-											</tr>
-											<tr>
-												<td >Vitamin B1 (Thiamin)</td>
-												<td></td>
-												<td></td>
-												<td>{{round($thi->sum('target'))}} mg</td>
-												<td>{{round($thi->sum('target')*100/1.4)}} %</td>
-											</tr>
-											<tr>
-												<td >Vitamin B2 (Ribofvlavin)</td>
-												<td></td>
-												<td></td>
-												<td>{{round($rib->sum('target'))}} mg</td>
-												<td>{{round($rib->sum('target')*100/1.6)}} %</td>
-											</tr>
-											<tr>
-												<td>Vitamin B3 (Niacin)</td>
-												<td></td>
-												<td></td>
-												<td>{{round($nia->sum('target'))}} mg</td>
-												<td>{{round($nia->sum('target')*100/15)}} %</td>                               
-											</tr>
-											<tr>
-												<td >Vitamin B5</td>
-												<td></td>
-												<td></td>
-												<td>{{round($b5->sum('target'))}} mg</td>
-												<td>{{round($b5->sum('target')*100/5)}} %</td>
-											</tr>
-											<tr>
-												<td >Vitamin B6 (Pyridoxine)</td>
-												<td></td>
-												<td></td>
-												<td>{{round($pyr->sum('target'))}} mg</td>
-												<td>{{round($pyr->sum('target')*100/1.3)}} %</td>
-											</tr>
-											<tr>
-												<td >Vitamin B7 (Biotin)</td>
-												<td></td>
-												<td></td>
-												<td>{{round($b7->sum('target'))}} mg</td>
-												<td>{{round($b7->sum('target')*100/30)}} %</td>
-											</tr>
-											<tr>
-												<td >Vitamin B12 (Cyanocobalamine)</td>
-												<td></td>
-												<td></td>
-												<td>{{round($b12->sum('target'))}} mg</td>
-												<td>{{round($b12->sum('target')*100/2.4)}} %</td>
-											</tr>
-											<tr>
-												<td >Asam Folat</td>
-												<td></td>
-												<td></td>
-												<td>{{round($asam->sum('target'))}} mg</td>
-												<td>{{round($asam->sum('target')*100/400)}} %</td>
-											</tr>
-											<tr>
-												<td >Vitamin C</td>
-												<td></td>
-												<td></td>
-												<td>{{round($vit_c->sum('target'))}} mg</td>
-												<td>{{round($vit_c->sum('target')*100/90)}} %</td>
-											</tr>
-											<tr>
-												<td >Vitamin D</td>
-												<td></td>
-												<td></td>
-												<td>{{round($vit_d->sum('target'))}} mg</td>
-												<td>{{round($vit_d->sum('target')*100/600)}} %</td>
-											</tr>
-											<tr>
-												<td >Vitamin E</td>
-												<td></td>
-												<td></td>
-												<td>{{round($vit_e->sum('target'))}} mg</td>
-												<td>{{round($vit_e->sum('target')*100/15)}} %</td>
-											</tr>
-											<tr>
-												<td >Calcium</td>
-												<td></td>
-												<td></td>
-												<td>{{round($i->sum('ca'))}} mg</td>
-												<td>{{round($i->sum('ca')*100/1100)}} %</td>
-											</tr>
-											<tr>
-												<td >Magnesium</td>
-												<td></td>
-												<td></td>
-												<td>{{round($mag->sum('target'))}} mg</td>
-												<td>{{round($mag->sum('target')*100/350)}} %</td>
-											</tr>
-											<tr>
-												<td >Phosphor</td>
-												<td></td>
-												<td></td>
-												<td>{{round($i->sum('p'))}} mg</td>
-												<td>{{round($i->sum('p')*100/700)}} %</td>
-											</tr>
-											<tr>
-												<td >Mangan</td>
-												<td></td>
-												<td></td>
-												<td>{{round($man->sum('target'))}} mg</td>
-												<td>{{round($man->sum('target')*100/2)}} %</td>
-											</tr>
-											<tr>
-												<td >Zinc</td>
-												<td></td>
-												<td></td>
-												<td>{{round($zin->sum('target'))}} mg</td>
-												<td>{{round($zin->sum('target')*100/13)}} %</td>
-											</tr>
-											<tr>
-												<td >Lodine</td>
-												<td></td>
-												<td></td>
-												<td>{{round($lod->sum('target'))}} mg</td>
-												<td>{{round($lod->sum('target')*100/150)}} %</td>
-											</tr>
-											<tr>
-												<td >Zat Besi</td>
-												<td></td>
-												<td></td>
-												<td>{{round($zat->sum('target'))}} mg</td>
-												<td>{{round($zat->sum('target')*100/22)}} %</td>
-											</tr>
-											<tr class="thin-end">
-												<td >Selenium</td>
-												<td></td>
-												<td></td>
-												<td>{{round($sel->sum('target'))}} mg</td>
-												<td>{{round($sel->sum('target')*100/30)}} %</td>    
-											</tr>
-										</tbody>
-									</table>
-									<p class="small-info">* Persen AKG berdasarkan kebutuhan energi 2150 kkal. Kebutuhan energi Anda </p>
-									<p class="small-info">&nbsp&nbsp  mungkin lebih tinggi atau lebih rendah. </p>
-									<p class="small-info">* Percent Daily Value are based on 2150 calorie diet. Your daily values may be higher  </p>
-									<p class="small-info">&nbsp&nbsp  or lower depending on your calorie needs </p>
+                    <header class="performance-facts__header">
+                      <h1 class="performance-facts__title" align="center">INFORMASI NILAI GIZI</h1>
+                      <h1 class="performance-facts__title" align="center">(NUTRITION FACT)</h1><br><br>
+                      <p>Takaran Saji (Serving Size) {{$datas->sum('id')}}</p>
+                    </header>
+                    <table class="performance-facts__table">
+                      <thead>
+                        <tr>
+                          <th colspan="4" class="performance-facts__titles" align="center">
+                            <p align="center">JUMLAH PER SAJIAN (AMOUNT PER SERVING)</p>
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <th><b>Energi Total (Total Calories)</b></th>
+                          <td></td>
+                          <td></td>
+                          <td>{{round($i->sum('kalori'))}} kkal</td>
+                        </tr>
+                        <tr class="thin-end">
+                          <th><b>Energi Dari Lemak (Calories from Fat)</b></th>
+                          <td></td>
+                          <td></td>
+                          <td>{{round($i->sum('Lemak')*9)}} kkal</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <table class="performance-facts__table">
+                      <tbody>
+                        <tr>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td>% AKG</td>
+                        </tr>
+                        <tr>
+                          <td>Lemak Total (Total Fat)</td>
+                          <td></td>
+                          <td></td>
+                          <td>{{round($i->sum('Lemak'))}} g</td>
+                          <td>{{round($i->sum('Lemak')*100/67)}} %</td>
+                        </tr>
+                        <tr>
+                          <td></td>
+                          <td>SFA</td>
+                          <td></td>
+                          <td>{{round($i->sum('SFA'))}} g</td>
+                          <td>{{round($i->sum('SFA')*100/20)}} %</td>
+                        </tr>
+                        <tr>    
+                          <td>Protein</td>
+                          <td></td>
+                          <td></td>
+                          <td>{{round($i->sum('protein'))}} g</td>
+                          <td>{{round($i->sum('protein')*100/60)}} %</td>
+                        </tr>
+                        <tr>
+                          <td>Karbohidrat Total (Total Carbohydrate)</td>
+                          <td></td>
+                          <td></td>
+                          <td>{{round($i->sum('karbohidrat'))}} g</td>
+                          <td>{{round($i->sum('karbohidrat')*100/325)}} %</td>
+                        </tr>
+                        <tr>
+                          <td></td>
+                          <td>Gula (Sugars)</td>
+                          <td></td>
+                          <td>{{round($i->sum('gula_total'))}} g</td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td></td>
+                          <td>Laktosa (Lactose)</td>
+                          <td></td>
+                          <td>{{round($i->sum('laktosa'))}} g</td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td></td>
+                          <td>Sukrosa</td>
+                          <td></td>
+                          <td>{{$i->sum('sukrosa')}} g</td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td>Natrium (Sodium)</td>
+                          <td></td>
+                          <td></td>
+                          <td>{{round($i->sum('na'))}} mg</td>
+                          <td>{{round($i->sum('na')*100/1500)}} %</td>
+                        </tr>
+                        <tr class="thin-end">
+                          <td>Kalium</td>
+                          <td></td>
+                          <td></td>
+                          <td>{{round($i->sum('na'))}} mg</td>
+                          <td>{{round($i->sum('na')*100/1500)}} %</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <table class="performance-facts__table">
+                      <tbody>
+                        <tr>
+                          <td>Vitamin A</td>
+                          <td></td>
+                          <td></td>
+                          <td>{{round($vit_a->sum('target')*5)}} IU</td>
+                          <td>{{round($vit_a->sum('target')*5*100/1980)}} %</td>
+                        </tr>
+                        <tr>
+                          <td >Vitamin B1 (Thiamin)</td>
+                          <td></td>
+                          <td></td>
+                          <td>{{round($thi->sum('target'))}} mg</td>
+                          <td>{{round($thi->sum('target')*100/1.4)}} %</td>
+                        </tr>
+                        <tr>
+                          <td >Vitamin B2 (Ribofvlavin)</td>
+                          <td></td>
+                          <td></td>
+                          <td>{{round($rib->sum('target'))}} mg</td>
+                          <td>{{round($rib->sum('target')*100/1.6)}} %</td>
+                        </tr>
+                        <tr>
+                          <td>Vitamin B3 (Niacin)</td>
+                          <td></td>
+                          <td></td>
+                          <td>{{round($nia->sum('target'))}} mg</td>
+                          <td>{{round($nia->sum('target')*100/15)}} %</td>                               
+                        </tr>
+                        <tr>
+                          <td >Vitamin B5</td>
+                          <td></td>
+                          <td></td>
+                          <td>{{round($b5->sum('target'))}} mg</td>
+                          <td>{{round($b5->sum('target')*100/5)}} %</td>
+                        </tr>
+                        <tr>
+                          <td >Vitamin B6 (Pyridoxine)</td>
+                          <td></td>
+                          <td></td>
+                          <td>{{round($pyr->sum('target'))}} mg</td>
+                          <td>{{round($pyr->sum('target')*100/1.3)}} %</td>
+                        </tr>
+                        <tr>
+                          <td >Vitamin B7 (Biotin)</td>
+                          <td></td>
+                          <td></td>
+                          <td>{{round($b7->sum('target'))}} mg</td>
+                          <td>{{round($b7->sum('target')*100/30)}} %</td>
+                        </tr>
+                        <tr>
+                          <td >Vitamin B12 (Cyanocobalamine)</td>
+                          <td></td>
+                          <td></td>
+                          <td>{{round($b12->sum('target'))}} mg</td>
+                          <td>{{round($b12->sum('target')*100/2.4)}} %</td>
+                        </tr>
+                        <tr>
+                          <td >Asam Folat</td>
+                          <td></td>
+                          <td></td>
+                          <td>{{round($asam->sum('target'))}} mg</td>
+                          <td>{{round($asam->sum('target')*100/400)}} %</td>
+                        </tr>
+                        <tr>
+                          <td >Vitamin C</td>
+                          <td></td>
+                          <td></td>
+                          <td>{{round($vit_c->sum('target'))}} mg</td>
+                          <td>{{round($vit_c->sum('target')*100/90)}} %</td>
+                        </tr>
+                        <tr>
+                          <td >Vitamin D</td>
+                          <td></td>
+                          <td></td>
+                          <td>{{round($vit_d->sum('target'))}} mg</td>
+                          <td>{{round($vit_d->sum('target')*100/600)}} %</td>
+                        </tr>
+                        <tr>
+                          <td >Vitamin E</td>
+                          <td></td>
+                          <td></td>
+                          <td>{{round($vit_e->sum('target'))}} mg</td>
+                          <td>{{round($vit_e->sum('target')*100/15)}} %</td>
+                        </tr>
+                        <tr>
+                          <td >Calcium</td>
+                          <td></td>
+                          <td></td>
+                          <td>{{round($i->sum('ca'))}} mg</td>
+                          <td>{{round($i->sum('ca')*100/1100)}} %</td>
+                        </tr>
+                        <tr>
+                          <td >Magnesium</td>
+                          <td></td>
+                          <td></td>
+                          <td>{{round($mag->sum('target'))}} mg</td>
+                          <td>{{round($mag->sum('target')*100/350)}} %</td>
+                        </tr>
+                        <tr>
+                          <td >Phosphor</td>
+                          <td></td>
+                          <td></td>
+                          <td>{{round($i->sum('p'))}} mg</td>
+                          <td>{{round($i->sum('p')*100/700)}} %</td>
+                        </tr>
+                        <tr>
+                          <td >Mangan</td>
+                          <td></td>
+                          <td></td>
+                          <td>{{round($man->sum('target'))}} mg</td>
+                          <td>{{round($man->sum('target')*100/2)}} %</td>
+                        </tr>
+                        <tr>
+                          <td >Zinc</td>
+                          <td></td>
+                          <td></td>
+                          <td>{{round($zin->sum('target'))}} mg</td>
+                          <td>{{round($zin->sum('target')*100/13)}} %</td>
+                        </tr>
+                        <tr>
+                          <td >Lodine</td>
+                          <td></td>
+                          <td></td>
+                          <td>{{round($lod->sum('target'))}} mg</td>
+                          <td>{{round($lod->sum('target')*100/150)}} %</td>
+                        </tr>
+                        <tr>
+                          <td >Zat Besi</td>
+                          <td></td>
+                          <td></td>
+                          <td>{{round($zat->sum('target'))}} mg</td>
+                          <td>{{round($zat->sum('target')*100/22)}} %</td>
+                        </tr>
+                        <tr class="thin-end">
+                          <td >Selenium</td>
+                          <td></td>
+                          <td></td>
+                          <td>{{round($sel->sum('target'))}} mg</td>
+                          <td>{{round($sel->sum('target')*100/30)}} %</td>    
+                        </tr>
+                      </tbody>
+                    </table>
+                    <p class="small-info">* Persen AKG berdasarkan kebutuhan energi 2150 kkal. Kebutuhan energi Anda </p>
+                    <p class="small-info">&nbsp&nbsp  mungkin lebih tinggi atau lebih rendah. </p>
+                    <p class="small-info">* Percent Daily Value are based on 2150 calorie diet. Your daily values may be higher  </p>
+                    <p class="small-info">&nbsp&nbsp  or lower depending on your calorie needs </p>
 									</section>
 									<section class="performance-fact">
 										<table class="performance-facts__table">

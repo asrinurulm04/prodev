@@ -83,7 +83,6 @@
   <script src="{{ asset('lib/dataTables.bootstrap.min.js') }}"></script>
   <script src="{{ asset('lib/jquery-ui-1.9.2.custom.min.js') }}"></script>
   <script src="{{ asset('lib/bootstrap/js/bootstrap.min.js') }}"></script>
-  <script src="{{ asset('lib/jquery-ui-1.9.2.custom.min.js') }}"></script>
   <script src="{{ asset('lib/jquery.ui.touch-punch.min.js') }}"></script>
   <script class="include" type="text/javascript" src="{{ asset('lib/jquery.dcjqaccordion.2.7.js') }}"></script>
   <script src="{{ asset('lib/jquery.scrollTo.min.js') }}"></script>
@@ -94,8 +93,6 @@
   <script src="{{ asset('lib/dataTables.bootstrap4.min.css') }}"></script>
   <script src="{{ asset('js/select2.min.js') }}"></script>
   <script src="{{asset('js/js.js')}}"></script>
-  <!-- <script src="{{asset('lib/panel-fullscreen/bootstrap.min.js')}}"></script>
-  <script src="{{asset('lib/panel-fullscreen/jquery-1.11.1.min.js.js')}}"></script> -->
 
   @yield('s')
 

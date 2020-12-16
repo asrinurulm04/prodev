@@ -4,17 +4,18 @@ namespace App\Http\Controllers\devwb;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\dev\Workbook;
-use App\dev\Formula;
-use App\devnf\tb_vitmin;
-use App\devnf\tb_nutrition;
-use App\nutfact\tb_parameter;
-use App\dev\Fortail;
-use App\dev\Premix;
-use App\dev\Pretail;
-use App\dev\Bahan;
-use App\master\Curren;
-use App\Pesan;
+use App\model\Modelfn\finance;
+use App\model\devnf\hasilpanel;
+use App\model\devnf\tb_overage;
+use App\model\devnf\storage;
+use App\model\devnf\allergen_formula;
+use App\model\devnf\tb_akg;
+use App\model\dev\Fortail;
+use App\model\dev\Bahan;
+use App\model\dev\Formula;
+use App\model\pkp\project_pdf;
+use App\model\pkp\pkp_project;
+use App\model\master\Curren;
 use Auth;
 use DB;
 use Redirect;
@@ -32,97 +33,144 @@ class FormulaController extends Controller
         // New Formula        
         $formulas = new Formula;
         $formulas->workbook_id = $request->workbook_id;
-        $formulas->kode_formula = $request->kode_formula;
-        $formulas->serving_size = $request->target_serving;
+        $formulas->workbook_pdf_id = $request->workbook_pdf_id;
+        $formulas->formula = $request->formula;
+		$formulas->serving_size = $request->target_serving;
+		$formulas->satuan=$request->satuan;
+		$formulas->tgl_create=$request->last;
+		$formulas->akg=$request->akg;
+		$formulas->overage='100';
+		$formulas->berat_jenis=$request->berat_jenis;
+		if($request->kategori_formula!=NULL){
+		$formulas->kategori=$request->kategori_formula;
+		}else{
+			$formulas->kategori='fg';
+		}
         $formulas->revisi = '0';
         $formulas->versi = 1;   
-        $formulas->save();
+		$formulas->save();
+		
+        $overage = new tb_overage;
+        $overage->id_formula=$formulas->id;
+		$overage->save();
+		
+		if($request->workbook_id!=NULL){
+		$pkp = pkp_project::where('id_project',$request->workbook_id)->first();
+		$pkp->workbook='1';
+		$pkp->save();
+
+			return redirect()->route('step1',['id_workbook' => $request->workbook_id, 'id_formula' => $formulas->id])->with('status', 'Formula '.$formulas->nama_produk.' Telah Ditambahkan!');
+		}else{
+			
+		$pdf = project_pdf::where('id_project_pdf',$request->workbook_pdf_id)->first();
+		$pdf->workbook='1';
+		$pdf->save();
+
+			return redirect()->route('step1_pdf',['id_pdf_workbook' => $request->workbook_pdf_id, 'id_formula' => $formulas->id])->with('status', 'Formula '.$formulas->nama_produk.' Telah Ditambahkan!');
+		}
         
-        return redirect()->route('step2',$request->workbook_id)->with('status', 'Formula '.$formulas->nama_produk.' Telah Ditambahkan!');
     }
 
     // Hapus Formula-----------------------------------------------------------------------------------------------------    
     public function deleteformula($id){
-        $formula = Formula::where('id',$id)->first();
-    
+		$formula = Formula::where('id',$id)->first();
+		$allergen = allergen_formula::where('id_formula',$id)->delete();
         // Delete Pesan
-        $pesan = Pesan::where('formula_id',$id)->delete();
-        $fortails = Fortail::where('formula_id',$formula->id)->get();
+        $fortails = Fortail::where('formula_id',$id)->get();
         foreach($fortails as $fortail){
-            $premixs = Premix::where('fortail_id',$fortail->id)->get();
-            foreach($premixs as $premix){
-                $pretails = Pretail::where('premix_id',$premix->id)->get();
-                foreach($pretails as $pretail){
-                    $pretail->delete();
-                }
-            $premix->delete();
-            }
         $fortail->delete();
         }
         $formula->delete();
-            
+		
+		$panel = hasilpanel::where('id_formula',$id)->count();
+		if($panel>='1'){
+			$panel1 = hasilpanel::where('id_formula',$id)->first();
+			$panel1->delete();
+		}
+
+		$storage = storage::where('id_formula',$id)->count();
+		if($storage>='1'){
+			$storage1 = storage::where('id_formula',$id)->delete();
+		}
+		
+		if($formula->workbook_id!=NULL){
+			$pkp_hitung = pkp_project::where('id_project',$formula->workbook_id)->max('workbook')-1;
+			$pkp = pkp_project::where('id_project',$formula->workbook_id)->first();
+			$pkp->workbook=$pkp_hitung;
+			$pkp->save();
+		}
+		if($formula->workbook_pdf_id!=NULL){
+			$pdf_hitung = project_pdf::where('id_project_pdf',$formula->workbook_pdf_id)->max('workbook')-1;
+			$pdf = project_pdf::where('id_project_pdf',$formula->workbook_pdf_id)->first();
+			$pdf->workbook=$pdf_hitung;
+			$pdf->save();
+		}
+
         return Redirect::back()->with('error', 'Formula Versi '.$formula->versi.'.'.$formula->turunan.' Telah Dihapus!');
     }
 
     // Detail Formula----------------------------------------------------------------------------------------------------
-    public function detail($id){
-        $data       = formula::with('Workbook')->where('workbook_id',$id)->get();
-        $ing        = tb_nutrition::with('get_bahan','get_btp')->get();
-        $tampilkan  = tb_parameter::with('get_akg')->offset(23)->limit(84)->get();
-        
-        //NUTFACT BAYANGAN
-        $vit_a      = tb_vitmin::select('target')->where('parameter','12')->get();
-        $thi        = tb_vitmin::select('target')->where('parameter','2')->get();
-        $rib        = tb_vitmin::select('target')->where('parameter','10')->get();
-        $nia        = tb_vitmin::select('target')->where('parameter','3')->get();
-        $b5         = tb_vitmin::select('target')->where('parameter','20')->get();
-        $pyr        = tb_vitmin::select('target')->where('parameter','21')->get();
-        $b7         = tb_vitmin::select('target')->where('parameter','11')->get();
-        $b12        = tb_vitmin::select('target')->where('parameter','60')->get();
-        $asam       = tb_vitmin::select('target')->where('parameter','4')->get();
-        $vit_c      = tb_vitmin::select('target')->where('parameter','61')->get();
-        $vit_d      = tb_vitmin::select('target')->where('parameter','62')->get();
-        $vit_e      = tb_vitmin::select('target')->where('parameter','14')->get();
-        $mag        = tb_vitmin::select('target')->where('parameter','47')->get();
-        $man        = tb_vitmin::select('target')->where('parameter','16')->get();
-        $zin        = tb_vitmin::select('target')->where('parameter','48')->get();
-        $lod        = tb_vitmin::select('target')->where('parameter','22')->get();
-        $zat        = tb_vitmin::select('target')->where('parameter','45')->get();
-        $sel        = tb_vitmin::select('target')->where('parameter','49')->get();
-        $mol        = tb_vitmin::select('target')->where('parameter','69')->get();
-        $ino        = tb_vitmin::select('target')->where('parameter','68')->get();
-        
+    public function detail($formula,$id){
+		$data       = Formula::with('Workbook')->where('id',$id)->get();
+		$akg = tb_akg::join('formulas','formulas.akg','tb_akg.id_tarkon')->join('tb_overage_inngradient','tb_overage_inngradient.id_formula','formulas.id')->where('id',$id)->get();
         $idf = $id;
-		$formula = Formula::where('workbook_id',$id)->first();
-        $fortails = Fortail::where('formula_id',$formula->workbook_id)->get();
+		$formula = Formula::where('id',$id)->join('tb_overage_inngradient','tb_overage_inngradient.id_formula','formulas.id')->first();
+        $idfor = $formula->workbook_id;
+        $fortails = Fortail::where('formula_id',$id)->get();
         $ingredient = DB::table('fortails')
-        ->join('tb_ingredients','tb_ingredients.id_ingredient','=','fortails.id_ingredient')
+        ->join('tb_nutfact','tb_nutfact.id_ingredient','=','fortails.id_ingredient')
         ->where('fortails.formula_id',$id)
 		->get();
-	//dd($ingredient);
-		$ada = Fortail::where('formula_id',$formula->workbook_id)->count();
-
+		$ada = Fortail::where('formula_id',$id)->count();
+		$allergen_bb = allergen_formula::join('tb_bb_allergen','id_bb','tb_alergen_formula.id_bahan')->where('id_formula',$id)->where('allergen_countain','!=','')->select(['allergen_countain'])->distinct()->get();
+		$bb_allergen = allergen_formula::join('tb_bb_allergen','id_bb','tb_alergen_formula.id_bahan')->where('id_formula',$id)->where('allergen_countain','!=','')->get();
         if($ada < 1){
             return Redirect::back()->with('error','Data Bahan Formula Versi '.$formula->versi.' Masih Kosong');
         }elseif($formula->batch < 1){
             return Redirect::back()->with('error','Data Bahan Formula Versi '.$formula->versi.'.'.$formula->turunan.' Belum Memliki Batch');
+        }elseif($formula->serving_size != $formula->serving){
+            return Redirect::back()->with('error','Data Serving Formula Versi '.$formula->versi.'.'.$formula->turunan.' Tidak Sesuai Target');
+        }elseif($formula->note_formula == Null){
+            return Redirect::back()->with('error','Note Formula untuk versi '.$formula->versi.'.'.$formula->turunan.' Masih Kosong');
         }
 
         $detail_formula     = collect();  
         $granulasi          = 0;
         $jumlah_granulasi   = 0;
         $biasa              = 0;
-        $one_persen         = $formula->batch / 100;
-
         foreach($fortails as $fortail){
-            // Get Persen
-            $persen = $fortail->per_batch / $one_persen; $persen = round($persen, 2);
+			// Get Persen
+			$one_persen = $fortail->per_batch / $formula->batch  ;
+			$persen = $one_persen * 100;
+			$persen = round($persen, 2);
             $detail_formula->push([
 
                 'id' => $fortail->id,
                 'kode_komputer' => $fortail->kode_komputer,
                 'nama_sederhana' => $fortail->nama_sederhana,
+                'alternatif1' => $fortail->alternatif1,
+                'alternatif2' => $fortail->alternatif2,
+                'alternatif3' => $fortail->alternatif3,
+                'alternatif4' => $fortail->alternatif4,
+                'alternatif5' => $fortail->alternatif5,
+                'alternatif6' => $fortail->alternatif6,
+                'alternatif7' => $fortail->alternatif7,
                 'nama_bahan' => $fortail->nama_bahan,
+                'nama_bahan1' => $fortail->nama_bahan1,
+                'nama_bahan2' => $fortail->nama_bahan2,
+                'nama_bahan3' => $fortail->nama_bahan3,
+                'nama_bahan4' => $fortail->nama_bahan4,
+                'nama_bahan5' => $fortail->nama_bahan5,
+                'nama_bahan6' => $fortail->nama_bahan6,
+				'nama_bahan7' => $fortail->nama_bahan7,
+				'principle' => $fortail->principle,
+				'principle1' => $fortail->principle1,
+				'principle2' => $fortail->principle2,
+				'principle3' => $fortail->principle3,
+				'principle4' => $fortail->principle4,
+				'principle5' => $fortail->principle5,
+				'principle6' => $fortail->principle6,
+				'principle7' => $fortail->principle7,
                 'per_batch' => $fortail->per_batch,
                 'per_serving' => $fortail->per_serving,
                 'granulasi' => $fortail->granulasi,
@@ -188,13 +236,14 @@ class FormulaController extends Controller
 
         foreach($fortails as $fortail){
 			//Get Needed
-			$ingredients = DB::table('tb_ingredients')->first();
+			$ingredients = DB::table('tb_nutfact')->first();
             $bahan  = Bahan::where('id',$fortail->bahan_id)->first();
 			$curren = Curren::where('id',$bahan->curren_id)->first();
+			$btp = DB::table('tb_btp')->join('bahans','bahans.id','=','tb_btp.id_bahan')->first();
 
             //perhitungan nutfact bayangan
 			//lemak
-			if($fortail->id_ingredient != 'NULL'){
+			if($fortail->nama_sederhana != 'NULL'){
 				$lemak = ($ingredients->fat/100)*($fortail->per_serving);
 				$sfa = ($ingredients->SFA/100)*($fortail->per_serving);
 				$karbohidrat =($ingredients->karbohidrat/100)*($fortail->per_serving);
@@ -288,6 +337,9 @@ class FormulaController extends Controller
                 'id' => $fortail->id,
                 'kode_komputer' => $bahan->kode_komputer,
                 'nama_sederhana' => $bahan->nama_sederhana,
+				'id_ingeradient' => $bahan->id_ingeradient,
+				'btp' =>$btp->btp_carryover,
+				'list' =>$btp->inggredient_list,
 				'hpg' => $hpg,
 				'lemak' => $lemak,
 				'sfa' => $sfa,
@@ -426,17 +478,21 @@ class FormulaController extends Controller
             'total_berat_per_kg' => $total_berat_per_kg,
             'total_harga_per_kg' => $total_harga_per_kg,                       
 		]);
-
-        return view('devwb/detailformula',  compact('ing','tampilkan','AMC','AMC2','AMC3','AMC4','AMC5','AMC6','AMC7',
-        'data','vit_a','thi','rib','nia','b5','pyr','b7','b12','asam','vit_c',
-        'vit_d','vit_e','mag','man','zin','lod','zat','sel','mol','ino' ,'id'  ))->with([
+        
+        return view('devwb/detailformula', compact(
+        'data','id'  ))->with([
+            'idf' => $idf,
             'ada'     => $ada,
             'formula' => $formula,
             'detail_formula' =>  $detail_formula,
             'granulasi' => $granulasi,
-            'gp' => $gp,
+			'gp' => $gp,
+			'akg' => $akg,
+			'idfor' => $idfor,
+			'ingredient' => $ingredient,
+			'allergen_bb' => $allergen_bb,
             'detail_harga' => $detail_harga,
             'total_harga' => $total_harga
         ]);
-    }
+	}
 }

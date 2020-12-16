@@ -9,7 +9,7 @@
       <div class="x_title">
         <h3><li class="fa fa-envelope"></li> Revision Request</h3>
         </div>
-        <div class="" style="overflow-x: scroll;">
+        <div>
           <div class="container"> 
             <section id="fancyTabWidget" class="tabs t-tabs">
             <ul class="nav nav-tabs fancyTabs" role="tablist">
@@ -38,10 +38,9 @@
                 <div>
                   <div class="row">
                     <div class="col-md-12">
-                      <table class="Table table-bordered">
+                      <table class="Table table-bordered table-bordered">
                         <thead>
                           <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
-                            <td class="text-center" width="5%">No</td>
                             <th class="text-center">From</th>
                             <th class="text-center">Project Name</th>
                             <th class="text-center">Priority</th>
@@ -51,15 +50,8 @@
                           </tr>
                         </thead>
                         <tbody>
-                        @php
-                          $no = 0;
-                        @endphp
                         @foreach($pengajuanpkp as $pkp)
-                        @php
-                          ++$no;
-                        @endphp
                           <tr>
-                            <td width="3%" class="text-center">{{$no}}</td>
                             <td width="10%">Manager {{$pkp->datapkp->departement->dept}}</td>
                             <td>{{$pkp->datapkp->project_name}}</td>
                             <td class="text-center">
@@ -77,9 +69,9 @@
                             {{$pkp->user->role}}
                             @endif
                             </th>
-                            <td width="25%">Catatan revisi pengajuan untuk project ini : ...<span class="baca_selengkapnya"> Baca Selengkapnya...</span><div class="pesan">{{$pkp->alasan_pengajuan}}</div></td>
+                            <td width="25%">{{$pkp->alasan_pengajuan}}</td>
                             <td width="10%">
-                              <a href="{{Route('rekappkp',$pkp->id_pkp)}}" class="btn btn-info" type="button"><li class="fa fa-edit"> Start revision</li></a>
+                              <a href="{{Route('rekappkp',$pkp->id_pkp)}}" class="btn btn-info btn-sm" type="button"><li class="fa fa-edit"> Start revision</li></a>
             	              </td>
                           </tr>
                         @endforeach
@@ -93,7 +85,7 @@
               <div class="tab-pane  fade" id="tabBody1" role="tabpanel" aria-labelledby="tab1" aria-hidden="true" tabindex="0">
                 <div class="row">
                   <div class="col-md-12">
-                    <table class="table table-bordered">
+                    <table class="table table-bordered table-bordered">
                       <thead>
                         <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
                           <td class="text-center" width="5%">No</td>
@@ -132,8 +124,8 @@
                               {{$pdf->user->role	}}
                             @endif
                           </td>
-                          <td width="25%">Catatan revisi pengajuan untuk project ini : ...<span class="baca_selengkapnya"> Baca Selengkapnya...</span><div class="pesan">{{$pdf->alasan_pengajuan}}</div></td>
-                          <td width="10%"><a href="{{Route('rekappdf',$pdf->id_pdf)}}" class="btn btn-info" type="button"><li class="fa fa-edit"> Start revision</li></a></td>
+                          <td width="25%">{{$pdf->alasan_pengajuan}}</td>
+                          <td width="10%"><a href="{{Route('rekappdf',$pdf->id_pdf)}}" class="btn btn-info btn-sm" type="button"><li class="fa fa-edit"> Start revision</li></a></td>
                         </tr>
                         @endforeach
                       </tbody>
@@ -145,7 +137,7 @@
               <div class="tab-pane  fade" id="tabBody2" role="tabpanel" aria-labelledby="tab2" aria-hidden="true" tabindex="0">
                 <div class="row">
                   <div class="col-md-12">
-                    <table class="table table-bordered">
+                    <table class="table table-bordered table-bordered">
                       <thead>
                         <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
                           <td class="text-center" width="5%">No</td>
@@ -180,9 +172,9 @@
                             {{$promo->user->role}}
                             @endif
                           </td>
-                          <td width="25%">Catatan revisi pengajuan untuk project ini : ...<span class="baca_selengkapnya"> Baca Selengkapnya...</span><div class="pesan">{{$promo->alasan_pengajuan}}</div></td>
+                          <td width="25%">{{$promo->alasan_pengajuan}}</td>
                           <td width="10%">
-                              <a href="{{Route('rekappromo',$promo->id_promo)}}" class="btn btn-info" type="button"><li class="fa fa-edit"> Start revision</li></a>
+                              <a href="{{Route('rekappromo',$promo->id_promo)}}" class="btn btn-info btn-sm" type="button"><li class="fa fa-edit"> Start revision</li></a>
                           </td>
                           </tr>
                         @endforeach

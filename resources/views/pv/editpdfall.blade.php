@@ -117,7 +117,7 @@
                     <input type="hidden" name="datapdf[{{$loop->index}}][eksis]" value="{{$Dpdf->kemas_eksis}}" class="form-control">
                     <?php $tanggal = Date("Y"); ?>
                     <input type="hidden" value="_{{$tanggal}}/{{$Dpdf->product_type}}_{{ $Dpdf->project_name }}_{{ $Dpdf->revisi+1 }}.{{ $Dpdf->turunan }}" name="datapdf[{{$loop->index}}][ket]" id="ket_no">
-                    <td><a href="{{route('hapuspdf1',$Dpdf->id_project_pdf)}}" class="btn btn-danger" type="button"><li class="fa fa-trash"></li></a></td>
+                    <td><a href="{{route('hapuspdf1',$Dpdf->id_project_pdf)}}" class="btn btn-danger btn-sm" type="button"><li class="fa fa-trash"></li></a></td>
                     @if($Dpdf->form1=='ya')<td><input readonly type="text" name="datapdf[{{$loop->index}}][name]" class="form-control" value="{{$Dpdf->project_name}}"></td>
                     @elseif($Dpdf->form1=='')<input type="hidden" name="datapdf[{{$loop->index}}][name]" class="form-control" value="{{$Dpdf->project_name}}">@endif
                     @if($Dpdf->form2=='ya')<td>
@@ -288,8 +288,8 @@
                 @elseif($Dpdf->form19=='')<input type="hidden" name="datapdf1[{{$loop->index}}][special]" class="form-control" value="{{$Dpdf->special}}">@endif
               {{ csrf_field() }}
               @endforeach
-              <button class="btn btn-primary" type="submit"><li class="fa fa-check"></li> Submit</button>
-              <a href="{{route('hapuscheckpdf')}}" class="btn btn-danger"><li class="fa fa-arrow-left"></li> Back</a>
+              <button class="btn btn-primary btn-sm" type="submit"><li class="fa fa-check"></li> Submit</button>
+              <a href="{{route('hapuscheckpdf')}}" class="btn btn-danger btn-sm"><li class="fa fa-arrow-left"></li> Back</a>
             </form>
           </div>
         </div>

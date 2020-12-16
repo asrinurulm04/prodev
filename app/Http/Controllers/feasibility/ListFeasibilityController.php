@@ -4,9 +4,11 @@ namespace App\Http\Controllers\feasibility;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Modelfn\finance;
-use App\Modelfn\pesan;
-use App\dev\Formula;
+use App\model\Modelfn\finance;
+use App\model\Modelfn\pesan;
+use App\model\dev\Formula;
+use App\model\pkp\tipp;
+use App\model\pkp\pkp_project;
 use Redirect;
 
 class ListFeasibilityController extends Controller
@@ -16,8 +18,8 @@ class ListFeasibilityController extends Controller
     }
 
     public function index($id){
-        $myFormula = Formula::where('id',$id)->first();
-        $dataF = finance::where('id_formula',$id)->get();
+        $myFormula = tipp::where('id_pkp',$id)->first();
+        $dataF = finance::where('id_feasibility',$id)->get();
         $jumlahp =pesan::where('user','produksi')->count();
         $jumlahm =pesan::where('user','inputor')->count();
         $jumlahl =pesan::where('user','lab')->count();
@@ -48,7 +50,7 @@ class ListFeasibilityController extends Controller
             $change_status->status_feasibility='selesai';
             $change_status->save();
 
-        $status  = formula::where('id',$id)->first();
+        $status  = Formula::where('id',$id)->first();
             $status->status_fisibility='approved';
             $status->save();
 

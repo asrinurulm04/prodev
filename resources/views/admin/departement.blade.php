@@ -1,4 +1,4 @@
-@extends('admin.tempadmin')
+@extends('pv.tempvv')
 @section('title', 'DataDepartement')
 @section('judulhalaman','User Management')
 @section('content')
@@ -55,7 +55,7 @@
             <a class="btn-sm btn-danger" onclick="return confirm('Are You Sure ?')" href="{{ route('deldept',$dept->id) }}" data-toggle="tooltip" title="Delete"><i class="fa fa-trash"></i></a>
           </td>
 				</tr>
-				{{-- Modal edit Departement --}}
+				<!-- Modal edit Departement -->
 				<div class="modal fade" id="edit_dept{{ $dept->id}}" role="dialog" aria-labelledby="EWBModalLabel" aria-hidden="true">
 					<div class="modal-dialog">
 						<div class="modal-content">
@@ -74,7 +74,7 @@
 										<option selected disabled>--> Select One <--<option>
 										@foreach($users as $user) 
 											@if($user->departement_id==$dept->id)
-											<option value="{{  $user->id }}" {{ ( $user->id == $dept->manager_id ) ? ' selected' : '' }}>{{ $user->role->namaRule }} - {{ $user->name }}</option>
+											<option value="{{  $user->id }}" {{ ( $user->id == $dept->manager_id ) ? ' selected' : '' }}>{{ $user->role->role }} - {{ $user->name }}</option>
 											@endif
 										@endforeach
 									</select>
@@ -89,14 +89,14 @@
 						</div>
 					</div>
 				</div>
-				{{-- Selesai --}}
+				<!-- Selesai -->
       @endforeach
       </tbody>
     </table>
   </div>
 </div>
 
-{{-- Add New Departement --}}
+<!-- Add New Departement -->
 <div class="modal fade" id="add_dept" role="dialog" aria-labelledby="EWBModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -113,7 +113,9 @@
 				<label for="" class="control-label">Manager</label><br>
 				<select id="manager" name="manager" class="form-control">
 					@foreach($users as $user) 
-					<option value="{{  $user->id }}"">{{ $user->role->namaRule}} - {{ $user->name }}</option>
+						@if($user->role->id=='12')
+						<option value="{{  $user->id }}"">{{ $user->role->role}} - {{ $user->name }}</option>
+						@endif
 					@endforeach
 				</select>
 				{{ csrf_field() }}
@@ -126,5 +128,5 @@
 		</div>
 	</div>
 </div>
-{{-- selesai --}}
+<!-- selesai -->
 @endsection

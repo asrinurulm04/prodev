@@ -4,9 +4,13 @@ namespace App\Http\Controllers\devwb;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\dev\Formula;
-use App\dev\Workbook;
-use App\Modelfn\finance;
+use App\model\Modelfn\finance;
+use App\model\dev\Formula;
+use App\model\dev\Fortail;
+use App\model\pkp\tipp;
+use App\model\pkp\coba;
+use App\model\pkp\pkp_project;
+use App\model\pkp\project_pdf;
 use Redirect;
 
 class PengajuanFormulaController extends Controller
@@ -16,15 +20,29 @@ class PengajuanFormulaController extends Controller
         $this->middleware('auth');
     }
     
-    public function vp($id){
-        $formula = Formula::find($id);
+    public function vp($wb,$id){
+        $formula = Formula::where('id',$id)->first();
+        $ada = Fortail::where('formula_id',$formula->id)->count();
+        if($ada < 1){
+            return Redirect::back()->with('error','Data Bahan Formula Versi '.$formula->versi.' Masih Kosong');
+        }elseif($formula->batch < 1){
+            return Redirect::back()->with('error','Data Bahan Formula Versi '.$formula->versi.'.'.$formula->turunan.' Belum Memliki Batch');
+        }
+
+        $formula = Formula::where('id',$id)->first();
         $formula->vv = 'proses';
         $formula->status = 'proses';
         $formula->save();
 
-        $myworkbook = Workbook::where('id',$formula->workbook_id)->first();
-        $myworkbook->status = 'proses';
-        $myworkbook->save();
+        if($formula->workbook_id!=NULL){
+            $data = pkp_project::where('id_project',$wb)->first();
+            $data->pengajuan_sample='sent';
+            $data->save();
+        }if($formula->workbook_pdf_id!=NULL){
+            $data = project_pdf::where('id_project_pdf',$wb)->first();
+            $data->pengajuan_sample='sent';
+            $data->save();
+        }
         
         return Redirect::back()->with('status', 'Formula '.$formula->versi.'.'.$formula->turunan.' Telah Di Ajukan VP');
     }

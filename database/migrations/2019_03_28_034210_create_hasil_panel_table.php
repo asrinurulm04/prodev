@@ -27,7 +27,7 @@ class CreateHasilPanelTable extends Migration
             $table->string('hus');
             $table->text('komentar');
             $table->text('kesimpulan');
-            $tabel->string('')
+            $tabel->string('');
             $table->timestamps();
         });
     }

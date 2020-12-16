@@ -3,7 +3,7 @@
 @section('judulnya', 'List Feasibility')
 @section('content')
 
-<div class="x_content">
+<div class="x_panel">
   <div class="" role="tabpanel" data-example-id="togglable-tabs">
     <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
       <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Data kemas FBK</a></li>
@@ -11,7 +11,7 @@
     </ul>
     <div id="myTabContent" class="tab-content">
 
-			<!-- FILLING -->
+			<!-- FBK -->
 			<div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
 				<div class="panel panel-default">		
 					<div class="panel-body badan">
@@ -36,7 +36,7 @@
 						@endforeach
 
 						<table class="col-md-7 col-sm-7 col-xs-12 table-hover table-bordered">
-							<tr>
+							<tr style="font-weight: bold;color:white;background-color: #2a3f54;">
 								<th class="text-center" width="20%">Nama</th>
 								<th class="text-center" width="15%">jumlah kemasan sekunder</th>
 								<th class="text-center" width="15%">jumlah kemasan primer</th>
@@ -95,7 +95,7 @@
 								@endif
 								@if($kem->	jumlah_batch != '')
 									<tr><th class="text-right">jumlah/batch : {{ $kem->	jumlah_batch }} g</th></tr>
-								@endif
+								@endif	
 								@if($kem->jumlah_box_batch != '')
 									<tr><th class="text-right">jumlah box : {{ $kem->jumlah_box_batch }} Box</th></tr>
 								@endif
@@ -104,7 +104,7 @@
 
 						<table class="table table-responsive table-hover table-bordered">
 							<thead>
-								<tr>
+								<tr style="font-weight: bold;color:white;background-color: #2a3f54;">
 									<th rowspan="2" class="text-center" width="2%">No</th>
 									<th rowspan="2" class="text-center" width="5%">kode item</th>
 									<th rowspan="2" class="text-center">kode komputer</th>
@@ -119,7 +119,7 @@
 									<th rowspan="2" class="text-center">waste</th>
 								</tr>
 
-								<tr>
+								<tr style="font-weight: bold;color:white;background-color: #2a3f54;">
 									<th class="text-center">dus</th>
 									<th class="text-center">box</th>
 									<th class="text-center">batch</th>
@@ -205,7 +205,7 @@
 						@endforeach
 						
 						<table class="col-md-7 col-sm-7 col-xs-12 table-hover table-bordered">
-							<tr>
+							<tr style="font-weight: bold;color:white;background-color: #2a3f54;">
 								<th class="text-center" width="20%">Nama</th>
 								<th class="text-center" width="15%">jumlah kemasan sekunder</th>
 								<th class="text-center" width="15%">jumlah kemasan primer</th>
@@ -268,7 +268,7 @@
 					
 						<table class="table table-responsive table-bordered">
 							<thead>
-								<tr>
+								<tr style="font-weight: bold;color:white;background-color: #2a3f54;">
 									<th rowspan="2" class="text-center" width="2%">No</th>
 									<th rowspan="2" class="text-center" width="5%">kode item</th>
 									<th rowspan="2" class="text-center">kode komputer</th>

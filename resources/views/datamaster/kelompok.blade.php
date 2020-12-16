@@ -1,4 +1,4 @@
-@extends('admin.tempadmin')
+@extends('pv.tempvv')
 @section('title', 'Data Kelompok')
 @section('judulhalaman','Data Master')
 @section('content')
@@ -27,7 +27,7 @@
     <h5>List Kelompok</h5>
   </div>
   <div class="card-block">
-    <a type="button" class="btn btn-info" data-toggle="modal" data-target="#add_kelompok"><i class="fa fa-plus"></i> Tambah Kelompok </a>
+    <a type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#add_kelompok"><i class="fa fa-plus"></i> Tambah Kelompok </a>
 	  <div class="dt-responsive table-responsive">
       <table class="table table-striped table-bordered nowrap">
         <thead>
@@ -65,8 +65,8 @@
         <input class="form-control" id="Kelompok" name="kelompok" placeholder="kelompok" value="{{ old('kelompok') }}" required />
         {{ csrf_field() }}
         <br><br>
-        <button class="btn btn-primary" type="submit"><i class="fa fa-plus"></i> Submit</button>
-        <a type="button" class="btn btn-danger" id="xx" href="#"><i class="fa fa-times"></i> BATAL</a>
+        <button class="btn btn-primary btn-sm" type="submit"><i class="fa fa-plus"></i> Submit</button>
+        <a type="button" class="btn btn-danger btn-sm" id="xx" href="#"><i class="fa fa-times"></i> BATAL</a>
       </form>
     </div>
   </div>
@@ -87,8 +87,8 @@
         {{ csrf_field() }}    
       </div>
       <div class="modal-footer">
-        <button class="btn btn-primary" type="submit"><i class="fa fa-plus"></i> Submit</button>
-        <a type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> BATAL</a>
+        <button class="btn btn-primary btn-sm" type="submit"><i class="fa fa-plus"></i> Submit</button>
+        <a type="button" class="btn btn-danger btn-sm" data-dismiss="modal"><i class="fa fa-times"></i> BATAL</a>
         </form>
       </div>
     </div>

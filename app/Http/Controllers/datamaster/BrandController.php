@@ -4,7 +4,7 @@ namespace App\Http\Controllers\datamaster;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\master\Brand;
+use App\model\master\Brand;
 use Redirect;
 
 class BrandController extends Controller

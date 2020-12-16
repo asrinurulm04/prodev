@@ -3,15 +3,6 @@
 @section('judulnya', 'List Feasibility')
 @section('content')
 
-<div class="col-md-12">
-  <div class="showback">
-    <div class="row">
-      <div class="col-md-10"><h4><i class="fa fa-folder-open"></i> SUMMARY</h4> </div>
-      <div class="col-md-2"><h4><i class="fa fa-user"></i> {{ Auth::user()->role->namaRule }}</h4> </div>
-    </div>
-  </div>
-</div>
-
 <div class="col-md-12 col-sm-12 col-xs-12">
     <div class="x_panel">
       <div class="x_content">
@@ -47,7 +38,7 @@
                       <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
                         <table class="table table-hover table-bordered">
                           <thead>
-                            <tr>
+                            <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
                               <th class="text-center">No</th>
                               <th class="text-center">mesin</th>
                               <th class="text-center">standar sdm</th>
@@ -117,7 +108,7 @@
                       <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
                         <table class="table table-hover table-bordered">
                           <thead>
-                            <tr>
+                            <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
                               <th class="text-center">No</th>
                               <th class="text-center">mesin</th>
                               <th class="text-center">standar sdm</th>
@@ -187,7 +178,7 @@
                       <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">
                         <table class="table table-hover table-bordered">
                           <thead>
-                            <tr>
+                            <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
                               <th class="text-center">No</th>
                               <th class="text-center">mesin</th>
                               <th class="text-center">standar sdm</th>
@@ -255,7 +246,7 @@
                       <div role="tabpanel" class="tab-pane fade" id="tab_content4" aria-labelledby="profile-tab">
                         <table class="table table-hover table-bordered">
                           <thead>
-                            <tr>
+                            <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
                               <th class="text-center">No</th>
                               <th class="text-center">mesin</th>
                               <th class="text-center">standar sdm</th>
@@ -323,7 +314,7 @@
                       <div role="tabpanel" class="tab-pane fade" id="tab_content5" aria-labelledby="profile-tab">
                         <table class="table table-hover  table-bordered">
                           <thead>
-                            <tr>
+                            <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
                               <th class="text-center">Aktifitas</th>
                               <th class="text-center">runtime</th>
                               <th class="text-center">Standar SDM</th>
@@ -342,7 +333,7 @@
                                 <td class="text-center">{{ $dO->runtime }} Menit</td>
                                 <td class="text-center">{{ $dO->standar_sdm }} Orang </td>
                                 <td class="text-center">{{ $dO->SDM }} Orang</td>
-                                <td width="15%"><input type="number" id='hasil{{$no}}' class="form-control1 text-center col-md-7 col-xs-12" value="{{ $dO->hasil }}" disabled> </td>
+                                <td width="15%"><input type="number" id='hasil{{$no}}' class="form-control1 text-center col-md-12 col-xs-12" value="{{ $dO->hasil }}" disabled> </td>
                             </tr>
                             </form>
                             @endforeach
@@ -358,15 +349,20 @@
           </div>
           <!-- mesin dan sdm selesai -->
 
-            <!-- LAB -->
+          <!-- LAB -->
           <div role="tabpanel" class="tab-pane fade" id="tab_content7" aria-labelledby="profile-tab">
+            <div class="panel-heading">
+              <h2>Feasibility Analisa</h2>
+              <h2><i class="fa fa-clipboard"></i style="margin-left : 700px;"> Total Rate = {{$jlab}} </h2>
+            </div>
             <table id="myTable" class="table table-hover table-bordered">
-              <th class="text-center">Jenis Mikroba</th>
-              <th class="text-center" width="10%">Tahunan</th>
-              <th class="text-center" width="10%">Harian</th>
-              <th class="text-center">Input kode</th>
-              <th class="text-center">rate</th>
-            
+              <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
+                <th class="text-center">Jenis Mikroba</th>
+                <th class="text-center" width="10%">Tahunan</th>
+                <th class="text-center" width="10%">Harian</th>
+                <th class="text-center">Input kode</th>
+                <th class="text-center">rate</th>
+              </tr>
               @foreach($dataL as $dL)
               <tr>
                 <div class="col-md-1 col-sm-1 col-xs-12">
@@ -379,7 +375,7 @@
                 <td><input class="form-control" type="number" id="txtOccupation" value="{{ $dL->rate }}" readonly /></td>
               </tr>
               @endforeach
-            </table>   
+            </table>
           </div>
           <!-- LAB selesai -->
 
@@ -391,9 +387,50 @@
                   <h2>Data Kemas</h2>
                 </div>
                 <div class="panel-body">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
+                        <td class="text-center">Keterangan</td>
+                        <td class="text-center">Konfigurasi</td>
+                        <td class="text-center">Konsep</td>
+                        <td class="text-center">Batch</td>
+                        <td class="text-center">Palet/batch</td>
+                        <td class="text-center">Box/palet</td>
+                        <td class="text-center">Box/layer</td>
+                        <td class="text-center">Kubikasi</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @foreach($konsep as $konsep)
+                      <tr>
+                        <td>{{$konsep->keterangan}}</td>
+                        <td class="text-center">
+                          @if($konsep->primer!=NULL)
+                          {{$konsep->primer}}{{$konsep->s_primer}}
+                          @endif
+                          @if($konsep->tersier!=NULL)
+                          X{{$konsep->tersier}}{{$konsep->s_tersier}}
+                          @endif	
+                          @if($konsep->tersier!=NULL)
+                          X{{$konsep->tersier2}}{{$konsep->s_tersier2}}
+                          @endif	
+                          @if($konsep->sekunder!=NULL)
+                          X{{$konsep->sekunder}}{{$konsep->s_sekunder}}
+                          @endif	
+                        </td>
+                        <td class="text-center">{{$konsep->konsep}}</td>
+                        <td class="text-right">{{$konsep->batch}}</td>
+                        <td class="text-right">{{$konsep->palet_batch}}</td>
+                        <td class="text-right">{{$konsep->box_palet}}</td>
+                        <td class="text-right">{{$konsep->box_layer}}</td>
+                        <td class="text-right">{{$konsep->kubikasi}}</td>
+                      </tr>
+                      @endforeach
+                    </tbody>
+                  </table><br>
                   <table class="table table-responsive table-bordered">
                     <thead>
-                      <tr>
+                      <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
                         <th rowspan="2" class="text-center">Min Order</th>
                         <th rowspan="2" class="text-center">harga/UoM</th>
                         <th rowspan="2" class="text-center">Cost Kemas</th>
@@ -416,27 +453,135 @@
                       @endforeach
                     </tbody>
                   </table>
-                  @foreach($dataF as $dF) 
+                
+                  @foreach($dataF as $dF)
                     <a href="{{ route('kemas',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}" class="btn btn-info fa fa-eye" type="submit">  Lihat Data</a>
                   @endforeach
                 </div>
               </div>
             </div>
           </div>
-            <!-- kemas selesai -->
+          <!-- kemas selesai -->
 
-            <!-- BB -->
-            <div role="tabpanel" class="tab-pane fade" id="tab_content9" aria-labelledby="profile-tab">
-                      
+          <!-- BB -->
+          <div role="tabpanel" class="tab-pane fade" id="tab_content9" aria-labelledby="profile-tab">
+            <div id="exTab2" class="container">	
+              <div class="tab-content ">  
+                @php $no = 0; @endphp
+                <div class="row">
+                  <div class="col-md-5">
+                    <table class="table table-bordered" style="font-size:12px">
+                      <thead>
+                        <th colspan="4" style="font-weight: bold;color:white;background-color: #2a3f54;"><center>Bahan Baku</center></th>
+                      </thead>
+                      <thead>
+                        <th>No</th>
+                        <th>Kode Item</th>
+                        <th>Nama Bahan</th>
+                        <th>Harga PerGram</th>
+                      </thead>
+                      <tbody>
+                      @foreach ($detail_harga->sortByDesc('harga_per_serving') as $fortail)
+                        <tr>
+                          <td>{{ ++$no }}</td>
+                          <td>{{ $fortail['kode_komputer'] }}</td>
+                          <td>{{ $fortail['nama_sederhana'] }}</td>
+                          <td>Rp.{{ $fortail['hpg'] }}</td>
+                        </tr>
+                        @endforeach
+                        <tr colspan="4" style="font-size: 12px;font-weight: bold; color:black;background-color: #ddd;">
+                          <td colspan="3">Jumlah</td>
+                          <td>Rp.{{ $total_harga['total_harga_per_gram'] }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="col-md-2">
+                    <table class="table table-bordered" style="font-size:12px">
+                      <thead>
+                        <th colspan="3" style="font-weight: bold;color:white;background-color: #2a3f54;"><center>Per Serving</center></th>                                                                                                                
+                      </thead>
+                      <thead>
+                        <th>Berat</th>
+                        <th>%</th>
+                        <th>Harga</th>
+                      </thead>
+                      <tbody>
+                        @foreach ($detail_harga->sortByDesc('harga_per_serving') as $fortail)
+                        <tr>
+                          <td>{{ $fortail['per_serving'] }}</td>
+                          <td>{{ $fortail['persen'] }}</td>
+                          <td>Rp.{{ $fortail['harga_per_serving'] }}</td>
+                        </tr>
+                        @endforeach
+                        <tr colspan="4" style="font-size: 12px;font-weight: bold; color:black;background-color: #ddd;">
+                          <td>{{ $total_harga['total_berat_per_serving'] }}</td>
+                          <td>{{ $total_harga['total_persen'] }}</td>
+                          <td>Rp.{{ $total_harga['total_harga_per_serving'] }}</td>
+                        </tr>                                                        
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="col-md-3">
+                    <table class="table table-bordered" style="font-size:12px">
+                      <thead>
+                        <th colspan="2" style="font-weight: bold;color:white;background-color: #2a3f54;"><center>Per Batch</center></th>
+                      </thead>
+                      <thead>
+                        <th>Berat</th>
+                        <th>Harga</th>
+                      </thead>
+                      <tbody>
+                        @foreach ($detail_harga->sortByDesc('harga_per_serving') as $fortail)
+                        <tr>
+                          <td>{{ $fortail['per_batch'] }}</td>
+                          <td>Rp.{{ $fortail['harga_per_batch'] }}</td>
+                        </tr>
+                        @endforeach
+                        <tr colspan="4" style="font-size: 12px;font-weight: bold; color:black;background-color: #ddd;">
+                          <td>{{ $total_harga['total_berat_per_batch'] }}</td>
+                          <td>Rp.{{ $total_harga['total_harga_per_batch'] }}</td>                                                        
+                        </tr> 
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="col-md-2">
+                    <table class="table table-bordered" style="font-size:12px">
+                      <thead>
+                        <th colspan="2" style="font-weight: bold;color:white;background-color: #2a3f54;"><center>Per Kg</center></th>
+                      </thead>
+                      <thead>
+                        <th>Berat</th>
+                        <th>Harga</th>
+                      </thead>
+                      <tbody>
+                        @foreach ($detail_harga->sortByDesc('harga_per_serving') as $fortail)
+                        <tr>
+                          <td>{{ $fortail['per_kg'] }}</td>
+                          <td>Rp.{{ $fortail['harga_per_kg'] }}</td>
+                        </tr>
+                        @endforeach
+                        <tr colspan="4" style="font-size: 12px;font-weight: bold; color:black;background-color: #ddd;">
+                          {{-- <td>{{ $total_harga['total_berat_per_kg'] }}</td> --}}
+                          <td>1000</td>
+                          <td>Rp.{{ $total_harga['total_harga_per_kg'] }}</td>
+                        </tr> 
+                      </tbody>
+                    </table>
+                  </div>
+                </div>  
+              </div>
             </div>
-            <!-- BB selesai -->
-            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-5">                        
-              <a href="{{ route('myFeasibility',$id) }}" class="btn btn-danger" type="button">Kembali</a>
-            </div>
+          </div>
+          <!-- BB selesai -->
+            
+          <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-5">                        
+            <a href="{{ route('myFeasibility',$id) }}" class="btn btn-danger" type="button">Kembali</a>
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>
 
 @endsection

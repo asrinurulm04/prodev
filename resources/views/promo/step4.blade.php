@@ -56,8 +56,8 @@
         <div class="x_content">
           <div class="col-md-12 col-xs-12">
 						<div class="form-group">
-							<div class="col-md-12 col-sm-12 col-xs-12">
-  							<form class="form-horizontal form-label-left" method="POST" action="{{Route('allocation')}}" novalidate> 
+							<div class="col-md-12 col-sm-12 col-xs-12"  style="overflow-x: scroll;">
+  							<form class="form-horizontal form-label-left" method="POST" action="{{Route('allocation')}}"> 
 								<br>
 								@foreach($promo as $promo)
 								<input type="hidden" value="{{ $promo->datapromoo->id_pkp_promo }}" name="promo" id="promo">
@@ -80,13 +80,13 @@
       						<tbody>
         						<tr>
         					    <td>
-												<select name='sku[]' style="width:280px;" class="form-control items">
+												<select name='sku[]' required style="width:280px;" class="form-control items">
 													@foreach($sku as $sku)
 													<option class="col-md-12 col-xs-12" value="{{$sku->id}}">{{$sku->nama_sku}}</option>
 													@endforeach
 												</select>
 											</td>
-      						    <td><input type="number" name='pcs[]' placeholder='Allocation ' class="form-control" /></td>
+      						    <td><input type="number" required name='pcs[]' placeholder='Allocation ' class="form-control" /></td>
 											<td><select require name="opsi[]" id="opsi" class="form-control">
 												<option value="pcs">PCS</option>
 												<option value="forecast">forecast</option>
@@ -105,7 +105,7 @@
                       
             	</div>
 							<center>
-							<button type="submit" class="btn btn-primary">Save</button>
+							<button type="submit" class="btn btn-primary btn-sm"><li class="fa fa-check"></li> Submit</button>
 							</center>
       				{{ csrf_field() }}				
   						</form>
@@ -209,7 +209,7 @@
 											        </div>
 											      </div>
 											      <div class="modal-footer">
-											        <button type="submit" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Submit</button>
+											        <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-check"></i> Save</button>
 											        {{ csrf_field() }}
 											      </div>
 											      </form>
@@ -222,7 +222,7 @@
 								@endforeach
         				</tbody>
       				</table>
-							<center><a href="{{Route('uploadpkppromo',['id_pkp_promo' => $promo->datapromoo->id_pkp_promo, ' revisi' => $promo->revisi, ' turunan' => $promo->turunan])}}" type="button" class="btn btn-warning"><li class="fa fa-hand-o-right"></li> Next</a></center>
+							<center><a href="{{Route('uploadpkppromo',['id_pkp_promo' => $promo->datapromoo->id_pkp_promo, ' revisi' => $promo->revisi, ' turunan' => $promo->turunan])}}" type="button" class="btn btn-warning btn-sm"><li class="fa fa-hand-o-right"></li> Next</a></center>
             </div>
           </div>
     		</div>

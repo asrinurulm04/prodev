@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\finance;
 
-use App\Modelmesin\Dmesin;
-use App\Modelmesin\datamesin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\model\Modelmesin\Dmesin;
+use App\model\Modelmesin\datamesin;
 
 class ajax extends Controller
 {

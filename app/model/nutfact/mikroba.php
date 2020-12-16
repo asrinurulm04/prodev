@@ -1,0 +1,15 @@
+<?php
+
+namespace App\model\nutfact;
+
+use Illuminate\Database\Eloquent\Model;
+
+class mikroba extends Model
+{
+    Protected $table = 'fs_jenismikroba';
+
+    public function mikro()
+    {
+    	return 	$this->hasMany('App\model\nutfact\pangan','no_kategori','no_kategori');
+    }
+}

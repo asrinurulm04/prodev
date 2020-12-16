@@ -1,121 +1,111 @@
 @extends('mesin.tempmesin')
-
 @section('title','Feasibility|inputor')
-
 @section('content')
 
 <div id="RM" class="tab-pane">
-<div class="row">
-  <div class="col-md-12 col-sm-12 col-xs-12">
-    <div class="card">
-    <div class="card-block">
-      <div class="card-header">
-        <h2><i class="fa fa-cogs"></i> Data Mesin </h2>
-        <div class="clearfix"></div>
-      </div>
-      <br>
-      <div class="x_content">
-        <div class="" role="tabpanel" data-example-id="togglable-tabs">
-          <ul class="nav nav-tabs  tabs" role="tablist">
-          @foreach($dataF as $dF)
-            <li class="nav-item"><a class="nav-link" href="{{ route('runtimemesin',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}">GRANULASI</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ route('mesinmixing',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}">MIXING</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ route('mesinfilling',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}">FILLING</a></li>
-            <li class="nav-item"><a class="nav-link active" href="{{ route('mesinpacking',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}">PACKING</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ route('activitymesin',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}">ACTIVITY</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ route('labmesin',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}">LAB</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ route('standaryield',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}">OH LAIN-LAIN</a></li>
-          @endforeach
-          </ul><br>
-          <div id="myTabContent" class="tab-content">
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <div class="x_panel">
+        <div class="x_title">
+          <h3><li class="fa fa-cogs"> Data Mesin</li></h3>
+        </div>
+        <div class="x_content">
+          <div class="" role="tabpanel" data-example-id="togglable-tabs">
+            <ul class="nav nav-tabs  tabs" role="tablist">
+              @foreach($dataF as $dF)
+                <li role="presentation" class=""><a href="{{ route('runtimemesin',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}">GRANULASI</a></li>
+                <li role="presentation" class=""><a href="{{ route('mesinmixing',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}">MIXING</a></li>
+                <li role="presentation" class=""><a href="{{ route('mesinfilling',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}">FILLING</a></li>
+                <li role="presentation" class="active"><a href="{{ route('mesinpacking',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}">PACKING</a></li>
+                <li role="presentation" class=""><a href="{{ route('activitymesin',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}">ACTIVITY</a></li>
+                <li role="presentation" class=""><a href="{{ route('labmesin',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}">LAB</a></li>
+                <li role="presentation" class=""><a href="{{ route('standaryield',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}">OH LAIN-LAIN</a></li>
+              @endforeach
+            </ul><br>
+            <div id="myTabContent" class="tab-content">
 
-                        <!-- MIXING -->
-                        <table class="table table-hover table-bordered">
-                      <thead>
-                      <tr>
-                      <th class="text-center">mesin</th>
-                      <th class="text-center">standar sdm</th>
-                      <th class="text-center">Speed</th>
-                      <th class="text-center">Aksi</th>
-                      <th class="text-center">Hasil</th>
-                    </tr>
-                      </thead>
-                      <tbody>
-                      @php
-                      $nom = 0;
-                    @endphp
-                      @foreach($Mdata as $dM)
-                      @php
-                        ++$nom;
-                      @endphp
+              <!-- PACKING -->
+              <table class="Table table-hover table-bordered">
+                <thead>
+                  <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
+                    <th class="text-center">mesin</th>
+                    <th class="text-center">standar sdm</th>
+                    <th class="text-center">Speed</th>
+                    <th class="text-center">Aksi</th>
+                    <th class="text-center">Hasil</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @php $nom = 0; @endphp
+                  @foreach($Mdata as $dM)
+                  @php ++$nom; @endphp
 
-                        {!!csrf_field()!!}
-                        <tr id="row{{$dM->id_mesin}}">
-                        @if( $dM->meesin->kategori=='packing' )
-                        <td> {{ $dM->meesin->nama_mesin }}</td>
-                          <td class="text-center" width="15%"><input disabled type="number" name="runtime" value="{{$dM->standar_sdm}}" name="last-name" required class="form-control1 col-md-7 col-xs-12 text-center"></td>
-                            @if($dM->runtime==NULL)
-                          <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" action="/updatemss/{{$dM->id_mesin}}" method="post">
-                          <td><input oninput="hitung();" name="runtime" class="date-picker form-control col-md-7 col-xs-12" type="number" required></td>
-                          {{ csrf_field() }}
-                          <input type="hidden" value="put" name="_method">
-                          <td class="text-center"><button type="submit" class="btn btn-primary fa fa-check" data-toggle="tooltip" data-placement="top" title="Submit"></button></td>
-                          @else
-                          <td class="text-center" width="15%"><input  type="number" id="runtimes{{$dM->id_mesin}}" name="runtime" name="last-name" value="{{$dM->runtime}}" required class="form-control1 col-md-7 col-xs-12 text-center"></td>
-                          <td class="text-center" width="15%"><button type="button" class="btn btn-warning fa fa-edit" data-toggle="modal" data-target="#exampleModal{{ $dM->id_mesin }}" data-toggle="tooltip" data-placement="top" title="Edit"></button>
-                    <div class="modal fade" id="exampleModal{{ $dM->id_mesin  }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                      <div class="modal-dialog" role="document">
-                        <div class="modal-content text-left ">
-                          <div class="modal-header">
-                            <h3 class="modal-title" id="exampleModalLabel">Edit Data
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                              <span aria-hidden="true">&times;</span>
-                            </button><h3>
+                  {!!csrf_field()!!}
+                  <tr id="row{{$dM->id_mesin}}">
+                    @if( $dM->meesin->kategori=='packing' )
+                    <td> {{ $dM->meesin->nama_mesin }}</td>
+                    <td class="text-center" width="10%"><input disabled type="number" name="runtime" value="{{$dM->standar_sdm}}" name="last-name" required class="form-control1 col-md-12 col-xs-12 text-center"></td>
+                      @if($dM->runtime==NULL)
+                        <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" action="/updatemss/{{$dM->id_mesin}}" method="post">
+                        <td><input oninput="hitung();" name="runtime" class="date-picker form-control col-md-7 col-xs-12" type="number" required></td>
+                        {{ csrf_field() }}
+                        <input type="hidden" value="put" name="_method">
+                        <td class="text-center"><button type="submit" class="btn btn-primary fa fa-check" data-toggle="tooltip" data-placement="top" title="Submit"></button></td>
+                      @else
+                        <td class="text-center" width="15%"><input  type="number" readonly id="runtimes{{$dM->id_mesin}}" name="runtime" name="last-name" value="{{$dM->runtime}}" required class="form-control1 col-md-12 col-xs-12 text-center"></td>
+                        <td class="text-center" width="15%">
+                          <button type="button" class="btn btn-warning fa fa-edit" data-toggle="modal" data-target="#exampleModal{{ $dM->id_mesin }}" data-toggle="tooltip" data-placement="top" title="Edit"></button>
+                          <div class="modal fade" id="exampleModal{{ $dM->id_mesin  }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                              <div class="modal-content text-left ">
+                                <div class="modal-header">
+                                  <h3 class="modal-title" id="exampleModalLabel">Edit Data
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button><h3>
+                                </div>
+                                <div class="modal-body">
+                                <form id="edit{{ $dM->id_mesin }}">
+                                  <div class="form-group">
+                                    <input type="hidden" name="id" value="{{ $dM->id_mesin }}">
+                                    <label for="recipient-name" class="col-form-label">Runtime Mesin:</label>
+                                    <input id="runtime" value="{{$dM->runtime}}" name="runtime" class="date-picker form-control" type="text">
+                                  </div></div>
+                                  <div class="modal-footer">
+                                    <input type="hidden" name="_method" value="PUT">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                  </div>
+                                </form>
+                              </div>
+                            </div>
                           </div>
-                          <div class="modal-body">
-                          <form id="edit{{ $dM->id_mesin }}">
-                <div class="form-group">
-                  <input type="hidden" name="id" value="{{ $dM->id_mesin }}">
-                  <label for="recipient-name" class="col-form-label">Runtime Mesin:</label>
-                  <input id="runtime" value="{{$dM->runtime}}" name="runtime" class="date-picker form-control" type="text">
-                </div></div>
-                <div class="modal-footer">
-                  <input type="hidden" name="_method" value="PUT">
-                  <button type="submit" class="btn btn-primary">Submit</button>
-                </div>
-              </form>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div id="deleteData{{ $dM->id_mesin }}"></div>
+                          <div id="deleteData{{ $dM->id_mesin }}"></div>
                         </td>
-                        <td width="15%"><input type="number" id='hasill{{$dM->id_mesin}}' class="form-control1 text-center col-md-7 col-xs-12" value="{{ $dM->hasil }}" disabled> </td>
+                        <td width="15%"><input type="number" id='hasill{{$dM->id_mesin}}' class="form-control1 text-center col-md-12 col-xs-12" value="{{ $dM->hasil }}" disabled> </td>
                       @endif
-                      </tr>
-                      @endif
-                        </form>
-                        @endforeach
-                      </tbody>
-                      </table>
-                        </div>
-                                      @foreach($dataF as $dF)
-                        <a href="{{ route('dataoh',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}" class="btn btn-success fa fa-plus" type="button"> Add Activity</a>
-
-                      <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" action="{{route('statusM',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula])}}" method="post">
-                        <input class="form-control1" type="hidden" name="statusM" class="text-center col-md-7 col-xs-12" value="sending">
-                        <center>
-                        <a href="{{ route('datamesin',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}" class="btn btn-danger" type="button">Kembali</a>
-      <button type="submit" class="btn btn-primary">Selesai</button>
-			                      {{ csrf_field() }}</center>
+                    @endif
+                  </tr>
+                  </form>
+                  @endforeach
+                </tbody>
+              </table>
+            </div>
+            @foreach($dataF as $dF)
+              <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" action="{{route('statusM',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula])}}" method="post">
+              <input class="form-control1" type="hidden" name="statusM" class="text-center col-md-7 col-xs-12" value="sending">
+              <center>
+                <a href="{{ route('datamesin',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}" class="btn btn-danger" type="button">Kembali</a>
+                <button type="submit" class="btn btn-primary">Selesai</button>
+                {{ csrf_field() }}
+              </center>
+              </form>
+            @endforeach
+          </div>
+        </div>
+      </div>
     </div>
-    </form>@endforeach
-                    </div>
-
-                  </div>
-                </div>
-              </div>
+  </div>
+</div>
 
 @endsection
 

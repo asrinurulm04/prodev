@@ -94,7 +94,7 @@
                   <td><input type="text" disabled name="datapromo[{{$loop->index}}][name]" class="form-control" value="{{$Dpromo->project_name}}"></td>
                   <td><input type="text" disabled name="datapromo[{{$loop->index}}][brand]" class="form-control" value="{{$Dpromo->brand}}"></td>
                   <td>
-                    <select name="datapromo[{{$loop->index}}][prioritas]" id="prioritas">
+                    <select name="datapromo[{{$loop->index}}][prioritas]" id="prioritas" class="form-control">
                       @if($Dpromo->prioritas==1)
                       <option value="1" style="font-weight: bold;color:white;background-color: #2a3f54;">priority 1</option>
                       @elseif($Dpromo->prioritas==2)
@@ -114,9 +114,9 @@
                  @endforeach
               </tbody>
             </table>
-            <button class="btn btn-primary" type="submit"><li class="fa fa-check"></li> Submit</button>
+            <button class="btn btn-primary btn-sm" type="submit"><li class="fa fa-check"></li> Submit</button>
             {{ csrf_field() }}
-            <a href="{{route('hapuscheckpromo')}}" class="btn btn-danger"><li class="fa fa-arrow-left"></li> Back</a>
+            <a href="{{route('hapuscheckpromo')}}" class="btn btn-danger btn-sm"><li class="fa fa-arrow-left"></li> Back</a>
           </form>
           </div>
         </div>

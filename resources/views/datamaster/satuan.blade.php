@@ -1,4 +1,4 @@
-@extends('admin.tempadmin')
+@extends('pv.tempvv')
 @section('title', 'Data Satuan')
 @section('judulhalaman','Data Master')
 @section('content')
@@ -27,7 +27,7 @@
     <h3><li class="fa fa-list"> List Satuan</li></h3>
   </div>
   <div class="card-block">
-  <a type="button" class="btn btn-info" data-toggle="modal" data-target="#add_satuan" id="tambah"><i class="fa fa-plus"></i> Tambah Satuan</a>
+  <a type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#add_satuan" id="tambah"><i class="fa fa-plus"></i> Tambah Satuan</a>
 	  <div class="dt-responsive table-responsive">
       <table class="Table table-bordered">
         <thead>
@@ -44,7 +44,7 @@
             <td>{{ $satuan->satuan }}</td>
             <td class="text-center">
               <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#edit_satuan{{ $satuan->id }}"><i class="fa fa-edit"></i></a></button>
-              <button class="btn-sm btn-danger btn-sm" onclick="return confirm('Hapus Satuan ?')" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash-o"></i></button>
+              <button class="btn btn-danger btn-sm" onclick="return confirm('Hapus Satuan ?')" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash-o"></i></button>
               {!! Form::close() !!}
             </td>
           </tr>
@@ -62,8 +62,7 @@
                   <input class="form-control" id="satuan" name="satuan" placeholder="Satuan" value="{{ $satuan->satuan }}" required />
                 </div>
                 <div class="modal-footer">
-                  <button class="btn btn-primary" type="submit"><i class="fa fa-plus"></i> Submit</button>
-                  <a type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Cencel</a>
+                  <button class="btn btn-primary btn-sm" type="submit"><i class="fa fa-plus"></i> Submit</button>
                   {{ csrf_field() }}
                   {{ method_field('PATCH') }}
                   </form>
@@ -84,7 +83,7 @@
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="EWBModalLabel"><i class="fa fa-plus"></i> Tambah Satuan
+        <h4 class="modal-title" id="EWBModalLabel"><i class="fa fa-plus"></i> Add Satuan
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button></h4>
       </div>
       <div class="modal-body">
@@ -94,8 +93,7 @@
         {{ csrf_field() }}
       </div>
       <div class="modal-footer">
-        <button class="btn btn-primary" type="submit"><i class="fa fa-plus"></i> Submit</button>
-        <a type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> BATAL</a>
+        <button class="btn btn-primary btn-sm" type="submit"><i class="fa fa-plus"></i> Submit</button>
         </form>
       </div>   
     </div>

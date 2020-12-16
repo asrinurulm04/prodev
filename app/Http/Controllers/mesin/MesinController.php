@@ -5,21 +5,17 @@ namespace App\Http\Controllers\mesin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
-use Redirect;
 
-use App\Modelmesin\aktifitasOH;
-use App\Modelmesin\workcenter;
-use App\Modelmesin\kategori;
-use App\Modelmesin\datamesin;
-use App\Modelkemas\userkemas;
-use App\Modelfn\finance;
-use App\modelfn\pesan;
-use App\modelkemas\konsep;
-use App\Modelmesin\Dmesin;
-use App\Modelmesin\oh;
-use App\dev\Formula;
-use App\Modelmesin\std;
+use App\model\Modelmesin\datamesin;
+use App\model\Modelmesin\Dmesin;
+use App\model\modelkemas\konsep;
+use App\model\Modelkemas\userkemas;
+use App\model\Modelfn\finance;
+use App\model\modelfn\pesan;
+use App\model\pkp\tipp;
+use App\model\dev\Formula;
 use Auth;
+use Redirect;
 
 class MesinController extends Controller
 {
@@ -567,7 +563,8 @@ class MesinController extends Controller
         $total = $Jmesin+$Joh;
         $jumlah = pesan::where('user','inputor')->count();
         $lab = DB::table('formulas')
-            ->join('fs_kategori_pangan','fs_kategori_pangan.id_pangan','=','formulas.id_pangan')
+            ->join('tippu','tippu.id','=','formulas.workbook_id')
+            ->join('fs_kategori_pangan','fs_kategori_pangan.id_pangan','=','tippu.bpom')
             ->join('fs_jenismikroba','fs_kategori_pangan.no_kategori','=','fs_jenismikroba.no_kategori')
             ->where('formulas.id',$id)->get();
         $std = std::with('kemas')->get()->where('kode_kemas','item_code');

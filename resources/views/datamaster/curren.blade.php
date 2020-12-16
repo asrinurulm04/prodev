@@ -1,4 +1,4 @@
-@extends('admin.tempadmin')
+@extends('pv.tempvv')
 @section('title', 'Data currency')
 @section('judulhalaman','Data Master')
 @section('content')
@@ -27,7 +27,7 @@
     <h3><li class="fa fa-list"> List Currency</li></h3>
   </div>
   <div class="card-block">
-    <a type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#add_curren"><i class="fa fa-plus"></i> Tambah Currency </a>
+    <a type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#add_curren"><i class="fa fa-plus"></i> Add Currency </a>
 	  <div class="dt-responsive table-responsive">
       <table class="Table table-striped table-bordered ">
         <thead>
@@ -40,7 +40,7 @@
           </tr>
         </thead>
         <tbody>
-        @foreach($currens as $curren)
+          @foreach($currens as $curren)
           <tr>
             <td>{{ $curren->id }}</td>
             <td>{{ $curren->currency }}</td>
@@ -48,7 +48,7 @@
             <td>{{ $curren->keterangan }}</td>
             <td class="text-center">
               <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#edit_curren{{ $curren->id }}"><i class="fa fa-edit"></i></a></button>
-              <button class="btn-sm btn-danger btn-sm" onclick="return confirm('Hapus currency ?')" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash-o"></i></button>
+              <button class="btn btn-danger btn-sm" onclick="return confirm('Hapus currency ?')" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash-o"></i></button>
               {!! Form::close() !!}
             </td>
           </tr>
@@ -70,8 +70,7 @@
                     <input class="form-control" id="keterangan" name="keterangan" placeholder="Keterangan" value="{{ $curren->keterangan }}" required />
                   </div>
                   <div class="modal-footer">
-                    <button class="btn btn-primary" type="submit"><i class="fa fa-plus"></i> Submit</button>
-                    <a type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> BATAL</a>
+                    <button class="btn btn-primary btn-sm" type="submit"><i class="fa fa-plus"></i> Submit</button>
                     {{ csrf_field() }}
                     {{ method_field('PATCH') }}
                   </div>      
@@ -79,8 +78,8 @@
               </div>
             </div>
           </div>
-          {{-- selesai --}}
-        @endforeach
+          <!-- selesai -->
+          @endforeach
         </tbody>
       </table>
     </div>
@@ -93,7 +92,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="EWBModalLabel"><i class="fa fa-plus"></i> Tambah Currency
+        <h4 class="modal-title" id="EWBModalLabel"><i class="fa fa-plus"></i> Add Currency
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button></h4>
       </div>
       <div class="modal-body">
@@ -107,16 +106,14 @@
         {{ csrf_field() }}
       </div>
       <div class="modal-footer">
-        <button class="btn btn-primary" type="submit"><i class="fa fa-plus"></i> Submit</button>
-        <a type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> BATAL</a>
+        <button class="btn btn-primary btn-sm" type="submit"><i class="fa fa-plus"></i> Submit</button>
         </form>
       </div>      
     </div>
   </div>
 </div>
-{{-- selesai --}}
+<!-- selesai -->
 @endsection
-
 
 @section('s')
 <script type="text/javascript"></script>

@@ -4,8 +4,8 @@ namespace App\Http\Controllers\datamaster;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\users\Departement;
-use App\User;
+use App\model\users\Departement;
+use App\model\users\User;
 use Redirect;
 
 class DepartementController extends Controller

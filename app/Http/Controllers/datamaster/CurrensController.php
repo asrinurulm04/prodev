@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\datamaster;
 
-use App\master\Curren;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\model\master\Curren;
 use Redirect;
 
 class CurrensController extends Controller

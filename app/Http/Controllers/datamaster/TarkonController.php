@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\datamaster;
 
-use App\master\Tarkon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\model\master\Tarkon;
 use Redirect;
 
 class TarkonController extends Controller

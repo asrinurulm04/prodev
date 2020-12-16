@@ -5,13 +5,11 @@ namespace App\Http\Controllers\devwb;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-use App\pkp\pkp_project;
-use App\pkp\project_pdf;
+use App\model\pkp\pkp_project;
+use App\model\pkp\project_pdf;
+use App\model\pkp\promo;
+use App\model\manager\pengajuan;
 use Carbon\Carbon;
-use App\pkp\menu;
-use App\pkp\promo;
-use App\manager\pengajuan;
-
 use Auth;
 use DB;
 use Redirect;
@@ -66,8 +64,11 @@ class pkp1Controller extends Controller
         $data->freeze_diaktifkan=Carbon::now();
         $data->save();
 
-        $pengajuan = pengajuan::where('id_pkp',$id_project)->first();
-        $pengajuan->delete();
+        $pengajuan_hitung = pengajuan::where('id_pkp',$id_project)->first();
+        if($pengajuan_hitung!=0){
+            $pengajuan = pengajuan::where('id_pkp',$id_project)->first();
+            $pengajuan->delete();
+        }
 
         return redirect::back();
     }

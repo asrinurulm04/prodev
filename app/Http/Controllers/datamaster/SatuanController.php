@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\datamaster;
 
-use App\master\Satuan;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\model\master\Satuan;
 use Redirect;
 
 class SatuanController extends Controller

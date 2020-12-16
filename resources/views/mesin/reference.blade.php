@@ -1,26 +1,23 @@
 @extends('mesin.tempmesin')
-
 @section('title', 'feasibility|Inputor')
-
 @section('judulnya', 'List Feasibility')
-
 @section('content')
 
 <div class="col-md-12 col-sm-12 col-xs-12 form-panel">
 
 <!-- search reference data -->
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <h2>Search References</h2>
+<div class="x_panel">
+  <div class="x_title">
+    <h3><li class="fa fa-list"> Search References</li></h3>
   </div>
   <div>
-    <div><br>
-    <p ALIGN="center"><a href="{{ route('myFeasibility',$id) }}" class="btn btn-danger fa fa-mail-reply-all" type="button" ata-toggle="tooltip" data-placement="top" title="kembali"> Back</a>
-    @foreach($dataF as $dF) <a href="{{ route('datamesin',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}" class="btn btn-theme fa fa-hand-o-right" type="button" ata-toggle="tooltip" data-placement="top" title="tambah baru"> Next</a></p>
-    @endforeach
-    <table id="ex" class="table table-bordered">
+    <div>
+      <p ALIGN="center"><a href="{{ route('myFeasibility',$id) }}" class="btn btn-danger fa fa-mail-reply-all" type="button" ata-toggle="tooltip" data-placement="top" title="kembali"> Back</a>
+      @foreach($dataF as $dF) <a href="{{ route('datamesin',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}" class="btn btn-info fa fa-hand-o-right" type="button" ata-toggle="tooltip" data-placement="top" title="tambah baru"> Next</a></p>
+      @endforeach
+      <table id="ex" class="Table table-bordered">
         <thead>
-          <tr>
+          <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
             <th>Formula</th>
             <th class="hidden-phone">Action</th>
           </tr>

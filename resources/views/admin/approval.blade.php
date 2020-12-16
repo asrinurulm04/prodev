@@ -1,4 +1,4 @@
-@extends('admin.tempadmin')
+@extends('pv.tempvv')
 @section('title', 'Approval')
 @section('judulhalaman','User Management')
 @section('content')
@@ -57,7 +57,7 @@
     					<button class="btn-sm btn-primary fa fa-check" data-toggle="modal" data-target="#approve{{ $user->id  }}"> Approve</a></button>
 							<button class="btn-sm btn-danger fa fa-trash-o" data-toggle="modal" data-target="#delete{{ $user->id  }}"> Reject</a></button>
 						</td>
-            <!-- modal -->
+            <!-- modal approve-->
             <div class="modal" id="approve{{ $user->id  }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div class="modal-dialog " role="document">
                 <div class="modal-content">
@@ -83,7 +83,7 @@
 			            	<input type="hidden" value="Account Confirmation" class="form-control" id="judul" name="judul"/>
 			            	<input type="hidden" id="pesan" name="pesan" value="Akun yang anda buat sudah kami approve, sekarang anda bisa masuk dengan akun yang telah anda buat..">
                     <div class="modal-footer">
-                      <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Send</button>
+                      <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-paper-plane"></i> Send</button>
                       {{ csrf_field() }}
                     </div>
                     </form>
@@ -91,8 +91,8 @@
                 </div>
               </div>
             </div>
-            <!-- Modal Selesai -->
-            <!-- modal -->
+            <!-- Modal approve Selesai -->
+            <!-- modal delete-->
             <div class="modal" id="delete{{ $user->id  }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div class="modal-dialog " role="document">
                 <div class="modal-content">
@@ -116,11 +116,9 @@
                     <input id="nama" class="form-control " value="{{ $user->Departement->dept }}" type="hidden" name="dept" required>
                     <input id="nama" class="form-control " value="{{ $user->name }}" type="hidden" name="nama" required>
 			            	<input type="hidden" value="Account Confirmation" class="form-control" id="judul" name="judul"/>
-			            	<div class="form-group row">
-			            	<textarea class="form-control" required id="pesan" name="pesan"></textarea>
-                    </div>
+			            	<input type="hidden" id="pesan" name="pesan" value="Tapi maaf jika kami tidak dapat menerima akun yang telah anda ajukan, silahkan untuk kembali membuat akun dengan data yang sesuai... :)">
                     <div class="modal-footer">
-                      <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Send</button>
+                      <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-paper-plane"></i> Send</button>
                       {{ csrf_field() }}
                     </div>
                     </form>
@@ -128,7 +126,7 @@
                 </div>
               </div>
             </div>
-            <!-- Modal Selesai -->
+            <!-- Modal delete Selesai -->
 					</tr>   
 					@endif
 					@endforeach

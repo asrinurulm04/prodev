@@ -17,22 +17,6 @@
 </div>
 <br>
 
-@if (session('status'))
-<div class="col-lg-12 col-md-12 col-sm-12">
-  <div class="alert alert-success">
-    <button type="button" class="close" data-dismiss="alert">×</button>
-    {{ session('status') }}
-  </div>
-</div>
-@elseif(session('error'))
-<div class="col-lg-12 col-md-12 col-sm-12">
-  <div class="alert alert-danger">
-    <button type="button" class="close" data-dismiss="alert">×</button>
-    {{ session('error') }}
-  </div>
-</div>
-@endif
-
 @if (count($errors) > 0)
 <div class="alert alert-danger">
   <strong>Whoops!</strong> There were some problems with your input.<br><br>
@@ -53,17 +37,17 @@
 <div class="col-md-12 col-sm-12 col-xs-12">
   <div class="x_panel">
     <div class="x_title">
-			<h3 class="jumbotron"><li class=" fa fa-upload"></li> File Upload (Max 5MB)</h3>
+			<h3 class="jumbotron"><li class=" fa fa-upload"></li> File Upload (Max 2MB)</h3>
       <form method="post" action="{{url('uploadpkp')}}" enctype="multipart/form-data">
 		  {{csrf_field()}}
 			<div class="input-group control-group increment" >
-			<input type="hidden" value="{{ $id_pkp->id_project }}" name="id">
-      @foreach($turunan as $turun)
-			<input type="hidden" value="{{ $turun->turunan }}" name="turunan">
-      @endforeach
+        <input type="hidden" value="{{ $id_pkp->id_project }}" name="id">
+        @foreach($turunan as $turun)
+        <input type="hidden" value="{{ $turun->turunan }}" name="turunan">
+        @endforeach
 				<input type="file" name="filename[]" class="form-control col-md-11 col-sm-12 col-xs-12" multiple>
 		  </div>
-			<button type="submit" class="btn btn-primary" style="margin-top:10px"> Submit</button>
+			<button type="submit" class="btn btn-primary btn-sm" style="margin-top:10px"><li class="fa fa-check"></li> Submit</button>
 	    </form>
 		</div>
 	</div>
@@ -90,8 +74,8 @@
 @if($coba1>=1)
 <div class="col-md-12">
   <div class="x_panel">
-      <button class="btn btn-primary col-md-12 btn-sm" type="submit"><li class="fa fa-check"></li> Save And Finish</button>
-      {{ csrf_field() }}
+    <button class="btn btn-primary col-md-12 btn-sm" type="submit"><li class="fa fa-check"></li> Save And Finish</button>
+    {{ csrf_field() }}
   </form>
   </div>
 </div>
