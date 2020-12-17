@@ -230,9 +230,7 @@
                 {{$pkp->catatan_rd}}
                 </td>
                 <td class="text-center">
-                  @if($pkp->vv == 'reject')
                   {{$pkp->catatan_pv}}    
-                  @endif
                 </td>
                 <td class="text-center">
                   {{csrf_field()}}

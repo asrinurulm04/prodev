@@ -191,6 +191,7 @@ class listpkpController extends Controller
                 $tip->gender=$ipdf->gender;
                 $tip->other=$ipdf->other;
                 $tip->wight=$ipdf->wight;
+                $tip->perevisi=Auth::user()->id;
                 $tip->serving=$ipdf->serving;
                 $tip->target_price=$ipdf->target_price;
                 $tip->claim=$ipdf->claim;

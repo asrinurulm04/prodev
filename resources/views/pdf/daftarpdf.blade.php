@@ -208,9 +208,7 @@
                   {{$sample->catatan_rd}}
                   </td>
                   <td class="text-center">
-                    @if($sample->vv == 'reject')
                     {{$sample->catatan_pv}}    
-                    @endif
                   </td>
                   <td class="text-center">
                     {{csrf_field()}}
@@ -317,9 +315,7 @@
                   {{$sample1->catatan_rd}}
                   </td>
                   <td class="text-center">
-                    @if($sample1->vv == 'reject')
                     {{$sample1->catatan_pv}}    
-                    @endif
                   </td>
                   <td class="text-center"> 
                   @if($sample1->vv=='proses')

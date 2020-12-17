@@ -598,7 +598,7 @@ class pdfController extends Controller
 
         
         if($request->forecast!=NULL){
-            $datafor = data_forecast::wherewhere([ ['id_pdf',$pdf_id], ['revisi',$revisi], ['turunan',$turunan] ])->delete();
+            $datafor = data_forecast::where([ ['id_pdf',$pdf_id], ['revisi',$revisi], ['turunan',$turunan] ])->delete();
             $for = array(); 
             $validator = Validator::make($request->all(), $for);  
             if ($validator->passes()) {

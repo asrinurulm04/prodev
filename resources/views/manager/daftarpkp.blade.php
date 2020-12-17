@@ -270,9 +270,7 @@
                   {{$pkp->catatan_rd}}
                   </td>
                   <td class="text-center">
-                    @if($pkp->vv == 'reject' || $pkp->vv == 'approve')
                     {{$pkp->catatan_pv}}    
-                    @endif
                   </td>
                   <td class="text-center">
                   @if(auth()->user()->departement_id == '3' || auth()->user()->departement_id == '4' || auth()->user()->departement_id == '5' || auth()->user()->departement_id == '6')

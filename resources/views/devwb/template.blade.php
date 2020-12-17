@@ -104,7 +104,7 @@
           @if($ada==0)
             @if($for!=$formula->id)
             <tr style="background-color:white">
-              <td>{{ $formula->pkp_number}}{{ $formula->ket_no}}</td>
+              <td>{{ $formula->pdf_number}}{{ $formula->ket_no}}</td>
               <td class="text-center" width="15%">
                 @if($formula->kategori!='fg')
                 {{$formula->kategori}}
