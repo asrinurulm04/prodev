@@ -3,14 +3,13 @@
 @section('content')
 
 <div class="row">
-  <div class="col-md-2"></div>
+  <div class="col-md-4"></div>
   <div class="col-md-10">
     <div class="tabbable">
       <ul class="nav nav-tabs wizard">
-        <li class="active"><a href="" ><span class="nmbr">1</span>Information</a></li>
-        <li class="completed"><a href=""><span class="nmbr">2</span>Data</a></li>
-        <li class="active"><a href=""><span class="nmbr">3</span>Products</a></li>
-        <li class="active"><a href=""><span class="nmbr">4</span>File & Image</a></li>
+        <li class="completed"><a href=""><span class="nmbr">1</span>Data</a></li>
+        <li class="active"><a href=""><span class="nmbr">2</span>Products</a></li>
+        <li class="active"><a href=""><span class="nmbr">3</span>File & Image</a></li>
       </ul>
     </div>
   </div>

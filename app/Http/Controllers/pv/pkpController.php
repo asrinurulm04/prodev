@@ -568,7 +568,7 @@ class pkpController extends Controller
                 for ($i = 0; $i < count($data); $i++)
                 {
                     $message->subject('PRODEV | PKP');
-                    $message->from('app.prodev@nutrifood.co.id', 'PRODEV');
+                    //$message->from('app.prodev@nutrifood.co.id', 'PRODEV');
                     $message->to($request->pengirim1);
                     $message->cc($data[$i]);
                 }
@@ -778,7 +778,7 @@ class pkpController extends Controller
                     for ($i = 0; $i < count($data); $i++)
                     {
                         $message->subject('PRODEV | PKP');
-                        $message->from('app.prodev@nutrifood.co.id', 'PRODEV');
+                        //$message->from('app.prodev@nutrifood.co.id', 'PRODEV');
                         $message->to($request->pengirim1);
                         $message->cc($data[$i]);
                     }
@@ -837,7 +837,7 @@ class pkpController extends Controller
                 'launch'=>$emaillaunch,],function($message)use($request,$id)
             {
                 $message->subject('Konfirmasi Launching');
-                $message->from('app.prodev@nutrifood.co.id', 'PRODEV');
+                //$message->from('app.prodev@nutrifood.co.id', 'PRODEV');
 
                 $data = $request->penerima1;
                 $data2 = $request->penerima2;
@@ -1080,7 +1080,7 @@ class pkpController extends Controller
                     for ($i = 0; $i < count($data); $i++)
                     {
                         $message->subject('PRODEV | PKP');
-                        $message->from('app.prodev@nutrifood.co.id', 'PRODEV');
+                        //$message->from('app.prodev@nutrifood.co.id', 'PRODEV');
                         $message->to($request->pengirim1);
                         $message->cc($data[$i]);
                     }
@@ -1191,7 +1191,7 @@ class pkpController extends Controller
                 'waktu' => $request->waktu,],function($message)use($request)
                 {
                     $message->subject('PKP '.$request->name);
-                    $message->from('app.prodev@nutrifood.co.id', 'PRODEV');
+                    //$message->from('app.prodev@nutrifood.co.id', 'PRODEV');
                     //sent email to manager
                     $dept = DB::table('departements')->where('id',$request->kirim)->get();
                     foreach($dept as $dept){
@@ -1275,7 +1275,7 @@ class pkpController extends Controller
                 'waktu' => $request->waktu,],function($message)use($request)
                 {
                     $message->subject('PKP '.$request->name);
-                    $message->from('app.prodev@nutrifood.co.id', 'PRODEV');
+                    //$message->from('app.prodev@nutrifood.co.id', 'PRODEV');
                     //sent email to manager
                     $dept = DB::table('departements')->where('id',$request->kirim)->get();
                     foreach($dept as $dept){
@@ -1346,7 +1346,7 @@ class pkpController extends Controller
             ],function($message)use($request)
             {
                 $message->subject('PROJECT PKP');
-                $message->from('app.prodev@nutrifood.co.id', 'PRODEV');
+                //$message->from('app.prodev@nutrifood.co.id', 'PRODEV');
                 //sent email to User
                 if(Auth::user()->departement_id!=1){
                     $user = DB::table('users')->where('id',$request->user)->get();

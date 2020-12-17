@@ -9,9 +9,9 @@ Route::get('/MyProfile','users\ProfilController@show')->name('MyProfile');
 Route::patch('/updateprof','users\ProfilController@update')->name('updateprof');
 
 /** Auth */
-Route::get('daftar', 'users\RegistrationController@create');
+Route::get('daftar', 'RegistrationController@create');
 Route::post('add', [
-    'uses'=> 'users\RegistrationController@registrationPost',
+    'uses'=> 'RegistrationController@registrationPost',
     'as' => 'add']);
  
 Route::get('signin', 'LoginController@getLogin')->name('signin');

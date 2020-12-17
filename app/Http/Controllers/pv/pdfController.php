@@ -598,7 +598,7 @@ class pdfController extends Controller
 
         
         if($request->forecast!=NULL){
-            $datafor = data_forecast::where('id_pkp',$id_pkp)->where('revisi',$revisi)->where('turunan',$turunan)->delete();
+            $datafor = data_forecast::wherewhere([ ['id_pdf',$pdf_id], ['revisi',$revisi], ['turunan',$turunan] ])->delete();
             $for = array(); 
             $validator = Validator::make($request->all(), $for);  
             if ($validator->passes()) {
@@ -729,7 +729,7 @@ class pdfController extends Controller
         //         for ($i = 0; $i < count($data); $i++)
         //         {
         //             $message->subject('Update Data PDF');
-        //             $message->from('app.prodev@nutrifood.co.id', 'Admin PRODEV');
+        //             //$message->from('app.prodev@nutrifood.co.id', 'Admin PRODEV');
         //             $message->to($request->pengirim1);
         //             $message->cc($data[$i]);
 
@@ -1049,7 +1049,7 @@ class pdfController extends Controller
             ],function($message)use($request)
             {
                 $message->subject('PROJECT PDF-'.$request->name);
-                $message->from('app.prodev@nutrifood.co.id', 'Admin PRODEV');
+                //$message->from('app.prodev@nutrifood.co.id', 'Admin PRODEV');
                 //sent email to manager
                 $dept = DB::table('departements')->where('id',$request->kirim)->get();
                 foreach($dept as $dept){
@@ -1138,7 +1138,7 @@ class pdfController extends Controller
             ],function($message)use($request)
             {
                 $message->subject('PROJECT PDF');
-                $message->from('app.prodev@nutrifood.co.id', 'Admin PRODEV');
+                //$message->from('app.prodev@nutrifood.co.id', 'Admin PRODEV');
                 //sent email to User
                 if($request->user!=null){
                     $user = DB::table('users')->where('id',$request->user)->get();

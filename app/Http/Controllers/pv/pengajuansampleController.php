@@ -43,7 +43,7 @@ class pengajuansampleController extends Controller
                 'app'=>$isipkp,],function($message)use($data)
             {
                 $message->subject('Reject PKP sample');
-                $message->from('app.prodev@nutrifood.co.id', 'Admin PRODEV');
+                //$message->from('app.prodev@nutrifood.co.id', 'Admin PRODEV');
                 
                 $datapkp = pkp_project::where('id_project',$data)->get();
                 foreach($datapkp as $data){
@@ -139,7 +139,7 @@ class pengajuansampleController extends Controller
                 'app'=>$isipkp,],function($message)use($data)
             {
                 $message->subject('Reject PKP sample');
-                $message->from('app.prodev@nutrifood.co.id', 'Admin PRODEV');
+                //$message->from('app.prodev@nutrifood.co.id', 'Admin PRODEV');
                 
                 $datapkp = pkp_project::where('id_project',$data)->get();
                 foreach($datapkp as $data){

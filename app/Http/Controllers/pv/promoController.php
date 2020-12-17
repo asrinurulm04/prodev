@@ -469,7 +469,7 @@ class promoController extends Controller
                 for ($i = 0; $i < count($data); $i++)
                 {
                     $message->subject('Update Data PROMO');
-                    $message->from('app.prodev@nutrifood.co.id', 'Admin PRODEV');
+                    //$message->from('app.prodev@nutrifood.co.id', 'Admin PRODEV');
                     $message->to($request->pengirim1);
                     $message->cc($data[$i]);
                 }
@@ -500,7 +500,7 @@ class promoController extends Controller
                 'app'=>$isipromo,],function($message)use($id_pkp_promo)
             {
                 $message->subject('Cancellation of sample approval');
-                $message->from('app.prodev@nutrifood.co.id', 'Admin PRODEV');
+                //$message->from('app.prodev@nutrifood.co.id', 'Admin PRODEV');
                 
                 $datapromo = promo::where('id_pkp_promo',$id_pkp_promo)->get();
                 foreach($datapromo as $data){
@@ -609,7 +609,7 @@ class promoController extends Controller
                 for ($i = 0; $i < count($data); $i++)
                 {
                     $message->subject('Update Data PROMO');
-                    $message->from('app.prodev@nutrifood.co.id', 'Admin PRODEV');
+                    //$message->from('app.prodev@nutrifood.co.id', 'Admin PRODEV');
                     $message->to($request->pengirim1);
                     $message->cc($data[$i]);
                 }
@@ -694,7 +694,7 @@ class promoController extends Controller
             ],function($message)use($request)
             {
                 $message->subject('PROJECT PKP PROMO-'.$request->name);
-                $message->from('app.prodev@nutrifood.co.id', 'Admin PRODEV');
+                //$message->from('app.prodev@nutrifood.co.id', 'Admin PRODEV');
                 //sent email to manager
                 $dept = DB::table('departements')->where('id',$request->kirim)->get();
                 foreach($dept as $dept){
@@ -785,7 +785,7 @@ class promoController extends Controller
             ],function($message)use($request)
             {
                 $message->subject('PROJECT PKP PROMO');
-                $message->from('app.prodev@nutrifood.co.id', 'Admin PRODEV');
+                //$message->from('app.prodev@nutrifood.co.id', 'Admin PRODEV');
                 //sent email to User
                 if($request->user!=null){
                     $user = DB::table('users')->where('id',$request->user)->get();
