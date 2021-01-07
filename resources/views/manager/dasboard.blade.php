@@ -1,6 +1,5 @@
 @extends('manager.tempmanager')
-@section('title', 'Dashboard')
-@section('judulhalaman','Dashboard')
+@section('title', 'PRODEV|Dashboard')
 @section('content')
 
 <div class="row">

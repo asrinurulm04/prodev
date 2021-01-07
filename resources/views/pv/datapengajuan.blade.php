@@ -1,6 +1,5 @@
 @extends('pv.tempvv')
-@section('title', 'Pengajuan Revisi')
-@section('judulhalaman','Pengajuan Revisi')
+@section('title', 'PRODEV|Pengajuan Revisi')
 @section('content')
 
 <div class="row">
@@ -18,19 +17,16 @@
                   <a id="tab0" href="#tabBody0" role="tab" aria-controls="tabBody0" style="font-weight: bold;color:white;background-color: #2a3f54;" aria-selected="true" data-toggle="tab" tabindex="0"><span class="hidden-xs"> PKP</span></a>
               	<div class="whiteBlock"></div>
               </li>
-                  
               <li class="tab fancyTab col-md-4 col-sm-12 col-xs-12">
                 <div class="arrow-down" style="font-weight: bold;color:white;background-color: #2a3f54;"><div class="arrow-down-inner"></div></div>
                   <a id="tab1" style="font-weight: bold;color:white;background-color: #2a3f54;" href="#tabBody1" role="tab" aria-controls="tabBody1" aria-selected="true" data-toggle="tab" tabindex="0"><span class="hidden-xs"> PDF</span></a>
                 <div class="whiteBlock"></div>
               </li>
-                  
               <li class="tab fancyTab col-md-4 col-sm-12 col-xs-12">
                 <div class="arrow-down" style="font-weight: bold;color:white;background-color: #2a3f54;"><div class="arrow-down-inner"></div></div>
                   <a id="tab2" style="font-weight: bold;color:white;background-color: #2a3f54;" href="#tabBody2" role="tab" aria-controls="tabBody2" aria-selected="true" data-toggle="tab" tabindex="0"><span class="hidden-xs"> PKP Promo</span></a>
                 <div class="whiteBlock"></div>
               </li>
-               
             </ul>
             <div id="myTabContent" class="tab-content fancyTabContent" aria-live="polite">
               <!-- PKP Pengajuan -->
@@ -98,13 +94,9 @@
                         </tr>
                       </thead>
                       <tbody>
-                      @php
-                        $nol = 0;
-                      @endphp
+                      @php $nol = 0; @endphp
                       @foreach($pengajuanpdf as $pdf)
-                      @php
-                        ++$nol;
-                      @endphp
+                      @php ++$nol; @endphp
                         <tr>
                           <td width="3%"  class="text-center">{{$nol}}</td>
                           <td width="10%">Manager {{$pdf->datapdf->departement->dept}}</td>
@@ -167,8 +159,7 @@
                             @endif
                           </td>
                           <td class="text-center">
-                            @if($promo->penerima==NULL)
-                            @elseif($promo->penerima!=NULL)
+                            @if($promo->penerima!=NULL)
                             {{$promo->user->role}}
                             @endif
                           </td>
@@ -191,16 +182,4 @@
     </div>
   </div>
 </div>  
-@endsection
-
-@section('s')
-<script type="text/javascript">
-  $(document).ready(function() {
-    $(".pesan").hide();
-    $(".baca_selengkapnya").click(function(){
-      $(".pesan").slideDown('slow');
-      $(this).hide();
-    })
-  });
-</script>
 @endsection

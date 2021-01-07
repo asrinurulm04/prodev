@@ -1,6 +1,5 @@
 @extends('pv.tempvv')
-@section('title', 'Approval')
-@section('judulhalaman','User Management')
+@section('title', 'PRODEV|Approval')
 @section('content')
 
 @if (session('status'))
@@ -135,5 +134,4 @@
 		</div>
 	</div>
 </div>
-
 @endsection

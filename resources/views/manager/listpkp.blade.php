@@ -1,6 +1,5 @@
 @extends('manager.tempmanager')
-@section('title', 'List PKP')
-@section('judulhalaman','List PKP')
+@section('title', 'PRODEV|List PKP')
 @section('content')
 
 @if (session('status'))
@@ -29,7 +28,6 @@
       <div>
         <div>
           <form id="clear">
-          <!--brand-->
           <div class="col-md-2 pl-1">
             <div class="form-group" id="filter_col1" data-column="2">
               <label>Brand</label>
@@ -41,7 +39,6 @@
               </select>
             </div>
           </div> 
-          <!--Data-->
           <div class="col-md-3 pl-1">
             <div class="form-group" id="filter_col1" data-column="5">
               <label>Status RD Kemas</label>
@@ -55,7 +52,6 @@
               </select>
             </div>
           </div>  
-          <!--Data-->
           <div class="col-md-3 pl-1">
             <div class="form-group" id="filter_col1" data-column="6">
               <label>Status RD Product</label>
@@ -69,7 +65,6 @@
               </select>
             </div>
           </div>      
-          <!--project-->
           <div class="col-md-3 pl-1">
             <div class="form-group" id="filter_col1" data-column="7">
               <label>Priority</label>
@@ -129,10 +124,7 @@
                 <td class="text-center">{{ ++$no}}</td>
                 <td>{{$pkp->pkp_number}}{{$pkp->ket_no}}</td>
                 <td>{{$pkp->id_brand}}</td>
-                <td>
-                  @if($pkp->perevisi!=null){{$pkp->perevisi2->name}}
-                  @endif
-                </td>
+                <td>@if($pkp->perevisi!=null){{$pkp->perevisi2->name}}@endif</td>
                 <td>{{$pkp->tgl_kirim}}</td>
                 <td>
                   @if($pkp->status_project=='sent')
@@ -212,8 +204,7 @@
                         <?php
                           $awal  = date_create( $pkp->waktu );
                           $akhir = date_create(); // waktu sekarang
-                          if($akhir<=$awal)
-                          {
+                          if($akhir<=$awal){
                             $diff  = date_diff( $akhir, $awal );
                             echo ' You Have ';
                             echo $diff->m . ' Month, ';
@@ -259,8 +250,7 @@
                       <?php
                         $awal  = date_create( $pkp->waktu );
                         $akhir = date_create(); // waktu sekarang
-                        if($akhir<=$awal)
-                        {
+                        if($akhir<=$awal){
                           $diff  = date_diff( $akhir, $awal );
                           echo ' You Have ';
                           echo $diff->m . ' Month, ';
@@ -359,8 +349,7 @@
                       <?php
                         $awal  = date_create( $pkp->waktu );
                         $akhir = date_create(); // waktu sekarang
-                        if($akhir<=$awal)
-                        {
+                        if($akhir<=$awal){
                           $diff  = date_diff( $akhir, $awal );
                           echo ' You Have ';
                           echo $diff->m . ' Month, ';
@@ -397,7 +386,7 @@
                   @endif
                   @if(Auth::user()->departement->dept!='RKA')
                   <button class="btn btn-primary btn-sm" title="Project Finish" data-toggle="tooltip" data-toggle="modal" data-target="#close{{$pkp->id_project}}"><i class="fa fa-power-off"></i></a></button>    
-                    @endif
+                  @endif
                 </td>
                 <!-- modal -->
                 <div class="modal" id="close{{$pkp->id_project}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -431,8 +420,7 @@
                     <?php
                       $awal  = date_create( $pkp->waktu );
                       $akhir = date_create(); // waktu sekarang
-                      if($akhir<=$awal)
-                      {
+                      if($akhir<=$awal){
                         $diff  = date_diff( $akhir, $awal );
                         echo ' You Have ';
                         echo $diff->m . ' Month, ';
@@ -470,7 +458,6 @@
     </div>
   </div>
 </div>
-
 @endsection
 
 @section('s')

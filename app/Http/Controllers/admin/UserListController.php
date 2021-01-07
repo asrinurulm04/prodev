@@ -40,7 +40,6 @@ class UserListController extends Controller
         $users = User::find($id);
         $roles = Role::all();
         $depts = Departement::all();
-
         return view('admin.detail')->with([
             'users' => $users,
             'depts' =>$depts,
@@ -77,11 +76,9 @@ class UserListController extends Controller
         $user->email = $request->email;
         $user->departement_id = $request->departement;
         $user->role_id = $request->role;
-        
         $user->password = $request->password;
         $user->save(); 
         
         return Redirect::back()->with('status','Profil User Telah Dirubah !');
     }
-
 }

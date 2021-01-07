@@ -1,12 +1,11 @@
 @extends('pv.tempvv')
-@section('title', 'Edit BahanBaku')
-@section('judulnya', 'Edit BahanBaku')
+@section('title', 'PRODEV|Edit BahanBaku')
 @section('content')
 
 <div class="row">
   <div class="col-md-12">
     <div class="x_panel">
-          <table class="table table-sm table-bordered">
+      <table class="table table-sm table-bordered">
         <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
           <th>Nama Sederhana</th>
           <th>Nama_Bahan</th>
@@ -251,7 +250,6 @@
                 </td>
                 @endif
 
-                
                 @if($edit->alternatif6!=NULL)
                 <td>
                   <label for="" class="control-label">Alternatif 6</label><br>
@@ -283,7 +281,6 @@
                 </td>
                 @endif
 
-                
                 @if($edit->alternatif7!=NULL)
                 <td>
                   <label for="" class="control-label">Alternatif 7</label><br>
@@ -336,7 +333,6 @@
 		</div>
 	</div>
 </div>
-
 @endsection
 
 @section('s')
@@ -372,14 +368,6 @@
             $('#alternatif5').empty();
             $('#alternatif6').empty();
             $('#alternatif7').empty();
-
-            $('#alternatif').append('<option value="0" disabled selected> Pilih Alternatif  </option>');
-            $('#alternatif2').append('<option value="0" disabled selected> Pilih Alternatif 2</option>');
-            $('#alternatif3').append('<option value="0" disabled selected> Pilih Alternatif 3</option>');
-            $('#alternatif4').append('<option value="0" disabled selected> Pilih Alternatif 4</option>');
-            $('#alternatif5').append('<option value="0" disabled selected> Pilih Alternatif 5</option>');
-            $('#alternatif6').append('<option value="0" disabled selected> Pilih Alternatif 6</option>');
-            $('#alternatif7').append('<option value="0" disabled selected> Pilih Alternatif 7</option>');
 
             $.each(data, function(key, value){
               $('#alternatif').append('<option value="'+ key +'">' + value + '</option>');
@@ -437,8 +425,7 @@
 					alert('BahanBaku Tidak Boleh Kosong');
 					return false;
 				}
-			}
-			else if(c === '1'){
+			}else if(c === '1'){
 				if(bahanbaku === null){
 					alert('BahanBaku Tidak Boleh Kosong');
 					return false;
@@ -447,8 +434,7 @@
 					alert('Alternatif1 Tidak Boleh Kosong');
 					return false;
 				}
-			}
-			else if(c === '2'){
+			}else if(c === '2'){
 				if(bahanbaku === null){
 					alert('BahanBaku Tidak Boleh Kosong');
 					return false;
@@ -461,8 +447,7 @@
 					alert('Alternatif 2 Tidak Boleh Kosong');
 					return false;
 				}
-			}
-			else if(c === '3'){
+			}else if(c === '3'){
 				if(bahanbaku === null){
 					alert('BahanBaku Tidak Boleh Kosong');
 					return false;
@@ -479,8 +464,7 @@
 					alert('Alternatif 3 Tidak Boleh Kosong');
 					return false;
 				}
-			}
-			else if(c === '4'){
+			}else if(c === '4'){
 				if(bahanbaku === null){
 					alert('BahanBaku Tidak Boleh Kosong');
 					return false;
@@ -501,8 +485,7 @@
 					alert('Alternatif 4 Tidak Boleh Kosong');
 					return false;
 				}
-    	}
-      else if(c === '5'){
+    	}else if(c === '5'){
 				if(bahanbaku === null){
 					alert('BahanBaku Tidak Boleh Kosong');
 					return false;
@@ -635,13 +618,6 @@
       $('#t1').hide();
       $('#c').val(1);
   	});
-
-  	$('select').on('change', function() {
-    	$('select').find('option').prop('disabled', false);
-			$('select').each(function() {
-				$('select').not(this).find('option[value="' + this.value + '"]').prop('disabled', true); 
-			});
-		});
 	});
 </script>
 @endsection

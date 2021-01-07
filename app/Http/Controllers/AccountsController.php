@@ -33,14 +33,12 @@ class AccountsController extends Controller
         if ($this->sendResetEmail($request->email, $tokenData->token)) {
             return redirect()->route('reset',$user->id);
         } else {
-            
             return redirect()->back()->withErrors(['error' => trans('A Network Error occurred. Please try again.')]);
         }
     }
 
     public function update(Request $request){
         $user = User::find($request->id);
-        
         $this->validate(request(), [
             'username' => 'unique:users,username,'.$user->id,
             'email' => 'unique:users,email,'.$user->id,
@@ -54,16 +52,13 @@ class AccountsController extends Controller
         $user->save();
         
         return Redirect::route('signin')->with('status','Profil Anda Telah Dirubah !');
-
     }
 
-    private function sendResetEmail($email, $token)
-    {
+    private function sendResetEmail($email, $token){
         //Retrieve the user from the database
         $user = DB::table('users')->where('email', $email)->select('username', 'email')->first();
         //Generate, the password reset link. The token generated is embedded in the link
         $link = config('base_url') . 'password/reset/' . $token . '?email=' . urlencode($user->email);
-        
         return view('resetpass')->with([
             'user' => $user,
             'token' => $token

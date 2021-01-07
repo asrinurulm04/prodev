@@ -1,6 +1,5 @@
 @extends('pv.tempvv')
-@section('title', 'Data Produksi')
-@section('judulnya','Data Produksi')
+@section('title', 'PRODEV|Data Produksi')
 @section('content')
 
 <div class="row">
@@ -109,7 +108,6 @@
 </div>
 {{-- selesai --}}
 @endsection
-
 
 @section('s')
 <script type="text/javascript"></script>

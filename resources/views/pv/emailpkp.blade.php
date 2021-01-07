@@ -61,7 +61,7 @@
                       </div>
                       </div>
                       @endforeach
-                      <table border="1" style="font-size:15px" class="table table-bordered" width="600">
+                      <table border="1" style="font-size:15px" class="table table-bordered" width="800">
                       <tr>
                           <th colspan="3" class="text-center"><span style="font-weight: bold;font-size: 20px;" class="card-title">Background</span></th>
                         </tr>
@@ -125,40 +125,54 @@
                           if($data->turunan!=$pkp->turunan){ echo": <s><font color='#6594c5'>$data->aisle<br></font></s>"; } if($data->turunan==$pkp->turunan){ echo": $data->aisle<br>"; } } ?></td>
                         </tr>
                         <tr>
-                          <td>Sales Forecast</td>
-                          <td colspan="2"><?php $seles = []; foreach ($for as $key => $data) If (!$seles || !in_array($data->forecast, $seles)) { $seles += array( $key => $data->forecast ); 
-                          if($data->turunan!=$pkp->turunan){ echo": <s><font color='#6594c5'>$data->satuan = $data->forecast<br></font></s>"; } if($data->turunan==$pkp->turunan){ echo": $data->satuan = $data->forecast <br>";  } } ?></td>
-                        </tr>
-                        <tr>
-                          <td>NF Selling Price (Before ppn)</td>
+                          <th>Sales Forecast</th>
                           <td colspan="2">
-                            <table>
-                              <tr>
-                                <td>
-                                  <?php $selling_price = []; foreach ($pkp1 as $key => $data) If (!$selling_price || !in_array($data->selling_price, $selling_price)) { $selling_price += array( $key => $data->selling_price ); 
-                                  if($data->turunan!=$pkp->turunan){ echo": <s><font color='#6594c5'>$data->selling_price<br></font></s>"; } if($data->turunan==$pkp->turunan){ echo": $data->selling_price <br>"; } }  ?>
-                                </td>
-                                <td>
-                                  <?php $uom = []; foreach ($pkp1 as $key => $data) If (!$uom || !in_array($data->UOM, $uom)) { $uom += array( $key => $data->UOM ); 
-                                  if($data->turunan!=$pkp->turunan){ echo"/ <s><font color='#6594c5'>".$data->UOM."<br></font></s>"; } if($data->turunan==$pkp->turunan){ echo"/ ".$data->UOM."<br>"; } }  ?>
-                                </td>
-                              </tr>
-                            </table>
-                          </td>
-                        </tr>
-                          <td>Consumer price target</td>
-                          <td colspan="2">
-                            <table>
-                              <tr>
-                                <td>
-                                  <?php $price = []; foreach ($pkp1 as $key => $data) If (!$price || !in_array($data->price, $price)) { $price += array( $key => $data->price ); 
-                                  if($data->turunan!=$pkp->turunan){ echo": <s><font color='#6594c5'>$data->price<br></font></s>"; } if($data->turunan==$pkp->turunan){ echo": $data->price <br>"; } } ?>
-                                </td>
-                                <td>
-                                  <?php $uom = []; foreach ($pkp1 as $key => $data) If (!$uom || !in_array($data->UOM, $uom)) { $uom += array( $key => $data->UOM ); 
-                                  if($data->turunan!=$pkp->turunan){ echo"/ <s><font color='#6594c5'>".$data->UOM."<br></font></s>"; } if($data->turunan==$pkp->turunan){ echo"/ ".$data->UOM."<br>"; } }  ?>  
-                                </td>
-                              </tr>
+                            <table class="table table-bordered table-hover">
+                              <thead>
+                                <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
+                                  <th>Forecash</th>
+                                  <th>Configuration</th>
+                                  <th colspan="2">UOM</th>
+                                  <th>NFI Price</th>
+                                  <th>Costumer Price</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                @foreach($for as $for)
+                                <tr>
+                                  <td>{{$for->satuan}} = <?php $angka_format = number_format($for->forecast,2,",","."); echo "Rp. ".$angka_format;?></td>
+                                  <td>
+                                  @if($for->kemas_eksis!=NULL)
+                                  (
+                                  @if($for->kemas->tersier!=NULL)
+                                  {{ $for->kemas->tersier }}{{ $for->kemas->s_tersier }}
+                                   @elseif($for->tersier==NULL)
+                                  @endif
+
+                                  @if($for->kemas->sekunder1!=NULL)
+                                  X {{ $for->kemas->sekunder1 }}{{ $for->kemas->s_sekunder1}}
+                                  @elseif($for->kemas->sekunder1==NULL)
+                                  @endif
+
+                                  @if($for->kemas->sekunder2!=NULL)
+                                  X {{ $for->kemas->sekunder2 }}{{ $for->kemas->s_sekunder2 }}
+                                  @elseif($for->sekunder2==NULL)
+                                  @endif
+
+                                  @if($for->kemas->primer!=NULL)
+                                  X{{ $for->kemas->primer }}{{ $for->kemas->s_primer }}
+                                  @elseif($for->kemas->primer==NULL)
+                                  @endif
+                                  )
+                                  @endif
+                                  </td>
+                                  <td>{{$for->jlh_uom}}</td>
+                                  <td>{{$for->uom}}</td>
+                                  <td><?php $angka_format = number_format($for->nfi_price,2,",","."); echo "Rp. ".$angka_format;?></td>
+                                  <td><?php $angka_format = number_format($for->costumer,2,",","."); echo "Rp. ".$angka_format;?></td>
+                                </tr>
+                                @endforeach
+                              </tbody>
                             </table>
                           </td>
                         </tr>
@@ -281,39 +295,6 @@
                           <td colspan="2"><?php $mandatory_ingredient = []; foreach ($pkp1 as $key => $data) If (!$mandatory_ingredient || !in_array($data->mandatory_ingredient, $mandatory_ingredient)) { $mandatory_ingredient += array( $key => $data->mandatory_ingredient ); 
                           if($data->turunan!=$pkp->turunan){ echo": <s><font color='#6594c5'>$data->mandatory_ingredient<br></font></s>"; } if($data->turunan==$pkp->turunan){ echo": $data->mandatory_ingredient<br>"; } }  ?></td>
                         </tr>
-                      </table>
-                      <table class="table table-striped table-bordered" style="font-size: 16px;" width="600">
-                        <tdead>
-                          <tr style="background-color:#bfc2c5;"><td class="text-center" colspan="2">ATTENTION</td></tr>
-                          <tr><td style="background-color:#ffffff;" widtd="30%"></td><td style="border:none;background-color:#bfc2c5;"> compulsory; filled by QBX (brand function) Managers</td></tr>
-                          <tr><td style="background-color:#13699a;" widtd="30%"></td><td style="border:none;background-color:#bfc2c5;">should only be filled witd great certainty</td></tr>
-                          <tr><td style="background-color:#e41356;" widtd="30%"></td><td style="border:none;background-color:#bfc2c5;"> should only be filled after discussion witd QPA</td></tr>
-                          <tr><td style="background-color:#bfc2c5;">Service Level Agreements</td>
-                          <td style="background-color:#bfc2c5;">
-                            <table>
-                              <tdead>
-                                <tr><td style="border:none;">Lead Time QBX (brand function)</td><td style="border:none;">5 workdays</td></tr>
-                                <tr><td style="border:none;">Lead Time QPA (product development function)</td><td style="border:none;">[1 (benefits) + 2 (COGS)] = 2 workdays</td></tr>
-                                <tr><td style="border:none;">Lead Time Revision </td><td style="border:none;">2 workdays</td></tr>
-                              </tdead>
-                            </table>
-                          </td></tr>
-                          <tr><td style="background-color:#bfc2c5;">Process</td>
-                          <td style="background-color:#bfc2c5;">
-                            <table>
-                              <tdead>
-                                <tr><td style="border:none;">After being filled. HOD approval request. tden, forward to RD as low priority project. Will be furtder</td></tr>
-                                <tr><td style="border:none;">prioritized in PV Cross Funct Mtg. </td></tr>
-                                <tr><td style="border:none;">Meanwhile, RD can prepare SLA projection to propose into PV's SLA for tde project based on</td></tr>
-                                <tr><td style="border:none;">capacity and feasibility.</td></tr>
-                              </tdead>
-                            </table>
-                          </td></tr>
-                        </tdead>
-                      </table>
-                      <table ALIGN="right">
-                        <tr><td>Revisi/Berlaku :  </td></tr>
-                        <tr><td>Masa Berlaku : Selamanya</td></tr>
                       </table>
                   </div>
                 </table>

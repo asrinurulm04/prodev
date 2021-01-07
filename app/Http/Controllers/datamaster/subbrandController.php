@@ -13,13 +13,11 @@ use Auth;
 class subbrandController extends Controller
 {
     public function __construct(){
-
         $this->middleware('auth');
         $this->middleware('rule:admin');
     }
     
-    public function index()
-    {
+    public function index(){
         $subbrands = Subbrand::all();
         $users = User::all();
         $brands = Brand::all();
@@ -30,8 +28,7 @@ class subbrandController extends Controller
         ]);
     }
 
-    public function store(Request $request)
-    {
+    public function store(Request $request){
         $subbrand  = new Subbrand;
         $subbrand->subbrand= $request->subbrand;
         $subbrand->brand_id= $request->brand;
@@ -41,8 +38,7 @@ class subbrandController extends Controller
         return Redirect::back()->with('status','Subbrand '.$subbrand->subbrand.' Berhasil Dibuat');
     }
 
-    public function update(Request $request, $id)
-    {
+    public function update(Request $request, $id){
         $subbrand = Subbrand::where('id',$id)->first();
         $subbrand->subbrand=$request->subbrand;
         $subbrand->brand_id=$request->brand;
@@ -52,8 +48,7 @@ class subbrandController extends Controller
         return Redirect::back()->with('status','Subbrand '.$subbrand->subbrand.' Berhasil DiUpdate');
     }
 
-    public function destroy(Subbrand $subbrand)
-    {
+    public function destroy(Subbrand $subbrand){
         $subbrand->delete();
         return Redirect::back()->with('error','Subbrand '.$subbrand->subbrand.' Berhasil DiHapus');
     }

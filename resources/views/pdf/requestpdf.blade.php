@@ -1,6 +1,5 @@
 @extends('pv.tempvv')
-@section('title', 'Request PDF')
-@section('judulhalaman','Form Request PDFp & PDFe')
+@section('title', 'PRODEV|Request PDF')
 @section('content')
 
 @if (session('status'))
@@ -160,9 +159,7 @@
             </tr>
           </thead>
          <tbody>
-            @php
-              $nol = 0;
-            @endphp
+            @php $nol = 0; @endphp
             @foreach ($pdf1 as $pdf)
             <tr>
               <td class="text-center">{{ ++$nol }}</td>

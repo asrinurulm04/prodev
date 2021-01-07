@@ -12,7 +12,6 @@ use Redirect;
 class TemplateFormulaController extends Controller
 {
     public function __construct(){
-
         $this->middleware('auth');
         $this->middleware('rule:user_rd_proses' || 'rule:user_produk');
     }
@@ -69,6 +68,7 @@ class TemplateFormulaController extends Controller
                 $fortails->alternatif5 = $tfortail->alternatif5 ;
                 $fortails->alternatif6 = $tfortail->alternatif6 ;
                 $fortails->alternatif7 = $tfortail->alternatif7 ;
+                $fortails->principle = $tfortail->principle ;
                 $fortails->principle1 = $tfortail->principle1 ;
                 $fortails->principle2 = $tfortail->principle2 ;
                 $fortails->principle3 = $tfortail->principle3 ;

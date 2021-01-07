@@ -1,5 +1,5 @@
 @extends('manager.tempmanager')
-@section('title', 'List PDF')
+@section('title', 'PRODEV|List PDF')
 @section('content')
 
 @if (session('status'))
@@ -40,7 +40,6 @@
               </select>
             </div>
           </div> 
-          <!--Data-->
           <div class="col-md-3 pl-1">
             <div class="form-group" id="filter_col1" data-column="4">
               <label>Status RD Kemas</label>
@@ -54,7 +53,6 @@
               </select>
             </div>
           </div>  
-          <!--Data-->
           <div class="col-md-3 pl-1">
             <div class="form-group" id="filter_col1" data-column="5">
               <label>Status RD Product</label>
@@ -68,7 +66,6 @@
               </select>
             </div>
           </div>      
-          <!--project-->
           <div class="col-md-3 pl-1">
             <div class="form-group" id="filter_col1" data-column="6">
               <label>Priority</label>
@@ -196,8 +193,7 @@
                       <?php
                         $awal  = date_create( $pdf->waktu );
                         $akhir = date_create(); // waktu sekarang
-                        if($akhir<=$awal)
-                        {
+                        if($akhir<=$awal){
                           $diff  = date_diff( $akhir, $awal );
                           echo ' You Have ';
                           echo $diff->m . ' Month, ';
@@ -241,8 +237,7 @@
                         <?php
                           $awal  = date_create( $pdf->waktu );
                           $akhir = date_create(); // waktu sekarang
-                          if($akhir<=$awal)
-                          {
+                          if($akhir<=$awal){
                             $diff  = date_diff( $akhir, $awal );
                             echo ' You Have ';
                             echo $diff->m . ' Month, ';
@@ -336,8 +331,7 @@
                       <?php
                         $awal  = date_create( $pdf->waktu );
                         $akhir = date_create(); // waktu sekarang
-                        if($akhir<=$awal)
-                        {
+                        if($akhir<=$awal){
                           $diff  = date_diff( $akhir, $awal );
                           echo ' You Have ';
                           echo $diff->m . ' Month, ';
@@ -377,8 +371,7 @@
                         <?php
                           $awal  = date_create( $pdf->waktu );
                           $akhir = date_create(); // waktu sekarang
-                          if($akhir<=$awal)
-                          {
+                          if($akhir<=$awal){
                             $diff  = date_diff( $akhir, $awal );
                             echo ' You Have ';
                             echo $diff->m . ' Month, ';
@@ -422,7 +415,6 @@
     </div>
   </div>
 </div>
-
 @endsection
 
 @section('s')

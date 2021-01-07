@@ -1,6 +1,5 @@
 @extends('pv.tempvv')
-@section('title', 'Request PDF')
-@section('judulhalaman','Form PDF')
+@section('title', 'PRODEV|Request PDF')
 @section('content')
 
 @include('formerrors')
@@ -16,7 +15,6 @@
     </div>
   </div>
 </div>
-
 <div class="row">
   <div class="col-md-12 col-xs-12">
     <table class="table table-bordered">
@@ -29,11 +27,8 @@
     </table>
   </div>
 </div>
-
 <div class="">
   <form class="form-horizontal form-label-left" method="POST" action="{{ route('pos') }}" novalidate>
-	
-
   <div class="row">
     <div class="col-md-12 col-xs-12">
       <div class="x_panel">
@@ -53,13 +48,12 @@
                <input type="radio" name="data" oninput="to()" id="radio_to"> To
             </div>
             <div class="col-md-1 col-sm-3 col-xs-12" id="umur"></div>
-            
             <label for="middle-name" class="control-label col-md-1 col-sm-2 col-xs-12" style="color:#258039">SES : </label>
             <div class="col-md-3 col-sm-6 col-xs-12">
               <select class="form-control form-control-line items" id="select" name="ses[]"   multiple="multiple">
-                @foreach ($ses as $ses)
+              @foreach ($ses as $ses)
               <option value="{{$ses->ses}}">{{$ses->ses}}</option>   
-                @endforeach
+              @endforeach
               </select>
             </div>
           </div>
@@ -185,15 +179,14 @@
                       </select>
                     </td>
                     <td class="text-center">
-                      <input type="hidden" value="{{$eksis}}" name="kemas" id="kemas">
                       <input type="radio" name="gramasi1[]" required id="rad1" value="pertama1" class="rad"/> 2 Dimensi &nbsp
                       <input type="radio" name="gramasi1[]" required id="rad1" value="kedua1" class="rad"/> 3 Dimensi &nbsp
                       <input type="radio" name="gramasi1[]" required id="rad1" value="ketiga1" class="rad"/> 4 Dimensi &nbsp
 					            <div id='tampil1'></div>
                     <td><input type="number" required class="form-control" name="satuan_uom[]" id="satuan_uom"></td>
-                    <td>
+                    <td width="8%">
                       <select name="uom[]" id="UOM" class="form-control">
-                        @foreach($data_uom as $data)
+                        @foreach($uom as $data)
                         <option value="{{$data->kode}}">{{$data->kode}}</option>
                         @endforeach
                       </select>
@@ -630,7 +623,7 @@
   }
 
   var data_uom = []
-  <?php foreach($data_uom as $key => $value) { ?>
+  <?php foreach($uom as $key => $value) { ?>
     if(!data_uom){
       data_uom += [ { '<?php echo $key; ?>' : '<?php echo $value->kode; ?>', } ];
     } else { data_uom.push({ '<?php echo $key; ?>' : '<?php echo $value->kode; ?>', }) }

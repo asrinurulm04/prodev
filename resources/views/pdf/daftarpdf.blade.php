@@ -1,6 +1,5 @@
 @extends('pv.tempvv')
-@section('title', 'Daftar PDF')
-@section('judulhalaman','Daftar PDF')
+@section('title', 'PRODEV|Daftar PDF')
 @section('content')
 
 <div class="row">
@@ -37,7 +36,34 @@
           @endif
         @endif
         @endforeach
-          
+        @if($cf != 0)
+        <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#upload"><i class="fa fa-upload"></i> Upload LHP</a>
+        <!-- Formula Baru -->
+        <div class="modal fade" id="upload" role="dialog" aria-labelledby="hm" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title text-center" id="hm"> Upload FIle</h4>
+              </div>
+              <div class="modal-body">
+                <form method="post" action="{{route('uploadfile_pdf',$data->id_project_pdf)}}" enctype="multipart/form-data">                                    
+                <div class="form-group">
+                  <label class="col-lg-2 control-label">LHP</label>
+                  <div class="col-lg-9">
+                    <input type="file" class="form-control" id="data" name="filename">
+                  </div>
+                </div>
+              </div>
+               <div class="modal-footer">
+                 <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-upload"></i> upload</button>
+                {{ csrf_field() }}
+              </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        @endif
         @if($hitung==0)
           <a href="{{ route('buatpdf',$data->id_project_pdf)}}" class="btn btn-primary btn-sm" type="button"><li class="fa fa-plus"></li> Add Data</a>
         @endif
@@ -137,6 +163,9 @@
                 <tr><td>PDF Number</td><td> : {{$data->pdf_number}}{{$data->ket_no}}</td></tr>
                 <tr><td>Created</td><td> : {{$data->created_date}}</td></tr>
                 <tr><td>Author</td><td> : {{$data->author1->name}}</td></tr>
+                @if($data->file!=NULL)
+                <tr><th>File</th><td> : <a href="{{asset('data_file/'.$data->file)}}" download="{{$data->file}}" title="download file"><li class="fa fa-download"></li></a> {{$data->file}}</td></tr>
+                @endif
               </thead>
             </table><br>
           </div>
@@ -188,33 +217,18 @@
                   </td>
                   <td>{{ $sample->formula}}</td>
                   <td class="text-center" width="10%">
-                    @if ($sample->vv == 'proses')
-                    <span class="label label-warning">Proses</span>                        
-                    @endif
-                    @if ($sample->vv == 'reject')
-                    <span class="label label-danger">Rejected</span>                        
-                    @endif 
-                    @if ($sample->vv == 'approve')
-                    <span class="label label-success">Approved</span>                        
-                    @endif 
-                    @if ($sample->vv == 'final')
-                    <span class="label label-info">Final Approved</span>                        
-                    @endif 
-                    @if ($sample->vv == '')
-                    <span class="label label-primary">Belum Diajukan</span>                        
-                    @endif   
+                    @if ($sample->vv == 'proses')<span class="label label-warning">Proses</span>@endif
+                    @if ($sample->vv == 'reject')<span class="label label-danger">Rejected</span>@endif 
+                    @if ($sample->vv == 'approve')<span class="label label-success">Approved</span>@endif 
+                    @if ($sample->vv == 'final')<span class="label label-info">Final Approved</span>@endif 
+                    @if ($sample->vv == '')<span class="label label-primary">Belum Diajukan</span>@endif   
                   </td>
-                  <td class="text-center">
-                  {{$sample->catatan_rd}}
-                  </td>
-                  <td class="text-center">
-                    {{$sample->catatan_pv}}    
-                  </td>
+                  <td class="text-center">{{$sample->catatan_rd}}</td>
+                  <td class="text-center">{{$sample->catatan_pv}}</td>
                   <td class="text-center">
                     {{csrf_field()}}
                     <a class="btn btn-info btn-sm" href="{{ route('formula.detail',[$sample->workbook_pdf_id,$sample->id]) }}" data-toggle="tooltip" title="Show"><i style="font-size:12px;" class="fa fa-eye"></i></a>
                     <a class="btn btn-success btn-sm" data-toggle="modal" data-target="#update{{$sample->id}}" data-toggle="tooltip" title="Updata"><i style="font-size:12px;" class="fa fa-arrow-circle-up"></i></a>
-                    
                     <!-- UpVersion -->
                     <div class="modal fade" id="update{{$sample->id}}" role="dialog" aria-labelledby="hm" aria-hidden="true">
                       <div class="modal-dialog modal-sm">
@@ -236,12 +250,8 @@
                     <a class="btn btn-primary btn-sm" href="{{ route('step1_pdf',[$sample->workbook_pdf_id,$sample->id]) }}"><i style="font-size:12px;" class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a>
                     <a class="btn btn-dark btn-sm" href="{{ route('ajukanvp',[$sample->workbook_pdf_id,$sample->id]) }}" onclick="return confirm('Ajukan Formula Kepada PV?')" data-toggle="tooltip" title="Ajukan PV"><li class="fa fa-paper-plane"></li></a>
                     @elseif($sample->vv == 'approve')
-                      @if($sample->status_panel=='proses')
                       <a class="btn btn-primary btn-sm" href="{{ route('panel',[$sample->workbook_pdf_id,$sample->id]) }}" data-toggle="tooltip" title="Lanjutkan Panel"><li class="fa fa-glass"></li></a>
-                      @endif
-                      @if($sample->status_storage=='proses')
                       <a class="btn btn-warning btn-sm" href="{{ route('st',[$sample->workbook_pdf_id,$sample->id]) }}" data-toggle="tooltip" title="Lanjutkan Storage"><li class="fa fa-flask"></li></a>
-                      @endif
                     @endif
                   </td>
                 </tr>
@@ -295,82 +305,68 @@
                   </td>
                   <td>{{ $sample1->formula}}</td>
                   <td class="text-center" width="10%">
-                    @if ($sample1->vv == 'proses')
-                    <span class="label label-warning">Proses</span>                        
-                    @endif
-                    @if ($sample1->vv == 'reject')
-                    <span class="label label-danger">Rejected</span>                        
-                    @endif 
-                    @if ($sample1->vv == 'approve')
-                    <span class="label label-success">Approved</span>                        
-                    @endif 
-                    @if ($sample1->vv == 'final')
-                    <span class="label label-info">Final Approved</span>                        
-                    @endif 
-                    @if ($sample1->vv == '')
-                    <span class="label label-primary">Belum Diajukan</span>                        
-                    @endif   
+                    @if ($sample->vv == 'proses')<span class="label label-warning">Proses</span>@endif
+                    @if ($sample->vv == 'reject')<span class="label label-danger">Rejected</span>@endif 
+                    @if ($sample->vv == 'approve')<span class="label label-success">Approved</span>@endif 
+                    @if ($sample->vv == 'final')<span class="label label-info">Final Approved</span>@endif 
+                    @if ($sample->vv == '')<span class="label label-primary">Belum Diajukan</span>@endif    
                   </td>
-                  <td class="text-center">
-                  {{$sample1->catatan_rd}}
-                  </td>
-                  <td class="text-center">
-                    {{$sample1->catatan_pv}}    
-                  </td>
+                  <td class="text-center">{{$sample1->catatan_rd}}</td>
+                  <td class="text-center">{{$sample1->catatan_pv}}</td>
                   <td class="text-center"> 
                   @if($sample1->vv=='proses')
                     <a class="btn btn-danger btn-sm" data-toggle="modal" data-target="#rejectsample{{ $sample1->id  }}" title="Reject"><li class="fa fa-times"></li></a>  
-                      <!-- Modal -->
-                      <div class="modal" id="rejectsample{{ $sample1->id  }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h3 class="modal-title" id="exampleModalLabel">Reject Sample
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                              </button></h3>
-                            </div>
-                            
-                            <div class="modal-body">
-                              <form class="form-horizontal form-label-left" method="POST" action="{{route('rejectsample',$sample1->id)}}">
-                              <textarea name="note" id="note" rows="2" cols="60" class="form-control" required></textarea><br>
-                            </div>
-                            <div class="modal-footer">
-                              <button class="btn btn-sm btn-primary" type="submit"><li class="fa fa-check"></li> submit</button>
-                              {{ csrf_field() }}
-                              </form>
-                            </div>
+                    <!-- Modal -->
+                    <div class="modal" id="rejectsample{{ $sample1->id  }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h3 class="modal-title" id="exampleModalLabel">Reject Sample
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button></h3>
+                          </div>
+                          
+                          <div class="modal-body">
+                            <form class="form-horizontal form-label-left" method="POST" action="{{route('rejectsample',$sample1->id)}}">
+                            <textarea name="note" id="note" rows="2" cols="60" class="form-control" required></textarea><br>
+                          </div>
+                          <div class="modal-footer">
+                            <button class="btn btn-sm btn-primary" type="submit"><li class="fa fa-check"></li> submit</button>
+                            {{ csrf_field() }}
+                            </form>
                           </div>
                         </div>
                       </div>
-                      <!-- Modal Selesai -->
+                    </div>
+                    <!-- Modal Selesai -->
                     <button class="btn btn-success btn-sm" title="Approve" data-toggle="modal" data-target="#fs{{ $sample1->id  }}"><i class="fa fa-check"></i></a></button>
-                      <!-- Modal -->
-                      <div class="modal" id="fs{{ $sample1->id  }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h3 class="modal-title" id="exampleModalLabel">Approve Sample
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                              </button></h3>
-                            </div>
-                            <div class="modal-body">
-                              <form class="form-horizontal form-label-left" method="POST" action="{{route('approvesample',$sample1->id)}}">
-                              <textarea name="note" id="note" cols="60" rows="2" class="form-control" required></textarea><br>
-                            </div>
-                            <div class="modal-footer">
-                              <button class="btn btn-sm btn-primary" type="submit"><li class="fa fa-check"></li> submit</button>
-                              {{ csrf_field() }}
-                              </form>
-                            </div>
+                    <!-- Modal -->
+                    <div class="modal" id="fs{{ $sample1->id  }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h3 class="modal-title" id="exampleModalLabel">Approve Sample
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button></h3>
+                          </div>
+                          <div class="modal-body">
+                            <form class="form-horizontal form-label-left" method="POST" action="{{route('approvesample',$sample1->id)}}">
+                            <textarea name="note" id="note" cols="60" rows="2" class="form-control" required></textarea><br>
+                          </div>
+                          <div class="modal-footer">
+                            <button class="btn btn-sm btn-primary" type="submit"><li class="fa fa-check"></li> submit</button>
+                            {{ csrf_field() }}
+                            </form>
                           </div>
                         </div>
                       </div>
-                      <!-- Modal Selesai -->
+                    </div>
+                    <!-- Modal Selesai -->
                   @elseif($sample1->vv=='approve')
                     <a href="" class="btn btn-primary btn-sm" title="Ajukan FS"><li class="fa fa-paper-plane"></li></a>
-                      <a href="{{route('finalsample',$sample1->id)}}" class="btn btn-success btn-sm" title="Final Approval"><li class="fa fa-tag"></li></a>
+                    <a href="{{route('finalsample',$sample1->id)}}" class="btn btn-success btn-sm" title="Final Approval"><li class="fa fa-tag"></li></a>
                     @if($sample1->status_fisibility=='not_approved')
                       @if($hasilpanel>=1)
                       <a href="{{route('finalsample',$sample1->id)}}" class="btn btn-success btn-sm" title="Final Approva"><li class="fa fa-tag"></li></a>
@@ -395,83 +391,77 @@
     @endif
   </div>
 </div>
+
 <!-- Modal -->
 <div class="modal" id="data{{ $data->id_project_pdf  }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                <h3 class="modal-title text-center" id="exampleModalLabel">Timeline Project : {{$data->project_name}}
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button></h3>
-                </div>
-                <form class="form-horizontal form-label-left" method="POST" action="{{ Route('TMubahpdf',$data->id_project_pdf)}}" novalidate>    
-                <div class="modal-body">
-                  <div class="row x_panel">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12 text-center">Deadline for sending Sample</label>
-                    <div class="col-md-4 col-sm-9 col-xs-12">
-                      <input type="date" class="form-control" value="{{$data->jangka}}" name="jangka" id="jangka" placeholder="start date">
-                    </div>
-                    <div class="col-md-4 col-sm-9 col-xs-12">
-                      <input type="date" class="form-control" value="{{$data->waktu}}" name="waktu" id="waktu" placeholder="end date">
-                    </div>
-                </div>
-                </div>
-                <div class="modal-footer">
-                  <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> Edit</button>
-                  {{ csrf_field() }}
-                </div>
-                </form>
-              </div>
-            </div>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+      <h3 class="modal-title text-center" id="exampleModalLabel">Timeline Project : {{$data->project_name}}
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button></h3>
+      </div>
+      <form class="form-horizontal form-label-left" method="POST" action="{{ Route('TMubahpdf',$data->id_project_pdf)}}" novalidate>    
+      <div class="modal-body">
+        <div class="row x_panel">
+          <label class="control-label col-md-3 col-sm-3 col-xs-12 text-center">Deadline for sending Sample</label>
+          <div class="col-md-4 col-sm-9 col-xs-12">
+            <input type="date" class="form-control" value="{{$data->jangka}}" name="jangka" id="jangka" placeholder="start date">
           </div>
-          <!-- Modal Selesai -->
+          <div class="col-md-4 col-sm-9 col-xs-12">
+            <input type="date" class="form-control" value="{{$data->waktu}}" name="waktu" id="waktu" placeholder="end date">
+          </div>
+      </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> Edit</button>
+        {{ csrf_field() }}
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- Modal Selesai -->
 
 @endsection
 @section('s')
 <script type="text/javascript">
-
   function satuan_ml(){
     var satuan_ml = document.getElementById('id_ml')
-
     if(satuan_ml.checked != true){
       document.getElementById('tampilkan').innerHTML = "";
     }else{
-
       document.getElementById('tampilkan').innerHTML =
-            "<div class='form-group row'>"+
-            "  <label class='control-label col-md-3 col-sm-3 col-xs-12'>Berat Jenis</label>"+
-            "  <div class='col-md-8 col-sm-9 col-xs-12'>"+
-            "    <input type='number' placeholder='Berat Jenis' name='berat_jenis' id='berat_jenis' class='form-control col-md-12 col-xs-12' required>"+
-            "  </div>"+
-            "</div>"
+      "<div class='form-group row'>"+
+        "<label class='control-label col-md-3 col-sm-3 col-xs-12'>Berat Jenis</label>"+
+        "<div class='col-md-8 col-sm-9 col-xs-12'>"+
+          "<input type='number' placeholder='Berat Jenis' name='berat_jenis' id='berat_jenis' class='form-control col-md-12 col-xs-12' required>"+
+        "</div>"+
+      "</div>"
     }
   }
 
   function satuan_gram(){
     var satuan_gram = document.getElementById('id_gram')
-
     if(satuan_gram.checked != true){
       document.getElementById('tampilkan').innerHTML = "";
     }else{
-
       document.getElementById('tampilkan').innerHTML =
-            "<div class='form-group row'>"+
-            "  <label class='control-label col-md-3 col-sm-3 col-xs-12'>Berat Jenis</label>"+
-            "  <div class='col-md-8 col-sm-9 col-xs-12'>"+
-            "    <input type='number' placeholder='Berat Jenis' disabled name='' id='' class='form-control col-md-12 col-xs-12'>"+
-            "  </div>"+
-            "</div>"
+      "<div class='form-group row'>"+
+        "<label class='control-label col-md-3 col-sm-3 col-xs-12'>Berat Jenis</label>"+
+        "<div class='col-md-8 col-sm-9 col-xs-12'>"+
+          "<input type='number' placeholder='Berat Jenis' disabled name='' id='' class='form-control col-md-12 col-xs-12'>"+
+        "</div>"+
+      "</div>"
     }
   }
 
   function finis_good(){
     var finis_good = document.getElementById('id_finis')
-
     if(finis_good.checked != true){
       document.getElementById('ditampilkan').innerHTML = "";
     }else{
-
       document.getElementById('ditampilkan').innerHTML =
         "<select name='' disabled id='' class='form-control'>"+
         "  <option disabled selected>--> Select One <--</option>"+
@@ -483,11 +473,9 @@
 
   function wip(){
     var wip = document.getElementById('id_wip')
-
     if(wip.checked != true){
       document.getElementById('ditampilkan').innerHTML = "";
     }else{
-
       document.getElementById('ditampilkan').innerHTML =
         "<select name='kategori_formula' id='' class='form-control' required>"+
         "  <option disabled selected>--> Select One <--</option>"+

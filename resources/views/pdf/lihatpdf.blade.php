@@ -1,6 +1,5 @@
 @extends('pv.tempvv')
-@section('title', 'data PDF')
-@section('judul', 'Data PDF')
+@section('title', 'PRODEV|data PDF')
 @section('content')
 
 @if (session('status'))
@@ -162,13 +161,13 @@
                         </button></h3>
                       </div>
                       <div class="modal-body">
-                        <form class="form-horizontal form-label-left" method="POST" action="{{ Route('sentpdf',['pdf_id' => $pdf->id_project_pdf, 'revisi' => $pdf->revisi, 'turunan' => $pdf->turunan])}}" novalidate>
+                        <form class="form-horizontal form-label-left" method="POST" action="{{ Route('sentpdf',['pdf_id' => $pdf->id_project_pdf, 'revisi' => $pdf->revisi, 'turunan' => $pdf->turunan])}}">
                         <div class="form-group row">
                           <label class="control-label text-bold col-md-2 col-sm-2 col-xs-12 text-center">Dept Produk</label>
                           <div class="col-md-4 col-sm-9 col-xs-12">
                             <select name="kirim" class="form-control form-control-line" id="kirim">
                               <option value="{{$pdf->tujuankirim}}">{{$pdf->departement->dept}}</option>
-                              @foreach($dept1 as $dept)
+                              @foreach($dept as $dept)
                               @if($dept->dept=='RPE')
                               <option value="{{$dept->id}}">{{ $dept->dept }} ({{ $dept->nama_dept }})</option>
                               <option value="1"></option>
@@ -210,6 +209,14 @@
                             <input type="date" class="form-control" value="{{$pdf->waktu}}" name="waktu" id="waktu" placeholder="end date">
                           </div>
                         </div>
+                          <div class="form-group row">
+                          <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center">Alasan Revisi</label>
+                            <div class="col-md-10 col-sm-10 col-xs-12">
+                                <textarea name="alasan" id="alasan" class="col-md-12 col-sm-12 col-xs-12" cols="10" required></textarea>
+                            </div>
+                          </div>
+                          <input type="hidden" value="{{$pdf->userpenerima}}" name="userpenerima">
+                          <input type="hidden" value="{{$pdf->userpenerima2}}" name="userpenerima2">
                         <div class="modal-footer">
                           <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-paper-plane"></i> Sent</button>
                           {{ csrf_field() }}
@@ -312,7 +319,7 @@
                                 <tbody>
                                   @foreach($for as $for)
                                   <tr>
-                                    <td>{{$for->satuan}} = {{$for->forecast}}</td>
+                                    <td>{{$for->satuan}} = <?php $angka_format = number_format($for->forecast,2,",","."); echo "Rp. ".$angka_format;?></td>
                                     <td>
                                     @if($for->kemas_eksis!=NULL)
                                     (
@@ -340,8 +347,8 @@
                                     </td>
                                     <td>{{$for->jlh_uom}}</td>
                                     <td>{{$for->uom}}</td>
-                                    <td>{{$for->nfi_price}}</td>
-                                    <td>{{$for->costumer}}</td>
+                                    <td><?php $angka_format = number_format($for->nfi_price,2,",","."); echo "Rp. ".$angka_format;?></td>
+                                    <td><?php $angka_format = number_format($for->costumer,2,",","."); echo "Rp. ".$angka_format;?></td>
                                   </tr>
                                   @endforeach
                                 </tbody>
@@ -384,10 +391,10 @@
                             <th>Product Concept</th>
                             <td colspan="2">
 													    <table>
-                                <tr><th style="border:none;">Weight/Serving </th><th style="border:none;"><?php $wight = []; foreach ($pdf1 as $key => $data) If (!$wight || !in_array($data->wight, $wight)) { $wight += array( $key => $data->wight );
-                                if($data->turunan!=$pdf->turunan){ echo"<s><font color='#6594c5'>: $data->wight/$data->serving<br></font></s>"; } if($data->turunan==$pdf->turunan){ echo": $data->wight/$data->serving<br>"; } } ?></th></tr>
-														    <tr><th>Special Ingredient </th><th style="border:none;"><?php $ingredient = []; foreach ($pdf1 as $key => $data) If (!$ingredient || !in_array($data->ingredient, $ingredient)) { $ingredient += array( $key => $data->ingredient );
-                                if($data->turunan!=$pdf->turunan){ echo"<s><font color='#6594c5'>:$data->ingredient <br></font></s>"; } if($data->turunan==$pdf->turunan){ echo" : $data->ingredient <br>"; } } ?></th></tr>
+                                <tr><th style="border:none;">Weight/Serving </th><td style="border:none;"><?php $wight = []; foreach ($pdf1 as $key => $data) If (!$wight || !in_array($data->wight, $wight)) { $wight += array( $key => $data->wight );
+                                if($data->turunan!=$pdf->turunan){ echo"<s><font color='#6594c5'>: $data->wight/$data->serving<br></font></s>"; } if($data->turunan==$pdf->turunan){ echo": $data->wight/$data->serving<br>"; } } ?></td></tr>
+														    <tr><th>Special Ingredient </th><td style="border:none;"><?php $ingredient = []; foreach ($pdf1 as $key => $data) If (!$ingredient || !in_array($data->ingredient, $ingredient)) { $ingredient += array( $key => $data->ingredient );
+                                if($data->turunan!=$pdf->turunan){ echo"<s><font color='#6594c5'>:$data->ingredient <br></font></s>"; } if($data->turunan==$pdf->turunan){ echo" : $data->ingredient <br>"; } } ?></td></tr>
                               </table><br><br>
                               <table class="Table table-bordered" >
                                 <tbody>
@@ -470,7 +477,7 @@
                                 <tbody>
                                   @foreach($for as $for)
                                   <tr>
-                                    <td>{{$for->satuan}} = {{$for->forecast}}</td>
+                                    <td>{{$for->satuan}} = <?php $angka_format = number_format($for->forecast,2,",","."); echo "Rp. ".$angka_format;?></td>
                                     <td>
                                     @if($for->kemas_eksis!=NULL)
                                     (
@@ -498,8 +505,8 @@
                                     </td>
                                     <td>{{$for->jlh_uom}}</td>
                                     <td>{{$for->uom}}</td>
-                                    <td>{{$for->nfi_price}}</td>
-                                    <td>{{$for->costumer}}</td>
+                                    <td><?php $angka_format = number_format($for->nfi_price,2,",","."); echo "Rp. ".$angka_format;?></td>
+                                    <td><?php $angka_format = number_format($for->costumer,2,",","."); echo "Rp. ".$angka_format;?></td>
                                   </tr>
                                   @endforeach
                                 </tbody>

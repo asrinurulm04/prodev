@@ -1,5 +1,5 @@
 @extends('manager.tempmanager')
-@section('title', 'data PKP')
+@section('title', 'PRODEV|Data PKP')
 @section('content')
 
 @if (session('status'))
@@ -25,7 +25,7 @@
               <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#ajukan{{ $pkp->id_project  }}"><i class="fa fa-comments-o"></i> Sent Revision request</a></button>
             @endif
             <a class="btn btn-sm btn-warning" onclick="return confirm('Print this data PKP ?')" href="{{ Route('download',['id_project' => $pkp->id_project, 'revisi' => $pkp->revisi, 'turunan' => $pkp->turunan]) }}"><li class="fa fa-print"></li> Download/print PKP</a>
-            
+      
             @if($pkp->status_project=='sent' || $pkp->status_project=='proses')
               @if(Auth::user()->departement->dept!='RKA')
                 @if($pkp->status_terima=='terima')
@@ -52,7 +52,6 @@
               @endif
             @endif
            
-            
           </div> 
           <div class="tab-content panel ">
             <div class="tab-pane active" id="1">
@@ -89,9 +88,7 @@
                   </div>
                   @endforeach
 									  <table class=" table table-bordered">
-                      <tr>
-                        <th colspan="3" class="text-center"><span style="font-weight: bold;font-size: 20px;" class="card-title">Background</span></th>
-                      </tr>
+                      <tr><th colspan="3" class="text-center"><span style="font-weight: bold;font-size: 20px;" class="card-title">Background</span></th></tr>
                       <tr>
                         <th width="300px">Idea</th>
                         <td colspan="2"> <?php $ideas = []; foreach ($pkp1 as $key => $data) If (!$ideas || !in_array($data->idea, $ideas)) {$ideas += array($key => $data->idea);
@@ -101,7 +98,6 @@
                         <th>Target market</th>
                         <td colspan="2">
 													<table>
-	
                             <tr><th style="border:none;">Gender </th><td style="border:none;"> 
                             <?php $dataG = []; foreach ($pkp1 as $key => $data) If (!$dataG || !in_array($data->gender, $dataG)) { $dataG += array( $key => $data->gender );if($data->revisi!=$pkp->revisi){
                             echo"<s><font color='#6594c5'>:  $data->gender<br></font></s>"; } if($data->revisi==$pkp->revisi){ echo": $data->gender <br>"; } } ?></td></tr>
@@ -110,14 +106,14 @@
                             <?php $dariumur = []; foreach ($pkp1 as $key => $data) If (!$dariumur || !in_array($data->dariumur, $dariumur)) { $dariumur += array( $key => $data->dariumur ); if($data->revisi!=$pkp->revisi){
                             echo": <s><font color='#6594c5'>$data->dariumur</font></s>";} if($data->revisi==$pkp->revisi){ echo": $data->dariumur ";} } ?>
                             -<?php $sampaiumur = []; foreach ($pkp1 as $key => $data) If (!$sampaiumur || !in_array($data->sampaiumur, $sampaiumur)) { $sampaiumur += array( $key => $data->sampaiumur ); if($data->revisi!=$pkp->revisi){
-                              echo" <s><font color='#6594c5'>$data->sampaiumur</font></s>";} if($data->revisi==$pkp->revisi){ echo" $data->sampaiumur ";} } ?> </td></tr>
+                            echo" <s><font color='#6594c5'>$data->sampaiumur</font></s>";} if($data->revisi==$pkp->revisi){ echo" $data->sampaiumur ";} } ?> </td></tr>
 														
                             <tr><th style="border:none;">SES </th><td style="border:none;"> 
                             <?php $ses = []; foreach ($datases as $key => $data) If (!$ses || !in_array($data->ses, $ses)) { $ses += array( $key => $data->ses ); 
-                             echo": $data->ses<br>"; } ?></td></tr>
+                            echo": $data->ses<br>"; } ?></td></tr>
                           
-                          <tr><th style="border:none;">Remarks SES </th><td style="border:none;"> 
-                          <?php $remarks_ses = []; foreach ($pkp1 as $key => $data) If (!$remarks_ses || !in_array($data->remarks_ses, $remarks_ses)) { $remarks_ses += array( $key => $data->remarks_ses ); if($data->revisi!=$pkp->revisi){
+                            <tr><th style="border:none;">Remarks SES </th><td style="border:none;"> 
+                            <?php $remarks_ses = []; foreach ($pkp1 as $key => $data) If (!$remarks_ses || !in_array($data->remarks_ses, $remarks_ses)) { $remarks_ses += array( $key => $data->remarks_ses ); if($data->revisi!=$pkp->revisi){
                             echo": <s><font color='#6594c5'>$data->remarks_ses</font></s>";} if($data->revisi==$pkp->revisi){ echo" : $data->remarks_ses ";} } ?></td></tr>
                           </table>
 												</td>
@@ -137,9 +133,7 @@
                         <td colspan="2"><?php $reason = []; foreach ($pkp1 as $key => $data) If (!$reason || !in_array($data->reason, $reason)) { $reason += array( $key => $data->reason ); 
                         if($data->revisi!=$pkp->revisi){ echo" <s><font color='#6594c5'>$data->reason<br></font></s>";} if($data->revisi==$pkp->revisi){ echo" $data->reason <br>"; } } ?></td>
                       </tr>
-                      <tr>
-                        <th colspan="3" class="text-center"><span style="font-weight: bold;font-size: 20px;" class="card-title">Market Analysis</span></th>
-                      </tr>
+                      <tr><th colspan="3" class="text-center"><span style="font-weight: bold;font-size: 20px;" class="card-title">Market Analysis</span></th></tr>
                       <tr>
                         <th>Launch Deadline</th>
                         <td colspan="2">
@@ -175,7 +169,7 @@
                             <tbody>
                               @foreach($for as $for)
                               <tr>
-                                <td>{{$for->satuan}} = {{$for->forecast}}</td>
+                                <td>{{$for->satuan}} = <?php $angka_format = number_format($for->forecast,2,",","."); echo "Rp. ".$angka_format;?></td>
                                 <td>
                                 @if($for->kemas_eksis!=NULL)
                                 (
@@ -203,13 +197,13 @@
                                 </td>
                                 <td class="text-center">{{$for->jlh_uom}}</td>
                                 <td class="text-center">{{$for->uom}}</td>
-                                <td>Rp. {{$for->nfi_price}}</td>
-                                <td>Rp. {{$for->costumer}}</td>
+                                <td><?php $angka_format = number_format($for->nfi_price,2,",","."); echo "Rp. ".$angka_format;?></td>
+                                <td><?php $angka_format = number_format($for->costumer,2,",","."); echo "Rp. ".$angka_format;?></td>
                               </tr>
                               @endforeach
                             </tbody>
                           </table>
-                        <td>
+                        </td>
                       </tr>
                       <tr class="table-highlight">
                         <th>Competitive Analysis</th>
@@ -236,7 +230,6 @@
                         <th>Product Packaging</th>
                         <td colspan="2">
 													<table>
-
                             @if($pkp->kemas_eksis!=NULL)
                             (
 														@if($pkp->kemas->tersier!=NULL)
@@ -347,62 +340,7 @@
                         <td colspan="2"><?php $mandatory_ingredient = []; foreach ($pkp1 as $key => $data) If (!$mandatory_ingredient || !in_array($data->mandatory_ingredient, $mandatory_ingredient)) { $mandatory_ingredient += array( $key => $data->mandatory_ingredient ); 
                         if($data->revisi!=$pkp->revisi){ echo" <s><font color='#6594c5'>$data->mandatory_ingredient<br></font></s>"; } if($data->revisi==$pkp->revisi){ echo" $data->mandatory_ingredient<br>"; } }  ?></td>
                       </tr>
-                      {{-- <tr>
-                        <td>Related Picture</td>
-                        <td colspan="2">
-                          <table class="table table-bordered">
-                            <tr class="text-center">
-                              <td>Filename</td>
-                              <td>File</td>
-                              <td>Information</td>
-                              <td></td>
-                            </tr>
-                            @foreach($picture as $pic)
-                            <tr>
-                              <td>{{$pic->filename}} </td>
-                              <td class="text-center"><embed src="{{asset('data_file/'.$pic->filename)}}" width="90px" height="90" type=""></td>
-                              <td width="40%"> &nbsp{{$pic->informasi}}</td>  
-                              <td width="10%" class="text-center"><a href="{{asset('data_file/'.$pic->filename)}}" download="{{$pic->filename}}"><button class="btn btn-primary btn-sm"><li class="fa fa-download"></li></button></a></td>
-                            </tr>
-                            @endforeach
-                          </table>
-                        </td>
-                      </tr> --}}
-
                     </table>
-                  <table class="table table-striped table-bordered">
-                    <thead>
-                      <tr style="background-color:#bfc2c5;"><td class="text-center" colspan="5">ATTENTION</td></tr>
-                      <tr><td style="background-color:#ffffff;" width="30%"></td><td style="border:none;background-color:#bfc2c5;"> compulsory; filled by QBX (brand function) Managers</td></tr>
-                      <tr><td style="background-color:#13699a;" width="30%"></td><td style="border:none;background-color:#bfc2c5;">should only be filled with great certainty</td></tr>
-                      <tr><td style="background-color:#e41356;" width="30%"></td><td style="border:none;background-color:#bfc2c5;"> should only be filled after discussion with QPA</td></tr>
-                      <tr>
-                        <td style="background-color:#bfc2c5;">Service Level Agreements</td>
-                        <td style="background-color:#bfc2c5;">
-                          <table>
-                            <thead>
-                              <tr><td style="border:none;">Lead Time QBX (brand function)</td><td style="border:none;">5 workdays</td></tr>
-                              <tr><td style="border:none;">Lead Time QPA (product development function)</td><td style="border:none;">[1 (benefits) + 2 (COGS)] = 2 workdays</td></tr>
-                              <tr><td style="border:none;">Lead Time Revision </td><td style="border:none;">2 workdays</td></tr>
-                            </thead>
-                          </table>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td style="background-color:#bfc2c5;">Process</td>
-                        <td style="background-color:#bfc2c5;">
-                          <table>
-                            <thead>
-                              <tr><td style="border:none;">After being filled. HOD approval request. Then, forward to RD as low priority project. Will be further</td></tr>
-                              <tr><td style="border:none;">prioritized in PV Cross Funct Mtg. </td></tr>
-                              <tr><td style="border:none;">Meanwhile, RD can prepare SLA projection to propose into PV's SLA for the project based on</td></tr>
-                              <tr><td style="border:none;">capacity and feasibility.</td></tr>
-                            </thead>
-                          </table>
-                        </td>
-                      </tr>
-                    </thead>
-                  </table>
 								</div>
 							</div>
             </div>
@@ -486,7 +424,8 @@
         <form class="form-horizontal form-label-left" method="POST" action="{{ Route('pengajuan')}}" novalidate>
         <div class="form-group row">
         <input type="hidden" value="{{$pkp->id_project}}" name="pkp">
-        <input type="hidden" value="{{$pkp->revisi}}" name="turunan">
+        <input type="hidden" value="{{$pkp->revisi}}" name="revisi">
+        <input type="hidden" value="{{$pkp->turunan}}" name="turunan">
         <input type="hidden" value="{{$pkp->author}}" name="kirimauthor">
           <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center">Destination</label>
           <div class="col-md-9 col-sm-9 col-xs-12">

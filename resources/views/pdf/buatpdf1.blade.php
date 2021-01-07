@@ -1,6 +1,5 @@
 @extends('pv.tempvv')
-@section('title', 'Request PDF')
-@section('judulhalaman','Form PDF')
+@section('title', 'PRODEV|Request PDF')
 @section('content')
 
 <div class="x_panel data">
@@ -36,7 +35,6 @@
   @endif
   <?php $date = Date('j-F-Y'); ?>
   <input id="last_up" value="{{ $date }}" class="form-control col-md-12 col-xs-12" type="hidden" name="last_up">
-
   <div class="row">
     <div class="col-md-12 col-xs-12">
       <div class="x_panel">
@@ -72,11 +70,10 @@
       <div class="x_panel">
         <div class="x_title">
           <h3 style="color:#258039"><li class="fa fa-edit"></li> Packaging concept**</h3><h5 style="color:red">*requaired</h5>
-          <input type="hidden" value="{{ $id_pdf->id_project_pdf }}" name="id">
+          <input type="hidden" value="{{ $pdf->id_project_pdf }}" name="id">
         </div>
         <div>
-          
-        <div class="form-group row">
+          <div class="form-group row">
             <div class="col-md-12 col-sm-12 col-xs-12" style="overflow-x: scroll;">
               <table class="table table-bordered table-hover" id="tabledata">
                 <thead>
@@ -89,9 +86,9 @@
                     <th width="5%"></th>
                   </tr>
                 </thead>
-        				<tbody>
+                <tbody>
                   @foreach($for as $for)
-        				  <tr id='tr_clone'>
+                  <tr id='tr_clone'>
                     <td><input type="number" name="forecast[]" value="{{$for->forecast}}" min="0" step="0.0001" width="10%" class="form-control" required></td>
                     <td>
                       <select name="satuan[]" class="form-control items">
@@ -108,7 +105,7 @@
                           <td>
                             <select class='form-control' name='s_tersier[]' required>
                             <option value="{{$for->kemas->s_tersier}}">{{$for->kemas->s_tersier}}</option>
-                            @foreach($data_uom as $data)
+                            @foreach($uom as $data)
                             <option value="{{$data->kode}}">{{$data->kode}}</option>
                             @endforeach
                             </select>
@@ -120,7 +117,7 @@
                           <td>
                             <select class='form-control' name='s_sekunder1[]' required>
                               <option value="{{$for->kemas->s_sekunder1}}">{{$for->kemas->s_sekunder1}}</option>
-                              @foreach($data_uom as $data)
+                              @foreach($uom as $data)
                               <option value="{{$data->kode}}">{{$data->kode}}</option>
                               @endforeach
                             </select>
@@ -138,7 +135,7 @@
                           <td>
                             <select class='form-control' name='s_sekunder2[]' required>
                               <option value="{{$for->kemas->s_sekunder2}}">{{$for->kemas->s_sekunder2}}</option>
-                              @foreach($data_uom as $data)
+                              @foreach($uom as $data)
                               <option value="{{$data->kode}}">{{$data->kode}}</option>
                               @endforeach
                             </select>
@@ -174,21 +171,21 @@
                         <label class='control-label col-md-2 col-sm-3 col-xs-12' for='last-name'>Secondary</label>
                         <div class='col-md-10 col-sm-10 col-xs-12'>
                         <input name='secondary[]' id='secondary' class='form-control col-md-12 col-xs-12' value="{{$for->Secondary}}" type='text' required>
-                        </div>
                       </div>
-                      <div class='form-group'>
-                        <label for='middle-name' class='control-label col-md-2 col-sm-3 col-xs-12'>Tertiary </label>
-                        <div class='col-md-10 col-sm-10 col-xs-12'>
-                        <input name='tertiary[]' id='tertiary' class='form-control col-md-12 col-xs-12' value="{{$for->Tertiary}}" type='text' required>
-                        </div>
+                    </div>
+                    <div class='form-group'>
+                      <label for='middle-name' class='control-label col-md-2 col-sm-3 col-xs-12'>Tertiary </label>
+                      <div class='col-md-10 col-sm-10 col-xs-12'>
+                      <input name='tertiary[]' id='tertiary' class='form-control col-md-12 col-xs-12' value="{{$for->Tertiary}}" type='text' required>
+                      </div>
                       </div>
                       <div class='ln_solid'></div>
                     </td>
                     <td><input type="number" value="{{$for->jlh_uom}}" required class="form-control" name="satuan_uom[]" id="satuan_uom"></td>
-                    <td>
+                    <td width="8%">
                       <select name="uom[]" id="UOM" class="form-control">
                         <option value="{{$for->uom}}">{{$for->uom}}</option>
-                        @foreach($data_uom as $data)
+                        @foreach($uom as $data)
                         <option value="{{$data->kode}}">{{$data->kode}}</option>
                         @endforeach
                       </select>
@@ -201,35 +198,35 @@
                     </td>
                   </tr>
                   @endforeach
-        					<tr id='addrow1'></tr>
-        				</tbody>
-      				</table>
+                  <tr id='addrow1'></tr>
+                </tbody>
+              </table>
             </div>
           </div>
-            @if($pdf->primery	!=NULL)
-            <div class="form-group row">
-              <label class="control-label col-md-2 col-sm-3 col-xs-12" for="last-name">Primary </label>
-              <div class="col-md-8 col-sm-12 col-xs-12">
-                <input name="primary" class="col-md-8 col-sm-12 col-xs-12 form-control" id="" value="{{$pdf->primery	}}">
-              </div>
+          @if($pdf->primery	!=NULL)
+          <div class="form-group row">
+            <label class="control-label col-md-2 col-sm-3 col-xs-12" for="last-name">Primary </label>
+            <div class="col-md-8 col-sm-12 col-xs-12">
+              <input name="primary" class="col-md-8 col-sm-12 col-xs-12 form-control" id="" value="{{$pdf->primery	}}">
             </div>
-            @endif
-            @if($pdf->secondery!=NULL)
-            <div class="form-group row">
-              <label class="control-label col-md-2 col-sm-3 col-xs-12" for="last-name">Secondary</label>
-              <div class="col-md-8 col-sm-3 col-xs-12">
-                <input name="secondary" class="col-md-8 col-sm-3 col-xs-12 form-control" id="" value="{{$pdf->secondery}}">
-              </div>
+          </div>
+          @endif
+          @if($pdf->secondery!=NULL)
+          <div class="form-group row">
+            <label class="control-label col-md-2 col-sm-3 col-xs-12" for="last-name">Secondary</label>
+            <div class="col-md-8 col-sm-3 col-xs-12">
+              <input name="secondary" class="col-md-8 col-sm-3 col-xs-12 form-control" id="" value="{{$pdf->secondery}}">
             </div>
-            @endif
-            @if($pdf->Tertiary!=NULL)
-            <div class="form-group row">
+          </div>
+          @endif
+          @if($pdf->Tertiary!=NULL)
+          <div class="form-group row">
             <label class="control-label col-md-2 col-sm-3 col-xs-12" for="last-name">Tertiary</label>
             <div class="col-md-8 col-sm-3 col-xs-12">
               <input name="tertiary" class="col-md-8 col-sm-3 col-xs-12 form-control" id="" value="{{$pdf->Tertiary}}">
             </div>
           </div>
-            @endif 
+          @endif 
           <div id="lihat"></div>
           @if($pdf->kemas_eksis!=NULL) <br><br>
           <div class="form-group row">
@@ -275,9 +272,9 @@
           @endif
           <hr>
         </div>
-        
+      
         <div class="form-group row">
-            <label class="control-label col-md-2 col-sm-3 col-xs-12" for="last-name">Additional data (Optional)</label>
+          <label class="control-label col-md-2 col-sm-3 col-xs-12" for="last-name">Additional data (Optional)</label>
             <div class="col-md-8 col-sm-8 col-xs-12"><br>
               <table class="table table-bordered col-md-12 col-sm-12 col-xs-12" id="tablekemas">
                 <thead>
@@ -299,10 +296,10 @@
                       <td class="text-center"><button id='add_kemas' type='button' class='btn btn-info btn-sm pull-left' title='Add'><li class='fa fa-plus'></li></button>
                       <a hreaf='' type="button" class='btn btn-danger btn-sm' title='Delete'><li class='fa fa-trash'></li></a></td>
                     </tr>
-                    @endforeach
-                  @elseif($hitungkemaspdf==0)
-                  <tr>
-                    <td><input type="text" name="oracle[]" id="oracle" class="form-control"></td>
+                  @endforeach
+                @elseif($hitungkemaspdf==0)
+                <tr>
+                  <td><input type="text" name="oracle[]" id="oracle" class="form-control"></td>
                     <td><input type="text" name="kk[]" id="kk" class="form-control"></td>
                     <td><input type="text" name="information[]" id="information" class="form-control"></td>
                     <td class="text-center"><button id='add_kemas' type='button' class='btn btn-info btn-sm pull-left' title='Add'><li class='fa fa-plus'></li></button>
@@ -325,7 +322,7 @@
           <h3><li class="fa fa-file"></li> Project</h3>
         </div>
         <div class="card-block">
-        <input type="hidden" value="$pdf->datapdf->edit" name="edit" id="edit">
+          <input type="hidden" value="$pdf->datapdf->edit" name="edit" id="edit">
           <div class="form-group">
             <label class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#258039">Age Range**</label>
             <div class="col-md-2 col-sm-3 col-xs-12">
@@ -479,7 +476,7 @@
         <div class="card-block">
           <div class="form-group">
             <label class="control-label col-md-2 col-sm-3 col-xs-12" style="color:#258039">Background**</label>
-          	<div class="col-md-9 col-sm-9 col-xs-12">
+            <div class="col-md-9 col-sm-9 col-xs-12">
               <input required value="{{ $pdf->background }}" id="background" placeholder="Backgroung / Insight" class="form-control col-md-12 col-xs-12" type="text" name="background">
             </div>
           </div>
@@ -499,7 +496,7 @@
         </div>
       </div>
     </div>
-	</div>
+  </div>
 
   <div class="row">
     <div class="col-md-12 col-xs-12">
@@ -514,12 +511,6 @@
               <input required value="{{ $pdf->name }}" id="name_competitors" class="form-control col-md-12 col-xs-12" type="text" name="name_competitors">
             </div>
 					</div>
-          <div class="form-group">
-            <label class="control-label col-md-2 col-sm-3 col-xs-12" style="color:#258039">Retailer Price**</label>
-            <div class="col-md-9 col-sm-9 col-xs-12">
-              <input required value="{{ $pdf->retailer_price }}" id="retailer_price" class="form-control col-md-12 col-xs-12" type="number" name="retailer_price">
-            </div>
-          </div>
           <div class="form-group">
             <label class="control-label col-md-2 col-sm-3 col-xs-12" style="color:#258039">What's Special**</label>
             <div class="col-md-9 col-sm-9 col-xs-12">
@@ -550,7 +541,6 @@
 @section('s')
 <script>
   $(document).ready(function() {
-  // delete baris proses
   $('#tablekemas').on('click', 'tr a', function(e) {
     e.preventDefault();
     $(this).parents('tr').remove();
@@ -562,16 +552,15 @@
       "<td><input type='text' name='kk[]' id='kk' class='form-control'></td>"+
       "<td><input type='text' name='information[]' id='information' class='form-control'></td>"+
       "<td><a hreaf='' class='btn btn-danger btn-sm' title='Delete'><li class='fa fa-trash'></li></a></td>");
-
       $('#tablekemas').append('<tr id="addkemas' + (i + 1) + '"></tr>');
       i++;
     });
   });
 </script>
+
 <script>
-    $(document).ready(function() {
-  
-      var idkomponen = []
+  $(document).ready(function() {
+    var idkomponen = []
     <?php foreach($komponen as $key => $value) { ?>
       if(!idkomponen){
         idkomponen += [ { '<?php echo $key; ?>' : '<?php echo $value->id; ?>', } ];
@@ -592,8 +581,8 @@
   
     var i = 1;
     var a = {!! json_encode($Ddetail) !!};
-    $("#add_row").click(function() {
-      $('#addr' + i).html("<input type='hidden' value='"+(a+i)+"' name='iddetail' id='iddetail'><td><select class='form-control items' name='komponen[]' id='komponen"+(a+i)+"' >"+komponen1+
+      $("#add_row").click(function() {
+        $('#addr' + i).html("<input type='hidden' value='"+(a+i)+"' name='iddetail' id='iddetail'><td><select class='form-control items' name='komponen[]' id='komponen"+(a+i)+"' >"+komponen1+
         "</select></td><td><select name='klaim[]' class='form-control items' id='klaimm"+(a+i)+"'>"+
         "</select></td><td><select name='detail[]' multiple='multiple' class='form-control items' id='detaill"+(a+i)+"'>"+
         "</select></td><td><textarea type='text' class='form-control' name='ket[]' id='ket'></textarea></td><td></td>");
@@ -608,159 +597,134 @@
                 type: "GET",
                 dataType: "json",
                 beforeSend: function(){
-                $('#loader').css("visibility", "visible");
+                  $('#loader').css("visibility", "visible");
+                },
+    
+                success:function(data){
+                  console.log(data)
+                  $('#detaill' + b).empty();
+                  $.each(data, function(key, value){
+                    $('#detaill' + b).append('<option value="'+ key +'">' + value + '</option>');
+                  });
+                  console.log(data)
+                },
+                complete: function(){
+                  $('#loader').css("visibility","hidden");
+                }
+              });
+            }
+            else{
+              $('#detaill' + b).empty();
+            }
+        });
+  
+        $('#komponen'+b).on('change', function(){
+          var myId = $(this).val();
+          if(myId){
+            $.ajax({
+            url: '{{URL::to('getkomponen')}}/'+myId,
+            type: "GET",
+            dataType: "json",
+            beforeSend: function(){
+              $('#loader').css("visibility", "visible");
             },
   
             success:function(data){
               console.log(data)
-                $('#detaill' + b).empty();
+                $('#klaimm'+b).empty();
                 $.each(data, function(key, value){
-                  $('#detaill' + b).append('<option value="'+ key +'">' + value + '</option>');
+                  $('#klaimm'+b).append('<option value="'+ key +'">' + value + '</option>');
                 });
               console.log(data)
               },
               complete: function(){
                 $('#loader').css("visibility","hidden");
-            }
-          });
-  
-          }
-          else{
-            $('#detaill' + b).empty();
-          }
-        });
-  
-        $('#komponen'+b).on('change', function(){
-      var myId = $(this).val();
-        if(myId){
-          $.ajax({
-          url: '{{URL::to('getkomponen')}}/'+myId,
-          type: "GET",
-          dataType: "json",
-          beforeSend: function(){
-              $('#loader').css("visibility", "visible");
-          },
-  
-          success:function(data){
-            console.log(data)
-              $('#klaimm'+b).empty();
-              $.each(data, function(key, value){
-                  $('#klaimm'+b).append('<option value="'+ key +'">' + value + '</option>');
-              });
-          console.log(data)
-          },
-          complete: function(){
-                $('#loader').css("visibility","hidden");
-            }
-        });
-  
-        }
-        else{
+              }
+            });
+          }else{
             $('#klaimm'+b).empty();
-        }
-    });
-      $('#tab_logic').append('<tr id="addr' + (i + 1) + '"></tr>');
-      i++;
-    });
+          }
+        });
+        $('#tab_logic').append('<tr id="addr' + (i + 1) + '"></tr>');
+        i++;
+      });
   
-    $('#komponen').on('change', function(){
-      var myId = $(this).val();
+      $('#komponen').on('change', function(){
+        var myId = $(this).val();
         if(myId){
           $.ajax({
-          url: '{{URL::to('getkomponen')}}/'+myId,
-          type: "GET",
-          dataType: "json",
-          beforeSend: function(){
+            url: '{{URL::to('getkomponen')}}/'+myId,
+            type: "GET",
+            dataType: "json",
+            beforeSend: function(){
               $('#loader').css("visibility", "visible");
-          },
-  
-          success:function(data){
-            console.log(data)
+            },
+    
+            success:function(data){
               $('#klaimm').empty();
               $.each(data, function(key, value){
-                  $('#klaimm').append('<option value="'+ key +'">' + value + '</option>');
+                $('#klaimm').append('<option value="'+ key +'">' + value + '</option>');
               });
-          console.log(data)
-          },
-          complete: function(){
-                $('#loader').css("visibility","hidden");
+            },
+            complete: function(){
+              $('#loader').css("visibility","hidden");
             }
-        });
-  
+          });
+        }else{
+          $('#klaimm').empty();
         }
-        else{
-            $('#klaimm').empty();
-        }
-    });
+      });
   
-    $('#komponen').on('change', function(){
-      var myId = $(this).val();
+      $('#komponen').on('change', function(){
+        var myId = $(this).val();
         if(myId){
           $.ajax({
-          url: '{{URL::to('getdetail')}}/'+myId,
-          type: "GET",
-          dataType: "json",
-          beforeSend: function(){
+            url: '{{URL::to('getdetail')}}/'+myId,
+            type: "GET",
+            dataType: "json",
+            beforeSend: function(){
               $('#loader').css("visibility", "visible");
-          },
+            },
   
-          success:function(data){
-            console.log(data)
+            success:function(data){
+              console.log(data)
               $('#detaill').empty();
               $.each(data, function(key, value){
-                  $('#detaill').append('<option value="'+ key +'">' + value + '</option>');
+                $('#detaill').append('<option value="'+ key +'">' + value + '</option>');
               });
-          console.log(data)
-          },
-          complete: function(){
-                $('#loader').css("visibility","hidden");
+              console.log(data)
+            },
+            complete: function(){
+              $('#loader').css("visibility","hidden");
             }
-        });
-  
+          });
+        }else{
+          $('#katbpom').empty();
         }
-        else{
-            $('#katbpom').empty();
-        }
-    });
-  
-    });
-  
-  </script>
+      });
+  });
+</script>
 
 <script>
   $(document).ready(function() {
-
-  var i = 1;
-  $(".add_data").click(function() {
-    $('#addrow' + i).html( "<td><input type='number' name='forecast[]' class='form-control'></td><td><select name='satuan[]'  class='form-control'>"+
-    "<option disabled selected>--> Select One <--</option>"+
-    "<option value='1 Month'>1 Month</option>"+
-    "<option value='2 Month'>2 Month</option>"+
-    "<option value='3 Month'>3 Month</option>"+
-    "</select></td><td><input type='text' name='keterangan[]' class='form-control'></td><td><a hreaf='' class='btn btn-danger btn-sm'><li class='fa fa-trash'></li> Delete</a></td>");
-
-    $('#tabledata').append('<tr id="addrow' + (i + 1) + '"></tr>');
-    i++;
-  });
+    var i = 1;
+    $(".add_data").click(function() {
+      $('#addrow' + i).html( "<td><input type='number' name='forecast[]' class='form-control'></td><td><select name='satuan[]'  class='form-control'>"+
+      "<option disabled selected>--> Select One <--</option>"+
+      "<option value='1 Month'>1 Month</option>"+
+      "<option value='2 Month'>2 Month</option>"+
+      "<option value='3 Month'>3 Month</option>"+
+      "</select></td><td><input type='text' name='keterangan[]' class='form-control'></td><td><a hreaf='' class='btn btn-danger btn-sm'><li class='fa fa-trash'></li> Delete</a></td>");
+      $('#tabledata').append('<tr id="addrow' + (i + 1) + '"></tr>');
+      i++;
+    });
   });
 </script>
 
 <script src="{{ asset('js/select2.min.js') }}"></script>
-<script type="text/javascript">
-  $('#select').select2({
-    placeholder: '-->Select One<--',
-    allowClear: true
-  });
-
-  $(".js-example-tokenizer").select2({
-    tags: true,
-    tokenSeparators: [',', ' ']
-  })
-</script>
 
 <script>
   $(document).ready(function() {
-    // delete baris proses
     $('#tabledata').on('click', 'tr a', function(e) {
     e.preventDefault();
         $(this).parents('tr').remove();
@@ -780,7 +744,7 @@
   }
 
   var data_uom = []
-  <?php foreach($data_uom as $key => $value) { ?>
+  <?php foreach($uom as $key => $value) { ?>
     if(!data_uom){
       data_uom += [ { '<?php echo $key; ?>' : '<?php echo $value->kode; ?>', } ];
     } else { data_uom.push({ '<?php echo $key; ?>' : '<?php echo $value->kode; ?>', }) }
@@ -966,7 +930,6 @@
 					}
 				});
 			});
-
     $('#tabledata').append('<tr id="addrow' + (i + 1) + '"></tr>');
     i++;
   });

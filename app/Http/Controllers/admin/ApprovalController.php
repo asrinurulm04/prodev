@@ -4,14 +4,12 @@ namespace App\Http\Controllers\admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Yajra\Datatables\Datatables;
 use App\model\users\User;
 use DB;
 use Redirect;
 
 class ApprovalController extends Controller
 {
-    
     public function __construct(){
         $this->middleware('auth');
         $this->middleware('rule:admin');
@@ -27,6 +25,4 @@ class ApprovalController extends Controller
         $affectedRows = User::where('id', '=', $id)->delete();
         return redirect()->to('userapproval');
     }
-
-    
 }

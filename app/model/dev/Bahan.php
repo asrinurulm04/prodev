@@ -40,6 +40,10 @@ class Bahan extends Model
         return $this->belongsTo('App\model\master\Subkategori');
     }
 
+    public function kategoris(){
+        return $this->hasOne('App\model\master\Kategori','id','id_kategori');
+    }
+
     public function Curren(){
         return $this->belongsTo('App\model\master\Curren');
     }

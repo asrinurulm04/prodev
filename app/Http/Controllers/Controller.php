@@ -11,8 +11,7 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function error()
-    {
+    public function error(){
        return view('feasibility.404');
     }
 }

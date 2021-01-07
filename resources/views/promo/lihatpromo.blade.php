@@ -1,6 +1,5 @@
 @extends('pv.tempvv')
-@section('title', 'Data promo')
-@section('judulhalaman','Draf promo')
+@section('title', 'PRODEV|Data promo')
 @section('content')
 
 @if (session('status'))
@@ -240,7 +239,7 @@
             @endif
           @elseif($promo->status_promo!="draf")
             @if(auth()->user()->role->namaRule === 'pv_lokal' || auth()->user()->role->namaRule === 'marketing')
-          	  <a class="btn btn-info btn-sm" onclick="return confirm('Naik Versi PKP Promo ?')" href="{{Route('naikversipromo',['id_pkp_promo' => $promo->id_pkp_promo, 'revisi' => $promo->revisi, 'turunan' => $promo->turunan])}}"><i class="fa fa-arrow-up"></i> Up Version</a>
+          	  <a class="btn btn-info btn-sm" onclick="return confirm('Naik Versi PKP Promo ?')" href="{{Route('naikversipromo',['id_pkp_promo' => $promo->id_pkp_promo, 'revisi' => $promo->revisi, 'turunan' => $promo->turunan])}}"><i class="fa fa-arrow-up"></i> Edit And Up Version</a>
             @endif
           @endif
           <a class="btn btn-warning btn-sm" href="{{route('downloadpromo',['id_pkp_promo' => $promo->id_pkp_promo, 'revisi' => $promo->revisi, 'turunan' => $promo->turunan])}}" onclick="return confirm('Print this data PROMO ?')"><i class="fa fa-download"></i> Download/print PROMO</a>

@@ -1,6 +1,5 @@
 @extends('pv.tempvv')
-@section('title', 'Tabulasi Project')
-@section('judulhalaman','Data PKP')
+@section('title', 'PRODEV|Tabulasi Project')
 @section('content')
 
 <div class="x_panel">
@@ -34,7 +33,7 @@
             <div class="row"  >
               <div class="col-md-12">
                 <form class="form-horizontal form-label-left" method="POST" action="{{route('check')}}" novalidate>
-                <a href="{{route('notulenpkp')}}" class="btn btn-info btn-sm"><li class="fa fa-book"></li> create Notulen PKP</a>
+                <a href="{{route('notulenpkp')}}" class="btn btn-info btn-sm btn-sm"><li class="fa fa-book"></li> create Notulen PKP</a>
                 <button class="btn btn-primary btn-sm" type="button" data-toggle="modal" data-target="#parampkp"><i class="fa fa-hand-o-right"></i> Custom Tabular</a></button>
                 <a href="{{route('cetak')}}" class="btn btn-sm btn-warning"><li class="fa fa-cloud-download"></li> Download</a>
                 <!-- modal -->
@@ -78,7 +77,7 @@
                         </div>
                       </div>
                       <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Submit</button>
+                        <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-paper-plane"></i> Submit</button>
                         {{ csrf_field() }}
                       </div>
                     </div>
@@ -192,7 +191,7 @@
                         </div>
                       </div>
                       <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Submit</button>
+                        <button type="submit" class="btn btn-sm primary"><i class="fa fa-paper-plane"></i> Submit</button>
                         {{ csrf_field() }}
                       </div>
                     </div>
@@ -299,7 +298,7 @@
                         </div>
                       </div>
                       <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Submit</button>
+                        <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-paper-plane"></i> Submit</button>
                         {{ csrf_field() }}
                       </div>
                     </div>

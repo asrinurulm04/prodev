@@ -10,10 +10,10 @@ class bpom_mikrobiologi extends Model
     
     public function mikroba()
     {
-    	return $this->belongsTo('App\model\nutfact\mikroba','no_kategori','no_kategori');
+    	return $this->belongsTo('App\nutfact\mikroba','no_kategori','no_kategori');
     }
 
     public function panganolahan(){
-        return $this->hasOne('App\model\nutfact\olahan','id','id_pangan');
+        return $this->hasOne('App\nutfact\olahan','id','id_pangan');
     }
 }

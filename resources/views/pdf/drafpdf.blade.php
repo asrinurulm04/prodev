@@ -1,6 +1,5 @@
 @extends('pv.tempvv')
-@section('title', 'Data PDF')
-@section('judulhalaman','Draf PDEp & PDF')
+@section('title', 'PRODEV|Data PDF')
 @section('content')
 
 <div class="">
@@ -40,12 +39,9 @@
                   <th>{{ $pdf->author1->name }}</th>
                   <th>{{ $pdf->created_date }}</th>
                   <th>
-                    @if($pdf->prioritas==1)
-                    <span class="label label-danger">High Priority</span>
-                    @elseif($pdf->prioritas==2)
-                    <span class="label label-warning">Standar Priority</span>
-                    @elseif($pdf->prioritas==3)
-                    <span class="label label-primary">Low Priority</span>
+                    @if($pdf->prioritas==1) <span class="label label-danger">High Priority</span>
+                    @elseif($pdf->prioritas==2) <span class="label label-warning">Standar Priority</span>
+                    @elseif($pdf->prioritas==3) <span class="label label-primary">Low Priority</span>
                     @endif
                   </th>
                   <th>{{ $pdf->last_updated }}</th>

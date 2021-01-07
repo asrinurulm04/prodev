@@ -1,6 +1,5 @@
 @extends('pv.tempvv')
-@section('title', 'Request PKP')
-@section('judulhalaman','Request PKP')
+@section('title', 'PRODEV|Request PKP')
 @section('content')
 
 @if (session('status'))
@@ -131,5 +130,5 @@
   </div>
 </div>
 @endforeach
-  </form>
+</form>
 @endsection

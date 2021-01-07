@@ -1,6 +1,5 @@
 @extends('pv.tempvv')
-@section('title', 'DataDepartement')
-@section('judulhalaman','User Management')
+@section('title', 'PRODEV|Data Departement')
 @section('content')
 
 @if (session('status'))

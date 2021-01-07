@@ -22,8 +22,7 @@ class KemasController extends Controller
 		$this->middleware('rule:kemas');
 	}
 
-	public function index(Request $request,$id, $id_feasibility)
-	{
+	public function index(Request $request,$id, $id_feasibility){
 		$formulas = tipp::where('id_pkp',$id)->where('status_data','=','active')->get();
 		$request->session()->get('id_feasibility');
 		$request->session()->put('id_feasibility', $id_feasibility);
@@ -31,8 +30,7 @@ class KemasController extends Controller
 		$kemas =userkemas::where('id_feasibility', $id_feasibility)->get();
 		$konsep = konsep::where('id_feasibility', $id_feasibility)->get();
 		$dataF = finance::where('id_feasibility', $id_feasibility)->get();
-		return view('kemas.uploadkemas', compact('toImport'))
-			->with([
+		return view('kemas.uploadkemas', compact('toImport'))->with([
 				'formulas' => $formulas,
 				'dataF' => $dataF,
 				'kemas' => $kemas,
@@ -43,10 +41,8 @@ class KemasController extends Controller
 			]);
 	}
 
-	public function storeData(Request $request, $id_feasibility)
-    {
+	public function storeData(Request $request, $id_feasibility){
 		$id = $request->session()->get('id_feasibility');
-		//VALIDASI
 		$this->validate($request, [
 			'file' => 'required|mimes:csv,txt',
 			'filename.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'

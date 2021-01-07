@@ -1,6 +1,5 @@
 @extends('pv.tempvv')
-@section('title', 'Approval')
-@section('judulhalaman','Edit Data Form')
+@section('title', 'PRODEV|Approval')
 @section('content')
 
 <div class="row">
@@ -49,5 +48,4 @@
 		</form>
 	</div>
 </div>		
-
 @endsection

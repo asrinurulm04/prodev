@@ -1,6 +1,5 @@
 @extends('pv.tempvv')
-@section('title', 'Data SubKategori')
-@section('judulhalaman','Data Master')
+@section('title', 'PRODEV|Data SubKategori')
 @section('content')
 
 <div class="row">

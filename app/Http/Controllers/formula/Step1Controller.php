@@ -11,11 +11,11 @@ use App\model\pkp\pkp_project;
 use App\model\users\User;
 use App\model\users\Departement;
 use App\model\dev\Formula;
+use App\model\dev\tr_data_formula;
 
 class Step1Controller extends Controller
 {
     public function __construct(){
-
         $this->middleware('auth');
         $this->middleware('rule:user_rd_proses' || 'rule:user_produk');
     }
@@ -27,11 +27,13 @@ class Step1Controller extends Controller
         $formula = Formula::where('id',$id)->first();
         $idfor = $formula->workbook_id;
         $idf = $id;
+        $data = tr_data_formula::where('id_formula',$id)->get();
         return view('formula/step1')->with([
             'idf' => $idf,
             'formula' => $formula,
             'depts' => $depts,
             'subbrands' => $subbrands,
+            'data' => $data,
             'idfor' => $idfor,
             'produksis' => $produksis
         ]);
@@ -44,8 +46,10 @@ class Step1Controller extends Controller
         $formula = Formula::where('id',$id)->first();
         $idfor_pdf = $formula->workbook_pdf_id;
         $idf = $id;
+        $data = tr_data_formula::where('id_formula',$id)->get();
         return view('formula/step1_pdf')->with([
             'idf' => $idf,
+            'data' => $data,
             'formula' => $formula,
             'depts' => $depts,
             'subbrands' => $subbrands,
@@ -55,7 +59,6 @@ class Step1Controller extends Controller
     }
 
     public function update($formula,$id,Request $request){
-        //dd($request->all());
         $formula = Formula::where('id',$formula)->first();
         $formula->catatan_rd = $request->keterangan;
         $formula->note_formula = $request->formula;
@@ -69,6 +72,26 @@ class Step1Controller extends Controller
 			$formula->kategori='fg';
 		}
         $formula->save();
+
+        if($request->file('filename')!=''){
+            $files = [];
+            foreach ($request->file('filename') as $file) {
+            if ($file->isValid()) {
+                $nama = time();
+                $nama_file = time()."_".$file->getClientOriginalName();
+                $tujuan_upload = 'data_file';
+                $path = $file->move($tujuan_upload,$nama_file);
+                $form=$request->id;
+                $files[] = [
+                    'file' => $nama_file,
+                    'lokasi' => $path,
+                    'id_formula' => $formula->id,
+                ];
+                }
+            }
+            tr_data_formula::insert($files);
+        }
+
         if($formula->workbook_id!=NULL){
             return Redirect()->route('step2', [$formula->workbook_id,$formula->id]);
         }

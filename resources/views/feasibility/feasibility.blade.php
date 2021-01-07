@@ -1,6 +1,5 @@
 @extends('feasibility.tempfeasibility')
-@section('title', 'feasibility')
-@section('judulnya', 'List Feasibility')
+@section('title', 'PRODEV|feasibility')
 @section('content')
 
 <div class="x_panel">

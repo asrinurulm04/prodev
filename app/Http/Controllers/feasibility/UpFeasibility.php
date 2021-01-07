@@ -144,7 +144,6 @@ class UpFeasibility extends Controller
                 $mesin->save();
             }
         }
-
         return redirect()->back();
     }
 }

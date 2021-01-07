@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Maatwebsite\Excel\Facades\Excel;
 use App\model\Exports\KemasExport;
-use App\model\Exports\AkgExport;
 use App\model\Exports\klaimexport;
 use App\model\Exports\SKUExport;
 
@@ -14,7 +13,6 @@ use App\model\pkp\komponen_klaim;
 use App\model\pkp\logam_berat;
 use App\model\pkp\komponen;
 use App\model\devnf\tb_akg;
-use App\model\devnf\tb_akgs;
 use App\model\pkp\klaim;
 use App\model\pkp\uom;
 use App\model\kemas\datakemas;
@@ -253,15 +251,6 @@ class masterController extends Controller
         return redirect()->back();
     }
 
-    public function akg(){
-        $akg = tb_akgs::all();
-        $pengajuan = pengajuan::count();
-        return view('datamaster.akg')->with([
-            'akg' => $akg,
-            'pengajuan' => $pengajuan
-        ]);
-    }
-
     public function kemas(){
         $kemas = datakemas::all();
         $pengajuan = pengajuan::count();
@@ -306,23 +295,19 @@ class masterController extends Controller
         return redirect::back();
     }
 
-    public function exportsku()
-	{
+    public function exportsku(){
 		return Excel::download(new SKUExport, 'SKU.xlsx');
     }
 
-    public function export_excel()
-	{
+    public function export_excel(){
 		return Excel::download(new KemasExport, 'kemas.xlsx');
     }
 
-    public function export_klaim()
-	{
+    public function export_klaim(){
 		return Excel::download(new klaimexport, 'klaim.xlsx');
     }
     
-    public function exportAkg()
-	{
+    public function exportAkg(){
 		return Excel::download(new AkgExport, 'Akg.xlsx');
     }
 }

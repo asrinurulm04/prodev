@@ -99,7 +99,7 @@
                                   <tbody>
                                     @foreach($for as $for)
                                     <tr>
-                                      <td>{{$for->satuan}} = {{$for->forecast}}</td>
+                                      <td>{{$for->satuan}} = <?php $angka_format = number_format($for->forecast,2,",","."); echo "Rp. ".$angka_format;?></td>
                                       <td>
                                       @if($for->kemas_eksis!=NULL)
                                       (
@@ -127,8 +127,8 @@
                                       </td>
                                       <td>{{$for->jlh_uom}}</td>
                                       <td>{{$for->uom}}</td>
-                                      <td>{{$for->nfi_price}}</td>
-                                      <td>{{$for->costumer}}</td>
+                                      <td><?php $angka_format = number_format($for->nfi_price,2,",","."); echo "Rp. ".$angka_format;?></td>
+                                      <td><?php $angka_format = number_format($for->costumer,2,",","."); echo "Rp. ".$angka_format;?></td>
                                     </tr>
                                     @endforeach
                                   </tbody>

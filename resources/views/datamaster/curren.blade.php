@@ -1,6 +1,5 @@
 @extends('pv.tempvv')
-@section('title', 'Data currency')
-@section('judulhalaman','Data Master')
+@section('title', 'PRODEV|Data currency')
 @section('content')
 
 <div class="row">
@@ -85,7 +84,7 @@
     </div>
   </div>
 </div>
-{{-- selesai --}}
+<!-- Selesai -->
 
 <!-- Add New  Currency-->
 <div class="modal fade" id="add_curren" role="dialog" aria-labelledby="EWBModalLabel" aria-hidden="true">

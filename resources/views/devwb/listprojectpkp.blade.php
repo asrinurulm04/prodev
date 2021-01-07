@@ -1,5 +1,5 @@
 @extends('pv.tempvv')
-@section('title', 'List PKP')
+@section('title', 'PRODEV|List PKP')
 @section('content')
 
 @if (session('status'))
@@ -20,8 +20,7 @@
       </div>
       <div>
         <div>
-          <form id="clear">          
-          <!--project-->
+          <form id="clear">      
           <div class="col-md-4 pl-1">
             <div class="form-group" id="filter_col" data-column="5">
               <label>Priority</label>
@@ -33,7 +32,6 @@
               </select>
             </div>
           </div>      
-          <!--brand-->
           <div class="col-md-4 pl-1">
             <div class="form-group" id="filter_col1" data-column="3">
               <label>Brand</label>
@@ -45,7 +43,6 @@
               </select>
             </div>
           </div>
-          <!--Data-->
           <div class="col-md-3 pl-1">
             <div class="form-group" id="filter_col1" data-column="5">
               <label>Status</label>
@@ -117,8 +114,7 @@
                 <?php
                   $awal  = date_create( $pkp->waktu );
                   $akhir = date_create(); // waktu sekarang
-                  if($akhir<=$awal)
-                  {
+                  if($akhir<=$awal){
                     $diff  = date_diff( $akhir, $awal );
                     echo ' You Have ';
                     echo $diff->m . ' Month, ';
@@ -143,7 +139,6 @@
             <td class="text-center">
               @if($pkp->status_project=='proses')
               <a class="btn btn-info btn-sm" href="{{ Route('rekappkp',$pkp->id_project) }}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
-              {{csrf_field()}}
               @elseif($pkp->status_project=='close')
               <a class="btn btn-info btn-sm" href="{{ Route('rekappkp',$pkp->id_project) }}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
               <button class="btn btn-info btn-sm" disabled><li class="fa fa-smile-o" title="close"></li></button>
@@ -174,8 +169,7 @@
                 <?php
                   $awal  = date_create( $pkp->waktu );
                   $akhir = date_create(); // waktu sekarang
-                  if($akhir<=$awal)
-                  {
+                  if($akhir<=$awal) {
                     $diff  = date_diff( $akhir, $awal );
                     echo ' You Have ';
                     echo $diff->m . ' Month, ';
@@ -199,11 +193,11 @@
             </td>
             <td class="text-center">
               @if($pkp->status_project=='proses')
-              @if($pkp->workbook==0)
-              <a class="btn btn-info btn-sm" href="{{ Route('rekappkp',$pkp->id_project) }}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
-              @elseif($pkp->workbook>0)
-              <a class="btn btn-primary btn-sm" href="{{ Route('rekappkp',$pkp->id_project) }}" data-toggle="tooltip" title="Workbook"><i class="fa fa-book"></i></a>
-              @endif
+                @if($pkp->workbook==0)
+                <a class="btn btn-info btn-sm" href="{{ Route('rekappkp',$pkp->id_project) }}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
+                @elseif($pkp->workbook>0)
+                <a class="btn btn-primary btn-sm" href="{{ Route('rekappkp',$pkp->id_project) }}" data-toggle="tooltip" title="Workbook"><i class="fa fa-book"></i></a>
+                @endif
               @elseif($pkp->status_project=='close')
               <a class="btn btn-info btn-sm" href="{{ Route('rekappkp',$pkp->id_project) }}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
               <button class="btn btn-success btn-sm" title="this project is finished" disabled><li class="fa fa-smile-o" title="close"></li></button>

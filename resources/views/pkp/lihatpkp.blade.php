@@ -1,6 +1,5 @@
 @extends('pv.tempvv')
-@section('title', 'data PKP')
-@section('judul', 'Data PKP')
+@section('title', 'PRODEV|data PKP')
 @section('content')
 
 @if (session('status'))
@@ -178,13 +177,13 @@
                           </button>
                         </div>
                         <div class="modal-body">
-                          <form class="form-horizontal form-label-left" method="POST" action="{{ Route('sentpkp',['id_pkp' => $pkp->id_pkp, 'revisi' => $pkp->revisi, 'turunan' => $pkp->turunan])}}" novalidate>
+                          <form class="form-horizontal form-label-left" method="POST" action="{{ Route('sentpkp',['id_pkp' => $pkp->id_pkp, 'revisi' => $pkp->revisi, 'turunan' => $pkp->turunan])}}">
                           <div class="form-group row">
                             <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center">Dept Product</label>
                             <div class="col-md-4 col-sm-9 col-xs-12">
                               <select name="kirim" class="form-control form-control-line" id="kirim">
                                 <option readonly value="{{$pkp->tujuankirim}}" selected>{{$pkp->departement->dept}}</option>
-                                @foreach($dept1 as $dept)
+                                @foreach($dept as $dept)
                                 @if($dept->Divisi=='RND')
                                 <option value="{{$dept->id}}"> Manager {{ $dept->dept }} ({{$dept->users->name}})</option>
                                 @endif
@@ -241,6 +240,14 @@
                               <input type="date" class="form-control" value="{{$pkp->waktu}}" name="waktu" id="waktu" placeholder="end date">
                             </div>
                           </div>
+                          <div class="form-group row">
+                          <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center">Alasan Revisi</label>
+                            <div class="col-md-10 col-sm-10 col-xs-12">
+                                <textarea name="alasan" id="alasan" class="col-md-12 col-sm-12 col-xs-12" cols="10" required></textarea>
+                            </div>
+                          </div>
+                          <input type="hidden" value="{{$pkp->userpenerima}}" name="userpenerima">
+                          <input type="hidden" value="{{$pkp->userpenerima2}}" name="userpenerima2">
                           <div class="modal-footer">
                             <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-paper-plane"></i> Sent</button>
                             {{ csrf_field() }}
@@ -383,7 +390,7 @@
                             <tbody>
                               @foreach($for as $for)
                               <tr>
-                                <td>{{$for->satuan}} = {{$for->forecast}}</td>
+                                <td>{{$for->satuan}} = <?php $angka_format = number_format($for->forecast,2,",","."); echo "Rp. ".$angka_format;?></td>
                                 <td>
                                 @if($for->kemas_eksis!=NULL)
                                 (
@@ -411,8 +418,8 @@
                                 </td>
                                 <td>{{$for->jlh_uom}}</td>
                                 <td>{{$for->uom}}</td>
-                                <td>{{$for->nfi_price}}</td>
-                                <td>{{$for->costumer}}</td>
+                                <td><?php $angka_format = number_format($for->nfi_price,2,",","."); echo "Rp. ".$angka_format;?></td>
+                                <td><?php $angka_format = number_format($for->costumer,2,",","."); echo "Rp. ".$angka_format;?></td>
                               </tr>
                               @endforeach
                             </tbody>
@@ -595,7 +602,7 @@
                             <tbody>
                               @foreach($for as $for)
                               <tr>
-                                <td>{{$for->satuan}} = {{$for->forecast}}</td>
+                                <td>{{$for->satuan}} = <?php $angka_format = number_format($for->forecast,2,",","."); echo "Rp. ".$angka_format;?></td>
                                 <td>
                                 @if($for->kemas_eksis!=NULL)
                                 (
@@ -623,8 +630,8 @@
                                 </td>
                                 <td>{{$for->jlh_uom}}</td>
                                 <td>{{$for->uom}}</td>
-                                <td>{{$for->nfi_price}}</td>
-                                <td>{{$for->costumer}}</td>
+                                <td><?php $angka_format = number_format($for->nfi_price,2,",","."); echo "Rp. ".$angka_format;?></td>
+                                <td><?php $angka_format = number_format($for->costumer,2,",","."); echo "Rp. ".$angka_format;?></td>
                               </tr>
                               @endforeach
                             </tbody>
@@ -708,7 +715,6 @@
       					          </table>
 												</td>
                       </tr>
-                      
                       <tr>
                         <th>Serving Suggestion</th>
                         <td colspan="2"><?php $serving = []; foreach ($pkp2 as $key => $data) If (!$serving || !in_array($data->serving_suggestion, $serving)) { $serving += array( $key => $data->serving_suggestion ); 
@@ -719,39 +725,9 @@
                         <td colspan="2"><?php $mandatory_ingredient = []; foreach ($pkp2 as $key => $data) If (!$mandatory_ingredient || !in_array($data->mandatory_ingredient, $mandatory_ingredient)) { $mandatory_ingredient += array( $key => $data->mandatory_ingredient ); 
                         if($data->revisi!=$pkp->revisi){ echo" <s><font color='#ffa2a2'>$data->mandatory_ingredient<br></font></s>"; } if($data->revisi==$pkp->revisi){ echo" $data->mandatory_ingredient<br>"; } }  ?></td>
                       </tr>
-
                     </table>
                     @endif
                     @endforeach
-                    <table class="table table-striped table-bordered">
-                      <thead>
-                        <tr style="background-color:#bfc2c5;"><td class="text-center" colspan="5">ATTENTION</td></tr>
-                        <tr><td style="background-color:#ffffff;" width="30%"></td><td style="border:none;background-color:#bfc2c5;"> compulsory; filled by QBX (brand function) Managers</td></tr>
-                        <tr><td style="background-color:#13699a;" width="30%"></td><td style="border:none;background-color:#bfc2c5;">should only be filled with great certainty</td></tr>
-                        <tr><td style="background-color:#e41356;" width="30%"></td><td style="border:none;background-color:#bfc2c5;"> should only be filled after discussion with QPA</td></tr>
-                        <tr><td style="background-color:#bfc2c5;">Service Level Agreements</td>
-                        <td style="background-color:#bfc2c5;">
-                          <table>
-                            <thead>
-                              <tr><td style="border:none;">Lead Time QBX (brand function)</td><td style="border:none;">5 workdays</td></tr>
-                              <tr><td style="border:none;">Lead Time QPA (product development function)</td><td style="border:none;">[1 (benefits) + 2 (COGS)] = 2 workdays</td></tr>
-                              <tr><td style="border:none;">Lead Time Revision </td><td style="border:none;">2 workdays</td></tr>
-                            </thead>
-                          </table>
-                        </td></tr>
-                        <tr><td style="background-color:#bfc2c5;">Process</td>
-                        <td style="background-color:#bfc2c5;">
-                          <table>
-                            <thead>
-                              <tr><td style="border:none;">After being filled. HOD approval request. Then, forward to RD as low priority project. Will be further</td></tr>
-                              <tr><td style="border:none;">prioritized in PV Cross Funct Mtg. </td></tr>
-                              <tr><td style="border:none;">Meanwhile, RD can prepare SLA projection to propose into PV's SLA for the project based on</td></tr>
-                              <tr><td style="border:none;">capacity and feasibility.</td></tr>
-                            </thead>
-                          </table>
-                        </td></tr>
-                      </thead>
-                    </table>
 								</div>
 							</div>
             </div>
@@ -761,5 +737,4 @@
     </div>
 	</div>
 </div>
-
 @endsection

@@ -1,5 +1,5 @@
 @extends('pv.tempvv')
-@section('title', 'Data PKP promo')
+@section('title', 'PRODEV|Data PKP promo')
 @section('content')
 
 <div class="">
@@ -27,7 +27,6 @@
               <tr>
                 @php $no = 0; @endphp
                 @foreach($promo as $pkp)
-                @if($pkp->status_project=="draf")
                 <th>{{ ++$no }}</th>
                 <th>{{ $pkp->brand }}</th>
                 <th>{{ $pkp->project_name }}</th>
@@ -41,7 +40,6 @@
                   {{csrf_field()}}
                 </th>
               </tr>
-              @endif
               @endforeach
             </tbody>
           </table>

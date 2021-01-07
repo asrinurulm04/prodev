@@ -1,11 +1,10 @@
 @extends('pv.tempvv')
-@section('title', 'Data Tambahan PKP')
-@section('judulhalaman','Data Tambahan PKP')
+@section('title', 'PRODEV|Data Tambahan PKP')
 @section('content')
 
 <div class="row">
-  <div class="col-md-4"></div>
-  <div class="col-md-10">
+  <div class="col-md-3"></div>
+  <div class="col-md-9">
     <div class="tabbable">
       <ul class="nav nav-tabs wizard">
         <li class="active"><a href=""><span class="nmbr">1</span>Data</a></li>
@@ -31,23 +30,6 @@
     {{ session('error') }}
   </div>
 </div>
-@endif
-
-@if (count($errors) > 0)
-<div class="alert alert-danger">
-  <strong>Whoops!</strong> There were some problems with your input.<br><br>
-  <ul>
-    @foreach ($errors->all() as $error)
-    <li>{{ $error }}</li>
-    @endforeach
-  </ul>
-</div>
-@endif
-
-@if(session('success'))
-<div class="alert alert-success">
-   {{ session('success') }}
-</div> 
 @endif
 
 <div class="col-md-12 col-sm-12 col-xs-12">
@@ -98,8 +80,8 @@
 @else
 <div class="col-md-12">
   <div class="x_panel">
-    @foreach ($id_pkp as $pkp)
-    <a href="{{route('rekappromo',$pkp->id_pkp_promoo)}}" class="btn btn-primary col-md-12 btn-sm"><li class="fa fa-check"></li> Save And Finish</a>
+    @foreach ($id as $pkp)
+    <a href="{{route('rekappromo',$pkp->id_pkp_promo)}}" class="btn btn-primary col-md-12 btn-sm"><li class="fa fa-check"></li> Save And Finish</a>
     @endforeach
   </form>
   </div>

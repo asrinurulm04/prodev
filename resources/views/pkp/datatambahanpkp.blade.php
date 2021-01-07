@@ -1,6 +1,5 @@
 @extends('pv.tempvv')
-@section('title', 'Data Tambahan PKP')
-@section('judulhalaman','Data Tambahan PKP')
+@section('title', 'PRODEV|Data Tambahan PKP')
 @section('content')
 
 <div class="row">
@@ -14,25 +13,7 @@
       </ul>
     </div>
   </div>
-</div>
-<br>
-
-@if (count($errors) > 0)
-<div class="alert alert-danger">
-  <strong>Whoops!</strong> There were some problems with your input.<br><br>
-  <ul>
-    @foreach ($errors->all() as $error)
-    <li>{{ $error }}</li>
-    @endforeach
-  </ul>
-</div>
-@endif
-
-@if(session('success'))
-<div class="alert alert-success">
-  {{ session('success') }}
-</div>
-@endif
+</div><br>
 
 <div class="col-md-12 col-sm-12 col-xs-12">
   <div class="x_panel">

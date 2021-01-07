@@ -1,18 +1,34 @@
 <?php
 
 namespace App\Http\Controllers\datamaster;
+use Illuminate\Support\Facades\Validator;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\model\master\bahan_rd;
 use App\model\master\Satuan;
+use App\model\master\tb_satuan_vit;
 use App\model\master\Kategori;
-use App\model\master\Subkategori;
 use App\model\master\Curren;
-use App\model\master\Kelompok;
-use App\model\users\User;
+use App\model\dev\Bahan;
+use App\model\dev\ms_btp;
+use App\model\dev\ms_zat_aktif;
+use App\model\dev\ms_allergen;
+use App\model\dev\tr_makro_bb;
+use App\model\dev\tr_mikro_bb;
+use App\model\dev\tr_btp_bb;
+use App\model\dev\tr_mineral_bb;
+use App\model\dev\tr_vitamin_bb;
+use App\model\dev\tr_asam_amino_bb;
+use App\model\dev\tr_zataktif_bb;
+use App\model\dev\tr_logamberat_bb;
+use App\model\dev\bb_allergen;
+use App\model\dev\ms_supplier_principals;
+use App\model\dev\ms_supplier_principal_cps;
+use App\model\pkp\pkp_datapangan;
+use App\model\nutfact\tb_jenis_mikroba;
 use Redirect;
 use DB;
+use Auth;
 
 class bbRDController extends Controller
 {
@@ -23,80 +39,620 @@ class bbRDController extends Controller
     }
 
     public function bahan(){
-        $bahans = bahan_rd::all();
+        $bahans = Bahan::where('status_bb','baru')->get();
         $satuans = Satuan::all();
-        $kategori = kategori::all();
-        $subkategoris = Subkategori::all();
         $currens = Curren::all();
-        $kelompoks = Kelompok::all();
-        $users = User::where('status','=','active')->get();
-        return view('datamaster.bb_rd')->with([
+        return view('datamaster.bahan_rd')->with([
             'bahans' => $bahans,
             'satuans' =>$satuans,
-            'subkategoris' => $subkategoris,
-            'kategori' => $kategori,
-            'currens' => $currens,
-            'kelompoks' => $kelompoks,
-            'users' => $users]);
+            'currens' => $currens
+        ]);
     }
 
     public function addbahanrd(Request $request){
-        $bahan = new bahan_rd;
-        $bahan->nama_sederhana = $request->nama_sederhana;
-        $bahan->nama_bahan = $request->nama_bahan;
-        $bahan->kode_oracle = $request->kode_oracle;
-        $bahan->kode_komputer = $request->kode_komputer;
+        $bahan = new Bahan;
+        $bahan->nama_sederhana = $request->sederhana;
+        $bahan->nama_bahan = $request->nama;
+        $bahan->kode_oracle = $request->oracle;
+        $bahan->kode_komputer = $request->komputer;
         $bahan->supplier = $request->supplier;
         $bahan->principle = $request->principle;
-        $bahan->no_HEIPBR = $request->no_HEIPBR;
-        $bahan->PIC = $request->PIC;
-        $bahan->cek_halal = $request->cek_halal;
+        $bahan->no_HEIPBR = $request->heipbr;
+        $bahan->PIC = $request->pic;
+        $bahan->id_kategori=$request->kategori;
         $bahan->subkategori_id = $request->subkategori;
-
-        if (isset($request->c_kelompok)) {
-            $id = DB::table('kelompoks')->insertGetId(
-                [ 'nama' => $request->custom_kelompok]
-            );
-            $bahan->kelompok_id = $id;
-        }else{                
-            $bahan->kelompok_id = $request->kelompok;
+        $bahan->berat = $request->berat;
+        $bahan->satuan_id = $request->satuan;
+        $bahan->harga_satuan = $request->harga;
+        $bahan->curren_id = $request->currency;
+        $bahan->user_id = Auth::user()->id;
+        $bahan->created_date = $request->last;
+        $bahan->last_update = $request->last;
+        $bahan->status = 'active';
+        $bahan->status_bb = 'baru';
+        $bahan->save();
+        // registrasi makro bb
+        $makro = new tr_makro_bb;
+        $makro->id_bahan=$bahan->id;
+        $makro->karbohidrat=$request->karbohidrat;
+        $makro->glukosa=$request->glukosa;
+        $makro->serat_pangan=$request->serat_pangan;
+        $makro->beta_glucan=$request->beta_glucan;
+        $makro->sorbitol=$request->sorbitol;
+        $makro->maltitol=$request->maltitol;
+        $makro->laktosa=$request->laktosa;
+        $makro->sukrosa=$request->sukrosa;
+        $makro->gula=$request->gula;
+        $makro->erythritol=$request->erythritol;
+        $makro->DHA=$request->dha;
+        $makro->EPA=$request->epa;
+        $makro->Omega3=$request->omega3;
+        $makro->mufa=$request->mufa;
+        $makro->lemak_trans=$request->lemak_trans;
+        $makro->lemak_jenuh=$request->lemak_jenuh;
+        $makro->sfa=$request->sfa;
+        $makro->omega6=$request->omega6;
+        $makro->kolesterol=$request->kolesterol;
+        $makro->protein=$request->protein;
+        $makro->kadar_air=$request->kadar_air;
+        $makro->save();
+        // registrasi vitamin bb
+        $vitamin = new tr_vitamin_bb;
+        $vitamin->id_bahan=$bahan->id;
+        $vitamin->id_satuan=$request->vitamin;
+        $vitamin->vitA=$request->vitA;
+        $vitamin->vitB1=$request->vitB1;
+        $vitamin->vitB2=$request->vitB2;
+        $vitamin->vitB3=$request->vitB3;
+        $vitamin->vitB5=$request->vitB5;
+        $vitamin->vitB6=$request->vitB6;
+        $vitamin->vitB12=$request->vitB12;
+        $vitamin->vitC=$request->vitC;
+        $vitamin->vitD=$request->vitD;
+        $vitamin->vitE=$request->vitE;
+        $vitamin->vitK=$request->vitK;
+        $vitamin->folat=$request->folat;
+        $vitamin->biotin=$request->biotin;
+        $vitamin->kolin=$request->kolin;
+        $vitamin->save();
+        // registrasi mineral bb
+        $mineral = new tr_mineral_bb;
+        $mineral->id_bahan=$bahan->id;
+        $mineral->ca=$request->ca;
+        $mineral->mg=$request->mg;
+        $mineral->k=$request->k;
+        $mineral->zink=$request->zink;
+        $mineral->p=$request->p;
+        $mineral->na=$request->na;
+        $mineral->naci=$request->naci;
+        $mineral->energi=$request->energi;
+        $mineral->fosfor=$request->fosfor;
+        $mineral->mn=$request->mn;
+        $mineral->cr=$request->cr;
+        $mineral->fe=$request->fe;
+        $mineral->lodium=$request->lodium;
+        $mineral->selenium=$request->selenium;
+        $mineral->fluor=$request->fluor;
+        $mineral->save();
+        // registrasi BTP carry over bb
+        if($request->btp_carry_over!=''){
+            $rule = array(); 
+            $validator = Validator::make($request->all(), $rule);  
+            if ($validator->passes()) {
+				$idz = implode(',', $request->input('btp_carry_over'));
+				$ids = explode(',', $idz);
+				$idb = implode(',', $request->input('satuan_btp'));
+				$idc = explode(',', $idb);
+				for ($i = 0; $i < count($ids); $i++)
+				{
+					$btp_carryOver = new tr_btp_bb;
+                    $btp_carryOver->id_bahan=$bahan->id;
+                    $btp_carryOver->btp = $ids[$i];
+					$btp_carryOver->id_satuan = $idc[$i];
+					$btp_carryOver->save();
+					$i = $i++;
+				}
+			}
+        }
+        // registrasi zat aktif bb
+        if($request->satuan_zat!='' && $request->zat_aktif!=''){
+            $rule = array(); 
+            $validator = Validator::make($request->all(), $rule);  
+            if ($validator->passes()) {
+				$idz = implode(',', $request->input('zat_aktif'));
+				$ids = explode(',', $idz);
+				$idb = implode(',', $request->input('satuan_zat'));
+				$idc = explode(',', $idb);
+				for ($i = 0; $i < count($ids); $i++)
+				{
+					$zat = new tr_zataktif_bb;
+                    $zat->id_bahan=$bahan->id;
+                    $zat->zat_aktif = $ids[$i];
+					$zat->id_satuan = $idc[$i];
+					$zat->save();
+					$i = $i++;
+				}
+			}
+        }
+        // registrasi logam berat bb
+        $logam = new tr_logamberat_bb;
+        $logam->id_bahan=$bahan->id;
+        $logam->cu=$request->cu;
+        $logam->As=$request->as;
+        $logam->pb=$request->pb;
+        $logam->hg=$request->hg;
+        $logam->cd=$request->cd;
+        $logam->sn=$request->sn;
+        $logam->save();
+        // registrasi asam amino bb
+        $asam = new tr_asam_amino_bb;
+        $asam->id_bahan=$bahan->id;
+        $asam->l_glutamin=$request->l_glutamin;
+        $asam->Threonin=$request->l_glutamin;
+        $asam->Methionin=$request->threonin;
+        $asam->Phenilalanin=$request->phenilalanin;
+        $asam->Histidin=$request->histidin;
+        $asam->lisin=$request->lisinin;
+        $asam->BCAA=$request->bcaa;
+        $asam->Valin=$request->valin;
+        $asam->Leusin=$request->leusin;
+        $asam->Aspartat=$request->aspartat;
+        $asam->Alanin=$request->alanin;
+        $asam->Sistein=$request->sistein;
+        $asam->Serin=$request->serin;
+        $asam->Glisin=$request->glisin;
+        $asam->Glutamat=$request->glutamat;
+        $asam->Tyrosin=$request->tyrosin;
+        $asam->Proline=$request->proline;
+        $asam->Arginine=$request->arginine;
+        $asam->Isoleusin=$request->Isoleusin;
+        $asam->save();
+        // registrasi allergen contain bb
+        if($request->contain!=''){
+            $rule = array(); 
+            $validator = Validator::make($request->all(), $rule);  
+            if ($validator->passes()) {
+				$idz = implode(',', $request->input('contain'));
+				$ids = explode(',', $idz);
+				for ($i = 0; $i < count($ids); $i++)
+				{
+					$contain = new bb_allergen;
+                    $contain->id_bb=$bahan->id;
+                    $contain->allergen_countain = $ids[$i];
+					$contain->save();
+					$i = $i++;
+				}
+			}
+        }
+        // registrasi allergen may contain bb
+        if($request->may_contain!=''){
+            $rule = array(); 
+            $validator = Validator::make($request->all(), $rule);  
+            if ($validator->passes()) {
+				$idz = implode(',', $request->input('may_contain'));
+				$ids = explode(',', $idz);
+				for ($i = 0; $i < count($ids); $i++)
+				{
+					$mayContain = new bb_allergen;
+                    $mayContain->id_bb=$bahan->id;
+                    $mayContain->allergen_may_contain = $ids[$i];
+					$mayContain->save();
+					$i = $i++;
+				}
+			}
+        }
+        // registrasi mikro biologi bb
+        if($request->bpom!=''){
+            $mikro = new tr_mikro_bb;
+            $mikro->id_bahan=$bahan->id;
+            $mikro->id_bpom=$request->bpom;
+            $mikro->save();
+        }if($request->mikro!=''){
+            $rule = array(); 
+            $validator = Validator::make($request->all(), $rule);  
+            if ($validator->passes()) {
+				$mikro = implode(',', $request->input('mikro'));
+				$data_mikro = explode(',', $mikro);
+				$n = implode(',', $request->input('n'));
+				$data_n = explode(',', $n);
+				$c = implode(',', $request->input('c'));
+				$data_c = explode(',', $c);
+				$m = implode(',', $request->input('m'));
+				$data_m = explode(',', $m);
+				$M2 = implode(',', $request->input('M2'));
+				$data_M2 = explode(',', $M2);
+				$satuan_mikro = implode(',', $request->input('satuan_mikro'));
+				$data_satuan_mikro = explode(',', $satuan_mikro);
+				for ($i = 0; $i < count($data_mikro); $i++)
+				{
+					$mikro = new tr_mikro_bb;
+                    $mikro->id_bahan=$bahan->id;
+                    $mikro->id_jenis_mikro = $data_mikro[$i];
+                    $mikro->n = $data_n[$i];
+                    $mikro->c = $data_c[$i];
+                    $mikro->m = $data_m[$i];
+                    $mikro->M2 = $data_M2[$i];
+                    $mikro->satuan = $data_satuan_mikro[$i];
+					$mikro->save();
+					$i = $i++;
+				}
+			}
         }
 
-        $bahan->berat = $request->berat;
-        $bahan->satuan_id = $request->satuan;
-        $bahan->harga_satuan = $request->harga_satuan;
-        $bahan->curren_id = $request->curren;
-        $bahan->user_id = $request->user;
-        $bahan->save();
-
-        return Redirect::back()->with('status', $bahan->nama_sederhana.' Telah Ditambahkan!');
+        return Redirect::route('bahan_rd')->with('status', $bahan->nama.' Telah Ditambahkan!');
     }
 
-    public function delbahanrd($id){
-        $bahan = bahan_rd::where('id_bahan',$id)->first();
-        $n = $bahan->nama_bahan;
-        $bahan->delete();
-
-        return Redirect::back()->with('error', $n.' Telah Dihapus!');
+    public function registrasi(){
+        $currens = Curren::all();
+        $allergen = ms_allergen::all();
+        $allergen2 = ms_allergen::all();
+        $satuans = Satuan::all();
+        $pangan = pkp_datapangan::all();
+        $zat = ms_zat_aktif::all();
+        $btp = ms_btp::all();
+        $supplier = ms_supplier_principals::all();
+        $principal = ms_supplier_principal_cps::all();
+        $btp2 = ms_btp::all();
+        $kategori = Kategori::all();
+        $jenis = tb_jenis_mikroba::all();
+        $satuan_vit = tb_satuan_vit::all();
+        return view('datamaster.registrasiBB')->with([
+            'satuans' =>$satuans,
+            'allergen' =>$allergen,
+            'pangan' => $pangan,
+            'jenis' => $jenis,
+            'btp' => $btp,
+            'zat' => $zat,
+            'zat1' => $zat,
+            'supplier' => $supplier,
+            'principal' => $principal,
+            'btp2' => $btp2,
+            'kategori' => $kategori,
+            'allergen2' =>$allergen,
+            'satuan_vit' =>$satuan_vit,
+            'curren' => $currens
+        ]);
     }
 
-    public function editBBrd($id,Request $request){
-        $bahan = bahan_rd::find($id)->first();
-        $bahan->nama_bahan = $request->nama_bahan;
+    public function edit_bahan($id){
+        $bahan = Bahan::where('id',$id)->first();
+        $makro = tr_makro_bb::where('id_bahan',$id)->get();
+        $air = tr_makro_bb::where('id_bahan',$id)->get();
+        $vit = tr_vitamin_bb::where('id_bahan',$id)->get();
+        $mineral = tr_mineral_bb::where('id_bahan',$id)->get();
+        $asam = tr_asam_amino_bb::where('id_bahan',$id)->get();
+        $currens = Curren::all();
+        $zat_aktif = ms_zat_aktif::all();
+        $zat = tr_zataktif_bb::where('id_bahan',$id)->get();
+        $hitung_zat = tr_zataktif_bb::where('id_bahan',$id)->count();
+        $hasil_btp = tr_btp_bb::where('id_bahan',$id)->get();
+        $hitung_hasil_btp = tr_btp_bb::where('id_bahan',$id)->count();
+        $contain = bb_allergen::where('id_bb',$id)->where('allergen_countain','!=','NULL')->get();
+        $mayContain = bb_allergen::where('id_bb',$id)->where('allergen_may_contain','!=','NULL')->get();
+        $hitungmikro = tr_mikro_bb::where('id_bahan',$id)->count();
+        $cekmikro = tr_mikro_bb::where('id_bahan',$id)->first();
+        $mikro = tr_mikro_bb::where('id_bahan',$id)->get();
+        $logam = tr_logamberat_bb::where('id_bahan',$id)->get();
+        $allergen2 = ms_allergen::all();
+        $satuans = Satuan::all();
+        $data_pangan = pkp_datapangan::all();
+        $pangan = pkp_datapangan::all();
+        $btp = ms_btp::all();
+        $btp2 = ms_btp::all();
+        $kategori = Kategori::all();
+        $jenis = tb_jenis_mikroba::all();
+        $satuan_vit = tb_satuan_vit::all();
+        return view('datamaster.editbb')->with([
+            'satuans' =>$satuans,
+            'makro' => $makro,
+            'hitung_zat' => $hitung_zat,
+            'mayContain' => $mayContain,
+            'zat_aktif'=> $zat_aktif,
+            'zat_aktif1'=> $zat_aktif,
+            'hitungmikro' => $hitungmikro,
+            'contain' => $contain,
+            'vit' => $vit,
+            'cekmikro' => $cekmikro,
+            'logam' => $logam,
+            'mikro' => $mikro,
+            'hitung_hasil_btp' => $hitung_hasil_btp,
+            'air' => $air,
+            'asam' => $asam,
+            'mineral' => $mineral,
+            'bahan' => $bahan,
+            'data_pangan' => $data_pangan,
+            'pangan' => $pangan,
+            'zat' => $zat,
+            'hasil_btp' => $hasil_btp,
+            'jenis' => $jenis,
+            'btp' => $btp,
+            'btp2' => $btp2,
+            'kategori' => $kategori,
+            'allergen2' =>$allergen2,
+            'satuan_vit' =>$satuan_vit,
+            'curren' => $currens
+        ]);
+    }
+
+    public function saveupdateBahan(Request $request,$id_bahan){
+        $bahan = Bahan::where('id',$id_bahan)->first();
+        $bahan->nama_sederhana = $request->sederhana;
+        $bahan->nama_bahan = $request->nama;
+        $bahan->kode_oracle = $request->oracle;
+        $bahan->kode_komputer = $request->komputer;
         $bahan->supplier = $request->supplier;
         $bahan->principle = $request->principle;
-        $bahan->no_HEIPBR = $request->no_HEIPBR;
-        $bahan->PIC = $request->PIC;
-        $bahan->cek_halal = $request->cek_halal;
+        $bahan->no_HEIPBR = $request->heipbr;
+        $bahan->PIC = $request->pic;
+        $bahan->id_kategori=$request->kategori;
         $bahan->subkategori_id = $request->subkategori;
-        $bahan->kelompok_id = $request->kelompok;
         $bahan->berat = $request->berat;
         $bahan->satuan_id = $request->satuan;
-        $bahan->harga_satuan = $request->harga_satuan;
-        $bahan->curren_id = $request->curren;
-        $bahan->user_id = $request->user;
+        $bahan->harga_satuan = $request->harga;
+        $bahan->curren_id = $request->currency;
+        $bahan->user_id = Auth::user()->id;
+        $bahan->created_date = $request->last;
+        $bahan->last_update = $request->last;
         $bahan->save();
 
-        return Redirect()->route('bbrd')->with('status', $bahan->nama_bahan.' Telah DiUpdate!');
+        // Edit makro bb
+        $hitung_mikro = tr_makro_bb::where('id_bahan',$id_bahan)->count();
+        if($hitung_mikro>=1){
+            $makro = tr_makro_bb::where('id_bahan',$id_bahan)->first();
+        }if($hitung_mikro==0){
+            $makro = new tr_makro_bb;
+        }
+        $makro->id_bahan=$id_bahan;
+        $makro->karbohidrat=$request->karbohidrat;
+        $makro->glukosa=$request->glukosa;
+        $makro->serat_pangan=$request->serat_pangan;
+        $makro->beta_glucan=$request->beta_glucan;
+        $makro->sorbitol=$request->sorbitol;
+        $makro->maltitol=$request->maltitol;
+        $makro->laktosa=$request->laktosa;
+        $makro->sukrosa=$request->sukrosa;
+        $makro->gula=$request->gula;
+        $makro->erythritol=$request->erythritol;
+        $makro->DHA=$request->dha;
+        $makro->EPA=$request->epa;
+        $makro->Omega3=$request->omega3;
+        $makro->mufa=$request->mufa;
+        $makro->lemak_trans=$request->lemak_trans;
+        $makro->lemak_jenuh=$request->lemak_jenuh;
+        $makro->sfa=$request->sfa;
+        $makro->omega6=$request->omega6;
+        $makro->kolesterol=$request->kolesterol;
+        $makro->protein=$request->protein;
+        $makro->kadar_air=$request->kadar_air;
+        $makro->save();
+        // registrasi vitamin bb
+        $hitung_vitamin = tr_vitamin_bb::where('id_bahan',$id_bahan)->count();
+        if($hitung_vitamin>=1){
+            $vitamin = tr_vitamin_bb::where('id_bahan',$id_bahan)->first();
+        }if($hitung_vitamin==0){
+            $vitamin = new tr_vitamin_bb;
+        }
+        $vitamin->id_bahan=$id_bahan;
+        $vitamin->id_satuan=$request->vitamin;
+        $vitamin->vitA=$request->vitA;
+        $vitamin->vitB1=$request->vitB1;
+        $vitamin->vitB2=$request->vitB2;
+        $vitamin->vitB3=$request->vitB3;
+        $vitamin->vitB5=$request->vitB5;
+        $vitamin->vitB6=$request->vitB6;
+        $vitamin->vitB12=$request->vitB12;
+        $vitamin->vitC=$request->vitC;
+        $vitamin->vitD=$request->vitD;
+        $vitamin->vitE=$request->vitE;
+        $vitamin->vitK=$request->vitK;
+        $vitamin->folat=$request->folat;
+        $vitamin->biotin=$request->biotin;
+        $vitamin->kolin=$request->kolin;
+        $vitamin->save();
+        // Edit mineral bb
+        $hitung_mineral = tr_mineral_bb::where('id_bahan',$id_bahan)->count();
+        if($hitung_mineral>=1){
+            $mineral = tr_mineral_bb::where('id_bahan',$id_bahan)->first();
+        }if($hitung_mineral==0){
+            $mineral = new tr_mineral_bb;
+        }
+        $mineral->id_bahan=$id_bahan;
+        $mineral->ca=$request->ca;
+        $mineral->mg=$request->mg;
+        $mineral->k=$request->k;
+        $mineral->zink=$request->zink;
+        $mineral->p=$request->p;
+        $mineral->na=$request->na;
+        $mineral->naci=$request->naci;
+        $mineral->energi=$request->energi;
+        $mineral->fosfor=$request->fosfor;
+        $mineral->mn=$request->mn;
+        $mineral->cr=$request->cr;
+        $mineral->fe=$request->fe;
+        $mineral->lodium=$request->lodium;
+        $mineral->selenium=$request->selenium;
+        $mineral->fluor=$request->fluor;
+        $mineral->save();
+        // Edit BTP carry over bb
+        if($request->btp_carry_over!=''){
+            $rule = array(); 
+            $validator = Validator::make($request->all(), $rule);  
+            $hitung_btp_carryOver = tr_btp_bb::where('id_bahan',$id_bahan)->count();
+            if($hitung_btp_carryOver>=1){
+                $btp_carryOver = tr_btp_bb::where('id_bahan',$id_bahan)->delete();
+            }
+            if ($validator->passes()) {
+				$idz = implode(',', $request->input('btp_carry_over'));
+				$ids = explode(',', $idz);
+				$idb = implode(',', $request->input('satuan_btp'));
+                $idc = explode(',', $idb);
+				for ($i = 0; $i < count($ids); $i++)
+				{
+					$btp_carryOver = new tr_btp_bb;
+                    $btp_carryOver->id_bahan=$id_bahan;
+                    $btp_carryOver->btp = $ids[$i];
+                    $btp_carryOver->id_satuan = $idc[$i];
+					$btp_carryOver->save();
+					$i = $i++;
+				}
+			}
+        }
+        // Edit zat aktif bb
+        if($request->satuan_zat!='' && $request->zat_aktif!=''){
+            $rule = array(); 
+            $validator = Validator::make($request->all(), $rule);  
+            $hitung_zat = tr_zataktif_bb::where('id_bahan',$id_bahan)->count();
+            if($hitung_zat>=1){
+                $zat = tr_zataktif_bb::where('id_bahan',$id_bahan)->delete();
+            }
+            if ($validator->passes()) {
+				$idz = implode(',', $request->input('zat_aktif'));
+				$ids = explode(',', $idz);
+				$idb = implode(',', $request->input('satuan_zat'));
+				$idc = explode(',', $idb);
+				for ($i = 0; $i < count($ids); $i++)
+				{
+					$zat = new tr_zataktif_bb;
+                    $zat->id_bahan=$id_bahan;
+                    $zat->zat_aktif = $ids[$i];
+					$zat->id_satuan = $idc[$i];
+					$zat->save();
+					$i = $i++;
+				}
+			}
+        }
+        // Edit logam berat bb
+        $hitung_logam = tr_logamberat_bb::where('id_bahan',$id_bahan)->count();
+        if($hitung_logam>=1){
+            $logam = tr_logamberat_bb::where('id_bahan',$id_bahan)->first();
+        }if($hitung_logam==0){
+            $logam = new tr_logamberat_bb;
+        }
+        $logam->id_bahan=$id_bahan;
+        $logam->cu=$request->cu;
+        $logam->As=$request->as;
+        $logam->pb=$request->pb;
+        $logam->hg=$request->hg;
+        $logam->cd=$request->cd;
+        $logam->sn=$request->sn;
+        $logam->save();
+        // Edit asam amino bb
+        $hitung_logam = tr_asam_amino_bb::where('id_bahan',$id_bahan)->count();
+        if($hitung_logam>=1){
+            $asam = tr_asam_amino_bb::where('id_bahan',$id_bahan)->first();
+        }if($hitung_logam==0){
+            $asam = new tr_asam_amino_bb;
+        }
+        $asam->id_bahan=$id_bahan;
+        $asam->l_glutamin=$request->l_glutamin;
+        $asam->Threonin=$request->l_glutamin;
+        $asam->Methionin=$request->threonin;
+        $asam->Phenilalanin=$request->phenilalanin;
+        $asam->Histidin=$request->histidin;
+        $asam->lisin=$request->lisinin;
+        $asam->BCAA=$request->bcaa;
+        $asam->Valin=$request->valin;
+        $asam->Leusin=$request->leusin;
+        $asam->Aspartat=$request->aspartat;
+        $asam->Alanin=$request->alanin;
+        $asam->Sistein=$request->sistein;
+        $asam->Serin=$request->serin;
+        $asam->Glisin=$request->glisin;
+        $asam->Glutamat=$request->glutamat;
+        $asam->Tyrosin=$request->tyrosin;
+        $asam->Proline=$request->proline;
+        $asam->Arginine=$request->arginine;
+        $asam->Isoleusin=$request->Isoleusin;
+        $asam->save();
+        // Edit allergen contain bb
+        if($request->contain!=''){
+            $rule = array(); 
+            $validator = Validator::make($request->all(), $rule);  
+            $hitung_allergen = bb_allergen::where('id_bb',$id_bahan)->where('allergen_countain','!=','NULL')->count();
+            if($hitung_allergen>=1){
+                $allergen = bb_allergen::where('id_bb',$id_bahan)->where('allergen_countain','!=','NULL')->delete();
+            }
+            if ($validator->passes()) {
+				$idz = implode(',', $request->input('contain'));
+				$ids = explode(',', $idz);
+                for ($i = 0; $i < count($ids); $i++)
+				{
+					$allergen = new bb_allergen;
+                    $allergen->id_bb=$id_bahan;
+                    $allergen->allergen_countain = $ids[$i];
+					$allergen->save();
+					$i = $i++;
+				}
+			}
+        }
+        // Edit allergen may contain bb
+        if($request->may_contain!=''){
+            $rule = array(); 
+            $validator = Validator::make($request->all(), $rule);  
+            $hitung_mayContain = bb_allergen::where('id_bb',$id_bahan)->where('allergen_may_contain','!=','NULL')->count();
+            if($hitung_mayContain>=1){
+                $mayContain = bb_allergen::where('id_bb',$id_bahan)->where('allergen_may_contain','!=','NULL')->delete();
+            }
+            if ($validator->passes()) {
+				$idz = implode(',', $request->input('may_contain'));
+				$ids = explode(',', $idz);
+				for ($i = 0; $i < count($ids); $i++)
+				{
+					$mayContain = new bb_allergen;
+                    $mayContain->id_bb=$id_bahan;
+                    $mayContain->allergen_may_contain = $ids[$i];
+					$mayContain->save();
+					$i = $i++;
+				}
+			}
+        }
+        // Edit mikro biologi bb
+        if($request->bpom!=''){
+            $hitung_mikro = tr_mikro_bb::where('id_bahan',$id_bahan)->count();
+            if($hitung_mikro>=1){
+                $mikro = tr_mikro_bb::where('id_bahan',$id_bahan)->first();
+            }if($hitung_mikro==0){
+                $mikro = new tr_mikro_bb;
+            }
+            $mikro->id_bahan=$id_bahan;
+            $mikro->id_bpom=$request->bpom;
+            $mikro->save();
+        }if($request->mikro!=''){
+            $rule = array(); 
+            $validator = Validator::make($request->all(), $rule); 
+            $hitung_mikro = tr_mikro_bb::where('id_bahan',$id_bahan)->count();
+            if($hitung_mikro>=1){
+                $mikro = tr_mikro_bb::where('id_bahan',$id_bahan)->delete();
+            }
+            if ($validator->passes()) {
+				$mikro = implode(',', $request->input('mikro'));
+				$data_mikro = explode(',', $mikro);
+				$n = implode(',', $request->input('n'));
+				$data_n = explode(',', $n);
+				$c = implode(',', $request->input('c'));
+				$data_c = explode(',', $c);
+				$m = implode(',', $request->input('m'));
+				$data_m = explode(',', $m);
+				$M2 = implode(',', $request->input('M2'));
+				$data_M2 = explode(',', $M2);
+				$satuan_mikro = implode(',', $request->input('satuan_mikro'));
+				$data_satuan_mikro = explode(',', $satuan_mikro);
+				for ($i = 0; $i < count($data_mikro); $i++)
+				{
+					$mikro = new tr_mikro_bb;
+                    $mikro->id_bahan=$id_bahan;
+                    $mikro->id_jenis_mikro = $data_mikro[$i];
+                    $mikro->n = $data_n[$i];
+                    $mikro->c = $data_c[$i];
+                    $mikro->m = $data_m[$i];
+                    $mikro->M2 = $data_M2[$i];
+                    $mikro->satuan = $data_satuan_mikro[$i];
+					$mikro->save();
+					$i = $i++;
+				}
+			}
+        }
+
+        return Redirect::back()->with('status', $bahan->nama_sederhana.' Telah DiUpdate!');
     }
 }
