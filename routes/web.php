@@ -60,6 +60,10 @@ Route::get('ActiveBahan/{id}', 'datamaster\BahanBakuController@active')->name('a
 Route::get('NonActiveBahan/{id}','datamaster\BahanBakuController@nonactive')->name('nonactivebahan');
 Route::post('AddBahanBaku','datamaster\BahanBakuController@addbahan')->name('addbahan');
 
+Route::get('tabulasibb','datamaster\tabulasibbController@tabulasi')->name('tabulasibb');
+Route::get('edittabulasi','datamaster\tabulasibbController@edittabulasi')->name('edittabulasi');
+Route::post('checktabulasi','datamaster\tabulasibbController@pilih')->name('checktabulasi');
+
 Route::get('brand', 'datamaster\BrandController@index')->name('brand.index');
 Route::post('brand/store','datamaster\BrandController@store')->name('brand.store');
 Route::post('brand/{id}/update', 'datamaster\BrandController@update')->name('brand.update');

@@ -60,32 +60,25 @@
       					<center> <h2 style="font-weight: bold;">Project Name : {{ $promo->project_name }} </h2> </center>
 								<table class=" table">
                   <tr>
-                    <td width="25%"><b>Author</td>
-                    <td colspan="2">: {{$promo->datapromoo->author1->name}}</td>
+                    <td width="25%"><b>Author</td><td colspan="2">: {{$promo->datapromoo->author1->name}}</td>
                   </tr>
                   <tr>
-                    <td width="25%"><b>Created date</td>
-                    <td colspan="2">: {{$promo->created_date}}</td>
+                    <td width="25%"><b>Created date</td><td colspan="2">: {{$promo->created_date}}</td>
                   </tr>
                   <tr>
-                    <td width="25%"><b>Last update </td>
-                    <td colspan="2">: {{$promo->last_update}}</td>
+                    <td width="25%"><b>Last update </td><td colspan="2">: {{$promo->last_update}}</td>
                   </tr>
                     <tr>
-                      <td width="25%">Revised By</td>
-                      <td colspan="2">: {{$promo->perevisi2->name}}</td>
+                      <td width="25%">Revised By</td><td colspan="2">: {{$promo->perevisi2->name}}</td>
                     </tr>
                   <tr>
-                    <td width="25%"><b>Revision Number</td>
-                    <td colspan="2">: {{$promo->revisi}}.{{$promo->turunan}}</td>
+                    <td width="25%"><b>Revision Number</td><td colspan="2">: {{$promo->revisi}}.{{$promo->turunan}}</td>
                   </tr>
                   <tr>
-                    <td width="25%"><b>Country</td>
-                    <td colspan="2">: {{$promo->country}}</td>
+                    <td width="25%"><b>Country</td><td colspan="2">: {{$promo->country}}</td>
                   </tr>
                   <tr>
-                    <td width="25%"><b>Item Promo type</td>
-                    <td colspan="2">: {{$promo->promo_type}}</td>
+                    <td width="25%"><b>Item Promo type</td><td colspan="2">: {{$promo->promo_type}}</td>
                   </tr>
                   <tr>
                     <td width="25%"><b>Type</td>
