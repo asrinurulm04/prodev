@@ -158,17 +158,22 @@
                     </ul>
                   </li>
                   @elseif(auth()->user()->role->namaRule === 'user_produk' || auth()->user()->role->namaRule === 'kemas')
-                  <li><a><i class="fa fa-folder-open"></i> PKP / PDF / PROMO <span class="fa fa-chevron-down"></span></a>
+                  <li><a><i class="fa fa-folder-open"></i> PKP / PDF & WORKBOOK <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="{{ route('listprojectpkp') }}">List PKP</a> </li>
                       <li><a href="{{ route('listprojectpdf') }}">List PDF</a> </li>
                       <li><a href="{{ route('listprojectpromo') }}">List PROMO</a> </li>
                     </ul>
                   </li>
+                  <li><a><i class="fa fa-registered"></i> Material Registration <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{{ route('registrasi_bb_rd') }}"> Material Registration</a> </li>
+                      <li><a href="{{ route('tabulasibb') }}">Material Tabulation</a></li>
+                    </ul>
+                  </li>
                   <li><a><i class="fa fa-file-text"></i> Project Recapitulation <span class="label label-success"></span> <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="{{ route('datareport') }}">Data Project Summary</a></li>
-                      <li><a href="{{ route('tabulasibb') }}">Material Tabulation</a></li>
                     </ul>
                   </li>
                   <li><a><i class="fa fa-book"></i> Master Data <span class="label label-success"></span> <span class="fa fa-chevron-down"></span></a>

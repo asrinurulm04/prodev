@@ -574,6 +574,13 @@ class FormulaController extends Controller
 		return redirect::back();
 	}
 
+	public function hapus_upload($id){
+		$project = pkp_project::where('id_project',$id)->first();
+		$project->file=NULL;
+		$project->save();
+		return redirect::back();
+	}
+
 	public function uploadfile_pdf(Request $request,$id){
 		$data = $request->file('filename');
 		$nama = $data->getClientOriginalName();
@@ -585,6 +592,13 @@ class FormulaController extends Controller
 		$tujuan_upload = 'data_file';
 		$data->move($tujuan_upload,$data->getClientOriginalName());
 		
+		return redirect::back();
+	}
+
+	public function hapus_upload_pdf($id){
+		$project = project_pdf::where('id_project_pdf',$id)->first();
+		$project->file=NULL;
+		$project->save();
 		return redirect::back();
 	}
 }

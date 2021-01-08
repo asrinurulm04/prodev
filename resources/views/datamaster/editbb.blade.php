@@ -48,7 +48,7 @@
         <input type="number" step="0.0001" class="form-control" value="{{$bahan->harga_satuan}}" name="harga" id="harga">
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <select name="currency" id="currency" class="form-control">
+        <select name="currency" id="currency" class="form-control select">
           <option value="{{$bahan->curren_id }}">{{$bahan->Curren->currency }}</option>
           @foreach($curren as $curren)
           <option value="{{$curren->id}}">{{$curren->currency}}</option>
@@ -60,7 +60,7 @@
         <input type="number" step="0.0001" class="form-control" value="{{$bahan->berat}}" name="berat" id="berat">
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <select name="satuan" id="satuan" class="form-control">
+        <select name="satuan" id="satuan" class="form-control select">
           <option value="{{$bahan->satuan_id  }}">{{$bahan->Satuan->satuan }}</option>
           @foreach($satuans as $satuan)
           <option value="{{$satuan->id}}">{{$satuan->satuan}}</option>
@@ -71,7 +71,7 @@
     <div class="form-group">
       <label  class="control-label col-md-2 col-sm-2 col-xs-12">Ketegori</label>
       <div class="col-md-4 col-sm-4 col-xs-12">
-        <select name="kategori" id="kategori" class="form-control">
+        <select name="kategori" id="kategori" class="form-control select">
 					@if($bahan->id_kategori!=NULL)
 					<option value="{{$bahan->id_kategori  }}">{{$bahan->kategoris->kategori }}</option>
 					@else
@@ -83,7 +83,7 @@
         </select>
       </div>
       <div class="col-md-4 col-sm-4 col-xs-12">
-        <select name="subkategori" id="subkategori" class="form-control">
+        <select name="subkategori" id="subkategori" class="form-control select">
 				@if($bahan->id_kategori!=NULL)<option value="{{$bahan->subkategori_id   }}">{{$bahan->Subkategori->subkategori }}</option>@endif
         </select>
       </div>
@@ -139,7 +139,7 @@
         <input type="number" step="0.0001" class="form-control" value="{{$bahan->harga_satuan}}" name="harga" id="harga" readonly>
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <select name="currency" id="currency" class="form-control" readonly>
+        <select name="currency" id="currency" class="form-control select" readonly>
           <option value="{{$bahan->curren_id }}">{{$bahan->Curren->currency }}</option>
           @foreach($curren as $curren)
           <option value="{{$curren->id}}">{{$curren->currency}}</option>
@@ -151,7 +151,7 @@
         <input type="number" step="0.0001" class="form-control" value="{{$bahan->berat}}" name="berat" id="berat" readonly>
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <select name="satuan" id="satuan" class="form-control" readonly>
+        <select name="satuan" id="satuan" class="form-control select" readonly>
           <option value="{{$bahan->satuan_id  }}">{{$bahan->Satuan->satuan }}</option>
           @foreach($satuans as $satuan)
           <option value="{{$satuan->id}}">{{$satuan->satuan}}</option>
@@ -162,14 +162,14 @@
     <div class="form-group">
       <label  class="control-label col-md-2 col-sm-2 col-xs-12">Ketegori</label>
       <div class="col-md-4 col-sm-4 col-xs-12">
-        <select name="kategori" id="kategori" class="form-control" readonly>
+        <select name="kategori" id="kategori" class="form-control select" readonly>
 					@if($bahan->id_kategori!=NULL)
 					<option value="{{$bahan->id_kategori  }}">{{$bahan->kategoris->kategori }}</option>
 					@endif
         </select>
       </div>
       <div class="col-md-4 col-sm-4 col-xs-12">
-        <select name="subkategori" id="subkategori" class="form-control" readonly>
+        <select name="subkategori" id="subkategori" class="form-control select" readonly>
 				@if($bahan->id_kategori!=NULL)<option value="{{$bahan->subkategori_id   }}">{{$bahan->Subkategori->subkategori }}</option>@endif
         </select>
       </div>
@@ -301,7 +301,7 @@
     <div class="form-group">
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Vitamin</label>
       <div class="col-md-2 col-sm-2 col-xs-12">
-        <select name="vitamin" id="vitamin" class="form-control">
+        <select name="vitamin" id="vitamin" class="form-control select">
           <option value="{{$vitbb->id_satuan}}" readonly>{{$vitbb->satuan->satuan}}</option>
           @foreach($satuan_vit as $vit)
           <option value="{{$vit->id_satuan_vit}}">{{$vit->satuan}}</option>
@@ -465,16 +465,15 @@
 				@foreach($zat as $zat)
         <tr>
           <td class="text-center">
-            <select name="zat_aktif[]" id="zat_aktif" class="form-control">
+            <select name="zat_aktif[]" id="zat_aktif" class="form-control select">
               <option value="{{$zat->zat_aktif}}">{{$zat->zat_aktif}}</option>
               @foreach($zat_aktif as $zat_aktif)
               <option value="{{$zat_aktif->zat_aktif}}">{{$zat_aktif->zat_aktif}}</option>
               @endforeach
             </select>
           </td>
-          <input type="text" value="{{$zat->zat_aktif}}" name="zat_aktif[]" id="zat_aktif" class="form-control"></td>
           <td class="text-center">
-            <select name="satuan_zat[]" id="satuan_zat" class="form-control">
+            <select name="satuan_zat[]" id="satuan_zat" class="form-control select">
               <option value="{{$zat->id_satuan}}" selected>{{$zat->satuan->satuan}}</option>
               @foreach($satuan_vit as $vit)
               <option value="{{$vit->id_satuan_vit}}">{{$vit->satuan}}</option>
@@ -490,7 +489,7 @@
 				@elseif($hitung_zat==0)
 				<tr>
           <td class="text-center">
-            <select name="zat_aktif[]" id="zat_aktif" class="form-control">
+            <select name="zat_aktif[]" id="zat_aktif" class="form-control select">
               <option disabled selected>-->Select One<--</option>
               @foreach($zat_aktif as $zat_aktif)
               <option value="{{$zat_aktif->zat_aktif}}">{{$zat_aktif->zat_aktif}}</option>
@@ -498,7 +497,7 @@
             </select>
           </td>
           <td class="text-center">
-            <select name="satuan_zat[]" id="satuan_zat" class="form-control">
+            <select name="satuan_zat[]" id="satuan_zat" class="form-control select">
               <option disabled selected>-->Select One<--</option>
               @foreach($satuan_vit as $vit)
               <option value="{{$vit->id_satuan_vit}}">{{$vit->satuan}}</option>

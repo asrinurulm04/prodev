@@ -66,6 +66,7 @@ class bbRDController extends Controller
         $bahan->harga_satuan = $request->harga;
         $bahan->curren_id = $request->currency;
         $bahan->user_id = Auth::user()->id;
+        $bahan->updated_by = Auth::user()->id;
         $bahan->created_date = $request->last;
         $bahan->last_update = $request->last;
         $bahan->status = 'active';
@@ -135,7 +136,7 @@ class bbRDController extends Controller
         $mineral->fluor=$request->fluor;
         $mineral->save();
         // registrasi BTP carry over bb
-        if($request->btp_carry_over!=''){
+        if($request->satuan_btp!='' &&$request->btp_carry_over!=''){
             $rule = array(); 
             $validator = Validator::make($request->all(), $rule);  
             if ($validator->passes()) {
@@ -390,7 +391,7 @@ class bbRDController extends Controller
         $bahan->satuan_id = $request->satuan;
         $bahan->harga_satuan = $request->harga;
         $bahan->curren_id = $request->currency;
-        $bahan->user_id = Auth::user()->id;
+        $bahan->updated_by = Auth::user()->id;
         $bahan->created_date = $request->last;
         $bahan->last_update = $request->last;
         $bahan->save();
@@ -474,7 +475,7 @@ class bbRDController extends Controller
         $mineral->fluor=$request->fluor;
         $mineral->save();
         // Edit BTP carry over bb
-        if($request->btp_carry_over!=''){
+        if($request->satuan_btp!='' &&$request->btp_carry_over!=''){
             $rule = array(); 
             $validator = Validator::make($request->all(), $rule);  
             $hitung_btp_carryOver = tr_btp_bb::where('id_bahan',$id_bahan)->count();

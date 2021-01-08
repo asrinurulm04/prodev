@@ -4,110 +4,124 @@
 
 <!-- Bahan -->
 <form class="form-horizontal form-label-left" method="POST" action="{{route('addbahanrd')}}">
-<div class="x_panel">
-  <div class="x_title">
-    <h3><li class="fa fa-list"></li> Registrasi Bahan</h3>
+<div class="row">
+  <div class="col-md-12 col-sm-12 ">
+    <div class="x_panel">
+      <div class="x_title">
+				<h2><li class="fa fa-table"></li> Registrasi Bahan Baku</h2>
+        <ul class="nav navbar-right panel_toolbox">
+          <li><a class="collapse-link" hidden><i class="fa fa-chevron-up"></i></a></li>
+        </ul>
+        <div class="clearfix"></div>
+      </div>
+      <div class="x_content">
+        <div class="row">
+          <?php $last = Date('j-F-Y'); ?>
+          <input id="last" value="{{ $last }}" class="form-control col-md-12 col-xs-12" name="last" type="hidden" readonly>
+          <div class="form-group">
+            <label  class="control-label col-md-2 col-sm-2 col-xs-12">Nama Sederhana</label>
+            <div class="col-md-3 col-sm-3 col-xs-12">
+              <input type="text" class="form-control" name="sederhana" id="sederhana">
+            </div>
+            <label  class="control-label col-md-2 col-sm-2 col-xs-12">Kode Komputer</label>
+            <div class="col-md-3 col-sm-3 col-xs-12">
+              <input type="text" class="form-control" name="komputer" id="komputer">
+            </div>
+          </div>
+          <div class="form-group">
+            <label  class="control-label col-md-2 col-sm-2 col-xs-12">Nama Bahan</label>
+            <div class="col-md-3 col-sm-3 col-xs-12">
+              <input type="text" required class="form-control" name="nama" id="nama">
+            </div>
+            <label  class="control-label col-md-2 col-sm-2 col-xs-12">Kode Oracle</label>
+            <div class="col-md-3 col-sm-3 col-xs-12">
+              <input type="text" class="form-control" name="oracle" id="oracle">
+            </div>
+          </div>
+          <div class="form-group">
+            <label  class="control-label col-md-2 col-sm-2 col-xs-12">PIC</label>
+            <div class="col-md-3 col-sm-3 col-xs-12">
+              <input type="text" class="form-control" name="pic" id="pic">
+            </div>
+            <label  class="control-label col-md-2 col-sm-2 col-xs-12">No HEIPBR</label>
+            <div class="col-md-3 col-sm-3 col-xs-12">
+              <input type="text" class="form-control" name="heipbr" id="heipbr">
+            </div>
+          </div>
+          <div class="form-group">
+            <label  class="control-label col-md-2 col-sm-2 col-xs-12">Harga</label>
+            <div class="col-md-2 col-sm-2 col-xs-12">
+              <input type="number" min="1" value="1" step="0.0001" class="form-control" name="harga" id="harga">
+            </div>
+            <div class="col-md-1 col-sm-1 col-xs-12">
+              <select name="currency" id="currency" class="form-control select">
+                @foreach($curren as $curren)
+                <option value="{{$curren->id}}">{{$curren->currency}}</option>
+                @endforeach
+              </select>
+            </div>
+            <label  class="control-label col-md-2 col-sm-2 col-xs-12">Berat</label>
+            <div class="col-md-2 col-sm-2 col-xs-12">
+              <input type="number" step="0.0001" class="form-control" name="berat" id="berat">
+            </div>
+            <div class="col-md-1 col-sm-1 col-xs-12">
+              <select name="satuan" id="satuan" class="form-control select">
+                @foreach($satuans as $satuan)
+                <option value="{{$satuan->id}}">{{$satuan->satuan}}</option>
+                @endforeach
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label  class="control-label col-md-2 col-sm-2 col-xs-12">Ketegori</label>
+            <div class="col-md-4 col-sm-4 col-xs-12">
+              <select name="kategori" id="kategori" class="form-control select">
+                <option disabled selected>-->Select One<--</option>
+                @foreach($kategori as $kategori)
+                <option value="{{$kategori->id}}">{{$kategori->kategori}}</option>
+                @endforeach
+              </select>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-12">
+              <select name="subkategori" id="subkategori" class="form-control select">
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label  class="control-label col-md-2 col-sm-2 col-xs-12">Supplier</label>
+            <div class="col-md-3 col-sm-3 col-xs-12">
+              <select name="supplier" id="supplier" class="form-control select">
+                @foreach($supplier as $sp)
+                <option value="{{$sp->nama_supplier_principal}}">{{$sp->nama_supplier_principal}}</option>
+                @endforeach
+              </select>
+            </div>
+            <label  class="control-label col-md-2 col-sm-2 col-xs-12">Principle</label>
+            <div class="col-md-3 col-sm-3 col-xs-12">
+              <select class="form-control" name="principle" id="principle">
+                @foreach($principal as $pc)
+                <option value="{{$pc->nama_cp}}">{{$pc->nama_cp}}</option>
+                @endforeach
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="row">
-    <?php $last = Date('j-F-Y'); ?>
-    <input id="last" value="{{ $last }}" class="form-control col-md-12 col-xs-12" name="last" type="hidden" readonly>
-    <div class="form-group">
-      <label  class="control-label col-md-2 col-sm-2 col-xs-12">Nama Sederhana</label>
-      <div class="col-md-3 col-sm-3 col-xs-12">
-        <input type="text" class="form-control" name="sederhana" id="sederhana">
-      </div>
-      <label  class="control-label col-md-2 col-sm-2 col-xs-12">Kode Komputer</label>
-      <div class="col-md-3 col-sm-3 col-xs-12">
-        <input type="text" class="form-control" name="komputer" id="komputer">
-      </div>
-    </div>
-		<div class="form-group">
-      <label  class="control-label col-md-2 col-sm-2 col-xs-12">Nama Bahan</label>
-      <div class="col-md-3 col-sm-3 col-xs-12">
-        <input type="text" required class="form-control" name="nama" id="nama">
-      </div>
-      <label  class="control-label col-md-2 col-sm-2 col-xs-12">Kode Oracle</label>
-      <div class="col-md-3 col-sm-3 col-xs-12">
-        <input type="text" class="form-control" name="oracle" id="oracle">
-      </div>
-    </div>
-    <div class="form-group">
-      <label  class="control-label col-md-2 col-sm-2 col-xs-12">PIC</label>
-      <div class="col-md-3 col-sm-3 col-xs-12">
-        <input type="text" class="form-control" name="pic" id="pic">
-      </div>
-      <label  class="control-label col-md-2 col-sm-2 col-xs-12">No HEIPBR</label>
-      <div class="col-md-3 col-sm-3 col-xs-12">
-        <input type="text" class="form-control" name="heipbr" id="heipbr">
-      </div>
-    </div>
-    <div class="form-group">
-      <label  class="control-label col-md-2 col-sm-2 col-xs-12">Harga</label>
-      <div class="col-md-2 col-sm-2 col-xs-12">
-        <input type="number" min="1" value="1" step="0.0001" class="form-control" name="harga" id="harga">
-      </div>
-      <div class="col-md-1 col-sm-1 col-xs-12">
-        <select name="currency" id="currency" class="form-control">
-          @foreach($curren as $curren)
-          <option value="{{$curren->id}}">{{$curren->currency}}</option>
-          @endforeach
-        </select>
-      </div>
-      <label  class="control-label col-md-2 col-sm-2 col-xs-12">Berat</label>
-      <div class="col-md-2 col-sm-2 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="berat" id="berat">
-      </div>
-      <div class="col-md-1 col-sm-1 col-xs-12">
-        <select name="satuan" id="satuan" class="form-control">
-          @foreach($satuans as $satuan)
-          <option value="{{$satuan->id}}">{{$satuan->satuan}}</option>
-          @endforeach
-        </select>
-      </div>
-    </div>
-    <div class="form-group">
-      <label  class="control-label col-md-2 col-sm-2 col-xs-12">Ketegori</label>
-      <div class="col-md-4 col-sm-4 col-xs-12">
-        <select name="kategori" id="kategori" class="form-control">
-          <option disabled selected>-->Select One<--</option>
-          @foreach($kategori as $kategori)
-          <option value="{{$kategori->id}}">{{$kategori->kategori}}</option>
-          @endforeach
-        </select>
-      </div>
-      <div class="col-md-4 col-sm-4 col-xs-12">
-        <select name="subkategori" id="subkategori" class="form-control">
-        </select>
-      </div>
-    </div>
-    <div class="form-group">
-      <label  class="control-label col-md-2 col-sm-2 col-xs-12">Supplier</label>
-      <div class="col-md-3 col-sm-3 col-xs-12">
-        <select name="supplier" id="supplier" class="form-control">
-          @foreach($supplier as $sp)
-          <option value="{{$sp->nama_supplier_principal}}">{{$sp->nama_supplier_principal}}</option>
-          @endforeach
-        </select>
-      </div>
-      <label  class="control-label col-md-2 col-sm-2 col-xs-12">Principle</label>
-      <div class="col-md-3 col-sm-3 col-xs-12">
-        <select class="form-control" name="principle" id="principle">
-          @foreach($principal as $pc)
-          <option value="{{$pc->nama_cp}}">{{$pc->nama_cp}}</option>
-          @endforeach
-        </select>
-      </div>
-    </div>
-  </div>
-</div>
+</div>    
 
 <div class="x_panel">
   <div class="x_title">
-    <h3><li class="fa fa-flask"></li> Registrasi Nutrition</h3>
+		<h2><li class="fa fa-table"></li> Registrasi Nutrisi</h2>
+    <ul class="nav navbar-right panel_toolbox">
+      <li><a class="collapse-link" hidden><i class="fa fa-chevron-up"></i></a></li>
+    </ul>
+    <div class="clearfix"></div>
   </div>
+  <div class="x_content">
   <!-- Makro -->
-  <h4><li class="fa fa-tags"></li> Makro (g/ 100 g)</h4>
-  <div class="row">
+    <h4><li class="fa fa-tags"></li> Makro (g/ 100 g)</h4>
     <div class="form-group">
       <label  style="font-size:14px" class="control-label col-md-1 col-sm-1 col-xs-12">Karbohidrat</label>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Karbohidrat</label>
@@ -201,11 +215,9 @@
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" class="form-control" name="protein" id="protein">
       </div>
-    </div>
-  </div><hr>
-  <!-- Mikro -->
-  <h4><li class="fa fa-tags"></li> Mirkro</h4>
-  <div class="row">
+    </div><hr>
+    <!-- Mikro -->
+    <h4><li class="fa fa-tags"></li> Mirkro</h4>
     <div class="form-group">
       <label  style="font-size:14px" class="control-label col-md-1 col-sm-1 col-xs-12">Vitamin</label>
       <div class="col-md-2 col-sm-2 col-xs-12">
@@ -349,10 +361,8 @@
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" class="form-control" name="fluor" id="fluor">
       </div>
-    </div>
-  </div><hr>
-  <!-- Zat Aktif -->
-  <div class="row">
+    </div><hr>
+    <!-- Zat Aktif -->
     <table class="table table-bordered" id="tablezat">
       <thead>
         <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
@@ -364,7 +374,7 @@
       <tbody>
         <tr>
           <td class="text-center">
-            <select name="zat_aktif[]" id="zat_aktif" class="form-control">
+            <select name="zat_aktif[]" id="zat_aktif" class="form-control select">
               <option disabled selected>-->Select One<--</option>
               @foreach($zat as $zat)
               <option value="{{$zat->zat_aktif}}">{{$zat->zat_aktif}}</option>
@@ -372,7 +382,7 @@
             </select>
           </td>
           <td class="text-center">
-            <select name="satuan_zat[]" id="satuan_zat" class="form-control">
+            <select name="satuan_zat[]" id="satuan_zat" class="form-control select">
               <option disabled selected>-->Select One<--</option>
               @foreach($satuan_vit as $vit)
               <option value="{{$vit->id_satuan_vit}}">{{$vit->satuan}}</option>
@@ -383,10 +393,8 @@
         </tr>
         <tr id='addzat1'></tr>
       </tbody>
-    </table>
-  </div><hr>
-  <!-- BTP Carry Over -->
-  <div class="row">
+    </table><hr>
+    <!-- BTP Carry Over -->
     <table class="table table-bordered" id="tablebtp">
       <thead>
         <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
@@ -398,7 +406,7 @@
       <tbody>
         <tr>
           <td class="text-center">
-            <select name="btp_carry_over[]" id="btp_carry_over" class="form-control">
+            <select name="btp_carry_over[]" id="btp_carry_over" class="form-control select">
               <option disabled selected>-->Select One<--</option>
               @foreach($btp as $btp)
               <option value="{{$btp->btp}}">{{$btp->btp}}</option>
@@ -406,7 +414,7 @@
             </select>
           </td>
           <td class="text-center">
-            <select name="satuan_btp[]" id="satuan_btp" class="form-control">
+            <select name="satuan_btp[]" id="satuan_btp" class="form-control select">
               <option disabled selected>-->Select One<--</option>
               @foreach($satuan_vit as $vit)
               <option value="{{$vit->id_satuan_vit}}">{{$vit->satuan}}</option>
@@ -417,10 +425,8 @@
         </tr>
         <tr id='addbtp1'></tr>
       </tbody>
-    </table>
-  </div><hr>
-  <!-- Logam Berat -->
-  <div class="row">
+    </table><hr>
+    <!-- Logam Berat -->
     <div class="form-group">
       <label  style="font-size:13px" class="control-label col-md-1 col-sm-1 col-xs-12">Logam Berat</label>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Cu</label>
@@ -450,11 +456,9 @@
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" class="form-control" name="sn" id="sn">
       </div>
-    </div>
-  </div><hr>
-
-  <h4><li class="fa fa-tags"></li> Asam Amino (mg/ 100 gram)</h4>
-  <div class="row">
+    </div><hr>
+    <!-- Asam Amino -->
+    <h4><li class="fa fa-tags"></li> Asam Amino (mg/ 100 gram)</h4>
     <div class="form-group">
       <label  class="control-label col-md-2 col-sm-2 col-xs-12">L-Glutamin</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
@@ -544,9 +548,13 @@
 
 <div class="x_panel">
   <div class="x_title">
-    <h3><li class="fa fa-list"></li> Registrasi</h3>
+		<h2><li class="fa fa-table"></li> Registrasi</h2>
+    <ul class="nav navbar-right panel_toolbox">
+      <li><a class="collapse-link" hidden><i class="fa fa-chevron-up"></i></a></li>
+    </ul>
+    <div class="clearfix"></div>
   </div>
-  <div class="row">
+  <div class="x_content">
     <div class="form-group">
       <label  class="control-label col-md-2 col-sm-2 col-xs-12">Allergen (Contain)</label>
       <div class="col-md-9 col-sm-9 col-xs-12">

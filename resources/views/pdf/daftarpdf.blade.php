@@ -37,7 +37,9 @@
         @endif
         @endforeach
         @if($cf != 0)
-        <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#upload"><i class="fa fa-upload"></i> Upload LHP</a>
+        @if($data->file==NULL)
+        <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#upload"><i class="fa fa-upload"></i> Upload LHP
+        @endif
         <!-- Formula Baru -->
         <div class="modal fade" id="upload" role="dialog" aria-labelledby="hm" aria-hidden="true">
           <div class="modal-dialog">
@@ -164,7 +166,7 @@
                 <tr><td>Created</td><td> : {{$data->created_date}}</td></tr>
                 <tr><td>Author</td><td> : {{$data->author1->name}}</td></tr>
                 @if($data->file!=NULL)
-                <tr><th>File</th><td> : <a href="{{asset('data_file/'.$data->file)}}" download="{{$data->file}}" title="download file"><li class="fa fa-download"></li></a> {{$data->file}}</td></tr>
+                <tr><th>File</th><td> : <a href="{{asset('data_file/'.$data->file)}}" download="{{$data->file}}" title="download file"><li class="fa fa-download"></li></a> {{$data->file}} </a><a href="{{route('hapus_upload_pdf',$data->id_project_pdf)}}" title="Delete"><li class="fa fa-times"></li></a></td></tr>
                 @endif
               </thead>
             </table><br>

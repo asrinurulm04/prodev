@@ -37,7 +37,9 @@
         @endif
         @endforeach
         @if($cf != 0)
+          @if($data->file==NULL)
           <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#upload"><i class="fa fa-upload"></i> Upload LHP</a>
+          @endif
           <!-- Formula Baru -->
           <div class="modal fade" id="upload" role="dialog" aria-labelledby="hm" aria-hidden="true">
             <div class="modal-dialog">
@@ -184,7 +186,7 @@
               <tr><th>Sample Deadline</th><td>: {{$data->jangka}}-  {{$data->waktu}}</td></tr>
               <tr><th>PV</th><td> : {{$data->perevisi2->name}}</td></tr>
               @if($data->file!=NULL)
-              <tr><th>File</th><td> : <a href="{{asset('data_file/'.$data->file)}}" download="{{$data->file}}" title="download file"><li class="fa fa-download"></li></a> {{$data->file}}</td></tr>
+              <tr><th>File</th><td> : <a href="{{asset('data_file/'.$data->file)}}" download="{{$data->file}}" title="download file"><li class="fa fa-download"></li></a> {{$data->file}} <a href="{{route('hapus_upload',$data->id_project)}}" title="Delete"><li class="fa fa-times"></li></a></td></tr>
               @endif
               @endforeach
               @endif
@@ -239,11 +241,11 @@
                 </td>
                 <td>{{ $pkp->formula}}</td>
                 <td class="text-center" width="10%">
-                  @if ($sample->vv == 'proses')<span class="label label-warning">Proses</span>@endif
-                  @if ($sample->vv == 'reject')<span class="label label-danger">Rejected</span>@endif 
-                  @if ($sample->vv == 'approve')<span class="label label-success">Approved</span>@endif 
-                  @if ($sample->vv == 'final')<span class="label label-info">Final Approved</span>@endif 
-                  @if ($sample->vv == '')<span class="label label-primary">Belum Diajukan</span>@endif    
+                  @if($pkp->vv == 'proses')<span class="label label-warning">Proses</span>@endif
+                  @if($pkp->vv == 'reject')<span class="label label-danger">Rejected</span>@endif 
+                  @if($pkp->vv == 'approve')<span class="label label-success">Approved</span>@endif 
+                  @if($pkp->vv == 'final')<span class="label label-info">Final Approved</span>@endif 
+                  @if($pkp->vv == '')<span class="label label-primary">Belum Diajukan</span>@endif    
                 </td>
                 <td class="text-center">{{$pkp->catatan_rd}}</td>
                 <td class="text-center">{{$pkp->catatan_pv}}</td>

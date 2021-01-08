@@ -35,7 +35,7 @@ class BahanBakuController extends Controller
     }
 
     public function active($id){
-        $bahan = Bahan::find($id)->first();
+        $bahan = Bahan::where('id',$id)->first();
         $bahan->status = 'active';
         $bahan->save();
 
@@ -43,8 +43,8 @@ class BahanBakuController extends Controller
     }
 
     public function nonactive($id){
-        $bahan = Bahan::find($id)->first();
-        $bahan->update(['status'=>'nonactive']);
+        $bahan = Bahan::where('id',$id)->first();
+        $bahan->update(['status'=>'inactive']);
 
         return Redirect::back()->with('error','Status '.$bahan->nama_sederhana.' NonActive!');
     }

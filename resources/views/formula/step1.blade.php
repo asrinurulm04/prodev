@@ -160,14 +160,14 @@
       <div class="item form-group">
         <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">File</label>
         <div class="col-md-8 col-sm-8 col-xs-12">
-          <input type="file" class="form-control" id="data" name="filename[]" multiple>
+          <input type="file" class="form-control" id="data" name="filename[]" multiple><label for="" style="color:red">*Max 5Mb</label>
         </div>
       </div>
       <div class="item form-group">
         <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name"></label>
         <div class="col-md-8 col-sm-8 col-xs-12">
         @foreach($data as $data)
-        <a href="{{asset('data_file/'.$data->file)}}" download="{{$data->file}}" title="download file"><li class="fa fa-download"></li></a> {{$data->file}} <br>
+        <a href="{{asset('data_file/'.$data->file)}}" download="{{$data->file}}" title="download file"><li class="fa fa-download"></li></a> {{$data->file}} <a href="{{route('hapus_file',$data->id_data)}}" title="Delete File"><li class="fa fa-times"></li></a><br>
         @endforeach
         </div>
       </div>

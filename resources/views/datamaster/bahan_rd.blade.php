@@ -23,7 +23,6 @@
 <div class="row">
   <div class="col-md-12 col-sm-12 col-xs-12">
     <div class="x_panel">
-      <a href="{{route('registrasi_bb_rd')}}" class="btn btn-info btn-sm"><li class="fa fa-plus"></li> Add Data</a>
       <table class="Table table-bordered" style="font-size:12px" id="Table">
         <thead>
           <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
@@ -48,7 +47,7 @@
                 <a href="{{route('edit_bahan',$bahan->id)}}" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Edit"><li class="fa fa-edit"></li></a>
                 @if($bahan->status == 'active')
                 <a class="btn btn-danger btn-sm" onclick="return confirm('NonAktif BahanBaku ?')" href="{{ route('nonactivebahan',$bahan->id) }}" data-toggle="tooltip" data-placement="top" title="NonActive"><i class="fa fa-minus"></i></a>
-                @elseif($bahan->status == 'nonactive')
+                @elseif($bahan->status == 'inactive')
                 <a class="btn btn-success btn-sm" onclick="return confirm('Aktifkan BahanBaku ?')" href="{{ route('activebahan',$bahan->id) }}" data-toggle="tooltip" data-placement="top" title="Aktifkan"><i class="fa fa-check"></i></a>
                 @endif
               </td>

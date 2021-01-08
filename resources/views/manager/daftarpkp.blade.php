@@ -160,38 +160,7 @@
               </div>
             </div>
           @endif
-          @if($pkp->datapkpp->type==1 && $pkp->gambaran_proses==NULL)
-            <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#maklon{{$pkp->id_pkp}}" totle="show"><i class="fa fa-folder-open"></i></a> Show</button>
-            <!-- Modal -->
-            <div class="modal" id="maklon{{$pkp->id_pkp}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-              <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h3 class="modal-title text-left" id="exampleModalLabel">Tambah Data Maklon
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span></h3>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                    <form class="form-horizontal form-label-left" method="POST" action="{{ Route('Gproses',['id_pkp' => $pkp->id_pkp, 'revisi' => $pkp->revisi, 'turunan' => $pkp->turunan]) }}" novalidate>
-                    <div class="form-group">
-                      <label class="control-label col-md-2 col-sm-3 col-xs-12">Gambaran Proses</label>
-                      <div class="col-md-9 col-sm-9 col-xs-12">
-                        <textarea name="proses" id="proses"30" rows="5" class="form-control col-md-12 col-xs-12"></textarea>
-                      </div>
-                    </div>
-                    <div class="modal-footer">
-                      <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> Submit</button>
-                      {{ csrf_field() }}
-                    </div>
-                  </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-          @else
             <a class="btn btn-info btn-sm" href="{{ Route('pkplihat',['id_pkp' => $pkp->id_pkp, 'revisi' => $pkp->revisi, 'turunan' => $pkp->turunan]) }}" data-toggle="tooltip" title="show"><i class="fa fa-folder-open"></i> Show</a>
-          @endif
         @endforeach
         <a href="{{ route('listpkprka')}}" class="btn btn-danger btn-sm" type="button"><li class="fa fa-share"></li> Back</a>
       </div>
@@ -280,7 +249,7 @@
                   </td>
                   <td>{{ $pkp->formula}}</td>
                   <td class="text-center" width="10%">
-                    @if ($pkp->vv == 'proses') <span class="label label-warning">Proses</span> endif
+                    @if ($pkp->vv == 'proses') <span class="label label-warning">Proses</span> @endif
                     @if ($pkp->vv == 'reject') <span class="label label-danger">Rejected</span> @endif 
                     @if ($pkp->vv == 'approve') <span class="label label-success">Approved</span> @endif 
                     @if ($pkp->vv == 'final') <span class="label label-info">Final Approved</span> @endif 
@@ -314,12 +283,8 @@
                     <a class="btn btn-primary btn-sm" href="{{ route('step1',[$pkp->workbook_id,$pkp->id]) }}"><i style="font-size:12px;" class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a>
                     <a class="btn btn-dark btn-sm" href="{{ route('ajukanvp',[$pkp->workbook_id,$pkp->id]) }}" onclick="return confirm('Ajukan Formula Kepada PV?')" data-toggle="tooltip" title="Ajukan PV"><li class="fa fa-paper-plane"></li></a>
                     @elseif($pkp->vv == 'approve')
-                      @if($pkp->status_panel=='proses')
                       <a class="btn btn-primary btn-sm" href="{{ route('panel',[$pkp->workbook_id,$pkp->id]) }}" data-toggle="tooltip" title="Lanjutkan Panel"><li class="fa fa-glass"></li></a>
-                      @endif
-                      @if($pkp->status_storage=='proses')
                       <a class="btn btn-warning btn-sm" href="{{ route('st',[$pkp->workbook_id,$pkp->id]) }}" data-toggle="tooltip" title="Lanjutkan Storage"><li class="fa fa-flask"></li></a>
-                      @endif
                     @endif
                   @endif
                   </td>

@@ -462,20 +462,11 @@ class managerController extends Controller
 
         return redirect::Route('listpromoo');
     }
-    
-    public function Gproses(Request $request,$id_project,$revisi,$turunan){
-        $pkp = tipp::where('id_pkp',$id_project)->where('revisi',$revisi)->where('turunan',$turunan)->first();
-        $pkp->gambaran_proses=$request->proses;
-        $pkp->save();
-
-        return redirect::route('pkplihat',['id_pkp'=>$pkp->id_pkp, 'revisi' => $revisi, 'turunan' => $turunan]);
-    }
 
     public function approve1(Request $request,$id_project){
         $pkp = pkp_project::where('id_project',$id_project)->first();
         $pkp->status_terima='terima';
         $pkp->save();
-
         return redirect::back();
     }
 
@@ -483,7 +474,6 @@ class managerController extends Controller
         $pkp = pkp_project::where('id_project',$id_project)->first();
         $pkp->status_terima2='terima';
         $pkp->save();
-
         return redirect::back();
     }
 }

@@ -53,12 +53,6 @@
 					<li class="nav-item"><a class="nav-link  active" href="#1" data-toggle="tab"><i class="fa fa-list"></i> Formula</a></li>
 					<li class="nav-item"><a class="nav-link" href="#2" data-toggle="tab"><i class="fa fa-clipboard"></i> Nutfact</a></li>
 					<li class="nav-item"><a class="nav-link" href="#3" data-toggle="tab"><i class="fa fa-usd"></i> HPP Formula</a></li>
-					@if($hfile>=1)
-					<li class="nav-item"><a class="nav-link" href="#6" data-toggle="tab"><i class="fa fa-folder-open-o"></i> File</a></li>
-					@elseif($hfile==0)
-					<li class="nav-item"><a class="nav-link" disabled  style="background-color:grey;color:white"><i class="fa fa-folder-open-o"></i> File</a></li>
-					@endif
-
 					@if($formula->status_panel=='proses')
 					<li class="nav-item"><a class="nav-link" style="background-color:grey;color:white" ><i class="fa fa-glass"></i> PANEL</a></li>
 					@elseif($formula->status_panel!='proses')
@@ -69,6 +63,12 @@
 					<li class="nav-item"><a class="nav-link"  style="background-color:grey;color:white"><i class="fa fa-flask"></i> STORAGE</a></li>
 					@elseif($formula->status_storage!='proses')
 					<li class="nav-item"><a class="nav-link" href="#5" data-toggle="tab"><i class="fa fa-flask"></i> STORAGE</a></li>
+					@endif
+
+					@if($hfile>=1)
+					<li class="nav-item"><a class="nav-link" href="#6" data-toggle="tab"><i class="fa fa-folder-open-o"></i> File</a></li>
+					@elseif($hfile==0)
+					<li class="nav-item"><a class="nav-link" disabled  style="background-color:grey;color:white"><i class="fa fa-folder-open-o"></i> File</a></li>
 					@endif
 				</ul><br>
 				<div class="tab-content ">

@@ -291,11 +291,9 @@ Route::get('dasboardmanager','manager\managerController@dasboardmanager')->name(
 Route::post('approve1/{id}','manager\managerController@approve1')->name('approve1');
 Route::post('approve2/{id}','manager\managerController@approve2')->name('approve2');
 
-Route::post('Gproses/{id}/{revisi}/{turunan}','manager\managerController@Gproses')->name('Gproses');
 Route::get('daftarpkp/{id_project}','manager\managerController@daftarpkp')->name('daftarpkp');
 Route::get('daftarpdf/{id}','manager\managerController@daftarpdf')->name('daftarpdf');
 Route::get('daftarpromo/{id}','manager\managerController@daftarpromo')->name('daftarpromo');
-
 Route::post('alihkan/{id}','manager\managerController@alihkan')->name('alihkan');
 Route::post('alihkanpdf/{id}','manager\managerController@alihkanpdf')->name('alihkanpdf');
 Route::post('alihkanpromo/{id}','manager\managerController@alihkanpromo')->name('alihkanpromo');
@@ -323,10 +321,13 @@ Route::get('DestroyFormula/{id}','devwb\FormulaController@deleteformula')->name(
 Route::post('addformula','devwb\FormulaController@new')->name('addformula');
 Route::post('uploadfile/{id}','devwb\FormulaController@uploadfile')->name('uploadfile');
 Route::post('uploadfile_pdf/{id}','devwb\FormulaController@uploadfile_pdf')->name('uploadfile_pdf');
+Route::get('hapusupload/{id}','devwb\FormulaController@hapus_upload')->name('hapus_upload');
+Route::get('hapus_upload_pdf/{id}','devwb\FormulaController@hapus_upload_pdf')->name('hapus_upload_pdf');
 
 Route::get('formulainformation/{wb}/{id}','formula\Step1Controller@create')->name('step1');
 Route::get('formulainformation_pdf/{wb}/{id}','formula\Step1Controller@step1_pdf')->name('step1_pdf');
 Route::post('updateformula/{wb}/{id}','formula\Step1Controller@update')->name('step1update');
+Route::get('hapus_file/{id}','formula\Step1Controller@hapus_file')->name('hapus_file');
 
 Route::get('HapusBase/{id}','formula\ScaleController@hapusbase')->name('hapusbase');
 Route::post('GantiBase/{id}','formula\ScaleController@gantibase')->name('gantibase');

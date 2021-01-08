@@ -12,6 +12,7 @@ use App\model\users\User;
 use App\model\users\Departement;
 use App\model\dev\Formula;
 use App\model\dev\tr_data_formula;
+use Redirect;
 
 class Step1Controller extends Controller
 {
@@ -98,5 +99,10 @@ class Step1Controller extends Controller
         if($formula->workbook_pdf_id!=NULL){
             return Redirect()->route('step2', [$formula->workbook_pdf_id,$formula->id]);
         }
+    }
+    
+    public function hapus_file($id){
+        $file = tr_data_formula::where('id_data',$id)->delete();
+        return redirect::back();
     }
 }

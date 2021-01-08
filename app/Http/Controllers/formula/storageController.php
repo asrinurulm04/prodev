@@ -101,7 +101,7 @@ class storageController extends Controller
                 'info' => 'RD telah selesai membuat data Storage untuk project ini',
             ],function($message)use($request,$id_formula)
             {
-                $message->subject('INFO PRODEV');
+                $message->subject('INFO STORAGE PRODEV');
                 $for = Formula::where('id',$id_formula)->first();
                 if($for->id_wb!=NULL){
                     $project = pkp_project::where('id_project',$for->workbook_id)->first();
