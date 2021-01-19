@@ -68,7 +68,6 @@ class EditFortailController extends Controller
         if($request->prioritas!=NULL){
             $fortails->formula_id = $idf;
             $fortails->kode_komputer = $bp->kode_komputer;
-            $fortails->id_ingredient = $pin;
             $fortails->kode_oracle = $bp->kode_oracle;
             $fortails->nama_sederhana = $bp->nama_sederhana;
             $fortails->principle = $bp->principle;

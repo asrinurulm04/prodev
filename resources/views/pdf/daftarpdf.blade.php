@@ -166,7 +166,7 @@
                 <tr><td>Created</td><td> : {{$data->created_date}}</td></tr>
                 <tr><td>Author</td><td> : {{$data->author1->name}}</td></tr>
                 @if($data->file!=NULL)
-                <tr><th>File</th><td> : <a href="{{asset('data_file/'.$data->file)}}" download="{{$data->file}}" title="download file"><li class="fa fa-download"></li></a> {{$data->file}} </a><a href="{{route('hapus_upload_pdf',$data->id_project_pdf)}}" title="Delete"><li class="fa fa-times"></li></a></td></tr>
+                <tr><th>File</th><td> : <a href="{{asset('data_file/'.$data->file)}}" download="{{$data->file}}" title="Download file"><li class="fa fa-download"></li></a> {{$data->file}} </a><a href="{{route('hapus_upload_pdf',$data->id_project_pdf)}}" title="Delete"><li class="fa fa-times"></li></a></td></tr>
                 @endif
               </thead>
             </table><br>
@@ -184,7 +184,7 @@
         </div>
         <div class="card-block">
           <div class="x_content">
-            <table class="Table table-striped table-bordered">
+            <table id="datatable" class="table table-striped table-bordered" style="width:100%">
               <thead>
                 <tr style="font-weight: bold;color:white;background-color: #2a3f54;">     
                   <th class="text-center" width="3%">#</th>                                  
@@ -251,7 +251,7 @@
                     @if($sample->status!='proses')
                     <a class="btn btn-primary btn-sm" href="{{ route('step1_pdf',[$sample->workbook_pdf_id,$sample->id]) }}"><i style="font-size:12px;" class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a>
                     <a class="btn btn-dark btn-sm" href="{{ route('ajukanvp',[$sample->workbook_pdf_id,$sample->id]) }}" onclick="return confirm('Ajukan Formula Kepada PV?')" data-toggle="tooltip" title="Ajukan PV"><li class="fa fa-paper-plane"></li></a>
-                    @elseif($sample->vv == 'approve')
+                    @elseif($sample->vv == 'approve' || $sample->vv == 'proses')
                       <a class="btn btn-primary btn-sm" href="{{ route('panel',[$sample->workbook_pdf_id,$sample->id]) }}" data-toggle="tooltip" title="Lanjutkan Panel"><li class="fa fa-glass"></li></a>
                       <a class="btn btn-warning btn-sm" href="{{ route('st',[$sample->workbook_pdf_id,$sample->id]) }}" data-toggle="tooltip" title="Lanjutkan Storage"><li class="fa fa-flask"></li></a>
                     @endif
@@ -272,7 +272,7 @@
         </div>
         <div class="card-block">
           <div class="x_content">
-            <table class="Table table-bordered table-striped table-bordered">
+            <table id="datatable" class="table table-striped table-bordered" style="width:100%">
               <thead>
                 <tr style="font-weight: bold;color:white;background-color: #2a3f54;">     
                   <th class="text-center" width="3%">#</th>                                  

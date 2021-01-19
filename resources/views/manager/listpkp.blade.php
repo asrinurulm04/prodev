@@ -1,4 +1,4 @@
-@extends('manager.tempmanager')
+@extends('pv.tempvv')
 @section('title', 'PRODEV|List PKP')
 @section('content')
 
@@ -98,7 +98,7 @@
     <div class="clearfix"></div>
     <div class="x_content">
     <a href="{{route('cetak_my_project')}}" class="btn btn-warning btn-sm" type="button"><li class="fa fa-download"></li> Download My Project</a>
-      <table class="Table table-bordered table-striped no-border" id="ex"> 
+      <table id="datatable"  class="table table-striped table-bordered ex" style="width:100%" id="ex">
         <thead>
           <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
             <th>No</th>
@@ -463,19 +463,19 @@
 @section('s')
 <script>
   function filterGlobal () {
-    $('#ex').DataTable().search(
+    $('.ex').DataTable().search(
       $('#global_filter').val(),
     ).draw();
   }
     
   function filterColumn ( i ) {
-    $('#ex').DataTable().column( i ).search(
+    $('.ex').DataTable().column( i ).search(
       $('#col'+i+'_filter').val()
     ).draw();
   }
     
   $(document).ready(function() {
-    $('#ex').DataTable();    
+    $('.ex').DataTable();    
     $('input.global_filter').on( 'keyup click', function () {
       filterGlobal();
     });

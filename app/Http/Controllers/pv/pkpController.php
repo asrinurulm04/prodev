@@ -991,7 +991,7 @@ class pkpController extends Controller
                     'info' => 'Terdapat Data PKP Baru',
                 ],function($message)use($request){
                     $tujuan = array(); 
-                    $validator = Validator::make($request->all(), $tujuan);  
+                    $validator = Validator::make($request->all(), $tujuan); 
                     if ($validator->passes()) {
                         $email = implode(',', $request->input('emailtujuan'));
                         $data = explode(',', $email);

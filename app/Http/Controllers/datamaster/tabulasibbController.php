@@ -24,7 +24,6 @@ class tabulasibbController extends Controller
         $bahan = Bahan::join('tr_makro_bb','tr_makro_bb.id_bahan','bahans.id')
         ->join('tr_vitamin_bb','tr_vitamin_bb.id_bahan','bahans.id')
         ->join('tr_mineral_bb','tr_mineral_bb.id_bahan','bahans.id')
-        ->join('tr_logam_berat_bb','tr_logam_berat_bb.id_bahan','bahans.id')
         ->join('tr_asam_amino_bb','tr_asam_amino_bb.id_bahan','bahans.id')->get();
         return view('datamaster.tabulasibb')->with([
             'bahan' => $bahan,
@@ -32,15 +31,22 @@ class tabulasibbController extends Controller
     }
 
     public function edittabulasi(){
+        $form = tr_tabulasi_bahan::where('user',Auth::user()->id)->limit('1')->first();
         $bahan = Bahan::join('tr_makro_bb','tr_makro_bb.id_bahan','bahans.id')
         ->join('tr_vitamin_bb','tr_vitamin_bb.id_bahan','bahans.id')
         ->join('tr_mineral_bb','tr_mineral_bb.id_bahan','bahans.id')
-        ->join('tr_logam_berat_bb','tr_logam_berat_bb.id_bahan','bahans.id')
         ->join('tr_asam_amino_bb','tr_asam_amino_bb.id_bahan','bahans.id')
         ->join('tr_tabulasi_bahan','tr_tabulasi_bahan.id_bahan','bahans.id')->get();
-        return view('datamaster.tabulasibb')->with([
+        return view('datamaster.edit_tabulasi')->with([
             'bahan' => $bahan,
+            'form' => $form
         ]);
+    }
+
+    public function hapustabulasibb(){
+        $check = tb_edit::where('id_bahan','!=','NULL')->where('id_user',Auth::user()->id)->delete();
+        $bahan = tr_tabulasi_bahan::where('user',Auth::user()->id)->delete();
+        return redirect::route('tabulasibb');
     }
 
     public function pilih(Request $request){
@@ -60,9 +66,9 @@ class tabulasibbController extends Controller
                 }
             }
 
-            $form=tb_edit::where('id_user',Auth::user()->id)->count();
+            $form=tb_edit::where('id_user',$pipeline->id_user)->count();
             if($form>0){
-                $data=tb_edit::where('id_user',Auth::user()->id)->get();
+                $data=tb_edit::where('id_user',$pipeline->id_user)->get();
                 foreach ($data as $data){
                     $par= new tr_tabulasi_bahan;
                     $par->id_bahan=$data->id_bahan;
@@ -141,5 +147,93 @@ class tabulasibbController extends Controller
             }
         }
         return redirect::Route('edittabulasi');
+    }
+
+    public function update_bahan(Request $request) {
+        $scores = $request->input('scores');
+        foreach($scores as $row){
+            $makro = tr_makro_bb::where('id_bahan',$row['id'])->update([
+                "id_bahan" => $row['id'],
+                "karbohidrat" => $row['karbohidrat'],
+                "glukosa" => $row['glukosa'],
+                "serat_pangan" => $row['serat_pangan'],
+                "beta_glucan" => $row['beta_glucan'],
+                "sorbitol" => $row['sorbitol'],
+                "maltitol" => $row['maltitol'],
+                "laktosa" => $row['laktosa'],
+                "sukrosa" => $row['sukrosa'],
+                "gula" => $row['gula'],
+                "erythritol" => $row['erythritol'],
+                "DHA" => $row['DHA'],
+                "EPA" => $row['EPA'],
+                "Omega3" => $row['Omega3'],
+                "mufa" => $row['mufa'],
+                "lemak_trans" => $row['lemak_trans'],
+                "lemak_jenuh" => $row['lemak_jenuh'],
+                "sfa" => $row['sfa'],
+                "omega6" => $row['omega6'],
+                "kolesterol" => $row['kolesterol'],
+                "protein" => $row['protein'],
+                "kadar_air" => $row['kadar_air']
+            ]);
+
+            $mineral = tr_mineral_bb::where('id_bahan',$row['id'])->update([
+                "id_bahan" => $row['id'],
+                "ca" => $row['ca'],
+                "mg" => $row['mg'],
+                "k" => $row['k'],
+                "zink" => $row['zink'],
+                "p" => $row['p'],
+                "na" => $row['na'],
+                "naci" => $row['naci'],
+                "energi" => $row['energi'],
+                "fosfor" => $row['fosfor'],
+                "mn" => $row['mn'],
+                "cr" => $row['cr'],
+                "fe" => $row['fe']
+            ]);
+
+            $vitamin = tr_vitamin_bb::where('id_bahan',$row['id'])->update([
+                "id_bahan" => $row['id'],
+                "vitA" => $row['vitA'],
+                "vitB1" => $row['vitB1'],
+                "vitB2" => $row['vitB2'],
+                "vitB3" => $row['vitB3'],
+                "vitB5" => $row['vitB5'],
+                "vitB6" => $row['vitB6'],
+                "vitB12" => $row['vitB12'],
+                "vitC" => $row['vitC'],
+                "vitD" => $row['vitD'],
+                "vitE" => $row['vitE'],
+                "vitK" => $row['vitK'],
+                "folat" => $row['folat'],
+                "biotin" => $row['biotin'],
+                "kolin" => $row['kolin']
+            ]);
+
+            $makro = tr_asam_amino_bb::where('id_bahan',$row['id'])->update([
+                "id_bahan" => $row['id'],
+                "l_glutamin" => $row['l_glutamin'],
+                "Threonin" => $row['Threonin'],
+                "Methionin" => $row['Methionin'],
+                "Phenilalanin" => $row['Phenilalanin'],
+                "Histidin" => $row['Histidin'],
+                "lisin" => $row['lisin'],
+                "BCAA" => $row['BCAA'],
+                "Valin" => $row['Valin'],
+                "Leusin" => $row['Leusin'],
+                "Aspartat" => $row['Aspartat'],
+                "Alanin" => $row['Alanin'],
+                "Sistein" => $row['Sistein'],
+                "Serin" => $row['Serin'],
+                "Glisin" => $row['Glisin'],
+                "Glutamat" => $row['Glutamat'],
+                "Tyrosin" => $row['Tyrosin'],
+                "Proline" => $row['Proline'],
+                "Arginine" => $row['Arginine'],
+                "Isoleusin" => $row['Isoleusin']
+            ]);
+        }
+        return redirect::back()->with('status', 'Revised data ');
     }
 }

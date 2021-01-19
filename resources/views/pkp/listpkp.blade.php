@@ -25,7 +25,7 @@
     <div class="card-block">
       <div class="clearfix"></div>
       <div class="x_content" >
-      <table class="Table table-striped table-bordered">
+      <table id="datatable" class="table table-striped table-bordered" style="width:100%">
         <thead>
           <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
             <th width="22%">PKP Number</th>

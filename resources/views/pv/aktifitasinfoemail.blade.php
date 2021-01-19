@@ -76,8 +76,7 @@
                                                       )
                                                       @endif
                                                       </td>
-                                                      <td>{{$for->jlh_uom}}</td>
-                                                      <td>{{$for->uom}}</td>
+                                                      <td>{{$for->jlh_uom}}{{$for->uom}}</td>
                                                       <td><?php $angka_format = number_format($for->nfi_price,2,",","."); echo "Rp. ".$angka_format;?></td>
                                                       <td><?php $angka_format = number_format($for->costumer,2,",","."); echo "Rp. ".$angka_format;?></td>
                                                     </tr>

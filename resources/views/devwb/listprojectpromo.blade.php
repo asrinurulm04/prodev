@@ -68,8 +68,8 @@
           <h3>List PKP Promo</h3>
         </div>
         <div class="clearfix"></div>
-        <div class="x_content" style="overflow-x: scroll;">
-          <table class="Table table-striped table-bordered" id="ex">
+        <div class="x_content">
+          <table id="datatable" class="table table-striped table-bordered ex" style="width:100%">
             <thead>
               <tr style="font-weight: bold;color:white;background-color: #2a3f54;" >
                 <th>#</th>
@@ -223,19 +223,19 @@
 @section('s')
 <script>
   function filterGlobal () {
-    $('#ex').DataTable().search(
+    $('.ex').DataTable().search(
       $('#global_filter').val(),
     ).draw();
   }
     
   function filterColumn ( i ) {
-    $('#ex').DataTable().column( i ).search(
+    $('.ex').DataTable().column( i ).search(
       $('#col'+i+'_filter').val()
     ).draw();
   }
     
   $(document).ready(function() {
-    $('#ex').DataTable();    
+    $('.ex').DataTable();    
       $('input.global_filter').on( 'keyup click', function () {
         filterGlobal();
       } );

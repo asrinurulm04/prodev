@@ -48,8 +48,6 @@ class SummaryFormulaController extends Controller
             return Redirect::back()->with('error','Data Bahan Formula Versi '.$formula->versi.' Masih Kosong');
         }elseif($formula->batch < 1){
             return Redirect::back()->with('error','Data Bahan Formula Versi '.$formula->versi.'.'.$formula->turunan.' Belum Memliki Batch');
-        }elseif($formula->serving_size != $formula->serving){
-            return Redirect::back()->with('error','Data Serving Formula Versi '.$formula->versi.'.'.$formula->turunan.' Tidak Sesuai Target');
         }elseif($formula->note_formula == Null){
             return Redirect::back()->with('error','Note Formula untuk versi '.$formula->versi.'.'.$formula->turunan.' Masih Kosong');
         }
@@ -147,6 +145,7 @@ class SummaryFormulaController extends Controller
 		// harga
         $total_harga_per_batch = 0; $total_harga_per_serving = 0; $total_harga_per_kg = 0; $total_harga_per_gram = 0;
 
+        $no = 0;
         foreach($fortails as $fortail){
 			//Get Needed
 			$ingredients = DB::table('tb_nutfact')->first();
@@ -238,6 +237,7 @@ class SummaryFormulaController extends Controller
             $harga_per_kg = $berat_per_kg * $hpg; $harga_per_kg = round($harga_per_kg,2);       
             $detail_harga->push([
 				// data
+				'no' => ++$no,  
                 'id' => $fortail->id,
                 'kode_komputer' => $bahan->kode_komputer,
                 'nama_sederhana' => $bahan->nama_sederhana,

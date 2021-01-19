@@ -27,7 +27,7 @@
     <div class="tabbable">
       <ul class="nav nav-tabs wizard">
         <li class="completed"><a href="{{ route('step1',[ $idfor_pdf, $idf]) }}"><span class="nmbr">1</span>Information</a></li>
-        <li class="active"><a href="{{ route('step2',[ $idfor_pdf, $idf]) }}"><span class="nmbr">2</span>Penyusunan</a></li>
+        <li class="active"><a href="{{ route('step2',[ $idfor_pdf, $idf]) }}"><span class="nmbr">2</span>Drafting</a></li>
         <li class="active"><a href="{{ route('summarry',[ $idfor_pdf, $idf]) }}"><span class="nmbr">3</span>Summary</a></li>
       </ul>
     </div>
@@ -161,7 +161,7 @@
         <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name"></label>
         <div class="col-md-8 col-sm-8 col-xs-12">
         @foreach($data as $data)
-        <a href="{{asset('data_file/'.$data->file)}}" download="{{$data->file}}" title="download file"><li class="fa fa-download"></li></a> {{$data->file}} <a href="{{route('hapus_file',$data->id_data)}}" title="Delete File"><li class="fa fa-times"></li></a><br>
+        <a href="{{asset('data_file/'.$data->file)}}" download="{{$data->file}}" title="Download file"><li class="fa fa-download"></li></a> {{$data->file}} <a href="{{route('hapus_file',$data->id_data)}}" title="Delete File"><li class="fa fa-times"></li></a><br>
         @endforeach
         </div>
       </div>

@@ -25,7 +25,7 @@
 		@foreach($data as $data)
     <div class="x_panel">
       <div class="col-md-6">
-        <h3><li class="fa fa-star"></li> Project Name : {{ $data->project_name}}</h3>
+        <h4><li class="fa fa-star"></li> Project Name : {{ $data->project_name}}</h4>
       </div>
       <div class="col-md-6" align="right">
         @foreach($datapkp as $pkp)
@@ -186,7 +186,7 @@
               <tr><th>Sample Deadline</th><td>: {{$data->jangka}}-  {{$data->waktu}}</td></tr>
               <tr><th>PV</th><td> : {{$data->perevisi2->name}}</td></tr>
               @if($data->file!=NULL)
-              <tr><th>File</th><td> : <a href="{{asset('data_file/'.$data->file)}}" download="{{$data->file}}" title="download file"><li class="fa fa-download"></li></a> {{$data->file}} <a href="{{route('hapus_upload',$data->id_project)}}" title="Delete"><li class="fa fa-times"></li></a></td></tr>
+              <tr><th>File</th><td> : <a href="{{asset('data_file/'.$data->file)}}" download="{{$data->file}}" title="Download file"><li class="fa fa-download"></li></a> {{$data->file}} <a href="{{route('hapus_upload',$data->id_project)}}" title="Delete"><li class="fa fa-times"></li></a></td></tr>
               @endif
               @endforeach
               @endif
@@ -202,16 +202,16 @@
   <div class="col-md-12 col-xs-12">
     <div class="x_panel">
       <div class="x_title">
-        <h3><li class="fa fa-list"></li> Workbook  </h3>
+        <h4><li class="fa fa-list"></li> Workbook  </h4>
       </div>
       <div class="card-block">
         <div class="x_content">
-					<table class="Table table-striped table-bordered">
+          <table id="datatable" class="table table-striped table-bordered" style="width:100%">
             <thead>
               <tr style="font-weight: bold;color:white;background-color: #2a3f54;">     
                 <th class="text-center" width="5%">#</th>                                  
                 <th class="text-center" width="5%">Versi</th>
-                <th class="text-center" width="10%">Category Formula</th>  
+                <th class="text-center" width="10%">Category</th>  
                 <th class="text-center">Formula</th>
                 <th class="text-center">Status Sample</th>
                 <th class="text-center">Note RD</th>
@@ -273,9 +273,9 @@
                   @if($pkp->status!='proses')
                   <a class="btn btn-primary btn-sm" href="{{ route('step1',[$pkp->workbook_id,$pkp->id]) }}"><i style="font-size:12px;" class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a>
                   <a class="btn btn-dark btn-sm" href="{{ route('ajukanvp',[$pkp->workbook_id,$pkp->id]) }}" onclick="return confirm('Ajukan Formula Kepada PV?')" data-toggle="tooltip" title="Ajukan PV"><li class="fa fa-paper-plane"></li></a>
-                  @elseif($pkp->vv == 'approve')
-                    <a class="btn btn-primary btn-sm" href="{{ route('panel',[$pkp->workbook_id,$pkp->id]) }}" data-toggle="tooltip" title="Lanjutkan Panel"><li class="fa fa-glass"></li></a>
-                    <a class="btn btn-warning btn-sm" href="{{ route('st',[$pkp->workbook_id,$pkp->id]) }}" data-toggle="tooltip" title="Lanjutkan Storage"><li class="fa fa-flask"></li></a>
+                  @elseif($pkp->vv == 'approve' || $pkp->vv == 'proses')
+                    <a class="btn btn-primary btn-sm" href="{{ route('panel',[$pkp->workbook_id,$pkp->id]) }}" data-toggle="tooltip" title="Panel"><li class="fa fa-glass"></li></a>
+                    <a class="btn btn-warning btn-sm" href="{{ route('st',[$pkp->workbook_id,$pkp->id]) }}" data-toggle="tooltip" title="Storage"><li class="fa fa-flask"></li></a>
                   @endif
                 </td>
               </tr>
@@ -294,7 +294,7 @@
       </div>
       <div class="card-block">
         <div class="x_content">
-          <table class="Table table-striped table-bordered">
+          <table id="datatable" class="table table-striped table-bordered" style="width:100%">
             <thead>
               <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
                 <th width="1%"></th>

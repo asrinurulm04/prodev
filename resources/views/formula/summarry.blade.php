@@ -9,11 +9,11 @@
       <ul class="nav nav-tabs wizard">
         @if($formula->workbook_id!=NULL)
         <li class="active"><a href="{{ route('step1',[ $idfor, $idf]) }}"><span class="nmbr">1</span>Information</a></li>
-        <li class="active"><a href="{{ route('step2',[ $idfor, $idf]) }}"><span class="nmbr">2</span>Penyusunan</a></li>
+        <li class="active"><a href="{{ route('step2',[ $idfor, $idf]) }}"><span class="nmbr">2</span>Drafting</a></li>
         <li class="completed"><a href="{{ route('summarry',[ $idfor, $idf]) }}"><span class="nmbr">3</span>Summary</a></li>
         @elseif($formula->workbook_pdf_id!=NULL)
         <li class="active"><a href="{{ route('step1_pdf',[ $idfor_pdf, $idf]) }}"><span class="nmbr">1</span>Information</a></li>
-        <li class="active"><a href="{{ route('step2',[ $idfor_pdf, $idf]) }}"><span class="nmbr">2</span>Penyusunan</a></li>
+        <li class="active"><a href="{{ route('step2',[ $idfor_pdf, $idf]) }}"><span class="nmbr">2</span>Drafting</a></li>
         <li class="completed"><a href="{{ route('summarry',[ $idfor_pdf, $idf]) }}"><span class="nmbr">3</span>Summary</a></li>
         @endif
       </ul>
@@ -29,21 +29,21 @@
     <div class="col-md-4">
       <table>
 				@if($formula->workbook_id!=NULL)
-        <tr><td>Nama Produk</td><td>&nbsp; : {{ $formula->Workbook->datapkpp->project_name }}</td></tr>
-				<tr><td>No.PKP</td><td>&nbsp; : {{ $formula->Workbook->datapkpp->pkp_number }}{{$formula->Workbook->datapkpp->ket_no}}</td></tr>
-        <tr><td>Perevisi</td><td>&nbsp; : {{ $formula->workbook->perevisi2->name }} </td></tr>
+        <tr><th>Product Name</th><td>&nbsp; : {{ $formula->Workbook->datapkpp->project_name }}</td></tr>
+				<tr><th>No.PKP</th><td>&nbsp; : {{ $formula->Workbook->datapkpp->pkp_number }}{{$formula->Workbook->datapkpp->ket_no}}</td></tr>
+        <tr><th>Revised By</th><td>&nbsp; : {{ $formula->workbook->perevisi2->name }} </td></tr>
 				@elseif($formula->workbook_pdf_id!=NULL)
-        <tr><td>Nama Produk</td><td>&nbsp; : {{ $formula->Workbook_pdf->datapdf->project_name }}</td></tr>
-				<tr><td>No.PKP</td><td>&nbsp; : {{ $formula->Workbook_pdf->datapdf->pdf_number }}{{$formula->Workbook_pdf->datapdf->ket_no}}</td></tr>
-        <tr><td>Perevisi</td><td>&nbsp; : {{ $formula->Workbook_pdf->perevisi2->name }} </td></tr>
+        <tr><th>Product Name</th><td>&nbsp; : {{ $formula->Workbook_pdf->datapdf->project_name }}</td></tr>
+				<tr><th>PKP Number</th><td>&nbsp; : {{ $formula->Workbook_pdf->datapdf->pdf_number }}{{$formula->Workbook_pdf->datapdf->ket_no}}</td></tr>
+        <tr><th>Revised By</th><td>&nbsp; : {{ $formula->Workbook_pdf->perevisi2->name }} </td></tr>
 				@endif
-        <tr><td>Versi</td><td>&nbsp; : {{ $formula->versi }}.{{ $formula->turunan }}</td></tr>
+        <tr><th>Version</th><td>&nbsp; : {{ $formula->versi }}.{{ $formula->turunan }}</td></tr>
       </table>
     </div>
     <div class="col-md-3">
       <table>
-        <tr><td>Jumlah Batch</td><td>&nbsp; : {{ $formula->batch }} &nbsp;Gram</td></tr>
-        <tr><td>Jumlah Serving</td><td>&nbsp; : {{ $formula->serving }} &nbsp;Gram</td></tr>
+        <tr><th>Batch</th><td>&nbsp; : {{ $formula->batch }} &nbsp;Gram</td></tr>
+        <tr><th>Serving</th><td>&nbsp; : {{ $formula->serving }} &nbsp;Gram</td></tr>
       </table>
     </div>
     <div class="col-md-2"></div>
@@ -69,9 +69,9 @@
   <div class="row" style="margin:20px">
 		<div id="exTab2" class="container">	
 			<ul class="nav nav-tabs  tabs" role="tablist">
-				<li class="nav-item"><a class="nav-link  active" href="#1" data-toggle="tab"><i class="fa fa-list"></i> Formula</a></li>
-				<li class="nav-item"><a class="nav-link" href="#2" data-toggle="tab"><i class="fa fa-clipboard"></i> Nutfact</a></li>
-				<li class="nav-item"><a class="nav-link" href="#3" data-toggle="tab"><i class="fa fa-usd"></i> HPP Formula</a></li>
+				<li class="nav-item"><a class="nav-link  active" href="#1" data-toggle="tab"><i class="fa fa-list"></i><b> Formula</b></a></li>
+				<li class="nav-item"><a class="nav-link" href="#2" data-toggle="tab"><i class="fa fa-clipboard"></i><b> Nutfact</b></a></li>
+				<li class="nav-item"><a class="nav-link" href="#3" data-toggle="tab"><i class="fa fa-usd"></i><b> HPP Formula</b></a></li>
 			</ul><br>
 			<div class="tab-content ">
 				<div class="tab-content ">
@@ -105,11 +105,11 @@
 										<tr>
 											<th class="text-center" style="width:3%">No</th>                      
 											<th class="text-center" style="width:20%">Nama Sederhana</th>
-											<th class="text-center" style="width:20%">Nama Bahan</th>
+											<th class="text-center" style="width:20%">Material</th>
 											<th class="text-center" style="width:25%">Principle</th>
-											<th class="text-center" style="width:8%">PerServing (gr)</th>
-											<th class="text-center" style="width:8%">PerBatch (gr)</th>
-											<th class="text-center" style="width:5%">Persen</th>
+											<th class="text-center" style="width:8%">Serving (gr)</th>
+											<th class="text-center" style="width:8%">Batch (gr)</th>
+											<th class="text-center" style="width:5%">%</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -285,7 +285,7 @@
 										@endif
 										
 										<tr style="font-size: 12px;font-weight: bold; color:black;background-color: rgb(78, 205, 196, 0.5);">
-											<td colspan="4">Jumlah</td>
+											<td colspan="4">Total</td>
 											<td>{{ $formula->serving }}</td>
 											<td>{{ $formula->batch }}</td>
 											<td> 100 % </td>
@@ -304,7 +304,7 @@
 								<div class="row">
 									<div class="col-md-6">
 										<table>
-											<tr><td colspan="3"><b> Formula Ini mengandung Allergen </b></td></tr>
+											<tr><td colspan="3"><b> This Formula Contains Allergens </b></td></tr>
 											<tr><td><b> Contain </b></td><td>: 	@foreach($allergen_bb as $allergen) {{$allergen->allergen_countain}},@endforeach</td><td></td></tr>
 											<tr><td><b> May Contain </b></td><td>:</td><td></td></tr>
 										</table>
@@ -322,213 +322,217 @@
 									<div class="accordion" id="accordionExample">
 										<div class="panel panel-info">
 											<div aria-labelledby="headingOne" data-parent="#accordionExample">
-												<div class="panel-body" style="overflow-x: scroll;">
-													<table class="table table-advanced table-bordered">
-														<thead>
-															<tr>
-																<th rowspan="2"  class="text-center" style="font-weight: bold;color:white;background-color: #2a3f54;">Nama Sederhana</th>
-																<th rowspan="2"  class="text-center" style="font-weight: bold;color:white;background-color: #2a3f54;" width="20%">Data_BTP_CarryOver_Bahan_Baku</th>
-																<th rowspan="2"  class="text-center" style="font-weight: bold;color:white;background-color: #2a3f54;">Dosis</th>
-																<th rowspan="2"  class="text-center" style="font-weight: bold;color:white;background-color: #2a3f54;">%</th>
-																<th colspan="66" class="text-center" style="font-size: 12px;font-weight: bold; color:black;background-color: #898686;">Nutrition Data</th>
-															</tr>
-															<tr class="text-center" style="font-weight: bold;color:white;background-color: #2a3f54;">
-																<!-- Makro -->
-																<th >Karbohidrat</th>  <th >Glukosa</th>
-																<th >Serat</th>        <th >Beta</th>
-																<th >Sorbitol</th>     <th >Maltitol</th>
-																<th >Laktosa</th>      <th >Sukrosa</th>
-																<th >Gula</th>         <th >Erythritol</th>
-																<th >DHA</th>          <th >EPA</th>
-																<th >Omega3</th>      <th >MUFA</th>
-																<th >Lemak Trans</th>  <th >Lemak Jenuh</th>
-																<th >SFA</th>          <th >Omega6</th>
-																<th >Kolestrol</th>    <th >Protein</th>
-																<th >Kadar Air</th>
-																<!-- Mineral -->
-																<th >Ca (mg)</th>      <th >Mg (mg)</th>
-																<th >K (mg)</th>       <th >Zink</th>
-																<th >P (mg)</th>       <th >Na (mg)</th>
-																<th >NaCi</th>         <th >Energi</th>
-																<th >Fosfor</th>       <th >Mn</th>
-																<th >Cr(mcg)</th>      <th >Fe</th>
-																<!-- Vitamin -->
-																<th >VitA (mg)</th>   <th >VitB1 (mg)</th>
-																<th >VitB2 (mg)</th>  <th >VitB3 (mg)</th>
-																<th >VitB5 (mg)</th>  <th >VitB6 (mg)</th>
-																<th >VitB12 (mg)</th> <th >VitC (mg)</th>
-																<th >VitD (mg)</th>   <th >VitE (mg)</th>
-																<th >VitK (mg)</th>   <th >Folat</th>
-																<th >Biotin</th>       <th >Kolin </th>
-																<!-- asam amino -->
-																<th >L-Glutamine</th>  <th >Methionin</th>
-																<th >Histidin</th>     <th >BCAA</th>
-																<th >Leusin</th>       <th >Aspartat</th>
-																<th >Serin</th>        <th >Glutamat</th>
-																<th >Arginine</th>     <th >Isoleusin</th>
-																<th >Threonin</th>     <th >Phenilalanin</th>
-																<th >Lisin</th>        <th >Valin</th>
-																<th >Sistein</th>      <th >Alanin</th>
-																<th >Glisin</th>       <th >Tyrosin</th>
-																<th >Proline</th>
-															</tr>
-														</thead>
-														<tbody>
-															@php $no = 0; @endphp
-															@foreach ($detail_harga->sortByDesc('per_batch') as $fortail)
-															<tr>
-																<td>{{ $fortail['nama_sederhana'] }}</td>
-																<td style="width:120px">@if( $fortail['hitung_btp'] !=NULL)@foreach($carryover as $co)@if($fortail['bahan']==$co->id_bahan) {{ $co->btp }}/@endif @endforeach @endif</td>
-																<td>{{ $fortail['per_serving'] }}</td>
-																<td>{{ $fortail['persen'] }}</td>
-																<td>{{ $fortail['karbohidrat'] }}</td>
-																<td>{{ $fortail['glukosa'] }}</td>
-																<td>{{ $fortail['serat'] }}</td>
-																<td>{{ $fortail['beta'] }}</td>
-																<td>{{ $fortail['sorbitol'] }}</td>
-																<td>{{ $fortail['maltitol'] }}</td>
-																<td>{{ $fortail['laktosa'] }}</td>
-																<td>{{ $fortail['sukrosa'] }}</td>
-																<td>{{ $fortail['gula'] }}</td>
-																<td>{{ $fortail['erythritol'] }}</td>
-																<td>{{ $fortail['dha'] }}</td>
-																<td>{{ $fortail['epa'] }}</td>
-																<td>{{ $fortail['omega3'] }}</td>
-																<td>{{ $fortail['mufa'] }}</td>
-																<td>{{ $fortail['lemak_trans'] }}</td>
-																<td>{{ $fortail['lemak_jenuh'] }}</td>
-																<td>{{ $fortail['sfa'] }}</td>
-																<td>{{ $fortail['omega6'] }}</td>
-																<td>{{ $fortail['kolestrol'] }}</td>
-																<td>{{ $fortail['protein'] }}</td>
-																<td>{{ $fortail['air'] }}</td>
+												<div style="overflow-x: scroll;">
+													<table class="table table-advanced table-bordered" >
+															<thead>
+																<tr>
+																	<th rowspan="2"  class="text-center sticky-col first-col"  class="text-center" style="font-weight: bold;color:white;background-color: #2a3f54;">Nama Sederhana</th>
+																	<th rowspan="2"  class="text-center sticky-col second-col" style="font-weight: bold;color:white;background-color: #2a3f54;">Dosis (Gram)</th>
+																	<th rowspan="2"  class="text-center sticky-col third-col" style="font-weight: bold;color:white;background-color: #2a3f54;">%</th>
+																	<th rowspan="2"  class="text-center sticky-col third-col" style="font-weight: bold;color:white;background-color: #2a3f54;">HPP</th>
+																	<th colspan="66" class="text-center" style="font-size: 12px;font-weight: bold; color:black;background-color: #898686;">Nutrition Data</th>
+																	<th rowspan="2"  class="text-center" style="font-weight: bold;color:white;background-color: #2a3f54;" width="20%">Data_BTP_CarryOver_Bahan_Baku</th>
+																</tr>
+																<tr class="text-center" style="font-weight: bold;color:white;background-color: #2a3f54;">
+																	<!-- Makro -->
+																	<th >Karbohidrat</th>  <th >Glukosa</th>
+																	<th >Serat</th>        <th >Beta</th>
+																	<th >Sorbitol</th>     <th >Maltitol</th>
+																	<th >Laktosa</th>      <th >Sukrosa</th>
+																	<th >Gula</th>         <th >Erythritol</th>
+																	<th >DHA</th>          <th >EPA</th>
+																	<th >Omega3</th>      <th >MUFA</th>
+																	<th >Lemak Trans</th>  <th >Lemak Jenuh</th>
+																	<th >SFA</th>          <th >Omega6</th>
+																	<th >Kolestrol</th>    <th >Protein</th>
+																	<th >Kadar Air</th>
+																	<!-- Mineral -->
+																	<th >Ca (mg)</th>      <th >Mg (mg)</th>
+																	<th >K (mg)</th>       <th >Zink</th>
+																	<th >P (mg)</th>       <th >Na (mg)</th>
+																	<th >NaCi</th>         <th >Energi</th>
+																	<th >Fosfor</th>       <th >Mn</th>
+																	<th >Cr(mcg)</th>      <th >Fe</th>
+																	<!-- Vitamin -->
+																	<th >VitA (mg)</th>   <th >VitB1 (mg)</th>
+																	<th >VitB2 (mg)</th>  <th >VitB3 (mg)</th>
+																	<th >VitB5 (mg)</th>  <th >VitB6 (mg)</th>
+																	<th >VitB12 (mg)</th> <th >VitC (mg)</th>
+																	<th >VitD (mg)</th>   <th >VitE (mg)</th>
+																	<th >VitK (mg)</th>   <th >Folat</th>
+																	<th >Biotin</th>       <th >Kolin </th>
+																	<!-- asam amino -->
+																	<th >L-Glutamine</th>  <th >Methionin</th>
+																	<th >Histidin</th>     <th >BCAA</th>
+																	<th >Leusin</th>       <th >Aspartat</th>
+																	<th >Serin</th>        <th >Glutamat</th>
+																	<th >Arginine</th>     <th >Isoleusin</th>
+																	<th >Threonin</th>     <th >Phenilalanin</th>
+																	<th >Lisin</th>        <th >Valin</th>
+																	<th >Sistein</th>      <th >Alanin</th>
+																	<th >Glisin</th>       <th >Tyrosin</th>
+																	<th >Proline</th>
+																</tr>
+															</thead>
+															<tbody>
+																@php $nom = 0; @endphp
+																@foreach ($detail_harga->sortByDesc('per_batch') as $fortail)
+																<tr >
+																	<td class="sticky-col first-col">{{ $fortail['nama_sederhana'] }}</td>
+																	<td class="sticky-col second-col"><input type="number" placeholder="0" onkeyup="jServing(this.id)" class="form-control" id="Serving{{ $fortail['no'] }}"  value="{{ $fortail['per_serving'] }}"   name="Serving[{{ $fortail['no'] }}]"></td>
+																	<td class="sticky-col third-col">{{ $fortail['persen'] }}</td>
+																	<td>Rp.{{ $fortail['hpg'] }}</td>
+																	<td>{{ $fortail['karbohidrat'] }}</td>
+																	<td>{{ $fortail['glukosa'] }}</td>
+																	<td>{{ $fortail['serat'] }}</td>
+																	<td>{{ $fortail['beta'] }}</td>
+																	<td>{{ $fortail['sorbitol'] }}</td>
+																	<td>{{ $fortail['maltitol'] }}</td>
+																	<td>{{ $fortail['laktosa'] }}</td>
+																	<td>{{ $fortail['sukrosa'] }}</td>
+																	<td>{{ $fortail['gula'] }}</td>
+																	<td>{{ $fortail['erythritol'] }}</td>
+																	<td>{{ $fortail['dha'] }}</td>
+																	<td>{{ $fortail['epa'] }}</td>
+																	<td>{{ $fortail['omega3'] }}</td>
+																	<td>{{ $fortail['mufa'] }}</td>
+																	<td>{{ $fortail['lemak_trans'] }}</td>
+																	<td>{{ $fortail['lemak_jenuh'] }}</td>
+																	<td>{{ $fortail['sfa'] }}</td>
+																	<td>{{ $fortail['omega6'] }}</td>
+																	<td>{{ $fortail['kolestrol'] }}</td>
+																	<td>{{ $fortail['protein'] }}</td>
+																	<td>{{ $fortail['air'] }}</td>
 
-																<td>{{ $fortail['ca'] }}</td>
-																<td>{{ $fortail['mg'] }}</td>
-																<td>{{ $fortail['k'] }}</td>
-																<td>{{ $fortail['zink'] }}</td>
-																<td>{{ $fortail['p'] }}</td>
-																<td>{{ $fortail['na'] }}</td>
-																<td>{{ $fortail['naci'] }}</td>
-																<td>{{ $fortail['energi'] }}</td>
-																<td>{{ $fortail['fosfor'] }}</td>
-																<td>{{ $fortail['mn'] }}</td>
-																<td>{{ $fortail['cr'] }}</td>
-																<td>{{ $fortail['fe'] }}</td>
+																	<td>{{ $fortail['ca'] }}</td>
+																	<td>{{ $fortail['mg'] }}</td>
+																	<td>{{ $fortail['k'] }}</td>
+																	<td>{{ $fortail['zink'] }}</td>
+																	<td>{{ $fortail['p'] }}</td>
+																	<td>{{ $fortail['na'] }}</td>
+																	<td>{{ $fortail['naci'] }}</td>
+																	<td>{{ $fortail['energi'] }}</td>
+																	<td>{{ $fortail['fosfor'] }}</td>
+																	<td>{{ $fortail['mn'] }}</td>
+																	<td>{{ $fortail['cr'] }}</td>
+																	<td>{{ $fortail['fe'] }}</td>
 
-																<td>{{ $fortail['vitA'] }}</td>
-																<td>{{ $fortail['vitB1'] }}</td>
-																<td>{{ $fortail['vitB2'] }}</td>
-																<td>{{ $fortail['vitB3'] }}</td>
-																<td>{{ $fortail['vitB5'] }}</td>
-																<td>{{ $fortail['vitB6'] }}</td>
-																<td>{{ $fortail['vitB12'] }}</td>
-																<td>{{ $fortail['vitC'] }}</td>
-																<td>{{ $fortail['vitD'] }}</td>
-																<td>{{ $fortail['vitE'] }}</td>
-																<td>{{ $fortail['vitK'] }}</td>
-																<td>{{ $fortail['folat'] }}</td>
-																<td>{{ $fortail['biotin'] }}</td>
-																<td>{{ $fortail['kolin'] }}</td>
+																	<td>{{ $fortail['vitA'] }}</td>
+																	<td>{{ $fortail['vitB1'] }}</td>
+																	<td>{{ $fortail['vitB2'] }}</td>
+																	<td>{{ $fortail['vitB3'] }}</td>
+																	<td>{{ $fortail['vitB5'] }}</td>
+																	<td>{{ $fortail['vitB6'] }}</td>
+																	<td>{{ $fortail['vitB12'] }}</td>
+																	<td>{{ $fortail['vitC'] }}</td>
+																	<td>{{ $fortail['vitD'] }}</td>
+																	<td>{{ $fortail['vitE'] }}</td>
+																	<td>{{ $fortail['vitK'] }}</td>
+																	<td>{{ $fortail['folat'] }}</td>
+																	<td>{{ $fortail['biotin'] }}</td>
+																	<td>{{ $fortail['kolin'] }}</td>
 
-																<td>{{ $fortail['l_glutamine'] }}</td>
-																<td>{{ $fortail['threonin'] }}</td>
-																<td>{{ $fortail['methionin'] }}</td>
-																<td>{{ $fortail['phenilalanin'] }}</td>
-																<td>{{ $fortail['histidin'] }}</td>
-																<td>{{ $fortail['lisin'] }}</td>
-																<td>{{ $fortail['BCAA'] }}</td>
-																<td>{{ $fortail['valin'] }}</td>
-																<td>{{ $fortail['leusin'] }}</td>
-																<td>{{ $fortail['sistein'] }}</td>
-																<td>{{ $fortail['aspartat'] }}</td>
-																<td>{{ $fortail['alanin'] }}</td>
-																<td>{{ $fortail['serin'] }}</td>
-																<td>{{ $fortail['glisin'] }}</td>
-																<td>{{ $fortail['glutamat'] }}</td>
-																<td>{{ $fortail['tyrosin'] }}</td>
-																<td>{{ $fortail['arginine'] }}</td>
-																<td>{{ $fortail['proline'] }}</td>
-																<td>{{ $fortail['Isoleusin'] }}</td>
-																
-															</tr>  
-															@endforeach
-															<tr style="font-size: 12px;font-weight: bold; color:black;background-color: #ddd;">
-																<td colspan="2" class="text-center">Total : </td>
-																<td>{{ $formula->serving }}</td>
-																<td> 100 </td>
-																<td>{{ $total_harga['total_karbohidrat'] }}</td>
-																<td>{{ $total_harga['total_glukosa'] }}</td>
-																<td>{{ $total_harga['total_serat'] }}</td>
-																<td>{{ $total_harga['total_beta'] }}</td>
-																<td>{{ $total_harga['total_sorbitol'] }}</td>
-																<td>{{ $total_harga['total_maltitol'] }}</td>
-																<td>{{ $total_harga['total_laktosa'] }}</td>
-																<td>{{ $total_harga['total_sukrosa'] }}</td>
-																<td>{{ $total_harga['total_gula'] }}</td>
-																<td>{{ $total_harga['total_erythritol'] }}</td>
-																<td>{{ $total_harga['total_dha'] }}</td>
-																<td>{{ $total_harga['total_epa'] }}</td>
-																<td>{{ $total_harga['total_omega3'] }}</td>
-																<td>{{ $total_harga['total_mufa'] }}</td>
-																<td>{{ $total_harga['total_lemak_trans'] }}</td>
-																<td>{{ $total_harga['total_lemak_jenuh'] }}</td>
-																<td>{{ $total_harga['total_sfa'] }}</td>
-																<td>{{ $total_harga['total_omega6'] }}</td>
-																<td>{{ $total_harga['total_kolestrol'] }}</td>
-																<td>{{ $total_harga['total_protein'] }}</td>
-																<td>{{ $total_harga['total_air'] }}</td>
+																	<td>{{ $fortail['l_glutamine'] }}</td>
+																	<td>{{ $fortail['threonin'] }}</td>
+																	<td>{{ $fortail['methionin'] }}</td>
+																	<td>{{ $fortail['phenilalanin'] }}</td>
+																	<td>{{ $fortail['histidin'] }}</td>
+																	<td>{{ $fortail['lisin'] }}</td>
+																	<td>{{ $fortail['BCAA'] }}</td>
+																	<td>{{ $fortail['valin'] }}</td>
+																	<td>{{ $fortail['leusin'] }}</td>
+																	<td>{{ $fortail['sistein'] }}</td>
+																	<td>{{ $fortail['aspartat'] }}</td>
+																	<td>{{ $fortail['alanin'] }}</td>
+																	<td>{{ $fortail['serin'] }}</td>
+																	<td>{{ $fortail['glisin'] }}</td>
+																	<td>{{ $fortail['glutamat'] }}</td>
+																	<td>{{ $fortail['tyrosin'] }}</td>
+																	<td>{{ $fortail['arginine'] }}</td>
+																	<td>{{ $fortail['proline'] }}</td>
+																	<td>{{ $fortail['Isoleusin'] }}</td>
+																	<td style="width:120px">@if( $fortail['hitung_btp'] !=NULL)@foreach($carryover as $co)@if($fortail['bahan']==$co->id_bahan) {{ $co->btp }}/<br>@endif @endforeach @endif</td>
+																</tr>  
+																@endforeach
+																<tr style="font-size: 12px;font-weight: bold; color:black;background-color: #ddd;">
+																	<td class="text-center sticky-col first-col" style="font-size: 12px;font-weight: bold; color:black;background-color: #ddd;">Total : </td>
+																	<td class="text-center sticky-col second-col" style="font-size: 12px;font-weight: bold; color:black;background-color: #ddd;"><input type="number" class="form-control" placeholder="0" id="jServing" disabled></td>
+																	<td class="text-center sticky-col third-col" style="font-size: 12px;font-weight: bold; color:black;background-color: #ddd;"> 100 </td>
+																	<td>Rp.{{ $total_harga['total_harga_per_gram'] }}</td>
+																	<td>{{ $total_harga['total_karbohidrat'] }}</td>
+																	<td>{{ $total_harga['total_glukosa'] }}</td>
+																	<td>{{ $total_harga['total_serat'] }}</td>
+																	<td>{{ $total_harga['total_beta'] }}</td>
+																	<td>{{ $total_harga['total_sorbitol'] }}</td>
+																	<td>{{ $total_harga['total_maltitol'] }}</td>
+																	<td>{{ $total_harga['total_laktosa'] }}</td>
+																	<td>{{ $total_harga['total_sukrosa'] }}</td>
+																	<td>{{ $total_harga['total_gula'] }}</td>
+																	<td>{{ $total_harga['total_erythritol'] }}</td>
+																	<td>{{ $total_harga['total_dha'] }}</td>
+																	<td>{{ $total_harga['total_epa'] }}</td>
+																	<td>{{ $total_harga['total_omega3'] }}</td>
+																	<td>{{ $total_harga['total_mufa'] }}</td>
+																	<td>{{ $total_harga['total_lemak_trans'] }}</td>
+																	<td>{{ $total_harga['total_lemak_jenuh'] }}</td>
+																	<td>{{ $total_harga['total_sfa'] }}</td>
+																	<td>{{ $total_harga['total_omega6'] }}</td>
+																	<td>{{ $total_harga['total_kolestrol'] }}</td>
+																	<td>{{ $total_harga['total_protein'] }}</td>
+																	<td>{{ $total_harga['total_air'] }}</td>
 
-																<td>{{ $total_harga['total_ca'] }}</td>
-																<td>{{ $total_harga['total_mg'] }}</td>
-																<td>{{ $total_harga['total_k'] }}</td>
-																<td>{{ $total_harga['total_zink'] }}</td>
-																<td>{{ $total_harga['total_p'] }}</td>
-																<td>{{ $total_harga['total_na'] }}</td>
-																<td>{{ $total_harga['total_naci'] }}</td>
-																<td>{{ $total_harga['total_energi'] }}</td>
-																<td>{{ $total_harga['total_fosfor']}}</td>
-																<td>{{ $total_harga['total_mn']}}</td>
-																<td>{{ $total_harga['total_cr'] }}</td>
-																<td>{{ $total_harga['total_fe'] }}</td>
+																	<td>{{ $total_harga['total_ca'] }}</td>
+																	<td>{{ $total_harga['total_mg'] }}</td>
+																	<td>{{ $total_harga['total_k'] }}</td>
+																	<td>{{ $total_harga['total_zink'] }}</td>
+																	<td>{{ $total_harga['total_p'] }}</td>
+																	<td>{{ $total_harga['total_na'] }}</td>
+																	<td>{{ $total_harga['total_naci'] }}</td>
+																	<td>{{ $total_harga['total_energi'] }}</td>
+																	<td>{{ $total_harga['total_fosfor']}}</td>
+																	<td>{{ $total_harga['total_mn']}}</td>
+																	<td>{{ $total_harga['total_cr'] }}</td>
+																	<td>{{ $total_harga['total_fe'] }}</td>
 
-																<td>{{ $total_harga['total_vitA'] }}</td>
-																<td>{{ $total_harga['total_vitB1'] }}</td>
-																<td>{{ $total_harga['total_vitB2'] }}</td>	
-																<td>{{ $total_harga['total_vitB3'] }}</td>
-																<td>{{ $total_harga['total_vitB5'] }}</td>
-																<td>{{ $total_harga['total_vitB6'] }}</td>
-																<td>{{ $total_harga['total_vitB12'] }}</td>
-																<td>{{ $total_harga['total_vitC'] }}</td>
-																<td>{{ $total_harga['total_vitD'] }}</td>
-																<td>{{ $total_harga['total_vitE'] }}</td>
-																<td>{{ $total_harga['total_vitK'] }}</td>
-																<td>{{ $total_harga['total_folat'] }}</td>
-																<td>{{ $total_harga['total_biotin'] }}</td>
-																<td>{{ $total_harga['total_kolin'] }}</td>
-																
-																<td>{{ $total_harga['total_l_glutamine'] }}</td>
-																<td>{{ $total_harga['total_threonin'] }}</td>
-																<td>{{ $total_harga['total_methionin'] }}</td>	
-																<td>{{ $total_harga['total_phenilalanin'] }}</td>
-																<td>{{ $total_harga['total_histidin'] }}</td>
-																<td>{{ $total_harga['total_lisin'] }}</td>
-																<td>{{ $total_harga['total_BCAA'] }}</td>
-																<td>{{ $total_harga['total_valin'] }}</td>
-																<td>{{ $total_harga['total_leusin'] }}</td>
-																<td>{{ $total_harga['total_aspartat'] }}</td>
-																<td>{{ $total_harga['total_alanin'] }}</td>
-																<td>{{ $total_harga['total_sistein'] }}</td>
-																<td>{{ $total_harga['total_serin'] }}</td>
-																<td>{{ $total_harga['total_glisin'] }}</td>
-																<td>{{ $total_harga['total_glutamat'] }}</td>
-																<td>{{ $total_harga['total_tyrosin'] }}</td>
-																<td>{{ $total_harga['total_proline'] }}</td>
-																<td>{{ $total_harga['total_arginine'] }}</td>
-																<td>{{ $total_harga['total_Isoleusin'] }}</td>
-															</tr>
-														</tbody>
-													</table>
+																	<td>{{ $total_harga['total_vitA'] }}</td>
+																	<td>{{ $total_harga['total_vitB1'] }}</td>
+																	<td>{{ $total_harga['total_vitB2'] }}</td>	
+																	<td>{{ $total_harga['total_vitB3'] }}</td>
+																	<td>{{ $total_harga['total_vitB5'] }}</td>
+																	<td>{{ $total_harga['total_vitB6'] }}</td>
+																	<td>{{ $total_harga['total_vitB12'] }}</td>
+																	<td>{{ $total_harga['total_vitC'] }}</td>
+																	<td>{{ $total_harga['total_vitD'] }}</td>
+																	<td>{{ $total_harga['total_vitE'] }}</td>
+																	<td>{{ $total_harga['total_vitK'] }}</td>
+																	<td>{{ $total_harga['total_folat'] }}</td>
+																	<td>{{ $total_harga['total_biotin'] }}</td>
+																	<td>{{ $total_harga['total_kolin'] }}</td>
+																	
+																	<td>{{ $total_harga['total_l_glutamine'] }}</td>
+																	<td>{{ $total_harga['total_threonin'] }}</td>
+																	<td>{{ $total_harga['total_methionin'] }}</td>	
+																	<td>{{ $total_harga['total_phenilalanin'] }}</td>
+																	<td>{{ $total_harga['total_histidin'] }}</td>
+																	<td>{{ $total_harga['total_lisin'] }}</td>
+																	<td>{{ $total_harga['total_BCAA'] }}</td>
+																	<td>{{ $total_harga['total_valin'] }}</td>
+																	<td>{{ $total_harga['total_leusin'] }}</td>
+																	<td>{{ $total_harga['total_aspartat'] }}</td>
+																	<td>{{ $total_harga['total_alanin'] }}</td>
+																	<td>{{ $total_harga['total_sistein'] }}</td>
+																	<td>{{ $total_harga['total_serin'] }}</td>
+																	<td>{{ $total_harga['total_glisin'] }}</td>
+																	<td>{{ $total_harga['total_glutamat'] }}</td>
+																	<td>{{ $total_harga['total_tyrosin'] }}</td>
+																	<td>{{ $total_harga['total_proline'] }}</td>
+																	<td>{{ $total_harga['total_arginine'] }}</td>
+																	<td>{{ $total_harga['total_Isoleusin'] }}</td>
+																	<td ></td>
+																</tr>
+															</tbody>
+														</table>
+														&nbsp<a class="btn btn-primary btn-sm" type="button" id="buttonformsavechanges"><i class="fa fa-save"></i> Save Dosis</a>   
 												</div>
 											</div>
 										</div> 
@@ -1549,9 +1553,413 @@
 		</div>    
 	</div>
 </div>
-
+<div class="row" hidden>
+    <div class="col-md-6">
+      <form action="{{ route('savechanges',$idf) }}" id="formsavechanges" method="POST">
+      <table class="table">
+        <tbody>
+				@foreach ($detail_harga->sortByDesc('per_batch') as $fortail)                                                                      
+          <tr>
+						<td>{{ $fortail['nama_sederhana'] }}</td>
+						<input type="hidden" name="ftid[{{ $fortail['no'] }}]" value="{{$fortail['id']}}">                               
+						<td><input type="number" placeholder="0" id="Serving2{{ $fortail['no'] }}"  value="{{ $fortail['per_serving'] }}"   name="Serving[{{ $fortail['no'] }}]"></td>                              
+          </tr>                                                       
+          @endforeach  
+          <tr>
+            <td colspan="3">
+							<br><label>Jumlah Fortail</label><br>
+							<input type="number" name="jFortail" value="{{$ada}}">
+							{{ csrf_field()}}
+            </td>
+          </tr>
+        </tbody>
+      </table>                    
+      </form>
+    </div>
+  </div>
 @endsection
 @section('s')
+<script type="text/javascript">
+  $(document).ready(function(){        
+    var i = {{ $no }};
+    var total  = 0;
+    var total2 = 0;
+    var tsb = 0;
+    var tss = 0;
+    var total_granulasi = 0;
+    var total_premix = 0;
+
+  	for(y=1;y<=i;y++){
+      batch = parseFloat($('#Batch'+y).val());
+      serving = parseFloat($('#Serving'+y).val());
+      sBatch = parseFloat($('#sBatch'+y).val());                    
+      sServing = parseFloat($('#sServing'+y).val());
+      csBatch = $('#sBatch'+y).val();                    
+      csServing = $('#sServing'+y).val();
+      cgranulasi = $('#granulasi'+y).val();
+      cpremix = $('#premix'+y).val();
+
+      if(csBatch == ''){
+        sBatch = 0;
+      }
+      if(csServing == ''){
+        sServing = 0;
+      }
+                                                
+      total   = total + batch;
+      total2  = total2 + serving;
+      tsb     = tsb + sBatch;
+      tss     = tss + sServing;                                           
+
+      if(cpremix == 'ya'){
+        total_premix = total_premix + serving;
+      } 
+      if(cgranulasi == 'ya'){
+        total_granulasi = total_granulasi + serving;
+      }  
+    }
+    if(tsb == 0){
+      tsb = '';
+    }
+    if(tss == 0){
+      tss = '';
+    }
+    if(tsb != 0){
+      tsb     = parseFloat(tsb.toFixed(5));
+      tss     = parseFloat(tss.toFixed(5));
+    }     
+            
+    $('#jBatch').val(total);
+    $('#jServing').val(total2);
+    $('#jsBatch').val(tsb);
+    $('#jsServing').val(tss);
+            console.log(total2);
+    // Hitung Persen Granulasi            
+    var one_persen  = total2/100;
+    total_persen    = total_granulasi / one_persen;
+    total_persen    = parseFloat(total_persen.toFixed(2));
+    total_persen_premix    = total_premix / one_persen;
+    total_persen_premix    = parseFloat(total_persen_premix.toFixed(2)); 
+    $('#gp').val(total_persen);                      
+    $('#pr').val(total_persen_premix);    
+  });
+
+  // ONCHANGE SCALE OPTION
+  function SO(myId){
+    var so = $('#'+myId).val();
+    $('#scale_option2').val(so);
+  }
+        
+  // KEYUP BATCH
+  function jBatch(myId){
+    var urutan = myId.substring(5);
+    var i = {{ $no }};
+    var total= 0;
+    for(y=1;y<=i;y++){
+      batch = parseFloat($('#Batch'+y).val());
+      cek_batch = $('#Batch'+y).val();
+        if(cek_batch == ''){
+          batch = 0;
+        }
+      total = total + batch;
+    }
+    $('#jBatch').val(total);
+    x = $('#Batch'+urutan).val();
+    y = $('#rBatch'+urutan).val();
+    if(x != y ){
+      $('#'+myId).css("border", "1px solid cyan");                
+    }else{
+      $('#'+myId).css("border", "");
+    }
+  }
+        
+  // KEYUP SERVING
+  function jServing(myId){
+    var urutan = myId.substring(7);
+    var i = {{ $no }};
+    var total= 0;
+    for(y=1;y<=i;y++){
+      serving = parseFloat($('#Serving'+y).val());
+      cek_serving = $('#Serving'+y).val();
+        if(cek_serving == ''){
+          serving = 0;
+        }
+      total = total + serving;
+      }
+    $('#jServing').val(total);
+
+    var x = parseFloat($('#Serving'+urutan).val());
+    var y = parseFloat($('#rServing'+urutan).val());
+    $('#Serving2'+urutan).val(x);
+    if(x != y ){
+      $('#'+myId).css("border", "1px solid cyan");                
+    }else{
+      $('#'+myId).css("border", "");
+    }
+  }
+
+  // KEYUP SCALE BATCH
+  function jsBatch(myId){
+    var urutan = myId.substring(6);
+    x = $('#sBatch'+urutan).val();
+    y = $('#rsBatch'+urutan).val();
+    if(x != y ){
+      $('#'+myId).css("border", "1px solid cyan");
+      // Get The Target
+      $('#scale_method').val("C");
+      var name = $('#'+myId).val();
+      var ftid = $('#'+'ftid'+urutan).val();
+      $('#target_scale').val(name);
+      $('#target_number').val(ftid);
+      //Checking History
+      var history = $('#history_target_scale').val();
+      if(history != myId){
+        // Reset History
+        history_target = $('#history_target_scale').val();
+        history_value = $('#r'+history_target).val();
+        $('#'+history_target).val(history_value);
+        $('#'+history_target).css("border","");
+        // Make New History
+        $('#history_target_scale').val(myId);
+      }
+    }else{
+      $('#'+myId).css("border", "");
+      // Reset The Target
+      $('#scale_method').val("Z");
+      $('#target_scale').val('');
+      $('#target_number').val('');
+    }                               
+  }
+        
+  // KEYUP SCALE SERVING
+  function jsServing(myId){
+    var urutan = myId.substring(8);
+    x = $('#sServing'+urutan).val();
+    y = $('#rsServing'+urutan).val();
+    if(x != y ){
+      $('#'+myId).css("border", "1px solid cyan");
+      // Get The Target
+      $('#scale_method').val("B");
+      var name = $('#'+myId).val();
+      var ftid = $('#'+'ftid'+urutan).val();
+      $('#target_scale').val(name);
+      $('#target_number').val(ftid);
+      //Checking History
+      var history = $('#history_target_scale').val();
+      if(history != myId){
+        // Reset History
+        history_target = $('#history_target_scale').val();
+        history_value = $('#r'+history_target).val();
+        $('#'+history_target).val(history_value);
+        $('#'+history_target).css("border","");
+        // Make New History
+        $('#history_target_scale').val(myId);
+      }
+    }else{
+      $('#'+myId).css("border", "");
+      // Reset The Target
+      $('#scale_method').val("Z");
+      $('#target_scale').val('');
+      $('#target_number').val('');
+    }
+  }
+
+  // KEYUP JUMLAH SCALE BATCH
+  function cjsBatch(myId){
+    x = $('#jsBatch').val();
+    y = $('#rjsBatch').val();
+    if(x != y ){
+      $('#'+myId).css("border", "1px solid red");
+      // Get The Target
+      $('#scale_method').val("D");
+      var name = $('#'+myId).val();
+      $('#target_scale').val(name);
+      $('#target_number').val("");
+      //Checking History
+      var history = $('#history_target_scale').val();
+      if(history != myId){
+        // Reset History
+        history_target = $('#history_target_scale').val();
+        history_value = $('#r'+history_target).val();
+        $('#'+history_target).val(history_value);
+        $('#'+history_target).css("border","");
+        // Make New History
+        $('#history_target_scale').val(myId);
+      }    
+    }else{
+      $('#'+myId).css("border", "");
+      // Reset The Target
+      $('#scale_method').val("Z");
+      $('#target_scale').val('');
+      $('#target_number').val('');
+    }
+  }
+
+  // KEYUP JUMLAH SCALE SERVING
+  function cjsServing(myId){
+  	x = $('#jsServing').val();
+  	y = $('#rjsServing').val();
+  	if(x != y ){
+      $('#'+myId).css("border", "1px solid red");
+      // Get The Target
+      $('#scale_method').val("A");
+      var name = $('#'+myId).val();
+      $('#target_scale').val(name);
+      $('#target_number').val("");
+      //Checking History
+      var history = $('#history_target_scale').val();
+      if(history != myId){
+        // Reset History
+        history_target = $('#history_target_scale').val();
+        history_value = $('#r'+history_target).val();
+        $('#'+history_target).val(history_value);
+        $('#'+history_target).css("border","");
+        // Make New History
+        $('#history_target_scale').val(myId);
+      }
+    }else{
+      $('#'+myId).css("border", "");
+      // Reset The Target
+      $('#scale_method').val("Z");
+      $('#target_scale').val('');
+      $('#target_number').val('');
+    }
+  }
+
+  // BASE PERHITUNGAN FUNCTION-----------------------------
+  function BASE(myId){
+    var thebase = $('#'+myId).val();
+    $('#thebase').val(thebase);
+    x = $('#'+myId).val();
+    y = $('#rBase').val();
+    if(x != y ){
+      $('#'+myId).css("border", "1px solid cyan");
+      var name = $('#'+myId).attr('name');                    
+    }else{
+      $('#'+myId).css("border", "");
+    }
+  }
+  
+  /* The Button */  
+  $("#buttongantibase").click( function() {            
+    if(confirm("Ganti Base Perhitungan?")){
+      x = $('#base').val();
+      y = $('#rBase').val();
+      if(x != y ){
+        $('#formgantibase').submit();
+        return false;                  
+      }else{
+        alert('Maaf Base Belum Diganti');
+        return false;
+      }                
+    }else{
+      return false;
+    }            
+  });    
+
+  // CHECK SCALE BUTTON ------------------------------
+  $('#buttonformcheckscale').click( function(){
+    if(confirm("Check Scale ?")){
+      var check = $('#scale_method').val();
+      if(check == 'Z'){
+        alert('Anda Belum Memilih Target Scale');
+        return false
+      }else{
+        $('#formcheckscale').submit();
+        return false;
+      }                
+    }else{
+      return false;
+    }
+  });
+
+  // SAVE SCALE BUTTON ----------------        
+  $('#buttonformsavescale').click( function(){
+    if(confirm("Simpan Scale ?")){
+    var check = $('#justcheckscale').val();
+      if(check != ''){
+        $('#formsavescale').submit();
+        return false;
+      }else{
+        alert('Maaf Scale Kosong !');
+        return false;
+      }                   
+    }else{
+      return false;
+    }
+  });
+
+  // FORM SAVE CHANGES ------
+  $('#buttonformsavechanges').click( function(){
+    if(confirm("Simpan Perubahan Serving ?")){
+      $('#formsavechanges').submit();
+      return false;               
+    }else{
+      return false;
+    }
+  });
+</script>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    var ckbox = $('#cbase');
+    $('#cbase').on('click',function () {
+      if (ckbox.is(':checked')) {
+        $('#per_batch').removeAttr('disabled');
+        $('#per_batch').prop('required',true);;
+      } else {
+        $('#per_batch').attr('disabled','disabled');
+        $('#per_batch').prop('required',false);
+      }
+    });
+
+    $('#prioritas').on('change', function(){
+      var myId = $(this).val();
+      if(myId){
+        $.ajax({
+          url: '{{URL::to('getAlternatif')}}/'+myId,
+          type: "GET",
+          dataType: "json",
+          beforeSend: function(){
+            $('#loader').css("visibility", "visible");
+          },
+
+          success:function(data){
+            $('#alternatif').empty();
+            $('#alternatif2').empty();
+            $('#alternatif3').empty();
+            $('#alternatif4').empty();
+            $('#alternatif5').empty();
+            $('#alternatif6').empty();
+            $('#alternatif7').empty();
+
+            $.each(data, function(key, value){
+              $('#alternatif').append('<option value="'+ key +'">' + value + '</option>');
+              $('#alternatif2').append('<option value="'+ key +'">' + value + '</option>');
+              $('#alternatif3').append('<option value="'+ key +'">' + value + '</option>');
+              $('#alternatif4').append('<option value="'+ key +'">' + value + '</option>');
+              $('#alternatif5').append('<option value="'+ key +'">' + value + '</option>');
+              $('#alternatif6').append('<option value="'+ key +'">' + value + '</option>');
+              $('#alternatif7').append('<option value="'+ key +'">' + value + '</option>');
+            });
+          },
+          complete: function(){
+            $('#loader').css("visibility","hidden");
+          }
+        });
+      }else{
+        $('#alternatif').empty();
+        $('#alternatif2').empty();
+        $('#alternatif3').empty();
+        $('#alternatif4').empty();
+        $('#alternatif5').empty();
+        $('#alternatif6').empty();
+        $('#alternatif7').empty();
+      }           
+    });
+  });
+</script>
+
 <script>
   // PKP
   $("#checkAllpkp1").change(function () {

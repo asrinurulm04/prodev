@@ -28,59 +28,6 @@
         <h3><li class="fa fa-star"></li> Project Name : {{ $listpkp->project_name}}</h3>
       </div>
       <div class="col-md-6" align="right">
-        @if($listpkp->status_terima!='proses' || $listpkp->status_terima2!='proses')
-          @if(Auth::user()->departement->dept!='RKA')
-          <button class="btn btn-success btn-sm"  data-toggle="modal" data-target="#edit"><li class="fa fa-edit"></li> Edit Type PKP</button>
-          <!-- modal -->
-          <div class="modal" id="edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">                 
-                  <h3 class="modal-title" id="exampleModalLabel">Edit Type PKP
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button> </h3>
-                </div>
-                <div class="modal-body">
-                <form class="form-horizontal form-label-left" method="POST" action="{{ route('edittype',$listpkp->id_project) }}" novalidate>
-                  <div class="form-group row">
-                    <label class="control-label text-bold col-md-1 col-sm-3 col-xs-12 text-center">Type</label>
-                    <div class="col-md-11 col-sm-9 col-xs-12">
-                      <select name="type" class="form-control form-control-line" id="type">
-                      @foreach($pkp as $pkp1)
-                      <option disabled selected value="{{$pkp1->type}}">
-                      @if($pkp1->type==1)
-                      Maklon
-                      @elseif($pkp1->type==2)
-                      Internal
-                      @elseif($pkp1->type==3)
-                      Maklon/Internal
-                      @endif</option>
-                      @endforeach
-                      <option value="1">Maklon</option>
-                      <option value="2">Internal</option>
-                      <option value="3">Maklon & Internal</option>
-                      </select>
-                    </div>
-                    @foreach($user as $user)
-                    @if($user->role_id=='1' || $user->role_id=='5' || $user->role_id=='14')
-                    <input type="hidden" value="{{$user->name}}" name="namatujuan[]" id="namatujuan">
-                    <input type="hidden" value="{{$user->email}}" name="emailtujuan[]" id="emailtujuan">
-                    @endif
-                    @endforeach
-                  </div>
-                </div>
-                <div class="modal-footer">
-                  <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-plus-circle"></i> Submit</button>
-                  {{ csrf_field() }}
-                </div>
-                </form>
-              </div>
-            </div>
-          </div>
-          <!-- modal selesai -->
-          @endif
-        @endif
         @if($listpkp->status_project!='close' && $listpkp->status_project!='revisi')
         <button class="btn btn-dark btn-sm"  data-toggle="modal" data-target="#alihkan"><li class="fa fa-paper-plane"></li> Divert Project</button>
         <!-- modal -->
@@ -215,7 +162,7 @@
         </div>
         <div class="card-block">
           <div class="x_content">
-            <table class="Table table-striped table-bordered">
+            <table id="datatable" class="table table-striped table-bordered" style="width:100%">
               <thead>
                 <tr style="font-weight: bold;color:white;background-color: #2a3f54;">     
                   <th class="text-center" width="3%">No</th>                                  
@@ -282,7 +229,7 @@
                     @if($pkp->status!='proses')
                     <a class="btn btn-primary btn-sm" href="{{ route('step1',[$pkp->workbook_id,$pkp->id]) }}"><i style="font-size:12px;" class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a>
                     <a class="btn btn-dark btn-sm" href="{{ route('ajukanvp',[$pkp->workbook_id,$pkp->id]) }}" onclick="return confirm('Ajukan Formula Kepada PV?')" data-toggle="tooltip" title="Ajukan PV"><li class="fa fa-paper-plane"></li></a>
-                    @elseif($pkp->vv == 'approve')
+                    @elseif($pkp->vv == 'approve' || $pkp->vv == 'proses')
                       <a class="btn btn-primary btn-sm" href="{{ route('panel',[$pkp->workbook_id,$pkp->id]) }}" data-toggle="tooltip" title="Lanjutkan Panel"><li class="fa fa-glass"></li></a>
                       <a class="btn btn-warning btn-sm" href="{{ route('st',[$pkp->workbook_id,$pkp->id]) }}" data-toggle="tooltip" title="Lanjutkan Storage"><li class="fa fa-flask"></li></a>
                     @endif

@@ -9,8 +9,8 @@
         <div class="x_title">
           <h3><li class="fa fa-file-zip-o"> </li> Draf PKP</h3>
         </div>
-        <div class="x_content" style="overflow-x: scroll;">
-          <table class="Table table-bordered table-striped border">
+        <div class="x_content">
+          <table id="datatable" class="table table-striped table-bordered" style="width:100%">
             <thead>
               <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
                 <th class="text-center">#</th>

@@ -26,6 +26,7 @@ use App\model\dev\ms_supplier_principals;
 use App\model\dev\ms_supplier_principal_cps;
 use App\model\pkp\pkp_datapangan;
 use App\model\nutfact\tb_jenis_mikroba;
+use App\model\nutfact\satuan_bpom;
 use Redirect;
 use DB;
 use Auth;
@@ -96,11 +97,25 @@ class bbRDController extends Controller
         $makro->kolesterol=$request->kolesterol;
         $makro->protein=$request->protein;
         $makro->kadar_air=$request->kadar_air;
+        $makro->lemak=$request->lemak;
         $makro->save();
         // registrasi vitamin bb
         $vitamin = new tr_vitamin_bb;
         $vitamin->id_bahan=$bahan->id;
-        $vitamin->id_satuan=$request->vitamin;
+        $vitamin->id_satuan_vitA=$request->id_satuan_vitA;
+        $vitamin->id_satuan_vitB1=$request->id_satuan_vitB1;
+        $vitamin->id_satuan_vitB2=$request->id_satuan_vitB2;
+        $vitamin->id_satuan_vitB3=$request->id_satuan_vitB3;
+        $vitamin->id_satuan_vitB5=$request->id_satuan_vitB5;
+        $vitamin->id_satuan_vitB6=$request->id_satuan_vitB6;
+        $vitamin->id_satuan_vitB12=$request->id_satuan_vitB12;
+        $vitamin->id_satuan_vitC=$request->id_satuan_vitC;
+        $vitamin->id_satuan_vitD=$request->id_satuan_vitD;
+        $vitamin->id_satuan_vitE=$request->id_satuan_vitE;
+        $vitamin->id_satuan_vitK=$request->id_satuan_vitK;
+        $vitamin->id_satuan_folat=$request->id_satuan_folat;
+        $vitamin->id_satuan_biotin=$request->id_satuan_biotin;
+        $vitamin->id_satuan_kolin=$request->id_satuan_kolin;
         $vitamin->vitA=$request->vitA;
         $vitamin->vitB1=$request->vitB1;
         $vitamin->vitB2=$request->vitB2;
@@ -136,12 +151,14 @@ class bbRDController extends Controller
         $mineral->fluor=$request->fluor;
         $mineral->save();
         // registrasi BTP carry over bb
-        if($request->satuan_btp!='' &&$request->btp_carry_over!=''){
+        if($request->satuan_btp!='' && $request->btp_carry_over!=''){
             $rule = array(); 
             $validator = Validator::make($request->all(), $rule);  
             if ($validator->passes()) {
 				$idz = implode(',', $request->input('btp_carry_over'));
 				$ids = explode(',', $idz);
+				$btp = implode(',', $request->input('btp'));
+				$nominal_btp = explode(',', $btp);
 				$idb = implode(',', $request->input('satuan_btp'));
 				$idc = explode(',', $idb);
 				for ($i = 0; $i < count($ids); $i++)
@@ -149,6 +166,7 @@ class bbRDController extends Controller
 					$btp_carryOver = new tr_btp_bb;
                     $btp_carryOver->id_bahan=$bahan->id;
                     $btp_carryOver->btp = $ids[$i];
+                    $btp_carryOver->nominal = $nominal_btp[$i];
 					$btp_carryOver->id_satuan = $idc[$i];
 					$btp_carryOver->save();
 					$i = $i++;
@@ -162,6 +180,8 @@ class bbRDController extends Controller
             if ($validator->passes()) {
 				$idz = implode(',', $request->input('zat_aktif'));
 				$ids = explode(',', $idz);
+				$nominal = implode(',', $request->input('zat'));
+				$nominal_zat = explode(',', $nominal);
 				$idb = implode(',', $request->input('satuan_zat'));
 				$idc = explode(',', $idb);
 				for ($i = 0; $i < count($ids); $i++)
@@ -169,6 +189,7 @@ class bbRDController extends Controller
 					$zat = new tr_zataktif_bb;
                     $zat->id_bahan=$bahan->id;
                     $zat->zat_aktif = $ids[$i];
+                    $zat->nominal = $nominal_zat[$i];
 					$zat->id_satuan = $idc[$i];
 					$zat->save();
 					$i = $i++;
@@ -289,6 +310,7 @@ class bbRDController extends Controller
         $allergen2 = ms_allergen::all();
         $satuans = Satuan::all();
         $pangan = pkp_datapangan::all();
+        $satuan_bpom = satuan_bpom::all();
         $zat = ms_zat_aktif::all();
         $btp = ms_btp::all();
         $supplier = ms_supplier_principals::all();
@@ -302,6 +324,7 @@ class bbRDController extends Controller
             'allergen' =>$allergen,
             'pangan' => $pangan,
             'jenis' => $jenis,
+            'satuan_bpom' => $satuan_bpom,
             'btp' => $btp,
             'zat' => $zat,
             'zat1' => $zat,
@@ -323,6 +346,7 @@ class bbRDController extends Controller
         $mineral = tr_mineral_bb::where('id_bahan',$id)->get();
         $asam = tr_asam_amino_bb::where('id_bahan',$id)->get();
         $currens = Curren::all();
+        $satuan_bpom = satuan_bpom::all();
         $zat_aktif = ms_zat_aktif::all();
         $zat = tr_zataktif_bb::where('id_bahan',$id)->get();
         $hitung_zat = tr_zataktif_bb::where('id_bahan',$id)->count();
@@ -348,6 +372,7 @@ class bbRDController extends Controller
             'makro' => $makro,
             'hitung_zat' => $hitung_zat,
             'mayContain' => $mayContain,
+            'satuan_bpom' => $satuan_bpom,
             'zat_aktif'=> $zat_aktif,
             'zat_aktif1'=> $zat_aktif,
             'hitungmikro' => $hitungmikro,
@@ -425,6 +450,7 @@ class bbRDController extends Controller
         $makro->kolesterol=$request->kolesterol;
         $makro->protein=$request->protein;
         $makro->kadar_air=$request->kadar_air;
+        $makro->lemak=$request->lemak;
         $makro->save();
         // registrasi vitamin bb
         $hitung_vitamin = tr_vitamin_bb::where('id_bahan',$id_bahan)->count();
@@ -434,7 +460,20 @@ class bbRDController extends Controller
             $vitamin = new tr_vitamin_bb;
         }
         $vitamin->id_bahan=$id_bahan;
-        $vitamin->id_satuan=$request->vitamin;
+        $vitamin->id_satuan_vitA=$request->id_satuan_vitA;
+        $vitamin->id_satuan_vitB1=$request->id_satuan_vitB1;
+        $vitamin->id_satuan_vitB2=$request->id_satuan_vitB2;
+        $vitamin->id_satuan_vitB3=$request->id_satuan_vitB3;
+        $vitamin->id_satuan_vitB5=$request->id_satuan_vitB5;
+        $vitamin->id_satuan_vitB6=$request->id_satuan_vitB6;
+        $vitamin->id_satuan_vitB12=$request->id_satuan_vitB12;
+        $vitamin->id_satuan_vitC=$request->id_satuan_vitC;
+        $vitamin->id_satuan_vitD=$request->id_satuan_vitD;
+        $vitamin->id_satuan_vitE=$request->id_satuan_vitE;
+        $vitamin->id_satuan_vitK=$request->id_satuan_vitK;
+        $vitamin->id_satuan_folat=$request->id_satuan_folat;
+        $vitamin->id_satuan_biotin=$request->id_satuan_biotin;
+        $vitamin->id_satuan_kolin=$request->id_satuan_kolin;
         $vitamin->vitA=$request->vitA;
         $vitamin->vitB1=$request->vitB1;
         $vitamin->vitB2=$request->vitB2;
@@ -483,15 +522,15 @@ class bbRDController extends Controller
                 $btp_carryOver = tr_btp_bb::where('id_bahan',$id_bahan)->delete();
             }
             if ($validator->passes()) {
-				$idz = implode(',', $request->input('btp_carry_over'));
-				$ids = explode(',', $idz);
+				$btp = implode(',', $request->input('btp_carry_over'));
+				$btps = explode(',', $btp);
 				$idb = implode(',', $request->input('satuan_btp'));
                 $idc = explode(',', $idb);
-				for ($i = 0; $i < count($ids); $i++)
+				for ($i = 0; $i < count($btps); $i++)
 				{
 					$btp_carryOver = new tr_btp_bb;
                     $btp_carryOver->id_bahan=$id_bahan;
-                    $btp_carryOver->btp = $ids[$i];
+                    $btp_carryOver->btp = $btps[$i];
                     $btp_carryOver->id_satuan = $idc[$i];
 					$btp_carryOver->save();
 					$i = $i++;

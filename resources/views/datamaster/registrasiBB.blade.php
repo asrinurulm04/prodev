@@ -29,7 +29,7 @@
             </div>
           </div>
           <div class="form-group">
-            <label  class="control-label col-md-2 col-sm-2 col-xs-12">Nama Bahan</label>
+            <label  class="control-label col-md-2 col-sm-2 col-xs-12">Nama Bahan*</label>
             <div class="col-md-3 col-sm-3 col-xs-12">
               <input type="text" required class="form-control" name="nama" id="nama">
             </div>
@@ -62,7 +62,7 @@
             </div>
             <label  class="control-label col-md-2 col-sm-2 col-xs-12">Berat</label>
             <div class="col-md-2 col-sm-2 col-xs-12">
-              <input type="number" step="0.0001" class="form-control" name="berat" id="berat">
+              <input type="number" step="0.0001" value="1" class="form-control" name="berat" id="berat">
             </div>
             <div class="col-md-1 col-sm-1 col-xs-12">
               <select name="satuan" id="satuan" class="form-control select">
@@ -209,6 +209,10 @@
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" class="form-control" name="kolesterol" id="kolesterol">
       </div>
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Lemak</label>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <input type="number" step="0.0001" class="form-control" name="lemak" id="lemak">
+      </div>
     </div><br>
     <div class="form-group">
       <label  style="font-size:14px" class="control-label col-md-1 col-sm-1 col-xs-12">Protein</label>
@@ -220,79 +224,180 @@
     <h4><li class="fa fa-tags"></li> Mirkro</h4>
     <div class="form-group">
       <label  style="font-size:14px" class="control-label col-md-1 col-sm-1 col-xs-12">Vitamin</label>
-      <div class="col-md-2 col-sm-2 col-xs-12">
-        <select name="vitamin" id="vitamin" class="form-control">
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Vitamin A</label>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <input type="number" step="0.0001" class="form-control" name="vitA" id="vitA">
+      </div>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <select name="id_satuan_vitA" id="id_satuan_vitA" class="form-control">
+          @foreach($satuan_vit as $vit)
+          <option value="{{$vit->id_satuan_vit}}">{{$vit->satuan}}</option>
+          @endforeach
+        </select>
+      </div>
+
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Vitamin B1</label>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <input type="number" step="0.0001" class="form-control" name="vitB1" id="vitB1">
+      </div>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <select name="id_satuan_vitB1" id="id_satuan_vitB1" class="form-control">
+          @foreach($satuan_vit as $vit)
+          <option value="{{$vit->id_satuan_vit}}">{{$vit->satuan}}</option>
+          @endforeach
+        </select>
+      </div>
+
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Vitamin B2</label>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <input type="number" step="0.0001" class="form-control" name="vitB2" id="vitB2">
+      </div>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <select name="id_satuan_vitB2" id="id_satuan_vitB2" class="form-control">
           @foreach($satuan_vit as $vit)
           <option value="{{$vit->id_satuan_vit}}">{{$vit->satuan}}</option>
           @endforeach
         </select>
       </div>
     </div>
+    
     <div class="form-group">
       <label  class="control-label col-md-1 col-sm-1 col-xs-12"></label>
-      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Vitamin A</label>
-      <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="vitA" id="vitA">
-      </div>
-      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Vitamin B1</label>
-      <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="vitB1" id="vitB1">
-      </div>
-      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Vitamin B2</label>
-      <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="vitB2" id="vitB2">
-      </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Vitamin B3</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" class="form-control" name="vitB3" id="vitB3">
+      </div>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <select name="id_satuan_vitB3" id="id_satuan_vitB3" class="form-control">
+          @foreach($satuan_vit as $vit)
+          <option value="{{$vit->id_satuan_vit}}">{{$vit->satuan}}</option>
+          @endforeach
+        </select>
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Vitamin B5 </label>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" class="form-control" name="vitB5" id="vitB5">
       </div>
-    </div>
-    <div class="form-group">
-      <label  class="control-label col-md-1 col-sm-1 col-xs-12"></label>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <select name="id_satuan_vitB5" id="id_satuan_vitB5" class="form-control">
+          @foreach($satuan_vit as $vit)
+          <option value="{{$vit->id_satuan_vit}}">{{$vit->satuan}}</option>
+          @endforeach
+        </select>
+      </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Vitamin B6</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" class="form-control" name="vitB6" id="vitB6">
       </div>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <select name="id_satuan_vitB6" id="id_satuan_vitB6" class="form-control">
+          @foreach($satuan_vit as $vit)
+          <option value="{{$vit->id_satuan_vit}}">{{$vit->satuan}}</option>
+          @endforeach
+        </select>
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12"></label>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Vitamin B12</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" class="form-control" name="vitB12" id="vitB12">
+      </div>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <select name="id_satuan_vitB12" id="id_satuan_vitB12" class="form-control">
+          @foreach($satuan_vit as $vit)
+          <option value="{{$vit->id_satuan_vit}}">{{$vit->satuan}}</option>
+          @endforeach
+        </select>
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Vitamin C</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" class="form-control" name="vitC" id="vitC">
       </div>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <select name="id_satuan_vitC" id="id_satuan_vitC" class="form-control">
+          @foreach($satuan_vit as $vit)
+          <option value="{{$vit->id_satuan_vit}}">{{$vit->satuan}}</option>
+          @endforeach
+        </select>
+      </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Vitamin D</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" class="form-control" name="vitD" id="vitD">
       </div>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <select name="id_satuan_vitD" id="id_satuan_vitD" class="form-control">
+          @foreach($satuan_vit as $vit)
+          <option value="{{$vit->id_satuan_vit}}">{{$vit->satuan}}</option>
+          @endforeach
+        </select>
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12"></label>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Vitamin E </label>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" class="form-control" name="vitE" id="vitE">
       </div>
-    </div>
-    <div class="form-group">
-      <label  class="control-label col-md-1 col-sm-1 col-xs-12"></label>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <select name="id_satuan_vitE" id="id_satuan_vitE" class="form-control">
+          @foreach($satuan_vit as $vit)
+          <option value="{{$vit->id_satuan_vit}}">{{$vit->satuan}}</option>
+          @endforeach
+        </select>
+      </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Vitamin K</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" class="form-control" name="vitK" id="vitK">
+      </div>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <select name="id_satuan_vitK" id="id_satuan_vitK" class="form-control">
+          @foreach($satuan_vit as $vit)
+          <option value="{{$vit->id_satuan_vit}}">{{$vit->satuan}}</option>
+          @endforeach
+        </select>
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Folat</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" class="form-control" name="folat" id="folat">
       </div>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <select name="id_satuan_folat" id="id_satuan_folat" class="form-control">
+          @foreach($satuan_vit as $vit)
+          <option value="{{$vit->id_satuan_vit}}">{{$vit->satuan}}</option>
+          @endforeach
+        </select>
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12"></label>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Biotin</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" class="form-control" name="biotin" id="biotin">
+      </div>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <select name="id_satuan_biotin" id="id_satuan_biotin" class="form-control">
+          @foreach($satuan_vit as $vit)
+          <option value="{{$vit->id_satuan_vit}}">{{$vit->satuan}}</option>
+          @endforeach
+        </select>
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Kolin</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" class="form-control" name="kolin" id="kolin">
       </div>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <select name="id_satuan_kolin" id="id_satuan_kolin" class="form-control">
+          @foreach($satuan_vit as $vit)
+          <option value="{{$vit->id_satuan_vit}}">{{$vit->satuan}}</option>
+          @endforeach
+        </select>
+      </div>
     </div><br>
+
     <div class="form-group">
       <label style="font-size:14px" class="control-label col-md-1 col-sm-1 col-xs-12">Mineral(mg/100g)</label>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Ca</label>
@@ -367,6 +472,7 @@
       <thead>
         <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
           <th class="text-center" width="65%">Zat Aktif(mg/100g)</th>
+          <th class="text-center">Nominal</th>
           <th class="text-center">Satuan</th>
           <th class="text-center" width="8%">Action</th>
         </tr>
@@ -381,6 +487,7 @@
               @endforeach
             </select>
           </td>
+          <td><input type="number" class="form-control" name="zat[]" id="zat"></td>
           <td class="text-center">
             <select name="satuan_zat[]" id="satuan_zat" class="form-control select">
               <option disabled selected>-->Select One<--</option>
@@ -399,6 +506,7 @@
       <thead>
         <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
           <th class="text-center" width="65%">BTP Carry Over</th>
+          <th class="text-center">Nominal</th>
           <th class="text-center">Satuan</th>
           <th class="text-center" width="8%">Action</th>
         </tr>
@@ -413,6 +521,7 @@
               @endforeach
             </select>
           </td>
+          <td><input type="number" class="form-control" name="btp[]" id="btp"></td>
           <td class="text-center">
             <select name="satuan_btp[]" id="satuan_btp" class="form-control select">
               <option disabled selected>-->Select One<--</option>
@@ -428,7 +537,7 @@
     </table><hr>
     <!-- Logam Berat -->
     <div class="form-group">
-      <label  style="font-size:13px" class="control-label col-md-1 col-sm-1 col-xs-12">Logam Berat</label>
+      <label  style="font-size:13px" class="control-label col-md-1 col-sm-1 col-xs-12">Logam Berat(PPM/1kg)</label>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Cu</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" class="form-control" name="cu" id="cu">
@@ -626,6 +735,18 @@
     pilihan += '<option value="'+id_pangan[i][i]+'">'+pangan[i][i]+'</option>';
   }
 
+  var kategori_pangan = []
+  <?php foreach($pangan as $key => $value) { ?>
+  if(!kategori_pangan){
+    kategori_pangan += [ { '<?php echo $key; ?>' : '<?php echo $value->pangan; ?>', } ];
+  } else { kategori_pangan.push({ '<?php echo $key; ?>' : '<?php echo $value->pangan; ?>', }) }
+  <?php } ?>
+
+  var pilihan_ketegori = '';
+  for(var i = 0; i < Object.keys(kategori_pangan).length; i++){
+    pilihan_ketegori += '<option value="'+id_pangan[i][i]+'">'+kategori_pangan[i][i]+'</option>';
+  }
+  console.log(pilihan_ketegori);
   function bpom(){
     var baru = document.getElementById('radio_bpom')
     if(baru.checked != true){
@@ -639,7 +760,7 @@
           "<option disabled selected>-->Select One<--</option>"+pilihan+"</select>"+
         "</div>"+
         "<div class='col-md-4 col-sm-4 col-xs-12'>"+
-          "<select class='form-control form-control-line' name='katbpom' id='katbpom'></select>"+
+          "<select class='form-control form-control-line' name='katbpom' id='katbpom'><option disabled selected>-->Select One<--</option>"+pilihan_ketegori+"</select>"+
         "</div>"+
       "</div>"+
       "<div class='ln_solid'></div>"
@@ -671,6 +792,31 @@
           }
         });
       });
+
+      $('#katbpom').on('change', function(){
+      var myId = $(this).val();
+      if(myId){
+        $.ajax({
+          url: '{{URL::to('getkatpangan')}}/'+myId,
+          type: "GET",
+          dataType: "json",
+          beforeSend: function(){
+            $('#loader').css("visibility", "visible");
+          },
+          success:function(data){
+            $('#bpom').empty();
+            $.each(data, function(key, value){
+              $('#bpom').append('<option value="'+ key +'">' + value + '</option>');
+            });
+          },
+          complete: function(){
+            $('#loader').css("visibility","hidden");
+          }
+        });
+      }else{
+        $('#bpom').empty();
+      }
+    });
     }
   }
 
@@ -691,6 +837,18 @@
   var pilihan_mikro = '';
   for(var i = 0; i < Object.keys(mikro).length; i++){
     pilihan_mikro += '<option value="'+id_jenis[i][i]+'">'+mikro[i][i]+'</option>';
+  }
+
+  var satuan_bpom = []
+  <?php foreach($satuan_bpom as $key => $value) { ?>
+  if(!satuan_bpom){
+    satuan_bpom += [ { '<?php echo $key; ?>' : '<?php echo $value->satuan; ?>', } ];
+  } else { satuan_bpom.push({ '<?php echo $key; ?>' : '<?php echo $value->satuan; ?>', }) }
+  <?php } ?>
+
+  var pilihan_satuan_bpom = '';
+  for(var i = 0; i < Object.keys(satuan_bpom).length; i++){
+    pilihan_satuan_bpom += '<option value="'+satuan_bpom[i][i]+'">'+satuan_bpom[i][i]+'</option>';
   }
 
   function custom(){
@@ -720,10 +878,7 @@
                 "<td><input type='number' step='0.0001' name='c[]' id='c' class='form-control'></td>"+
                 "<td><input type='number' step='0.0001' name='m[]' id='m' class='form-control'></td>"+
                 "<td><input type='number' step='0.0001' name='M2[]' id='M2' class='form-control'></td>"+
-                "<td><select name='satuan_mikro[]' id='satuan_mikro' class='form-control'>"+
-                  "<option value='g'>g</option>"+
-                  "<option value='ml'>ml</option>"+
-                "</select></td>"+
+                "<td><select name='satuan_mikro[]' id='satuan_mikro' class='form-control'>"+pilihan_satuan_bpom+"</select></td>"+
                 "<td class='text-center'><button class='btn btn-info btn-sm' id='add_data' type='button'><li class='fa fa-plus'></li></button></td>"+
               "</tr>"+
               "<tr id='addmikro1'></tr>"
@@ -740,10 +895,7 @@
           "<td><input type='number' step='0.0001' name='c[]' id='c' class='form-control'></td>"+
           "<td><input type='number' step='0.0001' name='m[]' id='m' class='form-control'></td>"+
           "<td><input type='number' step='0.0001' name='M2[]' id='M' class='form-control'></td>"+
-          "<td><select name='satuan_mikro[]' id='satuan_mikro' class='form-control'>"+
-            "<option value='g'>g</option>"+
-            "<option value='ml'>ml</option>"+
-          "</select></td>"+
+          "<td><select name='satuan_mikro[]' id='satuan_mikro' class='form-control'>"+pilihan_satuan_bpom+"</select></td>"+
           "<td class='text-center'><a hreaf='' class='btn btn-danger btn-sm'><li class='fa fa-trash'></li></a></td>");
         $('#tabledata').append('<tr id="addmikro' + (i + 1) + '"></tr>');
         i++;
@@ -802,6 +954,7 @@
   $("#add_zat").click(function() {
     $('#addzat' + b).html( 
     "<td><select name='zat_aktif[]' id='zat_aktif' class='form-control items'>"+pilihan_zat_aktif+"</select></td>"+
+    "<td><input type='number' name='zat[]' id='zat' class='form-control'></td>"+
     "<td><select name='satuan_zat[]' id='satuan_zat' class='form-control items'>"+pilihan_vitamin+"</select></td>"+
     "<td class='text-center'><a hreaf='' class='btn btn-danger btn-sm'><li class='fa fa-trash'></li></a></td>");
     
@@ -834,6 +987,7 @@
   $("#add_btp").click(function() {
     $('#addbtp' + a).html( 
     "<td><select name='btp_carry_over[]' class='form-control items'>"+pilihan_btp+"</select></td>"+
+    "<td><input type='number' name='btp[]' id='btp' class='form-control'></td>"+
     "<td><select name='satuan_btp[]' class='form-control items'>"+pilihan_vitamin+"</select></td>"+
     "<td class='text-center'><a hreaf='' class='btn btn-danger btn-sm'><li class='fa fa-trash'></li></a></td>");
     

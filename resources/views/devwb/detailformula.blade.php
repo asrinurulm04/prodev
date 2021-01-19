@@ -7,24 +7,24 @@
     <h3><li class="fa fa-wpforms"> Summary Formula</h3>
   </div>
 	<div class="row">
-    <div class="col-md-4">
+		<div class="col-md-4">
       <table>
 				@if($formula->workbook_id!=NULL)
-        <tr><td>Nama Produk</td><td>&nbsp; : {{ $formula->Workbook->datapkpp->project_name }}</td></tr>
-				<tr><td>No.PKP</td><td>&nbsp; : {{ $formula->Workbook->datapkpp->pkp_number }}{{$formula->Workbook->datapkpp->ket_no}}</td></tr>
-        <tr><td>Perevisi</td><td>&nbsp; : {{ $formula->workbook->perevisi2->name }} </td></tr>
+        <tr><th>Product Name</th><td>&nbsp; : {{ $formula->Workbook->datapkpp->project_name }}</td></tr>
+				<tr><th>No.PKP</th><td>&nbsp; : {{ $formula->Workbook->datapkpp->pkp_number }}{{$formula->Workbook->datapkpp->ket_no}}</td></tr>
+        <tr><th>Revised By</th><td>&nbsp; : {{ $formula->workbook->perevisi2->name }} </td></tr>
 				@elseif($formula->workbook_pdf_id!=NULL)
-        <tr><td>Nama Produk</td><td>&nbsp; : {{ $formula->Workbook_pdf->datapdf->project_name }}</td></tr>
-				<tr><td>No.PKP</td><td>&nbsp; : {{ $formula->Workbook_pdf->datapdf->pdf_number }}{{$formula->Workbook_pdf->datapdf->ket_no}}</td></tr>
-        <tr><td>Perevisi</td><td>&nbsp; : {{ $formula->Workbook_pdf->perevisi2->name }} </td></tr>
+        <tr><th>Product Name</th><td>&nbsp; : {{ $formula->Workbook_pdf->datapdf->project_name }}</td></tr>
+				<tr><th>PKP Number</th><td>&nbsp; : {{ $formula->Workbook_pdf->datapdf->pdf_number }}{{$formula->Workbook_pdf->datapdf->ket_no}}</td></tr>
+        <tr><th>Revised By</th><td>&nbsp; : {{ $formula->Workbook_pdf->perevisi2->name }} </td></tr>
 				@endif
-        <tr><td>Versi</td><td>&nbsp; : {{ $formula->versi }}.{{ $formula->turunan }}</td></tr>
+        <tr><th>Version</th><td>&nbsp; : {{ $formula->versi }}.{{ $formula->turunan }}</td></tr>
       </table>
     </div>
     <div class="col-md-3">
       <table>
-        <tr><td>Jumlah Batch</td><td>&nbsp; : {{ $formula->batch }} &nbsp;Gram</td></tr>
-        <tr><td>Jumlah Serving</td><td>&nbsp; : {{ $formula->serving }} &nbsp;Gram</td></tr>
+        <tr><th>Batch</th><td>&nbsp; : {{ $formula->batch }} &nbsp;Gram</td></tr>
+        <tr><th>Serving</th><td>&nbsp; : {{ $formula->serving }} &nbsp;Gram</td></tr>
       </table>
     </div>
     <div class="col-md-2"></div>
@@ -49,26 +49,26 @@
   <div class="card-block">
     <div class="row" style="margin:20px">
 			<div id="exTab2" class="container">	
-				<ul class="nav nav-tabs  tabs" role="tablist">
-					<li class="nav-item"><a class="nav-link  active" href="#1" data-toggle="tab"><i class="fa fa-list"></i> Formula</a></li>
-					<li class="nav-item"><a class="nav-link" href="#2" data-toggle="tab"><i class="fa fa-clipboard"></i> Nutfact</a></li>
-					<li class="nav-item"><a class="nav-link" href="#3" data-toggle="tab"><i class="fa fa-usd"></i> HPP Formula</a></li>
+				<ul class="nav nav-tabs bar_tabs" id="myTab" role="tablist">
+					<li class="nav-item"><a class="nav-link  active" href="#1" data-toggle="tab"><i class="fa fa-list"></i><b> Formula </b></a></li>
+					<li class="nav-item"><a class="nav-link" href="#2" data-toggle="tab"><i class="fa fa-clipboard"></i><b> Nutfact </b></a></li>
+					<li class="nav-item"><a class="nav-link" href="#3" data-toggle="tab"><i class="fa fa-usd"></i><b> HPP Formula </b></a></li>
 					@if($formula->status_panel=='proses')
-					<li class="nav-item"><a class="nav-link" style="background-color:grey;color:white" ><i class="fa fa-glass"></i> PANEL</a></li>
+					<li class="nav-item"><a class="nav-link" style="background-color:grey;color:white" ><i class="fa fa-glass"></i><b> PANEL </b></a></li>
 					@elseif($formula->status_panel!='proses')
-					<li class="nav-item"><a class="nav-link" href="#4" data-toggle="tab"><i class="fa fa-glass"></i> PANEL</a></li>
+					<li class="nav-item"><a class="nav-link" href="#4" data-toggle="tab"><i class="fa fa-glass"></i><b> PANEL </b></a></li>
 					@endif
 
 					@if($formula->status_storage=='proses')
-					<li class="nav-item"><a class="nav-link"  style="background-color:grey;color:white"><i class="fa fa-flask"></i> STORAGE</a></li>
+					<li class="nav-item"><a class="nav-link"  style="background-color:grey;color:white"><i class="fa fa-flask"></i><b> STORAGE </b></a></li>
 					@elseif($formula->status_storage!='proses')
-					<li class="nav-item"><a class="nav-link" href="#5" data-toggle="tab"><i class="fa fa-flask"></i> STORAGE</a></li>
+					<li class="nav-item"><a class="nav-link" href="#5" data-toggle="tab"><i class="fa fa-flask"></i><b> STORAGE </b></a></li>
 					@endif
 
 					@if($hfile>=1)
-					<li class="nav-item"><a class="nav-link" href="#6" data-toggle="tab"><i class="fa fa-folder-open-o"></i> File</a></li>
+					<li class="nav-item"><a class="nav-link" href="#6" data-toggle="tab"><i class="fa fa-folder-open-o"></i><b> File </b></a></li>
 					@elseif($hfile==0)
-					<li class="nav-item"><a class="nav-link" disabled  style="background-color:grey;color:white"><i class="fa fa-folder-open-o"></i> File</a></li>
+					<li class="nav-item"><a class="nav-link" disabled  style="background-color:grey;color:white"><i class="fa fa-folder-open-o"></i><b> File </b></a></li>
 					@endif
 				</ul><br>
 				<div class="tab-content ">
@@ -273,7 +273,7 @@
 												<textarea name="formula" id="formula" maxlength="200" disabled placeholder="max 200 character" value="{{ $formula->note_formula }}" class="col-md-12 col-sm-12 col-xs-12" rows="4">{{ $formula->note_formula }}</textarea>
 											</div>
 										</div>
-										@endif
+									@endif
 									</div><br>
 									<div class="row">
 										<div class="col-md-6">
@@ -296,15 +296,16 @@
 										<div class="accordion" id="accordionExample">
 											<div class="panel panel-info">
 												<div aria-labelledby="headingOne" data-parent="#accordionExample">
-													<div class="panel-body" style="overflow-x: scroll;">
-														<table class="table table-advanced table-bordered">
+													<div style="overflow-x: scroll;">
+														<table class="table table-advanced table-bordered" >
 															<thead>
 																<tr>
-																	<th rowspan="2"  class="text-center" style="font-weight: bold;color:white;background-color: #2a3f54;">Nama Sederhana</th>
-																	<th rowspan="2"  class="text-center" style="font-weight: bold;color:white;background-color: #2a3f54;" width="20%">Data_BTP_CarryOver_Bahan_Baku</th>
-																	<th rowspan="2"  class="text-center" style="font-weight: bold;color:white;background-color: #2a3f54;">Dosis</th>
-																	<th rowspan="2"  class="text-center" style="font-weight: bold;color:white;background-color: #2a3f54;">%</th>
+																	<th rowspan="2"  class="text-center sticky-col first-col"  class="text-center" style="font-weight: bold;color:white;background-color: #2a3f54;">Nama Sederhana</th>
+																	<th rowspan="2"  class="text-center sticky-col second-col" style="font-weight: bold;color:white;background-color: #2a3f54;">Dosis (Gram)</th>
+																	<th rowspan="2"  class="text-center sticky-col third-col" style="font-weight: bold;color:white;background-color: #2a3f54;">%</th>
+																	<th rowspan="2"  class="text-center sticky-col third-col" style="font-weight: bold;color:white;background-color: #2a3f54;">HPP</th>
 																	<th colspan="66" class="text-center" style="font-size: 12px;font-weight: bold; color:black;background-color: #898686;">Nutrition Data</th>
+																	<th rowspan="2"  class="text-center" style="font-weight: bold;color:white;background-color: #2a3f54;" width="20%">Data_BTP_CarryOver_Bahan_Baku</th>
 																</tr>
 																<tr class="text-center" style="font-weight: bold;color:white;background-color: #2a3f54;">
 																	<!-- Makro -->
@@ -350,11 +351,11 @@
 															<tbody>
 																@php $no = 0; @endphp
 																@foreach ($detail_harga->sortByDesc('per_batch') as $fortail)
-																<tr>
-																	<td>{{ $fortail['nama_sederhana'] }}</td>
-																	<td style="width:120px">@if( $fortail['hitung_btp'] !=NULL)@foreach($carryover as $co)@if($fortail['bahan']==$co->id_bahan) {{ $co->btp }}/<br>@endif @endforeach @endif</td>
-																	<td>{{ $fortail['per_serving'] }}</td>
-																	<td>{{ $fortail['persen'] }}</td>
+																<tr >
+																	<td class="sticky-col first-col">{{ $fortail['nama_sederhana'] }}</td>
+																	<td class="sticky-col second-col">{{ $fortail['per_serving'] }}</td>
+																	<td class="sticky-col third-col">{{ $fortail['persen'] }}</td>
+																	<td>Rp.{{ $fortail['hpg'] }}</td>
 																	<td>{{ $fortail['karbohidrat'] }}</td>
 																	<td>{{ $fortail['glukosa'] }}</td>
 																	<td>{{ $fortail['serat'] }}</td>
@@ -424,12 +425,14 @@
 																	<td>{{ $fortail['arginine'] }}</td>
 																	<td>{{ $fortail['proline'] }}</td>
 																	<td>{{ $fortail['Isoleusin'] }}</td>
+																	<td style="width:120px">@if( $fortail['hitung_btp'] !=NULL)@foreach($carryover as $co)@if($fortail['bahan']==$co->id_bahan) {{ $co->btp }}/<br>@endif @endforeach @endif</td>
 																</tr>  
 																@endforeach
 																<tr style="font-size: 12px;font-weight: bold; color:black;background-color: #ddd;">
-																	<td colspan="2" class="text-center">Total : </td>
-																	<td>{{ $formula->serving }}</td>
-																	<td> 100 </td>
+																	<td class="text-center sticky-col first-col" style="font-size: 12px;font-weight: bold; color:black;background-color: #ddd;">Total : </td>
+																	<td class="text-center sticky-col second-col" style="font-size: 12px;font-weight: bold; color:black;background-color: #ddd;">{{ $formula->serving }}</td>
+																	<td class="text-center sticky-col third-col" style="font-size: 12px;font-weight: bold; color:black;background-color: #ddd;"> 100 </td>
+																	<td>Rp.{{ $total_harga['total_harga_per_gram'] }}</td>
 																	<td>{{ $total_harga['total_karbohidrat'] }}</td>
 																	<td>{{ $total_harga['total_glukosa'] }}</td>
 																	<td>{{ $total_harga['total_serat'] }}</td>
@@ -499,6 +502,7 @@
 																	<td>{{ $total_harga['total_proline'] }}</td>
 																	<td>{{ $total_harga['total_arginine'] }}</td>
 																	<td>{{ $total_harga['total_Isoleusin'] }}</td>
+																	<td></td>
 																</tr>
 															</tbody>
 														</table>
@@ -1618,4 +1622,8 @@
 		</div>    
 	</div>
 </div>
+@endsection
+@section('s')
+<script>
+</script>
 @endsection

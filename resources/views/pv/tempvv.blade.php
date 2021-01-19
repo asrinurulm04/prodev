@@ -158,7 +158,7 @@
                     </ul>
                   </li>
                   @elseif(auth()->user()->role->namaRule === 'user_produk' || auth()->user()->role->namaRule === 'kemas')
-                  <li><a><i class="fa fa-folder-open"></i> PKP / PDF & WORKBOOK <span class="fa fa-chevron-down"></span></a>
+                  <li><a><i class="fa fa-folder-open"></i> PKP/PDF & Workbook <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="{{ route('listprojectpkp') }}">List PKP</a> </li>
                       <li><a href="{{ route('listprojectpdf') }}">List PDF</a> </li>
@@ -183,6 +183,7 @@
                       <li><a href="{{ route('klaim') }}">Claim Regulation</a></li>
                       <li><a href="{{ route('logam.berat')}}">Logam Berat</a></li>
                       <li><a href="{{ route('allergen') }}">Allergen</a></li>
+                      <li><a href="{{ route('curren.index') }}">Currency</a></li>
                       <li><a href="{{ route('bahanbaku') }}">Bahan Baku Eksis</a></li>
                       <li><a href="{{ route('bahan_rd') }}">Bahan Baku RD</a></li>
                     </ul>
@@ -210,7 +211,7 @@
                   @elseif(auth()->user()->role->namaRule === 'manager')
                   <li><a><i class="fa fa-sitemap"></i> PKP / PDF / PROMO <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a>List Project<span class="fa fa-chevron-down"></span></a>
+                      <li><a>My Project<span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                           <li><a href="{{Route('listpkprka')}}">List PKP</a> </li>
                           <li><a href="{{Route('listpromoo')}}">List PROMO</a> </li>

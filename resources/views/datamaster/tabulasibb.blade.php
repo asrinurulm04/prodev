@@ -16,7 +16,7 @@
       <div class="x_content">
         <div class="row">
           <div class="col-sm-12">
-            <div class="card-box table-responsive">
+            <div class="card-box">
 							<button class="btn btn-primary btn-sm" type="button" data-toggle="modal" data-target="#parampkp"><i class="fa fa-hand-o-right"></i> Custom Tabular</a></button>
               <!-- modal -->
               <div class="modal" id="parampkp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -30,82 +30,89 @@
                     </div>
                     <div class="modal-body">
                       <div class="form-group row">
+												<table class="table">
+													<td><label><input type="checkbox" checked id="checkbahan"/> Check all</label></td>
+													<td><label><input type="checkbox" class="data1" checked id="checkmakro"/> Makro</label></td>
+													<td><label><input type="checkbox" class="data1" checked id="checkmineral"/> Mineral</label></td>
+													<td><label><input type="checkbox" class="data1" checked id="checkvitamin"/> Vitamin</label></td>
+													<td><label><input type="checkbox" class="data1" checked id="checkasam"/> Asam Amino</label></td>
+												</table>
                         <table class="table table-bordered">
                           <thead>
-														<p><label><input type="checkbox" checked id="checkbahan"/> Check all</label></p>
                             <input type="hidden" value="{{ Auth::user()->id }}" name="user">
-														<tr><td><input type="checkbox" class="" hidden checked name="form1[]" value="ya"> Nama Bahan </td>
-                            		<td><input type="checkbox" class="" hidden checked name="form2[]" value="ya"> Nama Sederhana </td>
-                            		<td><input type="checkbox" class="" hidden checked name="form3[]" value="ya"> Status </td></tr>
-														<tr><td><input type="checkbox" class="data1" checked name="form4[]" value="ya"> Karbohidrat </td>
-																<td><input type="checkbox" class="data1" checked name="form5[]" value="ya"> Glukosa </td>
-																<th><input type="checkbox" class="data1" checked name="form6[]" value="ya">	Serat</th></tr>
-														<tr><th><input type="checkbox" class="data1" checked name="form7[]" value="ya">	Beta</th>
-																<th><input type="checkbox" class="data1" checked name="form8[]" value="ya">	Sorbitol</th>     
-																<th><input type="checkbox" class="data1" checked name="form9[]" value="ya">	Maltitol</th></tr>
-														<tr><th><input type="checkbox" class="data1" checked name="form10[]" value="ya">	Laktosa</th>
-																<th><input type="checkbox" class="data1" checked name="form11[]" value="ya">	Sukrosa</th>
-																<th><input type="checkbox" class="data1" checked name="form12[]" value="ya">	Gula</th></tr>
-														<tr><th><input type="checkbox" class="data1" checked name="form13[]" value="ya">	Erythritol</th>
-																<th><input type="checkbox" class="data1" checked name="form14[]" value="ya">	DHA</th>          
-																<th><input type="checkbox" class="data1" checked name="form15[]" value="ya">	EPA</th></tr>
-														<tr><th><input type="checkbox" class="data1" checked name="form16[]" value="ya">	Omega3</th>
-																<th><input type="checkbox" class="data1" checked name="form17[]" value="ya">	Lemak Trans</th>       
-																<th><input type="checkbox" class="data1" checked name="form18[]" value="ya">	MUFA</th></tr>
-														<tr><th><input type="checkbox" class="data1" checked name="form19[]" value="ya">	Lemak Jenuh</th>
-																<th><input type="checkbox" class="data1" checked name="form20[]" value="ya">	SFA</th>          
-																<th><input type="checkbox" class="data1" checked name="form21[]" value="ya">	Omega6</th></tr>
-														<tr><th><input type="checkbox" class="data1" checked name="form22[]" value="ya">	Kolestrol</th>    
-																<th><input type="checkbox" class="data1" checked name="form23[]" value="ya">	Protein</th>
-																<th><input type="checkbox" class="data1" checked name="form24[]" value="ya">	Kadar Air</th></tr>
+														<tr><td><input type="checkbox" class="" hidden checked name="form1" value="yes"> Nama Bahan </td>
+                            		<td><input type="checkbox" class="" hidden checked name="form2" value="yes"> Nama Sederhana </td>
+                            		<td><input type="checkbox" class="" hidden checked name="form3" value="yes"> Status </td></tr>
+														<!-- Makro -->
+														<tr><th><input type="checkbox" class="data1 makro" checked name="form4" value="yes"> Karbohidrat </th>
+																<th><input type="checkbox" class="data1 makro" checked name="form5" value="yes"> Glukosa </th>
+																<th><input type="checkbox" class="data1 makro" checked name="form6" value="yes">	Serat</th></tr>
+														<tr><th><input type="checkbox" class="data1 makro" checked name="form7" value="yes">	Beta</th>
+																<th><input type="checkbox" class="data1 makro" checked name="form8" value="yes">	Sorbitol</th>     
+																<th><input type="checkbox" class="data1 makro" checked name="form9" value="yes">	Maltitol</th></tr>
+														<tr><th><input type="checkbox" class="data1 makro" checked name="form10" value="yes">	Laktosa</th>
+																<th><input type="checkbox" class="data1 makro" checked name="form11" value="yes">	Sukrosa</th>
+																<th><input type="checkbox" class="data1 makro" checked name="form12" value="yes">	Gula</th></tr>
+														<tr><th><input type="checkbox" class="data1 makro" checked name="form13" value="yes">	Erythritol</th>
+																<th><input type="checkbox" class="data1 makro" checked name="form14" value="yes">	DHA</th>          
+																<th><input type="checkbox" class="data1 makro" checked name="form15" value="yes">	EPA</th></tr>
+														<tr><th><input type="checkbox" class="data1 makro" checked name="form16" value="yes">	Omega3</th>
+																<th><input type="checkbox" class="data1 makro" checked name="form17" value="yes">	Lemak Trans</th>       
+																<th><input type="checkbox" class="data1 makro" checked name="form18" value="yes">	MUFA</th></tr>
+														<tr><th><input type="checkbox" class="data1 makro" checked name="form19" value="yes">	Lemak Jenuh</th>
+																<th><input type="checkbox" class="data1 makro" checked name="form20" value="yes">	SFA</th>          
+																<th><input type="checkbox" class="data1 makro" checked name="form21" value="yes">	Omega6</th></tr>
+														<tr><th><input type="checkbox" class="data1 makro" checked name="form22" value="yes">	Kolestrol</th>    
+																<th><input type="checkbox" class="data1 makro" checked name="form23" value="yes">	Protein</th>
+																<th><input type="checkbox" class="data1 makro" checked name="form24" value="yes">	Kadar Air</th></tr>
 														<!-- Mineral -->
-														<tr><th><input type="checkbox" class="data1" checked name="form25[]" value="ya">	Ca (mg)</th>   
-																<th><input type="checkbox" class="data1" checked name="form26[]" value="ya">	Fe</th>   
-																<th><input type="checkbox" class="data1" checked name="form27[]" value="ya">	Mg (mg)</th></tr>
-														<tr><th><input type="checkbox" class="data1" checked name="form28[]" value="ya">	K (mg)</th>   
-																<th><input type="checkbox" class="data1" checked name="form29[]" value="ya">	Cr(mcg)</th>     
-																<th><input type="checkbox" class="data1" checked name="form30[]" value="ya">	Zink</th></tr>
-														<tr><th><input type="checkbox" class="data1" checked name="form31[]" value="ya">	P (mg)</th>    
-																<th><input type="checkbox" class="data1" checked name="form32[]" value="ya">	Fosfor</th>   
-																<th><input type="checkbox" class="data1" checked name="form33[]" value="ya">	Na (mg)</th></tr>
-														<tr><th><input type="checkbox" class="data1" checked name="form34[]" value="ya">	NaCi</th>    
-																<th><input type="checkbox" class="data1" checked name="form35[]" value="ya">	Mn</th>     
-																<th><input type="checkbox" class="data1" checked name="form36[]" value="ya">	Energi</th></tr>
+														<tr><th><input type="checkbox" class="data1 mineral" checked name="form25" value="yes">	Ca (mg)</th>   
+																<th><input type="checkbox" class="data1 mineral" checked name="form26" value="yes">	Fe</th>   
+																<th><input type="checkbox" class="data1 mineral" checked name="form27" value="yes">	Mg (mg)</th></tr>
+														<tr><th><input type="checkbox" class="data1 mineral" checked name="form28" value="yes">	K (mg)</th>   
+																<th><input type="checkbox" class="data1 mineral" checked name="form29" value="yes">	Cr(mcg)</th>     
+																<th><input type="checkbox" class="data1 mineral" checked name="form30" value="yes">	Zink</th></tr>
+														<tr><th><input type="checkbox" class="data1 mineral" checked name="form31" value="yes">	P (mg)</th>    
+																<th><input type="checkbox" class="data1 mineral" checked name="form32" value="yes">	Fosfor</th>   
+																<th><input type="checkbox" class="data1 mineral" checked name="form33" value="yes">	Na (mg)</th></tr>
+														<tr><th><input type="checkbox" class="data1 mineral" checked name="form34" value="yes">	NaCi</th>    
+																<th><input type="checkbox" class="data1 mineral" checked name="form35" value="yes">	Mn</th>     
+																<th><input type="checkbox" class="data1 mineral" checked name="form36" value="yes">	Energi</th></tr>
 														<!-- Vitamin -->	
-														<tr><th><input type="checkbox" class="data1" checked name="form37[]" value="ya">	VitA (mg)</th> 
-																<th><input type="checkbox" class="data1" checked name="form38[]" value="ya">	Biotin</th>    
-																<th><input type="checkbox" class="data1" checked name="form39[]" value="ya">	VitB1 (mg)</th></tr>
-														<tr><th><input type="checkbox" class="data1" checked name="form40[]" value="ya">	VitB2 (mg)</th> 
-																<th><input type="checkbox" class="data1" checked name="form41[]" value="ya">	Kolin </th> 
-																<th><input type="checkbox" class="data1" checked name="form42[]" value="ya">	VitB3 (mg)</th></tr>
-														<tr><th><input type="checkbox" class="data1" checked name="form43[]" value="ya">	VitB5 (mg)</th>  
-																<th><input type="checkbox" class="data1" checked name="form44[]" value="ya">	VitK (mg)</th> 
-																<th><input type="checkbox" class="data1" checked name="form45[]" value="ya">	VitB6 (mg)</th></tr>
-														<tr><th><input type="checkbox" class="data1" checked name="form46[]" value="ya">	VitB12 (mg)</th> 
-																<th><input type="checkbox" class="data1" checked name="form47[]" value="ya">	VitE (mg)</th> 
-																<th><input type="checkbox" class="data1" checked name="form48[]" value="ya">	VitC (mg)</th></tr>
-														<tr><th><input type="checkbox" class="data1" checked name="form49[]" value="ya">	VitD (mg)</th>
-																<th><input type="checkbox" class="data1" checked name="form50[]" value="ya">	Folat</th>
-																<th><input type="checkbox" class="data1" checked name="form51[]" value="ya">	Lisin</th></tr>
+														<tr><th><input type="checkbox" class="data1 vitamin" checked name="form37" value="yes">	VitA (mg)</th> 
+																<th><input type="checkbox" class="data1 vitamin" checked name="form38" value="yes">	Biotin</th>    
+																<th><input type="checkbox" class="data1 vitamin" checked name="form39" value="yes">	VitB1 (mg)</th></tr>
+														<tr><th><input type="checkbox" class="data1 vitamin" checked name="form40" value="yes">	VitB2 (mg)</th> 
+																<th><input type="checkbox" class="data1 vitamin" checked name="form41" value="yes">	Kolin </th> 
+																<th><input type="checkbox" class="data1 vitamin" checked name="form42" value="yes">	VitB3 (mg)</th></tr>
+														<tr><th><input type="checkbox" class="data1 vitamin" checked name="form43" value="yes">	VitB5 (mg)</th>  
+																<th><input type="checkbox" class="data1 vitamin" checked name="form44" value="yes">	VitK (mg)</th> 
+																<th><input type="checkbox" class="data1 vitamin" checked name="form45" value="yes">	VitB6 (mg)</th></tr>
+														<tr><th><input type="checkbox" class="data1 vitamin" checked name="form46" value="yes">	VitB12 (mg)</th> 
+																<th><input type="checkbox" class="data1 vitamin" checked name="form47" value="yes">	VitE (mg)</th> 
+																<th><input type="checkbox" class="data1 vitamin" checked name="form48" value="yes">	VitC (mg)</th></tr>
+														<tr><th><input type="checkbox" class="data1 vitamin" checked name="form49" value="yes">	VitD (mg)</th>
+																<th><input type="checkbox" class="data1 vitamin" checked name="form50" value="yes">	Folat</th>
 														<!-- asam amino -->
-														<tr><th><input type="checkbox" class="data1" checked name="form52[]" value="ya">	L-Glutamine</th> 
-																<th><input type="checkbox" class="data1" checked name="form53[]" value="ya">	Proline</th> 
-																<th><input type="checkbox" class="data1" checked name="form54[]" value="ya">	Methionin</th></tr>
-														<tr><th><input type="checkbox" class="data1" checked name="form55[]" value="ya">	Histidin</th>   
-																<th><input type="checkbox" class="data1" checked name="form56[]" value="ya">	Tyrosin</th>  
-																<th><input type="checkbox" class="data1" checked name="form57[]" value="ya">	BCAA</th></tr>
-														<tr><th><input type="checkbox" class="data1" checked name="form58[]" value="ya">	Leusin</th>   
-																<th><input type="checkbox" class="data1" checked name="form59[]" value="ya">	Glisin</th>     
-																<th><input type="checkbox" class="data1" checked name="form60[]" value="ya">	Aspartat</th></tr>
-														<tr><th><input type="checkbox" class="data1" checked name="form61[]" value="ya">	Serin</th>    
-																<th><input type="checkbox" class="data1" checked name="form62[]" value="ya">	Alanin</th>    
-																<th><input type="checkbox" class="data1" checked name="form63[]" value="ya">	Glutamat</th></tr>
-														<tr><th><input type="checkbox" class="data1" checked name="form64[]" value="ya">	Arginine</th>   
-																<th><input type="checkbox" class="data1" checked name="form65[]" value="ya">	Sistein</th>   
-																<th><input type="checkbox" class="data1" checked name="form66[]" value="ya">	Isoleusin</th></tr>
-														<tr><th><input type="checkbox" class="data1" checked name="form67[]" value="ya">	Threonin</th>     
-																<th><input type="checkbox" class="data1" checked name="form68[]" value="ya">	Phenilalanin</th>
-																<th><input type="checkbox" class="data1" checked name="form69[]" value="ya">	Valin</th></tr>
+																<th><input type="checkbox" class="data1 asam" checked name="form51" value="yes">	Lisin</th></tr>
+														<tr><th><input type="checkbox" class="data1 asam" checked name="form52" value="yes">	L-Glutamine</th> 
+																<th><input type="checkbox" class="data1 asam" checked name="form53" value="yes">	Proline</th> 
+																<th><input type="checkbox" class="data1 asam" checked name="form54" value="yes">	Methionin</th></tr>
+														<tr><th><input type="checkbox" class="data1 asam" checked name="form55" value="yes">	Histidin</th>   
+																<th><input type="checkbox" class="data1 asam" checked name="form56" value="yes">	Tyrosin</th>  
+																<th><input type="checkbox" class="data1 asam" checked name="form57" value="yes">	BCAA</th></tr>
+														<tr><th><input type="checkbox" class="data1 asam" checked name="form58" value="yes">	Leusin</th>   
+																<th><input type="checkbox" class="data1 asam" checked name="form59" value="yes">	Glisin</th>     
+																<th><input type="checkbox" class="data1 asam" checked name="form60" value="yes">	Aspartat</th></tr>
+														<tr><th><input type="checkbox" class="data1 asam" checked name="form61" value="yes">	Serin</th>    
+																<th><input type="checkbox" class="data1 asam" checked name="form62" value="yes">	Alanin</th>    
+																<th><input type="checkbox" class="data1 asam" checked name="form63" value="yes">	Glutamat</th></tr>
+														<tr><th><input type="checkbox" class="data1 asam" checked name="form64" value="yes">	Arginine</th>   
+																<th><input type="checkbox" class="data1 asam" checked name="form65" value="yes">	Sistein</th>   
+																<th><input type="checkbox" class="data1 asam" checked name="form66" value="yes">	Isoleusin</th></tr>
+														<tr><th><input type="checkbox" class="data1 asam" checked name="form67" value="yes">	Threonin</th>     
+																<th><input type="checkbox" class="data1 asam" checked name="form68" value="yes">	Phenilalanin</th>
+																<th><input type="checkbox" class="data1 asam" checked name="form69" value="yes">	Valin</th></tr>
                           </thead>
                         </table>
                       </div>
@@ -177,7 +184,7 @@
 								<tbody>
 									@foreach($bahan as $bahan)
 										<tr>
-											<td><input type="checkbox" class="cekbox1" name="id[]" id="cekbox" value="{{$bahan->id}}"></td>
+											<td><input type="checkbox" class="cekbox1" name="id[]" id="cekbox" value="{{$bahan->id_bahan}}"></td>
 											<td>{{$bahan->nama_bahan}}</td>			<td>{{$bahan->nama_sederhana}}</td>
 											<td>{{$bahan->status}}</td>					<td>{{$bahan->karbohidrat}}%</td>
 											<td>{{$bahan->glukosa}}%</td>				<td>{{$bahan->serat_pangan}}%</td>
@@ -228,12 +235,26 @@
 @endsection
 @section('s')
 <script>
-  // Header
+  // Header ALl
   $("#checkbahan").change(function () {
     $(".data1").prop('checked', $(this).prop("checked"));
-		console.log(data1);
   });
-
+  // Header makro
+  $("#checkmakro").change(function () {
+    $(".makro").prop('checked', $(this).prop("checked"));
+  });
+  // Header vitamin
+  $("#checkvitamin").change(function () {
+    $(".vitamin").prop('checked', $(this).prop("checked"));
+  });
+  // Header mineral
+  $("#checkmineral").change(function () {
+    $(".mineral").prop('checked', $(this).prop("checked"));
+  });
+  // Header asam
+  $("#checkasam").change(function () {
+    $(".asam").prop('checked', $(this).prop("checked"));
+  });
   // Bahan
   $("#bahan2").change(function () {
     $(".cekbox1").prop('checked', $(this).prop("checked"));

@@ -63,6 +63,8 @@ Route::post('AddBahanBaku','datamaster\BahanBakuController@addbahan')->name('add
 Route::get('tabulasibb','datamaster\tabulasibbController@tabulasi')->name('tabulasibb');
 Route::get('edittabulasi','datamaster\tabulasibbController@edittabulasi')->name('edittabulasi');
 Route::post('checktabulasi','datamaster\tabulasibbController@pilih')->name('checktabulasi');
+Route::post('update_bahan','datamaster\tabulasibbController@update_bahan')->name('update_bahan');
+Route::get('hapustabulasibb','datamaster\tabulasibbController@hapustabulasibb')->name('hapustabulasibb');
 
 Route::get('brand', 'datamaster\BrandController@index')->name('brand.index');
 Route::post('brand/store','datamaster\BrandController@store')->name('brand.store');

@@ -31,7 +31,7 @@
           @if(auth()->user()->role->namaRule != 'pv_global' && auth()->user()->role->namaRule != 'pv_lokal')
             @if($cek_storage=='0')
             <div class="col-md-12 col-sm-12 col-xs-12">
-              <form method="post" action="{{route('hasilstorage')}}" enctype="multipart/form-data">
+              <form method="post" class="form-horizontal form-label-left" action="{{route('hasilstorage')}}" enctype="multipart/form-data">
                 <input type='hidden' name='idf' maxlength='45' value='{{$fo->id}}' class='form-control col-md-7 col-xs-12'>
                 <input type='hidden' name='wb' maxlength='45' value='{{$fo->workbook_id}}' class='form-control col-md-7 col-xs-12'>
                 <input type='hidden' name='wb_pdf' maxlength='45' value='{{$fo->workbook_pdf_id}}' class='form-control col-md-7 col-xs-12'>
@@ -67,6 +67,11 @@
                 <div class="ln_solid"></div>
                 <div class="form-group">
                   <div class="col-md-6 col-md-offset-5 col-sm-offset-5">
+                    @if($formula->workbook_id!=NULL)
+                    <a href="{{ route('rekappkp',$formula->workbook_id) }}" class="btn btn-danger btn-sm" type="submit"><li class="fa fa-ban"></li> Back To Home</a>
+                    @elseif($formula->workbook_pdf_id!=NULL)
+                    <a href="{{ route('rekappdf',$formula->workbook_pdf_id) }}" class="btn btn-danger btn-sm" type="submit"><li class="fa fa-ban"></li> Back To Home</a>
+                    @endif
                     <button type="reset" class="btn btn-warning btn-sm"><li class="fa fa-repeat"></li> Reset</button>
                     <button type="submit" class="btn btn-primary btn-sm"><li class="fa fa-check"></li> Submit</button>
                     {{ csrf_field() }}
@@ -78,9 +83,9 @@
             <div class="col-md-12 col-sm-12 col-xs-12 text-right">
               <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#panel"><li class="fa fa-plus"></li> New Storage</button>
               @if($formula->workbook_id!=NULL)
-              <a href="{{ route('rekappkp',$formula->workbook_id) }}" class="btn btn-danger btn-sm" type="submit"><li class="fa fa-share"></li> Back To Home</a>
+              <a href="{{ route('rekappkp',$formula->workbook_id) }}" class="btn btn-danger btn-sm" type="submit"><li class="fa fa-ban"></li> Back To Home</a>
               @elseif($formula->workbook_pdf_id!=NULL)
-              <a href="{{ route('rekappdf',$formula->workbook_pdf_id) }}" class="btn btn-danger btn-sm" type="submit"><li class="fa fa-share"></li> Back To Home</a>
+              <a href="{{ route('rekappdf',$formula->workbook_pdf_id) }}" class="btn btn-danger btn-sm" type="submit"><li class="fa fa-ban"></li> Back To Home</a>
               @endif
             </div>
             <!-- Modal -->

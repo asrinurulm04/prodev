@@ -9,11 +9,11 @@
       <ul class="nav nav-tabs wizard">
         @if($formula->workbook_id!=NULL)
         <li class="active"><a href="{{ route('step1',[ $idfor, $idf]) }}"><span class="nmbr">1</span>Information</a></li>
-        <li class="completed"><a href="{{ route('step2',[ $idfor, $idf]) }}"><span class="nmbr">2</span>Penyusunan</a></li>
+        <li class="completed"><a href="{{ route('step2',[ $idfor, $idf]) }}"><span class="nmbr">2</span>Drafting</a></li>
         <li class="active"><a href="{{ route('summarry',[ $idfor, $idf]) }}"><span class="nmbr">3</span>Summary</a></li>
         @elseif($formula->workbook_pdf_id!=NULL)
         <li class="active"><a href="{{ route('step1_pdf',[ $idfor_pdf, $idf]) }}"><span class="nmbr">1</span>Information</a></li>
-        <li class="completed"><a href="{{ route('step2',[ $idfor_pdf, $idf]) }}"><span class="nmbr">2</span>Penyusunan</a></li>
+        <li class="completed"><a href="{{ route('step2',[ $idfor_pdf, $idf]) }}"><span class="nmbr">2</span>Drafting</a></li>
         <li class="active"><a href="{{ route('summarry',[ $idfor_pdf, $idf]) }}"><span class="nmbr">3</span>Summary</a></li>
         @endif
       </ul>
@@ -50,13 +50,13 @@
         <div class="col-md-4">
           <table>
             @if($formula->workbook_id!=NULL)
-            <tr><th>Nama Produk</th><td>&nbsp; : {{ $formula->Workbook->datapkpp->project_name }}</td></tr>
+            <tr><th>Product Name</th><td>&nbsp; : {{ $formula->Workbook->datapkpp->project_name }}</td></tr>
             <tr><th>PV</th><td>&nbsp; : {{ $formula->workbook->perevisi2->name }}</td></tr>
             @else
-            <tr><th>Nama Produk</th><td>&nbsp; : {{ $formula->Workbook_pdf->datapdf->project_name }}</td></tr>
+            <tr><th>Product Name</th><td>&nbsp; : {{ $formula->Workbook_pdf->datapdf->project_name }}</td></tr>
             <tr><th>PV</th><td>&nbsp; : {{ $formula->workbook_pdf->perevisi2->name }} </td></tr>
             @endif
-            <tr><th>Versi</th><td>&nbsp; : {{ $formula->versi }}.{{ $formula->turunan }}</td></tr>
+            <tr><th>Version</th><td>&nbsp; : {{ $formula->versi }}.{{ $formula->turunan }}</td></tr>
           </table>
         </div>
         <div class="col-md-4">
@@ -69,8 +69,8 @@
               {{ $formula->serving_size }} {{$formula->satuan}}
               @endif</th>
             </tr>
-            <tr><th>Jumlah Batch</th><td>&nbsp; : {{ $formula->batch }} Gram</td></tr>
-            <tr><th>Jumlah Serving</th><td>&nbsp; : {{ $formula->serving }} Gram</td></tr>
+            <tr><th>Batch</th><td>&nbsp; : {{ $formula->batch }} Gram</td></tr>
+            <tr><th>Serving</th><td>&nbsp; : {{ $formula->serving }} Gram</td></tr>
           </table>
         </div>
       </div>
@@ -81,7 +81,7 @@
 <div class="row">
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h4><i class="fa fa-plus"></i> Tambah Bahan Baku</h4>
+      <h4><i class="fa fa-plus"></i> Add Materials</h4>
     </div>
     <div class="panel-body">
       <form id="submitbahan" method="POST" action="{{ route('step2insert',$idf) }}">
@@ -94,9 +94,9 @@
               @elseif($formula->kategori=='premix')
               <input type="hidden" name="cpremix" value="ya">
               @endif
-							<label for="" class="control-label">Bahan Baku</label><br>
+							<label for="" class="control-label">Materials</label><br>
 							<select class="bahan form-control" style="width:190px;" id="prioritas" name="prioritas">
-								<option value="" disabled selected>Pilih BahanBaku</option>
+								<option value="" disabled selected>-->Select One<--</option>
 								@foreach($bahans as $bahan)
 								<option value="{{ $bahan->id }}">{{ $bahan->nama_sederhana }}( {{$bahan->nama_bahan}} )</option>
 								@endforeach
@@ -105,27 +105,27 @@
             </td>
          
             <td class="A1" style="display:none">
-							<label for="" class="control-label">Alternatif 1</label><br>
+							<label for="" class="control-label">Alternative 1</label><br>
 							<select class="bahan form-control" style="width:190px;display:none;" id="alternatif" name="alternatif[1]">
-								<option value="" disabled selected>Pilih Alternatif 1</option>                                
+								<option value="" disabled selected>Alternative 1</option>                                
 							</select>
 							<button class="btn btn-primary" id="t2" type="button"><i class="fa fa-plus"></i></button>
 							<button class="btn btn-danger" id="k1" type="button"><i class="fa fa-minus"></i></button>
             </td>
 
             <td class="A2" style="display:none">
-							<label for="" class="control-label">Alternatif 2</label><br>
+							<label for="" class="control-label">Alternative 2</label><br>
 							<select class="bahan form-control" style="width:190px;display:none;" id="alternatif2" name="alternatif[2]">
-								<option value="" disabled selected>Pilih Alternatif 2</option>                                
+								<option value="" disabled selected>Alternative 2</option>                                
 							</select>
 							<button class="btn btn-primary" id="t3" type="button"><i class="fa fa-plus"></i></button>
 							<button class="btn btn-danger" id="k2" type="button"><i class="fa fa-minus"></i></button>
             </td>
 
             <td class="A3" style="display:none">
-							<label for="" class="control-label">Alternatif 3</label><br>
+							<label for="" class="control-label">Alternative 3</label><br>
 							<select class="bahan form-control" style="width:190px;display:none;" id="alternatif3" name="alternatif[3]">
-								<option value="" disabled selected>Pilih Alternatif 3</option>                                
+								<option value="" disabled selected>Alternative 3</option>                                
 							</select>
 							<button class="btn btn-primary" id="t4" type="button"><i class="fa fa-plus"></i></button>
 							<button class="btn btn-danger" id="k3" type="button"><i class="fa fa-minus"></i></button>
@@ -134,36 +134,36 @@
 
           <tr>
             <td class="A4" style="display:none">
-							<label for="" class="control-label">Alternatif 4</label><br>
+							<label for="" class="control-label">Alternative 4</label><br>
 							<select class="bahan form-control" style="width:190px;display:none;" id="alternatif4" name="alternatif[4]">
-								<option value="" disabled selected>Pilih Alternatif 4</option>                                
+								<option value="" disabled selected>Alternative 4</option>                                
 							</select>
 							<button class="btn btn-primary" id="t5" type="button"><i class="fa fa-plus"></i></button>
 							<button class="btn btn-danger" id="k4" type="button"><i class="fa fa-minus"></i></button>
             </td>
  
             <td class="A5" style="display:none">
-							<label for="" class="control-label">Alternatif 5</label><br>
+							<label for="" class="control-label">Alternative 5</label><br>
 							<select class="bahan form-control" style="width:190px;display:none;" id="alternatif5" name="alternatif[5]">
-								<option value="" disabled selected>Pilih Alternatif 5</option>                                
+								<option value="" disabled selected>Alternative 5</option>                                
 							</select>
 							<button class="btn btn-primary" id="t6" type="button"><i class="fa fa-plus"></i></button>
 							<button class="btn btn-danger" id="k5" type="button"><i class="fa fa-minus"></i></button>
             </td>
 
             <td class="A6" style="display:none">
-							<label for="" class="control-label">Alternatif 6</label><br>
+							<label for="" class="control-label">Alternative 6</label><br>
 							<select class="bahan form-control" style="width:190px;display:none;" id="alternatif6" name="alternatif[6]">
-								<option value="" disabled selected>Pilih Alternatif 6</option>                                
+								<option value="" disabled selected>Alternative 6</option>                                
 							</select>
 							<button class="btn btn-primary" id="t7" type="button"><i class="fa fa-plus"></i></button>
 							<button class="btn btn-danger" id="k6" type="button"><i class="fa fa-minus"></i></button>
             </td>
 
             <td class="A7" style="display:none">
-							<label for="" class="control-label">Alternatif 7</label><br>
+							<label for="" class="control-label">Alternative 7</label><br>
 							<select class="bahan form-control" style="width:180px;display:none;" id="alternatif7" name="alternatif[7]">
-							  <option value="" disabled selected>Pilih Alternatif 7</option>                                
+							  <option value="" disabled selected>Alternative 7</option>                                
 							</select>
 							<button class="btn btn-danger" id="k7" type="button"><i class="fa fa-minus"></i></button>
             </td>
@@ -172,25 +172,25 @@
       </div>
       <div class="col-lg-12 col-md-12 col-sm-12">
         <div class="col-md-2">
-          <label for="" class="control-label">Per Serving(Gram)</label>
+          <label for="" class="control-label">Serving(Gram)</label>
           <input type="number" step=any id="per_serving"  name="per_serving" placeholder="0" class="form-control" value="{{ old('per_serving') }}" required />
           <input type="hidden" id="c"  name="c" value="0"/> 
         </div>
         @if ($mybase == 0)
         <div class="col-md-2"> 
-          <label for="" class="control-label">Per Batch(Gram)</label>
+          <label for="" class="control-label">Batch(Gram)</label>
           <input type="number" step=any id="per_batch" name="per_batch" placeholder="0" class="form-control" value="{{ old('per_batch') }}" />                    
         </div>
         @endif
         @if ($mybase == 0)
         <div class="col-md-2"><br>
           <input type="checkbox" value="yes" name="cbase" id="cbase">
-          <label for="cbase" >Jadikan Base Perhitungan</label>                                        
+          <label for="cbase" > Base Calculations</label>                                        
         </div>                                                                 
         @endif 
         <div class="col-md-6"><br>
         	{{ csrf_field()}}
-        	<input type="submit" class="btn btn-primary btn-sm" value="+ Masukan Bahan"></td>
+          <button type="submit" class="btn btn-primary btn-sm"><li class="fa fa-plus"></li> Add Materials</button>
         </div>
       </div>  
       </form>  
@@ -201,7 +201,7 @@
 <div class="row">
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h4><i class="fa fa-edit"></i> Penyusunan Formula</h4>
+      <h4><i class="fa fa-edit"></i> Formulation</h4>
     </div>
     <div class="panel-body">
       <div class="row">                            
@@ -219,12 +219,7 @@
         </div>                             
       </div>
 
-      @if($ada==0)
-        <h3>Data Masih Kosong !</h3>
-        @php $no = 0; @endphp  
-      @endif
-
-      @if($ada>0) <br>
+      @if($ada>0)
       <table class="table table-sm table-bordered">
         <thead>
           <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
@@ -403,17 +398,17 @@
         <div class="col-md-8">
           @if($formula->workbook_id!=NULL)
             @if($ada==0)                                    
-            <a type="button" class="btn btn-warning btn-sm" href="{{ route('getTemplate',[$idfor,$idf]) }}"><i class="fa fa-download"></i> Import Template Formula</a>        
+            <a type="button" class="btn btn-warning btn-sm" href="{{ route('getTemplate',[$idfor,$idf]) }}"><i class="fa fa-download"></i> Import Formula Template</a>        
             @else
             <a class="btn btn-success btn-sm" href="{{ route('getTemplate',[$idfor,$idf]) }}" type="button" id="buttonformcheckscale"><i class="fa fa-eye"></i> Import Granulasi/Premix</a>
-            <a class="btn btn-primary btn-sm" type="button" id="buttonformsavechanges"><i class="fa fa-save"></i> Simpan Perubahan Serving</a>                            
+            <a class="btn btn-primary btn-sm" type="button" id="buttonformsavechanges"><i class="fa fa-save"></i> Save Serving Changes</a>                            
             @endif
           @elseif($formula->workbook_pdf_id!=NULL)
             @if($ada==0)                                    
-            <a type="button" class="btn btn-warning btn-sm" href="{{ route('getTemplate',[$idfor_pdf,$idf]) }}"><i class="fa fa-download"></i> Import Template Formula</a>        
+            <a type="button" class="btn btn-warning btn-sm" href="{{ route('getTemplate',[$idfor_pdf,$idf]) }}"><i class="fa fa-download"></i> Import Formula Template</a>        
             @else
             <a class="btn btn-success btn-sm" href="{{ route('getTemplate',[$idfor_pdf,$idf]) }}" type="button" id="buttonformcheckscale"><i class="fa fa-eye"></i> Import Granulasi/Premix</a>
-            <a class="btn btn-primary btn-sm" type="button" id="buttonformsavechanges"><i class="fa fa-save"></i> Simpan Perubahan Serving</a>                            
+            <a class="btn btn-primary btn-sm" type="button" id="buttonformsavechanges"><i class="fa fa-save"></i> Save Serving Changes</a>                            
             @endif
           @endif
         </div>

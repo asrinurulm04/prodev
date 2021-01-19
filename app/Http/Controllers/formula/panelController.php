@@ -79,7 +79,7 @@ class panelController extends Controller
         $formula = Formula::where('id',$id_formula)->first();
         $formula->status_panel='sent';
         $formula->save();
-
+        
         $panel = hasilpanel::where('id',$id_panel)->first();
         $panel->status='done';
         $panel->save();

@@ -67,7 +67,11 @@
               <div class="ln_solid"></div>
               <div class="form-group">
                 <div class="col-md-6 col-md-offset-4 col-sm-offset-4">
-                  <a href="" class="btn btn-danger btn-sm" type="button"><li class="fa fa-arrow-circle-left"></li> Back</a>
+                  @if($myFormula->workbook_id!=NULL)
+                  <a href="{{ route('rekappkp',$myFormula->workbook_id) }}" class="btn btn-danger btn-sm" type="submit"><li class="fa fa-ban"></li> Back To Home</a>
+                  @elseif($myFormula->workbook_pdf_id!=NULL)
+                  <a href="{{ route('rekappdf',$myFormula->workbook_pdf_id) }}" class="btn btn-danger btn-sm" type="submit"><li class="fa fa-ban"></li> Back To Home</a>
+                  @endif
                   <button type="reset" class="btn btn-warning btn-sm"><li class="fa fa-repeat"></li> Reset</button>
                   <button type="submit" class="btn btn-primary btn-sm"><li class="fa fa-check"></li> Submit</button>
                   {{ csrf_field() }}
@@ -79,9 +83,9 @@
           <div class="col-md-12 col-sm-12 col-xs-12 text-right">
           <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#panel"><li class="fa fa-plus"></li> Add Data Panel</button>
           @if($myFormula->workbook_id!=NULL)
-          <a href="{{ route('rekappkp',$myFormula->workbook_id) }}" class="btn btn-danger btn-sm" type="submit"><li class="fa fa-share"></li> Back To Home</a>
+          <a href="{{ route('rekappkp',$myFormula->workbook_id) }}" class="btn btn-danger btn-sm" type="submit"><li class="fa fa-ban"></li> Back To Home</a>
           @elseif($myFormula->workbook_pdf_id!=NULL)
-          <a href="{{ route('rekappdf',$myFormula->workbook_pdf_id) }}" class="btn btn-danger btn-sm" type="submit"><li class="fa fa-share"></li> Back To Home</a>
+          <a href="{{ route('rekappdf',$myFormula->workbook_pdf_id) }}" class="btn btn-danger btn-sm" type="submit"><li class="fa fa-ban"></li> Back To Home</a>
           @endif
           </div>
           <!-- Modal -->
@@ -160,9 +164,9 @@
               <td width="15%" class="text-center">
                 @if($pn->status=='proses')
                 @if($pn->id_wb!=NULL)
-                <a href="{{ route('ajukanpanel',[$pn->id_wb,$pn->id]) }}" class="btn btn-sm btn-primary" title="Done"><li class="fa fa-check"></li></a>
+                <a href="{{ route('ajukanpanel',[$pn->id_formula,$pn->id]) }}" class="btn btn-sm btn-primary" title="Done"><li class="fa fa-check"></li></a>
                 @elseif($pn->id_wb_pdf!=NULL)
-                <a href="{{ route('ajukanpanel',[$pn->id_wb_pdf,$pn->id]) }}" class="btn btn-sm btn-primary" title="Done"><li class="fa fa-check"></li></a>
+                <a href="{{ route('ajukanpanel',[$pn->id_formula,$pn->id]) }}" class="btn btn-sm btn-primary" title="Done"><li class="fa fa-check"></li></a>
                 @endif
                 <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#edit{{$pn->id}}" title="Edit"><li class=" fa fa-edit"></li></button>
                 <!-- modal -->

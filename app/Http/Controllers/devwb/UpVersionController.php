@@ -184,7 +184,7 @@ class UpVersionController extends Controller
             $pkp->save();
             
             $lastversion = Formula::where('workbook_id',$lastf->workbook_id)->max('versi');
-            $myformulas  = Formula::where('versi',$lastversion)->where('workbook_id',$wb)->get();
+            $myformulas  = Formula::where('versi',$lastversion)->where('workbook_id',$lastf->workbook_id)->get();
             $lastturunan = Formula::where('workbook_id',$lastf->workbook_id)->max('turunan')+1;
         }
         if($lastf->workbook_pdf_id!=NULL){

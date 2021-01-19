@@ -195,50 +195,6 @@
                           if($data->turunan!=$pkp->turunan){ echo": <s><font color='#6594c5'>$data->product_form<br></font></s>"; } if($data->turunan==$pkp->turunan){ echo": $data->product_form<br>"; } }  ?></td>
                         </tr>
                         <tr>
-                        <td>Product Packaging</td>
-                          <td colspan="2">
-                            <table>
-                              <tr>
-                              @if($pkp->kemas_eksis!=NULL)
-                              <?php $eksis = []; foreach ($pkp1 as $key => $data) If (!$eksis || !in_array($data->kemas->nama, $eksis)) { $eksis += array( $key => $data->kemas->nama ); 
-                              if($data->turunan!=$pkp->turunan){ echo": <s><font color='#6594c5'>".$data->kemas->nama." <br></font></s>"; } if($data->turunan==$pkp->turunan){ echo $data->kemas->nama." <br>"; } }  ?>
-                              (
-                              @if($pkp->kemas->primer!=NULL)
-                              {{ $pkp->kemas->primer }}{{ $pkp->kemas->s_primer }}
-                              @elseif($pkp->kemas->primer==NULL)
-                              @endif
-
-                              @if($pkp->kemas->sekunder1!=NULL)
-                              X {{ $pkp->kemas->sekunder1 }}{{ $pkp->kemas->s_sekunder1}}
-                              @elseif($pkp->kemas->sekunder1==NULL)
-                              @endif
-
-                              @if($pkp->kemas->sekunder2!=NULL)
-                              X {{ $pkp->kemas->sekunder2 }}{{ $pkp->kemas->s_sekunder2 }}
-                              @elseif($pkp->sekunder2==NULL)
-                              @endif
-
-                              @if($pkp->kemas->tersier!=NULL)
-                              X {{ $pkp->kemas->tersier }}{{ $pkp->kemas->s_tersier }}
-                              @elseif($pkp->tersier==NULL)
-                              @endif
-                              )
-                              @elseif($pkp->primer==NULL)
-                                @if($pkp->kemas_eksis==NULL)
-                                @endif
-                              @endif
-                            </tr>
-                              <br>
-                              <?php $primery = []; foreach ($pkp1 as $key => $data) If (!$primery || !in_array($data->primery, $primery)) { $primery += array( $key => $data->primery ); } ?>
-                              <?php $secondary = []; foreach ($pkp1 as $key => $data) If (!$secondary || !in_array($data->secondary, $secondary)) { $secondary += array( $key => $data->secondary ); } ?>
-                              <?php $tertiary = []; foreach ($pkp1 as $key => $data) If (!$tertiary || !in_array($data->tertiary, $tertiary)) { $tertiary += array( $key => $data->tertiary ); } ?>
-                              <tr><td style="border:none;">Primary information</td><td style="border:none;">@foreach($primery as $primery) : {{ $primery }} <br>@endforeach</td></tr>
-                              <tr><td style="border:none;">Secondary information</td><td style="border:none;">@foreach($secondary as $secondary) : {{ $secondary }} <br>@endforeach</td></tr>
-                              <tr><td style="border:none;">Teriery information</td><td style="border:none;">@foreach($tertiary as $tertiary) : {{ $pkp->tertiary }} <br>@endforeach</td></tr>
-                            </table>
-                          </td>
-                        </tr>
-                        <tr>
                           <td>Food Category (BPOM)</td>
                           <td colspan="2"><?php $pangan = []; foreach ($pkp1 as $key => $data) If (!$pangan || !in_array($data->katpangan->kategori, $pangan)) { $pangan += array( $key => $data->katpangan->kategori );  
                           if($data->turunan!=$pkp->turunan){ echo" <s><font color='#6594c5'>".$data->katpangan->kategori." <br></font></s>"; } if($data->turunan==$pkp->turunan){ echo $data->katpangan->kategori." <br>"; } }  ?> </td>
@@ -265,7 +221,7 @@
                                 <tr>
                                   <td>Komponen</td>
                                   <td>Klaim</td>
-                                <td>Detail</td>
+                                  <td>Detail</td>
                                 </tr>
                                 <tr>
                                   <td>

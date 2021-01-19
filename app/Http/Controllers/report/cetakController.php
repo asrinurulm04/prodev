@@ -297,7 +297,6 @@ class cetakController extends Controller
             ->join('data_kemas','data_kemas.id_kemas','data_forecash.kemas_eksis')
             ->where('status_freeze','inactive')->where('status_project','!=','revisi')
             ->where('status_project','!=','draf')->get();
-            dd($for);
         $number=1;
 
         // Add some data to the second sheet, resembling some different data types
