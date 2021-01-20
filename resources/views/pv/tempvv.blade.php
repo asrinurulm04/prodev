@@ -6,12 +6,11 @@
     <title>@yield('title')
     </title>
     <link href="{{ asset('img/prod.png') }}" rel="icon">
-    <link href="{{ asset('css/asrul.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendors/nprogress/nprogress.css') }}" rel="stylesheet">
     <link href="{{ asset('vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('vendors/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
     <link href="{{ asset('build/css/custom.min.css') }}" rel="stylesheet">
     <link href="{{ asset('lib/advanced-datatable/css/jquery.dataTables.css') }}" rel="stylesheet" />
-    <link href="{{ asset('css/dataTables.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/sheila.css') }}" rel="stylesheet">
   </head>
@@ -86,7 +85,6 @@
                   <li><a><i class="fa fa-book"></i> Master Data <span class="label label-success"></span> <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="{{ route('datapangan') }}">Microbiology</a></li>
-                      <li><a href="{{ route('akg') }}">Data AKG</a></li>
                       <li><a href="{{ route('sku') }}">Active SKU</a></li>
                       <li><a href="{{ route('klaim') }}">Claim Regulation</a></li>
                     </ul>
@@ -122,7 +120,6 @@
                   <li><a><i class="fa fa-book"></i> Master Data <span class="label label-success"></span> <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="{{ route('datapangan') }}">Microbiology</a></li>
-                      <li><a href="{{ route('akg') }}">Data AKG</a></li>
                       <li><a href="{{ route('sku') }}">Active SKU</a></li>
                       <li><a href="{{ route('klaim') }}">Claim Regulation</a></li>
                     </ul>
@@ -156,18 +153,22 @@
                   <li><a><i class="fa fa-book"></i> Master Data <span class="label label-success"></span> <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="{{ route('datapangan') }}">Microbiology</a></li>
-                      <li><a href="{{ route('akg') }}">Data AKG</a></li>
                       <li><a href="{{ route('sku') }}">Active SKU</a></li>
                       <li><a href="{{ route('klaim') }}">Claim Regulation</a></li>
                     </ul>
                   </li>
-                  @endif
-                  @if(auth()->user()->role->namaRule === 'user_produk' || auth()->user()->role->namaRule === 'kemas')
-                  <li><a><i class="fa fa-folder-open"></i> PKP / PDF / PROMO <span class="fa fa-chevron-down"></span></a>
+                  @elseif(auth()->user()->role->namaRule === 'user_produk' || auth()->user()->role->namaRule === 'kemas')
+                  <li><a><i class="fa fa-folder-open"></i> PKP/PDF & Workbook <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="{{ route('listprojectpkp') }}">List PKP</a> </li>
                       <li><a href="{{ route('listprojectpdf') }}">List PDF</a> </li>
                       <li><a href="{{ route('listprojectpromo') }}">List PROMO</a> </li>
+                    </ul>
+                  </li>
+                  <li><a><i class="fa fa-registered"></i> Material Registration <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{{ route('registrasi_bb_rd') }}"> Material Registration</a> </li>
+                      <li><a href="{{ route('tabulasibb') }}">Material Tabulation</a></li>
                     </ul>
                   </li>
                   <li><a><i class="fa fa-file-text"></i> Project Recapitulation <span class="label label-success"></span> <span class="fa fa-chevron-down"></span></a>
@@ -178,13 +179,13 @@
                   <li><a><i class="fa fa-book"></i> Master Data <span class="label label-success"></span> <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="{{ route('datapangan') }}">Microbiology</a></li>
-                      <li><a href="{{ route('akg') }}">Data AKG</a></li>
                       <li><a href="{{ route('sku') }}">Active SKU</a></li>
                       <li><a href="{{ route('klaim') }}">Claim Regulation</a></li>
                       <li><a href="{{ route('logam.berat')}}">Logam Berat</a></li>
                       <li><a href="{{ route('allergen') }}">Allergen</a></li>
-                      <li><a href="{{ route('bahanbaku') }}">Bahan Baku</a></li>
-                      <li><a href="{{ route('bbrd') }}">Bahan Baku RD</a></li>
+                      <li><a href="{{ route('curren.index') }}">Currency</a></li>
+                      <li><a href="{{ route('bahanbaku') }}">Bahan Baku Eksis</a></li>
+                      <li><a href="{{ route('bahan_rd') }}">Bahan Baku RD</a></li>
                     </ul>
                   </li>
                   @elseif(auth()->user()->role->namaRule === 'CS')
@@ -210,7 +211,7 @@
                   @elseif(auth()->user()->role->namaRule === 'manager')
                   <li><a><i class="fa fa-sitemap"></i> PKP / PDF / PROMO <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a>List Project<span class="fa fa-chevron-down"></span></a>
+                      <li><a>My Project<span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                           <li><a href="{{Route('listpkprka')}}">List PKP</a> </li>
                           <li><a href="{{Route('listpromoo')}}">List PROMO</a> </li>
@@ -236,7 +237,6 @@
                   <li><a><i class="fa fa-book"></i> Master Data <span class="label label-success"></span> <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="{{ route('datapangan') }}">BPOM Category</a></li>
-                      <li><a href="{{ route('akg') }}">Data AKG</a></li>
                       <li><a href="{{ route('sku') }}">Active SKU</a></li>
                       <li><a href="{{ route('klaim') }}">Claim Regulation</a></li>
                       <li><a href="{{ route('logam.berat')}}">Logam Berat</a></li>
@@ -274,7 +274,6 @@
                       <li><a href="{{ route('datases') }}">SES</a></li>
                       <li><a href="{{ route('datauom')}}">UOM</a></li>
                       <li><a href="{{ route('datapangan') }}">Microbiology</a></li>
-                      <li><a href="{{ route('akg') }}">Data AKG</a></li>
                       <li><a href="{{ route('sku') }}">Active SKU</a></li>
                       <li><a href="{{ route('klaim') }}">Claim Regulation</a></li>
                       <li><a href="{{ route('logam.berat')}}">Logam Berat</a></li>

@@ -10,11 +10,9 @@ use Redirect;
 
 class SubkategoriController extends Controller
 {
-    public function index()
-    {
+    public function index(){
         $subkategoris = Subkategori::all();
         $kategoris = Kategori::all();
-
         return view('datamaster.subkategori')->with([
             'subkategoris' => $subkategoris,
             'kategoris' =>$kategoris
@@ -32,17 +30,14 @@ class SubkategoriController extends Controller
         return Redirect::back()->with('status','Subkategori '.$subkategori->subkategori.' Berhasil Dibuat');
     }
 
-    public function edit(Subkategori $subkategori)
-    {
+    public function edit(Subkategori $subkategori){
         $kategoris = Kategori::all();
         return view('datamaster.editsubkategori')->with([
-            'subkategori'=> $subkategori,
             'kategoris' =>$kategoris
         ]);
     }
 
-    public function update(Request $request, Subkategori $subkategori)
-    {
+    public function update(Request $request, Subkategori $subkategori){
         $subkategori->subkategori = $request->subkategori;
         $subkategori->kategori_id = $request->kategori;
         $subkategori->pembulatan = $request->pembulatan;
@@ -51,8 +46,7 @@ class SubkategoriController extends Controller
         return Redirect()->route('subkategori.index')->with('status','Subkategori '.$subkategori->subkategori.' Telah DiUpdate');
     }
 
-    public function destroy(Subkategori $subkategori)
-    {
+    public function destroy(Subkategori $subkategori){
         $subkategori->delete();
         return Redirect::back()->with('error','Subkategori '.$subkategori->subkategori.' Berhasil Dihapus !');
 

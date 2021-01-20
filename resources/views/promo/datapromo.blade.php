@@ -1,17 +1,15 @@
 @extends('pv.tempvv')
-@section('title', 'Request PKP Promo')
-@section('judulhalaman','Form PKP Promo')
+@section('title', 'PRODEV|Request PKP Promo')
 @section('content')
 
 <div class="row">
-  <div class="col-md-2"></div>
-  <div class="col-md-10">
+  <div class="col-md-3"></div>
+  <div class="col-md-9">
     <div class="tabbable">
       <ul class="nav nav-tabs wizard">
-        <li class="active"><a href="" ><span class="nmbr">1</span>Information</a></li>
-        <li class="completed"><a href=""><span class="nmbr">2</span>Data</a></li>
-        <li class="active"><a href=""><span class="nmbr">3</span>Products</a></li>
-        <li class="active"><a href=""><span class="nmbr">4</span>File & Image</a></li>
+        <li class="completed"><a href=""><span class="nmbr">1</span>Data</a></li>
+        <li class="active"><a href=""><span class="nmbr">2</span>Products</a></li>
+        <li class="active"><a href=""><span class="nmbr">3</span>File & Image</a></li>
       </ul>
     </div>
   </div>
@@ -100,7 +98,6 @@
 @section('s')
 <script>
   $(document).ready(function() {
-  
     $('#tabledata').on('click', 'tr a', function(e) {
       e.preventDefault();
       var lenRow = $('#tabledata tbody tr').length;
@@ -118,7 +115,6 @@
         "<td><input required='required' id='dimension' class='form-control col-md-12 col-xs-12' type='text' name='dimension[]'></td>"+
         "<td><a href='' class='btn btn-danger btn-sm'><li class='fa fa-trash'></li></a>"+
         "</td>");
-  
       $('#tabledata').append('<tr id="addrow' + (i + 1) + '"></tr>');
       i++;
     });

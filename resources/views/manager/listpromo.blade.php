@@ -1,6 +1,5 @@
 @extends('manager.tempmanager')
-@section('title', 'Data PKP promo')
-@section('judulhalaman','Draf PKP pPromo')
+@section('title', 'PRODEV|Data PKP promo')
 @section('content')
 
 @if (session('status'))
@@ -29,7 +28,6 @@
       <div>
         <div>
           <form id="clear">
-          <!--brand-->
           <div class="col-md-2 pl-1">
             <div class="form-group" id="filter_col1" data-column="2">
               <label>Brand</label>
@@ -41,7 +39,6 @@
               </select>
             </div>
           </div> 
-          <!--Data-->
           <div class="col-md-3 pl-1">
             <div class="form-group" id="filter_col1" data-column="4">
               <label>Status RD Kemas</label>
@@ -54,7 +51,6 @@
               </select>
             </div>
           </div>  
-          <!--Data-->
           <div class="col-md-3 pl-1">
             <div class="form-group" id="filter_col1" data-column="5">
               <label>Status RD Product</label>
@@ -67,7 +63,6 @@
               </select>
             </div>
           </div>      
-          <!--project-->
           <div class="col-md-3 pl-1">
             <div class="form-group" id="filter_col1" data-column="6">
               <label>Priority</label>
@@ -101,7 +96,7 @@
           <h3><li class="fa fa-wpforms"> List PKP Promo</h3>
         </div>
         <div class="card-box table-responsive">
-          <table class="Table table-striped table-bordered" id="ex">
+          <table id="datatable" class="table table-striped table-bordered ex" style="width:100%">
             <thead>
               <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
                 <td>No</td>
@@ -195,8 +190,7 @@
                         <?php
                           $awal  = date_create( $pkp->waktu );
                           $akhir = date_create(); // waktu sekarang
-                          if($akhir<=$awal)
-                          {
+                          if($akhir<=$awal){
                             $diff  = date_diff( $akhir, $awal );
                             echo ' You Have ';
                             echo $diff->m . ' Month, ';
@@ -257,9 +251,7 @@
                   <td>{{ $pkp->promo_number}}{{$pkp->ket_no}}</td>
                   <td>{{ $pkp->brand }}</td>
                   <td>{{ $pkp->datapromo->perevisi2->name}}</td>
-                  <td>
-                    No Prosess
-                  </td>
+                  <td>No Prosess</td>
                   <td>
                     @if($pkp->tujuankirim!=1)
                       @if($pkp->status_project=='sent')
@@ -307,8 +299,7 @@
                         <?php
                           $awal  = date_create( $pkp->waktu );
                           $akhir = date_create(); // waktu sekarang
-                          if($akhir<=$awal)
-                          {
+                          if($akhir<=$awal){
                             $diff  = date_diff( $akhir, $awal );
                             echo ' You Have ';
                             echo $diff->m . ' Month, ';
@@ -359,8 +350,8 @@
                     <a class="btn btn-success btn-sm"  data-toggle="tooltip" title="Project Finish" disabled><li class="fa fa-smile-o"></li></a>
                   </td>
                   <td>Project Finish</td>
+                  @endif
                 </tr>
-                @endif
                 @endif
               @endif  
               @endforeach
@@ -371,38 +362,35 @@
     </div>
   </div>
 </div>
-
 @endsection
 
 @section('s')
 <script>
  function filterGlobal () {
-    $('#ex').DataTable().search(
+    $('.ex').DataTable().search(
         $('#global_filter').val(),
-    
     ).draw();
-    }
+  }
     
-    function filterColumn ( i ) {
-        $('#ex').DataTable().column( i ).search(
-            $('#col'+i+'_filter').val()
-        ).draw();
-    }
+  function filterColumn ( i ) {
+    $('.ex').DataTable().column( i ).search(
+        $('#col'+i+'_filter').val()
+    ).draw();
+  }
     
-    $(document).ready(function() {
-        $('#ex').DataTable();
-        
-        $('input.global_filter').on( 'keyup click', function () {
-            filterGlobal();
-        } );
-    
-        $('input.column_filter').on( 'keyup click', function () {
-            filterColumn( $(this).parents('div').attr('data-column') );
-        } );
+  $(document).ready(function() {
+    $('.ex').DataTable();
+    $('input.global_filter').on( 'keyup click', function () {
+      filterGlobal();
     } );
+    
+    $('input.column_filter').on( 'keyup click', function () {
+      filterColumn( $(this).parents('div').attr('data-column') );
+    } );
+  } );
 
-        $('select.column_filter').on('change', function () {
-            filterColumn( $(this).parents('div').attr('data-column') );
-        } );
+  $('select.column_filter').on('change', function () {
+    filterColumn( $(this).parents('div').attr('data-column') );
+  } );
 </script>
 @endsection

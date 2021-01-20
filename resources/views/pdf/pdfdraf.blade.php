@@ -1,6 +1,5 @@
 @extends('pv.tempvv')
-@section('title', 'Data PDF')
-@section('judulhalaman','Draf PDEp & PDF')
+@section('title', 'PRODEV|Data PDF')
 @section('content')
 
 <div class="">

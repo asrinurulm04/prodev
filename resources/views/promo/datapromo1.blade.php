@@ -1,16 +1,15 @@
 @extends('pv.tempvv')
-@section('title', 'Request PKP Promo')
+@section('title', 'PRODEV|Request PKP Promo')
 @section('content')
 
 <div class="row">
-  <div class="col-md-2"></div>
-  <div class="col-md-10">
+  <div class="col-md-3"></div>
+  <div class="col-md-9">
     <div class="tabbable">
       <ul class="nav nav-tabs wizard">
-        <li class="active"><a href="" ><span class="nmbr">1</span>Information</a></li>
-        <li class="completed"><a href=""><span class="nmbr">2</span>Data</a></li>
-        <li class="active"><a href=""><span class="nmbr">3</span>Products</a></li>
-        <li class="active"><a href=""><span class="nmbr">4</span>File & Image</a></li>
+        <li class="completed"><a href=""><span class="nmbr">1</span>Data</a></li>
+        <li class="active"><a href=""><span class="nmbr">2</span>Products</a></li>
+        <li class="active"><a href=""><span class="nmbr">3</span>File & Image</a></li>
       </ul>
     </div>
   </div>
@@ -59,7 +58,7 @@
                 </tr>
               </thead>
               <tbody>
-                @foreach ($idea as $idea)
+                @foreach ($ide as $idea)
                 <tr>
                   <td><input value="{{$idea->promo_idea}}" required="required" id="promo_idea" class="form-control col-md-12 col-xs-12" type="text" name="promo_idea[]"></td>
                   <td><input value="{{$idea->dimension}}" required="required" id="dimension" class="form-control col-md-12 col-xs-12" type="text" name="dimension[]"></td>
@@ -94,11 +93,9 @@
           </div>
           <div class="ln_solid"></div>
           <input type="hidden" value="{{$data->datapromoo->author1->email}}" name="pengirim1" id="pengirim1">
-          @foreach($user as $user)
-          @if($user->role_id=='14')
+          @foreach($users as $user)
           <input type="hidden" value="{{$user->name}}" name="namatujuan[]" id="namatujuan">
           <input type="hidden" value="{{$user->email}}" name="emailtujuan[]" id="emailtujuan">
-          @endif
           @endforeach
           <center><button class="btn btn-primary btn-sm" type="submit"><li class="fa fa-plus"></li> Submit And Next</button></center>
           {{ csrf_field() }}
@@ -131,7 +128,6 @@
         "<td><input required='required' id='dimension' class='form-control col-md-12 col-xs-12' type='text' name='dimension[]'></td>"+
         "<td><a href='' class='btn btn-danger btn-sm'><li class='fa fa-trash'></li></a>"+
         "</td>");
-  
       $('#tabledata').append('<tr id="addrow' + (i + 1) + '"></tr>');
       i++;
     });

@@ -25,7 +25,6 @@ class ListFeasibilityController extends Controller
         $jumlahl =pesan::where('user','lab')->count();
         $jumlahk =pesan::where('user','kemas')->count();
         $kirim = finance::where('id_formula',$id)->get();
-
         return view('feasibility.feasibility')->with([
             'myFormula' => $myFormula,
             'id' => $id,
@@ -47,12 +46,12 @@ class ListFeasibilityController extends Controller
     public function kirimWB(Request $request,$id,$id_feasibility)
     {
         $change_status  = finance::where('kemungkinan',$request->get('dropdown'))->first();
-            $change_status->status_feasibility='selesai';
-            $change_status->save();
+        $change_status->status_feasibility='selesai';
+        $change_status->save();
 
         $status  = Formula::where('id',$id)->first();
-            $status->status_fisibility='approved';
-            $status->save();
+        $status->status_fisibility='approved';
+        $status->save();
 
         return redirect()->route('formula.feasibility');
     }

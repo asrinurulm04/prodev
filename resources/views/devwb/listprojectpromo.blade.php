@@ -1,6 +1,5 @@
 @extends('pv.tempvv')
-@section('title', 'Data PKP promo')
-@section('judulhalaman','Draf PKP pPromo')
+@section('title', 'PRODEV|Data PKP promo')
 @section('content')
 
 <div class="col-md-12 col-sm-12 col-xs-12">
@@ -12,8 +11,7 @@
       </div>
       <div>
         <div>
-          <form id="clear">        
-          <!--project-->
+          <form id="clear">      
           <div class="col-md-4 pl-1">
             <div class="form-group" id="filter_col" data-column="6">
               <label>Priority</label>
@@ -25,7 +23,6 @@
               </select>
             </div>
           </div>      
-          <!--brand-->
           <div class="col-md-4 pl-1">
             <div class="form-group" id="filter_col1" data-column="2">
               <label>Brand</label>
@@ -37,7 +34,6 @@
               </select>
             </div>
           </div>
-          <!--Data-->
           <div class="col-md-3 pl-1">
             <div class="form-group" id="filter_col1" data-column="7">
               <label>Status</label>
@@ -72,8 +68,8 @@
           <h3>List PKP Promo</h3>
         </div>
         <div class="clearfix"></div>
-        <div class="x_content" style="overflow-x: scroll;">
-          <table class="Table table-striped table-bordered" id="ex">
+        <div class="x_content">
+          <table id="datatable" class="table table-striped table-bordered ex" style="width:100%">
             <thead>
               <tr style="font-weight: bold;color:white;background-color: #2a3f54;" >
                 <th>#</th>
@@ -115,8 +111,7 @@
                         <?php
                           $awal  = date_create( $pkp->waktu );
                           $akhir = date_create(); // waktu sekarang
-                          if($akhir<=$awal)
-                          {
+                          if($akhir<=$awal){
                             $diff  = date_diff( $akhir, $awal );
                             echo ' You Have ';
                             echo $diff->m . ' Month, ';
@@ -144,7 +139,6 @@
                   <td class="text-center">
                     @if($pkp->status_project=='proses')
                       <a class="btn btn-info btn-sm" href="{{ Route('rekappromo',$pkp->id_pkp_promo)}}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
-                      {{csrf_field()}}
                     @elseif($pkp->status_project=='close')
                       <a class="btn btn-info btn-sm" href="{{ Route('rekappromo',$pkp->id_pkp_promo)}}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
                       <button class="btn btn-info btn-sm" disabled><li class="fa fa-smile-o" title="close"></li></button>
@@ -178,8 +172,7 @@
                         <?php
                           $awal  = date_create( $pkp->waktu );
                           $akhir = date_create(); // waktu sekarang
-                          if($akhir<=$awal)
-                          {
+                          if($akhir<=$awal) {
                             $diff  = date_diff( $akhir, $awal );
                             echo ' You Have ';
                             echo $diff->m . ' Month, ';
@@ -207,7 +200,6 @@
                   <td class="text-center">
                     @if($pkp->status_project=='proses')
                       <a class="btn btn-info btn-sm" href="{{ Route('rekappromo',$pkp->id_pkp_promo)}}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
-                      {{csrf_field()}}
                     @elseif($pkp->status_project=='close')
                       <a class="btn btn-info btn-sm" href="{{ Route('rekappromo',$pkp->id_pkp_promo)}}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
                       <button class="btn btn-info btn-sm" disabled><li class="fa fa-smile-o" title="close"></li></button>
@@ -231,19 +223,19 @@
 @section('s')
 <script>
   function filterGlobal () {
-    $('#ex').DataTable().search(
+    $('.ex').DataTable().search(
       $('#global_filter').val(),
     ).draw();
   }
     
   function filterColumn ( i ) {
-    $('#ex').DataTable().column( i ).search(
+    $('.ex').DataTable().column( i ).search(
       $('#col'+i+'_filter').val()
     ).draw();
   }
     
   $(document).ready(function() {
-    $('#ex').DataTable();    
+    $('.ex').DataTable();    
       $('input.global_filter').on( 'keyup click', function () {
         filterGlobal();
       } );

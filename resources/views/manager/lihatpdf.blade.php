@@ -1,6 +1,5 @@
 @extends('manager.tempmanager')
-@section('title', 'data PDF')
-@section('judul', 'Data PDF')
+@section('title', 'PRODEV|data PDF')
 @section('content')
 
 @if (session('status'))
@@ -42,6 +41,7 @@
                         <div class="form-group row">
                           <input type="hidden" value="{{$pdf->id_project_pdf}}" name="pdf">
                           <input type="hidden" value="{{$pdf->turunan}}" name="turunan">
+                          <input type="hidden" value="{{$pdf->revisi}}" name="revisi">
                           <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center">Destination</label>
                           <div class="col-md-9 col-sm-9 col-xs-12">
                             <select name="penerima" class="form-control form-control-line" id="penerima">
@@ -254,7 +254,7 @@
   								    </table>
                     </div><br>
                     <div  class="col-sm-12">
-                    <table width="100%" class="table table-bordered">
+                      <table width="100%" class="table table-bordered">
                         <thead>
                           <tr style="background-color:grey;font-weight: bold;color:white;font-size: 15px;"><td colspan="2" class="text-center">{{$pdf->project_name}}</td></tr>
                           <tr>
@@ -303,7 +303,7 @@
                                 <tbody>
                                   @foreach($for as $for)
                                   <tr>
-                                    <td>{{$for->satuan}} = {{$for->forecast}}</td>
+                                    <td>{{$for->satuan}} = <?php $angka_format = number_format($for->forecast,2,",","."); echo "Rp. ".$angka_format;?></td>
                                     <td>
                                     @if($for->kemas_eksis!=NULL)
                                     (
@@ -331,8 +331,8 @@
                                     </td>
                                     <td>{{$for->jlh_uom}}</td>
                                     <td>{{$for->uom}}</td>
-                                    <td>{{$for->nfi_price}}</td>
-                                    <td>{{$for->costumer}}</td>
+                                    <td><?php $angka_format = number_format($for->nfi_price,2,",","."); echo "Rp. ".$angka_format;?></td>
+                                    <td><?php $angka_format = number_format($for->costumer,2,",","."); echo "Rp. ".$angka_format;?></td>
                                   </tr>
                                   @endforeach
                                 </tbody>
@@ -404,5 +404,4 @@
     </div>
   </div>
 </div>
-
 @endsection

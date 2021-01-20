@@ -1,6 +1,5 @@
 @extends('pv.tempvv')
-@section('title', 'Request PKP')
-@section('judulhalaman','Request PKP')
+@section('title', 'PRODEV|Request PKP')
 @section('content')
 
 <div class="row">
@@ -180,9 +179,9 @@
                       <input type="radio" name="gramasi1[]" required id="rad1" value="ketiga1" class="rad"/> 4 Dimensi &nbsp
 					            <div id='tampil1'></div>
                     <td><input type="number" required class="form-control" name="satuan_uom[]" id="satuan_uom"></td>
-                    <td>
+                    <td width="8%">
                       <select name="uom[]" id="UOM" class="form-control">
-                        @foreach($data_uom as $data)
+                        @foreach($uom as $data)
                         <option value="{{$data->kode}}">{{$data->kode}}</option>
                         @endforeach
                       </select>
@@ -262,9 +261,6 @@
             <div class="col-md-3 col-sm-4 col-xs-12">
               <select name="katbpom"  id="katbpom" class="form-control">
                 <option value=""></option>
-                @foreach($pangan as $kat)
-                <option value="{{$kat->id_pangan}}">{{$kat->kategori}}</option>
-                @endforeach
               </select>
             </div>
             <label class="control-label col-md-1 col-sm-3 col-xs-12" style="color:#cf3721">category</label>
@@ -357,9 +353,7 @@
 @endsection
 @section('s')
 <script>
-  
   $(document).ready(function() {
-
     var idkomponen = []
     <?php foreach($komponen as $key => $value) { ?>
       if(!idkomponen){
@@ -386,7 +380,6 @@
         "</select></td><td><select name='klaim[]' class='form-control items' id='klaimm"+(a+i)+"'>"+
         "</select></td><td><select name='detail[]' multiple='multiple' class='form-control items' id='detaill"+(a+i)+"'>"+
         "</select></td><td><textarea type='text' class='form-control' name='ket[]' id='ket'></textarea></td><td></td>");
-
         var b = a+i;
         $('#komponen' + b).on('change', function(){
           var myId = $(this).val();
@@ -396,131 +389,110 @@
                 type: "GET",
                 dataType: "json",
                 beforeSend: function(){
-                $('#loader').css("visibility", "visible");
-            },
+                  $('#loader').css("visibility", "visible");
+                },
+                success:function(data){
+                  $('#detaill' + b).empty();
+                  $.each(data, function(key, value){
+                    $('#detaill' + b).append('<option value="'+ key +'">' + value + '</option>');
+                  });
+                },
+                complete: function(){
+                  $('#loader').css("visibility","hidden");
+                }
+              });
+            }else{
+              $('#detaill' + b).empty();
+            }
+          });
 
-            success:function(data){
-                $('#detaill' + b).empty();
+          $('#komponen'+b).on('change', function(){
+            var myId = $(this).val();
+            if(myId){
+              $.ajax({
+                url: '{{URL::to('getkomponen')}}/'+myId,
+                type: "GET",
+                dataType: "json",
+                beforeSend: function(){
+                  $('#loader').css("visibility", "visible");
+                },
+                success:function(data){
+                  $('#klaimm'+b).empty();
+                  $.each(data, function(key, value){
+                    $('#klaimm'+b).append('<option value="'+ key +'">' + value + '</option>');
+                  });
+                },
+                complete: function(){
+                  $('#loader').css("visibility","hidden");
+                }
+              });
+            }else{
+              $('#klaimm'+b).empty();
+            }
+          });
+          $('#tab_logic').append('<tr id="addr' + (i + 1) + '"></tr>');
+          i++;
+        });
+
+        $('#komponen').on('change', function(){
+          var myId = $(this).val();
+          if(myId){
+            $.ajax({
+              url: '{{URL::to('getkomponen')}}/'+myId,
+              type: "GET",
+              dataType: "json",
+              beforeSend: function(){
+                $('#loader').css("visibility", "visible");
+              },
+              success:function(data){
+                $('#klaimm').empty();
                 $.each(data, function(key, value){
-                  $('#detaill' + b).append('<option value="'+ key +'">' + value + '</option>');
+                  $('#klaimm').append('<option value="'+ key +'">' + value + '</option>');
                 });
               },
               complete: function(){
                 $('#loader').css("visibility","hidden");
-            }
-          });
-
-          }
-          else{
-            $('#detaill' + b).empty();
+              }
+            });
+          }else{
+           $('#klaimm').empty();
           }
         });
 
-        $('#komponen'+b).on('change', function(){
-          var myId = $(this).val();
+        $('#komponen').on('change', function(){
+        var myId = $(this).val();
           if(myId){
             $.ajax({
-            url: '{{URL::to('getkomponen')}}/'+myId,
-            type: "GET",
-            dataType: "json",
-            beforeSend: function(){
+              url: '{{URL::to('getdetail')}}/'+myId,
+              type: "GET",
+              dataType: "json",
+              beforeSend: function(){
                 $('#loader').css("visibility", "visible");
-            },
-
-            success:function(data){
-              $('#klaimm'+b).empty();
-              $.each(data, function(key, value){
-                $('#klaimm'+b).append('<option value="'+ key +'">' + value + '</option>');
-              });
-            },
-            complete: function(){
-              $('#loader').css("visibility","hidden");
-            }
-          });
-
-        }
-        else{
-            $('#klaimm'+b).empty();
-        }
-      });
-      $('#tab_logic').append('<tr id="addr' + (i + 1) + '"></tr>');
-      i++;
-    });
-
-    $('#komponen').on('change', function(){
-      var myId = $(this).val();
-        if(myId){
-          $.ajax({
-          url: '{{URL::to('getkomponen')}}/'+myId,
-          type: "GET",
-          dataType: "json",
-          beforeSend: function(){
-              $('#loader').css("visibility", "visible");
-          },
-
-          success:function(data){
-              $('#klaimm').empty();
-              $.each(data, function(key, value){
-                  $('#klaimm').append('<option value="'+ key +'">' + value + '</option>');
-              });
-          },
-          complete: function(){
+              },
+              success:function(data){
+                $('#detaill').empty();
+                $.each(data, function(key, value){
+                    $('#detaill').append('<option value="'+ key +'">' + value + '</option>');
+                });
+              },
+              complete: function(){
                 $('#loader').css("visibility","hidden");
-            }
-        });
-
-        }
-        else{
-            $('#klaimm').empty();
-        }
-    });
-
-    $('#komponen').on('change', function(){
-      var myId = $(this).val();
-        if(myId){
-          $.ajax({
-          url: '{{URL::to('getdetail')}}/'+myId,
-          type: "GET",
-          dataType: "json",
-          beforeSend: function(){
-              $('#loader').css("visibility", "visible");
-          },
-
-          success:function(data){
-              $('#detaill').empty();
-              $.each(data, function(key, value){
-                  $('#detaill').append('<option value="'+ key +'">' + value + '</option>');
-              });
-          },
-          complete: function(){
-                $('#loader').css("visibility","hidden");
-            }
-        });
-
-        }
-        else{
+              }
+            });
+          }else{
             $('#katbpom').empty();
-        }
-    });
-  });
-
+          }
+        });
+      });
 </script>
 
 <script>
   $(document).ready(function() {
-    // delete baris proses
     $('#tabledata').on('click', 'tr a', function(e) {
     e.preventDefault();
         $(this).parents('tr').remove();
     });
   });
-
-  var uom = []
-  <?php foreach($uom as $key => $value) { ?>
-  if(!uom){
-    uom += [ { '<?php echo $key; ?>' : '<?php echo $value->primary_uom; ?>', } ];
-  } else { uom.push({ '<?php echo $key; ?>' : '<?php echo $value->primary_uom; ?>', }) }
-  <?php } ?>
 
   var kode_uom = []
   <?php foreach($uom as $key => $value) { ?>
@@ -530,8 +502,8 @@
   <?php } ?>
 
   var pilihan_uom = '';
-  for(var i = 0; i < Object.keys(uom).length; i++){
-    pilihan_uom += '<option value="'+kode_uom[i][i]+'">'+uom[i][i]+'</option>';
+  for(var i = 0; i < Object.keys(kode_uom).length; i++){
+    pilihan_uom += '<option value="'+kode_uom[i][i]+'">'+kode_uom[i][i]+'</option>';
   }
 
   var uom_primer = []
@@ -544,18 +516,6 @@
   var pilihan_uom_primer = '';
   for(var i = 0; i < Object.keys(uom_primer).length; i++){
     pilihan_uom_primer += '<option value="'+uom_primer[i][i]+'">'+uom_primer[i][i]+'</option>';
-  }
-
-  var data_uom = []
-  <?php foreach($data_uom as $key => $value) { ?>
-    if(!data_uom){
-      data_uom += [ { '<?php echo $key; ?>' : '<?php echo $value->kode; ?>', } ];
-    } else { data_uom.push({ '<?php echo $key; ?>' : '<?php echo $value->kode; ?>', }) }
-  <?php } ?>
-
-  var datauom = '';
-    for(var i = 0; i < Object.keys(data_uom).length; i++){
-      datauom += '<option value="'+data_uom[i][i]+'">'+data_uom[i][i]+'</option>';
   }
 
   var i = 1;
@@ -577,318 +537,313 @@
     "</td>"+
     "<td><input type='number' class='form-control' required name='satuan_uom[]' id='satuan_uom'></td>"+
     "<td>"+
-      "<select name='uom[]' id='UOM' class='form-control'>"+datauom+"</select>"+
+      "<select name='uom[]' id='UOM' class='form-control'>"+pilihan_uom+"</select>"+
     "</td>"+
     "<td><input type='number' class='form-control' required name='price[]' id='price'></td>"+
     "<td><input type='number' class='form-control' required name='costumer[]' id='costumer'></td>)"+
     "<td><a hreaf='' class='btn btn-danger btn-sm'><li class='fa fa-trash'></li></a></td>");
 
-      $(function(){
-				$(":radio.rad").click(function(){
-					if($(this).val() == "pertama"+i){
-						document.getElementById('tampil'+i).innerHTML =
-            "<table class='table'>"+
-              "<tr>"+
-                "<td><input name='tersier[]' id='tersier' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number' ></td>"+
-                "<td>"+
-                  "<select class='form-control' name='s_tersier[]' required>"+pilihan_uom+"</select>"+
-                "</td>"+
-              "</tr>"+
-              "<tr hidden>"+
-                "<td><input name='sekunder1[]' id='sekunder1' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'></td>"+
-                "<td><input name='s_sekunder1[]' id='s_sekunder1' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'></td>"+
-              "</tr>"+
-              "<tr hidden>"+
-                "<td><input name='sekunder2[]' id='sekunder2' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'>"+
-                "<td><input name='s_sekunder2[]' id='s_sekunder2' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'>"+
-              "</tr>"+
-              "<tr>"+
-                "<td><input name='primer[]' id='primer' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'></td>"+
-                "<td>"+
-                  "<select class='form-control' name='s_primer[]'>"+pilihan_uom_primer+"</select>"+
-                "</td>"+
-              "</tr>"+
-            "</table>"+
-            "<h4><b><lable class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>*Information</lable></b></h4>"+
-            "<br><br>"+
-            "<div class='form-group'>"+
-              "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>Primary</label>"+
-              "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-                "<input name='primary[]' id='primary' class='form-control col-md-12 col-xs-12' type='text' required>"+
-              "</div>"+
+    $(function(){
+			$(":radio.rad").click(function(){
+				if($(this).val() == "pertama"+i){
+					document.getElementById('tampil'+i).innerHTML =
+          "<table class='table'>"+
+            "<tr>"+
+              "<td><input name='tersier[]' placeholder='Tersier' id='tersier' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number' ></td>"+
+              "<td>"+
+                "<select class='form-control' name='s_tersier[]' required>"+pilihan_uom+"</select>"+
+              "</td>"+
+            "</tr>"+
+            "<tr hidden>"+
+              "<td><input name='sekunder1[]' placeholder='Sekunder1' id='sekunder1' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'></td>"+
+              "<td><input name='s_sekunder1[]' id='s_sekunder1' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'></td>"+
+              "<td><input name='sekunder2[]' placeholder='Sekunder2' id='sekunder2' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'>"+
+              "<td><input name='s_sekunder2[]' id='s_sekunder2' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'>"+
+            "</tr>"+
+            "<tr>"+
+              "<td><input name='primer[]' placeholder='Primer' placeholder='Primer' id='primer' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'></td>"+
+              "<td>"+
+                "<select class='form-control' name='s_primer[]'>"+pilihan_uom_primer+"</select>"+
+              "</td>"+
+            "</tr>"+
+          "</table>"+
+          "<h4><b><lable class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>*Information</lable></b></h4>"+
+          "<br><br>"+
+          "<div class='form-group'>"+
+            "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>Primary</label>"+
+            "<div class='col-md-10 col-sm-10 col-xs-12'>"+
+              "<input name='primary[]' id='primary' class='form-control col-md-12 col-xs-12' type='text' required>"+
             "</div>"+
-            "<div class='form-group'>"+
-              "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='last-name'>Secondary</label>"+
-              "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-                "<input name='secondary[]' id='secondary' class='form-control col-md-12 col-xs-12' type='text' required>"+
-              "</div>"+
+          "</div>"+
+          "<div class='form-group'>"+
+            "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='last-name'>Secondary</label>"+
+            "<div class='col-md-10 col-sm-10 col-xs-12'>"+
+              "<input name='secondary[]' id='secondary' class='form-control col-md-12 col-xs-12' type='text' required>"+
             "</div>"+
-            "<div class='form-group'>"+
-              "<label for='middle-name' class='control-label col-md-2 col-sm-3 col-xs-12'>Tertiary </label>"+
-              "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-                "<input name='tertiary[]' id='tertiary' class='form-control col-md-12 col-xs-12' type='text' required>"+
-              "</div>"+
-            "</div>"
-					}
+          "</div>"+
+          "<div class='form-group'>"+
+            "<label for='middle-name' class='control-label col-md-2 col-sm-3 col-xs-12'>Tertiary </label>"+
+            "<div class='col-md-10 col-sm-10 col-xs-12'>"+
+              "<input name='tertiary[]' id='tertiary' class='form-control col-md-12 col-xs-12' type='text' required>"+
+            "</div>"+
+          "</div>"
+				}
 
-          if($(this).val() == "kedua"+i){
-						document.getElementById('tampil'+i).innerHTML =
-            "<table class='table'>"+
-              "<tr>"+
-                "<td><input name='tersier[]' id='tersier' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number' ></td>"+
-                "<td>"+
-                  "<select class='form-control' name='s_tersier[]' required>"+pilihan_uom+"</select>"+
-                "</td>"+
-              "</tr>"+
-              "<tr>"+
-                "<td><input name='sekunder1[]' id='sekunder1' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number' required></td>"+
-                "<td>"+
-                  "<select class='form-control' name='s_sekunder1[]' required>"+pilihan_uom+"</select>"+
-                "</td>"+
-              "</tr>"+
-              "<tr hidden>"+
-                "<td><input name='sekunder2[]' id='sekunder2' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'>"+
-                "<td><input name='s_sekunder2[]' id='s_sekunder2' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'>"+
-              "</tr>"+
-              "<tr>"+
-                "<td><input name='primer[]' id='primer' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'></td>"+
-                "<td>"+
-                  "<select class='form-control' name='s_primer[]'>"+pilihan_uom_primer+"</select>"+
-                "</td>"+
-              "</tr>"+
-            "</table>"+
-            "<h4><b><lable class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>*Information</lable></b></h4>"+
-            "<br><br>"+
-            "<div class='form-group'>"+
-              "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>Primary</label>"+
-              "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-                "<input name='primary[]' id='primary' class='form-control col-md-12 col-xs-12' type='text' required>"+
-              "</div>"+
+        if($(this).val() == "kedua"+i){
+					document.getElementById('tampil'+i).innerHTML =
+          "<table class='table'>"+
+            "<tr>"+
+              "<td><input name='tersier[]' placeholder='Tersier' id='tersier' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number' ></td>"+
+              "<td>"+
+                "<select class='form-control' name='s_tersier[]' required>"+pilihan_uom+"</select>"+
+              "</td>"+
+            "</tr>"+
+            "<tr>"+
+              "<td><input name='sekunder1[]' placeholder='Sekunder1' id='sekunder1' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number' required></td>"+
+              "<td>"+
+                "<select class='form-control' name='s_sekunder1[]' required>"+pilihan_uom+"</select>"+
+              "</td>"+
+            "</tr>"+
+            "<tr hidden>"+
+              "<td><input name='sekunder2[]' placeholder='Sekunder2' id='sekunder2' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'>"+
+              "<td><input name='s_sekunder2[]' id='s_sekunder2' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'>"+
+            "</tr>"+
+            "<tr>"+
+              "<td><input name='primer[]' placeholder='Primer' placeholder='Primer' id='primer' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'></td>"+
+              "<td>"+
+                "<select class='form-control' name='s_primer[]'>"+pilihan_uom_primer+"</select>"+
+              "</td>"+
+            "</tr>"+
+          "</table>"+
+          "<h4><b><lable class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>*Information</lable></b></h4>"+
+          "<br><br>"+
+          "<div class='form-group'>"+
+            "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>Primary</label>"+
+            "<div class='col-md-10 col-sm-10 col-xs-12'>"+
+              "<input name='primary[]' id='primary' class='form-control col-md-12 col-xs-12' type='text' required>"+
             "</div>"+
-            "<div class='form-group'>"+
-              "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='last-name'>Secondary</label>"+
-              "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-                "<input name='secondary[]' id='secondary' class='form-control col-md-12 col-xs-12' type='text' required>"+
-              "</div>"+
+          "</div>"+
+          "<div class='form-group'>"+
+            "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='last-name'>Secondary</label>"+
+            "<div class='col-md-10 col-sm-10 col-xs-12'>"+
+              "<input name='secondary[]' id='secondary' class='form-control col-md-12 col-xs-12' type='text' required>"+
             "</div>"+
-            "<div class='form-group'>"+
-              "<label for='middle-name' class='control-label col-md-2 col-sm-3 col-xs-12'>Tertiary </label>"+
-              "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-                "<input name='tertiary[]' id='tertiary' class='form-control col-md-12 col-xs-12' type='text' required>"+
-              "</div>"+
-            "</div>"
-					}
+          "</div>"+
+          "<div class='form-group'>"+
+            "<label for='middle-name' class='control-label col-md-2 col-sm-3 col-xs-12'>Tertiary </label>"+
+            "<div class='col-md-10 col-sm-10 col-xs-12'>"+
+              "<input name='tertiary[]' id='tertiary' class='form-control col-md-12 col-xs-12' type='text' required>"+
+            "</div>"+
+          "</div>"
+				}
 
-          if($(this).val() == "ketiga"+i){
-						document.getElementById('tampil'+i).innerHTML =
-            "<table class='table'>"+
-              "<tr>"+
-                "<td><input name='tersier[]' id='tersier' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number' ></td>"+
-                "<td>"+
-                  "<select class='form-control' name='s_tersier[]' required>"+pilihan_uom+"</select>"+
-                "</td>"+
-              "</tr>"+
-              "<tr>"+
-                "<td><input name='sekunder1[]' id='sekunder1' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number' required></td>"+
-                "<td>"+
-                  "<select class='form-control' name='s_sekunder1[]' required>"+pilihan_uom+"</select>"+
-                "</td>"+
-              "</tr>"+
-              "<tr>"+
-                "<td><input name='sekunder2[]' id='sekunder2' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number' required>"+
-                "<td>"+
-                  "<select class='form-control' name='s_sekunder2[]' required>"+pilihan_uom+"</select>"+
-                "</td>"+
-              "</tr>"+
-              "<tr>"+
-                "<td><input name='primer[]' id='primer' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'></td>"+
-                "<td>"+
-                  "<select class='form-control' name='s_primer[]'>"+pilihan_uom_primer+"</select>"+
-                "</td>"+
-              "</tr>"+
-            "</table>"+
-            "<h4><b><lable class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>*Information</lable></b></h4>"+
-            "<br><br>"+
-            "<div class='form-group'>"+
-              "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>Primary</label>"+
-              "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-                "<input name='primary[]' id='primary' class='form-control col-md-12 col-xs-12' type='text' required>"+
-              "</div>"+
+        if($(this).val() == "ketiga"+i){
+					document.getElementById('tampil'+i).innerHTML =
+          "<table class='table'>"+
+            "<tr>"+
+              "<td><input name='tersier[]' placeholder='Tersier' id='tersier' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number' ></td>"+
+              "<td>"+
+                "<select class='form-control' name='s_tersier[]' required>"+pilihan_uom+"</select>"+
+              "</td>"+
+            "</tr>"+
+            "<tr>"+
+              "<td><input name='sekunder1[]' placeholder='Sekunder1' id='sekunder1' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number' required></td>"+
+              "<td>"+
+                "<select class='form-control' name='s_sekunder1[]' required>"+pilihan_uom+"</select>"+
+              "</td>"+
+            "</tr>"+
+            "<tr>"+
+              "<td><input name='sekunder2[]' placeholder='Sekunder2' id='sekunder2' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number' required>"+
+              "<td>"+
+                "<select class='form-control' name='s_sekunder2[]' required>"+pilihan_uom+"</select>"+
+              "</td>"+
+            "</tr>"+
+            "<tr>"+
+              "<td><input name='primer[]' placeholder='Primer' placeholder='Primer' id='primer' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'></td>"+
+              "<td>"+
+                "<select class='form-control' name='s_primer[]'>"+pilihan_uom_primer+"</select>"+
+              "</td>"+
+            "</tr>"+
+          "</table>"+
+          "<h4><b><lable class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>*Information</lable></b></h4>"+
+          "<br><br>"+
+          "<div class='form-group'>"+
+            "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>Primary</label>"+
+            "<div class='col-md-10 col-sm-10 col-xs-12'>"+
+              "<input name='primary[]' id='primary' class='form-control col-md-12 col-xs-12' type='text' required>"+
             "</div>"+
-            "<div class='form-group'>"+
-              "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='last-name'>Secondary</label>"+
-              "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-                "<input name='secondary[]' id='secondary' class='form-control col-md-12 col-xs-12' type='text' required>"+
-              "</div>"+
+          "</div>"+
+          "<div class='form-group'>"+
+            "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='last-name'>Secondary</label>"+
+            "<div class='col-md-10 col-sm-10 col-xs-12'>"+
+              "<input name='secondary[]' id='secondary' class='form-control col-md-12 col-xs-12' type='text' required>"+
             "</div>"+
-            "<div class='form-group'>"+
-              "<label for='middle-name' class='control-label col-md-2 col-sm-3 col-xs-12'>Tertiary </label>"+
-              "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-                "<input name='tertiary[]' id='tertiary' class='form-control col-md-12 col-xs-12' type='text' required>"+
-              "</div>"+
-            "</div>"
-					}
-				});
+          "</div>"+
+          "<div class='form-group'>"+
+            "<label for='middle-name' class='control-label col-md-2 col-sm-3 col-xs-12'>Tertiary </label>"+
+            "<div class='col-md-10 col-sm-10 col-xs-12'>"+
+              "<input name='tertiary[]' id='tertiary' class='form-control col-md-12 col-xs-12' type='text' required>"+
+            "</div>"+
+          "</div>"
+				}
 			});
-
+		});
     $('#tabledata').append('<tr id="addrow' + (i + 1) + '"></tr>');
     i++;
   });
 
   $(function(){
-				$(":radio.rad").click(function(){
-					if($(this).val() == "pertama1"){
-						document.getElementById('tampil1').innerHTML =
-            "<table class='table'>"+
-              "<tr>"+
-                "<td><input name='tersier[]' id='tersier' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number' ></td>"+
-                "<td>"+
-                  "<select class='form-control' name='s_tersier[]' required>"+pilihan_uom+"</select>"+
-                "</td>"+
-              "</tr>"+
-              "<tr hidden>"+
-                "<td><input name='sekunder1[]' id='sekunder1' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'></td>"+
-                "<td><input name='s_sekunder1[]' id='s_sekunder1' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'></td>"+
-              "</tr>"+
-              "<tr hidden>"+
-                "<td><input name='sekunder2[]' id='sekunder2' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'>"+
-                "<td><input name='s_sekunder2[]' id='s_sekunder2' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'>"+
-              "</tr>"+
-              "<tr>"+
-                "<td><input name='primer[]' id='primer' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'></td>"+
-                "<td>"+
-                  "<select class='form-control' name='s_primer[]'>"+pilihan_uom_primer+"</select>"+
-                "</td>"+
-              "</tr>"+
-            "</table>"+
-            "<h4><b><lable class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>*Information</lable></b></h4>"+
-            "<br><br>"+
-            "<div class='form-group'>"+
-              "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>Primary</label>"+
-              "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-                "<input name='primary[]' id='primary' class='form-control col-md-12 col-xs-12' type='text' required>"+
-              "</div>"+
-            "</div>"+
-            "<div class='form-group'>"+
-              "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='last-name'>Secondary</label>"+
-              "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-                "<input name='secondary[]' id='secondary' class='form-control col-md-12 col-xs-12' type='text' required>"+
-              "</div>"+
-            "</div>"+
-            "<div class='form-group'>"+
-              "<label for='middle-name' class='control-label col-md-2 col-sm-3 col-xs-12'>Tertiary </label>"+
-              "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-                "<input name='tertiary[]' id='tertiary' class='form-control col-md-12 col-xs-12' type='text' required>"+
-              "</div>"+
-            "</div>"
-					}
+		$(":radio.rad").click(function(){
+			if($(this).val() == "pertama1"){
+				document.getElementById('tampil1').innerHTML =
+        "<table class='table'>"+
+          "<tr>"+
+            "<td><input name='tersier[]' placeholder='Tersier' id='tersier' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number' ></td>"+
+            "<td>"+
+              "<select class='form-control' name='s_tersier[]' required>"+pilihan_uom+"</select>"+
+            "</td>"+
+          "</tr>"+
+          "<tr hidden>"+
+            "<td><input name='sekunder1[]' placeholder='Sekunder1' id='sekunder1' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'></td>"+
+            "<td><input name='s_sekunder1[]' id='s_sekunder1' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'></td>"+
+          "</tr>"+
+          "<tr hidden>"+
+            "<td><input name='sekunder2[]' placeholder='Sekunder2' id='sekunder2' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'>"+
+            "<td><input name='s_sekunder2[]' id='s_sekunder2' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'>"+
+          "</tr>"+
+          "<tr>"+
+            "<td><input name='primer[]' placeholder='Primer' placeholder='Primer' id='primer' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'></td>"+
+            "<td>"+
+              "<select class='form-control' name='s_primer[]'>"+pilihan_uom_primer+"</select>"+
+            "</td>"+
+          "</tr>"+
+        "</table>"+
+        "<h4><b><lable class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>*Information</lable></b></h4>"+
+        "<br><br>"+
+        "<div class='form-group'>"+
+          "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>Primary</label>"+
+          "<div class='col-md-10 col-sm-10 col-xs-12'>"+
+            "<input name='primary[]' id='primary' class='form-control col-md-12 col-xs-12' type='text' required>"+
+          "</div>"+
+        "</div>"+
+        "<div class='form-group'>"+
+          "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='last-name'>Secondary</label>"+
+          "<div class='col-md-10 col-sm-10 col-xs-12'>"+
+            "<input name='secondary[]' id='secondary' class='form-control col-md-12 col-xs-12' type='text' required>"+
+          "</div>"+
+        "</div>"+
+        "<div class='form-group'>"+
+          "<label for='middle-name' class='control-label col-md-2 col-sm-3 col-xs-12'>Tertiary </label>"+
+          "<div class='col-md-10 col-sm-10 col-xs-12'>"+
+            "<input name='tertiary[]' id='tertiary' class='form-control col-md-12 col-xs-12' type='text' required>"+
+          "</div>"+
+        "</div>"
+			}
 
-          if($(this).val() == "kedua1"){
-						document.getElementById('tampil1').innerHTML =
-            "<table class='table'>"+
-              "<tr>"+
-                "<td><input name='tersier[]' id='tersier' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number' ></td>"+
-                "<td>"+
-                  "<select class='form-control' name='s_tersier[]' required>"+pilihan_uom+"</select>"+
-                "</td>"+
-              "</tr>"+
-              "<tr>"+
-                "<td><input name='sekunder1[]' id='sekunder1' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number' required></td>"+
-                "<td>"+
-                  "<select class='form-control' name='s_sekunder1[]' required>"+pilihan_uom+"</select>"+
-                "</td>"+
-              "</tr>"+
-              "<tr hidden>"+
-                "<td><input name='sekunder2[]' id='sekunder2' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'>"+
-                "<td><input name='s_sekunder2[]' id='s_sekunder2' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'>"+
-              "</tr>"+
-              "<tr>"+
-                "<td><input name='primer[]' id='primer' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'></td>"+
-                "<td>"+
-                  "<select class='form-control' name='s_primer[]'>"+pilihan_uom_primer+"</select>"+
-                "</td>"+
-              "</tr>"+
-            "</table>"+
-            "<h4><b><lable class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>*Information</lable></b></h4>"+
-            "<br><br>"+
-            "<div class='form-group'>"+
-              "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>Primary</label>"+
-              "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-                "<input name='primary[]' id='primary' class='form-control col-md-12 col-xs-12' type='text'required>"+
-              "</div>"+
-            "</div>"+
-            "<div class='form-group'>"+
-              "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='last-name'>Secondary</label>"+
-              "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-                "<input name='secondary[]' id='secondary' class='form-control col-md-12 col-xs-12' type='text'required>"+
-              "</div>"+
-            "</div>"+
-            "<div class='form-group'>"+
-              "<label for='middle-name' class='control-label col-md-2 col-sm-3 col-xs-12'>Tertiary </label>"+
-              "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-                "<input name='tertiary[]' id='tertiary' class='form-control col-md-12 col-xs-12' type='text'required>"+
-              "</div>"+
-            "</div>"
-					}
+      if($(this).val() == "kedua1"){
+				document.getElementById('tampil1').innerHTML =
+        "<table class='table'>"+
+          "<tr>"+
+            "<td><input name='tersier[]' placeholder='Tersier' id='tersier' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number' ></td>"+
+            "<td>"+
+              "<select class='form-control' name='s_tersier[]' required>"+pilihan_uom+"</select>"+
+            "</td>"+
+          "</tr>"+
+          "<tr>"+
+            "<td><input name='sekunder1[]' placeholder='Sekunder1' id='sekunder1' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number' required></td>"+
+            "<td>"+
+              "<select class='form-control' name='s_sekunder1[]' required>"+pilihan_uom+"</select>"+
+            "</td>"+
+          "</tr>"+
+          "<tr hidden>"+
+            "<td><input name='sekunder2[]' placeholder='Sekunder2' id='sekunder2' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'>"+
+            "<td><input name='s_sekunder2[]' id='s_sekunder2' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'>"+
+          "</tr>"+
+          "<tr>"+
+            "<td><input name='primer[]' placeholder='Primer' placeholder='Primer' id='primer' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'></td>"+
+            "<td>"+
+              "<select class='form-control' name='s_primer[]'>"+pilihan_uom_primer+"</select>"+
+            "</td>"+
+          "</tr>"+
+        "</table>"+
+        "<h4><b><lable class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>*Information</lable></b></h4>"+
+        "<br><br>"+
+        "<div class='form-group'>"+
+          "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>Primary</label>"+
+          "<div class='col-md-10 col-sm-10 col-xs-12'>"+
+            "<input name='primary[]' id='primary' class='form-control col-md-12 col-xs-12' type='text'required>"+
+          "</div>"+
+        "</div>"+
+        "<div class='form-group'>"+
+          "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='last-name'>Secondary</label>"+
+          "<div class='col-md-10 col-sm-10 col-xs-12'>"+
+            "<input name='secondary[]' id='secondary' class='form-control col-md-12 col-xs-12' type='text'required>"+
+          "</div>"+
+        "</div>"+
+        "<div class='form-group'>"+
+          "<label for='middle-name' class='control-label col-md-2 col-sm-3 col-xs-12'>Tertiary </label>"+
+          "<div class='col-md-10 col-sm-10 col-xs-12'>"+
+            "<input name='tertiary[]' id='tertiary' class='form-control col-md-12 col-xs-12' type='text'required>"+
+          "</div>"+
+        "</div>"
+			}
 
-          if($(this).val() == "ketiga1"){
-						document.getElementById('tampil1').innerHTML =
-            "<table class='table'>"+
-              "<tr>"+
-                "<td><input name='tersier[]' id='tersier' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number' ></td>"+
-                "<td>"+
-                  "<select class='form-control' name='s_tersier[]' required>"+pilihan_uom+"</select>"+
-                "</td>"+
-              "</tr>"+
-              "<tr>"+
-                "<td><input name='sekunder1[]' id='sekunder1' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number' required></td>"+
-                "<td>"+
-                  "<select class='form-control' name='s_sekunder1[]' required>"+pilihan_uom+"</select>"+
-                "</td>"+
-              "</tr>"+
-              "<tr>"+
-                "<td><input name='sekunder2[]' id='sekunder2' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number' required>"+
-                "<td>"+
-                  "<select class='form-control' name='s_sekunder2[]' required>"+pilihan_uom+"</select>"+
-                "</td>"+
-              "</tr>"+
-              "<tr>"+
-                "<td><input name='primer[]' id='primer' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'></td>"+
-                "<td>"+
-                  "<select class='form-control' name='s_primer[]'>"+pilihan_uom_primer+"</select>"+
-                "</td>"+
-              "</tr>"+
-            "</table>"+
-            "<h4><b><lable class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>*Information</lable></b></h4>"+
-            "<br><br>"+
-            "<div class='form-group'>"+
-              "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>Primary</label>"+
-              "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-                "<input name='primary[]' id='primary' class='form-control col-md-12 col-xs-12' type='text' required>"+
-              "</div>"+
-            "</div>"+
-            "<div class='form-group'>"+
-              "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='last-name'>Secondary</label>"+
-              "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-                "<input name='secondary[]' id='secondary' class='form-control col-md-12 col-xs-12' type='text' required>"+
-              "</div>"+
-            "</div>"+
-            "<div class='form-group'>"+
-              "<label for='middle-name' class='control-label col-md-2 col-sm-3 col-xs-12'>Tertiary </label>"+
-              "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-                "<input name='tertiary[]' id='tertiary' class='form-control col-md-12 col-xs-12' type='text' required>"+
-              "</div>"+
-            "</div>"
-					}
-				});
-			});
+      if($(this).val() == "ketiga1"){
+				document.getElementById('tampil1').innerHTML =
+        "<table class='table'>"+
+          "<tr>"+
+            "<td><input name='tersier[]' placeholder='Tersier' id='tersier' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number' ></td>"+
+            "<td>"+
+              "<select class='form-control' name='s_tersier[]' required>"+pilihan_uom+"</select>"+
+            "</td>"+
+          "</tr>"+
+          "<tr>"+
+            "<td><input name='sekunder1[]' placeholder='Sekunder1' id='sekunder1' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number' required></td>"+
+            "<td>"+
+              "<select class='form-control' name='s_sekunder1[]' required>"+pilihan_uom+"</select>"+
+            "</td>"+
+          "</tr>"+
+          "<tr>"+
+            "<td><input name='sekunder2[]' placeholder='Sekunder2' id='sekunder2' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number' required>"+
+            "<td>"+
+              "<select class='form-control' name='s_sekunder2[]' required>"+pilihan_uom+"</select>"+
+            "</td>"+
+          "</tr>"+
+          "<tr>"+
+            "<td><input name='primer[]' placeholder='Primer' placeholder='Primer' id='primer' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'></td>"+
+            "<td>"+
+              "<select class='form-control' name='s_primer[]'>"+pilihan_uom_primer+"</select>"+
+            "</td>"+
+          "</tr>"+
+        "</table>"+
+        "<h4><b><lable class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>*Information</lable></b></h4>"+
+        "<br><br>"+
+        "<div class='form-group'>"+
+          "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>Primary</label>"+
+          "<div class='col-md-10 col-sm-10 col-xs-12'>"+
+            "<input name='primary[]' id='primary' class='form-control col-md-12 col-xs-12' type='text' required>"+
+          "</div>"+
+        "</div>"+
+        "<div class='form-group'>"+
+          "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='last-name'>Secondary</label>"+
+          "<div class='col-md-10 col-sm-10 col-xs-12'>"+
+            "<input name='secondary[]' id='secondary' class='form-control col-md-12 col-xs-12' type='text' required>"+
+          "</div>"+
+        "</div>"+
+        "<div class='form-group'>"+
+          "<label for='middle-name' class='control-label col-md-2 col-sm-3 col-xs-12'>Tertiary </label>"+
+          "<div class='col-md-10 col-sm-10 col-xs-12'>"+
+            "<input name='tertiary[]' id='tertiary' class='form-control col-md-12 col-xs-12' type='text' required>"+
+          "</div>"+
+        "</div>"
+			}
+		});
+	});
 </script>
 
 <script>
-
   function plus(){
     var plus = document.getElementById('radio_plus')
-
     if(plus.checked != true){
       document.getElementById('umur').innerHTML = "";
     }else{
@@ -899,7 +854,6 @@
 
   function minus(){
     var minus = document.getElementById('radio_minus')
-
     if(minus.checked != true){
       document.getElementById('umur').innerHTML = "";
     }else{
@@ -910,7 +864,6 @@
 
   function to(){
     var to = document.getElementById('radio_to')
-
     if(to.checked != true){
       document.getElementById('umur').innerHTML = "";
     }else{
@@ -918,7 +871,6 @@
         '<input type="number" name="sampaiumur" id="sampaiumur" class="form-control col-md-12 col-xs-12">'
     }
   }
-
 </script>
 
 <script type="text/javascript">
@@ -1037,7 +989,6 @@
 
   function kalender(){
     var baru = document.getElementById('radio_cal')
-
     if(baru.checked != true){
       document.getElementById('tampilkan').innerHTML = "";
     }else{

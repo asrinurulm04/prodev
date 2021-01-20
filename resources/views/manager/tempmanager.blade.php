@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-
     <title>@yield('title')</title>
     <link href="{{ asset('img/prod.png') }}" rel="icon">
     <link href="{{ asset('vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
@@ -90,7 +89,6 @@
                   <li><a><i class="fa fa-book"></i> Master Data <span class="label label-success"></span> <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="{{ route('datapangan') }}">Microbiology</a></li>
-                      <li><a href="{{ route('akg') }}">Data AKG</a></li>
                       <li><a href="{{ route('sku') }}">Active SKU</a></li>
                       <li><a href="{{ route('klaim') }}">Claim Regulation</a></li>
                       <li><a href="{{ route('logam.berat')}}">Logam Berat</a></li>
@@ -121,10 +119,6 @@
             </nav>
           </div>
         </div>
-         <!-- /top navigation -->
-
-        <!-- page content -->
-
         <div class="right_col" role="main">
           <div class="">
             @yield('content')
@@ -138,7 +132,6 @@
         </footer>
       </div>
     </div>
-
    
     <!-- jQuery -->
     <script src="{{ asset('vendors/jquery/dist/jquery.min.js') }}"></script>

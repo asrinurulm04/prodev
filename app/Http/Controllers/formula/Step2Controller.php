@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\formula;
+use Illuminate\Support\Facades\Mail;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -12,6 +13,8 @@ use App\model\dev\Fortail;
 use App\model\dev\Bahan;
 use App\model\dev\bb_allergen;
 use App\model\pkp\tipp;
+use App\model\pkp\pkp_project;
+use App\model\pkp\project_pdf;
 use Auth;
 use DB;
 use Redirect;
@@ -19,7 +22,6 @@ use Redirect;
 class Step2Controller extends Controller
 {
     public function __construct(){
-
         $this->middleware('auth');
         $this->middleware('rule:user_rd_proses' || 'rule:user_produk');
     }
@@ -46,12 +48,9 @@ class Step2Controller extends Controller
 
         $scalecollect = collect();
         
-        $rjBatch    = 0;
-        $rjServing  = 0;
-        $rjsBatch   = 0;
-        $rjsServing = 0;
-        $granulasi  = 0;
-        $premix     = 0;
+        $rjBatch    = 0;   $rjServing  = 0;
+        $rjsBatch   = 0;   $rjsServing = 0;
+        $granulasi  = 0;   $premix     = 0;
         foreach($fortails as $fortail){
             $scalecollect->push([
                 
@@ -85,14 +84,13 @@ class Step2Controller extends Controller
             // premix
             if($fortail->premix == 'ya'){
                 $premix = $premix + 1;         
-                } 
+            } 
         }
 
         // Check Total Serving
         if($ada > 0){
             $sesuai_target = $formula->serving - $target_serving;
-        }
-        else{
+        }else{
             $sesuai_target = 0;
         }  
         return view('formula/step2')->with([
@@ -124,41 +122,36 @@ class Step2Controller extends Controller
 
     public function insert($vf,Request $request){
         // Check and Recheck
-            $formula = Formula::where('id',$vf)->first();
+        $formula = Formula::where('id',$vf)->first();
         // checkbase !
-            if($formula->batch != null){
-                $mybase = $formula->batch / $formula->serving;
-            }
-            else{
-                $mybase = 0;
-            }
+        if($formula->batch != null){
+            $mybase = $formula->batch / $formula->serving;
+        }
+        else{
+            $mybase = 0;
+        }
         
         // checkfortail !
-            $ada= Fortail::where('formula_id',$vf)->count();
-            if($ada>0){            
-                $paraFortail= Fortail::where('formula_id',$vf)->get();
-            }
+        $ada= Fortail::where('formula_id',$vf)->count();
+        if($ada>0){            
+            $paraFortail= Fortail::where('formula_id',$vf)->get();
+        }
 
         $bp = Bahan::where('id', $request->prioritas)->first();
-        $pin = $bp->id_ingredient;
         $pkk = $bp->kode_komputer;
         $pns = $bp->nama_sederhana;
         $pko = $bp->kode_oracle;
         $pnb = $bp->nama_bahan;
             
-
         $fortailss = new Fortail; // Start Fortail Baru
         $fortailss->formula_id = $vf;
-        
         $fortailss->kode_komputer = $bp->kode_komputer;
-        $fortailss->id_ingredient = $pin;
         $fortailss->kode_oracle = $bp->kode_oracle;
         $fortailss->nama_sederhana = $bp->nama_sederhana;
         $fortailss->principle = $bp->principle;
         $fortailss->kode_oracle = $pko;
         $fortailss->bahan_id = $bp->id;
         $fortailss->nama_bahan = $bp->nama_bahan;
-
         $fortailss->save();
 
         $idmaxfortail = Fortail::where('formula_id',$vf)->max('id');
@@ -169,10 +162,6 @@ class Step2Controller extends Controller
             for($d = 1;$d<=$c;$d++){
                 $ba[$d] =  Bahan::where('id',$request->alternatif[$d])->first();
                 $pkk = $pkk.' / '.$ba[$d]->kode_komputer;
-                // $pin = $pin.' / '.$ba[$d]->id_ingredient;
-                // $pns = $pns.' / '.$ba[$d]->nama_sederhana;
-                // $pko = $pko.' / '.$ba[$d]->kode_oracle;
-                // $pnb = $pnb.' / '.$ba[$d]->nama_bahan;
                 $e=$d+1;
             }
         }
@@ -194,115 +183,112 @@ class Step2Controller extends Controller
             $all1->id_fortails=$fortails->id;
             $all1->save();
             if($c>1){
-            $fortails->alternatif2= $ba[2]->nama_sederhana;
-            $fortails->nama_bahan2= $ba[2]->nama_bahan;
-            $fortails->principle2= $ba[2]->principle;
-            
-            $all2 = new allergen_formula;
-            $all2->id_bahan=$ba[2]->id;
-            $all2->id_formula=$vf;
-            $all2->id_fortails=$fortails->id;
-            $all2->save();
+                $fortails->alternatif2= $ba[2]->nama_sederhana;
+                $fortails->nama_bahan2= $ba[2]->nama_bahan;
+                $fortails->principle2= $ba[2]->principle;
+                
+                $all2 = new allergen_formula;
+                $all2->id_bahan=$ba[2]->id;
+                $all2->id_formula=$vf;
+                $all2->id_fortails=$fortails->id;
+                $all2->save();
             }
             if($c>2){
-            $fortails->alternatif3= $ba[3]->nama_sederhana;
-            $fortails->nama_bahan3= $ba[3]->nama_bahan;
-            $fortails->principle3= $ba[3]->principle;
-            
-            $all3 = new allergen_formula;
-            $all3->id_bahan=$ba[3]->id;
-            $all3->id_formula=$vf;
-            $all3->id_fortails=$fortails->id;
-            $all3->save();
+                $fortails->alternatif3= $ba[3]->nama_sederhana;
+                $fortails->nama_bahan3= $ba[3]->nama_bahan;
+                $fortails->principle3= $ba[3]->principle;
+                
+                $all3 = new allergen_formula;
+                $all3->id_bahan=$ba[3]->id;
+                $all3->id_formula=$vf;
+                $all3->id_fortails=$fortails->id;
+                $all3->save();
             }
             if($c>3){
-            $fortails->alternatif4= $ba[4]->nama_sederhana;
-            $fortails->nama_bahan4= $ba[4]->nama_bahan;
-            $fortails->principle4= $ba[4]->principle;
+                $fortails->alternatif4= $ba[4]->nama_sederhana;
+                $fortails->nama_bahan4= $ba[4]->nama_bahan;
+                $fortails->principle4= $ba[4]->principle;
 
-            $all4 = new allergen_formula;
-            $all4->id_bahan=$ba[4]->id;
-            $all4->id_formula=$vf;
-            $all4->id_fortails=$fortails->id;
-            $all4->save();
+                $all4 = new allergen_formula;
+                $all4->id_bahan=$ba[4]->id;
+                $all4->id_formula=$vf;
+                $all4->id_fortails=$fortails->id;
+                $all4->save();
             }
             if($c>4){
-            $fortails->alternatif5= $ba[5]->nama_sederhana;
-            $fortails->nama_bahan5= $ba[5]->nama_bahan;
-            $fortails->principle5= $ba[5]->principle;
-            
-            $all5 = new allergen_formula;
-            $all5->id_bahan=$ba[5]->id;
-            $all5->id_formula=$vf;
-            $all5->id_fortails=$fortails->id;
-            $all5->save();
+                $fortails->alternatif5= $ba[5]->nama_sederhana;
+                $fortails->nama_bahan5= $ba[5]->nama_bahan;
+                $fortails->principle5= $ba[5]->principle;
+                
+                $all5 = new allergen_formula;
+                $all5->id_bahan=$ba[5]->id;
+                $all5->id_formula=$vf;
+                $all5->id_fortails=$fortails->id;
+                $all5->save();
             }
             if($c>5){
-            $fortails->alternatif6= $ba[6]->nama_sederhana;
-            $fortails->nama_bahan6= $ba[6]->nama_bahan;
-            $fortails->principle6= $ba[6]->principle;
-            
-            $all6 = new allergen_formula;
-            $all6->id_bahan=$ba[6]->id;
-            $all6->id_formula=$vf;
-            $all6->id_fortails=$fortails->id;
-            $all6->save();
+                $fortails->alternatif6= $ba[6]->nama_sederhana;
+                $fortails->nama_bahan6= $ba[6]->nama_bahan;
+                $fortails->principle6= $ba[6]->principle;
+                
+                $all6 = new allergen_formula;
+                $all6->id_bahan=$ba[6]->id;
+                $all6->id_formula=$vf;
+                $all6->id_fortails=$fortails->id;
+                $all6->save();
             }
             if($c>6){
-            $fortails->alternatif7= $ba[7]->nama_sederhana;
-            $fortails->nama_bahan7= $ba[7]->nama_bahan;
-            $fortails->principle7= $ba[7]->principle;
-            
-            $all7 = new allergen_formula;
-            $all7->id_bahan=$ba[7]->id;
-            $all7->id_formula=$vf;
-            $all7->id_fortails=$fortails->id;
-            $all7->save();
+                $fortails->alternatif7= $ba[7]->nama_sederhana;
+                $fortails->nama_bahan7= $ba[7]->nama_bahan;
+                $fortails->principle7= $ba[7]->principle;
+                
+                $all7 = new allergen_formula;
+                $all7->id_bahan=$ba[7]->id;
+                $all7->id_formula=$vf;
+                $all7->id_fortails=$fortails->id;
+                $all7->save();
             }
         }        
 
         $fortails->per_serving = $request->per_serving;
         //Check Batch and Base
-            // Jika Base Masih Kosong
-            if (isset($request->cbase)){
-                $batch = $request->per_batch;
-                $serving = $request->per_serving;
-                $mybase = $batch / $serving;
+        // Jika Base Masih Kosong
+        if (isset($request->cbase)){
+            $batch = $request->per_batch;
+            $serving = $request->per_serving;
+            $mybase = $batch / $serving;
 
-                // Check and fill all batch for fortail that doesnt have batch
-                if($ada>0){
-                    foreach($paraFortail as $bitch){
-                        $s = $bitch->per_serving;
-                        $bitch->per_batch = $mybase*$s;
-                        $bitch->save();
-                    }
+            // Check and fill all batch for fortail that doesnt have batch
+            if($ada>0){
+                foreach($paraFortail as $bitch){
+                    $s = $bitch->per_serving;
+                    $bitch->per_batch = $mybase*$s;
+                    $bitch->save();
                 }
-                // Fill My Batch N Serving
-                $fortails->per_batch   = $request->per_batch;
-                $fortails->per_serving = $request->per_serving;
             }
-            else if($mybase>0){                
-                $fortails->per_serving = $request->per_serving;  
-                $fortails->per_batch   = $mybase * $request->per_serving;                                                        
-            }
-            else if($mybase==0){
-                $fortails->per_serving = $request->per_serving;
-            }
+            // Fill My Batch N Serving
+            $fortails->per_batch   = $request->per_batch;
+            $fortails->per_serving = $request->per_serving;
+        }else if($mybase>0){                
+            $fortails->per_serving = $request->per_serving;  
+            $fortails->per_batch   = $mybase * $request->per_serving;                                                        
+        }else if($mybase==0){
+            $fortails->per_serving = $request->per_serving;
+        }
 
-            // Granulasi
-            if (isset($request->cgranulasi)){
-                $fortails->granulasi = 'ya';                
-            }else{
-                $fortails->granulasi = 'tidak';
-            }
+        // Granulasi
+        if (isset($request->cgranulasi)){
+            $fortails->granulasi = 'ya';                
+        }else{
+            $fortails->granulasi = 'tidak';
+        }
 
-            // premix
-            if (isset($request->cpremix)){
-                $fortails->premix = 'ya';                
-            }else{
-                $fortails->premix = 'tidak';
-            }
-                
+        // premix
+        if (isset($request->cpremix)){
+            $fortails->premix = 'ya';                
+        }else{
+            $fortails->premix = 'tidak';
+        }    
         $fortails->save();
 
         // Count Total Serving and Total Batch after inserting wkwkwkwk
@@ -320,6 +306,35 @@ class Step2Controller extends Controller
 
         $jumlah_bahan = $c + 1;
 
+        if(auth()->user()->role->namaRule == 'manager'){
+            try{
+                Mail::send('formula.info', [
+                    'info' => 'Manager Anda Telah Merubah Data Formula "'.$formula->formula.'"' ,
+                ],function($message)use($request,$vf)
+                {
+                    $message->subject('INFO PRODEV');
+                    $for = Formula::where('id',$vf)->first();
+                    if($for->workbook_id!=NULL){
+                        $project = pkp_project::where('id_project',$for->workbook_id)->first();
+                        $user = DB::table('users')->where('id', $project->userpenerima)->get();
+                        foreach($user as $user){
+                            $data = $user->email;
+                            $message->to($data);
+                        }
+                    }elseif($for->workbook_pdf_id!=NULL){
+                        $project = project_pdf::where('id_project_pdf',$for->workbook_pdf_id)->first();
+                        $user = DB::table('users')->where('id', $project->userpenerima)->get();
+                        foreach($user as $user){
+                            $data = $user->email;
+                            $message->to($data);
+                        }
+                    }
+                });
+            }
+            catch (Exception $e){
+            return response (['status' => false,'errors' => $e->getMessage()]);
+            }
+        }
         return redirect()->back()->with('status','BahanBaku Berhasil Ditambahkan');
     }
 
@@ -352,5 +367,4 @@ class Step2Controller extends Controller
             return redirect()->route('step2',[$idfor_pdf,$vf])->with('error','BahanBaku Telah Berhasil Dihapus');
         }
     }
-
 }

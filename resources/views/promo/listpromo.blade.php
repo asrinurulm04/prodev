@@ -1,6 +1,5 @@
 @extends('pv.tempvv')
-@section('title', 'Data PKP promo')
-@section('judulhalaman','Draf PKP pPromo')
+@section('title', 'PRODEV|Data PKP promo')
 @section('content')
 
 @if (session('status'))
@@ -28,7 +27,7 @@
       </div>
       <div class="x_content">
         <div class="card-box table-responsive">
-          <table class="Table table-bordered table-striped table-bordered">
+          <table id="datatable" class="table table-striped table-bordered" style="width:100%">
             <thead>
               <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
                 <td class="text-center">PKP Number</td>
@@ -70,12 +69,9 @@
                   @endif
                 </td>
                 <td class="text-center">
-                  @if($pkp->prioritas==1)
-                  <span class="label label-primary" style="color:white">prioritas 1</span>
-                  @elseif($pkp->prioritas==2)
-                  <span class="label label-warning" style="color:white">prioritas 2</span>
-                  @elseif($pkp->prioritas==3)
-                  <span class="label label-success" style="color:white">prioritas 3</span>
+                  @if($pkp->prioritas==1)<span class="label label-primary" style="color:white">prioritas 1</span>
+                  @elseif($pkp->prioritas==2)<span class="label label-warning" style="color:white">prioritas 2</span>
+                  @elseif($pkp->prioritas==3)<span class="label label-success" style="color:white">prioritas 3</span>
                   @endif
                 </td>
                 @if($pkp->status_project=='sent')
@@ -134,8 +130,7 @@
                                 <?php
                                   $awal  = date_create( $pkp->waktu );
                                   $akhir = date_create(); // waktu sekarang
-                                  if($akhir<=$awal)
-                                  {
+                                  if($akhir<=$awal){
                                     $diff  = date_diff( $akhir, $awal );
                                     echo ' You Have ';
                                     echo $diff->m . ' Month, ';
@@ -173,28 +168,24 @@
                 <td>
                   @if($pkp->status_freeze=='inactive')
                     @if($pkp->pengajuan_sample=='proses')
-                        <?php
-                          $awal  = date_create( $pkp->waktu );
-                          $akhir = date_create(); // waktu sekarang
-                          if($akhir<=$awal)
-                          {
-                            $diff  = date_diff( $akhir, $awal );
-                            echo ' You Have ';
-                            echo $diff->m . ' Month, ';
-                            echo $diff->d . ' Days, ';
-                            echo $diff->h . ' Hours, ';
-                            echo ' To sending Sample ';
-                          }else{
-                            echo ' Your Time Is Up ';
-                          }
-                        ?>
-                        @elseif($pkp->pengajuan_sample=='sent')
-                        <span class="label label-primary" style="color:white">RD send a sample</span>
-                        @elseif($pkp->pengajuan_sample=='reject')
-                        <span class="label label-danger" style="color:white">Sample rejected</span>
-                        @elseif($pkp->pengajuan_sample=='approve')
-                        <span class="label label-info" style="color:white">Sample have been approved</span>
-                        @endif
+                    <?php
+                      $awal  = date_create( $pkp->waktu );
+                      $akhir = date_create(); // waktu sekarang
+                      if($akhir<=$awal){
+                        $diff  = date_diff( $akhir, $awal );
+                        echo ' You Have ';
+                        echo $diff->m . ' Month, ';
+                        echo $diff->d . ' Days, ';
+                        echo $diff->h . ' Hours, ';
+                        echo ' To sending Sample ';
+                      }else{
+                        echo ' Your Time Is Up ';
+                      }
+                    ?>
+                    @elseif($pkp->pengajuan_sample=='sent')<span class="label label-primary" style="color:white">RD send a sample</span>
+                    @elseif($pkp->pengajuan_sample=='reject')<span class="label label-danger" style="color:white">Sample rejected</span>
+                    @elseif($pkp->pengajuan_sample=='approve')<span class="label label-info" style="color:white">Sample have been approved</span>
+                    @endif
                   @elseif($pkp->status_freeze=='active')
                     Project Is Inactive
                   @endif
@@ -206,8 +197,6 @@
                 <td class="text-center">
                   <a class="btn btn-info btn-sm" href="{{ Route('rekappromo',$pkp->id_pkp_promo) }}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
                   @if($pkp->status_freeze=='inactive')
-                  @if(auth()->user()->role->namaRule === 'pv_lokal')
-                  @endif
                   <button title="Freeze" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#freezedata{{ $pkp->id_pkp_promo  }}" data-toggle="tooltip" ><li class="fa fa-exclamation-triangle"></i></a></button>
                   <!-- Modal -->
                   <div class="modal" id="freezedata{{ $pkp->id_pkp_promo }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

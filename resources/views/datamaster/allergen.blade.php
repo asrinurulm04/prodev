@@ -21,7 +21,6 @@
 </div>
 
 <div class="row">
-
   <div class="col-md-12 col-xs-12">
     <div class="x_panel" style="min-height:240px">
       <div class="x_title">
@@ -60,7 +59,6 @@
 							<td>{{$all->tgl_update}}</td>
 							<td>@if($all->id_user!=NULL){{$all->user->name}}@endif</td>
 							<td class="text-center"><button class="btn btn-warning btn-sm" type="button" data-toggle="modal" data-target="#edit{{$all->id_allergen}}"><i class="fa fa-edit"></i></a></button></td>
-							
 								<!-- Edit Allergen -->
 								<div class="modal fade" id="edit{{$all->id_allergen}}" role="dialog" aria-labelledby="EWBModalLabel" aria-hidden="true">
 									<div class="modal-dialog">
@@ -95,5 +93,4 @@
     </div>
   </div>
 </div>
-
 @endsection

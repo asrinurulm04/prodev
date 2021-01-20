@@ -1,6 +1,5 @@
 @extends('pv.tempvv')
-@section('title', 'Data PDF')
-@section('judulhalaman','Draf PDEp & PDF')
+@section('title', 'PRODEV|Data PDF')
 @section('content')
 
 <div class="">
@@ -12,8 +11,8 @@
             <h3><li class="fa fa-file-zip-o"> </li> Draf PDF</h3>
           </div>
           <div class="clearfix"></div>
-          <div class="x_content" style="overflow-x: scroll;">
-            <table class="table table-striped no-border">
+          <div class="x_content">
+            <table id="datatable" class="table table-striped table-bordered" style="width:100%">
               <thead>
                 <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
                   <th class="text-center">#</th>
@@ -40,12 +39,9 @@
                   <th>{{ $pdf->author1->name }}</th>
                   <th>{{ $pdf->created_date }}</th>
                   <th>
-                    @if($pdf->prioritas==1)
-                    <span class="label label-danger">High Priority</span>
-                    @elseif($pdf->prioritas==2)
-                    <span class="label label-warning">Standar Priority</span>
-                    @elseif($pdf->prioritas==3)
-                    <span class="label label-primary">Low Priority</span>
+                    @if($pdf->prioritas==1) <span class="label label-danger">High Priority</span>
+                    @elseif($pdf->prioritas==2) <span class="label label-warning">Standar Priority</span>
+                    @elseif($pdf->prioritas==3) <span class="label label-primary">Low Priority</span>
                     @endif
                   </th>
                   <th>{{ $pdf->last_updated }}</th>

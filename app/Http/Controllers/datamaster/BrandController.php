@@ -26,7 +26,6 @@ class BrandController extends Controller
         $brand = new Brand;
         $brand->brand = $request->brand;
         $brand->save();
-
         return Redirect::back()->with('status','Brand '.$brand->brand.' Berhasil Dimasukan');
     }
 
@@ -34,7 +33,6 @@ class BrandController extends Controller
         $brand = Brand::where('id',$id)->first();
         $brand->brand = $request->brand;
         $brand->save();
-
         return Redirect()->route('brand.index')->with('status','Brand '.$brand->brand.' Telah Di Update');
     }
 

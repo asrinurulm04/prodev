@@ -1,5 +1,5 @@
 @extends('pv.tempvv')
-@section('title', 'Logam Berat')
+@section('title', 'PRODEV|Logam Berat')
 @section('content')
 
 <div class="row">
@@ -20,9 +20,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				@php
-					$no = 0;
-				@endphp
+				@php $no = 0; @endphp
 				@foreach($logam as $logam)
 				<tr>
 					<td>{{++$no}}</td>

@@ -1,5 +1,5 @@
 @extends('pv.tempvv')
-@section('title', 'List PDF')
+@section('title', 'PRODEV|List PDF')
 @section('content')
 
 @if (session('status'))
@@ -28,7 +28,6 @@
       <div>
         <div>
           <form id="clear">
-          <!--project-->
           <div class="col-md-4 pl-1">
             <div class="form-group" id="filter_col" data-column="5">
               <label>Priority</label>
@@ -40,7 +39,6 @@
               </select>
             </div>
           </div>      
-          <!--brand-->
           <div class="col-md-4 pl-1">
             <div class="form-group" id="filter_col1" data-column="3">
               <label>Brand</label>
@@ -52,7 +50,6 @@
               </select>
             </div>
           </div>
-          <!--Data-->
           <div class="col-md-3 pl-1">
             <div class="form-group" id="filter_col1" data-column="6">
               <label>Status</label>
@@ -84,8 +81,8 @@
   </div>
   <div class="card-block">
     <div class="clearfix"></div>
-    <div class="x_content" style="overflow-x: scroll;">
-      <table class="Table table-bordered stylish-table table-striped no-border dtables" id="ex"> 
+    <div class="x_content">
+      <table id="datatable" class="table table-striped table-bordered ex" style="width:100%">
         <thead>
           <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
             <th>#</th>
@@ -100,9 +97,7 @@
         </thead>
         <tbody>
           <tr>
-          @php
-            $no = 0;
-          @endphp
+          @php $no = 0; @endphp
           @foreach($pdf as $pdf)
           @if($pdf->userpenerima2=='NULL')
             @if($pdf->userpenerima==Auth::user()->id)
@@ -126,8 +121,7 @@
                 <?php
                   $awal  = date_create( $pdf->waktu );
                   $akhir = date_create(); // waktu sekarang
-                  if($akhir<=$awal)
-                  {
+                  if($akhir<=$awal) {
                     $diff  = date_diff( $akhir, $awal );
                     echo ' You Have ';
                     echo $diff->m . ' Month, ';
@@ -174,7 +168,6 @@
               <span class="label label-warning">Prioritas 2</span>
               @elseif($pdf->prioritas=='3')
               <span class="label label-primary">Prioritas 3</span>
-              @endifs="label label-primary">Low Priority</span>
               @endif
             </td>
             <td>
@@ -183,8 +176,7 @@
                 <?php
                   $awal  = date_create( $pdf->waktu );
                   $akhir = date_create(); // waktu sekarang
-                  if($akhir<=$awal)
-                  {
+                  if($akhir<=$awal){
                     $diff  = date_diff( $akhir, $awal );
                     echo ' You Have ';
                     echo $diff->m . ' Month, ';
@@ -216,7 +208,7 @@
               @elseif($pdf->status_project=='revisi')
                 The Project in the revised proses
               @elseif($pdf->status_project=='close')
-              <a class="btn btn-info btn-sm" href="{{ Route('rekappdf',$pdf->id_project_pdf)}}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
+                <a class="btn btn-info btn-sm" href="{{ Route('rekappdf',$pdf->id_project_pdf)}}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
               @endif
             </td>
             @endif
@@ -228,25 +220,24 @@
     </div>
   </div>
 </div>
-
 @endsection
 
 @section('s')
 <script>
   function filterGlobal () {
-    $('#ex').DataTable().search(
+    $('.ex').DataTable().search(
       $('#global_filter').val(),  
     ).draw();
   }
     
   function filterColumn ( i ) {
-    $('#ex').DataTable().column( i ).search(
+    $('.ex').DataTable().column( i ).search(
       $('#col'+i+'_filter').val()
     ).draw();
   }
     
   $(document).ready(function() {
-    $('#ex').DataTable();    
+    $('.ex').DataTable();    
       $('input.global_filter').on( 'keyup click', function () {
       filterGlobal();
     } );

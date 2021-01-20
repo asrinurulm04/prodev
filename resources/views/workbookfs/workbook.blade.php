@@ -1,6 +1,5 @@
 @extends('feasibility.tempfeasibility')
 @section('title', 'Workbook | Feasibility')
-@section('judulnya', 'List Feasibility')
 @section('content')
 
 @if (session('status'))

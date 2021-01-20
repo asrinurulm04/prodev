@@ -25,7 +25,6 @@ class LoginController extends Controller
     }
 
     public function postLogin(Request $request){
-
         //MARKETING==========================================================================================
         if(Auth::attempt([
             'email' =>$request->inputEmailUser,

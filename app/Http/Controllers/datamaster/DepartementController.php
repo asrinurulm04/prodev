@@ -11,16 +11,13 @@ use Redirect;
 class DepartementController extends Controller
 {
     public function __construct(){
-
         $this->middleware('auth');
         $this->middleware('rule:admin');
     }
 
     public function dept(){
         $depts = Departement::all();
-        $users = User::where([
-            ['status','active']
-        ])->get();
+        $users = User::where('status','active')->get();
         return view('admin.departement')->with([
             'depts' => $depts,
             'users' => $users
@@ -53,6 +50,5 @@ class DepartementController extends Controller
         $dept->save();
 
         return Redirect()->route('dept')->with('status', 'Departement '.$dept->dept.' Telah DiUpdate!');
-        
     }
 }

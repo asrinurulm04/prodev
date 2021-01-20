@@ -1,6 +1,5 @@
 @extends('pv.tempvv')
-@section('title', 'Request PKP')
-@section('judulhalaman','Request PKP')
+@section('title', 'PRODEV|Request PKP')
 @section('content')
 
 @if (session('status'))
@@ -20,14 +19,13 @@
 @endif
 
 <div class="row">
-  <div class="col-md-2"></div>
-  <div class="col-md-10">
+  <div class="col-md-3"></div>
+  <div class="col-md-9">
     <div class="tabbable">
       <ul class="nav nav-tabs wizard">
-        <li class="active"><a href="" ><span class="nmbr">1</span>Informasi</a></li>
-        <li class="active"><a href=""><span class="nmbr">2</span>Data</a></li>
-        <li class="completed"><a href=""><span class="nmbr">3</span>Products</a></li>
-        <li class="active"><a href=""><span class="nmbr">4</span>File & Image</a></li>
+        <li class="active"><a href=""><span class="nmbr">1</span>Data</a></li>
+        <li class="completed"><a href=""><span class="nmbr">2</span>Products</a></li>
+        <li class="active"><a href=""><span class="nmbr">3</span>File & Image</a></li>
       </ul>
     </div>
   </div>
@@ -102,7 +100,6 @@
 										</tr>
         					</tbody>
       					</table>
-                      
             	</div>
 							<center>
 							<button type="submit" class="btn btn-primary btn-sm"><li class="fa fa-check"></li> Submit</button>
@@ -144,13 +141,9 @@
         					</tr>
         				</thead>
         				<tbody>
-								@php
-                   $nol = 0;
-                @endphp
+								@php $nol = 0; @endphp
 								@foreach($allocation as $all)
-								@php
-                  ++$nol;
-                @endphp
+								@php ++$nol; @endphp
 									<tr>
 										<td>{{$nol}}</td>
 										<td>{{$all->sku->nama_sku}}</td>
@@ -230,34 +223,28 @@
 		</div>
 	</div>
 </div> 
-
 @endif
 @endsection
 
 @section('s')
 <script>
-$('.items').select2({
+	$('.items').select2({
     placeholder: '-->Select One<--',
     allowClear: true
   });
 
   $('.input').keyup(function(event) {
     if(event.which >= 37 && event.which <= 40) return;
-
     // format number
     $(this).val(function(index, value) {
       return value.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     });
   });
-
-
 </script>
 
 <script>
   $(document).ready(function() {
-
 		$('#tabledata').on('click', 'tr a', function(e) {
-
         e.preventDefault();
         var lenRow = $('#tabledata tbody tr').length;
         if (lenRow == 1 || lenRow <= 1) {
@@ -267,51 +254,47 @@ $('.items').select2({
         }
     });
 
+		var idsku = []
+		<?php foreach($sku2 as $key => $value) { ?>
+			if(!idsku){
+				idsku += [ { '<?php echo $key; ?>' : '<?php echo $value->id; ?>', } ];
+			} else { idsku.push({ '<?php echo $key; ?>' : '<?php echo $value->id; ?>', }) }
+		<?php } ?>
 
-	var idsku = []
-  <?php foreach($sku2 as $key => $value) { ?>
-    if(!idsku){
-      idsku += [ { '<?php echo $key; ?>' : '<?php echo $value->id; ?>', } ];
-    } else { idsku.push({ '<?php echo $key; ?>' : '<?php echo $value->id; ?>', }) }
-  <?php } ?>
+		var namasku = []
+		<?php foreach($sku2 as $key => $value) { ?>
+			if(!namasku){
+				namasku += [ { '<?php echo $key; ?>' : '<?php echo $value->nama_sku; ?>', } ];
+			} else { namasku.push({ '<?php echo $key; ?>' : '<?php echo $value->nama_sku; ?>', }) }
+		<?php } ?>
 
-  var namasku = []
-  <?php foreach($sku2 as $key => $value) { ?>
-    if(!namasku){
-      namasku += [ { '<?php echo $key; ?>' : '<?php echo $value->nama_sku; ?>', } ];
-    } else { namasku.push({ '<?php echo $key; ?>' : '<?php echo $value->nama_sku; ?>', }) }
-  <?php } ?>
+		var sku1 = '';
+			for(var i = 0; i < Object.keys(namasku).length; i++){
+			sku1 += '<option value="'+idsku[i][i]+'">'+namasku[i][i]+'</option>';
+		}
 
-	var sku1 = '';
-    for(var i = 0; i < Object.keys(namasku).length; i++){
-    sku1 += '<option value="'+idsku[i][i]+'">'+namasku[i][i]+'</option>';
-  }
+		var i = 1;
+		$("#add_data").click(function() {
+			$('#addrow' + i).html( "<td>"+
+				"<select name='sku[]' style='width:280px;' class='form-control items'>"+sku1+
+				"</select>"+
+				"</td>"+
+				"<td><input type='text' name='pcs[]' placeholder='Allocation ' class='form-control data' /></td>"+
+				"<td><select require name='opsi[]' id='opsi' class='form-control'>"+
+					"<option value='pcs'>PCS</option>"+
+					"<option value='forecast'>forecast</option>"+
+				"</select></td>"+
+				"<td><textarea rows='4' type='text' required name='remarks[]' placeholder='Remarks' class='form-control' ></textarea></td>"+
+				"<td><input type='date' required name='start[]' placeholder='Start' title='start' class='form-control' /></td>"+
+				"<td><input type='date' required name='end[]' placeholder='End' title='End' class='form-control' /></td>"+
+				"<td><input type='date' required name='rto[]' placeholder='rto' class='form-control' /></td>"+
+				"<td><a href='' class='btn btn-danger btn-sm'><li class='fa fa-trash'></li></a>"+
+				"</td>");
 
-  var i = 1;
-  $("#add_data").click(function() {
-    $('#addrow' + i).html( "<td>"+
-			"<select name='sku[]' style='width:280px;' class='form-control items'>"+sku1+
-			"</select>"+
-			"</td>"+
-      "<td><input type='text' name='pcs[]' placeholder='Allocation ' class='form-control data' /></td>"+
-			"<td><select require name='opsi[]' id='opsi' class='form-control'>"+
-				"<option value='pcs'>PCS</option>"+
-				"<option value='forecast'>forecast</option>"+
-			"</select></td>"+
-      "<td><textarea rows='4' type='text' required name='remarks[]' placeholder='Remarks' class='form-control' ></textarea></td>"+
-      "<td><input type='date' required name='start[]' placeholder='Start' title='start' class='form-control' /></td>"+
-			"<td><input type='date' required name='end[]' placeholder='End' title='End' class='form-control' /></td>"+
-			"<td><input type='date' required name='rto[]' placeholder='rto' class='form-control' /></td>"+
-			"<td><a href='' class='btn btn-danger btn-sm'><li class='fa fa-trash'></li></a>"+
-			"</td>");
-
-    $('#tabledata').append('<tr id="addrow' + (i + 1) + '"></tr>');
-    i++;
+			$('#tabledata').append('<tr id="addrow' + (i + 1) + '"></tr>');
+			i++;
+		});
   });
-  });
-
-
 </script>
-
 <script src="{{ asset('js/asrul.js') }}"></script>
 @endsection

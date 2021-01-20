@@ -141,7 +141,6 @@ class FinanceController extends Controller
                 $harga_per_kg = $berat_per_kg * $hpg; $harga_per_kg = round($harga_per_kg,2);       
             // Tampilkan
             $detail_harga->push([
-
                 'id' => $fortail->id,
                 'kode_komputer' => $bahan->kode_komputer,
                 'nama_sederhana' => $bahan->nama_sederhana,
@@ -153,7 +152,6 @@ class FinanceController extends Controller
                 'harga_per_batch' => $harga_per_batch,
                 'per_kg' => $berat_per_kg,
                 'harga_per_kg' => $harga_per_kg
-
             ]);
 
             // Count Total

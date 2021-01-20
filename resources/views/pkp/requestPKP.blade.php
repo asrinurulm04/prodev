@@ -1,5 +1,5 @@
 @extends('pv.tempvv')
-@section('title', 'Request PKP')
+@section('title', 'PRODEV|Request PKP')
 @section('content')
 
 @if (session('status'))
@@ -134,7 +134,7 @@
         </button> </h3>
       </div>
       <div class="modal-body">
-        <table class="Table table-bordered" width="100%">
+        <table id="datatable" class="table table-striped table-bordered" style="width:100%">
           <thead>
             <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
               <td width="5%">No</td>

@@ -1,6 +1,5 @@
 @extends('pv.tempvv')
-@section('title', 'Request PKP Promo')
-@section('judulhalaman','Request PKP Promo')
+@section('title', 'PRODEV|Request PKP Promo')
 @section('content')
 
 @if (session('status'))

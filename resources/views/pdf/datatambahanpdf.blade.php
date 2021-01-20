@@ -1,6 +1,5 @@
 @extends('pv.tempvv')
-@section('title', 'Data Tambahan PDF')
-@section('judulhalaman','Data Tambahan PDF')
+@section('title', 'PRODEV|Data Tambahan PDF')
 @section('content')
 
 <div class="row">
@@ -30,23 +29,6 @@
     {{ session('error') }}
   </div>
 </div>
-@endif
-
-@if (count($errors) > 0)
-<div class="alert alert-danger">
-  <strong>Whoops!</strong> There were some problems with your input.<br><br>
-  <ul>
-    @foreach ($errors->all() as $error)
-    <li>{{ $error }}</li>
-    @endforeach
-  </ul>
-</div>
-@endif
-
-@if(session('success'))
-<div class="alert alert-success">
-   {{ session('success') }}
-</div> 
 @endif
 
 <div class="col-md-12 col-sm-12 col-xs-12">

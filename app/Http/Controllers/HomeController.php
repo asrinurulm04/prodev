@@ -55,6 +55,5 @@ class homeController extends Controller
         }else{
             return view ('login');
         }
- 
-     }
+    }
 }

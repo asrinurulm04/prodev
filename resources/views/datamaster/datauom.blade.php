@@ -1,5 +1,5 @@
 @extends('pv.tempvv')
-@section('title', 'Data Uom')
+@section('title', 'PRODEV|Data UOM')
 @section('content')
 
 <div class="row">
@@ -48,5 +48,4 @@
 		</form>
 	</div>
 </div>		
-
 @endsection

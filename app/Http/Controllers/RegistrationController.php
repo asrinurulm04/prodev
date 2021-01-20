@@ -10,13 +10,11 @@ use App\model\users\User;
 
 class RegistrationController extends Controller
 {
-    public function __construct()
-    {
+    public function __construct(){
         $this->middleware('guest');
     }
 
-    public function create()
-    {
+    public function create(){
         $roles = Role::all();
         $depts = Departement::all();
         return view('register')->with([
@@ -24,8 +22,7 @@ class RegistrationController extends Controller
             'roles' => $roles]);
     }
 
-    public function registrationPost(Request $request)
-    {
+    public function registrationPost(Request $request){
         $this->validate(request(), [
             'username' => 'unique:users',
             'email' => 'unique:users|regex:"@nutrifood.co.id"',

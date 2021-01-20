@@ -1,5 +1,5 @@
 @extends('manager.tempmanager')
-@section('title', 'List PDF')
+@section('title', 'PRODEV|List PDF')
 @section('content')
 
 @if (session('status'))
@@ -40,7 +40,6 @@
               </select>
             </div>
           </div> 
-          <!--Data-->
           <div class="col-md-3 pl-1">
             <div class="form-group" id="filter_col1" data-column="4">
               <label>Status RD Kemas</label>
@@ -54,7 +53,6 @@
               </select>
             </div>
           </div>  
-          <!--Data-->
           <div class="col-md-3 pl-1">
             <div class="form-group" id="filter_col1" data-column="5">
               <label>Status RD Product</label>
@@ -68,7 +66,6 @@
               </select>
             </div>
           </div>      
-          <!--project-->
           <div class="col-md-3 pl-1">
             <div class="form-group" id="filter_col1" data-column="6">
               <label>Priority</label>
@@ -102,7 +99,7 @@
   <div class="card-block">
     <div class="clearfix"></div>
     <div class="x_content">
-      <table class="Table table-striped table-bordered" id="ex"> 
+      <table id="datatable" class="table table-striped table-bordered ex" style="width:100%"> 
         <thead>
           <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
             <td>no</td>
@@ -196,8 +193,7 @@
                       <?php
                         $awal  = date_create( $pdf->waktu );
                         $akhir = date_create(); // waktu sekarang
-                        if($akhir<=$awal)
-                        {
+                        if($akhir<=$awal){
                           $diff  = date_diff( $akhir, $awal );
                           echo ' You Have ';
                           echo $diff->m . ' Month, ';
@@ -241,8 +237,7 @@
                         <?php
                           $awal  = date_create( $pdf->waktu );
                           $akhir = date_create(); // waktu sekarang
-                          if($akhir<=$awal)
-                          {
+                          if($akhir<=$awal){
                             $diff  = date_diff( $akhir, $awal );
                             echo ' You Have ';
                             echo $diff->m . ' Month, ';
@@ -336,8 +331,7 @@
                       <?php
                         $awal  = date_create( $pdf->waktu );
                         $akhir = date_create(); // waktu sekarang
-                        if($akhir<=$awal)
-                        {
+                        if($akhir<=$awal){
                           $diff  = date_diff( $akhir, $awal );
                           echo ' You Have ';
                           echo $diff->m . ' Month, ';
@@ -377,8 +371,7 @@
                         <?php
                           $awal  = date_create( $pdf->waktu );
                           $akhir = date_create(); // waktu sekarang
-                          if($akhir<=$awal)
-                          {
+                          if($akhir<=$awal){
                             $diff  = date_diff( $akhir, $awal );
                             echo ' You Have ';
                             echo $diff->m . ' Month, ';
@@ -422,25 +415,24 @@
     </div>
   </div>
 </div>
-
 @endsection
 
 @section('s')
 <script>
  function filterGlobal () {
-    $('#ex').DataTable().search(
+    $('.ex').DataTable().search(
       $('#global_filter').val(),
     ).draw();
   }
     
   function filterColumn ( i ) {
-    $('#ex').DataTable().column( i ).search(
+    $('.ex').DataTable().column( i ).search(
       $('#col'+i+'_filter').val()
     ).draw();
   }
     
   $(document).ready(function() {
-    $('#ex').DataTable();    
+    $('.ex').DataTable();    
     $('input.global_filter').on( 'keyup click', function () {
       filterGlobal();
     } );

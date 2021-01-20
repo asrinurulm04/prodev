@@ -1,5 +1,5 @@
 @extends('pv.tempvv')
-@section('title', 'List PDF')
+@section('title', 'PRODEV|List PDF')
 @section('content')
 
 @if (session('status'))
@@ -25,7 +25,7 @@
   <div class="card-block">
     <div class="clearfix"></div>
     <div class="x_content">
-      <table class="Table stylish-table table-striped table-bordered">
+      <table id="datatable" class="table table-striped table-bordered" style="width:100%">
         <thead>
           <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
             <th width="22%">PDF Number</th>
@@ -40,7 +40,6 @@
         </thead>
         <tbody>
           @foreach($pdf as $pdf)
-          @if($pdf->status_project!="draf")
           <tr>
             <td>{{ $pdf->pdf_number}}{{$pdf->ket_no}}</td>
             <td>{{ $pdf->id_brand }}</td>
@@ -106,12 +105,9 @@
               @endif
             </td>
             <td class="text-center">
-              @if($pdf->prioritas==1)
-              <span class="label label-primary" style="color:white">prioritas 1</span>
-              @elseif($pdf->prioritas==2)
-              <span class="label label-warning" style="color:white">prioritas 2</span>
-              @elseif($pdf->prioritas==3)
-              <span class="label label-success" style="color:white">prioritas 3</span>
+              @if($pdf->prioritas==1) <span class="label label-primary" style="color:white">prioritas 1</span>
+              @elseif($pdf->prioritas==2) <span class="label label-warning" style="color:white">prioritas 2</span>
+              @elseif($pdf->prioritas==3) <span class="label label-success" style="color:white">prioritas 3</span>
               @endif
             </td>
             <td class="text-center">
@@ -209,8 +205,7 @@
                   <?php
                     $awal  = date_create( $pdf->waktu );
                     $akhir = date_create(); // waktu sekarang
-                    if($akhir<=$awal)
-                    {
+                    if($akhir<=$awal) {
                       $diff  = date_diff( $akhir, $awal );
                       echo ' You Have ';
                       echo $diff->m . ' Month, ';
@@ -221,19 +216,15 @@
                       echo ' Your Time Is Up ';
                     }
                   ?>
-                @elseif($pdf->pengajuan_sample=='sent')
-                <span class="label label-primary" style="color:white">RD send a sample</span>
-                @elseif($pdf->pengajuan_sample=='reject')
-                <span class="label label-danger" style="color:white">Sample rejected</span>
-                @elseif($pdf->pengajuan_sample=='approve')
-                <span class="label label-info" style="color:white">Sample have been approved</span>
+                @elseif($pdf->pengajuan_sample=='sent') <span class="label label-primary" style="color:white">RD send a sample</span>
+                @elseif($pdf->pengajuan_sample=='reject') <span class="label label-danger" style="color:white">Sample rejected</span>
+                @elseif($pdf->pengajuan_sample=='approve') <span class="label label-info" style="color:white">Sample have been approved</span>
                 @endif
               @elseif($pdf->status_freeze=='active')
                 Project Is Inactive
               @endif
             </td>
           </tr>
-          @endif
           @endforeach
         </tbody>
       </table>

@@ -69,7 +69,6 @@ class workbookfsController extends Controller
 
         return redirect::route('datalab',[$id_formula,$lab->id_wb_lab]);
     }
-
     
     public function addwbmaklon($id_formula){
         $maklon = new workbook_maklon;

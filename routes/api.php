@@ -28,6 +28,5 @@ Route::get('update/{id}', 'DataController@updateView');
 Route::get('updatejeniss/{id_jenis}','DataController@updatejenis');
 Route::get('getjenis/{id_jenis}', 'DataController@getjenis');
 
-Route::post('/post', 'PostController@store');
 //ApiController
 Route::get('pkp','DataController@index')->name('pkp');

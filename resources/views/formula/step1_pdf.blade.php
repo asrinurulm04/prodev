@@ -1,5 +1,5 @@
 @extends('pv.tempvv')
-@section('title', 'Workbook | Information')
+@section('title', 'PRODEV| Information')
 @section('content')
 
 <div class="row">
@@ -27,14 +27,14 @@
     <div class="tabbable">
       <ul class="nav nav-tabs wizard">
         <li class="completed"><a href="{{ route('step1',[ $idfor_pdf, $idf]) }}"><span class="nmbr">1</span>Information</a></li>
-        <li class="active"><a href="{{ route('step2',[ $idfor_pdf, $idf]) }}"><span class="nmbr">2</span>Penyusunan</a></li>
+        <li class="active"><a href="{{ route('step2',[ $idfor_pdf, $idf]) }}"><span class="nmbr">2</span>Drafting</a></li>
         <li class="active"><a href="{{ route('summarry',[ $idfor_pdf, $idf]) }}"><span class="nmbr">3</span>Summary</a></li>
       </ul>
     </div>
   </div>
 </div>
 
-<form method="POST" class="form-horizontal form-label-left" action="{{ route('step1update',[$formula->id,$formula->workbook_pdf_id]) }}">
+<form method="post" class="form-horizontal form-label-left" action="{{ route('step1update',[$formula->id,$formula->workbook_pdf_id]) }}" enctype="multipart/form-data">
 <div class="col-md-12 col-xs-12">
   <div class="x_panel">
     <div class="x_title">
@@ -139,20 +139,32 @@
           <input class="form-control edit" id="idea" name="idea" minlength="2" type="text" value="{{ $formula->workbook_pdf->background }}" readonly />
       	</div>
     	</div>
-
       <div class="form-group row">
       	<label for="middle-name" class="control-label col-md-2 col-sm-2 col-xs-12"> Note RD <br><font style="color:red;font-size:11px">* max 200 character</font></label>
       	<div class="col-md-8 col-sm-8 col-xs-12">
           <textarea class="form-control edit" placeholder="max 200 character" style="min-width: 100%" name="keterangan" id="keterangan">{{ old('keterangan',$formula->catatan_rd) }}</textarea>
       	</div>
     	</div>
-      
       <div class="form-group row">
       	<label for="middle-name" class="control-label col-md-2 col-sm-2 col-xs-12"> Note Formula </label>
       	<div class="col-md-8 col-sm-8 col-xs-12">
           <textarea class="form-control edit" style="min-width: 100%" name="formula" id="formula">{{ old('keterangan',$formula->note_formula) }}</textarea>
       	</div>
     	</div>
+      <div class="item form-group">
+        <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">File</label>
+        <div class="col-md-8 col-sm-8 col-xs-12">
+          <input type="file" class="form-control" id="data" name="filename[]" multiple><label for="" style="color:red">*Max 5Mb</label>
+        </div>
+      </div>
+      <div class="item form-group">
+        <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name"></label>
+        <div class="col-md-8 col-sm-8 col-xs-12">
+        @foreach($data as $data)
+        <a href="{{asset('data_file/'.$data->file)}}" download="{{$data->file}}" title="Download file"><li class="fa fa-download"></li></a> {{$data->file}} <a href="{{route('hapus_file',$data->id_data)}}" title="Delete File"><li class="fa fa-times"></li></a><br>
+        @endforeach
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -169,7 +181,7 @@
 				<button type="reset" class="btn btn-warning btn-sm"><li class="fa fa-repeat"></li> Reset</button>
 				<button type="submit" class="btn btn-primary btn-sm"><li class="fa fa-check"></li> Edit And Next</button>
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-        {{ method_field('PATCH') }}
+        {{ csrf_field() }}
         @include('formerrors')
 			</div>
     </div>
@@ -180,14 +192,11 @@
 
 @section('s')
 <script type="text/javascript">
-
   function satuan_ml(){
     var satuan_ml = document.getElementById('id_ml')
-
     if(satuan_ml.checked != true){
       document.getElementById('tampilkan').innerHTML = "";
     }else{
-
       document.getElementById('tampilkan').innerHTML =
         "<div class='col-md-12 col-sm-12 col-xs-12'>"+
         "  <input class='form-control' placeholder='Berat Jenis' id='' name='' type='number' required/>"+
@@ -197,11 +206,9 @@
 
   function satuan_gram(){
     var satuan_gram = document.getElementById('id_gram')
-
     if(satuan_gram.checked != true){
       document.getElementById('tampilkan').innerHTML = "";
     }else{
-
       document.getElementById('tampilkan').innerHTML =
         "<div class='col-md-12 col-sm-12 col-xs-12'>"+
         "  <input class='form-control' disabled placeholder='Berat Jenis' id='' name='' type='number' required/>"+
@@ -211,11 +218,9 @@
 
   function finis_good(){
     var finis_good = document.getElementById('id_finis')
-
     if(finis_good.checked != true){
       document.getElementById('ditampilkan').innerHTML = "";
     }else{
-
       document.getElementById('ditampilkan').innerHTML =
         "<select name='' disabled id='' class='form-control'>"+
         "  <option disabled selected>--> Select One <--</option>"+
@@ -227,11 +232,9 @@
 
   function wip(){
     var wip = document.getElementById('id_wip')
-
     if(wip.checked != true){
       document.getElementById('ditampilkan').innerHTML = "";
     }else{
-
       document.getElementById('ditampilkan').innerHTML =
         "<select name='kategori_formula' id='' class='form-control' required>"+
         "  <option disabled selected>--> Select One <--</option>"+

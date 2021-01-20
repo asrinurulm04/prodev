@@ -5,16 +5,13 @@ namespace App\Http\Controllers\ajax;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\model\dev\Bahan;
-use App\model\master\Brand;
-use App\model\master\Subbrand;
 use DB;
 
 class getGet extends Controller
 {
     public function getAlternatif($id){
         $prioritas  = Bahan::where('id',$id)->first();
-        $alternatif = DB::table('bahans')->where('subkategori_id',$prioritas->subkategori_id)->pluck('nama_sederhana','id');
-
+        $alternatif = DB::table('bahans')->pluck('nama_sederhana','id');
         return json_encode($alternatif);
     }
 
@@ -54,6 +51,11 @@ class getGet extends Controller
     public function getdetailklaim($id){
         $detail = DB::table('detail_klaim')->where('id_komponen',$id)->pluck('detail','id');
         return json_encode($detail);
+    }
+
+    public function subkategori($id){
+        $kategori = DB::table('subkategoris')->where('kategori_id',$id)->pluck('subkategori','id');
+        return json_encode($kategori);
     }
     
 }

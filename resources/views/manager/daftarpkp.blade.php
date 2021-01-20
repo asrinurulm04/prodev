@@ -1,6 +1,5 @@
 @extends('manager.tempmanager')
-@section('title', 'Daftar PKP')
-@section('judulhalaman','Form PKP')
+@section('title', 'PRODEV|Daftar PKP')
 @section('content')
 
 <div class="row">
@@ -25,65 +24,12 @@
   <div class="col-md-12 col-xs-12">
 		@foreach($listpkp as $listpkp)
     <div class="x_panel">
-      <div class="col-md-5">
+      <div class="col-md-6">
         <h3><li class="fa fa-star"></li> Project Name : {{ $listpkp->project_name}}</h3>
       </div>
-      <div class="col-md-7" align="right">
-        @if($listpkp->status_terima!='proses' || $listpkp->status_terima2!='proses')
-          @if(Auth::user()->departement->dept!='RKA')
-          <button class="btn btn-success btn-sm"  data-toggle="modal" data-target="#edit"><li class="fa fa-edit"></li> Edit Type PKP</button>
-          <!-- modal -->
-          <div class="modal" id="edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">                 
-                  <h3 class="modal-title" id="exampleModalLabel">Edit Type PKP
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button> </h3>
-                </div>
-                <div class="modal-body">
-                <form class="form-horizontal form-label-left" method="POST" action="{{ route('edittype',$listpkp->id_project) }}" novalidate>
-                  <div class="form-group row">
-                    <label class="control-label text-bold col-md-1 col-sm-3 col-xs-12 text-center">Type</label>
-                    <div class="col-md-11 col-sm-9 col-xs-12">
-                      <select name="type" class="form-control form-control-line" id="type">
-                      @foreach($pkp1 as $pkp1)
-                      <option disabled selected value="{{$pkp1->type}}">
-                      @if($pkp1->type==1)
-                      Maklon
-                      @elseif($pkp1->type==2)
-                      Internal
-                      @elseif($pkp1->type==3)
-                      Maklon/Internal
-                      @endif</option>
-                      @endforeach
-                      <option value="1">Maklon</option>
-                      <option value="2">Internal</option>
-                      <option value="3">Maklon & Internal</option>
-                      </select>
-                    </div>
-                    @foreach($user as $user)
-                    @if($user->role_id=='1' || $user->role_id=='5' || $user->role_id=='14')
-                    <input type="hidden" value="{{$user->name}}" name="namatujuan[]" id="namatujuan">
-                    <input type="hidden" value="{{$user->email}}" name="emailtujuan[]" id="emailtujuan">
-                    @endif
-                    @endforeach
-                  </div>
-                </div>
-                <div class="modal-footer">
-                  <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-plus-circle"></i> Submit</button>
-                  {{ csrf_field() }}
-                </div>
-                </form>
-              </div>
-            </div>
-          </div>
-          <!-- modal selesai -->
-          @endif
-        @endif
+      <div class="col-md-6" align="right">
         @if($listpkp->status_project!='close' && $listpkp->status_project!='revisi')
-        <button class="btn btn-primary btn-sm"  data-toggle="modal" data-target="#alihkan"><li class="fa fa-paper-plane"></li> Divert Project</button>
+        <button class="btn btn-dark btn-sm"  data-toggle="modal" data-target="#alihkan"><li class="fa fa-paper-plane"></li> Divert Project</button>
         <!-- modal -->
         <div class="modal" id="alihkan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">
@@ -133,38 +79,35 @@
         <!-- modal selesai -->
         @endif
         @foreach($datapkp as $pkp)
-          @if($pkp->datapkpp->type==1 && $pkp->gambaran_proses==NULL)
-            <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#maklon{{$pkp->id_pkp}}" totle="show"><i class="fa fa-folder-open"></i></a> Show</button>
-            <!-- Modal -->
-            <div class="modal" id="maklon{{$pkp->id_pkp}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-              <div class="modal-dialog modal-lg" role="document">
+          @if($cf != 0)
+            <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#upload"><i class="fa fa-upload"></i> Upload LHP</a>
+            <!-- Formula Baru -->
+            <div class="modal fade" id="upload" role="dialog" aria-labelledby="hm" aria-hidden="true">
+              <div class="modal-dialog">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h3 class="modal-title text-left" id="exampleModalLabel">Tambah Data Maklon
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span></h3>
-                    </button>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title text-center" id="hm"> Upload FIle</h4>
                   </div>
                   <div class="modal-body">
-                    <form class="form-horizontal form-label-left" method="POST" action="{{ Route('Gproses',['id_pkp' => $pkp->id_pkp, 'revisi' => $pkp->revisi, 'turunan' => $pkp->turunan]) }}" novalidate>
+                    <form method="post" action="{{route('uploadfile',$pkp->id_pkp)}}" enctype="multipart/form-data">                                    
                     <div class="form-group">
-                      <label class="control-label col-md-2 col-sm-3 col-xs-12">Gambaran Proses</label>
-                      <div class="col-md-9 col-sm-9 col-xs-12">
-                        <textarea name="proses" id="proses"30" rows="5" class="form-control col-md-12 col-xs-12"></textarea>
+                      <label class="col-lg-2 control-label">LHP</label>
+                      <div class="col-lg-9">
+                        <input type="file" class="form-control" id="data" name="filename">
                       </div>
                     </div>
-                    <div class="modal-footer">
-                      <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> Submit</button>
-                      {{ csrf_field() }}
-                    </div>
-                  </form>
                   </div>
+                   <div class="modal-footer">
+                     <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-upload"></i> upload</button>
+                    {{ csrf_field() }}
+                  </div>
+                  </form>
                 </div>
               </div>
             </div>
-          @else
-            <a class="btn btn-info btn-sm" href="{{ Route('pkplihat',['id_pkp' => $pkp->id_pkp, 'revisi' => $pkp->revisi, 'turunan' => $pkp->turunan]) }}" data-toggle="tooltip" title="show"><i class="fa fa-folder-open"></i> Show</a>
           @endif
+            <a class="btn btn-info btn-sm" href="{{ Route('pkplihat',['id_pkp' => $pkp->id_pkp, 'revisi' => $pkp->revisi, 'turunan' => $pkp->turunan]) }}" data-toggle="tooltip" title="show"><i class="fa fa-folder-open"></i> Show</a>
         @endforeach
         <a href="{{ route('listpkprka')}}" class="btn btn-danger btn-sm" type="button"><li class="fa fa-share"></li> Back</a>
       </div>
@@ -202,6 +145,9 @@
               </td></tr>
               <tr><td>Perevisi</td><td>:</td><td> {{$listpkp->perevisi2->name}}</td></tr>
               <tr><td>Idea</td><td>:</td> <td> {{$listpkp->idea}}</td></tr>
+              @if($listpkp->datapkpp->file!=NULL)
+              <tr><th>File</th><td>:</td><td> <a href="{{asset('data_file/'.$listpkp->datapkpp->file)}}" download="{{$listpkp->datapkpp->file}}" title="download file"><li class="fa fa-download"></li></a> {{$listpkp->datapkpp->file}}</td></tr>
+              @endif
 						</thead>
 					</table>
         </div>
@@ -216,7 +162,7 @@
         </div>
         <div class="card-block">
           <div class="x_content">
-            <table class="Table table-striped table-bordered">
+            <table id="datatable" class="table table-striped table-bordered" style="width:100%">
               <thead>
                 <tr style="font-weight: bold;color:white;background-color: #2a3f54;">     
                   <th class="text-center" width="3%">No</th>                                  
@@ -250,30 +196,14 @@
                   </td>
                   <td>{{ $pkp->formula}}</td>
                   <td class="text-center" width="10%">
-                    @if ($pkp->vv == 'proses')
-                    <span class="label label-warning">Proses</span>                        
-                    @endif
-                    @if ($pkp->vv == 'reject')
-                    <span class="label label-danger">Rejected</span>                        
-                    @endif 
-                    @if ($pkp->vv == 'approve')
-                    <span class="label label-success">Approved</span>                        
-                    @endif 
-                    @if ($pkp->vv == 'final')
-                    <span class="label label-info">Final Approved</span>                        
-                    @endif 
-                    @if ($pkp->vv == '')
-                    <span class="label label-primary">Belum Diajukan</span>                        
-                    @endif   
+                    @if ($pkp->vv == 'proses') <span class="label label-warning">Proses</span> @endif
+                    @if ($pkp->vv == 'reject') <span class="label label-danger">Rejected</span> @endif 
+                    @if ($pkp->vv == 'approve') <span class="label label-success">Approved</span> @endif 
+                    @if ($pkp->vv == 'final') <span class="label label-info">Final Approved</span> @endif 
+                    @if ($pkp->vv == '') <span class="label label-primary">Belum Diajukan</span> @endif   
                   </td>
-                  <td class="text-center">
-                  {{$pkp->catatan_rd}}
-                  </td>
-                  <td class="text-center">
-                    @if($pkp->vv == 'reject' || $pkp->vv == 'approve')
-                    {{$pkp->catatan_pv}}    
-                    @endif
-                  </td>
+                  <td class="text-center"> {{$pkp->catatan_rd}} </td>
+                  <td class="text-center"> {{$pkp->catatan_pv}} </td>
                   <td class="text-center">
                   @if(auth()->user()->departement_id == '3' || auth()->user()->departement_id == '4' || auth()->user()->departement_id == '5' || auth()->user()->departement_id == '6')
                     {{csrf_field()}}
@@ -299,13 +229,9 @@
                     @if($pkp->status!='proses')
                     <a class="btn btn-primary btn-sm" href="{{ route('step1',[$pkp->workbook_id,$pkp->id]) }}"><i style="font-size:12px;" class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a>
                     <a class="btn btn-dark btn-sm" href="{{ route('ajukanvp',[$pkp->workbook_id,$pkp->id]) }}" onclick="return confirm('Ajukan Formula Kepada PV?')" data-toggle="tooltip" title="Ajukan PV"><li class="fa fa-paper-plane"></li></a>
-                    @elseif($pkp->vv == 'approve')
-                      @if($pkp->status_panel=='proses')
+                    @elseif($pkp->vv == 'approve' || $pkp->vv == 'proses')
                       <a class="btn btn-primary btn-sm" href="{{ route('panel',[$pkp->workbook_id,$pkp->id]) }}" data-toggle="tooltip" title="Lanjutkan Panel"><li class="fa fa-glass"></li></a>
-                      @endif
-                      @if($pkp->status_storage=='proses')
                       <a class="btn btn-warning btn-sm" href="{{ route('st',[$pkp->workbook_id,$pkp->id]) }}" data-toggle="tooltip" title="Lanjutkan Storage"><li class="fa fa-flask"></li></a>
-                      @endif
                     @endif
                   @endif
                   </td>

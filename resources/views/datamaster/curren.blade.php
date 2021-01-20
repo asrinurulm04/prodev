@@ -1,6 +1,5 @@
 @extends('pv.tempvv')
-@section('title', 'Data currency')
-@section('judulhalaman','Data Master')
+@section('title', 'PRODEV|Data currency')
 @section('content')
 
 <div class="row">
@@ -47,7 +46,7 @@
             <td>{{ $curren->harga }}</td>
             <td>{{ $curren->keterangan }}</td>
             <td class="text-center">
-              <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#edit_curren{{ $curren->id }}"><i class="fa fa-edit"></i></a></button>
+              <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#edit_curren{{ $curren->id }}"><i class="fa fa-edit"></i></a></button>
               <button class="btn btn-danger btn-sm" onclick="return confirm('Hapus currency ?')" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash-o"></i></button>
               {!! Form::close() !!}
             </td>
@@ -65,7 +64,8 @@
                     <label for="" class="control-label">Currency</label>
                     <input class="form-control" id="currency" name="currency" placeholder="Currency" value="{{ $curren->currency }}" required />
                     <label for="" class="control-label">Harga</label>
-                    <input type="number" class="form-control" id="harga" name="harga" placeholder="Harga" required value="{{ $curren->harga }}"/>
+                    <input type="text" class="form-control" id="harga" name="harga" placeholder="Harga" required value="{{ $curren->harga }}"/>
+                  <label for="" style="color:red">* gunakan "." untuk tanda baca ","</label><br>
                     <label for="" class="control-label">Keterangan</label>
                     <input class="form-control" id="keterangan" name="keterangan" placeholder="Keterangan" value="{{ $curren->keterangan }}" required />
                   </div>
@@ -85,7 +85,7 @@
     </div>
   </div>
 </div>
-{{-- selesai --}}
+<!-- Selesai -->
 
 <!-- Add New  Currency-->
 <div class="modal fade" id="add_curren" role="dialog" aria-labelledby="EWBModalLabel" aria-hidden="true">

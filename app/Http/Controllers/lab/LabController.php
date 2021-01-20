@@ -141,11 +141,8 @@ class LabController extends Controller
         return redirect()->back();
     }
 
-    public function create($formula_id,$cek_lab,Request $request,$id_feasibility)
-    {
-
+    public function create($formula_id,$cek_lab,Request $request,$id_feasibility){
         if($cek_lab==0){
-
 			$ms= new Dlab;
 			$tahun = [];
 			for($i = 0; $i < $request->cek_lab; $i++){
@@ -216,9 +213,6 @@ class LabController extends Controller
 			return redirect()->back();
         }
         elseif($cek_lab>=1){
-
-            // Change all lab
-
             $finances = finance::where('id_formula',$formula_id)->get();
             $fid = collect();
             foreach ($finances as $finance) {

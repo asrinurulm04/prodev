@@ -1,6 +1,5 @@
 @extends('pv.tempvv')
-@section('title', 'Request PDF')
-@section('judulhalaman','Form Request PDFp & PDFe')
+@section('title', 'PRODEV|Request PDF')
 @section('content')
 
 @if (session('status'))
@@ -148,7 +147,7 @@
         </button> </h3>
       </div>
       <div class="modal-body">
-        <table class="Table table-bordered" width="100%">
+        <table id="datatable" class="table table-striped table-bordered" style="width:100%">
           <thead>
             <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
               <td width="5%">No</td>
@@ -160,9 +159,7 @@
             </tr>
           </thead>
          <tbody>
-            @php
-              $nol = 0;
-            @endphp
+            @php $nol = 0; @endphp
             @foreach ($pdf1 as $pdf)
             <tr>
               <td class="text-center">{{ ++$nol }}</td>

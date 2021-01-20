@@ -61,7 +61,7 @@
                       </div>
                       </div>
                       @endforeach
-                      <table border="1" style="font-size:15px" class="table table-bordered" width="600">
+                      <table border="1" style="font-size:15px" class="table table-bordered" width="800">
                       <tr>
                           <th colspan="3" class="text-center"><span style="font-weight: bold;font-size: 20px;" class="card-title">Background</span></th>
                         </tr>
@@ -125,40 +125,54 @@
                           if($data->turunan!=$pkp->turunan){ echo": <s><font color='#6594c5'>$data->aisle<br></font></s>"; } if($data->turunan==$pkp->turunan){ echo": $data->aisle<br>"; } } ?></td>
                         </tr>
                         <tr>
-                          <td>Sales Forecast</td>
-                          <td colspan="2"><?php $seles = []; foreach ($for as $key => $data) If (!$seles || !in_array($data->forecast, $seles)) { $seles += array( $key => $data->forecast ); 
-                          if($data->turunan!=$pkp->turunan){ echo": <s><font color='#6594c5'>$data->satuan = $data->forecast<br></font></s>"; } if($data->turunan==$pkp->turunan){ echo": $data->satuan = $data->forecast <br>";  } } ?></td>
-                        </tr>
-                        <tr>
-                          <td>NF Selling Price (Before ppn)</td>
+                          <th>Sales Forecast</th>
                           <td colspan="2">
-                            <table>
-                              <tr>
-                                <td>
-                                  <?php $selling_price = []; foreach ($pkp1 as $key => $data) If (!$selling_price || !in_array($data->selling_price, $selling_price)) { $selling_price += array( $key => $data->selling_price ); 
-                                  if($data->turunan!=$pkp->turunan){ echo": <s><font color='#6594c5'>$data->selling_price<br></font></s>"; } if($data->turunan==$pkp->turunan){ echo": $data->selling_price <br>"; } }  ?>
-                                </td>
-                                <td>
-                                  <?php $uom = []; foreach ($pkp1 as $key => $data) If (!$uom || !in_array($data->UOM, $uom)) { $uom += array( $key => $data->UOM ); 
-                                  if($data->turunan!=$pkp->turunan){ echo"/ <s><font color='#6594c5'>".$data->UOM."<br></font></s>"; } if($data->turunan==$pkp->turunan){ echo"/ ".$data->UOM."<br>"; } }  ?>
-                                </td>
-                              </tr>
-                            </table>
-                          </td>
-                        </tr>
-                          <td>Consumer price target</td>
-                          <td colspan="2">
-                            <table>
-                              <tr>
-                                <td>
-                                  <?php $price = []; foreach ($pkp1 as $key => $data) If (!$price || !in_array($data->price, $price)) { $price += array( $key => $data->price ); 
-                                  if($data->turunan!=$pkp->turunan){ echo": <s><font color='#6594c5'>$data->price<br></font></s>"; } if($data->turunan==$pkp->turunan){ echo": $data->price <br>"; } } ?>
-                                </td>
-                                <td>
-                                  <?php $uom = []; foreach ($pkp1 as $key => $data) If (!$uom || !in_array($data->UOM, $uom)) { $uom += array( $key => $data->UOM ); 
-                                  if($data->turunan!=$pkp->turunan){ echo"/ <s><font color='#6594c5'>".$data->UOM."<br></font></s>"; } if($data->turunan==$pkp->turunan){ echo"/ ".$data->UOM."<br>"; } }  ?>  
-                                </td>
-                              </tr>
+                            <table class="table table-bordered table-hover">
+                              <thead>
+                                <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
+                                  <th>Forecash</th>
+                                  <th>Configuration</th>
+                                  <th colspan="2">UOM</th>
+                                  <th>NFI Price</th>
+                                  <th>Costumer Price</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                @foreach($for as $for)
+                                <tr>
+                                  <td>{{$for->satuan}} = <?php $angka_format = number_format($for->forecast,2,",","."); echo "Rp. ".$angka_format;?></td>
+                                  <td>
+                                  @if($for->kemas_eksis!=NULL)
+                                  (
+                                  @if($for->kemas->tersier!=NULL)
+                                  {{ $for->kemas->tersier }}{{ $for->kemas->s_tersier }}
+                                   @elseif($for->tersier==NULL)
+                                  @endif
+
+                                  @if($for->kemas->sekunder1!=NULL)
+                                  X {{ $for->kemas->sekunder1 }}{{ $for->kemas->s_sekunder1}}
+                                  @elseif($for->kemas->sekunder1==NULL)
+                                  @endif
+
+                                  @if($for->kemas->sekunder2!=NULL)
+                                  X {{ $for->kemas->sekunder2 }}{{ $for->kemas->s_sekunder2 }}
+                                  @elseif($for->sekunder2==NULL)
+                                  @endif
+
+                                  @if($for->kemas->primer!=NULL)
+                                  X{{ $for->kemas->primer }}{{ $for->kemas->s_primer }}
+                                  @elseif($for->kemas->primer==NULL)
+                                  @endif
+                                  )
+                                  @endif
+                                  </td>
+                                  <td>{{$for->jlh_uom}}</td>
+                                  <td>{{$for->uom}}</td>
+                                  <td><?php $angka_format = number_format($for->nfi_price,2,",","."); echo "Rp. ".$angka_format;?></td>
+                                  <td><?php $angka_format = number_format($for->costumer,2,",","."); echo "Rp. ".$angka_format;?></td>
+                                </tr>
+                                @endforeach
+                              </tbody>
                             </table>
                           </td>
                         </tr>
@@ -179,50 +193,6 @@
                           <td>Product Form</td>
                           <td colspan="2"><?php $product_form = []; foreach ($pkp1 as $key => $data) If (!$product_form || !in_array($data->product_form, $product_form)) { $product_form += array( $key => $data->product_form  ); 
                           if($data->turunan!=$pkp->turunan){ echo": <s><font color='#6594c5'>$data->product_form<br></font></s>"; } if($data->turunan==$pkp->turunan){ echo": $data->product_form<br>"; } }  ?></td>
-                        </tr>
-                        <tr>
-                        <td>Product Packaging</td>
-                          <td colspan="2">
-                            <table>
-                              <tr>
-                              @if($pkp->kemas_eksis!=NULL)
-                              <?php $eksis = []; foreach ($pkp1 as $key => $data) If (!$eksis || !in_array($data->kemas->nama, $eksis)) { $eksis += array( $key => $data->kemas->nama ); 
-                              if($data->turunan!=$pkp->turunan){ echo": <s><font color='#6594c5'>".$data->kemas->nama." <br></font></s>"; } if($data->turunan==$pkp->turunan){ echo $data->kemas->nama." <br>"; } }  ?>
-                              (
-                              @if($pkp->kemas->primer!=NULL)
-                              {{ $pkp->kemas->primer }}{{ $pkp->kemas->s_primer }}
-                              @elseif($pkp->kemas->primer==NULL)
-                              @endif
-
-                              @if($pkp->kemas->sekunder1!=NULL)
-                              X {{ $pkp->kemas->sekunder1 }}{{ $pkp->kemas->s_sekunder1}}
-                              @elseif($pkp->kemas->sekunder1==NULL)
-                              @endif
-
-                              @if($pkp->kemas->sekunder2!=NULL)
-                              X {{ $pkp->kemas->sekunder2 }}{{ $pkp->kemas->s_sekunder2 }}
-                              @elseif($pkp->sekunder2==NULL)
-                              @endif
-
-                              @if($pkp->kemas->tersier!=NULL)
-                              X {{ $pkp->kemas->tersier }}{{ $pkp->kemas->s_tersier }}
-                              @elseif($pkp->tersier==NULL)
-                              @endif
-                              )
-                              @elseif($pkp->primer==NULL)
-                                @if($pkp->kemas_eksis==NULL)
-                                @endif
-                              @endif
-                            </tr>
-                              <br>
-                              <?php $primery = []; foreach ($pkp1 as $key => $data) If (!$primery || !in_array($data->primery, $primery)) { $primery += array( $key => $data->primery ); } ?>
-                              <?php $secondary = []; foreach ($pkp1 as $key => $data) If (!$secondary || !in_array($data->secondary, $secondary)) { $secondary += array( $key => $data->secondary ); } ?>
-                              <?php $tertiary = []; foreach ($pkp1 as $key => $data) If (!$tertiary || !in_array($data->tertiary, $tertiary)) { $tertiary += array( $key => $data->tertiary ); } ?>
-                              <tr><td style="border:none;">Primary information</td><td style="border:none;">@foreach($primery as $primery) : {{ $primery }} <br>@endforeach</td></tr>
-                              <tr><td style="border:none;">Secondary information</td><td style="border:none;">@foreach($secondary as $secondary) : {{ $secondary }} <br>@endforeach</td></tr>
-                              <tr><td style="border:none;">Teriery information</td><td style="border:none;">@foreach($tertiary as $tertiary) : {{ $pkp->tertiary }} <br>@endforeach</td></tr>
-                            </table>
-                          </td>
                         </tr>
                         <tr>
                           <td>Food Category (BPOM)</td>
@@ -251,7 +221,7 @@
                                 <tr>
                                   <td>Komponen</td>
                                   <td>Klaim</td>
-                                <td>Detail</td>
+                                  <td>Detail</td>
                                 </tr>
                                 <tr>
                                   <td>
@@ -281,39 +251,6 @@
                           <td colspan="2"><?php $mandatory_ingredient = []; foreach ($pkp1 as $key => $data) If (!$mandatory_ingredient || !in_array($data->mandatory_ingredient, $mandatory_ingredient)) { $mandatory_ingredient += array( $key => $data->mandatory_ingredient ); 
                           if($data->turunan!=$pkp->turunan){ echo": <s><font color='#6594c5'>$data->mandatory_ingredient<br></font></s>"; } if($data->turunan==$pkp->turunan){ echo": $data->mandatory_ingredient<br>"; } }  ?></td>
                         </tr>
-                      </table>
-                      <table class="table table-striped table-bordered" style="font-size: 16px;" width="600">
-                        <tdead>
-                          <tr style="background-color:#bfc2c5;"><td class="text-center" colspan="2">ATTENTION</td></tr>
-                          <tr><td style="background-color:#ffffff;" widtd="30%"></td><td style="border:none;background-color:#bfc2c5;"> compulsory; filled by QBX (brand function) Managers</td></tr>
-                          <tr><td style="background-color:#13699a;" widtd="30%"></td><td style="border:none;background-color:#bfc2c5;">should only be filled witd great certainty</td></tr>
-                          <tr><td style="background-color:#e41356;" widtd="30%"></td><td style="border:none;background-color:#bfc2c5;"> should only be filled after discussion witd QPA</td></tr>
-                          <tr><td style="background-color:#bfc2c5;">Service Level Agreements</td>
-                          <td style="background-color:#bfc2c5;">
-                            <table>
-                              <tdead>
-                                <tr><td style="border:none;">Lead Time QBX (brand function)</td><td style="border:none;">5 workdays</td></tr>
-                                <tr><td style="border:none;">Lead Time QPA (product development function)</td><td style="border:none;">[1 (benefits) + 2 (COGS)] = 2 workdays</td></tr>
-                                <tr><td style="border:none;">Lead Time Revision </td><td style="border:none;">2 workdays</td></tr>
-                              </tdead>
-                            </table>
-                          </td></tr>
-                          <tr><td style="background-color:#bfc2c5;">Process</td>
-                          <td style="background-color:#bfc2c5;">
-                            <table>
-                              <tdead>
-                                <tr><td style="border:none;">After being filled. HOD approval request. tden, forward to RD as low priority project. Will be furtder</td></tr>
-                                <tr><td style="border:none;">prioritized in PV Cross Funct Mtg. </td></tr>
-                                <tr><td style="border:none;">Meanwhile, RD can prepare SLA projection to propose into PV's SLA for tde project based on</td></tr>
-                                <tr><td style="border:none;">capacity and feasibility.</td></tr>
-                              </tdead>
-                            </table>
-                          </td></tr>
-                        </tdead>
-                      </table>
-                      <table ALIGN="right">
-                        <tr><td>Revisi/Berlaku :  </td></tr>
-                        <tr><td>Masa Berlaku : Selamanya</td></tr>
                       </table>
                   </div>
                 </table>
