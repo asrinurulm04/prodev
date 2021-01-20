@@ -1073,7 +1073,7 @@ class pkpController extends Controller
     public function edit(Request $request, $id_project){
         $turunan = tipp::where('id_pkp',$id_project)->max('turunan');
         $revisi =tipp::where('id_pkp',$id_project)->max('revisi');
-        $data = tipp::where('id_pkp',$id_project)->where('status_data','active')->first();
+        $pkp = tipp::where('id_pkp',$id_project)->where('status_data','active')->first();
 
         $data = pkp_project::where('id_project',$id_project)->first();
         $data->prioritas=$request->prioritas;
@@ -1093,7 +1093,7 @@ class pkpController extends Controller
         ]);
 
         $isipkp = tipp::where('id_pkp',$id_project)->where('status_data','=','active')->get();
-        $for = data_forecast::where('id_pkp',$data->id)->get();
+        $for = data_forecast::where('id_pkp',$pkp->id)->get();
         try{
             Mail::send('manager.infoemailpkp', [
                 'nama'=>$request->email,
@@ -1150,7 +1150,7 @@ class pkpController extends Controller
     public function sentpkp(Request $request, $id_project,$revisi,$turunan){
         $turunan = tipp::where('id_pkp',$id_project)->max('turunan');
         $revisi =tipp::where('id_pkp',$id_project)->max('revisi');
-        $data = tipp::where('id_pkp',$id_project)->where('status_data','active')->first();
+        $pkp = tipp::where('id_pkp',$id_project)->where('status_data','active')->first();
 
         $data = pkp_project::where('id_project',$id_project)->first();
         $data->prioritas=$request->prioritas;
@@ -1176,7 +1176,7 @@ class pkpController extends Controller
         }
         
         $isipkp = tipp::where('id_pkp',$id_project)->where('status_data','=','active')->get();
-        $for = data_forecast::where('id_pkp',$data->id)->get();
+        $for = data_forecast::where('id_pkp',$pkp->id)->get();
         try{
             Mail::send('manager.infoemailpkp', [
                 'nama'=>$request->email,

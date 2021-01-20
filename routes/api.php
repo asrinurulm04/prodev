@@ -30,3 +30,4 @@ Route::get('getjenis/{id_jenis}', 'DataController@getjenis');
 
 //ApiController
 Route::get('pkp','DataController@index')->name('pkp');
+Route::get('for','DataController@for')->name('for');

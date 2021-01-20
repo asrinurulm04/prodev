@@ -7,6 +7,7 @@ use App\Modelmesin\Dmesin;
 use App\model\pkp\jenis;
 use App\model\pkp\tipp;
 use App\model\pkp\pkp_project;
+use App\model\pkp\data_forecast;
 
 class DataController extends Controller
 {
@@ -39,5 +40,10 @@ class DataController extends Controller
     public function index(){
         $pkp = tipp::join('pkp_project','pkp_project.id_project','=','tippu.id_pkp')->where('type','=','1')->where('status_project','!=','draf')->get();
         return response()->json($pkp);
+    }
+
+    public function for(){
+        $for = data_forecast::all();
+        return response()->json($for);
     }
 }

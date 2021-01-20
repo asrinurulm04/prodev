@@ -100,7 +100,7 @@
       </div>
       <div class="col-md-4 col-sm-4 col-xs-12">
         <select name="subkategori" id="subkategori" class="form-control select">
-				@if($bahan->id_kategori!=NULL)<option value="{{$bahan->subkategori_id   }}">{{$bahan->Subkategori->subkategori }}</option>@endif
+				@if($bahan->subkategori_id!=NULL)<option value="{{$bahan->subkategori_id   }}">{{$bahan->Subkategori->subkategori }}</option>@endif
         </select>
       </div>
     </div>
