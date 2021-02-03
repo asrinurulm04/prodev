@@ -1,5 +1,6 @@
 @extends('pv.tempvv')
-@section('title', 'PRODEV|Data Tambahan PKP')
+@section('title', 'Data Tambahan PKP')
+@section('judulhalaman','Data Tambahan PKP')
 @section('content')
 
 <div class="row">
@@ -13,7 +14,25 @@
       </ul>
     </div>
   </div>
-</div><br>
+</div>
+<br>
+
+@if (count($errors) > 0)
+<div class="alert alert-danger">
+  <strong>Whoops!</strong> There were some problems with your input.<br><br>
+  <ul>
+    @foreach ($errors->all() as $error)
+    <li>{{ $error }}</li>
+    @endforeach
+  </ul>
+</div>
+@endif
+
+@if(session('success'))
+<div class="alert alert-success">
+  {{ session('success') }}
+</div>
+@endif
 
 <div class="col-md-12 col-sm-12 col-xs-12">
   <div class="x_panel">
@@ -47,6 +66,7 @@
       <textarea name="informasi[{{$loop->index}}][info]" class="col-md-7" rows="4">{{$pkpp->informasi}}</textarea><br>
       <input type="hidden" value="{{$pkpp->pkp_id}}" name="pkp">
 		  <a href="{{ Route('destroydata',$pkpp->id_pictures) }}" type="button" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Delete"><li class="fa fa-trash-o"></li> Delete</a>
+      <a href="{{asset('data_file/'.$pkpp->filename)}}" class="btn btn-warning btn-sm" download="{{$pkpp->filename}}" title="Download file"><li class="fa fa-download"></li> DOwnload File</a>
     </div>
   </div>
 </div>

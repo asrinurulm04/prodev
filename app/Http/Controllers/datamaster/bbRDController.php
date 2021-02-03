@@ -14,6 +14,7 @@ use App\model\dev\ms_btp;
 use App\model\dev\ms_zat_aktif;
 use App\model\dev\ms_allergen;
 use App\model\dev\tr_makro_bb;
+use App\model\dev\tr_mikro_biologi_bb;
 use App\model\dev\tr_mikro_bb;
 use App\model\dev\tr_btp_bb;
 use App\model\dev\tr_mineral_bb;
@@ -63,7 +64,7 @@ class bbRDController extends Controller
         $bahan->id_kategori=$request->kategori;
         $bahan->subkategori_id = $request->subkategori;
         $bahan->berat = $request->berat;
-        $bahan->satuan_id = $request->satuan;
+        $bahan->satuan = $request->satuan;
         $bahan->harga_satuan = $request->harga;
         $bahan->curren_id = $request->currency;
         $bahan->user_id = Auth::user()->id;
@@ -94,6 +95,8 @@ class bbRDController extends Controller
         $makro->lemak_jenuh=$request->lemak_jenuh;
         $makro->sfa=$request->sfa;
         $makro->omega6=$request->omega6;
+        $makro->omega9=$request->omega9;
+        $makro->linoleat=$request->linoleat;
         $makro->kolesterol=$request->kolesterol;
         $makro->protein=$request->protein;
         $makro->kadar_air=$request->kadar_air;
@@ -138,7 +141,7 @@ class bbRDController extends Controller
         $mineral->mg=$request->mg;
         $mineral->k=$request->k;
         $mineral->zink=$request->zink;
-        $mineral->p=$request->p;
+        $mineral->cu=$request->cu;
         $mineral->na=$request->na;
         $mineral->naci=$request->naci;
         $mineral->energi=$request->energi;
@@ -146,9 +149,24 @@ class bbRDController extends Controller
         $mineral->mn=$request->mn;
         $mineral->cr=$request->cr;
         $mineral->fe=$request->fe;
-        $mineral->lodium=$request->lodium;
+        $mineral->yodium=$request->yodium;
         $mineral->selenium=$request->selenium;
         $mineral->fluor=$request->fluor;
+        $mineral->satuan_ca=$request->satuan_ca;
+        $mineral->satuan_mg=$request->satuan_mg;
+        $mineral->satuan_k=$request->satuan_k;
+        $mineral->satuan_zink=$request->satuan_zink;
+        $mineral->satuan_fosfor=$request->satuan_fosfor;
+        $mineral->satuan_cu=$request->satuan_cu;
+        $mineral->satuan_na=$request->satuan_na;
+        $mineral->satuan_naci=$request->satuan_naci;
+        $mineral->satuan_energi=$request->satuan_energi;
+        $mineral->satuan_mn=$request->satuan_mn;
+        $mineral->satuan_cr=$request->satuan_cr;
+        $mineral->satuan_fe=$request->satuan_fe;
+        $mineral->satuan_yodium=$request->satuan_yodium;
+        $mineral->satuan_selenium=$request->satuan_selenium;
+        $mineral->satuan_fluor=$request->satuan_fluor;
         $mineral->save();
         // registrasi BTP carry over bb
         if($request->satuan_btp!='' && $request->btp_carry_over!=''){
@@ -199,7 +217,6 @@ class bbRDController extends Controller
         // registrasi logam berat bb
         $logam = new tr_logamberat_bb;
         $logam->id_bahan=$bahan->id;
-        $logam->cu=$request->cu;
         $logam->As=$request->as;
         $logam->pb=$request->pb;
         $logam->hg=$request->hg;
@@ -263,9 +280,22 @@ class bbRDController extends Controller
 				}
 			}
         }
+        // Registrasi Mikro
+        $m = new tr_mikro_bb;
+        $m->id_bahan=$bahan->id;
+        $m->Enterobacter=$request->Enterobacter;
+        $m->Salmonella=$request->Salmonella;
+        $m->aureus=$request->aureus;
+        $m->TPC=$request->TPC;
+        $m->Yeast=$request->Yeast;
+        $m->Coliform=$request->Coliform;
+        $m->Coli=$request->Coli;
+        $m->Bacilluscereus=$request->Bacilluscereus;
+        $m->save();
+
         // registrasi mikro biologi bb
         if($request->bpom!=''){
-            $mikro = new tr_mikro_bb;
+            $mikro = new tr_mikro_biologi_bb;
             $mikro->id_bahan=$bahan->id;
             $mikro->id_bpom=$request->bpom;
             $mikro->save();
@@ -287,7 +317,7 @@ class bbRDController extends Controller
 				$data_satuan_mikro = explode(',', $satuan_mikro);
 				for ($i = 0; $i < count($data_mikro); $i++)
 				{
-					$mikro = new tr_mikro_bb;
+					$mikro = new tr_mikro_biologi_bb;
                     $mikro->id_bahan=$bahan->id;
                     $mikro->id_jenis_mikro = $data_mikro[$i];
                     $mikro->n = $data_n[$i];
@@ -345,6 +375,7 @@ class bbRDController extends Controller
         $vit = tr_vitamin_bb::where('id_bahan',$id)->get();
         $mineral = tr_mineral_bb::where('id_bahan',$id)->get();
         $asam = tr_asam_amino_bb::where('id_bahan',$id)->get();
+        $m = tr_mikro_bb::where('id_bahan',$id)->get();
         $currens = Curren::all();
         $satuan_bpom = satuan_bpom::all();
         $zat_aktif = ms_zat_aktif::all();
@@ -354,9 +385,9 @@ class bbRDController extends Controller
         $hitung_hasil_btp = tr_btp_bb::where('id_bahan',$id)->count();
         $contain = bb_allergen::where('id_bb',$id)->where('allergen_countain','!=','NULL')->get();
         $mayContain = bb_allergen::where('id_bb',$id)->where('allergen_may_contain','!=','NULL')->get();
-        $hitungmikro = tr_mikro_bb::where('id_bahan',$id)->count();
-        $cekmikro = tr_mikro_bb::where('id_bahan',$id)->first();
-        $mikro = tr_mikro_bb::where('id_bahan',$id)->get();
+        $hitungmikro = tr_mikro_biologi_bb::where('id_bahan',$id)->count();
+        $cekmikro = tr_mikro_biologi_bb::where('id_bahan',$id)->first();
+        $mikro = tr_mikro_biologi_bb::where('id_bahan',$id)->get();
         $logam = tr_logamberat_bb::where('id_bahan',$id)->get();
         $allergen2 = ms_allergen::all();
         $satuans = Satuan::all();
@@ -369,7 +400,7 @@ class bbRDController extends Controller
         $satuan_vit = tb_satuan_vit::all();
         return view('datamaster.editbb')->with([
             'satuans' =>$satuans,
-            'makro' => $makro,
+            'makro' => $makro,'m' => $m,
             'hitung_zat' => $hitung_zat,
             'mayContain' => $mayContain,
             'satuan_bpom' => $satuan_bpom,
@@ -413,7 +444,7 @@ class bbRDController extends Controller
         $bahan->id_kategori=$request->kategori;
         $bahan->subkategori_id = $request->subkategori;
         $bahan->berat = $request->berat;
-        $bahan->satuan_id = $request->satuan;
+        $bahan->satuan = $request->satuan;
         $bahan->harga_satuan = $request->harga;
         $bahan->curren_id = $request->currency;
         $bahan->updated_by = Auth::user()->id;
@@ -447,6 +478,8 @@ class bbRDController extends Controller
         $makro->lemak_jenuh=$request->lemak_jenuh;
         $makro->sfa=$request->sfa;
         $makro->omega6=$request->omega6;
+        $makro->omega9=$request->omega9;
+        $makro->linoleat=$request->linoleat;
         $makro->kolesterol=$request->kolesterol;
         $makro->protein=$request->protein;
         $makro->kadar_air=$request->kadar_air;
@@ -501,17 +534,32 @@ class bbRDController extends Controller
         $mineral->mg=$request->mg;
         $mineral->k=$request->k;
         $mineral->zink=$request->zink;
-        $mineral->p=$request->p;
         $mineral->na=$request->na;
         $mineral->naci=$request->naci;
         $mineral->energi=$request->energi;
         $mineral->fosfor=$request->fosfor;
         $mineral->mn=$request->mn;
+        $mineral->cu=$request->cu;
         $mineral->cr=$request->cr;
         $mineral->fe=$request->fe;
-        $mineral->lodium=$request->lodium;
+        $mineral->yodium=$request->yodium;
         $mineral->selenium=$request->selenium;
         $mineral->fluor=$request->fluor;
+        $mineral->satuan_ca=$request->satuan_ca;
+        $mineral->satuan_mg=$request->satuan_mg;
+        $mineral->satuan_k=$request->satuan_k;
+        $mineral->satuan_zink=$request->satuan_zink;
+        $mineral->satuan_fosfor=$request->satuan_fosfor;
+        $mineral->satuan_cu=$request->satuan_cu;
+        $mineral->satuan_na=$request->satuan_na;
+        $mineral->satuan_naci=$request->satuan_naci;
+        $mineral->satuan_energi=$request->satuan_energi;
+        $mineral->satuan_mn=$request->satuan_mn;
+        $mineral->satuan_cr=$request->satuan_cr;
+        $mineral->satuan_fe=$request->satuan_fe;
+        $mineral->satuan_yodium=$request->satuan_yodium;
+        $mineral->satuan_selenium=$request->satuan_selenium;
+        $mineral->satuan_fluor=$request->satuan_fluor;
         $mineral->save();
         // Edit BTP carry over bb
         if($request->satuan_btp!='' &&$request->btp_carry_over!=''){
@@ -569,7 +617,6 @@ class bbRDController extends Controller
             $logam = new tr_logamberat_bb;
         }
         $logam->id_bahan=$id_bahan;
-        $logam->cu=$request->cu;
         $logam->As=$request->as;
         $logam->pb=$request->pb;
         $logam->hg=$request->hg;
@@ -646,13 +693,30 @@ class bbRDController extends Controller
 				}
 			}
         }
+        // Registrasi Mikro
+        $hitung_m = tr_mikro_bb::where('id_bahan',$id_bahan)->count();
+        if($hitung_m>=1){
+            $m = tr_mikro_bb::where('id_bahan',$id_bahan)->first();
+        }if($hitung_m==0){
+            $m = new tr_mikro_bb;
+        }
+        $m->id_bahan=$bahan->id;
+        $m->Enterobacter=$request->Enterobacter;
+        $m->Salmonella=$request->Salmonella;
+        $m->aureus=$request->aureus;
+        $m->TPC=$request->TPC;
+        $m->Yeast=$request->Yeast;
+        $m->Coliform=$request->Coliform;
+        $m->Coli=$request->Coli;
+        $m->Bacilluscereus=$request->Bacilluscereus;
+        $m->save();
         // Edit mikro biologi bb
         if($request->bpom!=''){
-            $hitung_mikro = tr_mikro_bb::where('id_bahan',$id_bahan)->count();
+            $hitung_mikro = tr_mikro_biologi_bb::where('id_bahan',$id_bahan)->count();
             if($hitung_mikro>=1){
-                $mikro = tr_mikro_bb::where('id_bahan',$id_bahan)->first();
+                $mikro = tr_mikro_biologi_bb::where('id_bahan',$id_bahan)->first();
             }if($hitung_mikro==0){
-                $mikro = new tr_mikro_bb;
+                $mikro = new tr_mikro_biologi_bb;
             }
             $mikro->id_bahan=$id_bahan;
             $mikro->id_bpom=$request->bpom;
@@ -660,9 +724,9 @@ class bbRDController extends Controller
         }if($request->mikro!=''){
             $rule = array(); 
             $validator = Validator::make($request->all(), $rule); 
-            $hitung_mikro = tr_mikro_bb::where('id_bahan',$id_bahan)->count();
+            $hitung_mikro = tr_mikro_biologi_bb::where('id_bahan',$id_bahan)->count();
             if($hitung_mikro>=1){
-                $mikro = tr_mikro_bb::where('id_bahan',$id_bahan)->delete();
+                $mikro = tr_mikro_biologi_bb::where('id_bahan',$id_bahan)->delete();
             }
             if ($validator->passes()) {
 				$mikro = implode(',', $request->input('mikro'));
@@ -679,7 +743,7 @@ class bbRDController extends Controller
 				$data_satuan_mikro = explode(',', $satuan_mikro);
 				for ($i = 0; $i < count($data_mikro); $i++)
 				{
-					$mikro = new tr_mikro_bb;
+					$mikro = new tr_mikro_biologi_bb;
                     $mikro->id_bahan=$id_bahan;
                     $mikro->id_jenis_mikro = $data_mikro[$i];
                     $mikro->n = $data_n[$i];

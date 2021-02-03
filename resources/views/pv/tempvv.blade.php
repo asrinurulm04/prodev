@@ -6,7 +6,6 @@
     <title>@yield('title')
     </title>
     <link href="{{ asset('img/prod.png') }}" rel="icon">
-    <link href="{{ asset('vendors/nprogress/nprogress.css') }}" rel="stylesheet">
     <link href="{{ asset('vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('vendors/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
     <link href="{{ asset('build/css/custom.min.css') }}" rel="stylesheet">
@@ -340,7 +339,6 @@
     </div>
 
     <!-- jQuery -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="{{ asset('js/vendor/jquery-2.2.4.min.js') }}"></script>
     <!-- Bootstrap -->
     <script src="{{ asset('vendors/bootstrap/dist/js/bootstrap.min.js') }}"></script>
@@ -350,22 +348,5 @@
     <script src="{{ asset('js/select2/select2.min.js') }}"></script>
     <script src="{{ asset('build/js/custom.min.js') }}"></script>
     @yield('s')
-
-      <script type="text/javascript">$('.Table').DataTable({
-      "language": {
-        "search": "Cari :",
-        "lengthMenu": "Tampilkan _MENU_ data",
-        "zeroRecords": "Tidak ada data",
-        "emptyTable": "Tidak ada data",
-        "info": "Menampilkan data _START_  - _END_  dari _TOTAL_ data",
-        "infoEmpty": "Tidak ada data",
-        "paginate": {
-          "first": "Awal",
-          "last": "Akhir",
-          "next": ">",
-          "previous": "<"
-        }
-      }
-    });</script>
   </body>
 </html>

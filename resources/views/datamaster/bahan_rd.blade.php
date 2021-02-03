@@ -40,7 +40,7 @@
             <tr>
               <td>{{ ++$no }}</td>
               <td>{{ $bahan->nama_bahan }}</td>
-              <td>{{ $bahan->berat }} {{ $bahan->satuan->satuan }}</td>
+              <td>{{ $bahan->berat }} {{ $bahan->satuan }}</td>
               <td>{{ $bahan->harga_satuan }}</td>
               <td>{{ $bahan->curren->currency  }}</td>
               <td class="text-center">

@@ -27,23 +27,135 @@
         <tr><th>Serving</th><td>&nbsp; : {{ $formula->serving }} &nbsp;Gram</td></tr>
       </table>
     </div>
-    <div class="col-md-2"></div>
-    <div class="col-md-3">
+		<div class="col-md-1"></div>
+    <div class="col-md-4">
 			@if($formula->workbook_id!=NULL)
-      	<a class="btn btn-warning btn-sm" href="{{ route('FOR_pkp',$formula->id) }}"><i class="fa fa-download"></i> Download FOR</a>
+      	<a class="btn btn-warning btn-sm" href="{{ route('FOR_pkp',$formula->id) }}" title="Download FOR"><i class="fa fa-download"></i> FOR</a>
+      	<a class="btn btn-warning btn-sm" href="{{ route('nutfact_bayangan_pkp',$formula->id) }}" title="Download Nutfact"><i class="fa fa-download"></i> Nutfact</a>
+				<button class="btn btn-primary btn-sm" type="button" data-toggle="modal" data-target="#parampkp"><i class="fa fa-hand-o-right"></i> Custom Header</a></button>
 				@if(auth()->user()->role->namaRule == 'user_produk' || auth()->user()->role->namaRule == 'pv_lokal')
-				<a href="{{ route('rekappkp',$formula->workbook_id) }}" type="button" class="btn btn-sm btn-danger"><li class="fa fa-share"></li> Back To Workbook</a>
+				<a href="{{ route('rekappkp',$formula->workbook_id) }}" type="button" class="btn btn-sm btn-danger"><li class="fa fa-share"></li> Back</a>
 				@elseif(auth()->user()->role->namaRule == 'manager')
-				<a href="{{ route('daftarpkp',$formula->workbook_id) }}" type="button" class="btn btn-sm btn-danger"><li class="fa fa-share"></li> Back To Workbook</a>
+				<a href="{{ route('daftarpkp',$formula->workbook_id) }}" type="button" class="btn btn-sm btn-danger"><li class="fa fa-share"></li> Back</a>
 				@endif
 			@elseif($formula->workbook_pdf_id!=NULL)
-      	<a class="btn btn-warning btn-sm" href="{{ route('FOR_pdf',$formula->id) }}"><i class="fa fa-download"></i> Download FOR</a>
+      	<a class="btn btn-warning btn-sm" href="{{ route('FOR_pdf',$formula->id) }}"  title="Download FOR"><i class="fa fa-download"></i> FOR</a>
+      	<a class="btn btn-warning btn-sm" href="{{ route('nutfact_bayangan_pkp',$formula->id) }}" title="Download Nutfact"><i class="fa fa-download"></i> Nutfact</a>
+				<button class="btn btn-primary btn-sm" type="button" data-toggle="modal" data-target="#parampkp"><i class="fa fa-hand-o-right"></i> Custom Header</a></button>
 				@if(auth()->user()->role->namaRule == 'user_produk' || auth()->user()->role->namaRule == 'pv_global')
-				<a href="{{ route('rekappdf',$formula->workbook_pdf_id) }}" type="button" class="btn btn-sm btn-danger"><li class="fa fa-share"></li> Back To Workbook</a>
+				<a href="{{ route('rekappdf',$formula->workbook_pdf_id) }}" type="button" class="btn btn-sm btn-danger"><li class="fa fa-share"></li> Back</a>
 				@elseif(auth()->user()->role->namaRule == 'manager')
-				<a href="{{ route('daftarpdf',$formula->workbook_pdf_id) }}" type="button" class="btn btn-sm btn-danger"><li class="fa fa-share"></li> Back To Workbook</a>
+				<a href="{{ route('daftarpdf',$formula->workbook_pdf_id) }}" type="button" class="btn btn-sm btn-danger"><li class="fa fa-share"></li> Back</a>
 				@endif
 			@endif
+      <!-- modal -->
+      <div class="modal" id="parampkp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h3 class="modal-title text-left" id="exampleModalLabel">Select Header
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span></h3>
+              </button>
+            </div>
+							<div class="modal-body">
+								<div class="form-group row">
+									<table class="table">
+										<td><label><input type="checkbox" checked id="checkbahan"/> Check all</label></td>
+										<td><label><input type="checkbox" class="data1" checked id="checkmakro"/> Makro</label></td>
+										<td><label><input type="checkbox" class="data1" checked id="checkmineral"/> Mineral</label></td>
+										<td><label><input type="checkbox" class="data1" checked id="checkvitamin"/> Vitamin</label></td>
+										<td><label><input type="checkbox" class="data1" checked id="checkasam"/> Asam Amino</label></td>
+									</table>
+									<table class="table table-bordered">
+										<thead>
+											<input type="hidden" value="{{ Auth::user()->id }}" name="user">
+											<tr><td><input type="checkbox" class="" hidden checked name="form1" value="yes"> Nama Bahan </td>
+													<td><input type="checkbox" class="" hidden checked name="form2" value="yes"> Dosis </td>
+													<td><input type="checkbox" class="" hidden checked name="form3" value="yes"> % </td>
+													<td>HPP</td></tr>
+											<!-- Makro -->
+											<tr><th><input type="checkbox" class="data1 makro" checked name="form4" value="yes"> Karbohidrat </th>
+													<th><input type="checkbox" class="data1 makro" checked name="form5" value="yes"> Glukosa </th>
+													<th><input type="checkbox" class="data1 makro" checked name="form6" value="yes">	Serat</th>
+													<th><input type="checkbox" class="data1 makro" checked name="form7" value="yes">	Beta</th></tr>
+											<tr><th><input type="checkbox" class="data1 makro" checked name="form8" value="yes">	Sorbitol</th>     
+													<th><input type="checkbox" class="data1 makro" checked name="form9" value="yes">	Maltitol</th>
+													<th><input type="checkbox" class="data1 makro" checked name="form10" value="yes">	Laktosa</th>
+													<th><input type="checkbox" class="data1 makro" checked name="form11" value="yes">	Sukrosa</th></tr>
+											<tr><th><input type="checkbox" class="data1 makro" checked name="form12" value="yes">	Gula</th>
+													<th><input type="checkbox" class="data1 makro" checked name="form13" value="yes">	Erythritol</th>
+													<th><input type="checkbox" class="data1 makro" checked name="form14" value="yes">	DHA</th>          
+													<th><input type="checkbox" class="data1 makro" checked name="form15" value="yes">	EPA</th></tr>
+											<tr><th><input type="checkbox" class="data1 makro" checked name="form16" value="yes">	Omega3</th>
+													<th><input type="checkbox" class="data1 makro" checked name="form17" value="yes">	Lemak Trans</th>       
+													<th><input type="checkbox" class="data1 makro" checked name="form18" value="yes">	MUFA</th>
+													<th><input type="checkbox" class="data1 makro" checked name="form19" value="yes">	Lemak Jenuh</th></tr>
+											<tr><th><input type="checkbox" class="data1 makro" checked name="form20" value="yes">	SFA</th>          
+													<th><input type="checkbox" class="data1 makro" checked name="form21" value="yes">	Omega6</th>
+													<th><input type="checkbox" class="data1 makro" checked name="form22" value="yes">	Kolestrol</th>    
+													<th><input type="checkbox" class="data1 makro" checked name="form23" value="yes">	Protein</th></tr>
+											<tr><th><input type="checkbox" class="data1 makro" checked name="form24" value="yes">	Kadar Air</th>
+											<!-- Mineral -->
+													<th><input type="checkbox" class="data1 mineral" checked name="form25" value="yes">	Ca (mg)</th>   
+													<th><input type="checkbox" class="data1 mineral" checked name="form26" value="yes">	Fe</th>   
+													<th><input type="checkbox" class="data1 mineral" checked name="form27" value="yes">	Mg (mg)</th></tr>
+											<tr><th><input type="checkbox" class="data1 mineral" checked name="form28" value="yes">	K (mg)</th>   
+													<th><input type="checkbox" class="data1 mineral" checked name="form29" value="yes">	Cr(mcg)</th>     
+													<th><input type="checkbox" class="data1 mineral" checked name="form30" value="yes">	Zink</th>
+													<th><input type="checkbox" class="data1 mineral" checked name="form31" value="yes">	P (mg)</th></tr> 
+											<tr><th><input type="checkbox" class="data1 mineral" checked name="form32" value="yes">	Fosfor</th>   
+													<th><input type="checkbox" class="data1 mineral" checked name="form33" value="yes">	Na (mg)</th>
+													<th><input type="checkbox" class="data1 mineral" checked name="form34" value="yes">	NaCi</th>    
+													<th><input type="checkbox" class="data1 mineral" checked name="form35" value="yes">	Mn</th> </tr>  
+											<tr><th><input type="checkbox" class="data1 mineral" checked name="form36" value="yes">	Energi</th>
+											<!-- Vitamin -->	
+													<th><input type="checkbox" class="data1 vitamin" checked name="form37" value="yes">	VitA (mg)</th> 
+													<th><input type="checkbox" class="data1 vitamin" checked name="form38" value="yes">	Biotin</th>    
+													<th><input type="checkbox" class="data1 vitamin" checked name="form39" value="yes">	VitB1 (mg)</th></tr>
+											<tr><th><input type="checkbox" class="data1 vitamin" checked name="form40" value="yes">	VitB2 (mg)</th> 
+													<th><input type="checkbox" class="data1 vitamin" checked name="form41" value="yes">	Kolin </th> 
+													<th><input type="checkbox" class="data1 vitamin" checked name="form42" value="yes">	VitB3 (mg)</th>
+													<th><input type="checkbox" class="data1 vitamin" checked name="form43" value="yes">	VitB5 (mg)</th></tr>
+											<tr><th><input type="checkbox" class="data1 vitamin" checked name="form44" value="yes">	VitK (mg)</th> 
+													<th><input type="checkbox" class="data1 vitamin" checked name="form45" value="yes">	VitB6 (mg)</th>
+													<th><input type="checkbox" class="data1 vitamin" checked name="form46" value="yes">	VitB12 (mg)</th> 
+													<th><input type="checkbox" class="data1 vitamin" checked name="form47" value="yes">	VitE (mg)</th></tr>
+											<tr><th><input type="checkbox" class="data1 vitamin" checked name="form48" value="yes">	VitC (mg)</th>
+													<th><input type="checkbox" class="data1 vitamin" checked name="form49" value="yes">	VitD (mg)</th>
+													<th><input type="checkbox" class="data1 vitamin" checked name="form50" value="yes">	Folat</th>
+											<!-- asam amino -->
+													<th><input type="checkbox" class="data1 asam" checked name="form51" value="yes">	Lisin</th></tr>
+											<tr><th><input type="checkbox" class="data1 asam" checked name="form52" value="yes">	L-Glutamine</th> 
+													<th><input type="checkbox" class="data1 asam" checked name="form53" value="yes">	Proline</th> 
+													<th><input type="checkbox" class="data1 asam" checked name="form54" value="yes">	Methionin</th>
+													<th><input type="checkbox" class="data1 asam" checked name="form55" value="yes">	Histidin</th></tr>  
+											<tr><th><input type="checkbox" class="data1 asam" checked name="form56" value="yes">	Tyrosin</th>  
+													<th><input type="checkbox" class="data1 asam" checked name="form57" value="yes">	BCAA</th>
+													<th><input type="checkbox" class="data1 asam" checked name="form58" value="yes">	Leusin</th>   
+													<th><input type="checkbox" class="data1 asam" checked name="form59" value="yes">	Glisin</th></tr>  
+											<tr><th><input type="checkbox" class="data1 asam" checked name="form60" value="yes">	Aspartat</th>
+													<th><input type="checkbox" class="data1 asam" checked name="form61" value="yes">	Serin</th>    
+													<th><input type="checkbox" class="data1 asam" checked name="form62" value="yes">	Alanin</th>    
+													<th><input type="checkbox" class="data1 asam" checked name="form63" value="yes">	Glutamat</th></tr>
+											<tr><th><input type="checkbox" class="data1 asam" checked name="form64" value="yes">	Arginine</th>   
+													<th><input type="checkbox" class="data1 asam" checked name="form65" value="yes">	Sistein</th>   
+													<th><input type="checkbox" class="data1 asam" checked name="form66" value="yes">	Isoleusin</th>
+													<th><input type="checkbox" class="data1 asam" checked name="form67" value="yes">	Threonin</th> </tr>  
+											<tr><th><input type="checkbox" class="data1 asam" checked name="form68" value="yes">	Phenilalanin</th>
+													<th><input type="checkbox" class="data1 asam" checked name="form69" value="yes">	Valin</th></tr>
+										</thead>
+									</table>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-paper-plane"></i> Submit</button>
+							{{ csrf_field() }}
+						</div>
+					</div>
+				</div>
+      </div>
+      <!-- Modal Selesai -->
     </div>
   </div>
   <div class="card-block">
@@ -1625,5 +1737,44 @@
 @endsection
 @section('s')
 <script>
+	$(function() { //keep tab
+	// for bootstrap 3 use 'shown.bs.tab', for bootstrap 2 use 'shown' in the next line
+	$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+	// save the latest tab; use cookies if you like 'em better:
+	localStorage.setItem('lastTab', $(this).attr('href'));
+	});
+	
+	// go to the latest tab, if it exists:
+	var lastTab = localStorage.getItem('lastTab');
+	if (lastTab) {
+	$('[href="' + lastTab + '"]').tab('show');
+	}
+	});
+</script>
+<script>
+  // Header ALl
+  $("#checkbahan").change(function () {
+    $(".data1").prop('checked', $(this).prop("checked"));
+  });
+  // Header makro
+  $("#checkmakro").change(function () {
+    $(".makro").prop('checked', $(this).prop("checked"));
+  });
+  // Header vitamin
+  $("#checkvitamin").change(function () {
+    $(".vitamin").prop('checked', $(this).prop("checked"));
+  });
+  // Header mineral
+  $("#checkmineral").change(function () {
+    $(".mineral").prop('checked', $(this).prop("checked"));
+  });
+  // Header asam
+  $("#checkasam").change(function () {
+    $(".asam").prop('checked', $(this).prop("checked"));
+  });
+  // Bahan
+  $("#bahan2").change(function () {
+    $(".cekbox1").prop('checked', $(this).prop("checked"));
+  });
 </script>
 @endsection

@@ -400,10 +400,20 @@ class ScaleController extends Controller
         }
         
         // Edit Formula
+        $formula->serving_size   = $total_serving;
         $formula->batch   = $total_batch;
         $formula->serving = $total_serving;
         $formula->save();
 
         return redirect::back()->with('status','Serving Berhasil Tersimpan');
-    }    
+    }   
+    
+    public function savedosis($idf,Request $request){
+        $formula = Formula::where('id',$idf)->first();
+        $formula->pangan   = $request->katpang;
+        $formula->batas_air = $request->batas;
+        $formula->save();
+
+        return redirect::back()->with('status','Data Berhasil ter-Update');
+    }  
 }

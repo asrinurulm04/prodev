@@ -24,6 +24,7 @@ use App\model\dev\Formula;
 use App\model\pkp\project_pdf;
 use App\model\pkp\pkp_project;
 use App\model\master\Curren;
+use App\model\master\tr_header_formula;
 use Auth;
 use DB;
 use Redirect;
@@ -55,9 +56,13 @@ class FormulaController extends Controller
         $formulas->versi = 1;   
 		$formulas->save();
 		
-        $overage = new tb_overage;
+        $overage = new tr_header_formula;
         $overage->id_formula=$formulas->id;
 		$overage->save();
+		
+        $header = new tb_overage;
+        $header->id_formula=$formulas->id;
+		$header->save();
 		
 		if($request->workbook_id!=NULL){
 			$pkp = pkp_project::where('id_project',$request->workbook_id)->first();
@@ -114,7 +119,7 @@ class FormulaController extends Controller
 		$hfile = tr_data_formula::where('id_formula',$id)->count();
 		$data = Formula::with('Workbook')->where('id',$id)->get();
 		$akg = tb_akg::join('formulas','formulas.akg','tb_akg.id_tarkon')->join('tb_overage_inngradient','tb_overage_inngradient.id_formula','formulas.id')->where('id',$id)->get();
-        $idf = $id;
+		$idf = $id;
 		$formula = Formula::where('id',$id)->join('tb_overage_inngradient','tb_overage_inngradient.id_formula','formulas.id')->first();
         $idfor = $formula->workbook_id;
 		$panel = hasilpanel::where('id_formula',$id)->get();

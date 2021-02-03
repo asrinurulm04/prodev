@@ -41,53 +41,28 @@
                                               <tr><td>Brand</td><td>: {{$pkp->datapkpp->id_brand}}</td></tr>
                                               <tr><td>Idea</td><td>: {{$pkp->idea}}</td></tr>
                                               <tr><td>PV</td><td>: {{$pkp->perevisi2->name}}</td></tr>
-                                              <tr><td>Packaging Concept</td><td>
-                                                <table class="table table-bordered table-hover">
-                                                  <thead>
-                                                    <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
-                                                      <th>Forecash</th>
-                                                      <th>Configuration</th>
-                                                      <th>UOM</th>
-                                                      <th>NFI Price</th>
-                                                      <th>Costumer Price</th>
-                                                    </tr>
-                                                  </thead>
-                                                  <tbody>
-                                                    @foreach($for as $for)
-                                                    <tr>
-                                                      <td>{{$for->satuan}} = {{$for->forecast}}</td>
-                                                      <td>
-                                                      @if($for->kemas_eksis!=NULL)
-                                                      (
-                                                      @if($for->kemas->tersier!=NULL)
-                                                      {{ $for->kemas->tersier }}{{ $for->kemas->s_tersier }}
-                                                      @elseif($for->tersier==NULL)
-                                                      @endif
-
-                                                      @if($for->kemas->sekunder1!=NULL)
-                                                      X {{ $for->kemas->sekunder1 }}{{ $for->kemas->s_sekunder1}}
-                                                      @elseif($for->kemas->sekunder1==NULL)
-                                                      @endif
-
-                                                      @if($for->kemas->sekunder2!=NULL)
-                                                      X {{ $for->kemas->sekunder2 }}{{ $for->kemas->s_sekunder2 }}
-                                                      @elseif($for->sekunder2==NULL)
-                                                      @endif
-
-                                                      @if($for->kemas->primer!=NULL)
-                                                      X{{ $for->kemas->primer }}{{ $for->kemas->s_primer }}
-                                                      @elseif($for->kemas->primer==NULL)
-                                                      @endif
-                                                      )
-                                                      @endif
-                                                      </td>
-                                                      <td>{{$for->jlh_uom}}{{$for->uom}}</td>
-                                                      <td><?php $angka_format = number_format($for->nfi_price,2,",","."); echo "Rp. ".$angka_format;?></td>
-                                                      <td><?php $angka_format = number_format($for->costumer,2,",","."); echo "Rp. ".$angka_format;?></td>
-                                                    </tr>
-                                                    @endforeach
-                                                  </tbody>
-                                                </table>
+                                              <tr><td>Forecast</td><td>: {{$pkp->for1->satuan}} = <?php $angka_format = number_format($pkp->for1->forecast,2,",","."); echo "Rp. ".$angka_format;?></td></tr>
+                                              <tr><td>NF Selling Price</td><td>: {{$pkp->selling_price}}</td></tr>
+                                              <tr><td>Packaging Concept</td><td>:
+                                                @if($pkp->kemas->tersier!=NULL)
+                                                {{ $pkp->kemas->tersier }}{{ $pkp->kemas->s_tersier }}
+                                                @elseif($pkp->tersier==NULL)
+                                                @endif  
+                        
+                                                @if($pkp->kemas->sekunder1!=NULL)
+                                                X {{ $pkp->kemas->sekunder1 }}{{ $pkp->kemas->s_sekunder1}}
+                                                @elseif($pkp->kemas->sekunder1==NULL)
+                                                @endif
+                        
+                                                @if($pkp->kemas->sekunder2!=NULL)
+                                                X {{ $pkp->kemas->sekunder2 }}{{ $pkp->kemas->s_sekunder2 }}
+                                                @elseif($pkp->sekunder2==NULL)
+                                                @endif
+                        
+                                                @if($pkp->kemas->primer!=NULL)
+                                                X{{ $pkp->kemas->primer }}{{ $pkp->kemas->s_primer }}
+                                                @elseif($pkp->kemas->primer==NULL)
+                                                @endif
                                               </td></tr>
                                               <tr><td>Deadline for sending Sample</td><td>: {{$pkp->datapkpp->jangka}} To {{$pkp->datapkpp->waktu}}</td></tr>
                                               <tr><td>Launch Deadline</td><td>: {{$pkp->launch}} {{$pkp->years}} {{$pkp->tgl_launch}}</td></tr>

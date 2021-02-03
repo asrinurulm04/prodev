@@ -119,11 +119,9 @@ class managerController extends Controller
         $revisi =tipp::where('id_pkp',$request->pkp)->max('revisi');
 
         $isipkp = tipp::where('id_pkp',$request->pkp)->where('status_data','=','active')->get();
-        $for = data_forecast::where('id_pkp',$request->pkp)->where('revisi',$revisi)->where('turunan',$turunan)->get();
         try{
             Mail::send('manager.infoemailpkp', [
                 'app'=>$isipkp,
-                'for' => $for,
                 'info' => 'Manager RD mengajukan revisi pada project PKP',
                 'jangka' => $request->jangka,
                 'waktu' => $request->waktu,],function($message)use($request)
@@ -322,7 +320,7 @@ class managerController extends Controller
         $pdf1 = coba::where('pdf_id',$id_project_pdf)->where('revisi','<=',$revisi)->where('turunan','<=',$turunan)->orderBy('revisi','desc')->get();
         $pdf = coba::join('pdf_project','tipu.pdf_id','=','pdf_project.id_project_pdf')->where('id_project_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->get();
         $id_pdf = coba::where([ ['pdf_id',$id_project_pdf], ['revisi',$revisi], ['turunan',$turunan] ])->first();
-        $for = data_forecast::where('id_pdf',$id_pdf->id)->get();
+        $for = data_forecast::where('id_pdf',$id_project_pdf)->where('turunan',$turunan)->get();
         $hitungkemaspdf = kemaspdf::where('id_pdf',$id_project_pdf)->where('revisi','=',$revisi)->where('turunan','=',$turunan)->count();
         $kemaspdf = kemaspdf::where('id_pdf',$id_project_pdf)->where('revisi','=',$revisi)->where('turunan','=',$turunan)->get();
         $dept = Departement::all();
@@ -353,7 +351,7 @@ class managerController extends Controller
     public function lihatpkp($id_project,$revisi,$turunan){
         $pkp = pkp_project::where('id_project',$id_project)->get();
         $id_pkp = tipp::where([ ['id_pkp',$id_project], ['revisi',$revisi], ['turunan',$turunan] ])->first();
-        $for = data_forecast::where('id_pkp',$id_pkp->id)->get();
+        $for = data_forecast::where('id_pkp',$id_project)->where('turunan',$turunan)->get();
         $dataklaim = data_klaim::where('id_pkp',$id_project)->join('klaim','klaim.id','=','id_klaim')->where('revisi',$revisi)->where('turunan',$turunan)->get();
         $pkpp = tipp::join('pkp_project','tippu.id_pkp','=','pkp_project.id_project')->where([ ['id_project',$id_project], ['revisi',$revisi], ['turunan',$turunan] ])->get();
         $ses= data_ses::where([ ['id_pkp',$id_project], ['turunan',$turunan] ])->get();

@@ -29,9 +29,9 @@
     <?php $last = Date('j-F-Y'); ?>
     <input id="last" value="{{ $last }}" class="form-control col-md-12 col-xs-12" name="last" type="hidden" readonly>
     <div class="form-group">
-      <label  class="control-label col-md-2 col-sm-2 col-xs-12">Nama Sederhana</label>
+      <label  class="control-label col-md-2 col-sm-2 col-xs-12">Nama Sederhana*</label>
       <div class="col-md-3 col-sm-3 col-xs-12">
-        <input type="text" class="form-control" value="{{$bahan->nama_sederhana}}" name="sederhana" id="sederhana">
+        <input type="text" class="form-control" required value="{{$bahan->nama_sederhana}}" name="sederhana" id="sederhana">
       </div>
       <label  class="control-label col-md-2 col-sm-2 col-xs-12">Kode Komputer</label>
       <div class="col-md-3 col-sm-3 col-xs-12">
@@ -77,10 +77,10 @@
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="satuan" id="satuan" class="form-control select">
-          <option value="{{$bahan->satuan_id  }}">{{$bahan->Satuan->satuan }}</option>
-          @foreach($satuans as $satuan)
-          <option value="{{$satuan->id}}">{{$satuan->satuan}}</option>
-          @endforeach
+          <option value="{{$bahan->satuan  }}">{{$bahan->satuan }}</option>
+          <option value="Kg">Kg</option>
+          <option value="G">G</option>
+          <option value="Mg">Mg</option>
         </select>
       </div>
     </div>
@@ -168,10 +168,10 @@
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="satuan" id="satuan" class="form-control select" readonly>
-          <option value="{{$bahan->satuan_id  }}">{{$bahan->Satuan->satuan }}</option>
-          @foreach($satuans as $satuan)
-          <option value="{{$satuan->id}}">{{$satuan->satuan}}</option>
-          @endforeach
+          <option value="{{$bahan->satuan_id  }}">{{$bahan->satuan }}</option>
+          <option value="Kg">Kg</option>
+          <option value="G">G</option>
+          <option value="Mg">Mg</option>
         </select>
       </div>
     </div>
@@ -257,9 +257,13 @@
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" value="{{$makro->erythritol}}" class="form-control" name="erythritol" id="erythritol">
       </div>
-    </div>
+    </div><br>
     <div class="form-group">
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Lemak</label>
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Lemak</label>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <input type="number" step="0.0001" value="{{$makro->lemak}}" class="form-control" name="lemak" id="lemak">
+      </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">DHA</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" value="{{$makro->DHA}}" class="form-control" name="dha" id="dha">
@@ -272,10 +276,6 @@
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" value="{{$makro->Omega3}}" class="form-control" name="omega3" id="omega3">
       </div>
-      <label  class="control-label col-md-1 col-sm-1 col-xs-12">MUFA</label>
-      <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" value="{{$makro->mufa}}" class="form-control" name="mufa" id="mufa">
-      </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Lemak Trans</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" value="{{$makro->lemak_trans}}" class="form-control" name="lemak_trans" id="lemak_trans">
@@ -283,6 +283,10 @@
     </div>
     <div class="form-group">
       <label  class="control-label col-md-1 col-sm-1 col-xs-12"></label>
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12">MUFA</label>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <input type="number" step="0.0001" value="{{$makro->mufa}}" class="form-control" name="mufa" id="mufa">
+      </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Lemak Jenuh</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" value="{{$makro->lemak_jenuh}}" class="form-control" name="lemak_jenuh" id="lemak_jenuh">
@@ -299,11 +303,18 @@
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" value="{{$makro->kolesterol}}" class="form-control" name="kolesterol" id="kolesterol">
       </div>
-      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Lemak</label>
-      <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" value="{{$makro->lemak}}" class="form-control" name="lemak" id="lemak">
-      </div>
     </div>
+    <div class="form-group">
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12"></label>
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Omega9</label>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <input type="number" step="0.0001" value="{{$makro->omega9}}" class="form-control" name="omega9" id="omega9">
+      </div>
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Linoleat</label>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <input type="number" step="0.0001" value="{{$makro->linoleat}}" class="form-control" name="linoleat" id="linoleat">
+      </div>
+    </div><br>
     <div class="form-group">
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Protein</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
@@ -488,7 +499,7 @@
         <input type="number" step="0.0001" value="{{$vitbb->biotin}}" class="form-control" name="biotin" id="biotin">
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <select name="id_satuan_biotin" id="vitid_satuan_biotinaid_satuan_biotinmin" class="form-control">
+        <select name="id_satuan_biotin" id="id_satuan_biotin" class="form-control">
           <option value="{{$vitbb->id_satuan_biotin}}" readonly>{{$vitbb->satuan_biotin->satuan}}</option>
           @foreach($satuan_vit as $vit)
           <option value="{{$vit->id_satuan_vit}}">{{$vit->satuan}}</option>
@@ -507,79 +518,175 @@
           @endforeach
         </select>
       </div>  
-    </div>
+    </div><br>
 		@endforeach
 
 		<!-- Mineral -->
 		@foreach($mineral as $mineral)
     <div class="form-group">
-      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Mineral(mg/100g)</label>
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Mineral</label>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Ca</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" value="{{$mineral->ca}}" class="form-control" name="ca" id="ca">
       </div>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <select name="satuan_ca" id="satuan_ca" class="form-control">
+          <option value="{{$mineral->satuan_ca}}" readonly>{{$mineral->satuan_ca}}</option>
+          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
+        </select>
+      </div>  
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Mg</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" value="{{$mineral->mg}}" class="form-control" name="mg" id="mg">
       </div>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <select name="satuan_mg" id="satuan_mg" class="form-control">
+          <option value="{{$mineral->satuan_mg}}" readonly>{{$mineral->satuan_mg}}</option>
+          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
+        </select>
+      </div>  
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">K</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" value="{{$mineral->k}}" class="form-control" name="k" id="k">
       </div>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <select name="satuan_k" id="satuan_k" class="form-control">
+          <option value="{{$mineral->satuan_k}}" readonly>{{$mineral->satuan_k}}</option>
+          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
+        </select>
+      </div>  
+    </div>
+    <div class="form-group">
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12"></label>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Zink</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" value="{{$mineral->zink}}" class="form-control" name="zink" id="zink">
       </div>
-      <label  class="control-label col-md-1 col-sm-1 col-xs-12">P</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" value="{{$mineral->p}}" class="form-control" name="p" id="p">
+        <select name="satuan_zink" id="satuan_zink" class="form-control">
+          <option value="{{$mineral->satuan_zink}}" readonly>{{$mineral->satuan_zink}}</option>
+          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
+        </select>
+      </div>  
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Cu</label>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <input type="number" step="0.0001" value="{{$mineral->cu}}" class="form-control" name="cu" id="cu">
       </div>
-    </div>
-    <div class="form-group">
-      <label  class="control-label col-md-1 col-sm-1 col-xs-12"></label>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <select name="satuan_cu" id="satuan_cu" class="form-control">
+          <option value="{{$mineral->satuan_cu}}" readonly>{{$mineral->satuan_cu}}</option>
+          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
+        </select>
+      </div>  
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Na</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" value="{{$mineral->na}}" class="form-control" name="na" id="na">
       </div>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <select name="satuan_na" id="satuan_na" class="form-control">
+          <option value="{{$mineral->satuan_na}}" readonly>{{$mineral->satuan_na}}</option>
+          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
+        </select>
+      </div>  
+    </div>
+    <div class="form-group">
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12"></label>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">NaCi</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" value="{{$mineral->naci}}" class="form-control" name="naci" id="naci">
       </div>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <select name="satuan_naci" id="satuan_naci" class="form-control">
+          <option value="{{$mineral->satuan_naci}}" readonly>{{$mineral->satuan_naci}}</option>
+          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
+        </select>
+      </div>  
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Energi</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" value="{{$mineral->energi}}" class="form-control" name="energi" id="energi">
       </div>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <select name="satuan_energi" id="satuan_energi" class="form-control">
+          <option value="{{$mineral->satuan_energi}}" readonly>{{$mineral->satuan_energi}}</option>
+          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
+        </select>
+      </div>  
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Fosfor</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" value="{{$mineral->fosfor}}" class="form-control" name="fosfor" id="fosfor">
       </div>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <select name="satuan_fosfor" id="satuan_fosfor" class="form-control">
+          <option value="{{$mineral->satuan_fosfor}}" readonly>{{$mineral->satuan_fosfor}}</option>
+          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
+        </select>
+      </div>  
+    </div>
+    <div class="form-group">
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12"></label>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Mn</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" value="{{$mineral->mn}}" class="form-control" name="mn" id="mn">
       </div>
-    </div>
-    <div class="form-group">
-      <label  class="control-label col-md-1 col-sm-1 col-xs-12"></label>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <select name="satuan_mn" id="satuan_mn" class="form-control">
+          <option value="{{$mineral->satuan_mn}}" readonly>{{$mineral->satuan_mn}}</option>
+          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
+        </select>
+      </div>  
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Cr</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" value="{{$mineral->cr}}" class="form-control" name="cr" id="cr">
       </div>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <select name="satuan_cr" id="satuan_cr" class="form-control">
+          <option value="{{$mineral->satuan_cr}}" readonly>{{$mineral->satuan_cr}}</option>
+          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
+        </select>
+      </div>  
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Fe</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" value="{{$mineral->fe}}" class="form-control" name="fe" id="fe">
       </div>
-      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Lodium</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" value="{{$mineral->lodium}}" class="form-control" name="lodium" id="lodium">
+        <select name="satuan_fe" id="satuan_fe" class="form-control">
+          <option value="{{$mineral->satuan_fe}}" readonly>{{$mineral->satuan_fe}}</option>
+          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
+        </select>
+      </div>  
+    </div>
+    <div class="form-group">
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12"></label>
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Yodium</label>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <input type="number" step="0.0001" value="{{$mineral->yodium}}" class="form-control" name="yodium" id="yodium">
       </div>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <select name="satuan_yodium" id="satuan_yodium" class="form-control">
+          <option value="{{$mineral->satuan_yodium}}" readonly>{{$mineral->satuan_yodium}}</option>
+          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
+        </select>
+      </div>  
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Selenium</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" value="{{$mineral->selenium}}" class="form-control" name="selenium" id="selenium">
       </div>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <select name="satuan_selenium" id="satuan_selenium" class="form-control">
+          <option value="{{$mineral->satuan_selenium}}" readonly>{{$mineral->satuan_selenium}}</option>
+          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
+        </select>
+      </div>  
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Fluor</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" value="{{$mineral->fluor}}" class="form-control" name="fluor" id="fluor">
       </div>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <select name="satuan_fluor" id="satuan_fluor" class="form-control">
+          <option value="{{$mineral->satuan_fluor}}" readonly>{{$mineral->satuan_fluor}}</option>
+          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
+        </select>
+      </div>  
     </div>
 		@endforeach
 
@@ -714,41 +821,7 @@
     </table>
   </div><hr>
 
-  <!-- Logam Berat -->
-	@foreach($logam as $logam)
-  <div class="row">
-    <div class="form-group">
-      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Logam Berat</label>
-      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Cu</label>
-      <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" value="{{$logam->cu}}" class="form-control" name="cu" id="cu">
-      </div>
-      <label  class="control-label col-md-1 col-sm-1 col-xs-12">As</label>
-      <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" value="{{$logam->As}}" class="form-control" name="as" id="as">
-      </div>
-      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Pb</label>
-      <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" value="{{$logam->pb}}" class="form-control" name="pb" id="pb">
-      </div>
-      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Hg</label>
-      <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" value="{{$logam->hg}}" class="form-control" name="hg" id="hg">
-      </div>
-      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Cd</label>
-      <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" value="{{$logam->cd}}" class="form-control" name="cd" id="cd">
-      </div>
-    </div>
-    <div class="form-group">
-      <label  class="control-label col-md-1 col-sm-1 col-xs-12"></label>
-      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Sn</label>
-      <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" value="{{$logam->sn}}" class="form-control" name="sn" id="sn">
-      </div>
-    </div>
-  </div><hr>
-	@endforeach
+  <!-- Asam -->
 	@foreach($asam as $asam)
   <h4><li class="fa fa-tags"></li> Asam Amino (mg/ 100 gram)</h4>
   <div class="row">
@@ -836,8 +909,77 @@
         <input type="number" step="0.0001" value="{{$asam->Proline}}" class="form-control" name="proline" id="proline">
       </div>
     </div>
-  </div>
+  </div><br>
 	@endforeach
+  <!-- Logam Berat -->
+	@foreach($logam as $logam)
+  <div class="row">
+    <div class="form-group">
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Logam Berat (ppm)</label>
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12">As</label>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <input type="number" step="0.0001" value="{{$logam->As}}" class="form-control" name="as" id="as">
+      </div>
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Pb</label>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <input type="number" step="0.0001" value="{{$logam->pb}}" class="form-control" name="pb" id="pb">
+      </div>
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Hg</label>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <input type="number" step="0.0001" value="{{$logam->hg}}" class="form-control" name="hg" id="hg">
+      </div>
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Cd</label>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <input type="number" step="0.0001" value="{{$logam->cd}}" class="form-control" name="cd" id="cd">
+      </div>
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Sn</label>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <input type="number" step="0.0001" value="{{$logam->sn}}" class="form-control" name="sn" id="sn">
+      </div>
+    </div>
+  </div><br>
+	@endforeach
+  <!-- Mikro -->
+  @foreach($m as $mb)
+  <div class="form-group">
+    <label  style="font-size:13px" class="control-label col-md-1 col-sm-1 col-xs-12">Mikro(CFU/g)</label>
+    <label  class="control-label col-md-1 col-sm-1 col-xs-12">Enterobacter</label>
+    <div class="col-md-1 col-sm-1 col-xs-12">
+      <input type="number" step="0.0001" value="{{$mb->Enterobacter}}" class="form-control" name="Enterobacter" id="Enterobacter">
+    </div>
+    <label  class="control-label col-md-1 col-sm-1 col-xs-12">Salmonella</label>
+    <div class="col-md-1 col-sm-1 col-xs-12">
+      <input type="number" step="0.0001" value="{{$mb->Salmonella}}" class="form-control" name="Salmonella" id="Salmonella">
+    </div>
+    <label  class="control-label col-md-1 col-sm-1 col-xs-12">S.aureus</label>
+    <div class="col-md-1 col-sm-1 col-xs-12">
+      <input type="number" step="0.0001" value="{{$mb->aureus}}" class="form-control" name="aureus" id="aureus">
+    </div>
+    <label  class="control-label col-md-1 col-sm-1 col-xs-12">TPC</label>
+    <div class="col-md-1 col-sm-1 col-xs-12">
+      <input type="number" step="0.0001" value="{{$mb->TPC}}" class="form-control" name="TPC" id="TPC">
+    </div>
+    <label  class="control-label col-md-1 col-sm-1 col-xs-12">Yeast/Mold</label>
+    <div class="col-md-1 col-sm-1 col-xs-12">
+      <input type="number" step="0.0001" value="{{$mb->Yeast}}" class="form-control" name="Yeast" id="Yeast">
+    </div>
+  </div>
+  <div class="form-group">
+    <label  style="font-size:13px" class="control-label col-md-1 col-sm-1 col-xs-12"></label>
+    <label  class="control-label col-md-1 col-sm-1 col-xs-12">Coliform</label>
+    <div class="col-md-1 col-sm-1 col-xs-12">
+      <input type="number" step="0.0001" value="{{$mb->Coliform}}" class="form-control" name="Coliform" id="Coliform">
+    </div>
+    <label  class="control-label col-md-1 col-sm-1 col-xs-12">E.Coli</label>
+    <div class="col-md-1 col-sm-1 col-xs-12">
+      <input type="number" step="0.0001" value="{{$mb->Coli}}" class="form-control" name="Coli" id="Coli">
+    </div>
+    <label  class="control-label col-md-1 col-sm-1 col-xs-12">Bacilluscereus</label>
+    <div class="col-md-1 col-sm-1 col-xs-12">
+      <input type="number" step="0.0001" value="{{$mb->Bacilluscereus}}" class="form-control" name="Bacilluscereus" id="Bacilluscereus">
+    </div>
+  </div>
+  @endforeach
 </div>
 
 <div class="x_panel">
@@ -1039,8 +1181,8 @@
                 "<td><select name='mikro[]' id='mikro' class='form-control'>"+pilihan_mikro+"</select></td>"+
                 "<td><input type='number' step='0.0001' name='n[]' id='n' class='form-control'></td>"+
                 "<td><input type='number' step='0.0001' name='c[]' id='c' class='form-control'></td>"+
-                "<td><input type='number' step='0.0001' name='m[]' id='m' class='form-control'></td>"+
-                "<td><input type='number' step='0.0001' name='M2[]' id='M2' class='form-control'></td>"+
+                "<td><input type='text' step='0.0001' name='m[]' id='m' class='form-control'></td>"+
+                "<td><input type='text' step='0.0001' name='M2[]' id='M2' class='form-control'></td>"+
                 "<td><select name='satuan_mikro[]' id='satuan_mikro' class='form-control'>"+pilihan_satuan_bpom+"</select></td>"+
                 "<td class='text-center'><button class='btn btn-info btn-sm' id='add_data' type='button'><li class='fa fa-plus'></li></button></td>"+
               "</tr>"+
@@ -1056,8 +1198,8 @@
           "<td><select name='mikro[]' id='mikro' class='form-control'>"+pilihan_mikro+"</select></td>"+
           "<td><input type='number' step='0.0001' name='n[]' id='n' class='form-control'></td>"+
           "<td><input type='number' step='0.0001' name='c[]' id='c' class='form-control'></td>"+
-          "<td><input type='number' step='0.0001' name='m[]' id='m' class='form-control'></td>"+
-          "<td><input type='number' step='0.0001' name='M2[]' id='M' class='form-control'></td>"+
+          "<td><input type='text' step='0.0001' name='m[]' id='m' class='form-control'></td>"+
+          "<td><input type='text' step='0.0001' name='M2[]' id='M' class='form-control'></td>"+
           "<td><select name='satuan_mikro[]' id='satuan_mikro' class='form-control'>"+pilihan_satuan_bpom+"</select></td>"+
           "<td class='text-center'><a hreaf='' class='btn btn-danger btn-sm'><li class='fa fa-trash'></li></a></td>");
         $('#tabledata').append('<tr id="addmikro' + (i + 1) + '"></tr>');

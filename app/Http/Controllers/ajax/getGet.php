@@ -29,13 +29,17 @@ class getGet extends Controller
     }
 
     public function getpangan($id_pangan){
-        $pangan = DB::table('pkp_datapangan')->where('id_pangan',$id_pangan)->pluck('pangan','id_pangan');
+        $pangan = DB::table('fs_bpom_mikrobiologi')->where('id_pangan',$id_pangan)->pluck('kategori','id_pangan');
         return json_encode($pangan);
     }
 
     public function getkatpangan($id_pangan){
-        $pangan = DB::table('pkp_datapangan')->where('id_pangan',$id_pangan)->pluck('no_kategori','id_pangan');
+        $pangan = DB::table('fs_bpom_mikrobiologi')->where('id_pangan',$id_pangan)->pluck('no_kategori','id_pangan');
         return json_encode($pangan);
+    }
+
+    public function getjenismikro($id_pangan){
+        $pangan = DB::table('fs_jenismikroba')->where('id_pangan',$id_pangan)->pluck('id_mikroba','jenis_mikroba');
     }
 
     public function getolahan($id_pangan){

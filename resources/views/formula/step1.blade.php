@@ -128,13 +128,21 @@
           <input type="radio" name="satuan" checked oninput="satuan_ml()" id="id_ml" value="Ml"> Ml
           @endif
       	</div>
+        @if($formula->satuan=='Ml')
+      	<label for="middle-name" class="control-label col-md-1 col-sm-1 col-xs-12"> Berat Jenis </label>
+        <div class="col-md-1 col-sm-1 col-xs-12" id="tampilkan">
+          <input class="form-control" placeholder='Berat Jenis' id="" value="{{$formula->berat_jenis}}" name="berat_jenis" type="text" />
+      	</div>
+        <div class="col-md-2 col-sm-2 col-xs-12">
+          <input class="form-control" placeholder='{{$formula->serving_size / $formula->berat_jenis}} ML' id="" name="" type="number"/>
+        </div>
+        @elseif($formula->satuan=='Gram')
       	<label for="middle-name" class="control-label col-md-1 col-sm-1 col-xs-12"> Berat Jenis </label>
         <div class="col-md-2 col-sm-2 col-xs-12" id="tampilkan">
-          <input class="form-control" placeholder='Berat Jenis' id="" value="{{$formula->berat_jenis}}" readonly name="berat_jenis" type="number" />
+          <input class="form-control" placeholder='Berat Jenis' id="" value="{{$formula->berat_jenis}}" readonly name="berat_jenis" type="text" />
       	</div>
-        @if($formula->satuan=='Ml')
         <div class="col-md-1 col-sm-1 col-xs-12">
-        <input class="form-control" placeholder='{{$formula->serving_size / $formula->berat_jenis}} ML' id="" readonly name="" type="number"/>
+          <input class="form-control" readonly placeholder='ML' id="" name="" type="number"/>
         </div>
         @endif
       </div>
@@ -205,7 +213,7 @@
     }else{
       document.getElementById('tampilkan').innerHTML =
         "<div class='col-md-12 col-sm-12 col-xs-12'>"+
-        "  <input class='form-control' placeholder='Berat Jenis' id='' name='' type='number' required/>"+
+        "  <input class='form-control' placeholder='Berat Jenis' id='' name='' type='text' required/>"+
       	"</div>"
     }
   }
@@ -217,7 +225,7 @@
     }else{
       document.getElementById('tampilkan').innerHTML =
         "<div class='col-md-12 col-sm-12 col-xs-12'>"+
-        "  <input class='form-control' disabled placeholder='Berat Jenis' id='' name='' type='number' required/>"+
+        "  <input class='form-control' disabled placeholder='Berat Jenis' id='' name='' type='text' required/>"+
       	"</div>"
     }
   }

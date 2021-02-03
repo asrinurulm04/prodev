@@ -165,8 +165,10 @@ Route::get('cetak_my_project','report\cetakController@download_my_project')->nam
 Route::get('cetak_pdf','report\cetakController@download_project_pdf')->name('cetak_pdf');
 Route::get('download_my_project_pdf','report\cetakController@download_my_project_pdf')->name('download_my_project_pdf');
 Route::post('editnotulen','report\reportController@editnote')->name('editnotulen');
+
 Route::get('FOR_pkp/{formula}','report\downloadFORController@FOR_pkp')->name('FOR_pkp');
 Route::get('FOR_pdf/{formula}','report\downloadFORController@FOR_pdf')->name('FOR_pdf');
+Route::get('nutfact_bayangan_pkp/{formula}','report\downloadFORController@nutfact_bayangan_pkp')->name('nutfact_bayangan_pkp');
 
 /***** PV */
 Route::get('dasboardpv','pv\pkpController@dasboardpv')->name('dasboardpv');
@@ -189,7 +191,9 @@ Route::get('getkomponen/{id}','ajax\getGet@getkomponen')->name('getkomponen');
 Route::get('getdetail/{id}','ajax\getGet@getdetailklaim')->name('getdetail');
 Route::get('getbahan/{id}','ajax\getGet@getbahan')->name('getbahan');
 Route::get('subkategori/{id}','ajax\getGet@subkategori')->name('subkategori');
+Route::get('jenismikroba/{id}','ajax\getGet@getjenismikro')->name('jenismikroba');
 
+Route::get('konfigurasi/{id}/{revisi}/{turunan}','pv\pkpController@konfigurasi')->name('konfigurasi');
 Route::post('closeproject/{id}','pv\pkpController@closeproject')->name('closeproject');
 Route::get('hapuspkp/{id}','pv\pkpController@hapuspkp')->name('hapuspkp');
 Route::get('merk/{id}','pv\pkpController@merkAjax')->name('merk');
@@ -250,6 +254,7 @@ Route::post('approvepromo1/{id}','pv\promoController@approve1')->name('approvepr
 Route::post('approvepromo2/{id}','pv\promoController@approve2')->name('approvepromo2');
 
 // PDF
+Route::get('konfig/{id}','pv\pdfController@konfigurasi')->name('konfig');
 Route::post('sentpdf/{id_project_pdf}/{revisi}/{turunan}','pv\pdfController@sentpdf')->name('sentpdf');
 Route::get('drafpdf','pv\pdfController@drafpkp')->name('drafpdf');
 Route::get('listpdf','pv\pdfController@listpdf')->name('listpdf');
@@ -336,6 +341,7 @@ Route::post('GantiBase/{id}','formula\ScaleController@gantibase')->name('gantiba
 Route::get('HapusBase/{id}','formula\ScaleController@hapusbase')->name('hapusbase');
 Route::post('GantiBase/{id}','formula\ScaleController@gantibase')->name('gantibase');
 Route::post('savechanges/{id}','formula\ScaleController@savechanges')->name('savechanges');
+Route::post('savedosis/{id}','formula\ScaleController@savedosis')->name('savedosis');
 Route::post('cekscale/{id}/{formula}','formula\ScaleController@cekscale')->name('cekscale');
 Route::post('savescale/{id}','formula\ScaleController@savescale')->name('savescale');
 
@@ -352,6 +358,7 @@ Route::get('InsertTemplate/{ftujuan}/{fasal}','devwb\TemplateFormulaController@t
 Route::get('EditDetailPenyusunan/{id}/{for}','formula\EditFortailController@index')->name('editfortail');
 Route::patch('SaveDetailPenyusunan/{idf}/{id}','formula\EditFortailController@update')->name('updatefortail');
 Route::get('summarryformula/{id}/{formula}','formula\SummaryFormulaController@summarry')->name('summarry');
+Route::post('header/{formula}','formula\SummaryFormulaController@header')->name('header');
 Route::post('overage/{id}','formula\SummaryFormulaController@overage')->name('overage');
 
 // Ajukan Formula ke PV

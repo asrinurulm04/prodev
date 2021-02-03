@@ -377,52 +377,38 @@
                       <tr>
                         <th>Sales Forecast</th>
                         <td colspan="2">
-                          <table class="table table-bordered table-hover">
-                            <thead>
-                              <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
-                                <th>Forecash</th>
-                                <th>Configuration</th>
-                                <th colspan="2">UOM</th>
-                                <th>NFI Price</th>
-                                <th>Costumer Price</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              @foreach($for as $for)
-                              <tr>
-                                <td>{{$for->satuan}} = <?php $angka_format = number_format($for->forecast,2,",","."); echo "Rp. ".$angka_format;?></td>
-                                <td>
-                                @if($for->kemas_eksis!=NULL)
-                                (
-                                @if($for->kemas->tersier!=NULL)
-                                {{ $for->kemas->tersier }}{{ $for->kemas->s_tersier }}
-                                @elseif($for->tersier==NULL)
-                                @endif
-
-                                @if($for->kemas->sekunder1!=NULL)
-                                X {{ $for->kemas->sekunder1 }}{{ $for->kemas->s_sekunder1}}
-                                @elseif($for->kemas->sekunder1==NULL)
-                                @endif
-
-                                @if($for->kemas->sekunder2!=NULL)
-                                X {{ $for->kemas->sekunder2 }}{{ $for->kemas->s_sekunder2 }}
-                                @elseif($for->sekunder2==NULL)
-                                @endif
-
-                                @if($for->kemas->primer!=NULL)
-                                X{{ $for->kemas->primer }}{{ $for->kemas->s_primer }}
-                                @elseif($for->kemas->primer==NULL)
-                                @endif
-                                )
-                                @endif
-                                </td>
-                                <td>{{$for->jlh_uom}}</td>
-                                <td>{{$for->uom}}</td>
-                                <td><?php $angka_format = number_format($for->nfi_price,2,",","."); echo "Rp. ".$angka_format;?></td>
-                                <td><?php $angka_format = number_format($for->costumer,2,",","."); echo "Rp. ".$angka_format;?></td>
-                              </tr>
-                              @endforeach
-                            </tbody>
+                          @foreach($for as $fore)
+                          {{$fore->satuan}} = {{$fore->forecast}} <br>
+                          @endforeach
+                        <br><br>
+                        @if($pkp->remarks_forecash!='NULL')
+                        <?php $remarks_forecash = []; foreach ($for as $key => $data) If (!$remarks_forecash || !in_array($data->remarks_forecash, $remarks_forecash)) { $remarks_forecash += array( $key => $data->remarks_forecash ); 
+                        if($data->turunan!=$pkp->turunan){ echo"Remarks forecast: <s><font color='#6594c5'>$data->remarks_forecash<br></font></s>"; } if($data->turunan==$pkp->turunan){ echo"Remarks forecast: $data->remarks_forecash <br>";  } } ?></td>
+                        @endif
+                      </tr>
+											<tr>
+                        <th>NF Selling Price (Before ppn)</th>
+                        <td colspan="2">
+                          <table>
+                            <tr>
+                              <td>
+                                <?php $selling_price = []; foreach ($pkp1 as $key => $data) If (!$selling_price || !in_array($data->selling_price, $selling_price)) { $selling_price += array( $key => $data->selling_price ); 
+                                if($data->turunan!=$pkp->turunan){ echo" <s><font color='#6594c5'>Rp. ". number_format($data->selling_price, 0, ".", "."). "<br></font></s>"; } if($data->turunan==$pkp->turunan){ echo" Rp. ". number_format($data->selling_price, 0, ".", "."). "<br>"; } }  ?>
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+											</tr>
+                      <tr>
+                        <th>Consumer price target</th>
+                        <td colspan="2">
+                          <table>
+                            <tr>
+                              <td>
+                                <?php $price = []; foreach ($pkp1 as $key => $data) If (!$price || !in_array($data->price, $price)) { $price += array( $key => $data->price ); 
+                                if($data->turunan!=$pkp->turunan){ echo" <s><font color='#6594c5'>Rp. ". number_format($data->price, 0, ".", "."). "<br></font></s>"; } if($data->turunan==$pkp->turunan){ echo"Rp. ". number_format($data->price, 0, ".", "."). "<br>"; } } ?>
+                              </td>
+                            </tr>
                           </table>
                         </td>
                       </tr>
@@ -448,6 +434,52 @@
                           if($data->turunan!=$pkp->turunan){ echo"Remarks : <s><font color='#6594c5'>$data->remarks_product_form<br></font></s>"; } if($data->turunan==$pkp->turunan){ echo"Remarks: $data->remarks_product_form<br>"; } }  ?></td>
                       </tr>
                       <tr>
+                        <th>Product Packaging</th>
+                        <td colspan="2">
+													<table>
+
+                            @if($pkp->kemas_eksis!=NULL)
+                            (
+                            @if($pkp->kemas->primer!=NULL)
+														{{ $pkp->kemas->primer }}{{ $pkp->kemas->s_primer }}
+														@elseif($pkp->kemas->primer==NULL)
+														@endif
+
+														@if($pkp->kemas->sekunder1!=NULL)
+														X {{ $pkp->kemas->sekunder1 }}{{ $pkp->kemas->s_sekunder1}}
+														@elseif($pkp->kemas->sekunder1==NULL)
+														@endif
+
+														@if($pkp->kemas->sekunder2!=NULL)
+														X {{ $pkp->kemas->sekunder2 }}{{ $pkp->kemas->s_sekunder2 }}
+														@elseif($pkp->sekunder2==NULL)
+														@endif
+
+														@if($pkp->kemas->tersier!=NULL)
+														X {{ $pkp->kemas->tersier }}{{ $pkp->kemas->s_tersier }}
+														@elseif($pkp->tersier==NULL)
+														@endif
+                            )
+                            @elseif($pkp->primer==NULL)
+                              @if($pkp->kemas_eksis==NULL)
+                              @endif
+                            @endif
+                            <br><br>
+                            @if($pkp->primery!=NULL)
+														<tr><th width="35%">Primary information</th><th>:</th><td style="border:none;"><?php $primery = []; foreach ($pkp1 as $key => $data) If (!$primery || !in_array($data->primery, $primery)) { $primery += array( $key => $data->primery ); 
+                              if($data->revisi!=$pkp->revisi){  echo" <s><font color='#6594c5'>$data->primery<br></font></s>";  } if($data->revisi==$pkp->revisi){ echo" $data->primery<br>"; } }  ?></td></tr>
+                            @endif
+                            @if($pkp->secondary!=NULL)
+                            <tr><th width="35%">Secondary information</th><th>:</th><td style="border:none;"><?php $secondary = []; foreach ($pkp1 as $key => $data) If (!$secondary || !in_array($data->secondary, $secondary)) { $secondary += array( $key => $data->secondary ); 
+                              if($data->revisi!=$pkp->revisi){  echo" <s><font color='#6594c5'>$data->secondary<br></font></s>";  } if($data->revisi==$pkp->revisi){ echo" $data->secondary<br>"; } }  ?></td></tr>
+                            @endif
+                            @if($pkp->tertiary!=NULL)
+                            <tr><th width="35%">Teriery information</th><th>:</th><td style="border:none;"><?php $tertiary = []; foreach ($pkp1 as $key => $data) If (!$tertiary || !in_array($data->tertiary, $tertiary)) { $tertiary += array( $key => $data->tertiary ); 
+                              if($data->revisi!=$pkp->revisi){  echo" <s><font color='#6594c5'>$data->tertiary<br></font></s>";  } if($data->revisi==$pkp->revisi){ echo" $data->tertiary<br>"; } }  ?></td></tr>
+                            @endif
+                          </table>
+												</td>
+                      </tr>
                       <tr>
                         <th>Food Category (BPOM)</th>
                         @if($pkp->bpom!=NULL && $pkp->kategori_bpom!=NULL)
@@ -474,7 +506,7 @@
                             <?php $product_benefits= []; foreach ($pkp1 as $key => $data) If (!$product_benefits|| !in_array($data->product_benefits, $product_benefits)) { $product_benefits+= array( $key => $data->product_benefits ); 
                               if($data->turunan!=$pkp->turunan){ echo" <s><font color='#6594c5'>$data->product_benefits <br></font></s>"; } if($data->turunan==$pkp->turunan){ echo" $data->product_benefits<br>"; } }  ?>
                           </table><br>
-                          <table class="Table table-bordered" >
+                          <table class="table table-bordered" >
                             <tbody>
                               <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
                                 <td class="text-center">Komponen</td>
@@ -513,6 +545,25 @@
                         <th>Mandatory Ingredients</th>
                         <td colspan="2"><?php $mandatory_ingredient = []; foreach ($pkp1 as $key => $data) If (!$mandatory_ingredient || !in_array($data->mandatory_ingredient, $mandatory_ingredient)) { $mandatory_ingredient += array( $key => $data->mandatory_ingredient ); 
                         if($data->turunan!=$pkp->turunan){ echo" <s><font color='#6594c5'>$data->mandatory_ingredient<br></font></s>"; } if($data->turunan==$pkp->turunan){ echo" $data->mandatory_ingredient<br>"; } }  ?></td>
+                      </tr>
+                      <tr>
+                        <th>Related Picture</th>
+                        <td colspan="2">
+                          <table class="table table-bordered">
+                            <tr class="text-center" style="font-weight: bold;color:white;background-color: #2a3f54;">
+                              <td class="text-center">Filename</td>
+                              <td class="text-center">Information</td>
+                              <td class="text-center"></td>
+                            </tr>
+                            @foreach($picture as $pic)
+                            <tr>
+                              <td>{{$pic->filename}} </td>
+                              <td width="40%"> &nbsp{{$pic->informasi}}</td>  
+                              <td width="10%" class="text-center"><a href="{{asset('data_file/'.$pic->filename)}}" download="{{$pic->filename}}"><button class="btn btn-warning btn-sm"><li class="fa fa-download"></li></button></a></td>
+                            </tr>
+                            @endforeach
+                          </table>
+                        </td>
                       </tr>
 
                     </table>
@@ -587,54 +638,40 @@
                         if($data->revisi!=$pkp->revisi){ echo" <s><font color='#ffa2a2'>$data->aisle<br></font></s>"; } if($data->revisi==$pkp->revisi){ echo" $data->aisle<br>"; } } ?></td>
                       </tr>
                       <tr>
-                        <th>Sales Forecast</th>
+                        <th>Sales Forecast </th>
+                        <td colspan="2">@foreach($for as $fore)
+                          {{$fore->satuan}} = {{$fore->forecast}} <br>
+                          @endforeach
+                          <br><br>
+                          @if($pkp->remarks_forecash!='NULL')
+                          <?php $remarks_forecash = []; foreach ($for as $key => $data) If (!$remarks_forecash || !in_array($data->remarks_forecash, $remarks_forecash)) { $remarks_forecash += array( $key => $data->remarks_forecash ); 
+                          if($data->revisi!=$pkp->revisi){ echo"Remarks forecast: <s><font color='#ffa2a2'>$data->remarks_forecash<br></font></s>"; } if($data->revisi==$pkp->revisi){ echo"Remarks forecast: $data->remarks_forecash <br>";  } } ?>
+                        </td>
+                          @endif
+                      </tr>
+											<tr>
+                        <th>NF Selling Price (Before ppn)</th>
                         <td colspan="2">
-                          <table class="table table-bordered table-hover">
-                            <thead>
-                              <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
-                                <th>Forecash</th>
-                                <th>Configuration</th>
-                                <th colspan="2">UOM</th>
-                                <th>NFI Price</th>
-                                <th>Costumer Price</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              @foreach($for as $for)
-                              <tr>
-                                <td>{{$for->satuan}} = <?php $angka_format = number_format($for->forecast,2,",","."); echo "Rp. ".$angka_format;?></td>
-                                <td>
-                                @if($for->kemas_eksis!=NULL)
-                                (
-                                @if($for->kemas->tersier!=NULL)
-                                {{ $for->kemas->tersier }}{{ $for->kemas->s_tersier }}
-                                @elseif($for->tersier==NULL)
-                                @endif
-
-                                @if($for->kemas->sekunder1!=NULL)
-                                X {{ $for->kemas->sekunder1 }}{{ $for->kemas->s_sekunder1}}
-                                @elseif($for->kemas->sekunder1==NULL)
-                                @endif
-
-                                @if($for->kemas->sekunder2!=NULL)
-                                X {{ $for->kemas->sekunder2 }}{{ $for->kemas->s_sekunder2 }}
-                                @elseif($for->sekunder2==NULL)
-                                @endif
-
-                                @if($for->kemas->primer!=NULL)
-                                X{{ $for->kemas->primer }}{{ $for->kemas->s_primer }}
-                                @elseif($for->kemas->primer==NULL)
-                                @endif
-                                )
-                                @endif
-                                </td>
-                                <td>{{$for->jlh_uom}}</td>
-                                <td>{{$for->uom}}</td>
-                                <td><?php $angka_format = number_format($for->nfi_price,2,",","."); echo "Rp. ".$angka_format;?></td>
-                                <td><?php $angka_format = number_format($for->costumer,2,",","."); echo "Rp. ".$angka_format;?></td>
-                              </tr>
-                              @endforeach
-                            </tbody>
+                          <table>
+                            <tr>
+                              <td>
+                                <?php $selling_price = []; foreach ($pkp2 as $key => $data) If (!$selling_price || !in_array($data->selling_price, $selling_price)) { $selling_price += array( $key => $data->selling_price ); 
+                                if($data->revisi!=$pkp->revisi){ echo" <s><font color='#ffa2a2'>Rp. ". number_format($data->selling_price, 0, ".", "."). "<br></font></s>"; } if($data->revisi==$pkp->revisi){ echo" Rp. ". number_format($data->selling_price, 0, ".", "."). " <br>"; } }  ?>
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+											</tr>
+                      <tr>
+                        <th>Consumer price target</th>
+                        <td colspan="2">
+                          <table>
+                            <tr>
+                              <td>
+                                <?php $price = []; foreach ($pkp2 as $key => $data) If (!$price || !in_array($data->price, $price)) { $price += array( $key => $data->price ); 
+                                if($data->revisi!=$pkp->revisi){ echo" <s><font color='#ffa2a2'>Rp. ". number_format($data->price, 0, ".", "."). "<br></font></s>"; } if($data->revisi==$pkp->revisi){ echo" Rp. ". number_format($data->price, 0, ".", "."). "<br>"; } } ?>
+                              </td>
+                            </tr>
                           </table>
                         </td>
                       </tr>
@@ -658,6 +695,53 @@
                         <br><br>
                         <?php $remarks_product_form = []; foreach ($pkp2 as $key => $data) If (!$remarks_product_form || !in_array($data->remarks_product_form, $remarks_product_form)) { $remarks_product_form += array( $key => $data->remarks_product_form  ); 
                         if($data->revisi!=$pkp->revisi){ echo"Remarks : <s><font color='#ffa2a2'>$data->remarks_product_form<br></font></s>"; } if($data->revisi==$pkp->revisi){ echo"Remarks: $data->remarks_product_form<br>"; } }  ?></td>
+                      </tr>
+                      <tr>
+                        <th>Product Packaging</th>
+                        <td colspan="2">
+													<table>
+
+                            @if($pkp->kemas_eksis!=NULL)
+                            (
+                            @if($pkp->kemas->primer!=NULL)
+														{{ $pkp->kemas->primer }}{{ $pkp->kemas->s_primer }}
+														@elseif($pkp->kemas->primer==NULL)
+														@endif
+
+														@if($pkp->kemas->sekunder1!=NULL)
+														X {{ $pkp->kemas->sekunder1 }}{{ $pkp->kemas->s_sekunder1}}
+														@elseif($pkp->kemas->sekunder1==NULL)
+														@endif
+
+														@if($pkp->kemas->sekunder2!=NULL)
+														X {{ $pkp->kemas->sekunder2 }}{{ $pkp->kemas->s_sekunder2 }}
+														@elseif($pkp->sekunder2==NULL)
+														@endif
+
+														@if($pkp->kemas->tersier!=NULL)
+														X {{ $pkp->kemas->tersier }}{{ $pkp->kemas->s_tersier }}
+														@elseif($pkp->tersier==NULL)
+														@endif
+                            )
+                            @elseif($pkp->primer==NULL)
+                              @if($pkp->kemas_eksis==NULL)
+                              @endif
+                            @endif
+                            <br><br>
+                            @if($pkp->primery!=NULL)
+														<tr><th width="35%">Primary information</th><th>:</th><td style="border:none;"><?php $primery = []; foreach ($pkp1 as $key => $data) If (!$primery || !in_array($data->primery, $primery)) { $primery += array( $key => $data->primery ); 
+                              if($data->revisi!=$pkp->revisi){  echo" <s><font color='#ffa2a2'>$data->primery<br></font></s>";  } if($data->revisi==$pkp->revisi){ echo" $data->primery<br>"; } }  ?></td></tr>
+                            @endif
+                            @if($pkp->secondary!=NULL)
+                            <tr><th width="35%">Secondary information</th><th>:</th><td style="border:none;"><?php $secondary = []; foreach ($pkp1 as $key => $data) If (!$secondary || !in_array($data->secondary, $secondary)) { $secondary += array( $key => $data->secondary ); 
+                              if($data->revisi!=$pkp->revisi){  echo" <s><font color='#ffa2a2'>$data->secondary<br></font></s>";  } if($data->revisi==$pkp->revisi){ echo" $data->secondary<br>"; } }  ?></td></tr>
+                            @endif
+                            @if($pkp->tertiary!=NULL)
+                            <tr><th width="35%">Teriery information</th><th>:</th><td style="border:none;"><?php $tertiary = []; foreach ($pkp1 as $key => $data) If (!$tertiary || !in_array($data->tertiary, $tertiary)) { $tertiary += array( $key => $data->tertiary ); 
+                              if($data->revisi!=$pkp->revisi){  echo" <s><font color='#ffa2a2'>$data->tertiary<br></font></s>";  } if($data->revisi==$pkp->revisi){ echo" $data->tertiary<br>"; } }  ?></td></tr>
+                            @endif
+                          </table>
+												</td>
                       </tr>
                       <tr>
                         <th>Food Category (BPOM)</th>
@@ -724,6 +808,25 @@
                         <th>Mandatory Ingredients</th>
                         <td colspan="2"><?php $mandatory_ingredient = []; foreach ($pkp2 as $key => $data) If (!$mandatory_ingredient || !in_array($data->mandatory_ingredient, $mandatory_ingredient)) { $mandatory_ingredient += array( $key => $data->mandatory_ingredient ); 
                         if($data->revisi!=$pkp->revisi){ echo" <s><font color='#ffa2a2'>$data->mandatory_ingredient<br></font></s>"; } if($data->revisi==$pkp->revisi){ echo" $data->mandatory_ingredient<br>"; } }  ?></td>
+                      </tr>
+                      <tr>
+                        <th>Related Picture</th>
+                        <td colspan="2">
+                          <table class="table table-bordered">
+                            <tr class="text-center" style="font-weight: bold;color:white;background-color: #2a3f54;">
+                              <td class="text-center">Filename</td>
+                              <td class="text-center">Information</td>
+                              <td class="text-center"></td>
+                            </tr>
+                            @foreach($picture as $pic)
+                            <tr>
+                              <td>{{$pic->filename}} </td>
+                              <td width="40%"> &nbsp{{$pic->informasi}}</td>  
+                              <td width="10%" class="text-center"><a href="{{asset('data_file/'.$pic->filename)}}" download="{{$pic->filename}}"><button class="btn btn-warning btn-sm"><li class="fa fa-download"></li></button></a></td>
+                            </tr>
+                            @endforeach
+                          </table>
+                        </td>
                       </tr>
                     </table>
                     @endif

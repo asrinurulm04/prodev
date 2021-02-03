@@ -19,9 +19,9 @@
           <?php $last = Date('j-F-Y'); ?>
           <input id="last" value="{{ $last }}" class="form-control col-md-12 col-xs-12" name="last" type="hidden" readonly>
           <div class="form-group">
-            <label  class="control-label col-md-2 col-sm-2 col-xs-12">Nama Sederhana</label>
+            <label  class="control-label col-md-2 col-sm-2 col-xs-12">Nama Sederhana*</label>
             <div class="col-md-3 col-sm-3 col-xs-12">
-              <input type="text" class="form-control" name="sederhana" id="sederhana">
+              <input type="text" class="form-control" required name="sederhana" id="sederhana">
             </div>
             <label  class="control-label col-md-2 col-sm-2 col-xs-12">Kode Komputer</label>
             <div class="col-md-3 col-sm-3 col-xs-12">
@@ -66,9 +66,9 @@
             </div>
             <div class="col-md-1 col-sm-1 col-xs-12">
               <select name="satuan" id="satuan" class="form-control select">
-                @foreach($satuans as $satuan)
-                <option value="{{$satuan->id}}">{{$satuan->satuan}}</option>
-                @endforeach
+                <option value="Kg">Kg</option>
+                <option value="G">G</option>
+                <option value="Mg">Mg</option>
               </select>
             </div>
           </div>
@@ -170,6 +170,10 @@
     </div><br>
     <div class="form-group">
       <label  style="font-size:14px" class="control-label col-md-1 col-sm-1 col-xs-12">Lemak</label>
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Lemak</label>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <input type="number" step="0.0001" class="form-control" name="lemak" id="lemak">
+      </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">DHA</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" class="form-control" name="dha" id="dha">
@@ -186,13 +190,13 @@
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" class="form-control" name="mufa" id="mufa">
       </div>
+    </div>
+    <div class="form-group">
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12"></label>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Lemak Trans</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" class="form-control" name="lemak_trans" id="lemak_trans">
       </div>
-    </div>
-    <div class="form-group">
-      <label  class="control-label col-md-1 col-sm-1 col-xs-12"></label>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Lemak Jenuh</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" class="form-control" name="lemak_jenuh" id="lemak_jenuh">
@@ -209,9 +213,16 @@
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" class="form-control" name="kolesterol" id="kolesterol">
       </div>
-      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Lemak</label>
+    </div>
+    <div class="form-group">
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12"></label>
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Omega9</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="lemak" id="lemak">
+        <input type="number" step="0.0001" class="form-control" name="omega9" id="omega9">
+      </div>
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Linoleat</label>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <input type="number" step="0.0001" class="form-control" name="linoleat" id="linoleat">
       </div>
     </div><br>
     <div class="form-group">
@@ -398,81 +409,163 @@
       </div>
     </div><br>
 
+    <!-- Mineral -->
     <div class="form-group">
-      <label style="font-size:14px" class="control-label col-md-1 col-sm-1 col-xs-12">Mineral(mg/100g)</label>
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Mineral</label>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Ca</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" class="form-control" name="ca" id="ca">
       </div>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <select name="satuan_ca" id="satuan_ca" class="form-control">
+          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
+        </select>
+      </div>  
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Mg</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" class="form-control" name="mg" id="mg">
       </div>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <select name="satuan_mg" id="satuan_mg" class="form-control">
+          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>h
+        </select>
+      </div>  
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">K</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" class="form-control" name="k" id="k">
       </div>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <select name="satuan_k" id="satuan_k" class="form-control">
+          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
+        </select>
+      </div>  
+    </div>
+    <div class="form-group">
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12"></label>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Zink</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" class="form-control" name="zink" id="zink">
       </div>
-      <label  class="control-label col-md-1 col-sm-1 col-xs-12">P</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="p" id="p">
+        <select name="satuan_zink" id="satuan_zink" class="form-control">
+          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
+        </select>
+      </div>  
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Cu</label>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <input type="number" step="0.0001" class="form-control" name="cu" id="cu">
       </div>
-    </div>
-    <div class="form-group">
-      <label  class="control-label col-md-1 col-sm-1 col-xs-12"></label>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <select name="satuan_cu" id="satuan_cu" class="form-control">
+          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
+        </select>
+      </div>  
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Na</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" class="form-control" name="na" id="na">
       </div>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <select name="satuan_na" id="satuan_na" class="form-control">
+          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
+        </select>
+      </div>  
+    </div>
+    <div class="form-group">
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12"></label>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">NaCi</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" class="form-control" name="naci" id="naci">
       </div>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <select name="satuan_naci" id="satuan_naci" class="form-control">
+          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
+        </select>
+      </div>  
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Energi</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" class="form-control" name="energi" id="energi">
       </div>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <select name="satuan_energi" id="satuan_energi" class="form-control">
+          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
+        </select>
+      </div>  
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Fosfor</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" class="form-control" name="fosfor" id="fosfor">
       </div>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <select name="satuan_fosfor" id="satuan_fosfor" class="form-control">
+          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
+        </select>
+      </div>  
+    </div>
+    <div class="form-group">
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12"></label>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Mn</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" class="form-control" name="mn" id="mn">
       </div>
-    </div>
-    <div class="form-group">
-      <label  class="control-label col-md-1 col-sm-1 col-xs-12"></label>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <select name="satuan_mn" id="satuan_mn" class="form-control">
+          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
+        </select>
+      </div>  
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Cr</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" class="form-control" name="cr" id="cr">
       </div>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <select name="satuan_cr" id="satuan_cr" class="form-control">
+          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
+        </select>
+      </div>  
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Fe</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" class="form-control" name="fe" id="fe">
       </div>
-      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Lodium</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="lodium" id="lodium">
+        <select name="satuan_fe" id="satuan_fe" class="form-control">
+          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
+        </select>
+      </div>  
+    </div>
+    <div class="form-group">
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12"></label>
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Yodium</label>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <input type="number" step="0.0001" class="form-control" name="yodium" id="yodium">
       </div>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <select name="satuan_yodium" id="satuan_yodium" class="form-control">
+          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
+        </select>
+      </div>  
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Selenium</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" class="form-control" name="selenium" id="selenium">
       </div>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <select name="satuan_selenium" id="satuan_selenium" class="form-control">
+          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
+        </select>
+      </div>  
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Fluor</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" class="form-control" name="fluor" id="fluor">
       </div>
-    </div><hr>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <select name="satuan_fluor" id="satuan_fluor" class="form-control">
+          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
+        </select>
+      </div>  
+    </div>
     <!-- Zat Aktif -->
     <table class="table table-bordered" id="tablezat">
       <thead>
         <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
           <th class="text-center" width="65%">Zat Aktif(mg/100g)</th>
-          <th class="text-center">Nominal</th>
+          <th class="text-center">Jumlah</th>
           <th class="text-center">Satuan</th>
           <th class="text-center" width="8%">Action</th>
         </tr>
@@ -506,7 +599,7 @@
       <thead>
         <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
           <th class="text-center" width="65%">BTP Carry Over</th>
-          <th class="text-center">Nominal</th>
+          <th class="text-center">Jumlah</th>
           <th class="text-center">Satuan</th>
           <th class="text-center" width="8%">Action</th>
         </tr>
@@ -535,37 +628,6 @@
         <tr id='addbtp1'></tr>
       </tbody>
     </table><hr>
-    <!-- Logam Berat -->
-    <div class="form-group">
-      <label  style="font-size:13px" class="control-label col-md-1 col-sm-1 col-xs-12">Logam Berat(PPM/1kg)</label>
-      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Cu</label>
-      <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="cu" id="cu">
-      </div>
-      <label  class="control-label col-md-1 col-sm-1 col-xs-12">As</label>
-      <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="as" id="as">
-      </div>
-      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Pb</label>
-      <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="pb" id="pb">
-      </div>
-      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Hg</label>
-      <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="hg" id="hg">
-      </div>
-      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Cd</label>
-      <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="cd" id="cd">
-      </div>
-    </div>
-    <div class="form-group">
-      <label  class="control-label col-md-1 col-sm-1 col-xs-12"></label>
-      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Sn</label>
-      <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="sn" id="sn">
-      </div>
-    </div><hr>
     <!-- Asam Amino -->
     <h4><li class="fa fa-tags"></li> Asam Amino (mg/ 100 gram)</h4>
     <div class="form-group">
@@ -650,6 +712,69 @@
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Proline </label>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" class="form-control" name="proline" id="proline">
+      </div>
+    </div><hr>
+    <!-- Logam Berat -->
+    <div class="form-group">
+      <label  style="font-size:13px" class="control-label col-md-1 col-sm-1 col-xs-12">Logam Berat (ppm)</label>
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12">As</label>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <input type="number" step="0.0001" class="form-control" name="as" id="as">
+      </div>
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Pb</label>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <input type="number" step="0.0001" class="form-control" name="pb" id="pb">
+      </div>
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Hg</label>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <input type="number" step="0.0001" class="form-control" name="hg" id="hg">
+      </div>
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Cd</label>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <input type="number" step="0.0001" class="form-control" name="cd" id="cd">
+      </div>
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Sn</label>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <input type="number" step="0.0001" class="form-control" name="sn" id="sn">
+      </div>
+    </div><hr>
+    <!-- Mikro -->
+    <div class="form-group">
+      <label  style="font-size:13px" class="control-label col-md-1 col-sm-1 col-xs-12">Mikro(CFU/g)</label>
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Enterobacter</label>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <input type="number" step="0.0001" class="form-control" name="Enterobacter" id="Enterobacter">
+      </div>
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Salmonella</label>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <input type="number" step="0.0001" class="form-control" name="Salmonella" id="Salmonella">
+      </div>
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12">S.aureus</label>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <input type="number" step="0.0001" class="form-control" name="aureus" id="aureus">
+      </div>
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12">TPC</label>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <input type="number" step="0.0001" class="form-control" name="TPC" id="TPC">
+      </div>
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Yeast/Mold</label>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <input type="number" step="0.0001" class="form-control" name="Yeast" id="Yeast">
+      </div>
+    </div>
+    <div class="form-group">
+      <label  style="font-size:13px" class="control-label col-md-1 col-sm-1 col-xs-12"></label>
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Coliform</label>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <input type="number" step="0.0001" class="form-control" name="Coliform" id="Coliform">
+      </div>
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12">E.Coli</label>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <input type="number" step="0.0001" class="form-control" name="Coli" id="Coli">
+      </div>
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Bacilluscereus</label>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <input type="number" step="0.0001" class="form-control" name="Bacilluscereus" id="Bacilluscereus">
       </div>
     </div>
   </div>
@@ -746,7 +871,6 @@
   for(var i = 0; i < Object.keys(kategori_pangan).length; i++){
     pilihan_ketegori += '<option value="'+id_pangan[i][i]+'">'+kategori_pangan[i][i]+'</option>';
   }
-  console.log(pilihan_ketegori);
   function bpom(){
     var baru = document.getElementById('radio_bpom')
     if(baru.checked != true){
@@ -762,7 +886,25 @@
         "<div class='col-md-4 col-sm-4 col-xs-12'>"+
           "<select class='form-control form-control-line' name='katbpom' id='katbpom'><option disabled selected>-->Select One<--</option>"+pilihan_ketegori+"</select>"+
         "</div>"+
+        "<div class='col-md-4 col-sm-4 col-xs-12'>"+
+          "<select class='form-control form-control-line' name='jenismikro1' id='jenismikro1'></select>"+
+        "</div>"+
       "</div>"+
+        "<table class='table table-bordered'>"+
+          "<thead>"+
+            "<tr>"+
+              "<th>Jenis Mikro</th>"+
+              "<th>n</th>"+
+              "<th>c</th>"+
+              "<th>m</th>"+
+              "<th>M</th>"+
+            "</tr>"+
+          "</thead>"+
+          "<tbody id='mikro' name='mikro'>"+
+            "<tr>"+
+            "</tr>"+
+          "</tbody>"+
+        "</table>"+
       "<div class='ln_solid'></div>"
 
       $(document).ready(function(){
@@ -815,6 +957,33 @@
         });
       }else{
         $('#bpom').empty();
+      }
+    });
+
+    $('#bpom').on('change', function(){
+      var myId = $(this).val();
+      if(myId){
+        consolse.log(myId);
+        $.ajax({
+          url: '{{URL::to('jenismikroba')}}/'+myId,
+          type: "GET",
+          dataType: "json",
+          beforeSend: function(){
+            $('#loader').css("visibility", "visible");
+          },
+          success:function(data){
+            $('#jenismikro1').empty();
+            $.each(data, function(key, value){
+              $('#jenismikro1').append('<option value="'+ key +'">' + value + '</option>');
+            });
+              console.log(data);
+          },
+          complete: function(){
+            $('#loader').css("visibility","hidden");
+          }
+        });
+      }else{
+        $('#jenismikro1').empty();
       }
     });
     }
@@ -876,8 +1045,8 @@
                 "<td><select name='mikro[]' id='mikro' class='form-control'>"+pilihan_mikro+"</select></td>"+
                 "<td><input type='number' step='0.0001' name='n[]' id='n' class='form-control'></td>"+
                 "<td><input type='number' step='0.0001' name='c[]' id='c' class='form-control'></td>"+
-                "<td><input type='number' step='0.0001' name='m[]' id='m' class='form-control'></td>"+
-                "<td><input type='number' step='0.0001' name='M2[]' id='M2' class='form-control'></td>"+
+                "<td><input type='text' step='0.0001' name='m[]' id='m' class='form-control'></td>"+
+                "<td><input type='text' step='0.0001' name='M2[]' id='M2' class='form-control'></td>"+
                 "<td><select name='satuan_mikro[]' id='satuan_mikro' class='form-control'>"+pilihan_satuan_bpom+"</select></td>"+
                 "<td class='text-center'><button class='btn btn-info btn-sm' id='add_data' type='button'><li class='fa fa-plus'></li></button></td>"+
               "</tr>"+
@@ -893,8 +1062,8 @@
           "<td><select name='mikro[]' id='mikro' class='form-control'>"+pilihan_mikro+"</select></td>"+
           "<td><input type='number' step='0.0001' name='n[]' id='n' class='form-control'></td>"+
           "<td><input type='number' step='0.0001' name='c[]' id='c' class='form-control'></td>"+
-          "<td><input type='number' step='0.0001' name='m[]' id='m' class='form-control'></td>"+
-          "<td><input type='number' step='0.0001' name='M2[]' id='M' class='form-control'></td>"+
+          "<td><input type='text' step='0.0001' name='m[]' id='m' class='form-control'></td>"+
+          "<td><input type='text' step='0.0001' name='M2[]' id='M' class='form-control'></td>"+
           "<td><select name='satuan_mikro[]' id='satuan_mikro' class='form-control'>"+pilihan_satuan_bpom+"</select></td>"+
           "<td class='text-center'><a hreaf='' class='btn btn-danger btn-sm'><li class='fa fa-trash'></li></a></td>");
         $('#tabledata').append('<tr id="addmikro' + (i + 1) + '"></tr>');

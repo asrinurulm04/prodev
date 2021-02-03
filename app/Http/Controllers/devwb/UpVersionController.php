@@ -12,6 +12,7 @@ use App\model\pkp\project_pdf;
 use App\model\dev\Formula;
 use App\model\dev\Fortail;
 use App\model\dev\Bahan;
+use App\model\master\tr_header_formula;
 use Redirect;
 use DB;
 use Auth;
@@ -62,7 +63,6 @@ class UpVersionController extends Controller
         $formulas->main_item  = $lastf->main_item;
         $formulas->main_item_eks = $lastf->main_item_eks;
         $formulas->overage='100';
-        $formulas->bj = $lastf->bj;
         $formulas->batch = $lastf->batch;
         $formulas->serving = $lastf->serving;
         $formulas->satuan = $lastf->satuan;
@@ -137,6 +137,10 @@ class UpVersionController extends Controller
         $overage->id_formula=$formulas->id;
         $overage->save();
 
+        $overage = new tr_header_formula;
+        $overage->id_formula=$formulas->id;
+		$overage->save();
+
         if(auth()->user()->role->namaRule == 'manager'){
             try{
                 Mail::send('formula.info', [
@@ -174,7 +178,7 @@ class UpVersionController extends Controller
         }
     }
 
-    public function upversion2(Request $request,$id,$revisi){        
+    public function upversion2(Request $request,$id,$wb){ 
         $lastf=Formula::where('id',$id)->first();
         
         if($lastf->workbook_id!=NULL){
@@ -211,7 +215,6 @@ class UpVersionController extends Controller
         $formulas->jenis = $lastf->jenis;
         $formulas->main_item  = $lastf->main_item;
         $formulas->main_item_eks = $lastf->main_item_eks;
-        $formulas->bj = $lastf->bj;
         $formulas->batch = $lastf->batch;
         $formulas->overage='100';
         $formulas->kategori=$lastf->kategori;
@@ -288,6 +291,10 @@ class UpVersionController extends Controller
         $overage->id_formula=$formulas->id;
         $overage->save();
 
+        $overage = new tr_header_formula;
+        $overage->id_formula=$formulas->id;
+        $overage->save();
+        
         if(auth()->user()->role->namaRule == 'manager'){
             try{
                 Mail::send('formula.info', [
