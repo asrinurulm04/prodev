@@ -241,9 +241,7 @@
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="id_satuan_vitA" id="id_satuan_vitA" class="form-control">
-          @foreach($satuan_vit as $vit)
-          <option value="{{$vit->id_satuan_vit}}">{{$vit->satuan}}</option>
-          @endforeach
+          <option value="1">IU</option>
         </select>
       </div>
 
@@ -253,9 +251,7 @@
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="id_satuan_vitB1" id="id_satuan_vitB1" class="form-control">
-          @foreach($satuan_vit as $vit)
-          <option value="{{$vit->id_satuan_vit}}">{{$vit->satuan}}</option>
-          @endforeach
+          <option value="3">Mg</option>
         </select>
       </div>
 
@@ -265,9 +261,7 @@
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="id_satuan_vitB2" id="id_satuan_vitB2" class="form-control">
-          @foreach($satuan_vit as $vit)
-          <option value="{{$vit->id_satuan_vit}}">{{$vit->satuan}}</option>
-          @endforeach
+          <option value="3">Mg</option>
         </select>
       </div>
     </div>
@@ -280,9 +274,7 @@
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="id_satuan_vitB3" id="id_satuan_vitB3" class="form-control">
-          @foreach($satuan_vit as $vit)
-          <option value="{{$vit->id_satuan_vit}}">{{$vit->satuan}}</option>
-          @endforeach
+          <option value="3">Mg</option>
         </select>
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Vitamin B5 </label>
@@ -291,9 +283,7 @@
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="id_satuan_vitB5" id="id_satuan_vitB5" class="form-control">
-          @foreach($satuan_vit as $vit)
-          <option value="{{$vit->id_satuan_vit}}">{{$vit->satuan}}</option>
-          @endforeach
+          <option value="3">Mg</option>
         </select>
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Vitamin B6</label>
@@ -302,9 +292,7 @@
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="id_satuan_vitB6" id="id_satuan_vitB6" class="form-control">
-          @foreach($satuan_vit as $vit)
-          <option value="{{$vit->id_satuan_vit}}">{{$vit->satuan}}</option>
-          @endforeach
+          <option value="3">Mg</option>
         </select>
       </div>
     </div>
@@ -317,9 +305,7 @@
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="id_satuan_vitB12" id="id_satuan_vitB12" class="form-control">
-          @foreach($satuan_vit as $vit)
-          <option value="{{$vit->id_satuan_vit}}">{{$vit->satuan}}</option>
-          @endforeach
+          <option value="2">Mcg</option>
         </select>
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Vitamin C</label>
@@ -328,9 +314,7 @@
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="id_satuan_vitC" id="id_satuan_vitC" class="form-control">
-          @foreach($satuan_vit as $vit)
-          <option value="{{$vit->id_satuan_vit}}">{{$vit->satuan}}</option>
-          @endforeach
+          <option value="3">Mg</option>
         </select>
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Vitamin D</label>
@@ -339,9 +323,7 @@
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="id_satuan_vitD" id="id_satuan_vitD" class="form-control">
-          @foreach($satuan_vit as $vit)
-          <option value="{{$vit->id_satuan_vit}}">{{$vit->satuan}}</option>
-          @endforeach
+          <option value="1">IU</option>
         </select>
       </div>
     </div>
@@ -354,9 +336,7 @@
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="id_satuan_vitE" id="id_satuan_vitE" class="form-control">
-          @foreach($satuan_vit as $vit)
-          <option value="{{$vit->id_satuan_vit}}">{{$vit->satuan}}</option>
-          @endforeach
+          <option value="3">Mg</option>
         </select>
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Vitamin K</label>
@@ -376,9 +356,7 @@
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="id_satuan_folat" id="id_satuan_folat" class="form-control">
-          @foreach($satuan_vit as $vit)
-          <option value="{{$vit->id_satuan_vit}}">{{$vit->satuan}}</option>
-          @endforeach
+          <option value="2">Mcg</option>
         </select>
       </div>
     </div>
@@ -391,9 +369,7 @@
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="id_satuan_biotin" id="id_satuan_biotin" class="form-control">
-          @foreach($satuan_vit as $vit)
-          <option value="{{$vit->id_satuan_vit}}">{{$vit->satuan}}</option>
-          @endforeach
+          <option value="2">Mcg</option>
         </select>
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Kolin</label>
@@ -402,9 +378,7 @@
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="id_satuan_kolin" id="id_satuan_kolin" class="form-control">
-          @foreach($satuan_vit as $vit)
-          <option value="{{$vit->id_satuan_vit}}">{{$vit->satuan}}</option>
-          @endforeach
+          <option value="3">Mg</option>
         </select>
       </div>
     </div><br>
@@ -418,7 +392,7 @@
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="satuan_ca" id="satuan_ca" class="form-control">
-          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
+          <option value="Mg">Mg</option>
         </select>
       </div>  
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Mg</label>
@@ -427,7 +401,7 @@
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="satuan_mg" id="satuan_mg" class="form-control">
-          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>h
+          <option value="Mg">Mg</option>
         </select>
       </div>  
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">K</label>
@@ -436,7 +410,7 @@
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="satuan_k" id="satuan_k" class="form-control">
-          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
+          <option value="Mg">Mg</option>
         </select>
       </div>  
     </div>
@@ -448,7 +422,7 @@
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="satuan_zink" id="satuan_zink" class="form-control">
-          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
+          <option value="Mg">Mg</option>
         </select>
       </div>  
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Cu</label>
@@ -457,7 +431,7 @@
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="satuan_cu" id="satuan_cu" class="form-control">
-          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
+          <option value="Mg">Mg</option>
         </select>
       </div>  
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Na</label>
@@ -466,7 +440,7 @@
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="satuan_na" id="satuan_na" class="form-control">
-          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
+          <option value="Mg">Mg</option>
         </select>
       </div>  
     </div>
@@ -478,7 +452,7 @@
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="satuan_naci" id="satuan_naci" class="form-control">
-          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
+          <option value="Mg">Mg</option>
         </select>
       </div>  
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Energi</label>
@@ -487,7 +461,7 @@
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="satuan_energi" id="satuan_energi" class="form-control">
-          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
+          <option value="Mg">Mg</option>
         </select>
       </div>  
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Fosfor</label>
@@ -496,7 +470,7 @@
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="satuan_fosfor" id="satuan_fosfor" class="form-control">
-          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
+          <option value="Mg">Mg</option>
         </select>
       </div>  
     </div>
@@ -508,7 +482,7 @@
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="satuan_mn" id="satuan_mn" class="form-control">
-          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
+          <option value="Mg">Mg</option>
         </select>
       </div>  
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Cr</label>
@@ -517,7 +491,7 @@
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="satuan_cr" id="satuan_cr" class="form-control">
-          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
+          <option value="Mcg">Mcg</option>
         </select>
       </div>  
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Fe</label>
@@ -526,7 +500,7 @@
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="satuan_fe" id="satuan_fe" class="form-control">
-          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
+          <option value="Mg">Mg</option>
         </select>
       </div>  
     </div>
@@ -538,7 +512,7 @@
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="satuan_yodium" id="satuan_yodium" class="form-control">
-          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
+          <option value="Mcg">Mcg</option>
         </select>
       </div>  
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Selenium</label>
@@ -547,7 +521,7 @@
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="satuan_selenium" id="satuan_selenium" class="form-control">
-          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
+          <option value="Mcg">Mcg</option>
         </select>
       </div>  
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Fluor</label>
@@ -556,7 +530,7 @@
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="satuan_fluor" id="satuan_fluor" class="form-control">
-          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
+          <option value="Mg">Mg</option>
         </select>
       </div>  
     </div>
@@ -860,17 +834,6 @@
     pilihan += '<option value="'+id_pangan[i][i]+'">'+pangan[i][i]+'</option>';
   }
 
-  var kategori_pangan = []
-  <?php foreach($pangan as $key => $value) { ?>
-  if(!kategori_pangan){
-    kategori_pangan += [ { '<?php echo $key; ?>' : '<?php echo $value->pangan; ?>', } ];
-  } else { kategori_pangan.push({ '<?php echo $key; ?>' : '<?php echo $value->pangan; ?>', }) }
-  <?php } ?>
-
-  var pilihan_ketegori = '';
-  for(var i = 0; i < Object.keys(kategori_pangan).length; i++){
-    pilihan_ketegori += '<option value="'+id_pangan[i][i]+'">'+kategori_pangan[i][i]+'</option>';
-  }
   function bpom(){
     var baru = document.getElementById('radio_bpom')
     if(baru.checked != true){
@@ -884,23 +847,21 @@
           "<option disabled selected>-->Select One<--</option>"+pilihan+"</select>"+
         "</div>"+
         "<div class='col-md-4 col-sm-4 col-xs-12'>"+
-          "<select class='form-control form-control-line' name='katbpom' id='katbpom'><option disabled selected>-->Select One<--</option>"+pilihan_ketegori+"</select>"+
-        "</div>"+
-        "<div class='col-md-4 col-sm-4 col-xs-12'>"+
-          "<select class='form-control form-control-line' name='jenismikro1' id='jenismikro1'></select>"+
+          "<select class='form-control form-control-line' name='katbpom' id='katbpom'></select>"+
         "</div>"+
       "</div>"+
         "<table class='table table-bordered'>"+
           "<thead>"+
-            "<tr>"+
+            "<tr style='font-weight: bold;color:white;background-color: #2a3f54;'>"+
               "<th>Jenis Mikro</th>"+
               "<th>n</th>"+
               "<th>c</th>"+
               "<th>m</th>"+
               "<th>M</th>"+
+              "<th>Metode Analisa</th>"+
             "</tr>"+
           "</thead>"+
-          "<tbody id='mikro' name='mikro'>"+
+          "<tbody id='jenismikro1' name='jenismikro1'>"+
             "<tr>"+
             "</tr>"+
           "</tbody>"+
@@ -936,56 +897,57 @@
       });
 
       $('#katbpom').on('change', function(){
-      var myId = $(this).val();
-      if(myId){
-        $.ajax({
-          url: '{{URL::to('getkatpangan')}}/'+myId,
-          type: "GET",
-          dataType: "json",
-          beforeSend: function(){
-            $('#loader').css("visibility", "visible");
-          },
-          success:function(data){
-            $('#bpom').empty();
-            $.each(data, function(key, value){
-              $('#bpom').append('<option value="'+ key +'">' + value + '</option>');
-            });
-          },
-          complete: function(){
-            $('#loader').css("visibility","hidden");
-          }
-        });
-      }else{
-        $('#bpom').empty();
-      }
-    });
+        var myId = $(this).val();
+        if(myId){
+          $.ajax({
+            url: '{{URL::to('getkatpangan')}}/'+myId,
+            type: "GET",
+            dataType: "json",
+            beforeSend: function(){
+              $('#loader').css("visibility", "visible");
+            },
+            success:function(data){
+              $('#bpom').empty();
+              $.each(data, function(key, value){
+                $('#bpom').append('<option value="'+ key +'">' + value + '</option>');
+              });
+            },
+            complete: function(){
+              $('#loader').css("visibility","hidden");
+            }
+          });
+        }else{
+          $('#bpom').empty();
+        }
+      });
 
-    $('#bpom').on('change', function(){
-      var myId = $(this).val();
-      if(myId){
-        consolse.log(myId);
-        $.ajax({
-          url: '{{URL::to('jenismikroba')}}/'+myId,
-          type: "GET",
-          dataType: "json",
-          beforeSend: function(){
-            $('#loader').css("visibility", "visible");
-          },
-          success:function(data){
-            $('#jenismikro1').empty();
-            $.each(data, function(key, value){
-              $('#jenismikro1').append('<option value="'+ key +'">' + value + '</option>');
+      $(document).ready(function(){
+        // Get BPOM
+        $('#bpom').on('change', function(){
+          var myId = $(this).val();
+          if(myId){
+            $.ajax({
+              url: '{{URL::to('jenismikroba')}}/'+myId,
+              type: "GET",
+              dataType: "json",
+              beforeSend: function(){
+                $('#loader').css("visibility", "visible");
+              },
+              success:function(data){
+                $('#jenismikro1').empty();
+                $.each(data, function(index, element){
+                  $('#jenismikro1').append("<tr><td>"+element.jenis_mikroba+"</td><td>"+element.n+"</td><td>"+element.c+"</td><td>"+element.mk+"</td><td>"+element.Mb+"</td><td>"+element.metode_analisa+"</td></tr>");
+                });
+              },
+              complete: function(){
+                $('#loader').css("visibility","hidden");
+              }
             });
-              console.log(data);
-          },
-          complete: function(){
-            $('#loader').css("visibility","hidden");
+          }else{
+            $('#jenismikro1').empty();
           }
         });
-      }else{
-        $('#jenismikro1').empty();
-      }
-    });
+      });
     }
   }
 

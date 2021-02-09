@@ -5,6 +5,7 @@ namespace App\Http\Controllers\ajax;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\model\dev\Bahan;
+use App\model\nutfact\bpom_mikrobiologi;
 use DB;
 
 class getGet extends Controller
@@ -39,7 +40,8 @@ class getGet extends Controller
     }
 
     public function getjenismikro($id_pangan){
-        $pangan = DB::table('fs_jenismikroba')->where('id_pangan',$id_pangan)->pluck('id_mikroba','jenis_mikroba');
+        $pangan = DB::table('fs_jenismikroba')->where('id_pangan',$id_pangan)->get();
+        return json_encode($pangan);
     }
 
     public function getolahan($id_pangan){

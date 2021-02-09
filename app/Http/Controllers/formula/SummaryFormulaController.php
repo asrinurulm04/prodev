@@ -56,7 +56,9 @@ class SummaryFormulaController extends Controller
             return Redirect::back()->with('error','Data Bahan Formula Versi '.$formula->versi.'.'.$formula->turunan.' Belum Memliki Batch');
         }elseif($formula->note_formula == Null){
             return Redirect::back()->with('error','Note Formula untuk versi '.$formula->versi.'.'.$formula->turunan.' Masih Kosong');
-        }
+        }elseif($formula->serving != $formula->serving_size){
+			return Redirect::back()->with('error','Total Serving tidak sesuai target');
+		}
 
         $detail_formula     = collect();  
         $granulasi= 0; $jumlah_granulasi= 0; $premix= 0;
@@ -143,6 +145,7 @@ class SummaryFormulaController extends Controller
 		$total_proline =0; $total_arginine =0; $total_Isoleusin =0;
 		// total logam
 		$total_as = 0;	$total_hg = 0; $total_pb = 0;	$total_sn = 0; $total_cd = 0;
+		$total_rpc_as = 0;	$total_rpc_hg = 0; $total_rpc_pb = 0;	$total_rpc_sn = 0; $total_rpc_cd = 0;
 		// total mikto
 		$total_Enterobacter = 0; $total_Yeast = 0;
 		$total_Salmonella = 0; $total_Coliform = 0;
@@ -364,6 +367,12 @@ class SummaryFormulaController extends Controller
 			$total_Salmonella = $total_Salmonella + $Salmonella	;		$total_Coliform = $total_Coliform + $Coliform;
 			$total_aureus = $total_aureus + $aureus;					$total_Coli = $total_Coli + $Coli;
 			$total_TPC = $total_TPC + $TPC;								$total_Bacilluscereus = $total_Bacilluscereus + $Bacilluscereus;
+			// RPC
+			$total_rpc_as = $total_as * ($formula->serving_size/1000) / ($formula->serving_size + $formula->saran_sazi / 1000);
+			$total_rpc_hg = $total_hg * ($formula->serving_size/1000) / ($formula->serving_size + $formula->saran_sazi / 1000);
+			$total_rpc_pb = $total_pb * ($formula->serving_size/1000) / ($formula->serving_size + $formula->saran_sazi / 1000);							
+			$total_rpc_sn = $total_sn * ($formula->serving_size/1000) / ($formula->serving_size + $formula->saran_sazi / 1000);
+			$total_rpc_cd = $total_cd * ($formula->serving_size/1000) / ($formula->serving_size + $formula->saran_sazi / 1000);
 			// total harga
             $total_harga_per_gram = $total_harga_per_gram + $hpg;
             $total_harga_per_serving = $total_harga_per_serving + $harga_per_serving;
@@ -418,6 +427,10 @@ class SummaryFormulaController extends Controller
 			'total_as' => $total_as,					'total_hg' => $total_hg,
 			'total_pb' => $total_pb,					'total_sn' => $total_sn,
 			'total_cd' => $total_cd,
+			// RPC
+			'total_rpc_as' => $total_rpc_as,					'total_rpc_hg' => $total_rpc_hg,
+			'total_rpc_pb' => $total_rpc_pb,					'total_rpc_sn' => $total_rpc_sn,
+			'total_rpc_cd' => $total_rpc_cd,
 			// Mikro
 			'total_Enterobacter' => $total_Enterobacter,'total_Yeast' => $total_Yeast,
 			'total_Salmonella' => $total_Salmonella,	'total_Coliform' => $total_Coliform,

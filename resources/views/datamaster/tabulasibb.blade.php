@@ -133,7 +133,6 @@
 										<th colspan="3"  class="text-center" style="font-weight: bold;color:white;background-color: #2a3f54;" width="20%">Material</th>
 										<th colspan="19"  class="text-center" style="font-weight: bold;color:white;background-color: #2a3f54;">Makro</th>
 										<th rowspan="2"  class="text-center" style="font-weight: bold;color:white;background-color: #2a3f54;">Protein</th>
-										<th rowspan="2"  class="text-center" style="font-weight: bold;color:white;background-color: #2a3f54;">Kadar Air</th>
 										<th colspan="12"  class="text-center" style="font-weight: bold;color:white;background-color: #2a3f54;">MIneral</th>
 										<th colspan="14"  class="text-center" style="font-weight: bold;color:white;background-color: #2a3f54;">Vitamin</th>
 										<th colspan="19" class="text-center" style="font-size: 12px;font-weight: bold; color:black;background-color: #898686;">Asam Amino</th>
@@ -156,10 +155,10 @@
 										<!-- Mineral -->
 										<th >Ca (mg)</th>      <th >Mg (mg)</th>
 										<th >K (mg)</th>       <th >Zink</th>
-										<th >P (mg)</th>       <th >Na (mg)</th>
-										<th >NaCi</th>         <th >Energi</th>
-										<th >Fosfor</th>       <th >Mn</th>
-										<th >Cr(mcg)</th>      <th >Fe</th>
+										<th >Na (mg)</th> 		 <th >NaCi</th>
+										<th >Energi</th> 		   <th >Fosfor</th>       
+										<th >Mn</th> 					 <th >Cr(mcg)</th>
+							      <th >Fe</th>
 										<!-- Vitamin -->
 										<th >VitA (mg)</th>   <th >VitB1 (mg)</th>
 										<th >VitB2 (mg)</th>  <th >VitB3 (mg)</th>
@@ -186,40 +185,39 @@
 										<tr>
 											<td><input type="checkbox" class="cekbox1" name="id[]" id="cekbox" value="{{$bahan->id_bahan}}"></td>
 											<td>{{$bahan->nama_bahan}}</td>			<td>{{$bahan->nama_sederhana}}</td>
-											<td>{{$bahan->status}}</td>					<td>{{$bahan->karbohidrat}}%</td>
-											<td>{{$bahan->glukosa}}%</td>				<td>{{$bahan->serat_pangan}}%</td>
-											<td>{{$bahan->beta_glucan}}%</td>		<td>{{$bahan->sorbitol}}%</td>
-											<td>{{$bahan->maltitol}}%</td>			<td>{{$bahan->laktosa}}%</td>
-											<td>{{$bahan->sukrosa}}%</td>				<td>{{$bahan->gula}}%</td>
-											<td>{{$bahan->erythritol}}%</td>		<td>{{$bahan->DHA}}%</td>
-											<td>{{$bahan->EPA}}%</td>						<td>{{$bahan->Omega3}}%</td>
-											<td>{{$bahan->mufa}}%</td>					<td>{{$bahan->lemak_trans}}%</td>
-											<td>{{$bahan->lemak_jenuh}}%</td>		<td>{{$bahan->sfa}}%</td>
-											<td>{{$bahan->omega6}}%</td>				<td>{{$bahan->kolesterol}}%</td>
-											<td>{{$bahan->protein}}%</td>				<td>{{$bahan->kadar_air}}%</td>
-											<td>{{$bahan->ca}}%</td>						<td>{{$bahan->mg}}%</td>
-											<td>{{$bahan->k}}%</td>							<td>{{$bahan->zink}}%</td>
-											<td>{{$bahan->p}}%</td>							<td>{{$bahan->na}}%</td>
-											<td>{{$bahan->naci}}%</td>					<td>{{$bahan->energi}}%</td>
-											<td>{{$bahan->fosfor}}%</td>				<td>{{$bahan->mn}}%</td>
-											<td>{{$bahan->cr}}%</td>						<td>{{$bahan->fe}}%</td>
-											<td>{{$bahan->vitA}}%</td>					<td>{{$bahan->vitB1}}%</td>
-											<td>{{$bahan->vitB2}}%</td>					<td>{{$bahan->vitB3}}%</td>
-											<td>{{$bahan->vitB5}}%</td>					<td>{{$bahan->vitB6}}%</td>
-											<td>{{$bahan->vitB12}}%</td>				<td>{{$bahan->vitC}}%</td>
-											<td>{{$bahan->vitD}}%</td>					<td>{{$bahan->vitE}}%</td>
-											<td>{{$bahan->vitK}}%</td>					<td>{{$bahan->folat}}%</td>
-											<td>{{$bahan->biotin}}%</td>				<td>{{$bahan->kolin}}%</td>
-											<td>{{$bahan->l_glutamin}}%</td>		<td>{{$bahan->Threonin}}%</td>
-											<td>{{$bahan->Methioni}}%</td>			<td>{{$bahan->Phenilalanin}}%</td>
-											<td>{{$bahan->Histidin}}%</td>			<td>{{$bahan->lisin}}%</td>
-											<td>{{$bahan->BCAA}}%</td>					<td>{{$bahan->Valin}}%</td>
-											<td>{{$bahan->Leusin}}%</td>				<td>{{$bahan->Aspartat}}%</td>
-											<td>{{$bahan->Alanin}}%</td>				<td>{{$bahan->Sistein}}%</td>
-											<td>{{$bahan->Serin}}%</td>					<td>{{$bahan->Glisin}}%</td>
-											<td>{{$bahan->Glutamat}}%</td>			<td>{{$bahan->Tyrosin}}%</td>
-											<td>{{$bahan->Proline}}%</td>				<td>{{$bahan->Arginine}}%</td>
-											<td>{{$bahan->Isoleusin}}%</td>
+											<td>{{$bahan->status}}</td>					<td>{{$bahan->karbohidrat}}g</td>
+											<td>{{$bahan->glukosa}}g</td>				<td>{{$bahan->serat_pangan}}g</td>
+											<td>{{$bahan->beta_glucan}}g</td>		<td>{{$bahan->sorbitol}}g</td>
+											<td>{{$bahan->maltitol}}g</td>			<td>{{$bahan->laktosa}}g</td>
+											<td>{{$bahan->sukrosa}}g</td>				<td>{{$bahan->gula}}g</td>
+											<td>{{$bahan->erythritol}}g</td>		<td>{{$bahan->DHA}}g</td>
+											<td>{{$bahan->EPA}}g</td>						<td>{{$bahan->Omega3}}g</td>
+											<td>{{$bahan->mufa}}g</td>					<td>{{$bahan->lemak_trans}}g</td>
+											<td>{{$bahan->lemak_jenuh}}g</td>		<td>{{$bahan->sfa}}g</td>
+											<td>{{$bahan->omega6}}g</td>				<td>{{$bahan->kolesterol}}g</td>
+											<td>{{$bahan->protein}}g</td>				<td>{{$bahan->ca}}Mg</td>
+											<td>{{$bahan->mg}}Mg</td> 					<td>{{$bahan->k}}Mg</td>						
+											<td>{{$bahan->zink}}Mg</td> 				<td>{{$bahan->na}}Mg</td>
+											<td>{{$bahan->naci}}Mg</td>					<td>{{$bahan->energi}}Mg</td>
+											<td>{{$bahan->fosfor}}Mg</td>				<td>{{$bahan->mn}}Mg</td>
+											<td>{{$bahan->cr}}Mcg</td>					<td>{{$bahan->fe}}Mg</td>
+											<td>{{$bahan->vitA}}IU</td>					<td>{{$bahan->vitB1}}Mg</td>
+											<td>{{$bahan->vitB2}}Mg</td>				<td>{{$bahan->vitB3}}Mg</td>
+											<td>{{$bahan->vitB5}}Mg</td>				<td>{{$bahan->vitB6}}Mg</td>
+											<td>{{$bahan->vitB12}}Mcg</td>			<td>{{$bahan->vitC}}Mg</td>
+											<td>{{$bahan->vitD}}Iu</td>					<td>{{$bahan->vitE}}Mg</td>
+											<td>{{$bahan->vitK}}Mg</td>					<td>{{$bahan->folat}}Mcg</td>
+											<td>{{$bahan->biotin}}Mcg</td>			<td>{{$bahan->kolin}}Mg</td>
+											<td>{{$bahan->l_glutamin}}Mg</td>		<td>{{$bahan->Threonin}}Mg</td>
+											<td>{{$bahan->Methioni}}Mg</td>			<td>{{$bahan->Phenilalanin}}Mg</td>
+											<td>{{$bahan->Histidin}}Mg</td>			<td>{{$bahan->lisin}}Mg</td>
+											<td>{{$bahan->BCAA}}Mg</td>					<td>{{$bahan->Valin}}Mg</td>
+											<td>{{$bahan->Leusin}}Mg</td>				<td>{{$bahan->Aspartat}}Mg</td>
+											<td>{{$bahan->Alanin}}Mg</td>				<td>{{$bahan->Sistein}}Mg</td>
+											<td>{{$bahan->Serin}}Mg</td>					<td>{{$bahan->Glisin}}Mg</td>
+											<td>{{$bahan->Glutamat}}Mg</td>			<td>{{$bahan->Tyrosin}}Mg</td>
+											<td>{{$bahan->Proline}}Mg</td>				<td>{{$bahan->Arginine}}Mg</td>
+											<td>{{$bahan->Isoleusin}}Mg</td>
 										</tr>
 									@endforeach
 								</tbody>

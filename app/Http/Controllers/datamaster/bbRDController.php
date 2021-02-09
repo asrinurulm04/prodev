@@ -28,6 +28,7 @@ use App\model\dev\ms_supplier_principal_cps;
 use App\model\pkp\pkp_datapangan;
 use App\model\nutfact\tb_jenis_mikroba;
 use App\model\nutfact\satuan_bpom;
+use App\model\nutfact\bpom_mikrobiologi;
 use Redirect;
 use DB;
 use Auth;
@@ -339,7 +340,7 @@ class bbRDController extends Controller
         $allergen = ms_allergen::all();
         $allergen2 = ms_allergen::all();
         $satuans = Satuan::all();
-        $pangan = pkp_datapangan::all();
+        $pangan = bpom_mikrobiologi::all();
         $satuan_bpom = satuan_bpom::all();
         $zat = ms_zat_aktif::all();
         $btp = ms_btp::all();

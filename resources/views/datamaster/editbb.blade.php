@@ -338,9 +338,6 @@
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="id_satuan_vitA" id="id_satuan_vitA" class="form-control">
           <option value="{{$vitbb->id_satuan_vitA}}" readonly>{{$vitbb->satuanVitA->satuan}}</option>
-          @foreach($satuan_vit as $vit)
-          <option value="{{$vit->id_satuan_vit}}">{{$vit->satuan}}</option>
-          @endforeach
         </select>
       </div>
 
@@ -351,9 +348,6 @@
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="id_satuan_vitB1" id="id_satuan_vitB1" class="form-control">
           <option value="{{$vitbb->id_satuan_vitB1}}" readonly>{{$vitbb->satuanVitB1->satuan}}</option>
-          @foreach($satuan_vit as $vit)
-          <option value="{{$vit->id_satuan_vit}}">{{$vit->satuan}}</option>
-          @endforeach
         </select>
       </div>
 
@@ -364,9 +358,6 @@
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="id_satuan_vitB2" id="id_satuan_vitB2" class="form-control">
           <option value="{{$vitbb->id_satuan_vitB2}}" readonly>{{$vitbb->satuanVitB2->satuan}}</option>
-          @foreach($satuan_vit as $vit)
-          <option value="{{$vit->id_satuan_vit}}">{{$vit->satuan}}</option>
-          @endforeach
         </select>
       </div>
       
@@ -380,9 +371,6 @@
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="id_satuan_vitB3" id="id_satuan_vitB3" class="form-control">
           <option value="{{$vitbb->id_satuan_vitB3}}" readonly>{{$vitbb->satuanVitB3->satuan}}</option>
-          @foreach($satuan_vit as $vit)
-          <option value="{{$vit->id_satuan_vit}}">{{$vit->satuan}}</option>
-          @endforeach
         </select>
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Vitamin B5 </label>
@@ -392,9 +380,6 @@
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="id_satuan_vitB5" id="id_satuan_vitB5" class="form-control">
           <option value="{{$vitbb->id_satuan_vitB5}}" readonly>{{$vitbb->satuanVitB5->satuan}}</option>
-          @foreach($satuan_vit as $vit)
-          <option value="{{$vit->id_satuan_vit}}">{{$vit->satuan}}</option>
-          @endforeach
         </select>
       </div>
       
@@ -405,9 +390,6 @@
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="id_satuan_vitB6" id="id_satuan_vitB6" class="form-control">
           <option value="{{$vitbb->id_satuan_vitB6}}" readonly>{{$vitbb->satuanVitB6->satuan}}</option>
-          @foreach($satuan_vit as $vit)
-          <option value="{{$vit->id_satuan_vit}}">{{$vit->satuan}}</option>
-          @endforeach
         </select>
       </div>
     </div>
@@ -421,9 +403,6 @@
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="id_satuan_vitB12" id="id_satuan_vitB12" class="form-control">
           <option value="{{$vitbb->id_satuan_vitB12}}" readonly>{{$vitbb->satuanVitB12->satuan}}</option>
-          @foreach($satuan_vit as $vit)
-          <option value="{{$vit->id_satuan_vit}}">{{$vit->satuan}}</option>
-          @endforeach
         </select>
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Vitamin C</label>
@@ -433,9 +412,6 @@
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="id_satuan_vitC" id="id_satuan_vitC" class="form-control">
           <option value="{{$vitbb->id_satuan_vitC}}" readonly>{{$vitbb->satuanVitC->satuan}}</option>
-          @foreach($satuan_vit as $vit)
-          <option value="{{$vit->id_satuan_vit}}">{{$vit->satuan}}</option>
-          @endforeach
         </select>
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Vitamin D</label>
@@ -445,9 +421,6 @@
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="id_satuan_vitD" id="id_satuan_vitD" class="form-control">
           <option value="{{$vitbb->id_satuan_vitD}}" readonly>{{$vitbb->satuanVitD->satuan}}</option>
-          @foreach($satuan_vit as $vit)
-          <option value="{{$vit->id_satuan_vit}}">{{$vit->satuan}}</option>
-          @endforeach
         </select>
       </div>
     </div>
@@ -461,9 +434,6 @@
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="id_satuan_vitE" id="id_satuan_vitE" class="form-control">
           <option value="{{$vitbb->id_satuan_vitE}}" readonly>{{$vitbb->satuanVitE->satuan}}</option>
-          @foreach($satuan_vit as $vit)
-          <option value="{{$vit->id_satuan_vit}}">{{$vit->satuan}}</option>
-          @endforeach
         </select>
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Vitamin K</label>
@@ -485,9 +455,6 @@
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="id_satuan_folat" id="id_satuan_folat" class="form-control">
           <option value="{{$vitbb->id_satuan_folat}}" readonly>{{$vitbb->satuan_folat->satuan}}</option>
-          @foreach($satuan_vit as $vit)
-          <option value="{{$vit->id_satuan_vit}}">{{$vit->satuan}}</option>
-          @endforeach
         </select>
       </div>  
     </div>
@@ -501,9 +468,6 @@
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="id_satuan_biotin" id="id_satuan_biotin" class="form-control">
           <option value="{{$vitbb->id_satuan_biotin}}" readonly>{{$vitbb->satuan_biotin->satuan}}</option>
-          @foreach($satuan_vit as $vit)
-          <option value="{{$vit->id_satuan_vit}}">{{$vit->satuan}}</option>
-          @endforeach
         </select>
       </div>  
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Kolin</label>
@@ -513,9 +477,6 @@
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="id_satuan_kolin" id="id_satuan_kolin" class="form-control">
           <option value="{{$vitbb->id_satuan_kolin}}" readonly>{{$vitbb->satuan_kolin->satuan}}</option>
-          @foreach($satuan_vit as $vit)
-          <option value="{{$vit->id_satuan_vit}}">{{$vit->satuan}}</option>
-          @endforeach
         </select>
       </div>  
     </div><br>
@@ -532,7 +493,6 @@
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="satuan_ca" id="satuan_ca" class="form-control">
           <option value="{{$mineral->satuan_ca}}" readonly>{{$mineral->satuan_ca}}</option>
-          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
         </select>
       </div>  
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Mg</label>
@@ -542,7 +502,6 @@
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="satuan_mg" id="satuan_mg" class="form-control">
           <option value="{{$mineral->satuan_mg}}" readonly>{{$mineral->satuan_mg}}</option>
-          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
         </select>
       </div>  
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">K</label>
@@ -552,7 +511,6 @@
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="satuan_k" id="satuan_k" class="form-control">
           <option value="{{$mineral->satuan_k}}" readonly>{{$mineral->satuan_k}}</option>
-          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
         </select>
       </div>  
     </div>
@@ -565,7 +523,6 @@
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="satuan_zink" id="satuan_zink" class="form-control">
           <option value="{{$mineral->satuan_zink}}" readonly>{{$mineral->satuan_zink}}</option>
-          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
         </select>
       </div>  
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Cu</label>
@@ -575,7 +532,6 @@
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="satuan_cu" id="satuan_cu" class="form-control">
           <option value="{{$mineral->satuan_cu}}" readonly>{{$mineral->satuan_cu}}</option>
-          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
         </select>
       </div>  
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Na</label>
@@ -585,7 +541,6 @@
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="satuan_na" id="satuan_na" class="form-control">
           <option value="{{$mineral->satuan_na}}" readonly>{{$mineral->satuan_na}}</option>
-          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
         </select>
       </div>  
     </div>
@@ -598,7 +553,6 @@
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="satuan_naci" id="satuan_naci" class="form-control">
           <option value="{{$mineral->satuan_naci}}" readonly>{{$mineral->satuan_naci}}</option>
-          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
         </select>
       </div>  
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Energi</label>
@@ -608,7 +562,6 @@
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="satuan_energi" id="satuan_energi" class="form-control">
           <option value="{{$mineral->satuan_energi}}" readonly>{{$mineral->satuan_energi}}</option>
-          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
         </select>
       </div>  
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Fosfor</label>
@@ -618,7 +571,6 @@
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="satuan_fosfor" id="satuan_fosfor" class="form-control">
           <option value="{{$mineral->satuan_fosfor}}" readonly>{{$mineral->satuan_fosfor}}</option>
-          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
         </select>
       </div>  
     </div>
@@ -631,7 +583,6 @@
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="satuan_mn" id="satuan_mn" class="form-control">
           <option value="{{$mineral->satuan_mn}}" readonly>{{$mineral->satuan_mn}}</option>
-          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
         </select>
       </div>  
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Cr</label>
@@ -641,7 +592,6 @@
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="satuan_cr" id="satuan_cr" class="form-control">
           <option value="{{$mineral->satuan_cr}}" readonly>{{$mineral->satuan_cr}}</option>
-          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
         </select>
       </div>  
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Fe</label>
@@ -651,7 +601,6 @@
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="satuan_fe" id="satuan_fe" class="form-control">
           <option value="{{$mineral->satuan_fe}}" readonly>{{$mineral->satuan_fe}}</option>
-          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
         </select>
       </div>  
     </div>
@@ -664,7 +613,6 @@
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="satuan_yodium" id="satuan_yodium" class="form-control">
           <option value="{{$mineral->satuan_yodium}}" readonly>{{$mineral->satuan_yodium}}</option>
-          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
         </select>
       </div>  
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Selenium</label>
@@ -674,7 +622,6 @@
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="satuan_selenium" id="satuan_selenium" class="form-control">
           <option value="{{$mineral->satuan_selenium}}" readonly>{{$mineral->satuan_selenium}}</option>
-          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
         </select>
       </div>  
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Fluor</label>
@@ -684,7 +631,6 @@
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="satuan_fluor" id="satuan_fluor" class="form-control">
           <option value="{{$mineral->satuan_fluor}}" readonly>{{$mineral->satuan_fluor}}</option>
-          <option value="Mcg">Mcg</option><option value="Mg">Mg</option>
         </select>
       </div>  
     </div>

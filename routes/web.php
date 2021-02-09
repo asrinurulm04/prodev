@@ -341,6 +341,7 @@ Route::post('GantiBase/{id}','formula\ScaleController@gantibase')->name('gantiba
 Route::get('HapusBase/{id}','formula\ScaleController@hapusbase')->name('hapusbase');
 Route::post('GantiBase/{id}','formula\ScaleController@gantibase')->name('gantibase');
 Route::post('savechanges/{id}','formula\ScaleController@savechanges')->name('savechanges');
+Route::post('savechanges2/{id}','formula\ScaleController@savechanges2')->name('savechanges2');
 Route::post('savedosis/{id}','formula\ScaleController@savedosis')->name('savedosis');
 Route::post('cekscale/{id}/{formula}','formula\ScaleController@cekscale')->name('cekscale');
 Route::post('savescale/{id}','formula\ScaleController@savescale')->name('savescale');

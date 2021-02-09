@@ -388,7 +388,6 @@
 																			<tr>@if($data->form28=='yes')<th><input type="checkbox" class="data1 mineral" checked name="form28" value="yes"> @elseif($data->form28!='yes')<th><input type="checkbox" class="data1 mineral" name="form28" value="yes">@endif	K </th>   
 																					@if($data->form29=='yes')<th><input type="checkbox" class="data1 mineral" checked name="form29" value="yes"> @elseif($data->form29!='yes')<th><input type="checkbox" class="data1 mineral" name="form29" value="yes">@endif	Cr</th>     
 																					@if($data->form30=='yes')<th><input type="checkbox" class="data1 mineral" checked name="form30" value="yes"> @elseif($data->form30!='yes')<th><input type="checkbox" class="data1 mineral" name="form30" value="yes">@endif	Zink</th>
-																					@if($data->form31=='yes')<th><input type="checkbox" class="data1 mineral" checked name="form31" value="yes"> @elseif($data->form31!='yes')<th><input type="checkbox" class="data1 mineral" name="form31" value="yes">@endif	P </th></tr> 
 																			<tr>@if($data->form32=='yes')<th><input type="checkbox" class="data1 mineral" checked name="form32" value="yes"> @elseif($data->form32!='yes')<th><input type="checkbox" class="data1 mineral" name="form32" value="yes">@endif	Fosfor</th>   
 																					@if($data->form33=='yes')<th><input type="checkbox" class="data1 mineral" checked name="form33" value="yes"> @elseif($data->form33!='yes')<th><input type="checkbox" class="data1 mineral" name="form33" value="yes">@endif	Na </th>
 																					@if($data->form34=='yes')<th><input type="checkbox" class="data1 mineral" checked name="form34" value="yes"> @elseif($data->form34!='yes')<th><input type="checkbox" class="data1 mineral" name="form34" value="yes">@endif	NaCi</th>    
@@ -450,7 +449,7 @@
 														<thead>
 															<tr class="text-center" style="font-weight: bold;color:white;background-color: #2a3f54;">
 																<th class="text-center sticky-col first-col"  class="text-center" style="font-weight: bold;color:white;background-color: #2a3f54;">Nama Sederhana</th>
-																<th class="text-center sticky-col second-col" style="font-weight: bold;color:white;background-color: #2a3f54;">Dosis (Gram)</th>
+																<th class="text-center sticky-col second-col" style="font-weight: bold;color:white;background-color: #2a3f54;min-width:120px">Dosis (Gram)</th>
 																<th class="text-center sticky-col third-col" style="font-weight: bold;color:white;background-color: #2a3f54;">%</th>
 																<th class="text-center" style="font-weight: bold;color:white;background-color: #2a3f54;min-width:100px">Harga</th>
 																<!-- Makro -->
@@ -468,7 +467,7 @@
 																<!-- Mineral -->
 																@if($header->form25=='yes')<th class="text-center">Ca </th>@endif     		@if($header->form27=='yes')<th class="text-center">Mg </th>@endif
 																@if($header->form28=='yes')<th class="text-center">K </th>@endif    		  @if($header->form30=='yes')<th class="text-center">Zink</th>@endif
-																@if($header->form31=='yes')<th class="text-center">P </th>@endif     		  @if($header->form32=='yes')<th class="text-center">Na </th>@endif
+																@if($header->form32=='yes')<th class="text-center">Na </th>@endif
 																@if($header->form34=='yes')<th class="text-center">NaCi</th>@endif        @if($header->form36=='yes')<th class="text-center">Energi</th>@endif
 																@if($header->form32=='yes')<th class="text-center">Fosfor</th>@endif      @if($header->form35=='yes')<th class="text-center">Mn</th>@endif
 																@if($header->form29=='yes')<th class="text-center">Cr</th>@endif     			@if($header->form26=='yes')<th class="text-center">Fe</th>@endif
@@ -529,7 +528,6 @@
 																@if($header->form27=='yes')<td>{{ $fortail['mg'] }}</td>@endif
 																@if($header->form28=='yes')<td>{{ $fortail['k'] }}</td>@endif
 																@if($header->form30=='yes')<td>{{ $fortail['zink'] }}</td>@endif
-																@if($header->form31=='yes')<td>{{ $fortail['p'] }}</td>@endif
 																@if($header->form33=='yes')<td>{{ $fortail['na'] }}</td>@endif
 																@if($header->form34=='yes')<td>{{ $fortail['naci'] }}</td>@endif
 																@if($header->form36=='yes')<td>{{ $fortail['energi'] }}</td>@endif
@@ -607,7 +605,6 @@
 																@if($header->form27=='yes')<td>{{ $total_harga['total_mg'] }}</td>@endif
 																@if($header->form28=='yes')<td>{{ $total_harga['total_k'] }}</td>@endif
 																@if($header->form30=='yes')<td>{{ $total_harga['total_zink'] }}</td>@endif
-																@if($header->form31=='yes')<td>{{ $total_harga['total_p'] }}</td>@endif
 																@if($header->form33=='yes')<td>{{ $total_harga['total_na'] }}</td>@endif
 																@if($header->form34=='yes')<td>{{ $total_harga['total_naci'] }}</td>@endif
 																@if($header->form36=='yes')<td>{{ $total_harga['total_energi'] }}</td>@endif
@@ -1676,20 +1673,20 @@
 															</tr>
 															<tr class="text-center" style="font-weight: bold;color:white;background-color: #7e7d7d;">
 																<!-- Makro -->
-																<th class="text-center">Enterobacter (CFU/g)</th>  	<th class="text-center">Salmonella (CFU/g)</th>
-																<th class="text-center">S.aureus (CFU/g)</th>       <th class="text-center">TPC (CFU/g)</th>
-																<th class="text-center">Yeast/Mold (CFU/g)</th>     <th class="text-center">Coliform (CFU/g)</th>
-																<th class="text-center">E.Coli (CFU/g)</th>     		<th class="text-center">Bacillus cereus(CFU/g)</th>
-																<th class="text-center">As (mg/kg)</th>        			<th class="text-center">Hg (mg/kg)</th>
-																<th class="text-center">Pb (mg/kg)</th>         		<th class="text-center">Sn (mg/kg)</th>
-																<th class="text-center">Cd (mg/kg)</th>     
+																<th class="text-center" style="min-width:90px">Enterobacter (CFU/g)</th>  	<th class="text-center" style="min-width:90px">Salmonella (CFU/g)</th>
+																<th class="text-center" style="min-width:90px">S.aureus (CFU/g)</th>       <th class="text-center" style="min-width:90px">TPC (CFU/g)</th>
+																<th class="text-center" style="min-width:90px">Yeast/Mold (CFU/g)</th>     <th class="text-center" style="min-width:90px">Coliform (CFU/g)</th>
+																<th class="text-center" style="min-width:90px">E.Coli (CFU/g)</th>     		<th class="text-center" style="min-width:90px">Bacillus cereus(CFU/g)</th>
+																<th class="text-center" style="min-width:90px">As (mg/kg)</th>        			<th class="text-center" style="min-width:90px">Hg (mg/kg)</th>
+																<th class="text-center" style="min-width:90px">Pb (mg/kg)</th>         		<th class="text-center" style="min-width:90px">Sn (mg/kg)</th>
+																<th class="text-center" style="min-width:90px">Cd (mg/kg)</th>     
 															</tr>
 														</thead>
 														<tbody>
 															@php $nom = 0; @endphp
 															@foreach ($detail_harga->sortByDesc('per_batch') as $fortail)
-															<tr >
-																<td class="sticky-col first-col">{{ $fortail['nama_sederhana'] }}</td>
+															<tr class="text-right">
+																<td class="text-left sticky-col first-col">{{ $fortail['nama_sederhana'] }}</td>
 																<input type="number" name="scores[{{$loop->index}}][id]" value="{{ $fortail['id'] }}" hidden>
 																<td class="sticky-col second-col text-center">{{ $fortail['per_serving'] }}</td>
 																<td class="sticky-col third-col text-center">{{ $fortail['persen'] }}</td>
@@ -1710,7 +1707,7 @@
 																<td><?php $cd = $fortail['cd']; $angka_cd = number_format($cd,2,",","."); echo $angka_cd; ?></td>
 															</tr>  
 															@endforeach
-															<tr style="font-size: 12px;font-weight: bold; color:black;background-color: #ddd;">
+															<tr class="text-right" style="font-size:12px;font-weight: bold; color:black;background-color: #ddd;">
 																<td class="text-center sticky-col first-col" style="font-size: 12px;font-weight: bold; color:black;background-color: #ddd;">Total : </td>
 																<td class="text-center sticky-col second-col" style="font-size: 12px;font-weight: bold; color:black;background-color: #ddd;">{{ $formula['serving_size'] }}</td>
 																<td class="text-center sticky-col third-col" style="font-size: 12px;font-weight: bold; color:black;background-color: #ddd;"> 100 </td>
@@ -1733,143 +1730,175 @@
 														</tbody>
 														<tbody>
 															<tr>
-																<td class="text-center sticky-col first-col" colspan="3">Saran penyajian</td>
-																<th class="text-center sticky-col fourth-col"></th>
-																<th></th><th></th><th></th><th></th><th></th><th></th><th><th><th></th></th></th>
-																<th>@if($formula->pangan!=NULL){{$formula->katpang->as}}@endif</th>
-																<th>@if($formula->pangan!=NULL){{$formula->katpang->hg}}@endif</th>
-																<th>@if($formula->pangan!=NULL){{$formula->katpang->pb}}@endif</th>
-																<th>@if($formula->pangan!=NULL){{$formula->katpang->sn}}@endif</th>
-																<th>@if($formula->pangan!=NULL){{$formula->katpang->cd}}@endif</th>
+																<th class="text-center sticky-col first-col">Saran penyajian</th>
+																<th class="text-center sticky-col second-col"><input type="number" class="form-control" value="{{$formula->saran_saji}}" name="saran" id="saran"></th>
+																<th class="text-center sticky-col third-col">ML</th>
+																<th class="text-center sticky-col fourth-col"></th><th></th><th colspan="7"></th>
+																<th class="text-right" style="font-size: 12px;font-weight: bold; color:white;background-color: #157c16;">RTC</th>
+																<th class="text-right">{{$total_harga['total_rpc_as']}}</th>
+																<th class="text-right">{{$total_harga['total_rpc_hg']}}</th>
+																<th class="text-right">{{$total_harga['total_rpc_pb']}}</th>
+																<th class="text-right">{{$total_harga['total_rpc_sn']}}</th>
+																<th class="text-right">{{$total_harga['total_rpc_cd']}}</th>
 															</tr>
 															<tr>
-																<td class="text-center sticky-col first-col" colspan="3"></td>
-																<th class="text-center sticky-col fourth-col"></th>
-																<th>m</th>
-																<th>@if($formula->pangan!=NULL){{$formula->katpang->mk_Enterobacter}}@endif</th>
-																<th>@if($formula->pangan!=NULL){{$formula->katpang->mk_Salmonella}}@endif</th>
-																<th>@if($formula->pangan!=NULL){{$formula->katpang->mk_aureus}}@endif</th>
-																<th>@if($formula->pangan!=NULL){{$formula->katpang->mk_TPC}}@endif</th>
-																<th>@if($formula->pangan!=NULL){{$formula->katpang->mk_Yeast}}@endif</th>
-																<th>@if($formula->pangan!=NULL){{$formula->katpang->mk_Coliform}}@endif</th>
-																<th>@if($formula->pangan!=NULL){{$formula->katpang->mk_Coli}}@endif</th>
-																<th>@if($formula->pangan!=NULL){{$formula->katpang->mk_Bacilluscereus}}@endif</th>
-																<th rowspan="2">@if($formula->pangan!=NULL){{$formula->katpang->as}}@endif</th>
-																<th rowspan="2">@if($formula->pangan!=NULL){{$formula->katpang->hg}}@endif</th>
-																<th rowspan="2">@if($formula->pangan!=NULL){{$formula->katpang->pb}}@endif</th>
-																<th rowspan="2">@if($formula->pangan!=NULL){{$formula->katpang->sn}}@endif</th>
-																<th rowspan="2">@if($formula->pangan!=NULL){{$formula->katpang->cd}}@endif</th>
+															<th  colspan="17">
 															</tr>
 															<tr>
-																<th class="text-center sticky-col first-col" style="font-size: 12px;font-weight: bold; color:white;background-color: #4f4d4d;">No Kategori Pangan</th>
-																<td class="text-center sticky-col second-col">
+																<th class="text-center sticky-col first-col" style="font-size: 12px;font-weight: bold; color:white;background-color: #4f4d4d;" rowspan="2">Number Kategori Pangan</th>
+																<td class="text-center sticky-col second-col" rowspan="2">
 																	<select name="katpang" id="katpang" class="form-control">
-																	@if($formula->pangan!=NULL)<option value="{{$formula->pangan}}">{{$formula->katpang->no_katpang}}</option>@endif
+																	@if($formula->pangan!=NULL)<option value="{{$formula->pangan}}">{{$formula->katpang->no_katpang}}</option>
+																	@else<option value=""></option>@endif
 																	@foreach($ceklis as $ceklis)
 																	<option value="{{$ceklis->id_cemaran_ceklis }}">{{$ceklis->no_katpang}}</option>
 																	@endforeach
 																	</select>
 																</td>
-																<th class="text-center sticky-col third-col" >Batas Air</th>
-																<th class="text-center sticky-col fourth-col"><input type="number" class="form-control" value="{{$formula->batas_air}}" name="batas" id="batas"></th>
-																<th>M</th>
-																<th>@if($formula->pangan!=NULL){{$formula->katpang->mb_Enterobacter}}@endif</th>
-																<th>@if($formula->pangan!=NULL){{$formula->katpang->mb_Salmonella}}@endif</th>
-																<th>@if($formula->pangan!=NULL){{$formula->katpang->mb_aureus}}@endif</th>
-																<th>@if($formula->pangan!=NULL){{$formula->katpang->mb_TPC}}@endif</th>
-																<th>@if($formula->pangan!=NULL){{$formula->katpang->mb_Yeast}}@endif</th>
-																<th>@if($formula->pangan!=NULL){{$formula->katpang->mb_Coliform}}@endif</th>
-																<th>@if($formula->pangan!=NULL){{$formula->katpang->mb_Coli}}@endif</th>
-																<th>@if($formula->pangan!=NULL){{$formula->katpang->mb_Bacilluscereus}}@endif</th>
+																<th class="text-center sticky-col third-col" rowspan="2">Batas % Air</th>
+																<th class="text-center sticky-col fourth-col" rowspan="2"><input type="number" readonly class="form-control" value="{{$formula->katpang->batas_air}}" name="batas" id="batas"></th>
+																<th style="font-size: 12px;font-weight: bold; color:white;background-color: #157c16;">m</th>
+																<th class="text-center">@if($formula->pangan!=NULL){{$formula->katpang->mk_Enterobacter}}@endif</th>
+																<th class="text-center">@if($formula->pangan!=NULL){{$formula->katpang->mk_Salmonella}}@endif</th>
+																<th class="text-center">@if($formula->pangan!=NULL){{$formula->katpang->mk_aureus}}@endif</th>
+																<th class="text-center">@if($formula->pangan!=NULL){{$formula->katpang->mk_TPC}}@endif</th>
+																<th class="text-center">@if($formula->pangan!=NULL){{$formula->katpang->mk_Yeast}}@endif</th>
+																<th class="text-center">@if($formula->pangan!=NULL){{$formula->katpang->mk_Coliform}}@endif</th>
+																<th class="text-center">@if($formula->pangan!=NULL){{$formula->katpang->mk_Coli}}@endif</th>
+																<th class="text-center">@if($formula->pangan!=NULL){{$formula->katpang->mk_Bacilluscereus}}@endif</th>
+																<th class="text-center" rowspan="2">@if($formula->pangan!=NULL){{$formula->katpang->as}}@endif</th>
+																<th class="text-center" rowspan="2">@if($formula->pangan!=NULL){{$formula->katpang->hg}}@endif</th>
+																<th class="text-center" rowspan="2">@if($formula->pangan!=NULL){{$formula->katpang->pb}}@endif</th>
+																<th class="text-center" rowspan="2">@if($formula->pangan!=NULL){{$formula->katpang->sn}}@endif</th>
+																<th class="text-center" rowspan="2">@if($formula->pangan!=NULL){{$formula->katpang->cd}}@endif</th>
+															</tr>
+															<tr>
+																<th class="text-center" style="font-size: 12px;font-weight: bold; color:white;background-color: #157c16;">M</th>
+																<th class="text-center">@if($formula->pangan!=NULL){{$formula->katpang->mb_Enterobacter}}@endif</th>
+																<th class="text-center">@if($formula->pangan!=NULL){{$formula->katpang->mb_Salmonella}}@endif</th>
+																<th class="text-center">@if($formula->pangan!=NULL){{$formula->katpang->mb_aureus}}@endif</th>
+																<th class="text-center">@if($formula->pangan!=NULL){{$formula->katpang->mb_TPC}}@endif</th>
+																<th class="text-center">@if($formula->pangan!=NULL){{$formula->katpang->mb_Yeast}}@endif</th>
+																<th class="text-center">@if($formula->pangan!=NULL){{$formula->katpang->mb_Coliform}}@endif</th>
+																<th class="text-center">@if($formula->pangan!=NULL){{$formula->katpang->mb_Coli}}@endif</th>
+																<th class="text-center">@if($formula->pangan!=NULL){{$formula->katpang->mb_Bacilluscereus}}@endif</th>
 															</tr>
 															<tr>
 																<th class="text-center sticky-col first-col" colspan="3">Status</th>
 																<th style="background-color: #eff897" class="text-center sticky-col fourth-col">
-																	@if($total_harga['total_air'] >= $formula->batas_air)
-																	OK
-																	@elseif($total_harga['total_air'] <= $formula->batas_air)
-																	NOT OK
+																	@if($formula->katpang->batas_air==NULL)
+																	@elseif($total_harga['total_air'] >= $formula->katpang->batas_air)OK
+																	@elseif($total_harga['total_air'] <= $formula->katpang->batas_air)NOT OK
 																	@endif
 																</th>
 																<th></th>
-																<th class="text-center" style="background-color: #eff897">
-																	@if($total_harga['total_Enterobacter'] <= $formula->katpang->mk_Enterobacter && $total_harga['total_Enterobacter'] <= $formula->katpang->mb_Enterobacter )
-																	OK
-																	@elseif($total_harga['total_Enterobacter'] >= $formula->katpang->mk_Enterobacter && $total_harga['total_Enterobacter'] <= $formula->katpang->mb_Enterobacter )
-																	Lihat N
-																	@elseif($total_harga['total_Enterobacter'] >= $formula->katpang->mk_Enterobacter && $total_harga['total_Enterobacter'] >= $formula->katpang->mb_Enterobacter )
-																	NOT OK
-																	@elseif($formula->katpang->mk_Enterobacter==N/S || $formula->katpang->mb_Enterobacter==N/S)
+																<th class="text-center">
+																@if($formula->pangan!=NULL)
+																	@if($total_harga['total_Enterobacter'] <= $formula->katpang->mk_Enterobacter && $total_harga['total_Enterobacter'] <= $formula->katpang->mb_Enterobacter && $formula->katpang->mb_Enterobacter!='N/S')OK
+																	@elseif($total_harga['total_Enterobacter'] >= $formula->katpang->mk_Enterobacter && $total_harga['total_Enterobacter'] <= $formula->katpang->mb_Enterobacter && $formula->katpang->mb_Enterobacter!='N/S')Lihat N
+																	@elseif($total_harga['total_Enterobacter'] >= $formula->katpang->mk_Enterobacter && $total_harga['total_Enterobacter'] >= $formula->katpang->mb_Enterobacter && $formula->katpang->mb_Enterobacter!='N/S' )NOT OK
+																	@elseif($formula->katpang->mk_Enterobacter=='N/S' || $formula->katpang->mb_Enterobacter=='N/S')N/S
 																	@endif
+																@endif
 																</th>
-																<th class="text-center" style="background-color: #eff897">
-																	@if($total_harga['total_Salmonella'] <= $formula->katpang->mk_Salmonella && $total_harga['total_Salmonella'] <= $formula->katpang->mb_Salmonella && $formula->katpang->mb_Enterobacter!='N/S')
-																	OK
-																	@elseif($total_harga['total_Salmonella'] >= $formula->katpang->mk_Salmonella && $total_harga['total_Salmonella'] <= $formula->katpang->mb_Salmonella && $formula->katpang->mb_Enterobacter!='N/S')
-																	Lihat N
-																	@elseif($total_harga['total_Salmonella'] >= $formula->katpang->mk_Salmonella && $total_harga['total_Salmonella'] >= $formula->katpang->mb_Salmonella && $formula->katpang->mb_Enterobacter!='N/S')
-																	NOT OK
+																<th class="text-center">
+																@if($formula->pangan!=NULL)
+																	@if($total_harga['total_Salmonella'] <= $formula->katpang->mk_Salmonella && $total_harga['total_Salmonella'] <= $formula->katpang->mb_Salmonella && $formula->katpang->mk_Salmonella!='N/S')OK
+																	@elseif($total_harga['total_Salmonella'] >= $formula->katpang->mk_Salmonella && $total_harga['total_Salmonella'] <= $formula->katpang->mb_Salmonella && $formula->katpang->mk_Salmonella!='N/S')Lihat N
+																	@elseif($total_harga['total_Salmonella'] >= $formula->katpang->mk_Salmonella && $total_harga['total_Salmonella'] >= $formula->katpang->mb_Salmonella && $formula->katpang->mk_Salmonella!='N/S')NOT OK
+																	@elseif($formula->katpang->mk_Salmonella=='N/S' || $formula->katpang->mb_Salmonella=='N/S')N/S
 																	@endif
+																@endif
 																</th>
-																<th class="text-center" style="background-color: #eff897">
-																	@if($total_harga['total_aureus'] <= $formula->katpang->mk_aureus && $total_harga['total_aureus'] <= $formula->katpang->mb_aureus && $formula->katpang->mb_aureus!='N/S')
-																	OK
-																	@elseif($total_harga['total_aureus'] >= $formula->katpang->mk_aureus && $total_harga['total_aureus'] <= $formula->katpang->mb_aureus && $formula->katpang->mb_aureus!='N/S')
-																	Lihat N
-																	@elseif($total_harga['total_aureus'] >= $formula->katpang->mk_aureus && $total_harga['total_aureus'] >= $formula->katpang->mb_aureus && $formula->katpang->mb_aureus!='N/S')
-																	NOT OK
+																<th class="text-center">
+																@if($formula->pangan!=NULL)
+																	@if($total_harga['total_aureus'] <= $formula->katpang->mk_aureus && $total_harga['total_aureus'] <= $formula->katpang->mb_aureus && $formula->katpang->mb_aureus!='N/S')OK
+																	@elseif($total_harga['total_aureus'] >= $formula->katpang->mk_aureus && $total_harga['total_aureus'] <= $formula->katpang->mb_aureus && $formula->katpang->mb_aureus!='N/S')Lihat N
+																	@elseif($total_harga['total_aureus'] >= $formula->katpang->mk_aureus && $total_harga['total_aureus'] >= $formula->katpang->mb_aureus && $formula->katpang->mb_aureus!='N/S')NOT OK
+																	@elseif($formula->katpang->mk_aureus=='N/S' || $formula->katpang->mb_aureus=='N/S')N/S
 																	@endif
+																@endif
 																</th>
-																<th class="text-center" style="background-color: #eff897">
-																	@if($total_harga['total_TPC'] <= $formula->katpang->mk_TPC && $total_harga['total_TPC'] <= $formula->katpang->mb_TPC && $formula->katpang->mb_TPC!='N/S')
-																	OK
-																	@elseif($total_harga['total_TPC'] >= $formula->katpang->mk_TPC && $total_harga['total_TPC'] <= $formula->katpang->mb_TPC && $formula->katpang->mb_TPC!='N/S')
-																	Lihat N
-																	@elseif($total_harga['total_TPC'] >= $formula->katpang->mk_TPC && $total_harga['total_TPC'] >= $formula->katpang->mb_TPC && $formula->katpang->mb_TPC!='N/S')
-																	NOT OK
+																<th class="text-center">
+																@if($formula->pangan!=NULL)
+																	@if($total_harga['total_TPC'] <= $formula->katpang->mk_TPC && $total_harga['total_TPC'] <= $formula->katpang->mb_TPC && $formula->katpang->mb_TPC!='N/S')OK
+																	@elseif($total_harga['total_TPC'] >= $formula->katpang->mk_TPC && $total_harga['total_TPC'] <= $formula->katpang->mb_TPC && $formula->katpang->mb_TPC!='N/S')Lihat N
+																	@elseif($total_harga['total_TPC'] >= $formula->katpang->mk_TPC && $total_harga['total_TPC'] >= $formula->katpang->mb_TPC && $formula->katpang->mb_TPC!='N/S')NOT OK
+																	@elseif($formula->katpang->mk_TPC=='N/S' || $formula->katpang->mb_TPC=='N/S')N/S
 																	@endif
+																@endif
 																</th>
-																<th class="text-center" style="background-color: #eff897">
-																	@if($total_harga['total_Yeast'] <= $formula->katpang->mk_Yeast && $total_harga['total_Yeast'] <= $formula->katpang->mb_Yeast && $formula->katpang->mb_Yeast!='N/S' )
-																	OK
-																	@elseif($total_harga['total_Yeast'] >= $formula->katpang->mk_Yeast && $total_harga['total_Yeast'] <= $formula->katpang->mb_Yeast && $formula->katpang->mb_Yeast!='N/S' )
-																	Lihat N
-																	@elseif($total_harga['total_Yeast'] >= $formula->katpang->mk_Yeast && $total_harga['total_Yeast'] >= $formula->katpang->mb_Yeast && $formula->katpang->mb_Yeast!='N/S' )
-																	NOT OK
+																<th class="text-center">
+																@if($formula->pangan!=NULL)
+																	@if($total_harga['total_Yeast'] <= $formula->katpang->mk_Yeast && $total_harga['total_Yeast'] <= $formula->katpang->mb_Yeast && $formula->katpang->mb_Yeast!='N/S' )OK
+																	@elseif($total_harga['total_Yeast'] >= $formula->katpang->mk_Yeast && $total_harga['total_Yeast'] <= $formula->katpang->mb_Yeast && $formula->katpang->mb_Yeast!='N/S' )Lihat N
+																	@elseif($total_harga['total_Yeast'] >= $formula->katpang->mk_Yeast && $total_harga['total_Yeast'] >= $formula->katpang->mb_Yeast && $formula->katpang->mb_Yeast!='N/S' )NOT OK
+																	@elseif($formula->katpang->mk_Yeast=='N/S' || $formula->katpang->mb_Yeast=='N/S')N/S
 																	@endif
+																@endif
 																</th>
-																<th class="text-center" style="background-color: #eff897">
-																	@if($total_harga['total_Coliform'] <= $formula->katpang->mk_Coliform && $total_harga['total_Coliform'] <= $formula->katpang->mb_Coliform && $formula->katpang->mb_Coliform!='N/S' )
-																	OK
-																	@elseif($total_harga['total_Coliform'] >= $formula->katpang->mk_Coliform && $total_harga['total_Coliform'] <= $formula->katpang->mb_Coliform && $formula->katpang->mb_Coliform!='N/S' )
-																	Lihat N
-																	@elseif($total_harga['total_Coliform'] >= $formula->katpang->mk_Coliform && $total_harga['total_Coliform'] >= $formula->katpang->mb_Coliform && $formula->katpang->mb_Coliform!='N/S' )
-																	NOT OK
+																<th class="text-center">
+																@if($formula->pangan!=NULL)
+																	@if($total_harga['total_Coliform'] <= $formula->katpang->mk_Coliform && $total_harga['total_Coliform'] <= $formula->katpang->mb_Coliform && $formula->katpang->mb_Coliform!='N/S' )OK
+																	@elseif($total_harga['total_Coliform'] >= $formula->katpang->mk_Coliform && $total_harga['total_Coliform'] <= $formula->katpang->mb_Coliform && $formula->katpang->mb_Coliform!='N/S' )Lihat N
+																	@elseif($total_harga['total_Coliform'] >= $formula->katpang->mk_Coliform && $total_harga['total_Coliform'] >= $formula->katpang->mb_Coliform && $formula->katpang->mb_Coliform!='N/S' )NOT OK
+																	@elseif($formula->katpang->mk_Coliform=='N/S' || $formula->katpang->mb_Coliform=='N/S')N/S
 																	@endif
+																@endif
 																</th>
-																<th class="text-center" style="background-color: #eff897">
-																	@if($total_harga['total_Coli'] <= $formula->katpang->mk_Coli && $total_harga['total_Coli'] <= $formula->katpang->mb_Coli && $formula->katpang->mb_Coli!='N/S' )
-																	OK
-																	@elseif($total_harga['total_Coli'] >= $formula->katpang->mk_Coli && $total_harga['total_Coli'] <= $formula->katpang->mb_Coli && $formula->katpang->mb_Coli!='N/S' )
-																	Lihat N
-																	@elseif($total_harga['total_Coli'] >= $formula->katpang->mk_Coli && $total_harga['total_Coli'] >= $formula->katpang->mb_Coli && $formula->katpang->mb_Coli!='N/S' )
-																	NOT OK
+																<th class="text-center">
+																@if($formula->pangan!=NULL)
+																	@if($total_harga['total_Coli'] <= $formula->katpang->mk_Coli && $total_harga['total_Coli'] <= $formula->katpang->mb_Coli && $formula->katpang->mb_Coli!='N/S' )OK
+																	@elseif($total_harga['total_Coli'] >= $formula->katpang->mk_Coli && $total_harga['total_Coli'] <= $formula->katpang->mb_Coli && $formula->katpang->mb_Coli!='N/S' )Lihat N
+																	@elseif($total_harga['total_Coli'] >= $formula->katpang->mk_Coli && $total_harga['total_Coli'] >= $formula->katpang->mb_Coli && $formula->katpang->mb_Coli!='N/S' )NOT OK
+																	@elseif($formula->katpang->mk_Coli=='N/S' || $formula->katpang->mb_Coli=='N/S')N/S
 																	@endif
+																@endif
 																</th>
-																<th class="text-center" style="background-color: #eff897">
-																	@if($total_harga['total_Bacilluscereus'] <= $formula->katpang->mk_Bacilluscereus && $total_harga['total_Bacilluscereus'] <= $formula->katpang->mb_Bacilluscereus && $formula->katpang->mb_Bacilluscereus!='N/S')
-																	OK
-																	@elseif($total_harga['total_Bacilluscereus'] >= $formula->katpang->mk_Bacilluscereus && $total_harga['total_Bacilluscereus'] <= $formula->katpang->mb_Bacilluscereus && $formula->katpang->mb_Bacilluscereus!='N/S' )
-																	Lihat N
-																	@elseif($total_harga['total_Bacilluscereus'] >= $formula->katpang->mk_Bacilluscereus && $total_harga['total_Bacilluscereus'] >= $formula->katpang->mb_Bacilluscereus && $formula->katpang->mb_Bacilluscereus!='N/S' )
-																	NOT OK
+																<th class="text-center">
+																@if($formula->pangan!=NULL)
+																	@if($total_harga['total_Bacilluscereus'] <= $formula->katpang->mk_Bacilluscereus && $total_harga['total_Bacilluscereus'] <= $formula->katpang->mb_Bacilluscereus && $formula->katpang->mb_Bacilluscereus!='N/S')OK
+																	@elseif($total_harga['total_Bacilluscereus'] >= $formula->katpang->mk_Bacilluscereus && $total_harga['total_Bacilluscereus'] <= $formula->katpang->mb_Bacilluscereus && $formula->katpang->mb_Bacilluscereus!='N/S' )Lihat N
+																	@elseif($total_harga['total_Bacilluscereus'] >= $formula->katpang->mk_Bacilluscereus && $total_harga['total_Bacilluscereus'] >= $formula->katpang->mb_Bacilluscereus && $formula->katpang->mb_Bacilluscereus!='N/S' )NOT OK
+																	@elseif($formula->katpang->mk_Bacilluscereus=='N/S' || $formula->katpang->mb_Bacilluscereus=='N/S')N/S
 																	@endif
+																@endif
 																</th>
-																<th class="text-center" style="background-color: #eff897"></th>
-																<th class="text-center" style="background-color: #eff897"></th>
-																<th class="text-center" style="background-color: #eff897"></th>
-																<th class="text-center" style="background-color: #eff897"></th>
-																<th class="text-center" style="background-color: #eff897"></th>
+																<th class="text-center">
+																@if($formula->pangan!=NULL)
+																	@if($total_harga['total_rpc_as'] >= $formula->katpang->as)OK
+																	@elseif($total_harga['total_rpc_as'] <= $formula->katpang->as)NOT OK
+																	@endif
+																@endif
+																</th>
+																<th class="text-center">
+																@if($formula->pangan!=NULL)
+																	@if($total_harga['total_rpc_hg'] >= $formula->katpang->hg)OK
+																	@elseif($total_harga['total_rpc_hg'] <= $formula->katpang->hg)NOT OK
+																	@endif
+																@endif
+																</th>
+																<th class="text-center">
+																@if($formula->pangan!=NULL)
+																	@if($total_harga['total_rpc_pb'] >= $formula->katpang->pb)OK
+																	@elseif($total_harga['total_rpc_pb'] <= $formula->katpang->pb)NOT OK
+																	@endif
+																@endif
+																</th>
+																<th class="text-center">
+																@if($formula->pangan!=NULL)
+																	@if($total_harga['total_rpc_sn'] >= $formula->katpang->sn)OK
+																	@elseif($total_harga['total_rpc_sn'] <= $formula->katpang->sn)NOT OK
+																	@endif
+																@endif
+																</th>
+																<th class="text-center">
+																@if($formula->pangan!=NULL)
+																	@if($total_harga['total_rpc_cd'] >= $formula->katpang->cd)OK
+																	@elseif($total_harga['total_rpc_cd'] <= $formula->katpang->cd)NOT OK
+																	@endif
+																@endif
+																</th>
 															</tr>
 														</tbody>
 													</table>
@@ -1998,7 +2027,7 @@
 </div>
 <div class="row" hidden>
   <div class="col-md-6">
-    <form action="{{ route('savechanges',$idf) }}" id="formsavechanges" method="POST">
+    <form action="{{ route('savechanges2',$idf) }}" id="formsavechanges" method="POST">
     <table class="table">
       <tbody>
 			@foreach ($detail_harga->sortByDesc('per_batch') as $fortail)                                                                      
