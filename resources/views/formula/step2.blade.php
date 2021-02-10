@@ -184,7 +184,7 @@
         @endif
         @if ($mybase == 0)
         <div class="col-md-2"><br>
-          <input type="checkbox" value="yes" name="cbase" id="cbase">
+          <input type="checkbox" value="yes" checked name="cbase" id="cbase">
           <label for="cbase" > Base Calculations</label>                                        
         </div>                                                                 
         @endif 

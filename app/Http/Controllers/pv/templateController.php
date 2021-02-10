@@ -65,6 +65,7 @@ class templateController extends Controller
                 $tip->background=$ipdf->background;
                 $tip->attractiveness=$ipdf->attractiveness;
                 $tip->rto=$ipdf->rto;
+                $tip->perevisi=Auth::user()->id;
                 $tip->name=$ipdf->name;
                 $tip->retailer_price=$ipdf->retailer_price;
                 $tip->special=$ipdf->special;

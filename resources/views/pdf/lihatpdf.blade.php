@@ -473,7 +473,7 @@
                                 <tr><th>Name</th><td style="border:none;"><?php $name = []; foreach ($pdf2 as $key => $data) If (!$name || !in_array($data->name, $name)) { $name += array( $key => $data->name );
                                 if($data->revisi!=$pdf->revisi){ echo"<s><font color='#ffa2a2'>  : $data->name </font><br></s>"; } if($data->revisi==$pdf->revisi){ echo" : $data->name <br>"; } } ?></td></tr>
 													      <tr><th>Retailer price</th><td style="border:none;"><?php $retailer_price = []; foreach ($pdf1 as $key => $data) If (!$retailer_price || !in_array($data->retailer_price, $retailer_price)) { $retailer_price += array( $key => $data->retailer_price );
-                                if($data->revisi!=$pdf->revisi){ echo" : <s><font color='#ffa2a2'>: Rp. ". number_format( $data->retailer_price, 0, ".", "."). "<br></font></s>"; } if($data->revisi==$pdf->revisi){ echo" : Rp. ". number_format( $data->retailer_price, 0, ".", "."). "<br>"; } } ?></td></tr>
+                                { echo" : Rp. ". number_format( $data->retailer_price, 0, ".", "."). "<br>"; } } ?></td></tr>
                                 <tr><th>What's Special</th><td style="border:none;"><?php $special = []; foreach ($pdf2 as $key => $data) If (!$special || !in_array($data->special, $special)) { $special += array( $key => $data->special );
                                 if($data->revisi!=$pdf->revisi){ echo" <s><font color='#ffa2a2'> :$data->special <br></font></s>"; } if($data->revisi==$pdf->revisi){ echo" : $data->special <br>"; } } ?></tr>
 													    </table>

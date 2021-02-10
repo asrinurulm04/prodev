@@ -85,7 +85,7 @@
                 The Project in the revised proses
                 @elseif($pkp->status_project=='proses')
                 @if($pkp->userpenerima!=NULL)
-                Sent to ({{$pkp->users->name}})
+                Sent to ({{$pkp->users1->name}})
                 @elseif($pkp->userpenerima==NULL)
                 @if($pkp->status_terima=='proses')
                 New PKP

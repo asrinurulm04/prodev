@@ -139,7 +139,7 @@
                        <label class="col-lg-3 control-label">Berat Jenis</label>
                        <div class="col-lg-8">
                          <div class="row">
-                           <div class="col-md-12"><input class="form-control" placeholder='Berat Jenis' id="" disabled name="" type="number" required/></div>
+                           <div class="col-md-12"><input class="form-control" placeholder='Berat Jenis' id="" disabled name="" type="" required/></div>
                          </div>
                        </div>
                      </div>
@@ -522,7 +522,7 @@
         "<div class='form-group row'>"+
         "  <label class='control-label col-md-3 col-sm-3 col-xs-12'>Berat Jenis</label>"+
         "  <div class='col-md-8 col-sm-9 col-xs-12'>"+
-        "    <input type='number' placeholder='Berat Jenis' name='berat_jenis' id='berat_jenis' class='form-control col-md-12 col-xs-12' required>"+
+        "    <input type='text' placeholder='Berat Jenis' name='berat_jenis' id='berat_jenis' class='form-control col-md-12 col-xs-12' required>"+
         "  </div>"+
         "</div>"
     }
@@ -537,7 +537,7 @@
         "<div class='form-group row'>"+
         "  <label class='control-label col-md-3 col-sm-3 col-xs-12'>Berat Jenis</label>"+
         "  <div class='col-md-8 col-sm-9 col-xs-12'>"+
-        "    <input type='number' placeholder='Berat Jenis' disabled name='' id='' class='form-control col-md-12 col-xs-12'>"+
+        "    <input type='text' placeholder='Berat Jenis' disabled name='' id='' class='form-control col-md-12 col-xs-12'>"+
         "  </div>"+
         "</div>"
     }

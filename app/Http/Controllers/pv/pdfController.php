@@ -69,7 +69,7 @@ class pdfController extends Controller
         $pdf2 = coba::where('pdf_id',$id_project_pdf)->where('revisi','<=',$revisi)->where('turunan',$max)->orderBy('revisi','desc')->get();
         $pdf = coba::join('tr_pdf_project','tr_sub_pdf.pdf_id','=','tr_pdf_project.id_project_pdf')->where('id_project_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->get();
         $id_pdf = coba::where([ ['pdf_id',$id_project_pdf], ['revisi',$revisi], ['turunan',$turunan] ])->first();
-        $for = data_forecast::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan','<=',$turunan)->orderBy('turunan','desc')->get();
+        $for = data_forecast::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('revisi','=',$revisi)->where('turunan','=',$turunan)->get();
         $ses = data_ses::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan','<=',$turunan)->orderBy('turunan','desc')->get();
         $nopdf = DB::table('tr_pdf_project')->max('pdf_number')+1;
         $data =sprintf("%03s", abs($nopdf));

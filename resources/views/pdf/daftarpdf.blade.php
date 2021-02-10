@@ -40,31 +40,6 @@
         @if($data->file==NULL)
         <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#upload"><i class="fa fa-upload"></i> Upload LHP
         @endif
-        <!-- Formula Baru -->
-        <div class="modal fade" id="upload" role="dialog" aria-labelledby="hm" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title text-center" id="hm"> Upload FIle</h4>
-              </div>
-              <div class="modal-body">
-                <form method="post" action="{{route('uploadfile_pdf',$data->id_project_pdf)}}" enctype="multipart/form-data">                                    
-                <div class="form-group">
-                  <label class="col-lg-2 control-label">LHP</label>
-                  <div class="col-lg-9">
-                    <input type="file" class="form-control" id="data" name="filename">
-                  </div>
-                </div>
-              </div>
-               <div class="modal-footer">
-                 <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-upload"></i> upload</button>
-                {{ csrf_field() }}
-              </div>
-              </form>
-            </div>
-          </div>
-        </div>
         @endif
         @if($hitung==0)
           <a href="{{ route('buatpdf',$data->id_project_pdf)}}" class="btn btn-primary btn-sm" type="button"><li class="fa fa-plus"></li> Add Data</a>
@@ -76,7 +51,6 @@
           @elseif($data->status_project=="revisi")
           <a href="{{ route('datapengajuan')}}" class="btn btn-danger btn-sm" type="button"><li class="fa fa-share"></li> Back</a>
           @elseif($data->status_project=="sent" || $data->status_project=="close" || $data->status_project=="proses")
-          <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#data{{ $data->id_project_pdf  }}" ><i class="fa fa-edit"></i> Edit Timeline</a></button>
           <a href="{{ route('listpdf')}}" class="btn btn-danger btn-sm" type="button"><li class="fa fa-share"></li> Back</a>
           @endif
         @elseif(auth()->user()->role->namaRule === 'kemas')
@@ -138,8 +112,9 @@
                        <label class="col-lg-3 control-label">Berat Jenis</label>
                        <div class="col-lg-8">
                          <div class="row">
-                           <div class="col-md-12"><input class="form-control" placeholder='Berat Jenis' id="" disabled name="" type="number" required/></div>
-                         </div>
+                           <div class="col-md-12"><input class="form-control" placeholder='Berat Jenis' id="" disabled name="" type="text" required/></div>
+                        </div>
+                        <label for="" style="color:red">* gunakan (.) untuk pengganti (,)</label>
                        </div>
                      </div>
                    </div>
@@ -307,11 +282,11 @@
                   </td>
                   <td>{{ $sample1->formula}}</td>
                   <td class="text-center" width="10%">
-                    @if ($sample->vv == 'proses')<span class="label label-warning">Proses</span>@endif
-                    @if ($sample->vv == 'reject')<span class="label label-danger">Rejected</span>@endif 
-                    @if ($sample->vv == 'approve')<span class="label label-success">Approved</span>@endif 
-                    @if ($sample->vv == 'final')<span class="label label-info">Final Approved</span>@endif 
-                    @if ($sample->vv == '')<span class="label label-primary">Belum Diajukan</span>@endif    
+                    @if ($sample1->vv == 'proses')<span class="label label-warning">Proses</span>@endif
+                    @if ($sample1->vv == 'reject')<span class="label label-danger">Rejected</span>@endif 
+                    @if ($sample1->vv == 'approve')<span class="label label-success">Approved</span>@endif 
+                    @if ($sample1->vv == 'final')<span class="label label-info">Final Approved</span>@endif 
+                    @if ($sample1->vv == '')<span class="label label-primary">Belum Diajukan</span>@endif    
                   </td>
                   <td class="text-center">{{$sample1->catatan_rd}}</td>
                   <td class="text-center">{{$sample1->catatan_pv}}</td>
@@ -426,6 +401,32 @@
 </div>
 <!-- Modal Selesai -->
 
+
+        <!-- Formula Baru -->
+<div class="modal" id="upload" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title text-center" id="hm"> Upload FIle</h4>
+              </div>
+              <div class="modal-body">
+                <form method="post" action="{{route('uploadfile_pdf',$data->id_project_pdf)}}" enctype="multipart/form-data">                                    
+                <div class="form-group">
+                  <label class="col-lg-2 control-label">LHP</label>
+                  <div class="col-lg-9">
+                    <input type="file" class="form-control" id="data" name="filename">
+                  </div>
+                </div>
+              </div>
+               <div class="modal-footer">
+                 <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-upload"></i> upload</button>
+                {{ csrf_field() }}
+              </div>
+              </form>
+            </div>
+          </div>
+        </div>
 @endsection
 @section('s')
 <script type="text/javascript">
@@ -438,7 +439,7 @@
       "<div class='form-group row'>"+
         "<label class='control-label col-md-3 col-sm-3 col-xs-12'>Berat Jenis</label>"+
         "<div class='col-md-8 col-sm-9 col-xs-12'>"+
-          "<input type='number' placeholder='Berat Jenis' name='berat_jenis' id='berat_jenis' class='form-control col-md-12 col-xs-12' required>"+
+          "<input type='text' placeholder='Berat Jenis' name='berat_jenis' id='berat_jenis' class='form-control col-md-12 col-xs-12' required>"+
         "</div>"+
       "</div>"
     }
@@ -453,7 +454,7 @@
       "<div class='form-group row'>"+
         "<label class='control-label col-md-3 col-sm-3 col-xs-12'>Berat Jenis</label>"+
         "<div class='col-md-8 col-sm-9 col-xs-12'>"+
-          "<input type='number' placeholder='Berat Jenis' disabled name='' id='' class='form-control col-md-12 col-xs-12'>"+
+          "<input type='text' placeholder='Berat Jenis' disabled name='' id='' class='form-control col-md-12 col-xs-12'>"+
         "</div>"+
       "</div>"
     }

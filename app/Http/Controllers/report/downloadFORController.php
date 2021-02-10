@@ -260,7 +260,7 @@ class downloadFORController extends Controller
         $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(9.00);
 
 
-        $data = Formula::where('id',$formula)->join('pdf_project','pdf_project.id_project_pdf','=','formulas.workbook_pdf_id')->first();
+        $data = Formula::where('id',$formula)->join('tr_pdf_project','tr_pdf_project.id_project_pdf','=','tr_formulas.workbook_pdf_id')->first();
         $allergen_bb = allergen_formula::join('tr_bb_allergen','id_bb','tr_allergen_formula.id_bahan')->where('id_formula',$formula)->where('allergen_countain','!=','')->select(['allergen_countain'])->distinct()->get();
 		$fortails = Fortail::where('formula_id',$formula)->get();
         
