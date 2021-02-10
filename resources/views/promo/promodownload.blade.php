@@ -71,10 +71,10 @@
                       </tr>
                     </thead>
                     <tbody>
-                      @foreach($idea as $idea)
+                      @foreach($idea as $ide)
                       <tr>
-                        <td>{{$idea->promo_idea}}</td>
-                        <td>{{$idea->dimension}}</td>
+                        <td>{{$ide->promo_idea}}</td>
+                        <td>{{$ide->dimension}}</td>
                       </tr>
                       @endforeach
                     </tbody>

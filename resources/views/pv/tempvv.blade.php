@@ -180,7 +180,6 @@
                       <li><a href="{{ route('datapangan') }}">Microbiology</a></li>
                       <li><a href="{{ route('sku') }}">Active SKU</a></li>
                       <li><a href="{{ route('klaim') }}">Claim Regulation</a></li>
-                      <li><a href="{{ route('logam.berat')}}">Logam Berat</a></li>
                       <li><a href="{{ route('allergen') }}">Allergen</a></li>
                       <li><a href="{{ route('curren.index') }}">Currency</a></li>
                       <li><a href="{{ route('bahanbaku') }}">Bahan Baku Eksis</a></li>
@@ -238,7 +237,6 @@
                       <li><a href="{{ route('datapangan') }}">BPOM Category</a></li>
                       <li><a href="{{ route('sku') }}">Active SKU</a></li>
                       <li><a href="{{ route('klaim') }}">Claim Regulation</a></li>
-                      <li><a href="{{ route('logam.berat')}}">Logam Berat</a></li>
                     </ul>
                   </li>
                   @elseif(auth()->user()->role->namaRule === 'admin')
@@ -275,7 +273,6 @@
                       <li><a href="{{ route('datapangan') }}">Microbiology</a></li>
                       <li><a href="{{ route('sku') }}">Active SKU</a></li>
                       <li><a href="{{ route('klaim') }}">Claim Regulation</a></li>
-                      <li><a href="{{ route('logam.berat')}}">Logam Berat</a></li>
                       <li><a href="{{ route('bahanbaku') }}">Bahan Baku</a></li>
                       <li><a href="{{ route('brand.index') }}">Brand</a></li>
                       <li><a href="{{ route('subbrand.index') }}">Subbrand</a></li>
@@ -347,6 +344,22 @@
     <script src="{{ asset('js/datatables.min.js')}}"></script>
     <script src="{{ asset('js/select2/select2.min.js') }}"></script>
     <script src="{{ asset('build/js/custom.min.js') }}"></script>
+    <script type="text/javascript">$('.Table').DataTable({
+      "language": {
+        "search": "Cari :",
+        "lengthMenu": "Tampilkan _MENU_ data",
+        "zeroRecords": "Tidak ada data",
+        "emptyTable": "Tidak ada data",
+        "info": "Menampilkan data _START_  - _END_  dari _TOTAL_ data",
+        "infoEmpty": "Tidak ada data",
+        "paginate": {
+          "first": "Awal",
+          "last": "Akhir",
+          "next": ">",
+          "previous": "<"
+        }
+      }
+    });</script>
     @yield('s')
   </body>
 </html>

@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class pkp_datapangan extends Model
 {
-    protected $table = 'pkp_datapangan';
+    protected $table = 'ms_data_pangan';
 }

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class finance extends Model
 {
-    protected $table ='fs_finance';
+    protected $table ='tr_feasibility';
     protected $primaryKey='id_feasibility';
     protected $fillable =['id_feasibility','id_formula','kemungkinan','status_mesin','status_sdm','status_kemas','status_lab','message'];
     

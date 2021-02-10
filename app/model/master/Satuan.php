@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Satuan extends Model
 {
-    protected $table = 'satuans';
+    protected $table = 'ms_satuans';
 
     public function Bahan(){
         return $this->hasMany('App\model\dev\Bahan');

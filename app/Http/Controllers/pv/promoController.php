@@ -113,11 +113,13 @@ class promoController extends Controller
     public function daftarpromo($id_pkp_promo){
         $max = data_promo::where('id_pkp_promoo',$id_pkp_promo)->max('turunan');
         $max2 = data_promo::where('id_pkp_promoo',$id_pkp_promo)->max('revisi');
-        $pkp = data_promo::where('id_pkp_promoo',$id_pkp_promo)->where('turunan',$max)->orderBy('turunan','desc')->where('revisi',$max2)->get();
+        $pkp = promo::where('id_pkp_promo',$id_pkp_promo)->first();
+        $data = data_promo::where('id_pkp_promoo',$id_pkp_promo)->where('turunan',$max)->orderBy('turunan','desc')->where('revisi',$max2)->first();
         $promo = data_promo::where('id_pkp_promoo',$id_pkp_promo)->count();
         return view ('promo.daftarpromo')->with([
             'promo' => $promo,
-            'pkp' => $pkp
+            'pkp' => $pkp,
+            'data' => $data,
         ]);
     }
 
@@ -263,7 +265,7 @@ class promoController extends Controller
     }
 
     public function downloadpromo($id_pkp_promo,$revisi,$turunan){
-        $promoo = data_promo::join('pkp_promo','isi_promo.id_pkp_promoo','=','pkp_promo.id_pkp_promo')->where([ ['id_pkp_promo',$id_pkp_promo], ['revisi',$revisi], ['turunan',$turunan]])->get();
+        $promoo = data_promo::join('tr_project_promo','tr_promo.id_pkp_promoo','=','tr_project_promo.id_pkp_promo')->where([ ['id_pkp_promo',$id_pkp_promo], ['revisi',$revisi], ['turunan',$turunan]])->get();
         $app = product_allocation::where('id_pkp_promo',$id_pkp_promo)->where('revisi',$revisi)->where('turunan',$turunan)->orderBy('turunan','desc')->orderBy('revisi','desc')->get();
         $picture = picture::where('promo',$id_pkp_promo)->get();
         $idea = promo_idea::where('id_promo',$id_pkp_promo)->where('turunan',$turunan)->where('revisi',$revisi)->orderBy('turunan','desc')->orderBy('revisi','desc')->get();
@@ -276,20 +278,20 @@ class promoController extends Controller
     }
  
     public function lihatpromo($id_pkp_promo,$revisi,$turunan){
-        $promoo = data_promo::join('pkp_promo','isi_promo.id_pkp_promoo','=','pkp_promo.id_pkp_promo')->where([ ['id_pkp_promo',$id_pkp_promo], ['revisi',$revisi], ['turunan',$turunan]])->get();
+        $promoo = data_promo::join('tr_project_promo','tr_promo.id_pkp_promoo','=','tr_project_promo.id_pkp_promo')->where([ ['id_pkp_promo',$id_pkp_promo], ['revisi',$revisi], ['turunan',$turunan]])->get();
         $max = data_promo::where('id_pkp_promoo',$id_pkp_promo)->max('turunan');
         $promo1 = data_promo::where('id_pkp_promoo',$id_pkp_promo)->where('turunan','<=',$turunan)->where('revisi','<=',$revisi)->orderBy('turunan','desc')->orderBy('revisi','desc')->get();
         $app = product_allocation::where('id_pkp_promo',$id_pkp_promo)->where('revisi','<=',$revisi)->where('turunan','<=',$turunan)->orderBy('turunan','desc')->get();
         $app2 = product_allocation::where('id_pkp_promo',$id_pkp_promo)->where('revisi','<=',$revisi)->where('turunan',$max)->orderBy('turunan','desc')->orderBy('revisi','desc')->get();
         $promo = promo::where('id_pkp_promo',$id_pkp_promo)->get();
-        $nopromo = DB::table('pkp_promo')->max('promo_number')+1;
+        $nopromo = DB::table('tr_project_promo')->max('promo_number')+1;
         $data =sprintf("%03s", abs($nopromo));
         $picture = picture::where('promo',$id_pkp_promo)->where('revisi','<=',$revisi)->where('turunan','<=',$turunan)->orderBy('turunan','desc')->get();
         $idea = promo_idea::where('id_promo',$id_pkp_promo)->where('turunan','<=',$turunan)->where('revisi','<=',$revisi)->orderBy('turunan','desc')->orderBy('revisi','desc')->get();
         $dept = Departement::all();
         $dept1 = Departement::all();
         $allocation = product_allocation::where([ ['id_pkp_promo',$id_pkp_promo], ['revisi',$revisi], ['turunan',$turunan]])->get();
-        $user = DB::table('users')->join('pkp_promo','pkp_promo.tujuankirim','=','users.departement_id')->get();
+        $user = DB::table('tr_users')->join('tr_project_promo','tr_project_promo.tujuankirim','=','tr_users.departement_id')->get();
         return view('promo.lihatpromo')->with([
             'promo' => $promo,
             'promo1' => $promo1,
@@ -573,9 +575,9 @@ class promoController extends Controller
             ],function($message)use($request){
                 $message->subject('PROJECT PKP PROMO-'.$request->name);
                 //sent email to manager
-                $dept = DB::table('departements')->where('id',$request->kirim)->get();
+                $dept = DB::table('ms_departements')->where('id',$request->kirim)->get();
                 foreach($dept as $dept){
-                    $user = DB::table('users')->where('id',$dept->manager_id)->get();
+                    $user = DB::table('tr_users')->where('id',$dept->manager_id)->get();
                     foreach($user as $user){
                         $data = $user->email;
                         $message->to($data);
@@ -584,9 +586,9 @@ class promoController extends Controller
 
                 // CC Manager
                 if($request->rka==1){
-                    $dept2 = DB::table('departements')->where('id',$request->rka)->get();
+                    $dept2 = DB::table('ms_departements')->where('id',$request->rka)->get();
                     foreach($dept2 as $dept2){
-                        $user2 = DB::table('users')->where('id',$dept2->manager_id)->get();
+                        $user2 = DB::table('tr_users')->where('id',$dept2->manager_id)->get();
                         foreach($user2 as $user2){
                             $data2 = $user2->email;
                             $message->cc($data2);
@@ -659,13 +661,13 @@ class promoController extends Controller
                 $message->subject('PROJECT PKP PROMO');
                 //sent email to User
                 if($request->user!=null){
-                    $user = DB::table('users')->where('id',$request->user)->get();
+                    $user = DB::table('tr_users')->where('id',$request->user)->get();
                     foreach($user as $user){
                         $data = $user->email;
                         $message->to($data);
                     }
                 }else{
-                    $user2 = DB::table('users')->where('id',$request->user2)->get();
+                    $user2 = DB::table('tr_users')->where('id',$request->user2)->get();
                     foreach($user2 as $user2){
                         $data2 = $user2->email;
                         $message->to($data2);
@@ -714,7 +716,6 @@ class promoController extends Controller
                 $ppromo->status_data='active';
                 $ppromo->turunan=$promoo->turunan;
                 $ppromo->revisi=$naikversi;
-                $pprmo->perevisi=Auth::user()->id;
                 $ppromo->gambaran_proses=$promoo->gambaran_proses;
                 $ppromo->save();
             }

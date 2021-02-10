@@ -61,12 +61,11 @@
     </div>
 		<div class="card-body">
       <form class="form-horizontal form-label-left" method="POST" action="{{route('infogambar')}}" novalidate>
-      &nbsp&nbsp&nbsp<embed src="{{asset('data_file/'.$pkpp->filename)}}" width="110px" height="100px" type="">
       <input name="informasi[{{$loop->index}}][pic]" value="{{$pkpp->id_pictures}}" type="hidden">
-      <textarea name="informasi[{{$loop->index}}][info]" class="col-md-7" rows="4">{{$pkpp->informasi}}</textarea><br>
-      <input type="hidden" value="{{$pkpp->pkp_id}}" name="pkp">
-		  <a href="{{ Route('destroydata',$pkpp->id_pictures) }}" type="button" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Delete"><li class="fa fa-trash-o"></li> Delete</a>
-      <a href="{{asset('data_file/'.$pkpp->filename)}}" class="btn btn-warning btn-sm" download="{{$pkpp->filename}}" title="Download file"><li class="fa fa-download"></li> DOwnload File</a>
+      <textarea name="informasi[{{$loop->index}}][info]" class="col-md-10" rows="4">{{$pkpp->informasi}}</textarea><br>
+      <input type="hidden" value="{{$pkpp->pkp_id}}" name="pkp">&nbsp
+		  <a href="{{ Route('destroydata',$pkpp->id_pictures) }}" type="button" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Delete"><li class="fa fa-trash-o"></li></a>
+      <br>&nbsp&nbsp<a href="{{asset('data_file/'.$pkpp->filename)}}" class="btn btn-warning btn-sm" download="{{$pkpp->filename}}" title="Download file"><li class="fa fa-download"></li></a>
     </div>
   </div>
 </div>

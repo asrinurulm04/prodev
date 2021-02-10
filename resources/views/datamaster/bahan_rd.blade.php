@@ -31,6 +31,7 @@
             <th>Berat</th>
             <th>Harga Satuan</th>
             <th>Currency</th>
+            <th>PIC</th>
             <th width="10%"></th>
           </tr>
         </thead>
@@ -43,6 +44,7 @@
               <td>{{ $bahan->berat }} {{ $bahan->satuan }}</td>
               <td>{{ $bahan->harga_satuan }}</td>
               <td>{{ $bahan->curren->currency  }}</td>
+              <td>{{ $bahan->PIC }}</td>
               <td class="text-center">
                 <a href="{{route('edit_bahan',$bahan->id)}}" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Edit"><li class="fa fa-edit"></li></a>
                 @if($bahan->status == 'active')

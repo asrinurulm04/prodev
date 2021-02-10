@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class sub extends Model
 {
-    protected $table = 'data_subkategori';
+    protected $table = 'ms_subkategori';
     protected $primaryKey ='id_subkategori';
 
     public function kategori(){

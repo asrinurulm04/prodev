@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class data_promo extends Model
 {
-    protected $table = 'isi_promo';
+    protected $table = 'tr_promo';
     protected $primaryKey ='id_promo';
     
     public function datapromoo(){

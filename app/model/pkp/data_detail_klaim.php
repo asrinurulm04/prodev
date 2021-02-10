@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class data_detail_klaim extends Model
 {
-    protected $table = 'data_detail_klaim';
+    protected $table = 'tr_detail_klaim';
     protected $primaryKey ='id';
 
     public function datadl(){

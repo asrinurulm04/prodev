@@ -102,7 +102,6 @@ Route::post('add_supplier','datamaster\masterController@add_supplier')->name('ad
 Route::get('kemasexport','datamaster\masterController@kemas')->name('kemasexport');
 Route::get('klaim','datamaster\masterController@klaim')->name('klaim');
 Route::get('sku','datamaster\masterController@sku')->name('sku');
-Route::get('logamberat','datamaster\masterController@logamberat')->name('logam.berat');
 Route::get('datapangan','datamaster\masterController@index')->name('datapangan');
 Route::get('allergen','datamaster\masterController@allergen')->name('allergen');
 Route::get('principal','datamaster\masterController@principal')->name('principal');

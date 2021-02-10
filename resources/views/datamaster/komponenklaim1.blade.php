@@ -27,7 +27,7 @@
 										<input value="" required="required" class="form-control col-md-12 col-xs-12" type="text" name="komponen">
 									</div>
 								</div>
-								<table class="table table-bordered">
+								<table id="datatable" class="table table-striped table-bordered" style="width:100%">
 									<thead>
 										<tr style="font-weight: bold;color:white;background-color: #2a3f54;">
 											<td class="text-center">Klaim</td>
@@ -110,7 +110,7 @@
 		</div>
 		<!-- modal selesai -->
 		@endif
-		<table class="Table table-bordered">
+		<table id="datatable" class="table table-striped table-bordered" style="width:100%">
 			<thead>
 				<tr style="font-weight: bold;color:white;background-color: #2a3f54;">
 					<td class="text-center" width="10px">No</td>

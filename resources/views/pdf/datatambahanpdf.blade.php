@@ -58,12 +58,12 @@
     </div>
 		<div class="card-body">
       <form class="form-horizontal form-label-left" method="POST" action="{{route('infogambarpdf')}}" novalidate>
-		  &nbsp&nbsp<embed src="{{asset('data_file/'.$pdf->filename)}}" width="110px" height="100px" type="">
       <input name="id" value="{{$pdf->pdf_id}}" type="hidden">
       <input name="informasi[{{$loop->index}}][pic]" value="{{$pdf->id_pictures}}" type="hidden">
-      <textarea name="informasi[{{$loop->index}}][info]" class="col-md-7" rows="4">{{$pdf->informasi}}</textarea><br>
-		  <a href="{{ Route('destroydata',$pdf->id_pictures) }}" type="button" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Delete"><li class="fa fa-trash-o"></li> Delete</a>
-    </div>
+      <textarea name="informasi[{{$loop->index}}][info]" class="col-md-10" rows="4">{{$pdf->informasi}}</textarea><br>
+		  &nbsp&nbsp<a href="{{ Route('destroydata',$pdf->id_pictures) }}" type="button" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Delete"><li class="fa fa-trash-o"></li></a>
+      <br>&nbsp&nbsp<a href="{{asset('data_file/'.$pdf->filename)}}" class="btn btn-warning btn-sm" download="{{$pdf->filename}}" title="Download file"><li class="fa fa-download"></li></a>
+   </div>
   </div>
 </div>
 @endforeach

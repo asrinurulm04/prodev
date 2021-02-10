@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class tipp extends Model
 {
-    protected $table = 'tippu';
+    protected $table = 'tr_sub_pkp';
     protected $primaryKey ='id';
 
     public function datapkpp(){

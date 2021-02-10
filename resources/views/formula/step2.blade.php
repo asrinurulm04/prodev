@@ -933,7 +933,6 @@
 	$('#alternatif7').select2();
 
 	$(document).ready(function(){
-    $('.base').attr('rowspan',{{$rowspan}});
     $('#submitbahan').submit(function () {
 			// Get the c
 			var c = $('#c').val();

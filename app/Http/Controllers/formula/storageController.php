@@ -108,14 +108,14 @@ class storageController extends Controller
                     $teams = tb_teams_brand::where('brand',$project->id_brand)->get();
                     // To
                     foreach($teams as $teams){
-                        $user = DB::table('users')->where('id',$teams->id_user)->get();
+                        $user = DB::table('tr_users')->where('id',$teams->id_user)->get();
                         foreach($user as $user){
                             $data = $user->email;
                             $message->to($data);
                         }
                     }
                 }elseif($for->id_wb_pdf!=NULL){
-                    $user = DB::table('users')->where('role_id','5')->get();
+                    $user = DB::table('tr_users')->where('role_id','5')->get();
                     foreach($user as $user){
                         $data = $user->email;
                         dd($data);
@@ -124,9 +124,9 @@ class storageController extends Controller
                 }
                 // CC
                 if($for->id_wb!=NULL){
-                    $dept = DB::table('departements')->where('id',$project->tujuankirim)->get();
+                    $dept = DB::table('ms_departements')->where('id',$project->tujuankirim)->get();
                     foreach($dept as $dept){
-                        $user = DB::table('users')->where('id',$dept->manager_id)->get();
+                        $user = DB::table('tr_users')->where('id',$dept->manager_id)->get();
                         foreach($user as $user){
                             $data = $user->email;
                             $cc = [$data,Auth::user()->email,'asrinurul4238@gmail.com'];
@@ -135,9 +135,9 @@ class storageController extends Controller
                     }
                 }elseif($for->id_wb_pdf!=NULL){
                     $project = project_pdf::where('id_project_pdf',$for->workbook_pdf_id)->first();
-                    $dept = DB::table('departements')->where('id',$project->tujuankirim)->get();
+                    $dept = DB::table('ms_departements')->where('id',$project->tujuankirim)->get();
                     foreach($dept as $dept){
-                        $user = DB::table('users')->where('id',$dept->manager_id)->get();
+                        $user = DB::table('tr_users')->where('id',$dept->manager_id)->get();
                         foreach($user as $user){
                             $data = $user->email;
                             $cc = [$data,Auth::user()->email,'asrinurul4238@gmail.com'];

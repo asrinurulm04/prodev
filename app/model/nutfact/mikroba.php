@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class mikroba extends Model
 {
-    Protected $table = 'fs_jenismikroba';
+    Protected $table = 'ms_jenis_mikroba';
 
     public function mikro()
     {

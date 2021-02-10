@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class pengajuan extends Model
 {
-    protected $table = 'pkp_pengajuan';
+    protected $table = 'tr_pengajuan';
     protected $primaryKey ='id_pengajuan';
 
     public function datapdf(){

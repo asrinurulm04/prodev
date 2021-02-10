@@ -1756,7 +1756,9 @@
 																	</select>
 																</td>
 																<th class="text-center sticky-col third-col" rowspan="2">Batas % Air</th>
-																<th class="text-center sticky-col fourth-col" rowspan="2"><input type="number" readonly class="form-control" value="{{$formula->katpang->batas_air}}" name="batas" id="batas"></th>
+																<th class="text-center sticky-col fourth-col" rowspan="2">
+																@if($formula->pangan!=NULL)<input type="number" readonly class="form-control" value="{{$formula->katpang->batas_air}}" name="batas" id="batas">
+																@else<input type="number" readonly class="form-control" value="" name="batas" id="batas">@endif</th>
 																<th style="font-size: 12px;font-weight: bold; color:white;background-color: #157c16;">m</th>
 																<th class="text-center">@if($formula->pangan!=NULL){{$formula->katpang->mk_Enterobacter}}@endif</th>
 																<th class="text-center">@if($formula->pangan!=NULL){{$formula->katpang->mk_Salmonella}}@endif</th>
@@ -1786,10 +1788,12 @@
 															<tr>
 																<th class="text-center sticky-col first-col" colspan="3">Status</th>
 																<th style="background-color: #eff897" class="text-center sticky-col fourth-col">
+																@if($formula->pangan!=NULL)	
 																	@if($formula->katpang->batas_air==NULL)
 																	@elseif($total_harga['total_air'] >= $formula->katpang->batas_air)OK
 																	@elseif($total_harga['total_air'] <= $formula->katpang->batas_air)NOT OK
 																	@endif
+																@endif
 																</th>
 																<th></th>
 																<th class="text-center">

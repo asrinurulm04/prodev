@@ -758,6 +758,6 @@ class bbRDController extends Controller
 			}
         }
 
-        return Redirect::back()->with('status', $bahan->nama_sederhana.' Telah DiUpdate!');
+        return Redirect::route('bahan_rd')->with('status', $bahan->nama_sederhana.' Telah DiUpdate!');
     }
 }

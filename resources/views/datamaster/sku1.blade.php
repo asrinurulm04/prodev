@@ -62,7 +62,7 @@
 		</div>
 		<!-- modal selesai -->
 		@endif
-		<table class="Table table-bordered">
+		<table  id="datatable" class="table table-striped table-bordered" style="width:100%">
 			<thead>
 				<tr style="font-weight: bold;color:white;background-color: #2a3f54;">
 					<td width="10px">No</td>

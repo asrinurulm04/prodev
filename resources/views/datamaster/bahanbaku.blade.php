@@ -23,7 +23,7 @@
 <div class="row">
   <div class="col-md-12 col-sm-12 col-xs-12">
     <div class="x_panel">
-      <table class="Table table-bordered" style="font-size:12px" id="Table">
+      <table id="datatable" class="table table-striped table-bordered" style="width:100%">
         <thead>
           <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
             <th>ID</th>

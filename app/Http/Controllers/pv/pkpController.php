@@ -100,16 +100,16 @@ class pkpController extends Controller
     }
 
     public function lihatpkp($id_project,$revisi,$turunan){
-        $nopkp = DB::table('pkp_project')->max('pkp_number')+1;
+        $nopkp = DB::table('tr_project_pkp')->max('pkp_number')+1;
         $data =sprintf("%03s", abs($nopkp));
         $id_pkp = tipp::where([ ['id_pkp',$id_project], ['revisi',$revisi], ['turunan',$turunan] ])->first();
         $for = data_forecast::where('id_pkp',$id_project)->where('revisi',$revisi)->where('turunan',$turunan)->get();
-        $pkpp = tipp::join('pkp_project','tippu.id_pkp','=','pkp_project.id_project')->where([ ['id_pkp',$id_project], ['revisi',$revisi], ['turunan',$turunan] ])->get();
+        $pkpp = tipp::join('tr_project_pkp','tr_sub_pkp.id_pkp','=','tr_project_pkp.id_project')->where([ ['id_pkp',$id_project], ['revisi',$revisi], ['turunan',$turunan] ])->get();
         $ses= data_ses::where([ ['id_pkp',$id_project], ['revisi','<=',$revisi], ['turunan','<=',$turunan] ])->orderBy('revisi','desc')->orderBy('turunan','desc')->get();
         $max = tipp::where('id_pkp',$id_project)->max('turunan');
         $pkp2 = tipp::where('id_pkp',$id_project)->where('revisi','<=',$revisi)->where('turunan',$max)->orderBy('turunan','desc')->orderBy('revisi','desc')->get();
         $pkp1 = tipp::where('id_pkp',$id_project)->where('revisi','<=',$revisi)->where('turunan','<=',$turunan)->orderBy('turunan','desc')->orderBy('revisi','desc')->get();
-        $dataklaim = data_klaim::where('id_pkp',$id_project)->join('klaim','klaim.id','=','id_klaim')->where('revisi',$revisi)->where('turunan',$turunan)->get();
+        $dataklaim = data_klaim::where('id_pkp',$id_project)->join('ms_klaim','ms_klaim.id','=','id_klaim')->where('revisi',$revisi)->where('turunan',$turunan)->get();
         $datadetail = data_detail_klaim::where('id_pkp',$id_project)->where('revisi',$revisi)->where('turunan',$turunan)->get();
         $picture = picture::where('pkp_id',$id_project)->where('revisi','<=',$revisi)->where('turunan','<=',$turunan)->get();
         $dept = Departement::all();
@@ -128,14 +128,14 @@ class pkpController extends Controller
     }
 
     public function downloadpkp($id_project,$revisi,$turunan){
-        $pkpp = tipp::join('pkp_project','tippu.id_pkp','=','pkp_project.id_project')->where([ ['id_project',$id_project], ['revisi',$revisi], ['turunan',$turunan] ])->get();
+        $pkpp = tipp::join('tr_project_pkp','tr_sub_pkp.id_pkp','=','tr_project_pkp.id_project')->where([ ['id_project',$id_project], ['revisi',$revisi], ['turunan',$turunan] ])->get();
         $picture = picture::where('pkp_id',$id_project)->get();
         $id_pkp = tipp::where([ ['id_pkp',$id_project], ['revisi',$revisi], ['turunan',$turunan] ])->first();
         $for = data_forecast::where('id_pkp',$id_project)->where('revisi',$revisi)->where('turunan',$turunan)->get();
         $max = tipp::where('id_pkp',$id_project)->max('turunan');
         $max2 = tipp::where('id_pkp',$id_project)->max('revisi');
         $pkp1 = tipp::where('id_pkp',$id_project)->where('revisi',$max2)->where('turunan',$turunan)->get();
-        $dataklaim = data_klaim::where('id_pkp',$id_project)->join('klaim','klaim.id','=','id_klaim')->where('revisi',$revisi)->where('turunan',$turunan)->get();
+        $dataklaim = data_klaim::where('id_pkp',$id_project)->join('ms_klaim','ms_klaim.id','=','id_klaim')->where('revisi',$revisi)->where('turunan',$turunan)->get();
         $ses= data_ses::where([ ['id_pkp',$id_project], ['revisi',$revisi], ['turunan',$turunan] ])->get();
         $datadetail = data_detail_klaim::where('id_pkp',$id_project)->where('turunan',$turunan)->get();
         return view('pkp.downloadpkp')->with([
@@ -203,7 +203,7 @@ class pkpController extends Controller
 
     public function buatpkp($id_project,$revisi,$turunan){
         $pkpdata = tipp::where([ ['id_pkp',$id_project], ['revisi',$revisi], ['turunan',$turunan] ])->get();
-        $project = tipp::where('status_pkp','!=','draf')->where('status_data','=','active') ->join('pkp_project','pkp_project.id_project','=','tippu.id_pkp')->get();
+        $project = tipp::where('status_pkp','!=','draf')->where('status_data','=','active') ->join('tr_project_pkp','tr_project_pkp.id_project','=','tr_sub_pkp.id_pkp')->get();
         $brand = brand::all();
         $ses = ses::all();
         $user = user::where('status','=','active')->get();
@@ -273,7 +273,7 @@ class pkpController extends Controller
         $teams = tb_teams_brand::where('brand',$pkp->id_brand)->get();
         $id_pkp = pkp_project::find($id_project);
         $idea = pkp_uniq_idea::all();
-        $project = tipp::where('status_pkp','!=','draf')->where('status_data','=','active') ->join('pkp_project','pkp_project.id_project','=','tippu.id_pkp')->get();
+        $project = tipp::where('status_pkp','!=','draf')->where('status_data','=','active') ->join('tr_project_pkp','tr_project_pkp.id_project','=','tr_sub_pkp.id_pkp')->get();
         $ide = pkp_uniq_idea::all();
         $market = pkp_estimasi_market::all();
         $mar = pkp_estimasi_market::all();
@@ -1063,9 +1063,9 @@ class pkpController extends Controller
                 {
                     $message->subject('PKP '.$request->name);
                     //sent email to manager
-                    $dept = DB::table('departements')->where('id',$request->kirim)->get();
+                    $dept = DB::table('ms_departements')->where('id',$request->kirim)->get();
                     foreach($dept as $dept){
-                        $user = DB::table('users')->where('id',$dept->manager_id)->get();
+                        $user = DB::table('tr_users')->where('id',$dept->manager_id)->get();
                         foreach($user as $user){
                             $data = $user->email;
                             $cc = [Auth::user()->email,'asrinurul4238@gmail.com'];
@@ -1076,9 +1076,9 @@ class pkpController extends Controller
 
                     // CC Manager
                     if($request->rka==1){
-                        $dept2 = DB::table('departements')->where('id',$request->rka)->get();
+                        $dept2 = DB::table('ms_departements')->where('id',$request->rka)->get();
                         foreach($dept2 as $dept2){
-                            $user2 = DB::table('users')->where('id',$dept2->manager_id)->get();
+                            $user2 = DB::table('tr_users')->where('id',$dept2->manager_id)->get();
                             foreach($user2 as $user2){
                                 $data2 = [$user2->email,Auth::user()->email];
                                 $message->cc($data2);
@@ -1129,8 +1129,7 @@ class pkpController extends Controller
 
         $pengajuan = pengajuan::where('id_pkp',$id_project)->count();
         if($pengajuan == 1){
-            $pengajuan = pengajuan::where('id_pkp',$id_project)->first();
-            $pengajuan->delete();
+            $pengajuan = pengajuan::where('id_pkp',$id_project)->delete();
         }
         
         $isipkp = tipp::where('id_pkp',$id_project)->where('status_data','=','active')->get();
@@ -1143,15 +1142,15 @@ class pkpController extends Controller
                 'waktu' => $request->waktu,],function($message)use($request){
                     $message->subject('PKP '.$request->name);
                     //sent email to manager
-                    $dept = DB::table('departements')->where('id',$request->kirim)->get();
+                    $dept = DB::table('ms_departements')->where('id',$request->kirim)->get();
                     foreach($dept as $dept){
-                        $user = DB::table('users')->where('id',$dept->manager_id)->get();
+                        $user = DB::table('tr_users')->where('id',$dept->manager_id)->get();
                         foreach($user as $user){
                             $data = $user->email;
                             $penerima1 = $request->userpenerima;
                             $penerima2 = $request->userpenerima2;
-                            $emailpenerima1 = DB::table('users')->where('id',$request->userpenerima)->first();
-                            $emailpenerima2 = DB::table('users')->where('id',$request->userpenerima2)->first();
+                            $emailpenerima1 = DB::table('tr_users')->where('id',$request->userpenerima)->first();
+                            $emailpenerima2 = DB::table('tr_users')->where('id',$request->userpenerima2)->first();
                             if($penerima1==NULL && $penerima2==NULL){
                                 $cc = [Auth::user()->email,'asrinurul4238@gmail.com'];
                             }if($penerima1!=NULL && $penerima2==NULL){
@@ -1166,9 +1165,9 @@ class pkpController extends Controller
 
                     // CC Manager
                     if($request->rka==1){
-                        $dept2 = DB::table('departements')->where('id',$request->rka)->get();
+                        $dept2 = DB::table('ms_departements')->where('id',$request->rka)->get();
                         foreach($dept2 as $dept2){
-                            $user2 = DB::table('users')->where('id',$dept2->manager_id)->get();
+                            $user2 = DB::table('tr_users')->where('id',$dept2->manager_id)->get();
                             foreach($user2 as $user2){
                                 $data2 = [$user2->email,Auth::user()->email];
                                 $message->cc($data2);
@@ -1218,13 +1217,13 @@ class pkpController extends Controller
                 $message->subject('PROJECT PKP');
                 //sent email to User
                 if(Auth::user()->departement_id!=1){
-                    $user = DB::table('users')->where('id',$request->user)->get();
+                    $user = DB::table('tr_users')->where('id',$request->user)->get();
                     foreach($user as $user){
                         $data = $user->email;
                         $message->to($data);
                     }
                 }else{
-                    $user2 = DB::table('users')->where('id',$request->user2)->get();
+                    $user2 = DB::table('tr_users')->where('id',$request->user2)->get();
                     foreach($user2 as $user2){
                         $data2 = $user2->email;
                         $message->to($data2);
@@ -1260,7 +1259,7 @@ class pkpController extends Controller
         $datapkp = tipp::where('id_pkp',$id_project)->where('turunan',$max)->where('revisi',$max2)->get();
         $formula = Formula::where('workbook_id',$id_project)->where('vv','!=','null')->orderBy('versi','asc')->get();
         $data = pkp_project::where('id_project',$id_project)->get();
-        $data1 = tipp::where('id_project',$id_project)->join('pkp_project','tippu.id_pkp','pkp_project.id_project')->where('status_data','=','active')->get();
+        $data1 = tipp::where('id_project',$id_project)->join('tr_project_pkp','tr_sub_pkp.id_pkp','tr_project_pkp.id_project')->where('status_data','=','active')->get();
         $hasilpanel = hasilpanel::where('id_wb',$id_project)->count();
         return view('pkp.daftarpkp')->with([
             'sample' => $sample_project,

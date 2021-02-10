@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class bpom_mikrobiologi extends Model
 {
-    Protected $table = 'fs_bpom_mikrobiologi';
+    Protected $table = 'ms_bpom_mikrobiologi';
     
     public function mikroba()
     {

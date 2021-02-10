@@ -316,14 +316,14 @@ class Step2Controller extends Controller
                     $for = Formula::where('id',$vf)->first();
                     if($for->workbook_id!=NULL){
                         $project = pkp_project::where('id_project',$for->workbook_id)->first();
-                        $user = DB::table('users')->where('id', $project->userpenerima)->get();
+                        $user = DB::table('tr_users')->where('id', $project->userpenerima)->get();
                         foreach($user as $user){
                             $data = $user->email;
                             $message->to($data);
                         }
                     }elseif($for->workbook_pdf_id!=NULL){
                         $project = project_pdf::where('id_project_pdf',$for->workbook_pdf_id)->first();
-                        $user = DB::table('users')->where('id', $project->userpenerima)->get();
+                        $user = DB::table('tr_users')->where('id', $project->userpenerima)->get();
                         foreach($user as $user){
                             $data = $user->email;
                             $message->to($data);

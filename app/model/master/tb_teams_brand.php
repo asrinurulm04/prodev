@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class tb_teams_brand extends Model
 {
-    protected $table = 'tb_teams_brand';
+    protected $table = 'ms_teams_brand';
     protected $primaryKey ='id_teams';
 
     public function user(){

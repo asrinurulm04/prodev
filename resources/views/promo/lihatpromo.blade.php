@@ -43,10 +43,10 @@
                         <div class="col-md-4 col-sm-4 col-xs-12">
                           <select name="kirim" class="form-control form-control-line" id="kirim">
                             <option disabled selected> Departement</option>
-                            @foreach($dept as $dept)
-                            @if($dept->Divisi=='RND')
-                              @if($dept->dept!='RKA')
-                              <option value="{{$dept->id}}"> Manager {{ $dept->dept }} ({{$dept->users->name}})</option>
+                            @foreach($dept as $departement)
+                            @if($departement->Divisi=='RND')
+                              @if($departement->dept!='RKA')
+                              <option value="{{$departement->id}}"> Manager {{ $departement->dept }} ({{$departement->users->name}})</option>
                               @endif
                             @endif
                             @endforeach

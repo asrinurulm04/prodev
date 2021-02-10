@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Kategori extends Model
 {
-    protected $table = 'kategoris';
+    protected $table = 'ms_kategoris';
 
     public function Subkategori(){
         return $this->hasMany('App\master\Subkategori');

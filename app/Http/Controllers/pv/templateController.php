@@ -22,6 +22,7 @@ use App\model\pkp\picture;
 use Auth;
 use DB;
 use Redirect;
+use Carbon\Carbon;
 
 class templateController extends Controller
 {

@@ -46,7 +46,6 @@
   								    </table>
                     </div><br><br>
                     @endforeach <br><br>
-                    @foreach($pdf1 as $pdf)
                     <div  class="col-sm-12">
                     <table width="100%" class="table table-bordered">
                         <thead>
@@ -55,105 +54,47 @@
                             <td>Target market</td>
                             <td colspan="2">
 													    <table>
-                                <tr><th>Age</th><td>: {{$pdf->dariusia}} To {{$pdf->sampaiusia}}</td></tr>
+                                <tr><th>Age</th><td><?php $dariusia = []; foreach ($pdf1 as $key => $data) If (!$dariusia || !in_array($data->dariusia, $dariusia)) { $dariusia += array( $key => $data->dariusia );
+                                if($data->turunan!=$pdf->turunan){ echo" : <s><font color='#6594c5'>$data->dariusia To $data->sampaiusia </font><br></s>"; } if($data->turunan==$pdf->turunan){ echo" : $data->dariusia To $data->sampaiusia <br>"; } }?></td></tr>
 													      <tr><th>SES</th><td><?php $ses = []; foreach ($datases as $key => $data) If (!$ses || !in_array($data->ses, $ses)) { $ses += array( $key => $data->ses );if($data->turunan!=$pdf->turunan){
                                 echo" : <s><font color='#6594c5'>$data->ses </font><br></s>"; } if($data->turunan==$pdf->turunan){ echo" : $data->ses <br>";} } ?></td></tr>
-														    <tr><th>Gender</th><td>: {{$pdf->gender}}</td></tr>
-                                <tr><th>Other</th><td>: {{$pdf->other}}</td></tr>
+														    <tr><th>Gender</th><td><?php $gender = []; foreach ($pdf1 as $key => $data) If (!$gender || !in_array($data->gender, $gender)) { $gender += array( $key => $data->gender );
+                                if($data->turunan!=$pdf->turunan){ echo"<s><font color='#6594c5'>  : $data->gender </font><br></s>"; }  if($data->turunan==$pdf->turunan){  echo" : $data->gender <br>";} }  ?></td></tr>
+                                <tr><th>Other</th><td><?php $other = []; foreach ($pdf1 as $key => $data) If (!$other || !in_array($data->other, $other)) { $other += array( $key => $data->other );
+                                if($data->turunan!=$pdf->turunan){ echo" : <s><font color='#6594c5'>$data->other </font><br></s>"; } if($data->turunan==$pdf->turunan){ echo" : $data->other <br>"; } }?></td></tr>
                               </table>
 												    </td>
                           </tr>
                           <tr>
                             <td>Background / Insight</td>
-                            <td>: {{$pdf->background}}</td>
+                            <td><?php $background = []; foreach ($pdf1 as $key => $data) If (!$background || !in_array($data->background , $background )) { $background += array( $key => $data->background );
+                            if($data->turunan!=$pdf->turunan){ echo" <s><font color='#6594c5'>$data->background </font><br></s>"; } if($data->turunan==$pdf->turunan){ echo"$data->background <br>"; } }?></td>
                           </tr>
                           <tr>
                             <td>Attracttiveness</td>
-                            <td colspan="2">{{$pdf->attractiveness}}</td>
+                            <td colspan="2"><?php $attractiveness = []; foreach ($pdf1 as $key => $data) If (!$attractiveness || !in_array($data->attractiveness, $attractiveness)) { $attractiveness += array( $key => $data->attractiveness );
+                            if($data->turunan!=$pdf->turunan){ echo"<s><font color='#6594c5'>$data->attractiveness <br></font></s>"; } if($data->turunan==$pdf->turunan){ echo"$data->attractiveness <br>";} }  ?></td>
                           </tr>
                           <tr>
                             <td>Target RTO</td>
-                            <td colspan="2">{{$pdf->rto}}</td>
+                            <td colspan="2"><?php $rto = []; foreach ($pdf1 as $key => $data) If (!$rto || !in_array($data->rto, $rto)) { $rto += array( $key => $data->rto );
+                            if($data->turunan!=$pdf->turunan){ echo"<s><font color='#6594c5'>$data->rto </font><br></s>"; } if($data->turunan==$pdf->turunan){ echo"$data->rto <br>"; } } ?></td>
                           </tr>
                           <tr>
-                            <th>Sales Forecast</th>
-                            <td colspan="2">
-                              <table class="table table-bordered table-hover">
-                                <thead>
-                                  <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
-                                    <th>Forecash</th>
-                                    <th>Configuration</th>
-                                    <th colspan="2">UOM</th>
-                                    <th>NFI Price</th>
-                                    <th>Costumer Price</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  @foreach($for as $for)
-                                  <tr>
-                                    <td>{{$for->satuan}} = {{$for->forecast}}</td>
-                                    <td>
-                                    @if($for->kemas_eksis!=NULL)
-                                    (
-                                    @if($for->kemas->tersier!=NULL)
-                                    {{ $for->kemas->tersier }}{{ $for->kemas->s_tersier }}
-                                    @elseif($for->tersier==NULL)
-                                    @endif
-
-                                    @if($for->kemas->sekunder1!=NULL)
-                                    X {{ $for->kemas->sekunder1 }}{{ $for->kemas->s_sekunder1}}
-                                    @elseif($for->kemas->sekunder1==NULL)
-                                    @endif
-
-                                    @if($for->kemas->sekunder2!=NULL)
-                                    X {{ $for->kemas->sekunder2 }}{{ $for->kemas->s_sekunder2 }}
-                                    @elseif($for->sekunder2==NULL)
-                                    @endif
-
-                                    @if($for->kemas->primer!=NULL)
-                                    X{{ $for->kemas->primer }}{{ $for->kemas->s_primer }}
-                                    @elseif($for->kemas->primer==NULL)
-                                    @endif
-                                    )
-                                    @endif
-                                    </td>
-                                    <td>{{$for->jlh_uom}}</td>
-                                    <td>{{$for->uom}}</td>
-                                    <td>{{$for->nfi_price}}</td>
-                                    <td>{{$for->costumer}}</td>
-                                  </tr>
-                                  @endforeach
-                                </tbody>
-                              </table>
-                              
-                              @if($hitungkemaspdf>=0)
-                              <table class="table table-bordered">
-                                <thead>
-                                  <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
-                                    <th class="text-center">Oracle</th>
-                                    <th class="text-center">KK Code</th>
-                                    <th class="text-center">Note</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  @foreach($kemaspdf as $kf)
-                                  <tr>
-                                    <td>{{$kf->oracle}}</td>
-                                    <td>{{$kf->kk}}</td>
-                                    <td>{{$kf->information}}</td>
-                                  </tr>
-                                  @endforeach
-                                </tbody>
-                              </table>
-                              @endif
-                            </td>
+                            <td>Sales Forecast</td>
+                            <td colspan="2"><?php $seles = []; foreach ($for as $key => $data) If (!$seles || !in_array($data->forecast, $seles)) { $seles += array( $key => $data->forecast ); 
+                            if($data->turunan!=$pdf->turunan){ echo" <s><font color='#6594c5'>".$data->satuan ."=". $data->forecast."( Note :".$data->keterangan.")"."<br></font></s>"; } if($data->turunan==$pdf->turunan){ echo" $data->satuan = $data->forecast ( Note : $data->keterangan)<br>";  } } ?></td>
 											    </tr>
                           <tr>
                             <td>Competitor</td>
                             <td colspan="2">
                             <table>
-                              <tr><th>Name</th><td style="border:none;">: {{$pdf->name}}</td></tr>
-													    <tr><th>What's Special</th><td style="border:none;">: {{$pdf->special}}</td></tr>
+                              <tr><th>Name</th><td style="border:none;"><?php $name = []; foreach ($pdf1 as $key => $data) If (!$name || !in_array($data->name, $name)) { $name += array( $key => $data->name );
+                              if($data->turunan!=$pdf->turunan){ echo" : <s><font color='#6594c5'>$data->name <br></font></s>"; } if($data->turunan==$pdf->turunan){ echo" : $data->name <br>"; } } ?></td></tr>
+													    <tr><th>retailer price</th><td style="border:none;"><?php $retailer_price = []; foreach ($pdf1 as $key => $data) If (!$retailer_price || !in_array($data->retailer_price, $retailer_price)) { $retailer_price += array( $key => $data->retailer_price );
+                              if($data->turunan!=$pdf->turunan){ echo" : <s><font color='#6594c5'>$data->retailer_price<br></font></s>"; } if($data->turunan==$pdf->turunan){ echo" : $data->retailer_price<br>"; } } ?></td></tr>
+													    <tr><th>What's Special</th><td style="border:none;"><?php $special = []; foreach ($pdf1 as $key => $data) If (!$special || !in_array($data->special, $special)) { $special += array( $key => $data->special );
+                              if($data->turunan!=$pdf->turunan){ echo" <s><font color='#6594c5'> :$data->special <br></font></s>"; } if($data->turunan==$pdf->turunan){ echo" : $data->special <br>"; } } ?></tr>
 													  </table>
 												    </td>
                           </tr>
@@ -161,8 +102,12 @@
                             <td>Product Concept</td>
                             <td colspan="2">
 													    <table>
-                                <tr><th style="border:none;">Weight/Serving </th><td style="border:none;">: {{$pdf->wight}}/{{$pdf->serving}}</td></tr>
-														    <tr><th>Special Ingredient </th><td style="border:none;">: {{$pdf->ingredient}}</td></tr>
+                                <tr><th style="border:none;">Weight/Serving </th><td style="border:none;"><?php $wight = []; foreach ($pdf1 as $key => $data) If (!$wight || !in_array($data->wight, $wight)) { $wight += array( $key => $data->wight );
+                                if($data->turunan!=$pdf->turunan){ echo"<s><font color='#6594c5'>: $data->wight/$data->serving<br></font></s>"; } if($data->turunan==$pdf->turunan){ echo": $data->wight/$data->serving<br>"; } } ?></td></tr>
+														    <tr><th>Target NFI price / ctn</th><td style="border:none;"><?php $target_price = [];foreach ($pdf1 as $key => $data)If (!$target_price || !in_array($data->target_price, $target_price)) { $target_price += array($key => $data->target_price);
+                                if($data->turunan!=$pdf->turunan){ echo" <s><font color='#6594c5'> : $data->target_price<br></font></s>"; } if($data->turunan==$pdf->turunan){ echo"  : $data->target_price<br>"; } } ?></td></tr>
+														    <tr><th>Special Ingredient </th><td style="border:none;"><?php $ingredient = []; foreach ($pdf1 as $key => $data) If (!$ingredient || !in_array($data->ingredient, $ingredient)) { $ingredient += array( $key => $data->ingredient );
+                                if($data->turunan!=$pdf->turunan){ echo"<s><font color='#6594c5'>:$data->ingredient <br></font></s>"; } if($data->turunan==$pdf->turunan){ echo" : $data->ingredient <br>"; } } ?></td></tr>
                               </table><br><br>
                               <table class="table table-bordered" >
                                 <tbody>
@@ -194,11 +139,78 @@
                               </table>
 												    </td>
                           </tr>
+                          <tr>
+                            <td>Packaging Concept</td>
+                            <td colspan="2">
+													    <table class="table">
+                                @if($pdf->kemas_eksis!=NULL)
+                                  @if($pdf->kemas->primer!=NULL)
+                                  {{ $pdf->kemas->primer }}{{ $pdf->kemas->s_primer }} </tr>
+                                  @elseif($pdf->kemas->primer==NULL)
+                                  @endif
+
+                                  @if($pdf->kemas->sekunder1!=NULL)
+                                  X {{ $pdf->kemas->sekunder1 }}{{ $pdf->kemas->s_sekunder1}} </tr>
+                                  @elseif($pdf->kemas->sekunder1==NULL)
+                                  @endif
+
+                                  @if($pdf->kemas->sekunder2!=NULL)
+                                  X {{ $pdf->kemas->sekunder2 }}{{ $pdf->kemas->s_sekunder2 }} </tr>
+                                  @elseif($pdf->sekunder2==NULL)
+                                  @endif
+
+                                  @if($pdf->kemas->tersier!=NULL)
+                                  X {{ $pdf->kemas->tersier }}{{ $pdf->kemas->s_tersier }} </tr>
+                                  @elseif($pdf->tersier==NULL)
+                                  @endif
+                                @elseif($pdf->primer==NULL)
+                                  @if($pdf->kemas_eksis==NULL)
+                                  @endif
+                                @endif <br><br>
+                                @if($pdf->primery!=NULL)
+                                <tr><th style="border:none;" width="15%">Primary</th></th><td style="border:none;"><?php $primery = []; foreach ($pdf1 as $key => $data) If (!$primery || !in_array($data->primery, $primery)) { $primery += array( $key => $data->primery ); 
+                                  if($data->turunan!=$pdf->turunan){  echo" <s><font color='#6594c5'>$data->primery<br></font></s>";  } if($data->turunan==$pdf->turunan){ echo" $data->primery<br>"; } }  ?></td></tr>
+                                @endif
+                                @if($pdf->secondery!=NULL)
+                                <tr><th style="border:none;" width="15%">Secondary</th></th><td style="border:none;"><?php $secondery = []; foreach ($pdf1 as $key => $data) If (!$secondery || !in_array($data->secondery, $secondery)) { $secondery += array( $key => $data->secondery ); 
+                                  if($data->turunan!=$pdf->turunan){  echo" <s><font color='#6594c5'>$data->secondery<br></font></s>";  } if($data->turunan==$pdf->turunan){ echo" $data->secondery<br>"; } }  ?></td></tr>
+                                @endif
+                                @if($pdf->Tertiary!=NULL)
+                                <tr><th style="border:none;" width="15%">Teriery</th></th><td style="border:none;"><?php $Tertiary = []; foreach ($pdf1 as $key => $data) If (!$Tertiary || !in_array($data->Tertiary, $Tertiary)) { $Tertiary += array( $key => $data->Tertiary ); 
+                                  if($data->turunan!=$pdf->turunan){  echo" <s><font color='#6594c5'>$data->Tertiary<br></font></s>";  } if($data->turunan==$pdf->turunan){ echo" $data->Tertiary<br>"; } }  ?></td></tr>
+                                @endif
+                              </table>
+                              @if($hitungkemaspdf>=0)
+                              <br> Additional data :
+                              <table class="table table-bordered">
+                                <thead>
+                                  <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
+                                    <th class="text-center">Oracle</th>
+                                    <th class="text-center">KK Code</th>
+                                    <th class="text-center">Note</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  @foreach($kemaspdf as $kf)
+                                  <tr>
+                                    <td>{{$kf->oracle}}</td>
+                                    <td>{{$kf->kk}}</td>
+                                    <td>{{$kf->information}}</td>
+                                  </tr>
+                                  @endforeach
+                                </tbody>
+                              </table>
+                              @endif
+												    </td>
+                          </tr>
                         </thead>
                       </table>
                     </div>
-                    @endforeach
                   </div>
+                  <table ALIGN="right">
+                    <tr><td>Revisi/Berlaku :  </td></tr>
+                    <tr><td>Masa Berlaku : Selamanya</td></tr>
+                  </table>
                 </div>
               </div>
             </div>

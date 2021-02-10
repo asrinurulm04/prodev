@@ -39,17 +39,17 @@ class SummaryFormulaController extends Controller
 		$form = tr_header_formula::where('id_formula',$id)->get();
 		$data = Formula::with('Workbook')->where('id',$id)->get();
 		$ceklis = ms_cemaran_ceklis::all();
-		$akg = tb_akg::join('formulas','formulas.akg','tb_akg.id_tarkon')->join('tb_overage_inngradient','tb_overage_inngradient.id_formula','formulas.id')->where('id',$id)->get();
+		$akg = tb_akg::join('tr_formulas','tr_formulas.akg','ms_akg.id_tarkon')->join('tr_overage_inngradient','tr_overage_inngradient.id_formula','tr_formulas.id')->where('id',$id)->get();
         $idf = $id;
-		$formula = Formula::where('id',$id)->join('tb_overage_inngradient','tb_overage_inngradient.id_formula','formulas.id')->first();
+		$formula = Formula::where('id',$id)->join('tr_overage_inngradient','tr_overage_inngradient.id_formula','tr_formulas.id')->first();
         $idfor = $formula->workbook_id;
         $idfor_pdf = $formula->workbook_pdf_id;
         $fortails = Fortail::where('formula_id',$id)->get();
-        $ingredient = DB::table('fortails')->where('fortails.formula_id',$id)->get();
+        $ingredient = DB::table('tr_fortails')->where('tr_fortails.formula_id',$id)->get();
 		$ada = Fortail::where('formula_id',$id)->count();
 		$btp = tr_btp_bb::all();
-		$allergen_bb = allergen_formula::join('tb_bb_allergen','id_bb','tb_alergen_formula.id_bahan')->where('id_formula',$id)->where('allergen_countain','!=','')->select(['allergen_countain'])->distinct()->get();
-		$bb_allergen = allergen_formula::join('tb_bb_allergen','id_bb','tb_alergen_formula.id_bahan')->where('id_formula',$id)->where('allergen_countain','!=','')->get();
+		$allergen_bb = allergen_formula::join('tr_bb_allergen','id_bb','tr_allergen_formula.id_bahan')->where('id_formula',$id)->where('allergen_countain','!=','')->select(['allergen_countain'])->distinct()->get();
+		$bb_allergen = allergen_formula::join('tr_bb_allergen','id_bb','tr_allergen_formula.id_bahan')->where('id_formula',$id)->where('allergen_countain','!=','')->get();
         if($ada < 1){
             return Redirect::back()->with('error','Data Bahan Formula Versi '.$formula->versi.' Masih Kosong');
         }elseif($formula->batch < 1){
@@ -159,7 +159,6 @@ class SummaryFormulaController extends Controller
         $no = 0;
         foreach($fortails as $fortail){
 			//Get Needed
-			$ingredients = DB::table('tb_nutfact')->first();
 			$mineral =tr_mineral_bb::where('id_bahan',$fortail->bahan_id)->first();
 			$makro = tr_makro_bb::where('id_bahan',$fortail->bahan_id)->first();
 			$asam = tr_asam_amino_bb::where('id_bahan',$fortail->bahan_id)->first();

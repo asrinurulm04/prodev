@@ -26,10 +26,10 @@
         </li>
                
       </ul>
-      <div id="myTabContent" class="tab-content fancyTabContent" aria-live="polite" style="overflow-x: scroll;">
+      <div id="myTabContent" class="tab-content fancyTabContent">
         <!-- PKP -->
         <div class="tab-pane  fade active in" id="tabBody0" role="tabpanel" aria-labelledby="tab0" aria-hidden="false" tabindex="0" >
-          <div>
+          <div><br>
             <div class="row"  >
               <div class="col-md-12">
                 <form class="form-horizontal form-label-left" method="POST" action="{{route('check')}}" novalidate>
@@ -85,7 +85,7 @@
                 </div>
                 <!-- Modal Selesai -->
                 <label><input type="checkbox" id="checkAllpkpp1"/> Check all</label>
-                <table class="Table table-bordered" style="max-height:400px">
+                <table id="datatable" class="table table-striped table-bordered" style="width:100%">
                   <thead>
                     <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
                       <td></td>
@@ -145,7 +145,7 @@
         {{-- selesai --}}
         <!-- PDF -->
         <div class="tab-pane  fade" id="tabBody1" role="tabpanel" aria-labelledby="tab1" aria-hidden="true" tabindex="0">
-          <div class="row">
+          <div class="row"><br>
             <div class="col-md-12">
               <form class="form-horizontal form-label-left" method="POST" action="{{route('checkpdf')}}" novalidate>
               <a href="{{route('notulenpdf')}}" class="btn btn-sm btn-info" type="button"><li class="fa fa-book"></li> Create notulen PDF</a>
@@ -199,7 +199,7 @@
                 </div>
               <!-- Modal Selesai -->
               <label><input type="checkbox" id="checkAllpdff1"/> Check all</label>
-              <table class="Table table-bordered">
+              <table id="datatable" class="Table table-striped table-bordered" style="width:100%">
                 <thead>
                   <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
                     <td></td>
@@ -262,7 +262,7 @@
         {{-- selesai --}}
         <!-- Promo -->
         <div class="tab-pane  fade" id="tabBody2" role="tabpanel" aria-labelledby="tab2" aria-hidden="true" tabindex="0">
-          <div class="row">
+          <div class="row"><br>
             <div class="col-md-12">
               <form class="form-horizontal form-label-left" method="POST" action="{{route('checkpromo')}}" novalidate>
               <a href="{{route('indexnotulenpromo')}}" class="btn btn-info btn-sm" type="button"><li class="fa fa-book"></li> Create Notulen PROMO</a>
@@ -305,7 +305,7 @@
                   </div>
                 </div><!-- Modal Selesai -->
               <label><input type="checkbox" id="checkAllpromoo1"/> Check all</label>
-              <table class="Table table-bordered">
+              <table id="datatable" class="Table table-striped table-bordered" style="width:100%">
                 <thead>
                   <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
                     <td></td>

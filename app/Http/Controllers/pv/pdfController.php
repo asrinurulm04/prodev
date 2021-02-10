@@ -67,16 +67,16 @@ class pdfController extends Controller
         $max = coba::where('pdf_id',$id_project_pdf)->max('turunan');
         $pdf1 = coba::where('pdf_id',$id_project_pdf)->where('revisi','<=',$revisi)->where('turunan','<=',$turunan)->orderBy('turunan','desc')->get();
         $pdf2 = coba::where('pdf_id',$id_project_pdf)->where('revisi','<=',$revisi)->where('turunan',$max)->orderBy('revisi','desc')->get();
-        $pdf = coba::join('pdf_project','tipu.pdf_id','=','pdf_project.id_project_pdf')->where('id_project_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->get();
+        $pdf = coba::join('tr_pdf_project','tr_sub_pdf.pdf_id','=','tr_pdf_project.id_project_pdf')->where('id_project_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->get();
         $id_pdf = coba::where([ ['pdf_id',$id_project_pdf], ['revisi',$revisi], ['turunan',$turunan] ])->first();
         $for = data_forecast::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan','<=',$turunan)->orderBy('turunan','desc')->get();
         $ses = data_ses::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan','<=',$turunan)->orderBy('turunan','desc')->get();
-        $nopdf = DB::table('pdf_project')->max('pdf_number')+1;
+        $nopdf = DB::table('tr_pdf_project')->max('pdf_number')+1;
         $data =sprintf("%03s", abs($nopdf));
         $kemaspdf = kemaspdf::where('id_pdf',$id_project_pdf)->where('revisi','=',$revisi)->where('turunan','=',$turunan)->get();
         $hitungkemaspdf = kemaspdf::where('id_pdf',$id_project_pdf)->where('revisi','=',$revisi)->where('turunan','=',$turunan)->count();
         $dept = Departement::all();
-        $dataklaim = data_klaim::where('id_pdf',$id_project_pdf)->join('klaim','klaim.id','=','id_klaim')->where('revisi',$revisi)->where('turunan',$turunan)->get();
+        $dataklaim = data_klaim::where('id_pdf',$id_project_pdf)->join('ms_klaim','ms_klaim.id','=','id_klaim')->where('revisi',$revisi)->where('turunan',$turunan)->get();
         $datadetail = data_detail_klaim::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->get();
         $picture = picture::where('pdf_id',$id_project_pdf)->where('turunan','<=',$turunan)->orderBy('turunan','desc')->get();
         return view('pdf.lihatpdf')->with([
@@ -98,15 +98,15 @@ class pdfController extends Controller
     public function downloadpdf($id_project_pdf,$revisi,$turunan){
         $datapdf = coba::where('pdf_id',$id_project_pdf)->count();
         $pdf1 = coba::where('pdf_id',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->orderBy('turunan','desc')->get();
-        $pdf = coba::join('pdf_project','tipu.pdf_id','=','pdf_project.id_project_pdf')->where('id_project_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->get();
+        $pdf = coba::join('tr_pdf_project','tr_sub_pdf.pdf_id','=','tr_pdf_project.id_project_pdf')->where('id_project_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->get();
         $id_pdf = coba::where([ ['pdf_id',$id_project_pdf], ['revisi',$revisi], ['turunan',$turunan] ])->first();
-        $dataklaim = data_klaim::where('id_pdf',$id_project_pdf)->join('klaim','klaim.id','=','id_klaim')->where('revisi',$revisi)->where('turunan',$turunan)->get();
+        $dataklaim = data_klaim::where('id_pdf',$id_project_pdf)->join('ms_klaim','ms_klaim.id','=','id_klaim')->where('revisi',$revisi)->where('turunan',$turunan)->get();
         $datadetail = data_detail_klaim::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->get();
         $for = data_forecast::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan','<=',$turunan)->orderBy('turunan','desc')->get();
         $ses = data_ses::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->orderBy('turunan','desc')->get();
         $kemaspdf = kemaspdf::where('id_pdf',$id_project_pdf)->where('revisi','=',$revisi)->where('turunan',$turunan)->get();
         $hitungkemaspdf = kemaspdf::where('id_pdf',$id_project_pdf)->where('revisi','=',$revisi)->where('turunan',$turunan)->count();
-        $dataklaim = data_klaim::where('id_pdf',$id_project_pdf)->join('klaim','klaim.id','=','id_klaim')->where('revisi',$revisi)->where('turunan',$turunan)->get();
+        $dataklaim = data_klaim::where('id_pdf',$id_project_pdf)->join('ms_klaim','ms_klaim.id','=','id_klaim')->where('revisi',$revisi)->where('turunan',$turunan)->get();
         $datadetail = data_detail_klaim::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->get();
         $picture = picture::where('pdf_id',$id_project_pdf)->where('turunan','<=',$turunan)->orderBy('turunan','desc')->get();
         return view('pdf.pdfdownload')->with([
@@ -234,7 +234,7 @@ class pdfController extends Controller
         $klaim = klaim::all();
         $eksis=datakemas::count();
         $komponen = komponen::all();
-        $project = coba::where('status_data','!=','draf')->where('status_pdf','=','active')->join('pdf_project','pdf_project.id_project_pdf','=','tipu.pdf_id')->get();
+        $project = coba::where('status_data','!=','draf')->where('status_pdf','=','active')->join('tr_pdf_project','tr_pdf_project.id_project_pdf','=','tr_sub_pdf.pdf_id')->get();
         $id_pdf = project_pdf::find($id_project_pdf);
         return view('pdf.buatpdf')->with([
             'ses' => $ses,
@@ -262,9 +262,9 @@ class pdfController extends Controller
     }
 
     public function buatpdf1($id_project_pdf,$revisi,$turunan){
-        $pdf = coba::where([ ['pdf_id',$id_project_pdf], ['revisi',$revisi], ['turunan',$turunan] ])->join('pdf_project','pdf_project.id_project_pdf','tipu.pdf_id')->get();
+        $pdf = coba::where([ ['pdf_id',$id_project_pdf], ['revisi',$revisi], ['turunan',$turunan] ])->join('tr_pdf_project','tr_pdf_project.id_project_pdf','tr_sub_pdf.pdf_id')->get();
         $datases = data_ses::where([ ['id_pdf',$id_project_pdf], ['revisi',$revisi], ['turunan',$turunan] ])->get();
-        $project = coba::where('status_data','!=','draf')->where('status_pdf','=','active')->join('pdf_project','pdf_project.id_project_pdf','=','tipu.pdf_id')->get();
+        $project = coba::where('status_data','!=','draf')->where('status_pdf','=','active')->join('tr_pdf_project','tr_pdf_project.id_project_pdf','=','tr_sub_pdf.pdf_id')->get();
         $ses = ses::all();
         $brand = brand::all();
         $kemas= datakemas::all();
@@ -941,9 +941,9 @@ class pdfController extends Controller
             ],function($message)use($request){
                 $message->subject('PROJECT PDF-'.$request->name);
                 //sent email to manager
-                $dept = DB::table('departements')->where('id',$request->kirim)->get();
+                $dept = DB::table('ms_departements')->where('id',$request->kirim)->get();
                 foreach($dept as $dept){
-                    $user = DB::table('users')->where('id',$dept->manager_id)->get();
+                    $user = DB::table('tr_users')->where('id',$dept->manager_id)->get();
                     foreach($user as $user){
                         $data = $user->email;
                         $message->to($data);
@@ -952,9 +952,9 @@ class pdfController extends Controller
 
                 // CC Manager tambahan
                 if($request->rka==1){
-                    $dept2 = DB::table('departements')->where('id',$request->rka)->get();
+                    $dept2 = DB::table('ms_departements')->where('id',$request->rka)->get();
                     foreach($dept2 as $dept2){
-                        $user2 = DB::table('users')->where('id',$dept2->manager_id)->get();
+                        $user2 = DB::table('tr_users')->where('id',$dept2->manager_id)->get();
                         foreach($user2 as $user2){
                             $data2 = $user2->email;
                             $message->cc($data2);
@@ -1025,13 +1025,13 @@ class pdfController extends Controller
                 $message->subject('PROJECT PDF');
                 //sent email to User
                 if($request->user!=null){
-                    $user = DB::table('users')->where('id',$request->user)->get();
+                    $user = DB::table('tr_users')->where('id',$request->user)->get();
                     foreach($user as $user){
                         $data = $user->email;
                         $message->to($data);
                     }
                 }else{
-                    $user2 = DB::table('users')->where('id',$request->user2)->get();
+                    $user2 = DB::table('tr_users')->where('id',$request->user2)->get();
                     foreach($user2 as $user2){
                         $data2 = $user2->email;
                         $message->to($data2);

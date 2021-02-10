@@ -186,7 +186,7 @@
               <input type="number" title="years" placeholder="Years" value="{{ $pkp->years }}" name="tahun" id="tahun" class="form-control col-md-12 col-xs-12">
             </div>
             <div class="col-md-3 col-sm-3 col-xs-12">
-              <a href="{{route('hapuslaunch',['id_pkp' => $pkp->id_pkp, 'revisi' => $pkp->revisi, 'turunan' => $pkp->turunan])}}" class="btn btn-danger"><li class="fa fa-trash"></li></a>  
+              <a href="{{route('hapuslaunch',['id_pkp' => $pkp->id_pkp, 'revisi' => $pkp->revisi, 'turunan' => $pkp->turunan])}}" class="btn btn-danger btn-sm"><li class="fa fa-trash"></li></a>  
             </div>
             @elseif($pkp->tgl_launch!=NULL)
             <label class="control-label col-md-2 col-sm-3 col-xs-12" style="color:#31a9b8">Launch Deadline*</label>
@@ -1250,7 +1250,7 @@
     "<option value='1 Month'>1 Month</option>"+
     "<option value='2 Month'>2 Month</option>"+
     "<option value='3 Month'>3 Month</option>"+
-    "</select></td><td><a hreaf='' class='btn btn-danger'><li class='fa fa-trash'></li> Delete</a></td>");
+    "</select></td><td><a hreaf='' class='btn btn-danger btn-sm'><li class='fa fa-trash'></li> Delete</a></td>");
 
     $('#tabledata').append('<tr id="addrow' + (i + 1) + '"></tr>');
     i++;

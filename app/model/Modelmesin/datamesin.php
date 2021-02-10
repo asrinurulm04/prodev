@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class datamesin extends Model
 {
-    protected $table ='fs_datamesin';
+    protected $table ='tr_mesin';
     protected $primaryKey='id_data_mesin';
 
     protected $fillable =[

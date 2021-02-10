@@ -39,8 +39,8 @@ class downloadFORController extends Controller
         $awal=1;
         $pertama=2;
 
-        $data = Formula::where('id',$formula)->join('pkp_project','pkp_project.id_project','=','formulas.workbook_id')->first();
-        $allergen_bb = allergen_formula::join('tb_bb_allergen','id_bb','tb_alergen_formula.id_bahan')->where('id_formula',$formula)->where('allergen_countain','!=','')->select(['allergen_countain'])->distinct()->get();
+        $data = Formula::where('id',$formula)->join('tr_project_pkp','tr_project_pkp.id_project','=','tr_formulas.workbook_id')->first();
+        $allergen_bb = allergen_formula::join('tr_bb_allergen','id_bb','tr_allergen_formula.id_bahan')->where('id_formula',$formula)->where('allergen_countain','!=','')->select(['allergen_countain'])->distinct()->get();
 		$fortails = Fortail::where('formula_id',$formula)->get();
         
         $no=1;
@@ -261,7 +261,7 @@ class downloadFORController extends Controller
 
 
         $data = Formula::where('id',$formula)->join('pdf_project','pdf_project.id_project_pdf','=','formulas.workbook_pdf_id')->first();
-        $allergen_bb = allergen_formula::join('tb_bb_allergen','id_bb','tb_alergen_formula.id_bahan')->where('id_formula',$formula)->where('allergen_countain','!=','')->select(['allergen_countain'])->distinct()->get();
+        $allergen_bb = allergen_formula::join('tr_bb_allergen','id_bb','tr_allergen_formula.id_bahan')->where('id_formula',$formula)->where('allergen_countain','!=','')->select(['allergen_countain'])->distinct()->get();
 		$fortails = Fortail::where('formula_id',$formula)->get();
         
         $no=1;
@@ -478,9 +478,9 @@ class downloadFORController extends Controller
         $pertama=2;
 
 		$ada = Fortail::where('formula_id',$formulas)->count();
-		$formula = Formula::where('id',$formulas)->join('tb_overage_inngradient','tb_overage_inngradient.id_formula','formulas.id')->first();
-        $akg = tb_akg::join('formulas','formulas.akg','tb_akg.id_tarkon')->join('tb_overage_inngradient','tb_overage_inngradient.id_formula','formulas.id')->where('id',$formulas)->get();
-        $allergen_bb = allergen_formula::join('tb_bb_allergen','id_bb','tb_alergen_formula.id_bahan')->where('id_formula',$formulas)->where('allergen_countain','!=','')->select(['allergen_countain'])->distinct()->get();
+		$formula = Formula::where('id',$formulas)->join('tr_overage_inngradient','tr_overage_inngradient.id_formula','tr_formulas.id')->first();
+        $akg = tb_akg::join('tr_formulas','tr_formulas.akg','ms_akg.id_tarkon')->join('tr_overage_inngradient','tr_overage_inngradient.id_formula','tr_formulas.id')->where('id',$formulas)->get();
+        $allergen_bb = allergen_formula::join('tr_bb_allergen','id_bb','tr_allergen_formula.id_bahan')->where('id_formula',$formulas)->where('allergen_countain','!=','')->select(['allergen_countain'])->distinct()->get();
 		$fortails = Fortail::where('formula_id',$formulas)->get();
         
         $detail_formula     = collect();  
@@ -528,7 +528,6 @@ class downloadFORController extends Controller
         $no = 0;
         foreach($fortails as $fortail){
 			//Get Needed
-			$ingredients = DB::table('tb_nutfact')->first();
 			$mineral =tr_mineral_bb::where('id_bahan',$fortail->bahan_id)->first();
 			$makro = tr_makro_bb::where('id_bahan',$fortail->bahan_id)->first();
 			$asam = tr_asam_amino_bb::where('id_bahan',$fortail->bahan_id)->first();

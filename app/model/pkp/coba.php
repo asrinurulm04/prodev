@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class coba extends Model
 {
-    protected $table = 'tipu';
+    protected $table = 'tr_sub_pdf';
     protected $primaryKey ='id';
 
     public function datapdf(){
