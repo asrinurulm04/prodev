@@ -13,15 +13,10 @@ class CreatePkpUserGroupsTable extends Migration
      */
     public function up()
     {
-        Schema::create('pkp_user_groups', function (Blueprint $table) {
-            $table->increments('id_user_group');
+        Schema::create('ms_teams_brand', function (Blueprint $table) {
+            $table->increments('id_teams');
             $table->integer('id_user');
-            $table->integer('id_group');
-            $table->enum('created',['true','false'])->nullable();
-            $table->enum('read',['true','false'])->nullable();
-            $table->enum('updated',['true','false'])->nullable();
-            $table->enum('delete',['true','false'])->nullable();
-            $table->enum('is_active',['active','nonactive'])->nullable();
+            $table->string('brand');
             $table->timestamps();
         });
     }
@@ -33,6 +28,6 @@ class CreatePkpUserGroupsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pkp_user_groups');
+        Schema::dropIfExists('ms_teams_brand');
     }
 }

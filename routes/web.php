@@ -387,3 +387,5 @@ Route::post('progress','formula\storageController@proses')->name('progress');
 Route::post('reset_password_without_token', 'AccountsController@validatePasswordRequest')->name('reset_password_without_token');
 Route::patch('/forgotpass','AccountsController@update')->name('forgotpass');
 Route::get('reset/{id}','LoginController@reset')->name('reset');
+
+Route::get('coba','Controller@cobain')->name('coba');

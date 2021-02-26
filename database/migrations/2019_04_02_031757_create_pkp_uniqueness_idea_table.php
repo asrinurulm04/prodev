@@ -13,7 +13,7 @@ class CreatePkpUniquenessIdeaTable extends Migration
      */
     public function up()
     {
-        Schema::create('pkp_uniqueness_idea', function (Blueprint $table) {
+        Schema::create('ms_uniqueness_idea', function (Blueprint $table) {
             $table->increments('id_uniqueness_idea');
             $table->string('uniqueness_idea');
             $table->timestamps();
@@ -27,6 +27,6 @@ class CreatePkpUniquenessIdeaTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pkp_uniqueness_idea');
+        Schema::dropIfExists('ms_uniqueness_idea');
     }
 }

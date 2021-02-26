@@ -402,7 +402,6 @@
 																						@if($data->form17=='yes')<th><input type="checkbox" class="data1 makro" checked name="form17" value="yes"> @elseif($data->form17!='yes')<th><input type="checkbox" class="data1 makro" name="form17" value="yes">@endif	Lemak Trans</th>       
 																						@if($data->form18=='yes')<th><input type="checkbox" class="data1 makro" checked name="form18" value="yes"> @elseif($data->form18!='yes')<th><input type="checkbox" class="data1 makro" name="form18" value="yes">@endif	MUFA</th>
 																						@if($data->form19=='yes')<th><input type="checkbox" class="data1 makro" checked name="form19" value="yes"> @elseif($data->form19!='yes')<th><input type="checkbox" class="data1 makro" name="form19" value="yes">@endif	Lemak Jenuh</th></tr>
-																				<tr>@if($data->form20=='yes')<th><input type="checkbox" class="data1 makro" checked name="form20" value="yes"> @elseif($data->form20!='yes')<th><input type="checkbox" class="data1 makro" name="form20" value="yes">@endif	SFA</th>          
 																						@if($data->form21=='yes')<th><input type="checkbox" class="data1 makro" checked name="form21" value="yes"> @elseif($data->form21!='yes')<th><input type="checkbox" class="data1 makro" name="form21" value="yes">@endif	Omega6</th>
 																						@if($data->form22=='yes')<th><input type="checkbox" class="data1 makro" checked name="form22" value="yes"> @elseif($data->form22!='yes')<th><input type="checkbox" class="data1 makro" name="form22" value="yes">@endif	Kolestrol</th>    
 																						@if($data->form23=='yes')<th><input type="checkbox" class="data1 makro" checked name="form23" value="yes"> @elseif($data->form23!='yes')<th><input type="checkbox" class="data1 makro" name="form23" value="yes">@endif	Protein</th></tr>
@@ -486,7 +485,7 @@
 																	@if($header->form14=='yes')<th class="text-center">DHA</th>@endif         @if($header->form15=='yes')<th class="text-center">EPA</th>@endif
 																	@if($header->form16=='yes')<th class="text-center">Omega3</th>@endif      @if($header->form18=='yes')<th class="text-center">MUFA</th>@endif
 																	@if($header->form17=='yes')<th class="text-center">Lemak Trans</th>@endif @if($header->form19=='yes')<th class="text-center">Lemak Jenuh</th>@endif
-																	@if($header->form20=='yes')<th class="text-center">SFA</th>@endif         @if($header->form21=='yes')<th class="text-center">Omega6</th>@endif
+																	@if($header->form21=='yes')<th class="text-center">Omega6</th>@endif
 																	@if($header->form57=='yes')<th class="text-center">Omega9</th>@endif 			@if($header->form22=='yes')<th class="text-center">Kolestrol</th>@endif   
 																	@if($header->form23=='yes')<th class="text-center">Protein</th>@endif 		@if($header->form24=='yes')<th class="text-center">Kadar Air</th>@endif
 																	<!-- Mineral -->
@@ -542,7 +541,6 @@
 																	@if($header->form18=='yes')<td>{{ $fortail['mufa'] }}</td>@endif
 																	@if($header->form17=='yes')<td>{{ $fortail['lemak_trans'] }}</td>@endif
 																	@if($header->form19=='yes')<td>{{ $fortail['lemak_jenuh'] }}</td>@endif
-																	@if($header->form20=='yes')<td>{{ $fortail['sfa'] }}</td>@endif
 																	@if($header->form21=='yes')<td>{{ $fortail['omega6'] }}</td>@endif
 																	@if($header->form57=='yes')<td>{{ $fortail['omega9'] }}</td>@endif
 																	@if($header->form22=='yes')<td>{{ $fortail['kolestrol'] }}</td>@endif
@@ -619,7 +617,6 @@
 																	@if($header->form18=='yes')<td>{{ $total_harga['total_mufa'] }}</td>@endif
 																	@if($header->form17=='yes')<td>{{ $total_harga['total_lemak_total'] }}</td>@endif
 																	@if($header->form19=='yes')<td>{{ $total_harga['total_lemak_jenuh'] }}</td>@endif
-																	@if($header->form20=='yes')<td>{{ $total_harga['total_sfa'] }}</td>@endif
 																	@if($header->form21=='yes')<td>{{ $total_harga['total_omega6'] }}</td>@endif
 																	@if($header->form57=='yes')<td>{{ $total_harga['total_omega9'] }}</td>@endif
 																	@if($header->form22=='yes')<td>{{ $total_harga['total_kolestrol'] }}</td>@endif
@@ -797,20 +794,20 @@
 																	<td class="text-right">NA</td><td class="text-right"></td><td class="text-center">g</td>
 																	<td class="text-right" style="background-color:#d1d1d1;">NA</td>
 																</tr>
-																<tr class="" style=" color: black;">
-																	<td>
-																		@if($akg->overage_lemak_jenuh!='yes')<input type="checkbox" class="data1" name="lemak_jenuh" value="yes" id="lemak_jenuh">
-																		@else<input type="checkbox" class="data1" value="yes" checked name="lemak_jenuh" id="lemak_jenuh">@endif
-																	</td>
-																	<td>Lemak Jenuh</td>
-																	<td class="text-right">{{ $total_harga['total_sfa'] }}</td><td class="text-center">g</td>
-																	<td class="text-right"><?php $sfa = $total_harga['total_sfa']*($akg->lemak_jenuh/100); $angka_sfa = number_format($sfa,2,",","."); echo $angka_sfa; ?></td>
-																	<td class="text-right">{{$akg->lemak_jenuh}}</td><td class="text-center">g</td>
-																	<td class="text-right" style="background-color:#d1d1d1;">
-																		@if($akg->overage_lemak_jenuh!='yes') {{ $total_harga['total_sfa'] }}
-																		@else {{ $total_harga['total_sfa'] * ($formula->overage/100) }} @endif
-																	</td>
-																</tr>
+															<tr class="" style=" color: black;">
+																<td>
+																	@if($akg->overage_lemak_jenuh!='yes')<input type="checkbox" class="data1" name="lemak_jenuh" value="yes" id="lemak_jenuh">
+																	@else<input type="checkbox" class="data1" value="yes" checked name="lemak_jenuh" id="lemak_jenuh">@endif
+																</td>
+																<td>Lemak Jenuh</td>
+																<td class="text-right">{{ $total_harga['total_lemak_jenuh'] }}</td><td class="text-center">g</td>
+																<td class="text-right"><?php $sfa = $total_harga['total_lemak_jenuh']*($akg->lemak_jenuh/100); $angka_sfa = number_format($sfa,2,",","."); echo $angka_sfa; ?></td>
+																<td class="text-right">{{$akg->lemak_jenuh}}</td><td class="text-center">g</td>
+																<td class="text-right" style="background-color:#d1d1d1;">
+																	@if($akg->overage_lemak_jenuh!='yes') {{ $total_harga['total_lemak_jenuh'] }}
+																	@else {{ $total_harga['total_lemak_jenuh'] * ($formula->overage/100) }} @endif
+																</td>
+															</tr>
 																<tr class="" style=" color: black;">
 																	<td>
 																		@if($akg->overage_lemak_tidak_jenuh_tunggal!='yes')<input type="checkbox" class="data1" name="lemak_jenuh" value="yes" id="lemak_jenuh">

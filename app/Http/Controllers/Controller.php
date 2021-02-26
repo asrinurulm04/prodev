@@ -14,4 +14,8 @@ class Controller extends BaseController
     public function error(){
        return view('feasibility.404');
     }
+
+    public function cobain(){
+        return view('coba');
+    }
 }

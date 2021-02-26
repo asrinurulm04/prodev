@@ -11,10 +11,11 @@
       <div class="col-md-7" align="right">
         @if($promo==0)
           <a href="{{ route('datapromo',$pkp->id_pkp_promo)}}" class="btn btn-primary btn-sm" type="button"><li class="fa fa-plus"></li> Add Data</a>
-        @endif
-        <a class="btn btn-info btn-sm" href="{{ Route('lihatpromo',['id_pkp_promo' => $data->id_pkp_promoo, 'revisi' => $data->revisi, 'turunan' => $data->turunan]) }}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i> Show</a>
+        @else
+          <a class="btn btn-info btn-sm" href="{{ Route('lihatpromo',['id_pkp_promo' => $data->id_pkp_promoo, 'revisi' => $data->revisi, 'turunan' => $data->turunan]) }}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i> Show</a>
         @if($data->status_promo=='draf' || $data->status_promo=='revisi')
         <a class="btn btn-warning btn-sm" href="{{ route('datapromo11', ['id_pkp_promo' => $data->id_pkp_promoo, 'revisi' => $data->revisi, 'turunan' => $data->turunan]) }}" data-toggle="tooltip" title="Edit"><i class="fa fa-edit"></i> Edit</a>
+        @endif
         @endif
         @if(auth()->user()->role->namaRule == 'pv_lokal')
           @if($pkp->status_project=="revisi")
@@ -83,10 +84,10 @@
           <div class="x_content">
             <table>
               <thead>
-                <tr><td>Last update</td><td> : {{$pkp->datapromo->last_update}}</td></tr>
+                <tr><td>Last update</td><td> : @if($promo!=0){{$data->last_update}}@endif</td></tr>
                 <tr><td>Country</td><td> : {{$pkp->country}}</td></tr>
-                <tr><td>Application</td><td> : {{$pkp->datapromo->application}}</td></tr>
-                <tr><td>Item Promo Readiness</td><td> : {{$pkp->datapromo->promo_readiness}}</td></tr>
+                <tr><td>Application</td><td> : @if($promo!=0){{$data->application}}@endif</td></tr>
+                <tr><td>Item Promo Readiness</td><td> : @if($promo!=0){{$data->promo_readiness}}@endif</td></tr>
               </thead>
             </table><br>
           </div>

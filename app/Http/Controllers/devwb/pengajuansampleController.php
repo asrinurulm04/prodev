@@ -49,7 +49,7 @@ class pengajuansampleController extends Controller
                 
                 $datapkp = pkp_project::where('id_project',$data)->get();
                 foreach($datapkp as $data){
-                    $dept = DB::table('departements')->where('id',$data->tujuankirim)->get();
+                    $dept = DB::table('ms_departements')->where('id',$data->tujuankirim)->get();
                     foreach($dept as $dept){
                         $user = user::where('id',$dept->manager_id)->get();
                         foreach($user as $user){
@@ -113,7 +113,7 @@ class pengajuansampleController extends Controller
                 
                 $datapkp = pkp_project::where('id_project',$data)->get();
                 foreach($datapkp as $data){
-                    $dept = DB::table('departements')->where('id',$data->tujuankirim)->get();
+                    $dept = DB::table('ms_departements')->where('id',$data->tujuankirim)->get();
                     foreach($dept as $dept){
                         $user = user::where('id',$dept->manager_id)->get();
                         foreach($user as $user){

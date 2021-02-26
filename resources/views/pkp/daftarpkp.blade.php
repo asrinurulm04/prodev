@@ -143,6 +143,7 @@
                          </div>
                        </div>
                      </div>
+                    <label for="" style="color:red">* gunakan (.) untuk pengganti (,)</label>
                    </div>
                    <div class="modal-footer">
                      <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> Add</button>
@@ -325,17 +326,7 @@
                   @if($for->vv=='proses')
                   <span class="label label-primary" style="color:white">New Sample</span>
                   @elseif($for->vv=='approve')
-                    @if($for->status_fisibility=='not_approved')
-                      @if($hasilpanel>=1)
-                      <span class="label label-info" style="color:white">sample Approved</span>
-                      @elseif($hasilpanel==0)
-                      <span class="label label-success" style="color:white">Waiting panel Results</span>
-                      @endif
-                    @elseif($for->status_fisibility=='proses')
-                      <span class="label label-warning" style="color:white">Proses Feasibility And Panel</span>
-                    @elseif($for->status_fisibility=='selesai')
-                      <span class="label label-warning" style="color:white">New Data Feasibility</span>
-                    @endif
+                  <span class="label label-info" style="color:white">Approved</span>
                   @elseif($for->vv=='reject')
                     <span class="label label-danger" style="color:white">Project rejected</span>
                   @elseif($for->vv=='final')

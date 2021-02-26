@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Modelmesin\Dmesin;
+use App\model\Modelmesin\Dmesin;
 use App\model\pkp\jenis;
 use App\model\pkp\tipp;
 use App\model\pkp\pkp_project;
@@ -40,6 +40,20 @@ class DataController extends Controller
     public function index(){
         $pkp = tipp::join('pkp_project','pkp_project.id_project','=','tippu.id_pkp')->where('type','=','1')->where('status_project','!=','draf')->get();
         return response()->json($pkp);
+    }
+
+    public function add(Request $request){
+        $post = Dmesin::create($request->all());
+        $post->save();
+
+        return response()->json($request);
+    }
+
+    public function update(Request $request){
+        $post = Dmesin::where('id_data_mesin',$request->id_data_mesin)->update($request->all());
+        $post->save();
+
+        return response()->json($request);
     }
 
     public function for(){

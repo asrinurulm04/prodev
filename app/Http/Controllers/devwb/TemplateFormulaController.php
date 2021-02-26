@@ -59,7 +59,6 @@ class TemplateFormulaController extends Controller
                 $fortails->nama_bahan7 = $tfortail->nama_bahan7 ;
                 $fortails->per_batch = $tfortail->per_batch ;
                 $fortails->per_serving = $tfortail->per_serving ;
-                $fortails->jenis_timbangan = $tfortail->jenis_timbangan ;
                 $fortails->bahan_baku = $tfortail->bahan_baku ;
                 $fortails->alternatif1 = $tfortail->alternatif1 ;
                 $fortails->alternatif2 = $tfortail->alternatif2 ;

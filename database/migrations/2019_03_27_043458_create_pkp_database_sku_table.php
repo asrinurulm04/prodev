@@ -13,12 +13,13 @@ class CreatePkpDatabaseSkuTable extends Migration
      */
     public function up()
     {
-        Schema::create('pkp_database_sku', function (Blueprint $table) {
+        Schema::create('ms_sku', function (Blueprint $table) {
             $table->increments('id_sku');
-            $table->string('item_code')->nullable();
-            $table->string('item_name')->nullable();
-            $table->string('description')->nullable();
-            $table->enum('status',['active','nonactive'])->nullable();
+            $table->string('no_formula')->nullable();
+            $table->string('nama_produk')->nullable();
+            $table->integer('no')->nullable();
+            $table->string('nama_sku')->nullable();
+            $table->string('kode_items')->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ class CreatePkpDatabaseSkuTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pkp_database_sku');
+        Schema::dropIfExists('ms_sku');
     }
 }

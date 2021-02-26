@@ -126,7 +126,7 @@ class SummaryFormulaController extends Controller
 		$total_sorbitol = 0; $total_maltitol = 0; $total_laktosa = 0; $total_sukrosa = 0;
 		$total_gula = 0; $total_erythritol  = 0; $total_dha = 0; $total_epa = 0;
 		$total_omega3 = 0; $total_mufa = 0; $total_lemak_total = 0; $total_lemak_jenuh = 0;
-		$total_sfa = 0; $total_omega6 = 0; $total_kolestrol = 0; $total_protein = 0;
+		$total_omega6 = 0; $total_kolestrol = 0; $total_protein = 0;
 		$total_omega9 = 0; $total_linoleat=0; $total_air = 0;
 		// total mineral
 		$total_ca = 0; $total_mg = 0; $total_k = 0; $total_zink = 0;
@@ -188,7 +188,6 @@ class SummaryFormulaController extends Controller
 				$mufa = ($makro->MUFA/100)*($fortail->per_serving);
 				$lemak_trans = ($makro->lemak_trans/100)*($fortail->per_serving);
 				$lemak_jenuh = ($makro->lemak_jenuh/100)*($fortail->per_serving);
-				$sfa = ($makro->SFA/100)*($fortail->per_serving);
 				$omega6 = ($makro->omega6/100)*($fortail->per_serving);
 				$omega9 = ($makro->omega9/100)*($fortail->per_serving);
 				$linoleat = ($makro->linoleat/100)*($fortail->per_serving);
@@ -196,7 +195,7 @@ class SummaryFormulaController extends Controller
 				$protein = ($makro->protein/100)*($fortail->per_serving);
 				$air = ($makro->kadar_air)*($persen/100);
 				// mineral
-				$ca = ($mineral->ca/100)*($fortail->per_serving);
+				$caa = ($mineral->ca/100)*($fortail->per_serving);
 				$mg = ($mineral->mg/100)*($fortail->per_serving);
 				$k = ($mineral->k/100)*($fortail->per_serving);
 				$zink = ($mineral->zink/100)*($fortail->per_serving);
@@ -271,12 +270,11 @@ class SummaryFormulaController extends Controller
 				'dha' => $dha ,                		'epa' => $epa,
 				'omega3' => $omega3 ,          		'mufa' => $mufa ,
 				'lemak_trans' => $lemak_trans ,		'lemak_jenuh' => $lemak_jenuh,
-				'sfa' => $sfa ,                		'omega6' => $omega6 ,
+				'omega6' => $omega6 ,				'air' => $air,
 				'linoleat' => $linoleat ,           'omega9' => $omega9 ,
 				'kolestrol' => $kolestrol ,    		'protein' => $protein,
-				'air' => $air,
 				//mineral
-				'ca' => $ca ,        				'mg' => $mg ,
+				'ca' => $caa ,        				'mg' => $mg ,
 				'k' => $k ,          				'zink' => $zink,
 				'p' => $p ,          				'na' => $na ,
 				'naci' => $naci ,    				'energi' => $energi,
@@ -327,12 +325,11 @@ class SummaryFormulaController extends Controller
 			$total_dha = $total_dha + $dha; 						$total_epa = $total_epa + $epa;
 			$total_omega3 = $total_omega3 + $omega3; 				$total_mufa = $total_mufa + $mufa; 
 			$total_lemak_total = $total_lemak_total + $lemak_trans; $total_lemak_jenuh = $total_lemak_jenuh + $lemak_jenuh;
-			$total_sfa = $total_sfa + $sfa; 						$total_omega6 = $total_omega6 + $omega6; 
+			$total_omega6 = $total_omega6 + $omega6; 				$total_air = $total_air + $air;
 			$total_omega9 = $total_omega9 + $omega9; 				$total_linoleat = $total_linoleat + $linoleat; 
 			$total_kolestrol = $total_kolestrol + $kolestrol; 		$total_protein = $total_protein + $protein;
-			$total_air = $total_air + $air;
 			// total mineral
-			$total_ca = $total_ca + $ca; 							$total_mg = $total_mg + $mg; 
+			$total_ca = $total_ca + $caa; 							$total_mg = $total_mg + $mg; 
 			$total_k = $total_k + $k; 								$total_zink = $total_zink + $zink;
 			$total_p = $total_p + $p; 								$total_na = $total_na + $na; 
 			$total_naci = $total_naci + $naci; 						$total_energi = $total_energi + $energi;
@@ -367,11 +364,11 @@ class SummaryFormulaController extends Controller
 			$total_aureus = $total_aureus + $aureus;					$total_Coli = $total_Coli + $Coli;
 			$total_TPC = $total_TPC + $TPC;								$total_Bacilluscereus = $total_Bacilluscereus + $Bacilluscereus;
 			// RPC
-			$total_rpc_as = $total_as * ($formula->serving_size/1000) / ($formula->serving_size + $formula->saran_sazi / 1000);
-			$total_rpc_hg = $total_hg * ($formula->serving_size/1000) / ($formula->serving_size + $formula->saran_sazi / 1000);
-			$total_rpc_pb = $total_pb * ($formula->serving_size/1000) / ($formula->serving_size + $formula->saran_sazi / 1000);							
-			$total_rpc_sn = $total_sn * ($formula->serving_size/1000) / ($formula->serving_size + $formula->saran_sazi / 1000);
-			$total_rpc_cd = $total_cd * ($formula->serving_size/1000) / ($formula->serving_size + $formula->saran_sazi / 1000);
+			$total_rpc_as = $total_as * ($formula->serving_size/1000) / ($formula->serving_size + $formula->saran_saji / 1000);
+			$total_rpc_hg = $total_hg * ($formula->serving_size/1000) / ($formula->serving_size + $formula->saran_saji / 1000);
+			$total_rpc_pb = $total_pb * ($formula->serving_size/1000) / ($formula->serving_size + $formula->saran_saji / 1000);							
+			$total_rpc_sn = $total_sn * ($formula->serving_size/1000) / ($formula->serving_size + $formula->saran_saji / 1000);
+			$total_rpc_cd = $total_cd * ($formula->serving_size/1000) / ($formula->serving_size + $formula->saran_saji / 1000);
 			// total harga
             $total_harga_per_gram = $total_harga_per_gram + $hpg;
             $total_harga_per_serving = $total_harga_per_serving + $harga_per_serving;
@@ -392,10 +389,9 @@ class SummaryFormulaController extends Controller
 			'total_dha' => $total_dha, 					'total_epa' => $total_epa,
 			'total_omega3' => $total_omega3, 			'total_mufa' => $total_mufa, 
 			'total_lemak_total' => $total_lemak_total,	'total_lemak_jenuh' => $total_lemak_jenuh,
-			'total_sfa' => $total_sfa, 					'total_omega6' => $total_omega6,
+			'total_air' => $total_air, 					'total_omega6' => $total_omega6,
 			'total_omega9' => $total_omega9,			'total_linoleat' => $total_linoleat,
 			'total_kolestrol' => $total_kolestrol, 		'total_protein' => $total_protein,
-			'total_air' => $total_air,
 			// total mineral
 			'total_ca' => $total_ca, 					'total_mg' => $total_mg, 
 			'total_k' => $total_k, 						'total_zink' => $total_zink,

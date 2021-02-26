@@ -13,7 +13,7 @@ class CreateLabTable extends Migration
      */
     public function up()
     {
-        Schema::create('fs_lab', function (Blueprint $table) {
+        Schema::create('tr_lab', function (Blueprint $table) {
             $table->increments('id_lab');
             $table->integer('id_feasibility')->unsigned();
             $table->string('jenis_mikroba', 225);
@@ -34,6 +34,6 @@ class CreateLabTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('fs_biaya_lab');
+        Schema::dropIfExists('tr_lab');
     }
 }

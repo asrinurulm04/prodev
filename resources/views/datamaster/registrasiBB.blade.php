@@ -113,7 +113,8 @@
 
 <div class="x_panel">
   <div class="x_title">
-		<h2><li class="fa fa-table"></li> Registrasi Nutrisi</h2>
+    <h3><li class="fa fa-flask"></li> Registrasi Nutrition</h3>
+    <label for="" style="color:red">* Gunakan (.) sebagai pengganti (,)</label>
     <ul class="nav navbar-right panel_toolbox">
       <li><a class="collapse-link" hidden><i class="fa fa-chevron-up"></i></a></li>
     </ul>
@@ -201,10 +202,6 @@
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" class="form-control" name="lemak_jenuh" id="lemak_jenuh">
       </div>
-      <label  class="control-label col-md-1 col-sm-1 col-xs-12">SFA</label>
-      <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="sfa" id="sfa">
-      </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Omega6</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" class="form-control" name="omega6" id="omega6">
@@ -213,16 +210,16 @@
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" class="form-control" name="kolesterol" id="kolesterol">
       </div>
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Linoleat</label>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <input type="number" step="0.0001" class="form-control" name="linoleat" id="linoleat">
+      </div>
     </div>
     <div class="form-group">
       <label  class="control-label col-md-1 col-sm-1 col-xs-12"></label>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Omega9</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" class="form-control" name="omega9" id="omega9">
-      </div>
-      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Linoleat</label>
-      <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="linoleat" id="linoleat">
       </div>
     </div><br>
     <div class="form-group">
@@ -554,7 +551,7 @@
               @endforeach
             </select>
           </td>
-          <td><input type="number" class="form-control" name="zat[]" id="zat"></td>
+          <td><input type="number" step="0.0001" class="form-control" name="zat[]" id="zat"></td>
           <td class="text-center">
             <select name="satuan_zat[]" id="satuan_zat" class="form-control select">
               <option disabled selected>-->Select One<--</option>
@@ -588,7 +585,7 @@
               @endforeach
             </select>
           </td>
-          <td><input type="number" class="form-control" name="btp[]" id="btp"></td>
+          <td><input type="number" step="0.0001" class="form-control" name="btp[]" id="btp"></td>
           <td class="text-center">
             <select name="satuan_btp[]" id="satuan_btp" class="form-control select">
               <option disabled selected>-->Select One<--</option>

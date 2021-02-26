@@ -13,7 +13,7 @@ class CreateTableSubbrand extends Migration
      */
     public function up()
     {
-        Schema::create('subbrands', function (Blueprint $table) {
+        Schema::create('ms_subbrands', function (Blueprint $table) {
           $table->increments('id');
           $table->string('subbrand');
           $table->integer('brand_id')->index();
@@ -29,6 +29,6 @@ class CreateTableSubbrand extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('subbrands');
+        Schema::dropIfExists('ms_subbrands');
     }
 }

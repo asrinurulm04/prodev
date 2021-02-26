@@ -37,9 +37,9 @@
         @endif
         @endforeach
         @if($cf != 0)
-        @if($data->file==NULL)
-        <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#upload"><i class="fa fa-upload"></i> Upload LHP
-        @endif
+          @if($data->file==NULL)
+          <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#upload"><i class="fa fa-upload"></i> Upload LHP
+          @endif
         @endif
         @if($hitung==0)
           <a href="{{ route('buatpdf',$data->id_project_pdf)}}" class="btn btn-primary btn-sm" type="button"><li class="fa fa-plus"></li> Add Data</a>
@@ -51,6 +51,7 @@
           @elseif($data->status_project=="revisi")
           <a href="{{ route('datapengajuan')}}" class="btn btn-danger btn-sm" type="button"><li class="fa fa-share"></li> Back</a>
           @elseif($data->status_project=="sent" || $data->status_project=="close" || $data->status_project=="proses")
+          <a class="btn btn-warning btn-sm" data-toggle="modal" data-target="#data{{ $data->id_project_pdf  }}"><i class="fa fa-edit"></i> Edit Timeline</a>
           <a href="{{ route('listpdf')}}" class="btn btn-danger btn-sm" type="button"><li class="fa fa-share"></li> Back</a>
           @endif
         @elseif(auth()->user()->role->namaRule === 'kemas')
@@ -292,6 +293,7 @@
                   <td class="text-center">{{$sample1->catatan_pv}}</td>
                   <td class="text-center"> 
                   @if($sample1->vv=='proses')
+                    <a class="btn btn-info btn-sm" href="{{ route('formula.detail',[$sample1->workbook_pdf_id,$sample1->id]) }}" data-toggle="tooltip" title="Show"><i style="font-size:12px;" class="fa fa-eye"></i></a>
                     <a class="btn btn-danger btn-sm" data-toggle="modal" data-target="#rejectsample{{ $sample1->id  }}" title="Reject"><li class="fa fa-times"></li></a>  
                     <!-- Modal -->
                     <div class="modal" id="rejectsample{{ $sample1->id  }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -389,7 +391,7 @@
           <div class="col-md-4 col-sm-9 col-xs-12">
             <input type="date" class="form-control" value="{{$data->waktu}}" name="waktu" id="waktu" placeholder="end date">
           </div>
-      </div>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> Edit</button>
@@ -402,31 +404,31 @@
 <!-- Modal Selesai -->
 
 
-        <!-- Formula Baru -->
+<!-- Formula Baru -->
 <div class="modal" id="upload" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title text-center" id="hm"> Upload FIle</h4>
-              </div>
-              <div class="modal-body">
-                <form method="post" action="{{route('uploadfile_pdf',$data->id_project_pdf)}}" enctype="multipart/form-data">                                    
-                <div class="form-group">
-                  <label class="col-lg-2 control-label">LHP</label>
-                  <div class="col-lg-9">
-                    <input type="file" class="form-control" id="data" name="filename">
-                  </div>
-                </div>
-              </div>
-               <div class="modal-footer">
-                 <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-upload"></i> upload</button>
-                {{ csrf_field() }}
-              </div>
-              </form>
-            </div>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title text-center" id="hm"> Upload FIle</h4>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="{{route('uploadfile_pdf',$data->id_project_pdf)}}" enctype="multipart/form-data">                                    
+        <div class="form-group">
+          <label class="col-lg-2 control-label">LHP</label>
+          <div class="col-lg-9">
+            <input type="file" class="form-control" id="data" name="filename">
           </div>
         </div>
+      </div>
+       <div class="modal-footer">
+         <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-upload"></i> upload</button>
+        {{ csrf_field() }}
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
 @endsection
 @section('s')
 <script type="text/javascript">

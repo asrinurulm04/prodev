@@ -40,6 +40,7 @@ use Auth;
 use DB;
 use Charts;
 use Redirect;
+use Filbertkm\Http\HttpClient;
 use Carbon\Carbon;
 
 class pkpController extends Controller
@@ -105,6 +106,8 @@ class pkpController extends Controller
         $id_pkp = tipp::where([ ['id_pkp',$id_project], ['revisi',$revisi], ['turunan',$turunan] ])->first();
         $for = data_forecast::where('id_pkp',$id_project)->where('revisi',$revisi)->where('turunan',$turunan)->get();
         $pkpp = tipp::join('tr_project_pkp','tr_sub_pkp.id_pkp','=','tr_project_pkp.id_project')->where([ ['id_pkp',$id_project], ['revisi',$revisi], ['turunan',$turunan] ])->get();
+        $data1 = tipp::join('tr_project_pkp','tr_sub_pkp.id_pkp','=','tr_project_pkp.id_project')->where([ ['id_pkp',$id_project], ['revisi',$revisi], ['turunan',$turunan] ])->first();
+        $type = $data1->type;
         $ses= data_ses::where([ ['id_pkp',$id_project], ['revisi','<=',$revisi], ['turunan','<=',$turunan] ])->orderBy('revisi','desc')->orderBy('turunan','desc')->get();
         $max = tipp::where('id_pkp',$id_project)->max('turunan');
         $pkp2 = tipp::where('id_pkp',$id_project)->where('revisi','<=',$revisi)->where('turunan',$max)->orderBy('turunan','desc')->orderBy('revisi','desc')->get();
@@ -117,6 +120,7 @@ class pkpController extends Controller
             'pkpp' => $pkpp,
             'datases' => $ses,
             'for' => $for,
+            'type' => $type,
             'datadetail' => $datadetail,
             'dataklaim' => $dataklaim,
             'pkp2' => $pkp2,
@@ -1102,7 +1106,7 @@ class pkpController extends Controller
             catch (Exception $e){
             return response (['status' => false,'errors' => $e->getMessage()]);
         }
-        return redirect::Route('listpkp');
+        return redirect::back()->with('Project Successfully Submitted');
     }
 
     public function sentpkp(Request $request, $id_project,$revisi,$turunan){

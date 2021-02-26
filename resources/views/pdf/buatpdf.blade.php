@@ -216,9 +216,9 @@
                     <td><input type="number" value="0" name="forecast[]" class="form-control"></td>
                     <td>
                       <select requaired name="satuan[]"  id="detail1" class="form-control">
-                        <option value='1 Month'>1 Month</option>
-                        <option value='2 Month'>2 Month</option>
-                        <option value='3 Month'>3 Month</option>
+                        <option value="1st Month">1st Month</option>
+                        <option value="2nd Month">2nd Month</option>
+                        <option value="3rd Month">3rd Month</option>
                       </select>
                     </td>
                     <td><input type="text" placeholder="Note" name="keterangan[]" class="form-control"></td>
@@ -323,10 +323,10 @@
   var i = 1;
     $("#add_data").click(function() {
       $('#add' + i).html( "<td><input type='number' name='forecast[]' class='form-control'></td><td><select name='satuan[]'  class='form-control'>"+
-      "<option disabled selected>--> Select One <--</option>"+
-      "<option value='1 Month'>1 Month</option>"+
-      "<option value='2 Month'>2 Month</option>"+
-      "<option value='3 Month'>3 Month</option>"+
+        "<option disabled selected>--> Select One <--</option>"+
+        "<option value='1st Month'>1st Month</option>"+
+        "<option value='2nd Month'>2nd Month</option>"+
+        "<option value='3rd Month'>3rd Month</option>"+
       "</select></td><td><input type='text' name='keterangan[]' class='form-control'></td>"+
       "<td><a hreaf='' class='btn btn-danger btn-sm' title='Delete'><li class='fa fa-trash'></li></a></td>");
 

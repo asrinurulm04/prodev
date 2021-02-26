@@ -13,7 +13,7 @@ class CreatePanelTable extends Migration
      */
     public function up()
     {
-        Schema::create('panel', function (Blueprint $table) {
+        Schema::create('ms_panel', function (Blueprint $table) {
             $table->increments('id');
             $table->enum('panel',['PFT Non Forced Choice','Uji 2 Rata-rata','DDT','PFT','TAT','AIT','HTT','DCT','Tetrad','HRT','Duo Trio']);
             $table->timestamps();
@@ -27,6 +27,6 @@ class CreatePanelTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('panel');
+        Schema::dropIfExists('ms_panel');
     }
 }

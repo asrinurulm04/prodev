@@ -375,58 +375,57 @@
 																			<tr>@if($data->form16=='yes')<th><input type="checkbox" class="data1 makro" checked name="form16" value="yes"> @elseif($data->form16!='yes')<th><input type="checkbox" class="data1 makro" name="form16" value="yes">@endif	Omega3</th>
 																					@if($data->form17=='yes')<th><input type="checkbox" class="data1 makro" checked name="form17" value="yes"> @elseif($data->form17!='yes')<th><input type="checkbox" class="data1 makro" name="form17" value="yes">@endif	Lemak Trans</th>       
 																					@if($data->form18=='yes')<th><input type="checkbox" class="data1 makro" checked name="form18" value="yes"> @elseif($data->form18!='yes')<th><input type="checkbox" class="data1 makro" name="form18" value="yes">@endif	MUFA</th>
-																					@if($data->form19=='yes')<th><input type="checkbox" class="data1 makro" checked name="form19" value="yes"> @elseif($data->form19!='yes')<th><input type="checkbox" class="data1 makro" name="form19" value="yes">@endif	Lemak Jenuh</th></tr>
-																			<tr>@if($data->form20=='yes')<th><input type="checkbox" class="data1 makro" checked name="form20" value="yes"> @elseif($data->form20!='yes')<th><input type="checkbox" class="data1 makro" name="form20" value="yes">@endif	SFA</th>          
-																					@if($data->form21=='yes')<th><input type="checkbox" class="data1 makro" checked name="form21" value="yes"> @elseif($data->form21!='yes')<th><input type="checkbox" class="data1 makro" name="form21" value="yes">@endif	Omega6</th>
+																					@if($data->form19=='yes')<th><input type="checkbox" class="data1 makro" checked name="form19" value="yes"> @elseif($data->form19!='yes')<th><input type="checkbox" class="data1 makro" name="form19" value="yes">@endif	Lemak Jenuh</th></tr>      
+																			<tr>@if($data->form21=='yes')<th><input type="checkbox" class="data1 makro" checked name="form21" value="yes"> @elseif($data->form21!='yes')<th><input type="checkbox" class="data1 makro" name="form21" value="yes">@endif	Omega6</th>
 																					@if($data->form22=='yes')<th><input type="checkbox" class="data1 makro" checked name="form22" value="yes"> @elseif($data->form22!='yes')<th><input type="checkbox" class="data1 makro" name="form22" value="yes">@endif	Kolestrol</th>    
-																					@if($data->form23=='yes')<th><input type="checkbox" class="data1 makro" checked name="form23" value="yes"> @elseif($data->form23!='yes')<th><input type="checkbox" class="data1 makro" name="form23" value="yes">@endif	Protein</th></tr>
-																			<tr>@if($data->form24=='yes')<th><input type="checkbox" class="data1 makro" checked name="form24" value="yes"> @elseif($data->form24!='yes')<th><input type="checkbox" class="data1 makro" name="form24" value="yes">@endif	Kadar Air</th>
+																					@if($data->form23=='yes')<th><input type="checkbox" class="data1 makro" checked name="form23" value="yes"> @elseif($data->form23!='yes')<th><input type="checkbox" class="data1 makro" name="form23" value="yes">@endif	Protein</th>
+																					@if($data->form24=='yes')<th><input type="checkbox" class="data1 makro" checked name="form24" value="yes"> @elseif($data->form24!='yes')<th><input type="checkbox" class="data1 makro" name="form24" value="yes">@endif	Kadar Air</th></tr>
 																			<!-- Mineral -->
-																					@if($data->form25=='yes')<th><input type="checkbox" class="data1 mineral" checked name="form25" value="yes"> @elseif($data->form25!='yes')<th><input type="checkbox" class="data1 mineral" name="form25" value="yes">@endif	Ca </th>   
+																			<tr>@if($data->form25=='yes')<th><input type="checkbox" class="data1 mineral" checked name="form25" value="yes"> @elseif($data->form25!='yes')<th><input type="checkbox" class="data1 mineral" name="form25" value="yes">@endif	Ca </th>   
 																					@if($data->form26=='yes')<th><input type="checkbox" class="data1 mineral" checked name="form26" value="yes"> @elseif($data->form26!='yes')<th><input type="checkbox" class="data1 mineral" name="form26" value="yes">@endif	Fe</th>   
-																					@if($data->form27=='yes')<th><input type="checkbox" class="data1 mineral" checked name="form27" value="yes"> @elseif($data->form27!='yes')<th><input type="checkbox" class="data1 mineral" name="form27" value="yes">@endif	Mg </th></tr>
-																			<tr>@if($data->form28=='yes')<th><input type="checkbox" class="data1 mineral" checked name="form28" value="yes"> @elseif($data->form28!='yes')<th><input type="checkbox" class="data1 mineral" name="form28" value="yes">@endif	K </th>   
-																					@if($data->form29=='yes')<th><input type="checkbox" class="data1 mineral" checked name="form29" value="yes"> @elseif($data->form29!='yes')<th><input type="checkbox" class="data1 mineral" name="form29" value="yes">@endif	Cr</th>     
+																					@if($data->form27=='yes')<th><input type="checkbox" class="data1 mineral" checked name="form27" value="yes"> @elseif($data->form27!='yes')<th><input type="checkbox" class="data1 mineral" name="form27" value="yes">@endif	Mg </th>
+																					@if($data->form28=='yes')<th><input type="checkbox" class="data1 mineral" checked name="form28" value="yes"> @elseif($data->form28!='yes')<th><input type="checkbox" class="data1 mineral" name="form28" value="yes">@endif	K </th>   </tr>
+																			<tr>@if($data->form29=='yes')<th><input type="checkbox" class="data1 mineral" checked name="form29" value="yes"> @elseif($data->form29!='yes')<th><input type="checkbox" class="data1 mineral" name="form29" value="yes">@endif	Cr</th>     
 																					@if($data->form30=='yes')<th><input type="checkbox" class="data1 mineral" checked name="form30" value="yes"> @elseif($data->form30!='yes')<th><input type="checkbox" class="data1 mineral" name="form30" value="yes">@endif	Zink</th>
-																			<tr>@if($data->form32=='yes')<th><input type="checkbox" class="data1 mineral" checked name="form32" value="yes"> @elseif($data->form32!='yes')<th><input type="checkbox" class="data1 mineral" name="form32" value="yes">@endif	Fosfor</th>   
-																					@if($data->form33=='yes')<th><input type="checkbox" class="data1 mineral" checked name="form33" value="yes"> @elseif($data->form33!='yes')<th><input type="checkbox" class="data1 mineral" name="form33" value="yes">@endif	Na </th>
-																					@if($data->form34=='yes')<th><input type="checkbox" class="data1 mineral" checked name="form34" value="yes"> @elseif($data->form34!='yes')<th><input type="checkbox" class="data1 mineral" name="form34" value="yes">@endif	NaCi</th>    
-																					@if($data->form35=='yes')<th><input type="checkbox" class="data1 mineral" checked name="form35" value="yes"> @elseif($data->form35!='yes')<th><input type="checkbox" class="data1 mineral" name="form35" value="yes">@endif	Mn</th> </tr>  
-																			<tr>@if($data->form36=='yes')<th><input type="checkbox" class="data1 mineral" checked name="form36" value="yes"> @elseif($data->form36!='yes')<th><input type="checkbox" class="data1 mineral" name="form36" value="yes">@endif	Energi</th>
+																					@if($data->form32=='yes')<th><input type="checkbox" class="data1 mineral" checked name="form32" value="yes"> @elseif($data->form32!='yes')<th><input type="checkbox" class="data1 mineral" name="form32" value="yes">@endif	Fosfor</th>   
+																					@if($data->form33=='yes')<th><input type="checkbox" class="data1 mineral" checked name="form33" value="yes"> @elseif($data->form33!='yes')<th><input type="checkbox" class="data1 mineral" name="form33" value="yes">@endif	Na </th></tr>
+																			<tr>@if($data->form34=='yes')<th><input type="checkbox" class="data1 mineral" checked name="form34" value="yes"> @elseif($data->form34!='yes')<th><input type="checkbox" class="data1 mineral" name="form34" value="yes">@endif	NaCi</th>    
+																					@if($data->form35=='yes')<th><input type="checkbox" class="data1 mineral" checked name="form35" value="yes"> @elseif($data->form35!='yes')<th><input type="checkbox" class="data1 mineral" name="form35" value="yes">@endif	Mn</th>
+																					@if($data->form36=='yes')<th><input type="checkbox" class="data1 mineral" checked name="form36" value="yes"> @elseif($data->form36!='yes')<th><input type="checkbox" class="data1 mineral" name="form36" value="yes">@endif	Energi</th>
 																			<!-- Vitamin -->	
-																					@if($data->form37=='yes')<th><input type="checkbox" class="data1 vitamin" checked name="form37" value="yes"> @elseif($data->form37!='yes')<th><input type="checkbox" class="data1 vitamin" name="form37" value="yes">@endif	VitA </th> 
-																					@if($data->form38=='yes')<th><input type="checkbox" class="data1 vitamin" checked name="form38" value="yes"> @elseif($data->form38!='yes')<th><input type="checkbox" class="data1 vitamin" name="form38" value="yes">@endif	Biotin</th>    
-																					@if($data->form39=='yes')<th><input type="checkbox" class="data1 vitamin" checked name="form39" value="yes"> @elseif($data->form39!='yes')<th><input type="checkbox" class="data1 vitamin" name="form39" value="yes">@endif	VitB1 </th></tr>
-																			<tr>@if($data->form40=='yes')<th><input type="checkbox" class="data1 vitamin" checked name="form40" value="yes"> @elseif($data->form40!='yes')<th><input type="checkbox" class="data1 vitamin" name="form40" value="yes">@endif	VitB2 </th> 
-																					@if($data->form41=='yes')<th><input type="checkbox" class="data1 vitamin" checked name="form41" value="yes"> @elseif($data->form41!='yes')<th><input type="checkbox" class="data1 vitamin" name="form41" value="yes">@endif	Kolin </th> 
-																					@if($data->form42=='yes')<th><input type="checkbox" class="data1 vitamin" checked name="form42" value="yes"> @elseif($data->form42!='yes')<th><input type="checkbox" class="data1 vitamin" name="form42" value="yes">@endif	VitB3 </th>
-																					@if($data->form43=='yes')<th><input type="checkbox" class="data1 vitamin" checked name="form43" value="yes"> @elseif($data->form43!='yes')<th><input type="checkbox" class="data1 vitamin" name="form43" value="yes">@endif	VitB5 </th></tr>
-																			<tr>@if($data->form44=='yes')<th><input type="checkbox" class="data1 vitamin" checked name="form44" value="yes"> @elseif($data->form44!='yes')<th><input type="checkbox" class="data1 vitamin" name="form44" value="yes">@endif	VitK </th> 
-																					@if($data->form45=='yes')<th><input type="checkbox" class="data1 vitamin" checked name="form45" value="yes"> @elseif($data->form45!='yes')<th><input type="checkbox" class="data1 vitamin" name="form45" value="yes">@endif	VitB6 </th>
-																					@if($data->form46=='yes')<th><input type="checkbox" class="data1 vitamin" checked name="form46" value="yes"> @elseif($data->form46!='yes')<th><input type="checkbox" class="data1 vitamin" name="form46" value="yes">@endif	VitB12 </th> 
-																					@if($data->form47=='yes')<th><input type="checkbox" class="data1 vitamin" checked name="form47" value="yes"> @elseif($data->form47!='yes')<th><input type="checkbox" class="data1 vitamin" name="form47" value="yes">@endif	VitE </th></tr>
-																			<tr>@if($data->form48=='yes')<th><input type="checkbox" class="data1 vitamin" checked name="form48" value="yes"> @elseif($data->form48!='yes')<th><input type="checkbox" class="data1 vitamin" name="form48" value="yes">@endif	VitC </th>
-																					@if($data->form49=='yes')<th><input type="checkbox" class="data1 vitamin" checked name="form49" value="yes"> @elseif($data->form59!='yes')<th><input type="checkbox" class="data1 vitamin" name="form49" value="yes">@endif	VitD </th>
-																					@if($data->form50=='yes')<th><input type="checkbox" class="data1 vitamin" checked name="form50" value="yes"> @elseif($data->form50!='yes')<th><input type="checkbox" class="data1 vitamin" name="form50" value="yes">@endif	Folat</th>
+																					@if($data->form37=='yes')<th><input type="checkbox" class="data1 vitamin" checked name="form37" value="yes"> @elseif($data->form37!='yes')<th><input type="checkbox" class="data1 vitamin" name="form37" value="yes">@endif	VitA </th> </tr>
+																			<tr>@if($data->form38=='yes')<th><input type="checkbox" class="data1 vitamin" checked name="form38" value="yes"> @elseif($data->form38!='yes')<th><input type="checkbox" class="data1 vitamin" name="form38" value="yes">@endif	Biotin</th>    
+																					@if($data->form39=='yes')<th><input type="checkbox" class="data1 vitamin" checked name="form39" value="yes"> @elseif($data->form39!='yes')<th><input type="checkbox" class="data1 vitamin" name="form39" value="yes">@endif	VitB1 </th>
+																					@if($data->form40=='yes')<th><input type="checkbox" class="data1 vitamin" checked name="form40" value="yes"> @elseif($data->form40!='yes')<th><input type="checkbox" class="data1 vitamin" name="form40" value="yes">@endif	VitB2 </th> 
+																					@if($data->form41=='yes')<th><input type="checkbox" class="data1 vitamin" checked name="form41" value="yes"> @elseif($data->form41!='yes')<th><input type="checkbox" class="data1 vitamin" name="form41" value="yes">@endif	Kolin </th> </tr>
+																			<tr>@if($data->form42=='yes')<th><input type="checkbox" class="data1 vitamin" checked name="form42" value="yes"> @elseif($data->form42!='yes')<th><input type="checkbox" class="data1 vitamin" name="form42" value="yes">@endif	VitB3 </th>
+																					@if($data->form43=='yes')<th><input type="checkbox" class="data1 vitamin" checked name="form43" value="yes"> @elseif($data->form43!='yes')<th><input type="checkbox" class="data1 vitamin" name="form43" value="yes">@endif	VitB5 </th>
+																					@if($data->form44=='yes')<th><input type="checkbox" class="data1 vitamin" checked name="form44" value="yes"> @elseif($data->form44!='yes')<th><input type="checkbox" class="data1 vitamin" name="form44" value="yes">@endif	VitK </th> 
+																					@if($data->form45=='yes')<th><input type="checkbox" class="data1 vitamin" checked name="form45" value="yes"> @elseif($data->form45!='yes')<th><input type="checkbox" class="data1 vitamin" name="form45" value="yes">@endif	VitB6 </th></tr>
+																			<tr>@if($data->form46=='yes')<th><input type="checkbox" class="data1 vitamin" checked name="form46" value="yes"> @elseif($data->form46!='yes')<th><input type="checkbox" class="data1 vitamin" name="form46" value="yes">@endif	VitB12 </th> 
+																					@if($data->form47=='yes')<th><input type="checkbox" class="data1 vitamin" checked name="form47" value="yes"> @elseif($data->form47!='yes')<th><input type="checkbox" class="data1 vitamin" name="form47" value="yes">@endif	VitE </th>
+																					@if($data->form48=='yes')<th><input type="checkbox" class="data1 vitamin" checked name="form48" value="yes"> @elseif($data->form48!='yes')<th><input type="checkbox" class="data1 vitamin" name="form48" value="yes">@endif	VitC </th>
+																					@if($data->form49=='yes')<th><input type="checkbox" class="data1 vitamin" checked name="form49" value="yes"> @elseif($data->form59!='yes')<th><input type="checkbox" class="data1 vitamin" name="form49" value="yes">@endif	VitD </th></tr>
+																			<tr>@if($data->form50=='yes')<th><input type="checkbox" class="data1 vitamin" checked name="form50" value="yes"> @elseif($data->form50!='yes')<th><input type="checkbox" class="data1 vitamin" name="form50" value="yes">@endif	Folat</th>
 																			<!-- asam amino -->
-																					@if($data->form51=='yes')<th><input type="checkbox" class="data1 asam" checked name="form51" value="yes"> @elseif($data->form51!='yes')<th><input type="checkbox" class="data1 asam" name="form51" value="yes">@endif	Lisin</th></tr>
-																			<tr>@if($data->form52=='yes')<th><input type="checkbox" class="data1 asam" checked name="form52" value="yes"> @elseif($data->form52!='yes')<th><input type="checkbox" class="data1 asam" name="form52" value="yes">@endif	L-Glutamine</th> 
-																					@if($data->form53=='yes')<th><input type="checkbox" class="data1 asam" checked name="form53" value="yes"> @elseif($data->form53!='yes')<th><input type="checkbox" class="data1 asam" name="form53" value="yes">@endif	Proline</th> 
-																					@if($data->form54=='yes')<th><input type="checkbox" class="data1 asam" checked name="form54" value="yes"> @elseif($data->form54!='yes')<th><input type="checkbox" class="data1 asam" name="form54" value="yes">@endif	Methionin</th>
-																					@if($data->form55=='yes')<th><input type="checkbox" class="data1 asam" checked name="form55" value="yes"> @elseif($data->form55!='yes')<th><input type="checkbox" class="data1 asam" name="form55" value="yes">@endif	Histidin</th></tr>  
-																			<tr>@if($data->form56=='yes')<th><input type="checkbox" class="data1 asam" checked name="form56" value="yes"> @elseif($data->form56!='yes')<th><input type="checkbox" class="data1 asam" name="form56" value="yes">@endif	Tyrosin</th>  
-																					@if($data->form57=='yes')<th><input type="checkbox" class="data1 asam" checked name="form57" value="yes"> @elseif($data->form57!='yes')<th><input type="checkbox" class="data1 asam" name="form57" value="yes">@endif	BCAA</th>
-																					@if($data->form58=='yes')<th><input type="checkbox" class="data1 asam" checked name="form58" value="yes"> @elseif($data->form58!='yes')<th><input type="checkbox" class="data1 asam" name="form58" value="yes">@endif	Leusin</th>   
-																					@if($data->form59=='yes')<th><input type="checkbox" class="data1 asam" checked name="form59" value="yes"> @elseif($data->form59!='yes')<th><input type="checkbox" class="data1 asam" name="form59" value="yes">@endif	Glisin</th></tr>  
-																			<tr>@if($data->form60=='yes')<th><input type="checkbox" class="data1 asam" checked name="form60" value="yes"> @elseif($data->form60!='yes')<th><input type="checkbox" class="data1 asam" name="form60" value="yes">@endif	Aspartat</th>
-																					@if($data->form61=='yes')<th><input type="checkbox" class="data1 asam" checked name="form61" value="yes"> @elseif($data->form61!='yes')<th><input type="checkbox" class="data1 asam" name="form61" value="yes">@endif	Serin</th>    
-																					@if($data->form62=='yes')<th><input type="checkbox" class="data1 asam" checked name="form62" value="yes"> @elseif($data->form62!='yes')<th><input type="checkbox" class="data1 asam" name="form62" value="yes">@endif	Alanin</th>    
-																					@if($data->form63=='yes')<th><input type="checkbox" class="data1 asam" checked name="form63" value="yes"> @elseif($data->form63!='yes')<th><input type="checkbox" class="data1 asam" name="form63" value="yes">@endif	Glutamat</th></tr>
-																			<tr>@if($data->form64=='yes')<th><input type="checkbox" class="data1 asam" checked name="form64" value="yes"> @elseif($data->form64!='yes')<th><input type="checkbox" class="data1 asam" name="form64" value="yes">@endif	Arginine</th>   
-																					@if($data->form65=='yes')<th><input type="checkbox" class="data1 asam" checked name="form65" value="yes"> @elseif($data->form65!='yes')<th><input type="checkbox" class="data1 asam" name="form65" value="yes">@endif	Sistein</th>   
-																					@if($data->form66=='yes')<th><input type="checkbox" class="data1 asam" checked name="form66" value="yes"> @elseif($data->form66!='yes')<th><input type="checkbox" class="data1 asam" name="form66" value="yes">@endif	Isoleusin</th>
-																					@if($data->form67=='yes')<th><input type="checkbox" class="data1 asam" checked name="form67" value="yes"> @elseif($data->form67!='yes')<th><input type="checkbox" class="data1 asam" name="form67" value="yes">@endif	Threonin</th> </tr>  
-																			<tr>@if($data->form68=='yes')<th><input type="checkbox" class="data1 asam" checked name="form68" value="yes"> @elseif($data->form68!='yes')<th><input type="checkbox" class="data1 asam" name="form68" value="yes">@endif	Phenilalanin</th>
+																					@if($data->form51=='yes')<th><input type="checkbox" class="data1 asam" checked name="form51" value="yes"> @elseif($data->form51!='yes')<th><input type="checkbox" class="data1 asam" name="form51" value="yes">@endif	Lisin</th>
+																					@if($data->form52=='yes')<th><input type="checkbox" class="data1 asam" checked name="form52" value="yes"> @elseif($data->form52!='yes')<th><input type="checkbox" class="data1 asam" name="form52" value="yes">@endif	L-Glutamine</th> 
+																					@if($data->form53=='yes')<th><input type="checkbox" class="data1 asam" checked name="form53" value="yes"> @elseif($data->form53!='yes')<th><input type="checkbox" class="data1 asam" name="form53" value="yes">@endif	Proline</th> </tr>
+																			<tr>@if($data->form54=='yes')<th><input type="checkbox" class="data1 asam" checked name="form54" value="yes"> @elseif($data->form54!='yes')<th><input type="checkbox" class="data1 asam" name="form54" value="yes">@endif	Methionin</th>
+																					@if($data->form55=='yes')<th><input type="checkbox" class="data1 asam" checked name="form55" value="yes"> @elseif($data->form55!='yes')<th><input type="checkbox" class="data1 asam" name="form55" value="yes">@endif	Histidin</th>
+																			    @if($data->form56=='yes')<th><input type="checkbox" class="data1 asam" checked name="form56" value="yes"> @elseif($data->form56!='yes')<th><input type="checkbox" class="data1 asam" name="form56" value="yes">@endif	Tyrosin</th>  
+																					@if($data->form57=='yes')<th><input type="checkbox" class="data1 asam" checked name="form57" value="yes"> @elseif($data->form57!='yes')<th><input type="checkbox" class="data1 asam" name="form57" value="yes">@endif	BCAA</th></tr>
+																			<tr>@if($data->form58=='yes')<th><input type="checkbox" class="data1 asam" checked name="form58" value="yes"> @elseif($data->form58!='yes')<th><input type="checkbox" class="data1 asam" name="form58" value="yes">@endif	Leusin</th>   
+																					@if($data->form59=='yes')<th><input type="checkbox" class="data1 asam" checked name="form59" value="yes"> @elseif($data->form59!='yes')<th><input type="checkbox" class="data1 asam" name="form59" value="yes">@endif	Glisin</th> 
+																					@if($data->form60=='yes')<th><input type="checkbox" class="data1 asam" checked name="form60" value="yes"> @elseif($data->form60!='yes')<th><input type="checkbox" class="data1 asam" name="form60" value="yes">@endif	Aspartat</th>
+																					@if($data->form61=='yes')<th><input type="checkbox" class="data1 asam" checked name="form61" value="yes"> @elseif($data->form61!='yes')<th><input type="checkbox" class="data1 asam" name="form61" value="yes">@endif	Serin</th>    </tr>
+																			<tr>@if($data->form62=='yes')<th><input type="checkbox" class="data1 asam" checked name="form62" value="yes"> @elseif($data->form62!='yes')<th><input type="checkbox" class="data1 asam" name="form62" value="yes">@endif	Alanin</th>    
+																					@if($data->form63=='yes')<th><input type="checkbox" class="data1 asam" checked name="form63" value="yes"> @elseif($data->form63!='yes')<th><input type="checkbox" class="data1 asam" name="form63" value="yes">@endif	Glutamat</th>
+																					@if($data->form64=='yes')<th><input type="checkbox" class="data1 asam" checked name="form64" value="yes"> @elseif($data->form64!='yes')<th><input type="checkbox" class="data1 asam" name="form64" value="yes">@endif	Arginine</th>   
+																					@if($data->form65=='yes')<th><input type="checkbox" class="data1 asam" checked name="form65" value="yes"> @elseif($data->form65!='yes')<th><input type="checkbox" class="data1 asam" name="form65" value="yes">@endif	Sistein</th>   </tr>
+																			<tr>@if($data->form66=='yes')<th><input type="checkbox" class="data1 asam" checked name="form66" value="yes"> @elseif($data->form66!='yes')<th><input type="checkbox" class="data1 asam" name="form66" value="yes">@endif	Isoleusin</th>
+																					@if($data->form67=='yes')<th><input type="checkbox" class="data1 asam" checked name="form67" value="yes"> @elseif($data->form67!='yes')<th><input type="checkbox" class="data1 asam" name="form67" value="yes">@endif	Threonin</th> 
+																					@if($data->form68=='yes')<th><input type="checkbox" class="data1 asam" checked name="form68" value="yes"> @elseif($data->form68!='yes')<th><input type="checkbox" class="data1 asam" name="form68" value="yes">@endif	Phenilalanin</th>
 																					@if($data->form69=='yes')<th><input type="checkbox" class="data1 asam" checked name="form69" value="yes"> @elseif($data->form69!='yes')<th><input type="checkbox" class="data1 asam" name="form69" value="yes">@endif	Valin</th></tr>
 																		</thead>
 																		@endforeach
@@ -461,7 +460,7 @@
 																@if($header->form14=='yes')<th class="text-center">DHA</th>@endif         @if($header->form15=='yes')<th class="text-center">EPA</th>@endif
 																@if($header->form16=='yes')<th class="text-center">Omega3</th>@endif      @if($header->form18=='yes')<th class="text-center">MUFA</th>@endif
 																@if($header->form17=='yes')<th class="text-center">Lemak Trans</th>@endif @if($header->form19=='yes')<th class="text-center">Lemak Jenuh</th>@endif
-																@if($header->form20=='yes')<th class="text-center">SFA</th>@endif         @if($header->form21=='yes')<th class="text-center">Omega6</th>@endif
+																@if($header->form21=='yes')<th class="text-center">Omega6</th>@endif
 																@if($header->form57=='yes')<th class="text-center">Omega9</th>@endif 			@if($header->form22=='yes')<th class="text-center">Kolestrol</th>@endif   
 																@if($header->form23=='yes')<th class="text-center">Protein</th>@endif 		@if($header->form24=='yes')<th class="text-center">Kadar Air</th>@endif
 																<!-- Mineral -->
@@ -517,7 +516,6 @@
 																@if($header->form18=='yes')<td>{{ $fortail['mufa'] }}</td>@endif
 																@if($header->form17=='yes')<td>{{ $fortail['lemak_trans'] }}</td>@endif
 																@if($header->form19=='yes')<td>{{ $fortail['lemak_jenuh'] }}</td>@endif
-																@if($header->form20=='yes')<td>{{ $fortail['sfa'] }}</td>@endif
 																@if($header->form21=='yes')<td>{{ $fortail['omega6'] }}</td>@endif
 																@if($header->form57=='yes')<td>{{ $fortail['omega9'] }}</td>@endif
 																@if($header->form22=='yes')<td>{{ $fortail['kolestrol'] }}</td>@endif
@@ -594,7 +592,6 @@
 																@if($header->form18=='yes')<td>{{ $total_harga['total_mufa'] }}</td>@endif
 																@if($header->form17=='yes')<td>{{ $total_harga['total_lemak_total'] }}</td>@endif
 																@if($header->form19=='yes')<td>{{ $total_harga['total_lemak_jenuh'] }}</td>@endif
-																@if($header->form20=='yes')<td>{{ $total_harga['total_sfa'] }}</td>@endif
 																@if($header->form21=='yes')<td>{{ $total_harga['total_omega6'] }}</td>@endif
 																@if($header->form57=='yes')<td>{{ $total_harga['total_omega9'] }}</td>@endif
 																@if($header->form22=='yes')<td>{{ $total_harga['total_kolestrol'] }}</td>@endif
@@ -782,12 +779,12 @@
 																	@else<input type="checkbox" class="data1" value="yes" checked name="lemak_jenuh" id="lemak_jenuh">@endif
 																</td>
 																<td>Lemak Jenuh</td>
-																<td class="text-right">{{ $total_harga['total_sfa'] }}</td><td class="text-center">g</td>
-																<td class="text-right"><?php $sfa = $total_harga['total_sfa']*($akg->lemak_jenuh/100); $angka_sfa = number_format($sfa,2,",","."); echo $angka_sfa; ?></td>
+																<td class="text-right">{{ $total_harga['total_lemak_jenuh'] }}</td><td class="text-center">g</td>
+																<td class="text-right"><?php $sfa = $total_harga['total_lemak_jenuh']*($akg->lemak_jenuh/100); $angka_sfa = number_format($sfa,2,",","."); echo $angka_sfa; ?></td>
 																<td class="text-right">{{$akg->lemak_jenuh}}</td><td class="text-center">g</td>
 																<td class="text-right" style="background-color:#d1d1d1;">
-																	@if($akg->overage_lemak_jenuh!='yes') {{ $total_harga['total_sfa'] }}
-																	@else {{ $total_harga['total_sfa'] * ($formula->overage/100) }} @endif
+																	@if($akg->overage_lemak_jenuh!='yes') {{ $total_harga['total_lemak_jenuh'] }}
+																	@else {{ $total_harga['total_lemak_jenuh'] * ($formula->overage/100) }} @endif
 																</td>
 															</tr>
 															<tr class="" style=" color: black;">

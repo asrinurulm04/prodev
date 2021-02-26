@@ -13,7 +13,7 @@ class CreateMesinTable extends Migration
      */
     public function up()
     {
-        Schema::create('fs_mesin', function (Blueprint $table) {
+        Schema::create('tr_mesin', function (Blueprint $table) {
             $table->increments('id_mesin');
             $table->integer('id_feasibility')->unsigned();
             $table->integer('id_data_mesin')->nullable();
@@ -34,6 +34,6 @@ class CreateMesinTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('fs_mesin');
+        Schema::dropIfExists('tr_mesin');
     }
 }

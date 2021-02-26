@@ -157,9 +157,9 @@
                     <td><input type="number" name="forecast[]" min="0" step="0.0001" class="form-control"></td>
                     <td>
                       <select name="satuan[]" class="form-control items">
-                        <option value="1 Month">1 Month</option>
-                        <option value="2 Month">2 Month</option>
-                        <option value="3 Month">3 Month</option>
+                        <option value="1st Month">1st Month</option>
+                        <option value="2nd Month">2nd Month</option>
+                        <option value="3rd Month">3rd Month</option>
                       </select>
                     </td>
                     <td>
@@ -980,9 +980,9 @@
     var i = 1;
     $("#add_data").click(function() {
       $('#addrow' + i).html( "<td><input type='number' name='forecast[]' class='form-control'></td><td><select name='satuan[]'  class='form-control items'>"+
-      "<option value='1 Month'>1 Month</option>"+
-      "<option value='2 Month'>2 Month</option>"+
-      "<option value='3 Month'>3 Month</option>"+
+        "<option value='1st Month'>1st Month</option>"+
+        "<option value='2nd Month'>2nd Month</option>"+
+        "<option value='3rd Month'>3rd Month</option>"+
       "</select></td><td><a hreaf='' class='btn btn-danger'><li class='fa fa-trash'></li> Delete</a></td>");
 
       $('#tabledata').append('<tr id="addrow' + (i + 1) + '"></tr>');

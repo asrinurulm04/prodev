@@ -13,4 +13,7 @@ class data_detail_klaim extends Model
         return $this->hasOne('App\model\pkp\detail_klaim','id','id_detail');
     }
     
+    public function komponen_klaim(){
+        return $this->hasOne('App\model\pkp\komponen','id','id_detail');
+    }
 }

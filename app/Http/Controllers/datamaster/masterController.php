@@ -252,7 +252,7 @@ class masterController extends Controller
     }
 
     public function klaim(){
-        $klaim =komponen_klaim::all();
+        $klaim =klaim::all();
         $komponen = komponen::all();
         $pengajuan = pengajuan::count();
         return view('datamaster.komponenklaim1')->with([

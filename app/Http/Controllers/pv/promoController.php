@@ -421,10 +421,10 @@ class promoController extends Controller
     }
 
     public function editdatapromo(Request $request,$id_pkp_promoo,$revisi,$turunan){
-        $promo = promo::where('id_pkp_promo',$id_pkp_promoo)->first();
+        $promo = data_promo::where('id_pkp_promoo',$id_pkp_promoo)->where('revisi',$revisi)->where('turunan',$turunan)->first();
         $naikversi = $promo->turunan + 1;
 
-        $datapromo = data_promo::where('id_pkp_promoo',$id_pkp_promoo)->where('revisi',$revisi)->where('turunan',$promo)->first();
+        $datapromo = data_promo::where('id_pkp_promoo',$id_pkp_promoo)->where('revisi',$revisi)->where('turunan',$turunan)->first();
         $datapromo->status_data='inactive';
         $datapromo->save();
 

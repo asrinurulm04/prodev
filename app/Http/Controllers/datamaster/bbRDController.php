@@ -94,7 +94,6 @@ class bbRDController extends Controller
         $makro->mufa=$request->mufa;
         $makro->lemak_trans=$request->lemak_trans;
         $makro->lemak_jenuh=$request->lemak_jenuh;
-        $makro->sfa=$request->sfa;
         $makro->omega6=$request->omega6;
         $makro->omega9=$request->omega9;
         $makro->linoleat=$request->linoleat;
@@ -477,7 +476,6 @@ class bbRDController extends Controller
         $makro->mufa=$request->mufa;
         $makro->lemak_trans=$request->lemak_trans;
         $makro->lemak_jenuh=$request->lemak_jenuh;
-        $makro->sfa=$request->sfa;
         $makro->omega6=$request->omega6;
         $makro->omega9=$request->omega9;
         $makro->linoleat=$request->linoleat;
@@ -571,16 +569,19 @@ class bbRDController extends Controller
                 $btp_carryOver = tr_btp_bb::where('id_bahan',$id_bahan)->delete();
             }
             if ($validator->passes()) {
-				$btp = implode(',', $request->input('btp_carry_over'));
-				$btps = explode(',', $btp);
+				$idz = implode(',', $request->input('btp_carry_over'));
+				$carry = explode(',', $idz);
+				$btp = implode(',', $request->input('btp'));
+				$nominal_btp = explode(',', $btp);
 				$idb = implode(',', $request->input('satuan_btp'));
-                $idc = explode(',', $idb);
-				for ($i = 0; $i < count($btps); $i++)
+				$idc = explode(',', $idb);
+				for ($i = 0; $i < count($carry); $i++)
 				{
 					$btp_carryOver = new tr_btp_bb;
                     $btp_carryOver->id_bahan=$id_bahan;
-                    $btp_carryOver->btp = $btps[$i];
-                    $btp_carryOver->id_satuan = $idc[$i];
+                    $btp_carryOver->btp = $carry[$i];
+                    $btp_carryOver->nominal = $nominal_btp[$i];
+					$btp_carryOver->id_satuan = $idc[$i];
 					$btp_carryOver->save();
 					$i = $i++;
 				}
@@ -597,6 +598,8 @@ class bbRDController extends Controller
             if ($validator->passes()) {
 				$idz = implode(',', $request->input('zat_aktif'));
 				$ids = explode(',', $idz);
+				$nominal = implode(',', $request->input('zat'));
+				$nominal_zat = explode(',', $nominal);
 				$idb = implode(',', $request->input('satuan_zat'));
 				$idc = explode(',', $idb);
 				for ($i = 0; $i < count($ids); $i++)
@@ -604,6 +607,7 @@ class bbRDController extends Controller
 					$zat = new tr_zataktif_bb;
                     $zat->id_bahan=$id_bahan;
                     $zat->zat_aktif = $ids[$i];
+                    $zat->nominal = $nominal_zat[$i];
 					$zat->id_satuan = $idc[$i];
 					$zat->save();
 					$i = $i++;

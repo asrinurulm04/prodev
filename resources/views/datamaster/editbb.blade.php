@@ -191,6 +191,7 @@
 <div class="x_panel">
   <div class="x_title">
     <h3><li class="fa fa-flask"></li> Registrasi Nutrition</h3>
+    <label for="" style="color:red">* Gunakan (.) sebagai pengganti (,)</label>
   </div>
   <!-- Makro -->
   <h4><li class="fa fa-tags"></li> Makro (g/ 100 g)</h4>
@@ -275,10 +276,6 @@
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" value="{{$makro->lemak_jenuh}}" class="form-control" name="lemak_jenuh" id="lemak_jenuh">
       </div>
-      <label  class="control-label col-md-1 col-sm-1 col-xs-12">SFA</label>
-      <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" value="{{$makro->sfa}}" class="form-control" name="sfa" id="sfa">
-      </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Omega6</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" value="{{$makro->omega6}}" class="form-control" name="omega6" id="omega6">
@@ -287,16 +284,16 @@
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" value="{{$makro->kolesterol}}" class="form-control" name="kolesterol" id="kolesterol">
       </div>
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Linoleat</label>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <input type="number" step="0.0001" value="{{$makro->linoleat}}" class="form-control" name="linoleat" id="linoleat">
+      </div>
     </div>
     <div class="form-group">
       <label  class="control-label col-md-1 col-sm-1 col-xs-12"></label>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Omega9</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" value="{{$makro->omega9}}" class="form-control" name="omega9" id="omega9">
-      </div>
-      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Linoleat</label>
-      <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" value="{{$makro->linoleat}}" class="form-control" name="linoleat" id="linoleat">
       </div>
     </div><br>
     <div class="form-group">
@@ -644,7 +641,7 @@
               @endforeach
             </select>
           </td>
-          <td><input type="number" class="form-control" value="{{$zat->nominal}}" name="zat[]" id="zat"></td>
+          <td><input type="number" step="0.0001" class="form-control" value="{{$zat->nominal}}" name="zat[]" id="zat"></td>
           <td class="text-center">
             <select name="satuan_zat[]" id="satuan_zat" class="form-control select">
               <option value="{{$zat->id_satuan}}" selected>{{$zat->satuan->satuan}}</option>
@@ -669,7 +666,7 @@
               @endforeach
             </select>
           </td>
-          <td><input type="number" class="form-control" name="zat[]" id="zat"></td>
+          <td><input type="number" step="0.0001" class="form-control" name="zat[]" id="zat"></td>
           <td class="text-center">
             <select name="satuan_zat[]" id="satuan_zat" class="form-control select">
               <option disabled selected>-->Select One<--</option>
@@ -709,7 +706,7 @@
               @endforeach
             </select>
           </td>
-          <td><input type="number" class="form-control" name="btp[]" value="{{$hasil->nominal}}" id="btp"></td>
+          <td><input type="number" step="0.0001" class="form-control" name="btp[]" value="{{$hasil->nominal}}" id="btp"></td>
           <td class="text-center">
             <select name="satuan_btp[]" id="satuan_btp" class="form-control select">
 							<option value="{{$hasil->id_satuan}}" selected>{{$hasil->satuan->satuan}}</option>
@@ -734,7 +731,7 @@
               @endforeach
             </select>
           </td>
-          <td><input type="number" class="form-control" name="btp[]" id="btp"></td>
+          <td><input type="number" step="0.0001" class="form-control" name="btp[]" id="btp"></td>
           <td class="text-center">
             <select name="satuan_btp[]" id="satuan_btp" class="form-control select">
               <option disabled selected>-->Select One<--</option>
@@ -1213,7 +1210,7 @@
   $("#add_zat").click(function() {
     $('#addzat' + b).html( 
     "<td><select name='zat_aktif[]' id='zat_aktif' class='form-control items'>"+pilihan_zat_aktif+"</select></td>"+
-    "<td><input type='number' name='zat[]' id='zat' class='form-control'></td>"+
+    "<td><input type='number' name='zat[]' value='0' id='zat' class='form-control'></td>"+
     "<td><select name='satuan_zat[]' id='satuan_zat' class='form-control items'>"+pilihan_vitamin+"</select></td>"+
     "<td class='text-center'><a hreaf='' class='btn btn-danger btn-sm'><li class='fa fa-trash'></li></a></td>");
     
@@ -1312,8 +1309,8 @@
   var a = 1;
   $("#add_btp").click(function() {
     $('#addbtp' + a).html( 
-    "<td><select name='btp_carry_over[]' class='form-control items'>"+pilihan_btp+"</select></td>"+
-    "<td><input type='number' name='btp[]' id='btp' class='form-control'></td>"+
+    "<td><select name='btp_carry_over[] item' class='form-control items'>"+pilihan_btp+"</select></td>"+
+    "<td><input type='number' name='btp[]' value='0' id='btp' class='form-control'></td>"+
     "<td><select name='satuan_btp[]' class='form-control items'>"+pilihan_vitamin+"</select></td>"+
     "<td class='text-center'><a hreaf='' class='btn btn-danger btn-sm'><li class='fa fa-trash'></li></a></td>");
     

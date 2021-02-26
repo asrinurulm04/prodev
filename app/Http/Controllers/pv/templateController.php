@@ -217,7 +217,7 @@ class templateController extends Controller
                     $tip->save();
                 }
             }
-            $picture=picture::where('pkp_id',$id_project)->count();
+            $picture=picture::where('pkp_id',$id_project)->where('revisi',$max)->where('turunan',$pkp)->count();
             if($picture>0){
                 $isipicturepkp=picture::where('pkp_id',$id_project)->where('revisi',$max)->where('turunan',$pkp)->get();
                 foreach ($isipicturepkp as $ppkp)
@@ -232,7 +232,7 @@ class templateController extends Controller
                 }
             }
 
-            $datases=data_ses::where('id_pkp',$id_project)->count();
+            $datases=data_ses::where('id_pkp',$id_project)->where('revisi',$max)->where('turunan',$pkp)->count();
             if($datases>0){
                 $isises=data_ses::where('id_pkp',$id_project)->where('revisi',$max)->where('turunan',$pkp)->get();
                 foreach ($isises as $isises)
@@ -246,7 +246,7 @@ class templateController extends Controller
                 }
             }
 
-            $datafor=data_forecast::where('id_pkp',$id_project)->count();
+            $datafor=data_forecast::where('id_pkp',$id_project)->where('revisi',$max)->where('turunan',$pkp)->count();
             if($datafor>0){
                 $isifor=data_forecast::where('id_pkp',$id_project)->where('revisi',$max)->where('turunan',$pkp)->get();
                 foreach ($isifor as $isifor)
@@ -261,7 +261,7 @@ class templateController extends Controller
                 }
             }
 
-            $datak = data_klaim::where('id_pkp',$id_project)->count();
+            $datak =data_klaim::where('id_pkp',$id_project)->where('revisi',$max)->where('turunan',$pkp)->count();
             if($datafor>0){
                 $isikl=data_klaim::where('id_pkp',$id_project)->where('revisi',$max)->where('turunan',$pkp)->get();
                 foreach ($isikl as $isikl)
@@ -277,7 +277,7 @@ class templateController extends Controller
 
             }
 
-            $detailklaim=data_detail_klaim::where('id_pkp',$id_project)->count();
+            $detailklaim=data_detail_klaim::where('id_pkp',$id_project)->where('revisi',$max)->where('turunan',$pkp)->count();
             if($detailklaim>0){
                 $isidetail=data_detail_klaim::where('id_pkp',$id_project)->where('revisi',$max)->where('turunan',$pkp)->get();
                 foreach ($isidetail as $isidetail)

@@ -159,11 +159,6 @@ class EditFortailController extends Controller
                 $fortails->principle7= NULL;
             }
         }
-        if($request->per_batch >= 3000){
-            $fortails->jenis_timbangan='B';
-        }elseif($request->per_batch < 3000){
-            $fortails->jenis_timbangan='A';
-        }
 
         $fortails->save();
         $jumlah_bahan = $c + 1;

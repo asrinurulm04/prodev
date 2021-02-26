@@ -60,8 +60,6 @@ class UpVersionController extends Controller
         $formulas->turunan = 0;
         $formulas->jenis = $lastf->jenis;
         $formulas->akg = $lastf->akg;
-        $formulas->main_item  = $lastf->main_item;
-        $formulas->main_item_eks = $lastf->main_item_eks;
         $formulas->overage='100';
         $formulas->batch = $lastf->batch;
         $formulas->serving = $lastf->serving;
@@ -92,7 +90,6 @@ class UpVersionController extends Controller
                 $fortails->nama_bahan7 = $lastft->nama_bahan7 ;
                 $fortails->per_batch = $lastft->per_batch ;
                 $fortails->per_serving = $lastft->per_serving ;
-                $fortails->jenis_timbangan = $lastft->jenis_timbangan ;
                 $fortails->alternatif1 = $lastft->alternatif1;
                 $fortails->alternatif2 = $lastft->alternatif2;
                 $fortails->alternatif3 = $lastft->alternatif3;
@@ -213,8 +210,6 @@ class UpVersionController extends Controller
         $formulas->turunan = $lastturunan; // Turunan Berbeda
         $formulas->akg = $lastf->akg;
         $formulas->jenis = $lastf->jenis;
-        $formulas->main_item  = $lastf->main_item;
-        $formulas->main_item_eks = $lastf->main_item_eks;
         $formulas->batch = $lastf->batch;
         $formulas->overage='100';
         $formulas->kategori=$lastf->kategori;
@@ -246,7 +241,6 @@ class UpVersionController extends Controller
                 $fortails->nama_bahan7 = $lastft->nama_bahan7 ;
                 $fortails->per_batch = $lastft->per_batch ;
                 $fortails->per_serving = $lastft->per_serving ;
-                $fortails->jenis_timbangan = $lastft->jenis_timbangan ;
                 $fortails->alternatif1 = $lastft->alternatif1;
                 $fortails->alternatif2 = $lastft->alternatif2;
                 $fortails->alternatif3 = $lastft->alternatif3;
