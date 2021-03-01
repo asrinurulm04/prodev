@@ -806,7 +806,7 @@
     if(sent == true){
       let formData = new FormData(document.forms.person);
       let xhr = new XMLHttpRequest();
-      xhr.open("POST", "http://baf-staging-x2:9080/api/update");
+      xhr.open("POST", "http://baf-staging-x2:9080/api/create");
       xhr.send(formData);
       xhr.onload = () => alert(xhr.response);
     }  
