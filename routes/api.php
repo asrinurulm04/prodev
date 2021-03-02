@@ -27,8 +27,8 @@ Route::get('update/{id}', 'DataController@updateView');
 
 Route::get('updatejeniss/{id_jenis}','DataController@updatejenis');
 Route::get('getjenis/{id_jenis}', 'DataController@getjenis');
-Route::post('add','DataController@add');
-Route::put('update','DataController@update');
+// Route::post('add','DataController@add');
+// Route::put('update','DataController@update');
 //ApiController
-Route::get('pkp','DataController@index')->name('pkp');
-Route::get('for','DataController@for')->name('for');
+// Route::get('pkp','DataController@index')->name('pkp');
+// Route::get('for','DataController@for')->name('for');

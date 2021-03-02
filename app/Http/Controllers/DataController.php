@@ -37,27 +37,27 @@ class DataController extends Controller
         return response()->json($res);
     }
     
-    public function index(){
-        $pkp = tipp::join('pkp_project','pkp_project.id_project','=','tippu.id_pkp')->where('type','=','1')->where('status_project','!=','draf')->get();
-        return response()->json($pkp);
-    }
+    // public function index(){
+    //     $pkp = tipp::join('pkp_project','pkp_project.id_project','=','tippu.id_pkp')->where('type','=','1')->where('status_project','!=','draf')->get();
+    //     return response()->json($pkp);
+    // }
 
-    public function add(Request $request){
-        $post = Dmesin::create($request->all());
-        $post->save();
+    // public function add(Request $request){
+    //     $post = Dmesin::create($request->all());
+    //     $post->save();
 
-        return response()->json($request);
-    }
+    //     return response()->json($request);
+    // }
 
-    public function update(Request $request){
-        $post = Dmesin::where('id_data_mesin',$request->id_data_mesin)->update($request->all());
-        $post->save();
+    // public function update(Request $request){
+    //     $post = Dmesin::where('id_data_mesin',$request->id_data_mesin)->update($request->all());
+    //     $post->save();
 
-        return response()->json($request);
-    }
+    //     return response()->json($request);
+    // }
 
-    public function for(){
-        $for = data_forecast::all();
-        return response()->json($for);
-    }
+    // public function for(){
+    //     $for = data_forecast::all();
+    //     return response()->json($for);
+    // }
 }
