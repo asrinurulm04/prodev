@@ -21,10 +21,10 @@ use Redirect;
 class tabulasibbController extends Controller
 {
     public function tabulasi(){
-        $bahan = Bahan::join('tr_makro_bb','tr_makro_bb.id_bahan','bahans.id')
-        ->join('tr_vitamin_bb','tr_vitamin_bb.id_bahan','bahans.id')
-        ->join('tr_mineral_bb','tr_mineral_bb.id_bahan','bahans.id')
-        ->join('tr_asam_amino_bb','tr_asam_amino_bb.id_bahan','bahans.id')->get();
+        $bahan = Bahan::join('tr_makro_bb','tr_makro_bb.id_bahan','ms_bahans.id')
+        ->join('tr_vitamin_bb','tr_vitamin_bb.id_bahan','ms_bahans.id')
+        ->join('tr_mineral_bb','tr_mineral_bb.id_bahan','ms_bahans.id')
+        ->join('tr_asam_amino_bb','tr_asam_amino_bb.id_bahan','ms_bahans.id')->get();
         return view('datamaster.tabulasibb')->with([
             'bahan' => $bahan,
         ]);
@@ -32,11 +32,11 @@ class tabulasibbController extends Controller
 
     public function edittabulasi(){
         $form = tr_tabulasi_bahan::where('user',Auth::user()->id)->limit('1')->first();
-        $bahan = Bahan::join('tr_makro_bb','tr_makro_bb.id_bahan','bahans.id')
-        ->join('tr_vitamin_bb','tr_vitamin_bb.id_bahan','bahans.id')
-        ->join('tr_mineral_bb','tr_mineral_bb.id_bahan','bahans.id')
-        ->join('tr_asam_amino_bb','tr_asam_amino_bb.id_bahan','bahans.id')
-        ->join('tr_tabulasi_bahan','tr_tabulasi_bahan.id_bahan','bahans.id')->get();
+        $bahan = Bahan::join('tr_makro_bb','tr_makro_bb.id_bahan','ms_bahans.id')
+        ->join('tr_vitamin_bb','tr_vitamin_bb.id_bahan','ms_bahans.id')
+        ->join('tr_mineral_bb','tr_mineral_bb.id_bahan','ms_bahans.id')
+        ->join('tr_asam_amino_bb','tr_asam_amino_bb.id_bahan','ms_bahans.id')
+        ->join('tr_tabulasi_bahan','tr_tabulasi_bahan.id_bahan','ms_bahans.id')->get();
         return view('datamaster.edit_tabulasi')->with([
             'bahan' => $bahan,
             'form' => $form
@@ -146,7 +146,11 @@ class tabulasibbController extends Controller
                 }
             }
         }
-        return redirect::Route('edittabulasi');
+        if($request->id!=''){
+            return redirect::Route('edittabulasi');
+        }elseif($request->id==''){
+            return Redirect::back()->with('error','Pilih Bahan Baku Yang Akan Di Update!');
+        }
     }
 
     public function update_bahan(Request $request) {

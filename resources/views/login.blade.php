@@ -7,7 +7,6 @@
   <link href="{{ asset('vendors/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
   <link href="{{ asset('build/css/custom.min.css') }}" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="css/mainn.css">
-  <link href="{{ asset('css/asrul.css') }}" rel="stylesheet">
 <!--===============================================================================================-->
 </head>
 <body background="{{asset('img/prodev')}}">

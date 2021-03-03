@@ -13,7 +13,7 @@ class CreateFinanceTable extends Migration
      */
     public function up()
     {
-        Schema::create('fs_finance', function (Blueprint $table) {
+        Schema::create('tr_feasibility', function (Blueprint $table) {
             $table->increments('id_feasibility');
             $table->integer('id_formula')->unsigned();
             $table->integer('kemungkinan')->default('1');
@@ -35,6 +35,6 @@ class CreateFinanceTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('fs_finance');
+        Schema::dropIfExists('tr_feasibility');
     }
 }

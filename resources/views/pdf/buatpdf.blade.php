@@ -1,5 +1,6 @@
 @extends('pv.tempvv')
-@section('title', 'PRODEV|Request PDF')
+@section('title', 'Request PDF')
+@section('judulhalaman','Form PDF')
 @section('content')
 
 @include('formerrors')
@@ -15,6 +16,7 @@
     </div>
   </div>
 </div>
+
 <div class="row">
   <div class="col-md-12 col-xs-12">
     <table class="table table-bordered">
@@ -27,8 +29,31 @@
     </table>
   </div>
 </div>
+
 <div class="">
   <form class="form-horizontal form-label-left" method="POST" action="{{ route('pos') }}" novalidate>
+	<div class="row">
+    <div class="col-sm-12">
+      <div class="x_panel">
+        <div class="x_title">
+          <h3 style="color:#258039"><li class="fa fa-edit"></li> Packaging concept**</h3>
+        </div>
+        <div class="card-block">
+          <div class="form-group">
+            <label class="control-label col-md-2 col-sm-3 col-xs-12" for="last-name">Configuration <h5 style="color:red">*requaired</h5></label> 
+            <input type="hidden" value="{{ $id_pdf->id_project_pdf }}" name="id">
+            <input type="hidden" value="{{$eksis+1}}" name="kemas" id="kemas">
+            <label class="control-label col-md-1 col-sm-2 col-xs-12"></label>
+            <input type="radio" name="data" oninput="baru()" id="radio_baru"> New Configuration  &nbsp &nbsp
+       			<input type="radio" name="data" oninput="eksis()" id="radio_eksis"> Configuration exists &nbsp &nbsp
+       			<input type="radio" name="data" oninput="pilih()" id="radio_project"> Previous Project Configuration  &nbsp &nbsp
+          </div><hr>
+          <div id="lihat"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="row">
     <div class="col-md-12 col-xs-12">
       <div class="x_panel">
@@ -37,7 +62,6 @@
         </div>
         <div class="card-block">
           <div class="form-group row">
-            <input type="hidden" value="{{ $id_pdf->id_project_pdf }}" name="id">
             <label for="middle-name" class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#258039"> &nbsp  &nbsp Age Range form** : </label>
             <div class="col-md-2 col-sm-3 col-xs-12">
               <input type="number"  name="dariumur" id="dariumur" class="form-control col-md-12 col-xs-12">
@@ -48,12 +72,13 @@
                <input type="radio" name="data" oninput="to()" id="radio_to"> To
             </div>
             <div class="col-md-1 col-sm-3 col-xs-12" id="umur"></div>
+            
             <label for="middle-name" class="control-label col-md-1 col-sm-2 col-xs-12" style="color:#258039">SES : </label>
             <div class="col-md-3 col-sm-6 col-xs-12">
-              <select class="form-control form-control-line items" id="select" name="ses[]"   multiple="multiple">
-              @foreach ($ses as $ses)
+              <select class="form-control form-control-line" id="select" name="ses[]"   multiple="multiple">
+                @foreach ($ses as $ses)
               <option value="{{$ses->ses}}">{{$ses->ses}}</option>   
-              @endforeach
+                @endforeach
               </select>
             </div>
           </div>
@@ -100,6 +125,12 @@
             </div>
           </div>
           <div class="form-group">
+            <label class="control-label col-md-2 col-sm-3 col-xs-12" style="color:#258039">Target price**</label>
+            <div class="col-md-9 col-sm-9 col-xs-12">
+              <input required id="target_price" class="form-control col-md-12 col-xs-12" type="number" name="target_price">
+            </div>
+          </div>
+          <div class="form-group">
             <label class="control-label col-md-2 col-sm-3 col-xs-12" style="color:#258039">Ingredient**</label>
             <div class="col-md-9 col-sm-9 col-xs-12">
               <textarea name="ingredient" required id="ingredient" class="form-control col-md-12 col-xs-12" placeholder="Special Ingredient" rows="3"></textarea>
@@ -127,8 +158,14 @@
                         @endforeach
                       </select>
                     </td>
-                    <td><select name="klaim[]" class="form-control items" id="klaimm"></select></td>
-                    <td><select name="detail[]"  id="detaill" multiple="multiple" class="form-control items"></select></td>
+                    <td>
+                      <select name="klaim[]" class="form-control items" id="klaimm">
+                      </select>
+                    </td>
+                    <td>
+                      <select name="detail[]"  id="detaill" multiple="multiple" class="form-control items">          
+                      </select>
+                    </td>
                     <td><textarea type="text" class="form-control" name="ket[]" id="ket"></textarea></td>
                     <td class="text-center"><button class="tr_clone_add btn btn-info btn-sm" id="add_row" type="button"><li class="fa fa-plus"></li></button></td>
                   </tr>
@@ -142,87 +179,6 @@
       </div>
     </div>
   </div> 
-
-  <div class="row">
-    <div class="col-sm-12">
-      <div class="x_panel">
-        <div class="x_title">
-          <h3 style="color:#258039"><li class="fa fa-edit"></li> Packaging concept**</h3>
-        </div>
-        <div class="form-group row">
-          <div class="col-md-12 col-sm-12 col-xs-12" style="overflow-x: scroll;">
-            <table class="table table-bordered table-hover" id="tabledata">
-              <thead>
-                <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
-                  <th colspan="2" width="25%" class="text-center">Forecast</th>
-                  <th class="text-center">Configuration Concept</th>
-                  <th colspan="2" width="20%" class="text-center">UOM</th>
-                  <th width="10%" class="text-center">NFI Price</th>
-                  <th width="10%" class="text-center">Costumer Price</th>
-                  <th width="5%"></th>
-                </tr>
-              </thead>
-        			<tbody>
-        			  <tr id='tr_clone'>
-                  <td><input type="number" name="forecast[]" min="0" step="0.0001" width="10%" class="form-control" required></td>
-                  <td>
-                    <select name="satuan[]" class="form-control items">
-                      <option value="1 Month">1 Month</option>
-                      <option value="2 Month">2 Month</option>
-                      <option value="3 Month">3 Month</option>
-                    </select>
-                  </td>
-                  <td class="text-center">
-                    <input type="radio" name="gramasi1[]" required id="rad1" value="pertama1" class="rad"/> 2 Dimensi &nbsp
-                    <input type="radio" name="gramasi1[]" required id="rad1" value="kedua1" class="rad"/> 3 Dimensi &nbsp
-                    <input type="radio" name="gramasi1[]" required id="rad1" value="ketiga1" class="rad"/> 4 Dimensi &nbsp
-				            <div id='tampil1'></div>
-                  <td><input type="number" required class="form-control" name="satuan_uom[]" id="satuan_uom"></td>
-                  <td width="8%">
-                    <select name="uom[]" id="UOM" class="form-control">
-                      @foreach($uom as $data)
-                      <option value="{{$data->kode}}">{{$data->kode}}</option>
-                      @endforeach
-                    </select>
-                  </td>
-                  <td><input type="number" required class="form-control" name="price[]" id="price"></td>
-                  <td><input type="number" required class="form-control" name="costumer[]" id="costumer"></td>
-                  <td>
-                    <button id="add_data" type="button" class="btn btn-info btn-sm pull-left tr_clone_add"><li class="fa fa-plus"></li></button>
-                  </td>
-                </tr>
-      					<tr id='addrow1'></tr>
-      				</tbody>
-      			</table>
-          </div>
-        </div>
-        <div class='form-group'>
-          <label for='middle-name' class='control-label col-md-2 col-sm-3 col-xs-12'>Additional data </label>
-          <div class='col-md-9 col-sm-9 col-xs-12'>
-            <table class='table table-bordered' id='tablekemas'>
-              <thead>
-                <tr>
-                  <td class='text-center'>Oracle</td>
-                  <td class='text-center'>KK Code</td>
-                  <td class='text-center'>Note</td>
-                  <td class='text-center'>Action</td>
-                </tr>
-              </thead>
-              <tbody>
-                <tr id='adkemas0'>
-                  <td><input type='text' name='oracle[]' id='oracle' class='form-control'></td>
-                  <td><input type='text' name='kk[]' id='kk' class='form-control'></td>
-                  <td><input type='text' name='information[]' id='information' class='form-control'></td>
-                  <td><button id='add_kemas' type='button' class='btn btn-info btn-sm pull-left' title='Add'><li class='fa fa-plus'></li></button></td>
-                </tr>
-                <tr id='adkemas1'></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <div class="row">
     <div class="col-md-12 col-xs-12">
@@ -249,6 +205,32 @@
               <input required id="rto" class="form-control col-md-12 col-xs-12" type="date" name="rto">
             </div>
           </div>
+          <div class="form-group row">
+            <div class="col-md-2 col-sm-9 col-xs-12" >
+              <label class="control-label col-md-12 col-sm-3 col-xs-12" style="color:#258039">Sales Forecast**</label> 
+            </div>
+            <div class="col-md-9 col-sm-9 col-xs-12">
+              <table class="table table-bordered table-hover" id="tableklaim">
+        				<tbody>
+        				  <tr id='add0'>
+                    <td><input type="number" value="0" name="forecast[]" class="form-control"></td>
+                    <td>
+                      <select requaired name="satuan[]"  id="detail1" class="form-control">
+                        <option value="1st Month">1st Month</option>
+                        <option value="2nd Month">2nd Month</option>
+                        <option value="3rd Month">3rd Month</option>
+                      </select>
+                    </td>
+                    <td><input type="text" placeholder="Note" name="keterangan[]" class="form-control"></td>
+                    <td>
+                      <button id="add_data" type="button" class="btn btn-info btn-sm pull-left" title="Add"><li class="fa fa-plus"></li></button>
+                    </td>
+                  </tr>
+        					<tr id='add1'></tr>
+        				</tbody>
+      				</table>
+            </div>
+          </div>
           <div class="ln_solid"></div>
         </div>
       </div>
@@ -270,6 +252,12 @@
               <input required id="name_competitors" class="form-control col-md-12 col-xs-12" type="text" name="name_competitors">
             </div>
 					</div>
+          <div class="form-group">
+            <label class="control-label col-md-2 col-sm-3 col-xs-12" style="color:#258039">Retailer Price**</label>
+            <div class="col-md-9 col-sm-9 col-xs-12">
+              <input required id="retailer_price" class="form-control col-md-12 col-xs-12" type="number" name="retailer_price">
+            </div>
+          </div>
           <div class="form-group">
             <label class="control-label col-md-2 col-sm-3 col-xs-12" style="color:#258039">What's Special**</label>
             <div class="col-md-9 col-sm-9 col-xs-12">
@@ -293,22 +281,13 @@
 @section('s')
   
 <script>
-  $('.input').keyup(function(event) {
-    // skip for arrow keys
-    if(event.which >= 37 && event.which <= 40) return;
-    // format number
-    $(this).val(function(index, value) {
-      return value.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    });
-  });
-
   function plus(){
     var plus = document.getElementById('radio_plus')
     if(plus.checked != true){
       document.getElementById('umur').innerHTML = "";
     }else{
       document.getElementById('umur').innerHTML =
-      "<input type='text' readonly class='form-control' value='+' name='sampaiumur' id='sampaiumur'>"
+        "<input type='text' readonly class='form-control' value='+' name='sampaiumur' id='sampaiumur'>"
     }
   }
 
@@ -344,10 +323,10 @@
   var i = 1;
     $("#add_data").click(function() {
       $('#add' + i).html( "<td><input type='number' name='forecast[]' class='form-control'></td><td><select name='satuan[]'  class='form-control'>"+
-      "<option disabled selected>--> Select One <--</option>"+
-      "<option value='1 Month'>1 Month</option>"+
-      "<option value='2 Month'>2 Month</option>"+
-      "<option value='3 Month'>3 Month</option>"+
+        "<option disabled selected>--> Select One <--</option>"+
+        "<option value='1st Month'>1st Month</option>"+
+        "<option value='2nd Month'>2nd Month</option>"+
+        "<option value='3rd Month'>3rd Month</option>"+
       "</select></td><td><input type='text' name='keterangan[]' class='form-control'></td>"+
       "<td><a hreaf='' class='btn btn-danger btn-sm' title='Delete'><li class='fa fa-trash'></li></a></td>");
 
@@ -358,26 +337,115 @@
 </script>
 
 <script>
-  $(document).ready(function() {
-    // delete baris proses
-    $('#tablekemas').on('click', 'tr a', function(e) {
-      e.preventDefault();
-      $(this).parents('tr').remove();
-    });
+  var kode_uom = []
+  <?php foreach($uom as $key => $value) { ?>
+  if(!kode_uom){
+    kode_uom += [ { '<?php echo $key; ?>' : '<?php echo $value->kode; ?>', } ];
+  } else { kode_uom.push({ '<?php echo $key; ?>' : '<?php echo $value->kode; ?>', }) }
+  <?php } ?>
 
-    var i = 1;
-    $("#add_kemas").click(function() {
-      $('#addkemas' + i).html( "<td><input type='text' name='oracle[]' id='oracle' class='form-control'>"+
-      "<td><input type='text' name='kk[]' id='kk' class='form-control'></td>"+
-      "<td><input type='text' name='information[]' id='information' class='form-control'></td>"+
-      "<td><a hreaf='' class='btn btn-danger btn-sm' title='Delete'><li class='fa fa-trash'></li></a></td>");
-      $('#tablekemas').append('<tr id="addkemas' + (i + 1) + '"></tr>');
-      i++;
-    });
-  });
+  var pilihan_uom = '';
+  for(var i = 0; i < Object.keys(kode_uom).length; i++){
+    pilihan_uom += '<option value="'+kode_uom[i][i]+'">'+kode_uom[i][i]+'</option>';
+  }
+
+  var uom_primer = []
+  <?php foreach($uom_primer as $key => $value) { ?>
+  if(!uom_primer){
+    uom_primer += [ { '<?php echo $key; ?>' : '<?php echo $value->kode; ?>', } ];
+  } else { uom_primer.push({ '<?php echo $key; ?>' : '<?php echo $value->kode; ?>', }) }
+  <?php } ?>
+
+  var pilihan_uom_primer = '';
+  for(var i = 0; i < Object.keys(uom_primer).length; i++){
+    pilihan_uom_primer += '<option value="'+uom_primer[i][i]+'">'+uom_primer[i][i]+'</option>';
+  }
+
+  function baru(){
+    var baru = document.getElementById('radio_baru')
+
+    if(baru.checked != true){
+      document.getElementById('lihat').innerHTML = "";
+    }else{
+      document.getElementById('lihat').innerHTML =
+        "<div class='form-group'>"+
+          "<label class='control-label col-md-2 col-sm-2 col-xs-12'>Configuration</label>&nbsp  &nbsp"+
+       		"<input type='radio' name='gramasi' oninput='dua()' id='radio_dua'> 2 Dimensi &nbsp"+
+       		"<input type='radio' name='gramasi' oninput='tiga()' id='radio_tiga'> 3 Dimensi &nbsp"+
+      		"<input type='radio' name='gramasi' oninput='empat()' id='radio_empat'> 4 Dimensi &nbsp"+
+					"<div id='tampil'></div>"+
+				"</div>"+
+        "<hr>"+
+        "<h4><b><lable class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>*Information</lable></b></h4>"+
+        "<br><br>"+
+        "<div class='form-group'>"+
+          "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>Primary</label>"+
+          "<div class='col-md-10 col-sm-10 col-xs-12'>"+
+            "<textarea name='primary' id='primary' class='col-md-10 col-sm-10 col-xs-12' rows='1'></textarea>"+
+          "</div>"+
+        "</div>"+
+        "<div class='form-group'>"+
+          "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='last-name'>Secondary</label>"+
+          "<div class='col-md-10 col-sm-10 col-xs-12'>"+
+            "<textarea name='secondary' id='secondary' class='col-md-10 col-sm-10 col-xs-12' rows='1'></textarea>"+
+          "</div>"+
+        "</div>"+
+        "<div class='form-group'>"+
+          "<label for='middle-name' class='control-label col-md-2 col-sm-3 col-xs-12'>Tertiary </label>"+
+          "<div class='col-md-10 col-sm-10 col-xs-12'>"+
+            "<textarea name='tertiary' id='tertiary' class='col-md-10 col-sm-10 col-xs-12' rows='1'></textarea>"+
+          "</div>"+
+        "</div>"+
+        "<div class='form-group'>"+
+          "<label for='middle-name' class='control-label col-md-2 col-sm-3 col-xs-12'>Additional data </label>"+
+          "<div class='col-md-9 col-sm-9 col-xs-12'>"+
+            "<table class='table table-bordered' id='tablekemas'>"+
+              "<thead>"+
+                "<tr>"+
+                  "<td class='text-center'>Oracle</td>"+
+                  "<td class='text-center'>KK Code</td>"+
+                  "<td class='text-center'>Note</td>"+
+                  "<td class='text-center'>Action</td>"+
+                "</tr>"+
+              "</thead>"+
+              "<tbody>"+
+                "<tr id='addrow0'>"+
+                  "<td><input type='text' name='oracle[]' id='oracle' class='form-control'></td>"+
+                  "<td><input type='text' name='kk[]' id='kk' class='form-control'></td>"+
+                  "<td><input type='text' name='information[]' id='information' class='form-control'></td>"+
+                  "<td><button id='add_kemas' type='button' class='btn btn-info btn-sm pull-left' title='Add'><li class='fa fa-plus'></li></button></td>"+
+                "</tr>"+
+                "<tr id='addrow1'></tr>"+
+              "</tbody>"+
+            "</table>"+
+          "</div>"+
+        "</div>"+
+        "<div class='ln_solid'></div>"
+
+      $(document).ready(function() {
+        // delete baris proses
+        $('#tablekemas').on('click', 'tr a', function(e) {
+          e.preventDefault();
+          $(this).parents('tr').remove();
+        });
+
+        var i = 1;
+        $("#add_kemas").click(function() {
+          $('#addrow' + i).html( "<td><input type='text' name='oracle[]' id='oracle' class='form-control'>"+
+          "<td><input type='text' name='kk[]' id='kk' class='form-control'></td>"+
+          "<td><input type='text' name='information[]' id='information' class='form-control'></td>"+
+          "<td><a hreaf='' class='btn btn-danger btn-sm' title='Delete'><li class='fa fa-trash'></li></a></td>");
+
+          $('#tablekemas').append('<tr id="addrow' + (i + 1) + '"></tr>');
+          i++;
+        });
+      });
+    }
+  }
 
   function dua(){
     var dua = document.getElementById('radio_dua');
+
     if(dua.checked != true){
       document.getElementById('tampil').innerHTML = "";
     }else{
@@ -392,30 +460,13 @@
                 "<input name='tersier' id='tersier' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='text'>"+
               "</div>"+
               "<div class='col-md-2 col-sm-2 col-xs-12'>"+
-                "<select class='form-control' name='s_tersier'>"+
-                  "<option disabled='' selected=''>Tersier</option>"+
-                  "<option value='D'>D</option>"+
-                  "<option value='S'>S</option>"+
-                  "<option value='G'>G</option>"+
-                  "<option value='SB'>SB</option>"+
-                  "<option value='O'>O</option>"+
-							    "<option value='R'>R</option>"+
-                  "<option value='P'>P</option>"+
-                  "<option value='GST'>GST</option>"+
-                  "<option value='BTL'>BTL</option>"+
-                  "<option value='B'>B</option>"+
-                "</select>"+
+                "<select class='form-control' name='s_tersier'><option disabled='' selected=''>Tersier</option>"+pilihan_uom+"</select>"+
               "</div>"+
               "<div class='col-md-1 col-sm-1 col-xs-12'>"+
                 "<input name='primer' id=primer' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='text'>"+
               "</div>"+
               "<div class='col-md-2 col-sm-2 col-xs-12'>"+
-                "<select class='form-control' name='s_primer'>"+
-                  "<option disabled='' selected=''>Primer</option>"+
-                  "<option value='G'>G</option>"+
-                  "<option value='ML'>ML</option>"+
-                  "<option value='Tablet'>Tablet</option>"+
-                "</select>"+
+                "<select class='form-control' name='s_primer'><option disabled='' selected=''>Primer</option>"+pilihan_uom_primer+"</select>"+
               "</div>"+
             "</div>"+
           "</div>"+
@@ -425,6 +476,7 @@
 
   function tiga(){
     var tiga = document.getElementById('radio_tiga');
+
     if(tiga.checked != true){
       document.getElementById('tampil').innerHTML = "";
     }else{
@@ -439,48 +491,19 @@
                 "<input name='tersier' id='tersier' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='text'>"+
               "</div>"+
               "<div class='col-md-2 col-sm-2 col-xs-12'>"+
-                "<select class='form-control' name='s_tersier'>"+
-                  "<option disabled='' selected=''>Tersier</option>"+
-                  "<option value='D'>D</option>"+
-                  "<option value='S'>S</option>"+
-                  "<option value='G'>G</option>"+
-                  "<option value='SB'>SB</option>"+
-                  "<option value='O'>O</option>"+
-							    "<option value='R'>R</option>"+
-                  "<option value='P'>P</option>"+
-                  "<option value='GST'>GST</option>"+
-                  "<option value='BTL'>BTL</option>"+
-                "<option value='B'>B</option>"+
-                "</select>"+
+                "<select class='form-control' name='s_tersier'><option disabled='' selected=''>Tersier</option>"+pilihan_uom+"</select>"+
               "</div>"+
               "<div class='col-md-1 col-sm-1 col-xs-12'>"+
                 "<input name='sekunder1' id='sekunder1' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='text'>"+
               "</div>"+
               "<div class='col-md-2 col-sm-2 col-xs-12'>"+
-                "<select class='form-control' name='s_sekunder1'>"+
-                  "<option disabled='' selected=''>Sekunder 1</option>"+
-                  "<option value='D'>D</option>"+
-                  "<option value='S'>S</option>"+
-                  "<option value='G'>G</option>"+
-                  "<option value='SB'>SB</option>"+
-                  "<option value='O'>O</option>"+
-							    "<option value='R'>R</option>"+
-                  "<option value='P'>P</option>"+
-                  "<option value='GST'>GST</option>"+
-                  "<option value='BTL'>BTL</option>"+
-                "<option value='B'>B</option>"+
-                "</select>"+
+                "<select class='form-control' name='s_sekunder1'><option disabled='' selected=''>Sekunder 1</option>"+pilihan_uom+"</select>"+
               "</div>"+
               "<div class='col-md-1 col-sm-1 col-xs-12'>"+
                 "<input name='primer' id='primer1' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='text'>"+
               "</div>"+
               "<div class='col-md-2 col-sm-2 col-xs-12'>"+
-                "<select class='form-control' name='s_primer'>"+
-                  "<option disabled='' selected=''>Primer</option>"+
-                  "<option value='G'>G</option>"+
-                  "<option value='ML'>ML</option>"+
-                  "<option value='Tablet'>Tablet</option>"+
-                "</select>"+
+                "<select class='form-control' name='s_primer'><option disabled='' selected=''>Primer</option>"+pilihan_uom_primer+"</select>"+
               "</div>"+
             "</div>"+
           "</div>"+
@@ -503,65 +526,24 @@
               "<input name='tersier' id='tersier' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='text'>"+
             "</div>"+
             "<div class='col-md-2 col-sm-2 col-xs-12'>"+
-              "<select class='form-control' name='s_tersier'>"+
-                "<option disabled='' selected=''>Tersier</option>"+
-                "<option value='D'>D</option>"+
-                "<option value='S'>S</option>"+
-                "<option value='G'>G</option>"+
-                "<option value='SB'>SB</option>"+
-                "<option value='O'>O</option>"+
-							  "<option value='R'>R</option>"+
-                "<option value='P'>P</option>"+
-                "<option value='GST'>GST</option>"+
-                "<option value='BTL'>BTL</option>"+
-                "<option value='B'>B</option>"+
-              "</select>"+
+              "<select class='form-control' name='s_tersier'<option disabled='' selected=''>Tersier</option>"+pilihan_uom+"</select>"+
             "</div>"+
             "<div class='col-md-1 col-sm-1 col-xs-12'>"+
               "<input name='sekunder1' id='sekunder1' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='text'>"+
             "</div>"+
             "<div class='col-md-2 col-sm-2 col-xs-12'>"+
-              "<select class='form-control' name='s_sekunder1'>"+
-                "<option disabled='' selected=''>Sekunder 1</option>"+
-                "<option value='D'>D</option>"+
-                "<option value='S'>S</option>"+
-                "<option value='G'>G</option>"+
-                "<option value='SB'>SB</option>"+
-                "<option value='O'>O</option>"+
-							  "<option value='R'>R</option>"+
-                "<option value='P'>P</option>"+
-                "<option value='GST'>GST</option>"+
-                "<option value='BTL'>BTL</option>"+
-                "<option value='B'>B</option>"+
-              "</select>"+
+              "<select class='form-control' name='s_sekunder1'><option disabled='' selected=''>Sekunder 1</option>"+pilihan_uom+"</select>"+
             "</div>"+ "<div class='col-md-1 col-sm-1 col-xs-12'>"+
               "<input name='sekunder2' id='sekunder2' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='text'>"+
             "</div>"+
             "<div class='col-md-2 col-sm-2 col-xs-12'>"+
-              "<select class='form-control' name='s_sekunder2'>"+
-                "<option disabled='' selected=''>Sekunder 2</option>"+
-                "<option value='D'>D</option>"+
-                "<option value='S'>S</option>"+
-                "<option value='G'>G</option>"+
-                "<option value='SB'>SB</option>"+
-                "<option value='O'>O</option>"+
-							  "<option value='R'>R</option>"+
-                "<option value='P'>P</option>"+
-                "<option value='GST'>GST</option>"+
-                "<option value='BTL'>BTL</option>"+
-                "<option value='B'>B</option>"+
-              "</select>"+
+              "<select class='form-control' name='s_sekunder2'><option disabled='' selected=''>Sekunder 2</option>"+pilihan_uom+"</select>"+
             "</div>"+
             "<div class='col-md-1 col-sm-1 col-xs-12'>"+
               "<input name='primer' id='primer' class='date-picker form-control maxlength='4' col-md-12 col-xs-12' type='text'>"+
             "</div>"+
             "<div class='col-md-2 col-sm-2 col-xs-12'>"+
-              "<select class='form-control' name='s_primer'>"+
-                "<option disabled='' selected=''>Primer</option>"+
-                "<option value='G'>G</option>"+
-                "<option value='ML'>ML</option>"+
-                "<option value='Tablet'>Tablet</option>"+
-              "</select>"+
+              "<select class='form-control' name='s_primer'><option disabled='' selected=''>Primer</option>"+pilihan_uom_primer+"</select>"+
             "</div>"+
           "</div>"+
         "</div>"+
@@ -582,372 +564,124 @@
     project1 += [ { '<?php echo $key; ?>' : '<?php echo $value->project_name; ?>', } ];
   } else { project1.push({ '<?php echo $key; ?>' : '<?php echo $value->project_name; ?>', }) }
   <?php } ?>
+
+  var idkemas = []
+  <?php foreach($kemas as $key => $value) { ?>
+  if(!idkemas){
+    idkemas += [ { '<?php echo $key; ?>' : '<?php echo $value->id_kemas; ?>', } ];
+  } else { idkemas.push({ '<?php echo $key; ?>' : '<?php echo $value->id_kemas; ?>', }) }
+  <?php } ?>
+  var kemas = []
+  <?php foreach($kemas as $key => $value) { ?>
+  if(!kemas){
+    kemas += [ { '<?php echo $key; ?>' : '<?php echo $value->primer; ?>', } ];
+  } else { kemas.push({ '<?php echo $key; ?>' : '<?php echo $value->primer; ?>', }) }
+  <?php } ?>
+  var kemas1 = []
+  <?php foreach($kemas as $key => $value) { ?>
+  if(!kemas1){
+    kemas1 += [ { '<?php echo $key; ?>' : '<?php echo $value->s_primer; ?>', } ];
+  } else { kemas1.push({ '<?php echo $key; ?>' : '<?php echo $value->s_primer; ?>', }) }
+  <?php } ?>
+  var kemas2 = []
+  <?php foreach($kemas as $key => $value) { ?>
+  if(!kemas2){
+    kemas2 += [ { '<?php echo $key; ?>' : '<?php echo $value->sekunder1; ?>', } ];
+  } else { kemas2.push({ '<?php echo $key; ?>' : '<?php echo $value->sekunder1; ?>', }) }
+  <?php } ?>
+  var kemas3 = []
+  <?php foreach($kemas as $key => $value) { ?>
+  if(!kemas3){
+    kemas3 += [ { '<?php echo $key; ?>' : '<?php echo $value->s_sekunder1; ?>', } ];
+  } else { kemas3.push({ '<?php echo $key; ?>' : '<?php echo $value->s_sekunder1; ?>', }) }
+  <?php } ?>
+  var kemas4 = []
+  <?php foreach($kemas as $key => $value) { ?>
+  if(!kemas4){
+    kemas4 += [ { '<?php echo $key; ?>' : '<?php echo $value->sekunder2; ?>', } ];
+  } else { kemas4.push({ '<?php echo $key; ?>' : '<?php echo $value->sekunder2; ?>', }) }
+  <?php } ?>
+  var kemas5 = []
+  <?php foreach($kemas as $key => $value) { ?>
+  if(!kemas5){
+    kemas5 += [ { '<?php echo $key; ?>' : '<?php echo $value->s_sekunder2; ?>', } ];
+  } else { kemas5.push({ '<?php echo $key; ?>' : '<?php echo $value->s_sekunder2; ?>', }) }
+  <?php } ?>
+  var kemas6 = []
+  <?php foreach($kemas as $key => $value) { ?>
+  if(!kemas6){
+    kemas6 += [ { '<?php echo $key; ?>' : '<?php echo $value->tersier; ?>', } ];
+  } else { kemas6.push({ '<?php echo $key; ?>' : '<?php echo $value->tersier; ?>', }) }
+  <?php } ?>
+  var kemas7 = []
+  <?php foreach($kemas as $key => $value) { ?>
+  if(!kemas7){
+    kemas7 += [ { '<?php echo $key; ?>' : '<?php echo $value->s_tersier; ?>', } ];
+  } else { kemas7.push({ '<?php echo $key; ?>' : '<?php echo $value->s_tersier; ?>', }) }
+  <?php } ?>
+
+  var pilihan = '';
+  for(var i = 0; i < Object.keys(project).length; i++){
+  pilihan += '<option value="'+project[i][i]+'">'+project1[i][i]+'</option>';
+  }
+
+  var kemaseksis = '';
+  for(var i = 0; i < Object.keys(kemas).length; i++){
+  kemaseksis += '<option value="'+idkemas[i][i]+'">'+kemas[i][i]+''+kemas1[i][i]+' '+kemas2[i][i]+''+kemas3[i][i]+' '+kemas4[i][i]+''+kemas5[i][i]+' '+kemas6[i][i]+''+kemas7[i][i]+'</option>';
+  }
+
+  function pilih(){
+    var eksis = document.getElementById('radio_project')
+
+    if(eksis.checked != true){
+      document.getElementById('lihat').innerHTML = "";
+    }else{
+      document.getElementById('lihat').innerHTML =
+      "<div class='form-group'>"+
+        "<div class='form-group'>"+
+          "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>Configuration</label>"+
+          "<div class='col-md-9 col-sm-10 col-xs-12'>"+
+            '<select name="data_eksis" class="form-control" id="txtOccupation" >'+
+            '<option value="" readonly selected>-->Select One<--</option>'+pilihan+'</select>'+
+          "</div>"+
+        "</div>"+"<div class='form-group'>"+
+        "<hr>"+
+      "</di>"
+    }
+  }
+
+  function eksis(){
+    var eksis = document.getElementById('radio_eksis')
+
+    if(eksis.checked != true){
+      document.getElementById('lihat').innerHTML = "";
+    }else{
+      document.getElementById('lihat').innerHTML =
+      "<div class='form-group'>"+
+        "<div class='form-group'>"+
+          "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>Configuration</label>"+
+          "<div class='col-md-9 col-sm-10 col-xs-12'>"+
+            '<select name="data_eksis" class="form-control" id="eksis" >'+
+              '<option value="" readonly selected>-->Select One<--</option>'+
+              kemaseksis+
+            '</select>'+
+          "</div>"+
+        "</div>"+"<div class='form-group'>"+
+        "<hr>"+
+      "</div>"
+    }
+  }
 </script>
 
 <script src="{{ asset('js/select2.min.js') }}"></script>
-<script>
-  $(document).ready(function() {
-    $('#tabledata').on('click', 'tr a', function(e) {
-    e.preventDefault();
-        $(this).parents('tr').remove();
-    });
-  });
-
-  var uom_primer = []
-  <?php foreach($uom_primer as $key => $value) { ?>
-  if(!uom_primer){
-    uom_primer += [ { '<?php echo $key; ?>' : '<?php echo $value->kode; ?>', } ];
-  } else { uom_primer.push({ '<?php echo $key; ?>' : '<?php echo $value->kode; ?>', }) }
-  <?php } ?>
-
-  var pilihan_uom_primer = '';
-  for(var i = 0; i < Object.keys(uom_primer).length; i++){
-    pilihan_uom_primer += '<option value="'+uom_primer[i][i]+'">'+uom_primer[i][i]+'</option>';
-  }
-
-  var data_uom = []
-  <?php foreach($uom as $key => $value) { ?>
-    if(!data_uom){
-      data_uom += [ { '<?php echo $key; ?>' : '<?php echo $value->kode; ?>', } ];
-    } else { data_uom.push({ '<?php echo $key; ?>' : '<?php echo $value->kode; ?>', }) }
-  <?php } ?>
-
-  var datauom = '';
-    for(var i = 0; i < Object.keys(data_uom).length; i++){
-      datauom += '<option value="'+data_uom[i][i]+'">'+data_uom[i][i]+'</option>';
-  }
-
-  var i = 1;
-  $("#add_data").click(function() {
-    $('#addrow' + i).html( 
-    "<td><input type='number' required name='forecast[]' class='form-control'></td>"+
-    "<td>"+
-      "<select name='satuan[]' class='form-control items'>"+
-        "<option value='1 Month'>1 Month</option>"+
-        "<option value='2 Month'>2 Month</option>"+
-        "<option value='3 Month'>3 Month</option>"+
-      "</select>"+
-    "</td>"+
-    "<td class='text-center'>"+
-      '<input type="radio" name="gramasi'+(i+1)+'[]" required id="rad'+(i+1)+'" value="pertama'+(i+1)+'" class="rad"/> 2 Dimensi &nbsp'+
-      '<input type="radio" name="gramasi'+(i+1)+'[]" required id="rad'+(i+1)+'" value="kedua'+(i+1)+'" class="rad"/> 3 Dimensi &nbsp'+
-      '<input type="radio" name="gramasi'+(i+1)+'[]" required id="rad'+(i+1)+'" value="ketiga'+(i+1)+'" class="rad"/> 4 Dimensi &nbsp'+
-			"<div id='tampil"+(i+1)+"'></div>"+
-    "</td>"+
-    "<td><input type='number' class='form-control' required name='satuan_uom[]' id='satuan_uom'></td>"+
-    "<td>"+
-      "<select name='uom[]' id='UOM' class='form-control'>"+datauom+"</select>"+
-    "</td>"+
-    "<td><input type='number' class='form-control' required name='price[]' id='price'></td>"+
-    "<td><input type='number' class='form-control' required name='costumer[]' id='costumer'></td>)"+
-    "<td><a hreaf='' class='btn btn-danger btn-sm'><li class='fa fa-trash'></li></a></td>");
-
-      $(function(){
-				$(":radio.rad").click(function(){
-					if($(this).val() == "pertama"+i){
-						document.getElementById('tampil'+i).innerHTML =
-            "<table class='table'>"+
-              "<tr>"+
-                "<td><input name='tersier[]' id='tersier' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number' ></td>"+
-                "<td>"+
-                  "<select class='form-control' name='s_tersier[]' required>"+datauom+"</select>"+
-                "</td>"+
-              "</tr>"+
-              "<tr hidden>"+
-                "<td><input name='sekunder1[]' id='sekunder1' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'></td>"+
-                "<td><input name='s_sekunder1[]' id='s_sekunder1' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'></td>"+
-              "</tr>"+
-              "<tr hidden>"+
-                "<td><input name='sekunder2[]' id='sekunder2' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'>"+
-                "<td><input name='s_sekunder2[]' id='s_sekunder2' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'>"+
-              "</tr>"+
-              "<tr>"+
-                "<td><input name='primer[]' id='primer' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'></td>"+
-                "<td>"+
-                  "<select class='form-control' name='s_primer[]'>"+pilihan_uom_primer+"</select>"+
-                "</td>"+
-              "</tr>"+
-            "</table>"+
-            "<h4><b><lable class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>*Information</lable></b></h4>"+
-            "<br><br>"+
-            "<div class='form-group'>"+
-              "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>Primary</label>"+
-              "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-                "<input name='primary[]' id='primary' class='form-control col-md-12 col-xs-12' type='text' required>"+
-              "</div>"+
-            "</div>"+
-            "<div class='form-group'>"+
-              "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='last-name'>Secondary</label>"+
-              "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-                "<input name='secondary[]' id='secondary' class='form-control col-md-12 col-xs-12' type='text' required>"+
-              "</div>"+
-            "</div>"+
-            "<div class='form-group'>"+
-              "<label for='middle-name' class='control-label col-md-2 col-sm-3 col-xs-12'>Tertiary </label>"+
-              "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-                "<input name='tertiary[]' id='tertiary' class='form-control col-md-12 col-xs-12' type='text' required>"+
-              "</div>"+
-            "</div>"
-					}
-
-          if($(this).val() == "kedua"+i){
-						document.getElementById('tampil'+i).innerHTML =
-            "<table class='table'>"+
-              "<tr>"+
-                "<td><input name='tersier[]' id='tersier' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number' ></td>"+
-                "<td>"+
-                  "<select class='form-control' name='s_tersier[]' required>"+datauom+"</select>"+
-                "</td>"+
-              "</tr>"+
-              "<tr>"+
-                "<td><input name='sekunder1[]' id='sekunder1' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number' required></td>"+
-                "<td>"+
-                  "<select class='form-control' name='s_sekunder1[]' required>"+datauom+"</select>"+
-                "</td>"+
-              "</tr>"+
-              "<tr hidden>"+
-                "<td><input name='sekunder2[]' id='sekunder2' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'>"+
-                "<td><input name='s_sekunder2[]' id='s_sekunder2' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'>"+
-              "</tr>"+
-              "<tr>"+
-                "<td><input name='primer[]' id='primer' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'></td>"+
-                "<td>"+
-                  "<select class='form-control' name='s_primer[]'>"+pilihan_uom_primer+"</select>"+
-                "</td>"+
-              "</tr>"+
-            "</table>"+
-            "<h4><b><lable class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>*Information</lable></b></h4>"+
-            "<br><br>"+
-            "<div class='form-group'>"+
-              "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>Primary</label>"+
-              "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-                "<input name='primary[]' id='primary' class='form-control col-md-12 col-xs-12' type='text' required>"+
-              "</div>"+
-            "</div>"+
-            "<div class='form-group'>"+
-              "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='last-name'>Secondary</label>"+
-              "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-                "<input name='secondary[]' id='secondary' class='form-control col-md-12 col-xs-12' type='text' required>"+
-              "</div>"+
-            "</div>"+
-            "<div class='form-group'>"+
-              "<label for='middle-name' class='control-label col-md-2 col-sm-3 col-xs-12'>Tertiary </label>"+
-              "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-                "<input name='tertiary[]' id='tertiary' class='form-control col-md-12 col-xs-12' type='text' required>"+
-              "</div>"+
-            "</div>"
-					}
-
-          if($(this).val() == "ketiga"+i){
-						document.getElementById('tampil'+i).innerHTML =
-            "<table class='table'>"+
-              "<tr>"+
-                "<td><input name='tersier[]' id='tersier' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number' ></td>"+
-                "<td>"+
-                  "<select class='form-control' name='s_tersier[]' required>"+datauom+"</select>"+
-                "</td>"+
-              "</tr>"+
-              "<tr>"+
-                "<td><input name='sekunder1[]' id='sekunder1' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number' required></td>"+
-                "<td>"+
-                  "<select class='form-control' name='s_sekunder1[]' required>"+datauom+"</select>"+
-                "</td>"+
-              "</tr>"+
-              "<tr>"+
-                "<td><input name='sekunder2[]' id='sekunder2' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number' required>"+
-                "<td>"+
-                  "<select class='form-control' name='s_sekunder2[]' required>"+datauom+"</select>"+
-                "</td>"+
-              "</tr>"+
-              "<tr>"+
-                "<td><input name='primer[]' id='primer' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'></td>"+
-                "<td>"+
-                  "<select class='form-control' name='s_primer[]'>"+pilihan_uom_primer+"</select>"+
-                "</td>"+
-              "</tr>"+
-            "</table>"+
-            "<h4><b><lable class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>*Information</lable></b></h4>"+
-            "<br><br>"+
-            "<div class='form-group'>"+
-              "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>Primary</label>"+
-              "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-                "<input name='primary[]' id='primary' class='form-control col-md-12 col-xs-12' type='text' required>"+
-              "</div>"+
-            "</div>"+
-            "<div class='form-group'>"+
-              "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='last-name'>Secondary</label>"+
-              "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-                "<input name='secondary[]' id='secondary' class='form-control col-md-12 col-xs-12' type='text' required>"+
-              "</div>"+
-            "</div>"+
-            "<div class='form-group'>"+
-              "<label for='middle-name' class='control-label col-md-2 col-sm-3 col-xs-12'>Tertiary </label>"+
-              "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-                "<input name='tertiary[]' id='tertiary' class='form-control col-md-12 col-xs-12' type='text' required>"+
-              "</div>"+
-            "</div>"
-					}
-				});
-			});
-    $('#tabledata').append('<tr id="addrow' + (i + 1) + '"></tr>');
-    i++;
-  });
-
-  $(function(){
-		$(":radio.rad").click(function(){
-			if($(this).val() == "pertama1"){
-				document.getElementById('tampil1').innerHTML =
-        "<table class='table'>"+
-          "<tr>"+
-            "<td><input name='tersier[]' id='tersier' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number' ></td>"+
-            "<td>"+
-              "<select class='form-control' name='s_tersier[]' required>"+datauom+"</select>"+
-            "</td>"+
-          "</tr>"+
-          "<tr hidden>"+
-            "<td><input name='sekunder1[]' id='sekunder1' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'></td>"+
-            "<td><input name='s_sekunder1[]' id='s_sekunder1' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'></td>"+
-          "</tr>"+
-          "<tr hidden>"+
-            "<td><input name='sekunder2[]' id='sekunder2' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'>"+
-            "<td><input name='s_sekunder2[]' id='s_sekunder2' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'>"+
-          "</tr>"+
-          "<tr>"+
-            "<td><input name='primer[]' id='primer' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'></td>"+
-            "<td>"+
-              "<select class='form-control' name='s_primer[]'>"+pilihan_uom_primer+"</select>"+
-            "</td>"+
-          "</tr>"+
-        "</table>"+
-        "<h4><b><lable class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>*Information</lable></b></h4>"+
-        "<br><br>"+
-        "<div class='form-group'>"+
-          "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>Primary</label>"+
-          "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-            "<input name='primary[]' id='primary' class='form-control col-md-12 col-xs-12' type='text' required>"+
-          "</div>"+
-        "</div>"+
-        "<div class='form-group'>"+
-          "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='last-name'>Secondary</label>"+
-          "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-            "<input name='secondary[]' id='secondary' class='form-control col-md-12 col-xs-12' type='text' required>"+
-          "</div>"+
-        "</div>"+
-        "<div class='form-group'>"+
-          "<label for='middle-name' class='control-label col-md-2 col-sm-3 col-xs-12'>Tertiary </label>"+
-          "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-            "<input name='tertiary[]' id='tertiary' class='form-control col-md-12 col-xs-12' type='text' required>"+
-          "</div>"+
-        "</div>"
-			}
-
-      if($(this).val() == "kedua1"){
-				document.getElementById('tampil1').innerHTML =
-        "<table class='table'>"+
-          "<tr>"+
-            "<td><input name='tersier[]' id='tersier' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number' ></td>"+
-            "<td>"+
-              "<select class='form-control' name='s_tersier[]' required>"+datauom+"</select>"+
-            "</td>"+
-          "</tr>"+
-          "<tr>"+
-            "<td><input name='sekunder1[]' id='sekunder1' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number' required></td>"+
-            "<td>"+
-              "<select class='form-control' name='s_sekunder1[]' required>"+datauom+"</select>"+
-            "</td>"+
-          "</tr>"+
-          "<tr hidden>"+
-            "<td><input name='sekunder2[]' id='sekunder2' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'>"+
-            "<td><input name='s_sekunder2[]' id='s_sekunder2' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'>"+
-          "</tr>"+
-          "<tr>"+
-            "<td><input name='primer[]' id='primer' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'></td>"+
-            "<td>"+
-              "<select class='form-control' name='s_primer[]'>"+pilihan_uom_primer+"</select>"+
-            "</td>"+
-          "</tr>"+
-        "</table>"+
-        "<h4><b><lable class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>*Information</lable></b></h4>"+
-        "<br><br>"+
-        "<div class='form-group'>"+
-          "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>Primary</label>"+
-          "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-            "<input name='primary[]' id='primary' class='form-control col-md-12 col-xs-12' type='text'required>"+
-          "</div>"+
-        "</div>"+
-        "<div class='form-group'>"+
-          "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='last-name'>Secondary</label>"+
-          "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-            "<input name='secondary[]' id='secondary' class='form-control col-md-12 col-xs-12' type='text'required>"+
-          "</div>"+
-        "</div>"+
-        "<div class='form-group'>"+
-          "<label for='middle-name' class='control-label col-md-2 col-sm-3 col-xs-12'>Tertiary </label>"+
-          "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-            "<input name='tertiary[]' id='tertiary' class='form-control col-md-12 col-xs-12' type='text'required>"+
-          "</div>"+
-        "</div>"
-			}
-
-      if($(this).val() == "ketiga1"){
-				document.getElementById('tampil1').innerHTML =
-        "<table class='table'>"+
-          "<tr>"+
-            "<td><input name='tersier[]' id='tersier' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number' ></td>"+
-            "<td>"+
-              "<select class='form-control' name='s_tersier[]' required>"+datauom+"</select>"+
-            "</td>"+
-          "</tr>"+
-          "<tr>"+
-            "<td><input name='sekunder1[]' id='sekunder1' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number' required></td>"+
-            "<td>"+
-              "<select class='form-control' name='s_sekunder1[]' required>"+datauom+"</select>"+
-            "</td>"+
-          "</tr>"+
-          "<tr>"+
-            "<td><input name='sekunder2[]' id='sekunder2' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number' required>"+
-            "<td>"+
-              "<select class='form-control' name='s_sekunder2[]' required>"+datauom+"</select>"+
-            "</td>"+
-          "</tr>"+
-          "<tr>"+
-            "<td><input name='primer[]' id='primer' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='number'></td>"+
-            "<td>"+
-              "<select class='form-control' name='s_primer[]'>"+pilihan_uom_primer+"</select>"+
-            "</td>"+
-          "</tr>"+
-        "</table>"+
-        "<h4><b><lable class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>*Information</lable></b></h4>"+
-        "<br><br>"+
-        "<div class='form-group'>"+
-          "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>Primary</label>"+
-          "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-            "<input name='primary[]' id='primary' class='form-control col-md-12 col-xs-12' type='text' required>"+
-          "</div>"+
-        "</div>"+
-        "<div class='form-group'>"+
-          "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='last-name'>Secondary</label>"+
-          "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-            "<input name='secondary[]' id='secondary' class='form-control col-md-12 col-xs-12' type='text' required>"+
-          "</div>"+
-        "</div>"+
-        "<div class='form-group'>"+
-          "<label for='middle-name' class='control-label col-md-2 col-sm-3 col-xs-12'>Tertiary </label>"+
-          "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-            "<input name='tertiary[]' id='tertiary' class='form-control col-md-12 col-xs-12' type='text' required>"+
-          "</div>"+
-        "</div>"
-			}
-		});
-	});
-</script>
-
-<script>
-  $('.items').select2({
+<script type="text/javascript">
+  $('select').select2({
     placeholder: '-->Select One<--',
     allowClear: true
   });
-  
+</script>
+
+<script>
   $(document).ready(function() {
 
     // delete baris proses

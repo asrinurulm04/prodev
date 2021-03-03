@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class product_allocation extends Model
 {
-    protected $table = 'pkp_product_allocation';
+    protected $table = 'tr_product_allocation';
     protected $primaryKey ='id_product_allocation';
 
     public function sku(){

@@ -62,15 +62,6 @@ class masterController extends Controller
         ]);
     }
 
-    public function logamberat(){
-        $logam = logam_berat::join('pkp_datapangan','pkp_datapangan.no_kategori','=','tb_logam_berat.pangan_olahan')->get();
-        $pengajuan = pengajuan::count();
-        return view('datamaster.logam_berat')->with([
-            'logam' => $logam,
-            'pengajuan' => $pengajuan
-        ]);
-    }
-
     public function editsku(Request $request,$id){
         $sku = data_sku::where('id',$id)->first();
         $sku->nama_produk=$request->name;
@@ -261,7 +252,7 @@ class masterController extends Controller
     }
 
     public function klaim(){
-        $klaim =komponen_klaim::all();
+        $klaim =klaim::all();
         $komponen = komponen::all();
         $pengajuan = pengajuan::count();
         return view('datamaster.komponenklaim1')->with([

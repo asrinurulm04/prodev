@@ -139,10 +139,11 @@
                        <label class="col-lg-3 control-label">Berat Jenis</label>
                        <div class="col-lg-8">
                          <div class="row">
-                           <div class="col-md-12"><input class="form-control" placeholder='Berat Jenis' id="" disabled name="" type="number" required/></div>
+                           <div class="col-md-12"><input class="form-control" placeholder='Berat Jenis' id="" disabled name="" type="" required/></div>
                          </div>
                        </div>
                      </div>
+                    <label for="" style="color:red">* gunakan (.) untuk pengganti (,)</label>
                    </div>
                    <div class="modal-footer">
                      <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> Add</button>
@@ -325,17 +326,7 @@
                   @if($for->vv=='proses')
                   <span class="label label-primary" style="color:white">New Sample</span>
                   @elseif($for->vv=='approve')
-                    @if($for->status_fisibility=='not_approved')
-                      @if($hasilpanel>=1)
-                      <span class="label label-info" style="color:white">sample Approved</span>
-                      @elseif($hasilpanel==0)
-                      <span class="label label-success" style="color:white">Waiting panel Results</span>
-                      @endif
-                    @elseif($for->status_fisibility=='proses')
-                      <span class="label label-warning" style="color:white">Proses Feasibility And Panel</span>
-                    @elseif($for->status_fisibility=='selesai')
-                      <span class="label label-warning" style="color:white">New Data Feasibility</span>
-                    @endif
+                  <span class="label label-info" style="color:white">Approved</span>
                   @elseif($for->vv=='reject')
                     <span class="label label-danger" style="color:white">Project rejected</span>
                   @elseif($for->vv=='final')
@@ -522,7 +513,7 @@
         "<div class='form-group row'>"+
         "  <label class='control-label col-md-3 col-sm-3 col-xs-12'>Berat Jenis</label>"+
         "  <div class='col-md-8 col-sm-9 col-xs-12'>"+
-        "    <input type='number' placeholder='Berat Jenis' name='berat_jenis' id='berat_jenis' class='form-control col-md-12 col-xs-12' required>"+
+        "    <input type='text' placeholder='Berat Jenis' name='berat_jenis' id='berat_jenis' class='form-control col-md-12 col-xs-12' required>"+
         "  </div>"+
         "</div>"
     }
@@ -537,7 +528,7 @@
         "<div class='form-group row'>"+
         "  <label class='control-label col-md-3 col-sm-3 col-xs-12'>Berat Jenis</label>"+
         "  <div class='col-md-8 col-sm-9 col-xs-12'>"+
-        "    <input type='number' placeholder='Berat Jenis' disabled name='' id='' class='form-control col-md-12 col-xs-12'>"+
+        "    <input type='text' placeholder='Berat Jenis' disabled name='' id='' class='form-control col-md-12 col-xs-12'>"+
         "  </div>"+
         "</div>"
     }

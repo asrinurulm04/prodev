@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class data_sku extends Model
 {
-    protected $table = 'data_sku';
+    protected $table = 'ms_sku';
 }

@@ -161,7 +161,7 @@
                     <span class="label label-danger" style="color:white">Revision proses</span>
                     @elseif($pkp->status_project=='proses')
                       @if($pkp->userpenerima!=NULL)
-                      Sent to ({{$pkp->datapkpp->users->name}}) 
+                      Sent to ({{$pkp->datapkpp->users1->name}}) 
                       @elseif($pkp->userpenerima==NULL)
                       @if($pkp->status_terima=='proses')
                       New PKP - {{$pkp->datapkpp->departement->dept}} ({{$pkp->datapkpp->departement->users->name}})
@@ -284,7 +284,7 @@
               @endif
             @elseif($pkp->tujuankirim2==0)  
               @if($pkp->departement->dept==Auth::user()->departement->dept )
-              <tr class="text-center">
+              <tr>
                 <td>{{ ++$no}}</td>
                 <td>{{$pkp->pkp_number}}{{$pkp->ket_no}}</td>
                 <td>{{$pkp->id_brand}}</td>
@@ -307,7 +307,7 @@
                     <span class="label label-danger" style="color:white">Revision proses</span>
                     @elseif($pkp->status_project=='proses')
                       @if($pkp->userpenerima!=NULL)
-                      Sent to ({{$pkp->users->name}})
+                      Sent to ({{$pkp->datapkpp->users1->name}}) 
                       @elseif($pkp->userpenerima==NULL)
                         @if($pkp->status_terima=='proses')
                         New PKP - {{$pkp->departement->dept}} ({{$pkp->departement->users->name}})
@@ -379,41 +379,12 @@
                 <td><span class="label label-danger" style="color:white">Revision proses</span></td>
                 @elseif($pkp->status_project=='proses')
                 <td class="text-center">
-                  @if($pkp->workbook>='1')
+                  @if($pkp->workbook!='1')
                   <a class="btn btn-info btn-sm" href="{{ Route('daftarpkp',$pkp->id_project) }}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
                   @elseif($pkp->workbook=='0')
                   <a class="btn btn-primary btn-sm" href="{{ Route('daftarpkp',$pkp->id_project) }}" data-toggle="tooltip" title="Show Workbook"><i class="fa fa-book"></i></a>
                   @endif
-                  @if(Auth::user()->departement->dept!='RKA')
-                  <button class="btn btn-primary btn-sm" title="Project Finish" data-toggle="tooltip" data-toggle="modal" data-target="#close{{$pkp->id_project}}"><i class="fa fa-power-off"></i></a></button>    
-                  @endif
                 </td>
-                <!-- modal -->
-                <div class="modal" id="close{{$pkp->id_project}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                  <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                      <div class="modal-header">                 
-                        <h3 class="modal-title text-left" id="exampleModalLabel" >Close Data
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span></h3>
-                        </button>
-                      </div>
-                      <div class="modal-body">
-                      <form class="form-horizontal form-label-left" method="POST" action="{{route('closepkp',$pkp->id_project)}}" novalidate>
-                        <div class="form-group row">
-                          <label class="control-label text-bold col-md-1 col-sm-3 col-xs-12 text-center">Note</label>
-                            <textarea name="note" id="note" class="col-md-12 col-sm-12 col-xs-12"></textarea>
-                        </div>
-                        <div class="modal-footer">
-                          <button class="btn btn-success" title="Close Project"><li class="fa fa-check"></li> Close</button>
-                          {{ csrf_field() }}
-                        </div>
-                      </form>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!-- Modal Selesai -->
                 <td>
                   @if($pkp->status_freeze=='inactive')
                     @if($pkp->pengajuan_sample=='proses')

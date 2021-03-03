@@ -28,7 +28,7 @@
                     <label class="control-label text-bold col-md-1 col-sm-3 col-xs-12 text-center">Dept1</label>
                     <div class="col-md-11 col-sm-9 col-xs-12">
                       <select name="tujuankirim" class="form-control form-control-line" id="type">
-                        <option disabled selected>{{$data->departement->dept}} ({{$data->departement->nama_dept}})</option>
+                        <option  value="{{$data->tujuankirim}}" selected>{{$data->departement->dept}} ({{$data->departement->nama_dept}})</option>
                         @foreach($dept as $dept)
                           @if($dept->dept=='RPE')
                           <option value="{{$dept->id}}">{{$dept->dept}} ({{$dept->nama_dept}})</option>
@@ -44,7 +44,7 @@
                         @if($data->tujuankirim2==0)
                         <option value="0" selected>No Departement Selected</option>
                         @elseif($data->tujuanlirim2==1)
-                        <option selected>{{$data->departement2->dept}} ({{$data->departement2->nama_dept}})</option>
+                        <option value="{{$data->tujuankirim2}}" selected>{{$data->departement2->dept}} ({{$data->departement2->nama_dept}})</option>
                         @endif<option value="1">RKA</option>
                         <option value="0">No Departement Selected</option>
                       </select>
@@ -216,7 +216,7 @@
                     </div>
                   </div>
                   @if($pdf->status!='proses')
-                  <a class="btn btn-primary btn-sm" href="{{ route('step1',[$pdf->workbook_pdf_id,$pdf->id]) }}"><i style="font-size:12px;" class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a>
+                  <a class="btn btn-primary btn-sm" href="{{ route('step1_pdf',[$pdf->workbook_pdf_id,$pdf->id]) }}"><i style="font-size:12px;" class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a>
                   <a class="btn btn-dark btn-sm" href="{{ route('ajukanvp',[$pdf->workbook_pdf_id,$pdf->id]) }}" onclick="return confirm('Ajukan Formula Kepada PV?')" data-toggle="tooltip" title="Ajukan PV"><li class="fa fa-paper-plane"></li></a>
                   @elseif($pdf->vv == 'approve' || $pdf->vv == 'proses')
                     <a class="btn btn-primary btn-sm" href="{{ route('panel',[$pdf->workbook_pdf_id,$pdf->id]) }}" data-toggle="tooltip" title="Lanjutkan Panel"><li class="fa fa-glass"></li></a>

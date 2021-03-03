@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class pkp_project extends Model
 {
-    protected $table = 'pkp_project';
+    protected $table = 'tr_project_pkp';
     protected $primaryKey ='id_project';
 
     public function departement(){
@@ -21,7 +21,7 @@ class pkp_project extends Model
         return $this->hasOne('App\model\pkp\notulen','id_pkp','id_project');
     }
 
-    public function users(){
+    public function users1(){
         return $this->hasOne('App\model\users\User','id','userpenerima');
     }
 

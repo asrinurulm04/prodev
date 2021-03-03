@@ -28,7 +28,7 @@
   <div class="card-block">
     <a type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#add_curren"><i class="fa fa-plus"></i> Add Currency </a>
 	  <div class="dt-responsive table-responsive">
-      <table class="Table table-striped table-bordered ">
+      <table class="table table-striped table-bordered ">
         <thead>
           <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
             <th>ID</th>
@@ -43,7 +43,7 @@
           <tr>
             <td>{{ $curren->id }}</td>
             <td>{{ $curren->currency }}</td>
-            <td>{{ $curren->harga }}</td>
+            <td><?php $angka_format = number_format($curren->harga,2,",","."); echo "Rp. ".$angka_format;?></td>
             <td>{{ $curren->keterangan }}</td>
             <td class="text-center">
               <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#edit_curren{{ $curren->id }}"><i class="fa fa-edit"></i></a></button>

@@ -91,7 +91,6 @@
                       <li><a href="{{ route('datapangan') }}">Microbiology</a></li>
                       <li><a href="{{ route('sku') }}">Active SKU</a></li>
                       <li><a href="{{ route('klaim') }}">Claim Regulation</a></li>
-                      <li><a href="{{ route('logam.berat')}}">Logam Berat</a></li>
                     </ul>
                   </li>
                 </ul>

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class datakemas extends Model
 {
-    protected $table = 'data_kemas';
+    protected $table = 'tr_kemas';
     protected $primaryKey ='id_kemas';
 
     protected $fillable = [

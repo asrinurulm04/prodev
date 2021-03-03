@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class detail_project_pdf extends Model
 {
-    protected $table = 'pdf_project';
+    protected $table = 'tr_pdf_project';
 }

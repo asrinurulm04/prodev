@@ -6,7 +6,6 @@
     <title>@yield('title')
     </title>
     <link href="{{ asset('img/prod.png') }}" rel="icon">
-    <link href="{{ asset('vendors/nprogress/nprogress.css') }}" rel="stylesheet">
     <link href="{{ asset('vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('vendors/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
     <link href="{{ asset('build/css/custom.min.css') }}" rel="stylesheet">
@@ -181,7 +180,6 @@
                       <li><a href="{{ route('datapangan') }}">Microbiology</a></li>
                       <li><a href="{{ route('sku') }}">Active SKU</a></li>
                       <li><a href="{{ route('klaim') }}">Claim Regulation</a></li>
-                      <li><a href="{{ route('logam.berat')}}">Logam Berat</a></li>
                       <li><a href="{{ route('allergen') }}">Allergen</a></li>
                       <li><a href="{{ route('curren.index') }}">Currency</a></li>
                       <li><a href="{{ route('bahanbaku') }}">Bahan Baku Eksis</a></li>
@@ -239,7 +237,6 @@
                       <li><a href="{{ route('datapangan') }}">BPOM Category</a></li>
                       <li><a href="{{ route('sku') }}">Active SKU</a></li>
                       <li><a href="{{ route('klaim') }}">Claim Regulation</a></li>
-                      <li><a href="{{ route('logam.berat')}}">Logam Berat</a></li>
                     </ul>
                   </li>
                   @elseif(auth()->user()->role->namaRule === 'admin')
@@ -276,7 +273,6 @@
                       <li><a href="{{ route('datapangan') }}">Microbiology</a></li>
                       <li><a href="{{ route('sku') }}">Active SKU</a></li>
                       <li><a href="{{ route('klaim') }}">Claim Regulation</a></li>
-                      <li><a href="{{ route('logam.berat')}}">Logam Berat</a></li>
                       <li><a href="{{ route('bahanbaku') }}">Bahan Baku</a></li>
                       <li><a href="{{ route('brand.index') }}">Brand</a></li>
                       <li><a href="{{ route('subbrand.index') }}">Subbrand</a></li>
@@ -340,7 +336,6 @@
     </div>
 
     <!-- jQuery -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="{{ asset('js/vendor/jquery-2.2.4.min.js') }}"></script>
     <!-- Bootstrap -->
     <script src="{{ asset('vendors/bootstrap/dist/js/bootstrap.min.js') }}"></script>
@@ -349,9 +344,7 @@
     <script src="{{ asset('js/datatables.min.js')}}"></script>
     <script src="{{ asset('js/select2/select2.min.js') }}"></script>
     <script src="{{ asset('build/js/custom.min.js') }}"></script>
-    @yield('s')
-
-      <script type="text/javascript">$('.Table').DataTable({
+    <script type="text/javascript">$('.Table').DataTable({
       "language": {
         "search": "Cari :",
         "lengthMenu": "Tampilkan _MENU_ data",
@@ -367,5 +360,6 @@
         }
       }
     });</script>
+    @yield('s')
   </body>
 </html>

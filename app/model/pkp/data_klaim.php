@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class data_klaim extends Model
 {
-    protected $table = 'data_klaim';
+    protected $table = 'tr_klaim';
     protected $primaryKey ='id';
 
     public function datakp(){

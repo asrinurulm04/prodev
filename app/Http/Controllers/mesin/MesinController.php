@@ -31,8 +31,8 @@ class MesinController extends Controller
         $mesins = datamesin::all();
         $dataMesin = Dmesin::where('id_feasibility',$id_feasibility)->count();
         $messin = DB::table('fs_datamesin')->select(['workcenter'])->distinct()->get();
-        $Mdata = DB::table('fs_mesin')
-            ->join('fs_datamesin','fs_mesin.id_data_mesin','=','fs_datamesin.id_data_mesin')
+        $Mdata = DB::table('tr_mesin')
+            ->join('ms_mesin','tr_mesin.id_data_mesin','=','fs_datamesin.id_data_mesin')
             ->where('id_feasibility', $id_feasibility)->get();
         $dataF = finance::where('id_feasibility', $id_feasibility)->get();
         $jumlah = pesan::where('user','inputor')->count();
@@ -98,13 +98,13 @@ class MesinController extends Controller
     }
 
     public function lihat(Request $request){
-        $data = DB::table('fs_datamesin')
-            ->leftjoin('fs_mesin','fs_mesin.id_data_mesin','=','fs_datamesin.id_data_mesin')
-            ->rightjoin('fs_finance','fs_mesin.id_feasibility','=','fs_finance.id_feasibility')
-            ->rightjoin('formulas','fs_finance.id_formula','=','formulas.id')
+        $data = DB::table('ms_mesin')
+            ->leftjoin('tr_mesin','tr_mesin.id_data_mesin','=','ms_mesin.id_data_mesin')
+            ->rightjoin('tr_feasibility','tr_mesin.id_feasibility','=','tr_feasibility.id_feasibility')
+            ->rightjoin('tr_formulas','tr_feasibility.id_formula','=','tr_formulas.id')
             ->where([
-                ['fs_finance.status_mesin','selesai'],
-                ['fs_finance.id_feasibility', $request->id_feasibility]
+                ['tr_feasibility.status_mesin','selesai'],
+                ['tr_feasibility.id_feasibility', $request->id_feasibility]
             ])->get();
         $reference = $request->session()->get('references');
         $reference = $request->session()->put('references', $data);
@@ -163,16 +163,16 @@ class MesinController extends Controller
         $mesins = datamesin::all();
         $jumlah = pesan::where('user','inputor')->count();
         $formulas = Formula::where('status_fisibility','proses')->get();
-        $messin = DB::table('fs_datamesin')->select(['workcenter'])->distinct()->get();
+        $messin = DB::table('ms_mesin')->select(['workcenter'])->distinct()->get();
         $Mdata = Dmesin::with('meesin')->get()->where('id_feasibility', $id_feasibility);
         $cek_mesin =Dmesin::where('id_feasibility',$id_feasibility)->count();
         $dataN = finance::with('formula')->get();
-        $data = DB::table('fs_datamesin')
-            ->leftjoin('fs_mesin','fs_mesin.id_data_mesin','=','fs_datamesin.id_data_mesin')
-            ->leftjoin('fs_finance','fs_mesin.id_feasibility','=','fs_finance.id_feasibility')
-            ->rightjoin('formulas','fs_finance.id_formula','=','formulas.id')
-            ->where([['fs_finance.status_mesin','selesai']])->get();
-        $dataMesin = Dmesin::join('fs_datamesin','fs_datamesin.id_data_mesin','fs_mesin.id_data_mesin')->get();
+        $data = DB::table('ms_mesin')
+            ->leftjoin('tr_mesin','tr_mesin.id_data_mesin','=','ms_mesin.id_data_mesin')
+            ->leftjoin('tr_feasibility','tr_mesin.id_feasibility','=','tr_feasibility.id_feasibility')
+            ->rightjoin('tr_formulas','tr_feasibility.id_formula','=','tr_formulas.id')
+            ->where([['tr_feasibility.status_mesin','selesai']])->get();
+        $dataMesin = Dmesin::join('ms_mesin','ms_mesin.id_data_mesin','tr_mesin.id_data_mesin')->get();
         $dataF = finance::where('id_feasibility', $id_feasibility)->get();
         $dataO = oh::with('dataoh')->get()->where('id_feasibility', $id_feasibility);
         $fe=finance::find($id_feasibility);
@@ -318,7 +318,7 @@ class MesinController extends Controller
         $lihat = std::where('id_feasibility', $id_feasibility)->get();
         $dataO = oh::with('dataoh')->get()->where('id_feasibility', $id_feasibility);
         $yieldd = DB::table('fs_formula_kemas')
-            ->join('fs_finance','fs_formula_kemas.id_feasibility','=','fs_finance.id_feasibility')
+            ->join('tr_feasibility','fs_formula_kemas.id_feasibility','=','tr_feasibility.id_feasibility')
             ->join('fs_data_yield','fs_formula_kemas.kode','=','fs_data_yield.kode_item')
             ->where('fs_formula_kemas.id_feasibility', $id_feasibility)->get();
         return view('mesin.lihat')->with([
@@ -406,10 +406,10 @@ class MesinController extends Controller
             $add_mesin->save();
             $id = Dmesin::orderBy('created_at', 'desc')->pluck('id_feasibility')->first();
             $data = DB::table('fs_datamesin')
-                ->leftjoin('fs_mesin','fs_mesin.id_data_mesin','=','fs_datamesin.id_data_mesin')
-                ->rightjoin('fs_finance','fs_mesin.id_feasibility','=','fs_finance.id_feasibility')
-                ->rightjoin('formulas','fs_finance.id_formula','=','formulas.id')
-                ->where([['fs_finance.id_feasibility', $id]])->first();
+                ->leftjoin('tr_mesin','tr_mesin.id_data_mesin','=','fs_datamesin.id_data_mesin')
+                ->rightjoin('tr_feasibility','tr_mesin.id_feasibility','=','tr_feasibility.id_feasibility')
+                ->rightjoin('formulas','tr_feasibility.id_formula','=','formulas.id')
+                ->where([['tr_feasibility.id_feasibility', $id]])->first();
             $request->session()->push('references', $data);
         }
     return redirect()->back();
@@ -564,7 +564,7 @@ class MesinController extends Controller
         $jumlah = pesan::where('user','inputor')->count();
         $fe=finance::find($id_feasibility);
         $yieldd = DB::table('fs_formula_kemas')
-            ->join('fs_finance','fs_formula_kemas.id_feasibility','=','fs_finance.id_feasibility')
+            ->join('tr_feasibility','fs_formula_kemas.id_feasibility','=','tr_feasibility.id_feasibility')
             ->join('fs_data_yield','fs_formula_kemas.kode','=','fs_data_yield.kode_item')
             ->where('fs_formula_kemas.id_feasibility', $id_feasibility)->get();
         $kemas = userkemas::with('kemas')->get()->where('id_feasibility', $id_feasibility);

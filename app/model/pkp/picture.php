@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class picture extends Model
 {
-    protected $table = "pkp_related_pictures";
+    protected $table = "tr_file_project";
     protected $primaryKey ='id_pictures';
 
     public function pkp(){

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ms_allergen extends Model
 {
-    protected $table = 'tb_allergen';
+    protected $table = 'ms_allergen';
     
     public function user(){
         return $this->hasOne('App\model\User','id','id_user');

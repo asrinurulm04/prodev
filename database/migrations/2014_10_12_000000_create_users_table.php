@@ -13,12 +13,12 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('tr_users', function (Blueprint $table) {
           $table->increments('id');
           $table->string('name');
           $table->string('username')->unique();
-          $table->string('email')->unique();
           $table->string('password');
+          $table->string('email')->unique();
           $table->integer('departement_id')->index();
           $table->integer('role_id')->index();
           $table->enum('status',['sending','active','nonactive'])->default('sending');
@@ -26,9 +26,9 @@ class CreateUsersTable extends Migration
           $table->timestamps();
         });
 
-        Schema::create('roles', function (Blueprint $table) {
+        Schema::create('ms_roles', function (Blueprint $table) {
             $table->increments('id');
-            $table->enum('namaRule',['marketing','user_produk','user_rd_proses','admin','pv_global','pv_lokal','development','produksi','kemas','evaluator','finance','superadmin','lab','manager','CS','maklon']);
+            $table->enum('namaRule',['marketing','user_produk','user_rd_proses','admin','pv_global','pv_lokal','produksi','kemas','evaluator','finance','lab','manager','CS','maklon','NR']);
             $table->timestamps();
         });
 
@@ -41,7 +41,7 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
-        Schema::dropIfExists('roles');
+        Schema::dropIfExists('tr_users');
+        Schema::dropIfExists('ms_roles');
     }
 }

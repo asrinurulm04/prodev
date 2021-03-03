@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Fortail extends Model
 {
-    protected $table = 'fortails';
+    protected $table = 'tr_fortails';
 
     public function Formula(){
         return $this->belongsTo('App\model\dev\Formula');

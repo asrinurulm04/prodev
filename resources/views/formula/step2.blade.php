@@ -184,7 +184,7 @@
         @endif
         @if ($mybase == 0)
         <div class="col-md-2"><br>
-          <input type="checkbox" value="yes" name="cbase" id="cbase">
+          <input type="checkbox" value="yes" checked name="cbase" id="cbase">
           <label for="cbase" > Base Calculations</label>                                        
         </div>                                                                 
         @endif 
@@ -933,7 +933,6 @@
 	$('#alternatif7').select2();
 
 	$(document).ready(function(){
-    $('.base').attr('rowspan',{{$rowspan}});
     $('#submitbahan').submit(function () {
 			// Get the c
 			var c = $('#c').val();

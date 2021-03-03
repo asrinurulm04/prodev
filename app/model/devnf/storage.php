@@ -6,6 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class storage extends Model
 {
-    protected $table = "storage";
+    protected $table = "tr_storage";
     protected $primaryKey ='id';
 }

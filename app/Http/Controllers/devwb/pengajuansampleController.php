@@ -49,7 +49,7 @@ class pengajuansampleController extends Controller
                 
                 $datapkp = pkp_project::where('id_project',$data)->get();
                 foreach($datapkp as $data){
-                    $dept = DB::table('departements')->where('id',$data->tujuankirim)->get();
+                    $dept = DB::table('ms_departements')->where('id',$data->tujuankirim)->get();
                     foreach($dept as $dept){
                         $user = user::where('id',$dept->manager_id)->get();
                         foreach($user as $user){
@@ -113,7 +113,7 @@ class pengajuansampleController extends Controller
                 
                 $datapkp = pkp_project::where('id_project',$data)->get();
                 foreach($datapkp as $data){
-                    $dept = DB::table('departements')->where('id',$data->tujuankirim)->get();
+                    $dept = DB::table('ms_departements')->where('id',$data->tujuankirim)->get();
                     foreach($dept as $dept){
                         $user = user::where('id',$dept->manager_id)->get();
                         foreach($user as $user){
@@ -156,7 +156,11 @@ class pengajuansampleController extends Controller
             return Redirect::back()->with('error','Data Bahan Formula Versi '.$formula->versi.' Masih Kosong');
         }elseif($formula->batch < 1){
             return Redirect::back()->with('error','Data Bahan Formula Versi '.$formula->versi.'.'.$formula->turunan.' Belum Memliki Batch');
-        }
+        }elseif($formula->note_formula == Null){
+            return Redirect::back()->with('error','Note Formula untuk versi '.$formula->versi.'.'.$formula->turunan.' Masih Kosong');
+        }elseif($formula->serving != $formula->serving_size){
+			return Redirect::back()->with('error','Total Serving tidak sesuai target');
+		}
 
         $formula = Formula::where('id',$id)->first();
         $formula->vv = 'proses';

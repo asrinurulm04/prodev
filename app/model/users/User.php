@@ -7,7 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    protected $table = 'users';
+    protected $table = 'tr_users';
     
     public function Role(){
         return $this->belongsTo('App\model\users\Role');

@@ -112,6 +112,7 @@
                 <td class="A1" style="display:none">
                   <label for="" class="control-label">Alternatif 1</label><br>
                   <select class="bahan2 form-control" style="width:230px;display:none;" id="alternatif" name="alternatif[1]">
+                    <option value="NULL">-> Not Selected <-</option>
                     @foreach($alternatifs as $bahan)
                     <option value="{{ $bahan->id }}">{{ $bahan->nama_sederhana }}</option>
                     @endforeach
@@ -143,6 +144,7 @@
                 <td class="A2" style="display:none">
                   <label for="" class="control-label">Alternatif 2</label><br>
                   <select class="bahan3 form-control" style="width:230px;display:none;" id="alternatif2" name="alternatif[2]">
+                    <option value="NULL">-> Not Selected <-</option>
                     @foreach($alternatifs as $bahan)
                     <option value="{{ $bahan->id }}">{{ $bahan->nama_sederhana }}</option>
                     @endforeach
@@ -174,6 +176,7 @@
                 <td class="A3" style="display:none">
                   <label for="" class="control-label">Alternatif 3</label><br>
                   <select class="bahan3 form-control" style="width:230px;display:none;" id="alternatif3" name="alternatif[3]">
+                    <option value="NULL">-> Not Selected <-</option>
                     @foreach($alternatifs as $bahan)
                     <option value="{{ $bahan->id }}">{{ $bahan->nama_sederhana }}</option>
                     @endforeach
@@ -207,6 +210,7 @@
                 <td class="A4" style="display:none">
                   <label for="" class="control-label">Alternatif 4</label><br>
                   <select class="bahan4 form-control" style="width:230px;display:none;" id="alternatif4" name="alternatif[4]">
+                    <option value="NULL">-> Not Selected <-</option>
                     @foreach($alternatifs as $bahan)
                     <option value="{{ $bahan->id }}">{{ $bahan->nama_sederhana }}</option>
                     @endforeach
@@ -239,6 +243,7 @@
                 <td class="A5" style="display:none">
                   <label for="" class="control-label">Alternatif 5</label><br>
                   <select class="bahan3 form-control" style="width:230px;display:none;" id="alternatif5" name="alternatif[5]">
+                    <option value="NULL">-> Not Selected <-</option>
                     @foreach($alternatifs as $bahan)
                     <option value="{{ $bahan->id }}">{{ $bahan->nama_sederhana }}</option>
                     @endforeach
@@ -270,6 +275,7 @@
                 <td class="A6" style="display:none">
                   <label for="" class="control-label">Alternatif 6</label><br>
                   <select class="bahan3 form-control" style="width:230px;display:none;" id="alternatif6" name="alternatif[6]">
+                    <option value="NULL">-> Not Selected <-</option>
                     @foreach($alternatifs as $bahan)
                     <option value="{{ $bahan->id }}">{{ $bahan->nama_sederhana }}</option>
                     @endforeach
@@ -298,6 +304,7 @@
                 <td class="A7" style="display:none">
                   <label for="" class="control-label">Alternatif 7</label><br>
                   <select class="bahan3 form-control" style="width:230px;display:none;" id="alternatif7" name="alternatif[7]">
+                    <option value="NULL">-> Not Selected <-</option>
                     @foreach($alternatifs as $bahan)
                     <option value="{{ $bahan->id }}">{{ $bahan->nama_sederhana }}</option>
                     @endforeach

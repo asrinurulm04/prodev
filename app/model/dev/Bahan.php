@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Bahan extends Model
 {
-    protected $table = "bahans";
+    protected $table = "ms_bahans";
 
     // Kebutuhan Formula
 

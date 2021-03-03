@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class tb_akg extends Model
 {
 
-    protected $table = "tb_akg";
+    protected $table = "ms_akg";
     protected $primaryKey ='id_akg';
 
     public function get_tarkon()

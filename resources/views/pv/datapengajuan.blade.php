@@ -27,14 +27,14 @@
                   <a id="tab2" style="font-weight: bold;color:white;background-color: #2a3f54;" href="#tabBody2" role="tab" aria-controls="tabBody2" aria-selected="true" data-toggle="tab" tabindex="0"><span class="hidden-xs"> PKP Promo</span></a>
                 <div class="whiteBlock"></div>
               </li>
-            </ul>
+            </ul><br><br>
             <div id="myTabContent" class="tab-content fancyTabContent" aria-live="polite">
               <!-- PKP Pengajuan -->
               <div class="tab-pane  fade active in" id="tabBody0" role="tabpanel" aria-labelledby="tab0" aria-hidden="false" tabindex="0">
                 <div>
                   <div class="row">
                     <div class="col-md-12">
-                      <table class="Table table-bordered table-bordered">
+                      <table id="datatable" class="table table-striped table-bordered" style="width:100%">
                         <thead>
                           <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
                             <th class="text-center">From</th>
@@ -81,7 +81,7 @@
               <div class="tab-pane  fade" id="tabBody1" role="tabpanel" aria-labelledby="tab1" aria-hidden="true" tabindex="0">
                 <div class="row">
                   <div class="col-md-12">
-                    <table class="table table-bordered table-bordered">
+                    <table id="datatable" class="table table-striped table-bordered" style="width:100%">
                       <thead>
                         <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
                           <td class="text-center" width="5%">No</td>
@@ -129,7 +129,7 @@
               <div class="tab-pane  fade" id="tabBody2" role="tabpanel" aria-labelledby="tab2" aria-hidden="true" tabindex="0">
                 <div class="row">
                   <div class="col-md-12">
-                    <table class="table table-bordered table-bordered">
+                    <table id="datatable" class="table table-striped table-bordered" style="width:100%">
                       <thead>
                         <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
                           <td class="text-center" width="5%">No</td>

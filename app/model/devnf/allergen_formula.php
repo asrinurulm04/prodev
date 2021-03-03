@@ -6,6 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class allergen_formula extends Model
 {
-    protected $table = "tb_alergen_formula";
+    protected $table = "tr_allergen_formula";
     protected $primaryKey ='id_allergen_formula';
 }

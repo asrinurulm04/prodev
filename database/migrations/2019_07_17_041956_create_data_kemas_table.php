@@ -13,7 +13,7 @@ class CreateDataKemasTable extends Migration
      */
     public function up()
     {
-        Schema::create('data_kemas', function (Blueprint $table) {
+        Schema::create('tr_kemas', function (Blueprint $table) {
             $table->increments('id_kemas');
             $table->string('tersier')->nullable();
             $table->string('s_tersier')->nullable();
@@ -34,6 +34,6 @@ class CreateDataKemasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('data_kemas');
+        Schema::dropIfExists('tr_kemas');
     }
 }

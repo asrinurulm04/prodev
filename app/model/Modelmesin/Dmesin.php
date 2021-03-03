@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Dmesin extends Model
 {
     
-    protected $table ='fs_mesin';
+    protected $table ='tr_mesin';
     protected $primaryKey='id_mesin';
  
     protected $fillable =[

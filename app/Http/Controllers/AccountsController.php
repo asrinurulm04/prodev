@@ -14,8 +14,8 @@ use Carbon\Carbon;
 class AccountsController extends Controller
 {
     public function validatePasswordRequest(Request $request){
-        $user = DB::table('users')->where('email', '=', $request->email)->where('username',$request->username)->first();
-        $user1 = DB::table('users')->where('email', '=', $request->email)->where('username',$request->username)->count();
+        $user = DB::table('tr_users')->where('email', '=', $request->email)->where('username',$request->username)->first();
+        $user1 = DB::table('tr_users')->where('email', '=', $request->email)->where('username',$request->username)->count();
 
         //Check if the user exists
         if ($user1 < 1) {
@@ -56,7 +56,7 @@ class AccountsController extends Controller
 
     private function sendResetEmail($email, $token){
         //Retrieve the user from the database
-        $user = DB::table('users')->where('email', $email)->select('username', 'email')->first();
+        $user = DB::table('tr_users')->where('email', $email)->select('username', 'email')->first();
         //Generate, the password reset link. The token generated is embedded in the link
         $link = config('base_url') . 'password/reset/' . $token . '?email=' . urlencode($user->email);
         return view('resetpass')->with([

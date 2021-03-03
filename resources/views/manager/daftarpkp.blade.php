@@ -46,7 +46,7 @@
                   <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center">Dept Product</label>
                   <div class="col-md-10 col-sm-9 col-xs-12">
                     <select name="tujuankirim" class="form-control form-control-line" id="type">
-                    <option disabled selected>{{$listpkp->departement->dept}} ({{$listpkp->departement->nama_dept}})</option>
+                    <option Value="{{$listpkp->tujuankirim}}" selected>{{$listpkp->departement->dept}} ({{$listpkp->departement->nama_dept}})</option>
                     @foreach($dept as $dept)
                       <option value="{{$dept->id}}">{{$dept->dept}} ({{$dept->nama_dept}})</option>
                     @endforeach
@@ -60,8 +60,7 @@
                     @if($listpkp->tujuankirim2==0)
                       <option value="0" disabled selected>No Departement Selected</option>
                       @elseif($listpkp->tujuanlirim2==1)
-                      <option selected>{{$listpkp->departement2->dept}} ({{$listpkp->departement2->nama_dept}})</option>
-                      
+                      <option  Value="{{$listpkp->tujuankirim2}}" selected>{{$listpkp->departement2->dept}} ({{$listpkp->departement2->nama_dept}})</option>
                       @endif<option value="1">RKA</option>
                       <option value="0">No Departement Selected</option>
                     </select>

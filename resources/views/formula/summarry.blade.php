@@ -26,41 +26,49 @@
     <h3><li class="fa fa-wpforms"> Summary Formula</h3>
   </div>
   <div class="row">
-    <div class="col-md-4">
+		<div class="col-md-4">
       <table>
-				@if($formula->workbook_id!=NULL)
+        @if($formula->workbook_id!=NULL)
         <tr><th>Product Name</th><td>&nbsp; : {{ $formula->Workbook->datapkpp->project_name }}</td></tr>
-				<tr><th>No.PKP</th><td>&nbsp; : {{ $formula->Workbook->datapkpp->pkp_number }}{{$formula->Workbook->datapkpp->ket_no}}</td></tr>
-        <tr><th>Revised By</th><td>&nbsp; : {{ $formula->workbook->perevisi2->name }} </td></tr>
-				@elseif($formula->workbook_pdf_id!=NULL)
+        <tr><th>PV</th><td>&nbsp; : {{ $formula->workbook->perevisi2->name }}</td></tr>
+        @else
         <tr><th>Product Name</th><td>&nbsp; : {{ $formula->Workbook_pdf->datapdf->project_name }}</td></tr>
-				<tr><th>PKP Number</th><td>&nbsp; : {{ $formula->Workbook_pdf->datapdf->pdf_number }}{{$formula->Workbook_pdf->datapdf->ket_no}}</td></tr>
-        <tr><th>Revised By</th><td>&nbsp; : {{ $formula->Workbook_pdf->perevisi2->name }} </td></tr>
-				@endif
+        <tr><th>PV</th><td>&nbsp; : {{ $formula->workbook_pdf->perevisi2->name }} </td></tr>
+        @endif
         <tr><th>Version</th><td>&nbsp; : {{ $formula->versi }}.{{ $formula->turunan }}</td></tr>
       </table>
     </div>
     <div class="col-md-3">
       <table>
-        <tr><th>Batch</th><td>&nbsp; : {{ $formula->batch }} &nbsp;Gram</td></tr>
-        <tr><th>Serving</th><td>&nbsp; : {{ $formula->serving }} &nbsp;Gram</td></tr>
-      </table>
+        <tr>
+          <th>Target Serving</th><td>&nbsp; : 
+          @if($formula->satuan=='Ml')
+          {{ $formula->serving_size }} ({{$formula->serving_size / $formula->berat_jenis}} {{ $formula->satuan }})
+          @else
+          {{ $formula->serving_size }} {{$formula->satuan}}
+          @endif</th>
+      	</tr>
+      	<tr><th>Batch</th><td>&nbsp; : {{ $formula->batch }} Gram</td></tr>
+      	<tr><th>Serving</th><td>&nbsp; : {{ $formula->serving }} Gram</td></tr>
+    	</table>
     </div>
-    <div class="col-md-2"></div>
+		<div class="col-md-2"></div>
     <div class="col-md-3">
 			@if($formula->workbook_id!=NULL)
-      	<a class="btn btn-warning btn-sm" href="{{ route('FOR_pkp',$formula->id) }}"><i class="fa fa-download"></i> Download FOR</a>
-				@if(auth()->user()->role->namaRule == 'manager')
-				<a class="btn btn-danger btn-sm" href="{{ route('daftarpkp',$formula->workbook_id) }}"><i class="fa fa-ban"></i> Back To Workbook</a>
-				@elseif(auth()->user()->role->namaRule == 'user_produk')
-				<a class="btn btn-danger btn-sm" href="{{ route('rekappkp',$formula->workbook_id) }}"><i class="fa fa-ban"></i> Back To Workbook</a>
+      	<a class="btn btn-warning btn-sm" href="{{ route('FOR_pkp',$formula->id) }}" title="Download FOR"><i class="fa fa-download"></i> FOR</a>
+      	<a class="btn btn-warning btn-sm" href="{{ route('nutfact_bayangan_pkp',$formula->id) }}" title="Download Nutfact"><i class="fa fa-download"></i> Nutfact</a>
+				@if(auth()->user()->role->namaRule == 'user_produk' || auth()->user()->role->namaRule == 'pv_lokal')
+				<a href="{{ route('rekappkp',$formula->workbook_id) }}" type="button" class="btn btn-sm btn-danger"><li class="fa fa-share"></li> Back</a>
+				@elseif(auth()->user()->role->namaRule == 'manager')
+				<a href="{{ route('daftarpkp',$formula->workbook_id) }}" type="button" class="btn btn-sm btn-danger"><li class="fa fa-share"></li> Back</a>
 				@endif
 			@elseif($formula->workbook_pdf_id!=NULL)
-      	<a class="btn btn-warning btn-sm" href="{{ route('FOR_pdf',$formula->id) }}"><i class="fa fa-download"></i> Download FOR</a>
-				@if(auth()->user()->role->namaRule == 'manager')
-				<a class="btn btn-danger btn-sm" href="{{ route('daftarpdf',$formula->workbook_pdf_id) }}"><i class="fa fa-ban"></i> Back To Workbook</a>
-				@elseif(auth()->user()->role->namaRule == 'user_produk')
-				<a class="btn btn-danger btn-sm" href="{{ route('rekappdf',$formula->workbook_pdf_id) }}"><i class="fa fa-ban"></i> Back To Workbook</a>
+      	<a class="btn btn-warning btn-sm" href="{{ route('FOR_pdf',$formula->id) }}"  title="Download FOR"><i class="fa fa-download"></i> FOR</a>
+      	<a class="btn btn-warning btn-sm" href="{{ route('nutfact_bayangan_pkp',$formula->id) }}" title="Download Nutfact"><i class="fa fa-download"></i> Nutfact</a>
+				@if(auth()->user()->role->namaRule == 'user_produk' || auth()->user()->role->namaRule == 'pv_global')
+				<a href="{{ route('rekappdf',$formula->workbook_pdf_id) }}" type="button" class="btn btn-sm btn-danger"><li class="fa fa-share"></li> Back</a>
+				@elseif(auth()->user()->role->namaRule == 'manager')
+				<a href="{{ route('daftarpdf',$formula->workbook_pdf_id) }}" type="button" class="btn btn-sm btn-danger"><li class="fa fa-share"></li> Back</a>
 				@endif
 			@endif
     </div>
@@ -71,7 +79,8 @@
 			<ul class="nav nav-tabs  tabs" role="tablist">
 				<li class="nav-item"><a class="nav-link  active" href="#1" data-toggle="tab"><i class="fa fa-list"></i><b> Formula</b></a></li>
 				<li class="nav-item"><a class="nav-link" href="#2" data-toggle="tab"><i class="fa fa-clipboard"></i><b> Nutfact</b></a></li>
-				<li class="nav-item"><a class="nav-link" href="#3" data-toggle="tab"><i class="fa fa-usd"></i><b> HPP Formula</b></a></li>
+				<li class="nav-item"><a class="nav-link" href="#3" data-toggle="tab"><i class="fa fa-clipboard"></i><b> Logam berat & Mikro Biologi</b></a></li>
+				<li class="nav-item"><a class="nav-link" href="#4" data-toggle="tab"><i class="fa fa-usd"></i><b> HPP Formula</b></a></li>
 			</ul><br>
 			<div class="tab-content ">
 				<div class="tab-content ">
@@ -321,218 +330,326 @@
 								<div class="panel-body">    
 									<div class="accordion" id="accordionExample">
 										<div class="panel panel-info">
-											<div aria-labelledby="headingOne" data-parent="#accordionExample">
+											<div aria-labelledby="headingOne" data-parent="#accordionExample"><br>
+												<button class="btn btn-success btn-sm" type="button" data-toggle="modal" data-target="#parampkp"><i class="fa fa-hand-o-right"></i> Custom Header</a></button>
+												<!-- modal -->
+												<div class="modal" id="parampkp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+													<div class="modal-dialog" role="document">
+														<div class="modal-content">
+															<div class="modal-header">
+																<h3 class="modal-title text-left" id="exampleModalLabel">Select Header
+																<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+																	<span aria-hidden="true">&times;</span></h3>
+																</button>
+															</div>
+															<form class="form-horizontal form-label-left" method="POST" action="{{route('header',$formula->id)}}">
+															<div class="modal-body">
+																<div class="form-group row">
+																	<table class="table">
+																		<td><label><input type="checkbox" checked id="checkbahan"/> Check all</label></td>
+																		<td><label><input type="checkbox" class="data1" checked id="checkmakro"/> Makro</label></td>
+																		<td><label><input type="checkbox" class="data1" checked id="checkmineral"/> Mineral</label></td>
+																		<td><label><input type="checkbox" class="data1" checked id="checkvitamin"/> Vitamin</label></td>
+																		<td><label><input type="checkbox" class="data1" checked id="checkasam"/> Asam Amino</label></td>
+																	</table>
+																	<table class="table table-bordered">
+																		@foreach($form as $data)
+																		<thead>
+																			<tr><td><input type="checkbox" class="" hidden checked name="form1" value="yes"> Nama Bahan </td>
+																					<td><input type="checkbox" class="" hidden checked name="form2" value="yes"> Dosis </td>
+																					<td><input type="checkbox" class="" hidden checked name="form3" value="yes"> % </td>
+																					<td>Harga</td></tr>
+																			<!-- Makro -->
+																			<tr>@if($data->form4=='yes')<th><input type="checkbox" class="data1 makro" checked name="form4" value="yes"> @elseif($data->form4!='yes')<th><input type="checkbox" class="data1 makro" name="form4" value="yes">@endif Karbohidrat </th>
+																					@if($data->form5=='yes')<th><input type="checkbox" class="data1 makro" checked name="form5" value="yes"> @elseif($data->form5!='yes')<th><input type="checkbox" class="data1 makro" name="form5" value="yes">@endif Glukosa </th>
+																					@if($data->form6=='yes')<th><input type="checkbox" class="data1 makro" checked name="form6" value="yes"> @elseif($data->form6!='yes')<th><input type="checkbox" class="data1 makro" name="form6" value="yes">@endif	Serat</th>
+																					@if($data->form7=='yes')<th><input type="checkbox" class="data1 makro" checked name="form7" value="yes"> @elseif($data->form7!='yes')<th><input type="checkbox" class="data1 makro" name="form7" value="yes">@endif	Beta</th></tr>
+																			<tr>@if($data->form8=='yes')<th><input type="checkbox" class="data1 makro" checked name="form8" value="yes"> @elseif($data->form8!='yes')<th><input type="checkbox" class="data1 makro" name="form8" value="yes">@endif	Sorbitol</th>     
+																					@if($data->form9=='yes')<th><input type="checkbox" class="data1 makro" checked name="form9" value="yes"> @elseif($data->form9!='yes')<th><input type="checkbox" class="data1 makro" name="form9" value="yes">@endif	Maltitol</th>
+																					@if($data->form10=='yes')<th><input type="checkbox" class="data1 makro" checked name="form10" value="yes"> @elseif($data->form10!='yes')<th><input type="checkbox" class="data1 makro" name="form10" value="yes">@endif	Laktosa</th>
+																					@if($data->form11=='yes')<th><input type="checkbox" class="data1 makro" checked name="form11" value="yes"> @elseif($data->form11!='yes')<th><input type="checkbox" class="data1 makro" name="form11" value="yes">@endif	Sukrosa</th></tr>
+																			<tr>@if($data->form12=='yes')<th><input type="checkbox" class="data1 makro" checked name="form12" value="yes"> @elseif($data->form12!='yes')<th><input type="checkbox" class="data1 makro" name="form12" value="yes">@endif	Gula</th>
+																					@if($data->form13=='yes')<th><input type="checkbox" class="data1 makro" checked name="form13" value="yes"> @elseif($data->form13!='yes')<th><input type="checkbox" class="data1 makro" name="form13" value="yes">@endif	Erythritol</th>
+																					@if($data->form14=='yes')<th><input type="checkbox" class="data1 makro" checked name="form14" value="yes"> @elseif($data->form14!='yes')<th><input type="checkbox" class="data1 makro" name="form14" value="yes">@endif	DHA</th>          
+																					@if($data->form15=='yes')<th><input type="checkbox" class="data1 makro" checked name="form15" value="yes"> @elseif($data->form15!='yes')<th><input type="checkbox" class="data1 makro" name="form15" value="yes">@endif	EPA</th></tr>
+																			<tr>@if($data->form16=='yes')<th><input type="checkbox" class="data1 makro" checked name="form16" value="yes"> @elseif($data->form16!='yes')<th><input type="checkbox" class="data1 makro" name="form16" value="yes">@endif	Omega3</th>
+																					@if($data->form17=='yes')<th><input type="checkbox" class="data1 makro" checked name="form17" value="yes"> @elseif($data->form17!='yes')<th><input type="checkbox" class="data1 makro" name="form17" value="yes">@endif	Lemak Trans</th>       
+																					@if($data->form18=='yes')<th><input type="checkbox" class="data1 makro" checked name="form18" value="yes"> @elseif($data->form18!='yes')<th><input type="checkbox" class="data1 makro" name="form18" value="yes">@endif	MUFA</th>
+																					@if($data->form19=='yes')<th><input type="checkbox" class="data1 makro" checked name="form19" value="yes"> @elseif($data->form19!='yes')<th><input type="checkbox" class="data1 makro" name="form19" value="yes">@endif	Lemak Jenuh</th></tr>      
+																			<tr>@if($data->form21=='yes')<th><input type="checkbox" class="data1 makro" checked name="form21" value="yes"> @elseif($data->form21!='yes')<th><input type="checkbox" class="data1 makro" name="form21" value="yes">@endif	Omega6</th>
+																					@if($data->form22=='yes')<th><input type="checkbox" class="data1 makro" checked name="form22" value="yes"> @elseif($data->form22!='yes')<th><input type="checkbox" class="data1 makro" name="form22" value="yes">@endif	Kolestrol</th>    
+																					@if($data->form23=='yes')<th><input type="checkbox" class="data1 makro" checked name="form23" value="yes"> @elseif($data->form23!='yes')<th><input type="checkbox" class="data1 makro" name="form23" value="yes">@endif	Protein</th>
+																					@if($data->form24=='yes')<th><input type="checkbox" class="data1 makro" checked name="form24" value="yes"> @elseif($data->form24!='yes')<th><input type="checkbox" class="data1 makro" name="form24" value="yes">@endif	Kadar Air</th></tr>
+																			<!-- Mineral -->
+																			<tr>@if($data->form25=='yes')<th><input type="checkbox" class="data1 mineral" checked name="form25" value="yes"> @elseif($data->form25!='yes')<th><input type="checkbox" class="data1 mineral" name="form25" value="yes">@endif	Ca </th>   
+																					@if($data->form26=='yes')<th><input type="checkbox" class="data1 mineral" checked name="form26" value="yes"> @elseif($data->form26!='yes')<th><input type="checkbox" class="data1 mineral" name="form26" value="yes">@endif	Fe</th>   
+																					@if($data->form27=='yes')<th><input type="checkbox" class="data1 mineral" checked name="form27" value="yes"> @elseif($data->form27!='yes')<th><input type="checkbox" class="data1 mineral" name="form27" value="yes">@endif	Mg </th>
+																					@if($data->form28=='yes')<th><input type="checkbox" class="data1 mineral" checked name="form28" value="yes"> @elseif($data->form28!='yes')<th><input type="checkbox" class="data1 mineral" name="form28" value="yes">@endif	K </th>   </tr>
+																			<tr>@if($data->form29=='yes')<th><input type="checkbox" class="data1 mineral" checked name="form29" value="yes"> @elseif($data->form29!='yes')<th><input type="checkbox" class="data1 mineral" name="form29" value="yes">@endif	Cr</th>     
+																					@if($data->form30=='yes')<th><input type="checkbox" class="data1 mineral" checked name="form30" value="yes"> @elseif($data->form30!='yes')<th><input type="checkbox" class="data1 mineral" name="form30" value="yes">@endif	Zink</th>
+																					@if($data->form32=='yes')<th><input type="checkbox" class="data1 mineral" checked name="form32" value="yes"> @elseif($data->form32!='yes')<th><input type="checkbox" class="data1 mineral" name="form32" value="yes">@endif	Fosfor</th>   
+																					@if($data->form33=='yes')<th><input type="checkbox" class="data1 mineral" checked name="form33" value="yes"> @elseif($data->form33!='yes')<th><input type="checkbox" class="data1 mineral" name="form33" value="yes">@endif	Na </th></tr>
+																			<tr>@if($data->form34=='yes')<th><input type="checkbox" class="data1 mineral" checked name="form34" value="yes"> @elseif($data->form34!='yes')<th><input type="checkbox" class="data1 mineral" name="form34" value="yes">@endif	NaCi</th>    
+																					@if($data->form35=='yes')<th><input type="checkbox" class="data1 mineral" checked name="form35" value="yes"> @elseif($data->form35!='yes')<th><input type="checkbox" class="data1 mineral" name="form35" value="yes">@endif	Mn</th>
+																					@if($data->form36=='yes')<th><input type="checkbox" class="data1 mineral" checked name="form36" value="yes"> @elseif($data->form36!='yes')<th><input type="checkbox" class="data1 mineral" name="form36" value="yes">@endif	Energi</th>
+																			<!-- Vitamin -->	
+																					@if($data->form37=='yes')<th><input type="checkbox" class="data1 vitamin" checked name="form37" value="yes"> @elseif($data->form37!='yes')<th><input type="checkbox" class="data1 vitamin" name="form37" value="yes">@endif	VitA </th> </tr>
+																			<tr>@if($data->form38=='yes')<th><input type="checkbox" class="data1 vitamin" checked name="form38" value="yes"> @elseif($data->form38!='yes')<th><input type="checkbox" class="data1 vitamin" name="form38" value="yes">@endif	Biotin</th>    
+																					@if($data->form39=='yes')<th><input type="checkbox" class="data1 vitamin" checked name="form39" value="yes"> @elseif($data->form39!='yes')<th><input type="checkbox" class="data1 vitamin" name="form39" value="yes">@endif	VitB1 </th>
+																					@if($data->form40=='yes')<th><input type="checkbox" class="data1 vitamin" checked name="form40" value="yes"> @elseif($data->form40!='yes')<th><input type="checkbox" class="data1 vitamin" name="form40" value="yes">@endif	VitB2 </th> 
+																					@if($data->form41=='yes')<th><input type="checkbox" class="data1 vitamin" checked name="form41" value="yes"> @elseif($data->form41!='yes')<th><input type="checkbox" class="data1 vitamin" name="form41" value="yes">@endif	Kolin </th> </tr>
+																			<tr>@if($data->form42=='yes')<th><input type="checkbox" class="data1 vitamin" checked name="form42" value="yes"> @elseif($data->form42!='yes')<th><input type="checkbox" class="data1 vitamin" name="form42" value="yes">@endif	VitB3 </th>
+																					@if($data->form43=='yes')<th><input type="checkbox" class="data1 vitamin" checked name="form43" value="yes"> @elseif($data->form43!='yes')<th><input type="checkbox" class="data1 vitamin" name="form43" value="yes">@endif	VitB5 </th>
+																					@if($data->form44=='yes')<th><input type="checkbox" class="data1 vitamin" checked name="form44" value="yes"> @elseif($data->form44!='yes')<th><input type="checkbox" class="data1 vitamin" name="form44" value="yes">@endif	VitK </th> 
+																					@if($data->form45=='yes')<th><input type="checkbox" class="data1 vitamin" checked name="form45" value="yes"> @elseif($data->form45!='yes')<th><input type="checkbox" class="data1 vitamin" name="form45" value="yes">@endif	VitB6 </th></tr>
+																			<tr>@if($data->form46=='yes')<th><input type="checkbox" class="data1 vitamin" checked name="form46" value="yes"> @elseif($data->form46!='yes')<th><input type="checkbox" class="data1 vitamin" name="form46" value="yes">@endif	VitB12 </th> 
+																					@if($data->form47=='yes')<th><input type="checkbox" class="data1 vitamin" checked name="form47" value="yes"> @elseif($data->form47!='yes')<th><input type="checkbox" class="data1 vitamin" name="form47" value="yes">@endif	VitE </th>
+																					@if($data->form48=='yes')<th><input type="checkbox" class="data1 vitamin" checked name="form48" value="yes"> @elseif($data->form48!='yes')<th><input type="checkbox" class="data1 vitamin" name="form48" value="yes">@endif	VitC </th>
+																					@if($data->form49=='yes')<th><input type="checkbox" class="data1 vitamin" checked name="form49" value="yes"> @elseif($data->form59!='yes')<th><input type="checkbox" class="data1 vitamin" name="form49" value="yes">@endif	VitD </th></tr>
+																			<tr>@if($data->form50=='yes')<th><input type="checkbox" class="data1 vitamin" checked name="form50" value="yes"> @elseif($data->form50!='yes')<th><input type="checkbox" class="data1 vitamin" name="form50" value="yes">@endif	Folat</th>
+																			<!-- asam amino -->
+																					@if($data->form51=='yes')<th><input type="checkbox" class="data1 asam" checked name="form51" value="yes"> @elseif($data->form51!='yes')<th><input type="checkbox" class="data1 asam" name="form51" value="yes">@endif	Lisin</th>
+																					@if($data->form52=='yes')<th><input type="checkbox" class="data1 asam" checked name="form52" value="yes"> @elseif($data->form52!='yes')<th><input type="checkbox" class="data1 asam" name="form52" value="yes">@endif	L-Glutamine</th> 
+																					@if($data->form53=='yes')<th><input type="checkbox" class="data1 asam" checked name="form53" value="yes"> @elseif($data->form53!='yes')<th><input type="checkbox" class="data1 asam" name="form53" value="yes">@endif	Proline</th> </tr>
+																			<tr>@if($data->form54=='yes')<th><input type="checkbox" class="data1 asam" checked name="form54" value="yes"> @elseif($data->form54!='yes')<th><input type="checkbox" class="data1 asam" name="form54" value="yes">@endif	Methionin</th>
+																					@if($data->form55=='yes')<th><input type="checkbox" class="data1 asam" checked name="form55" value="yes"> @elseif($data->form55!='yes')<th><input type="checkbox" class="data1 asam" name="form55" value="yes">@endif	Histidin</th>
+																			    @if($data->form56=='yes')<th><input type="checkbox" class="data1 asam" checked name="form56" value="yes"> @elseif($data->form56!='yes')<th><input type="checkbox" class="data1 asam" name="form56" value="yes">@endif	Tyrosin</th>  
+																					@if($data->form57=='yes')<th><input type="checkbox" class="data1 asam" checked name="form57" value="yes"> @elseif($data->form57!='yes')<th><input type="checkbox" class="data1 asam" name="form57" value="yes">@endif	BCAA</th></tr>
+																			<tr>@if($data->form58=='yes')<th><input type="checkbox" class="data1 asam" checked name="form58" value="yes"> @elseif($data->form58!='yes')<th><input type="checkbox" class="data1 asam" name="form58" value="yes">@endif	Leusin</th>   
+																					@if($data->form59=='yes')<th><input type="checkbox" class="data1 asam" checked name="form59" value="yes"> @elseif($data->form59!='yes')<th><input type="checkbox" class="data1 asam" name="form59" value="yes">@endif	Glisin</th> 
+																					@if($data->form60=='yes')<th><input type="checkbox" class="data1 asam" checked name="form60" value="yes"> @elseif($data->form60!='yes')<th><input type="checkbox" class="data1 asam" name="form60" value="yes">@endif	Aspartat</th>
+																					@if($data->form61=='yes')<th><input type="checkbox" class="data1 asam" checked name="form61" value="yes"> @elseif($data->form61!='yes')<th><input type="checkbox" class="data1 asam" name="form61" value="yes">@endif	Serin</th>    </tr>
+																			<tr>@if($data->form62=='yes')<th><input type="checkbox" class="data1 asam" checked name="form62" value="yes"> @elseif($data->form62!='yes')<th><input type="checkbox" class="data1 asam" name="form62" value="yes">@endif	Alanin</th>    
+																					@if($data->form63=='yes')<th><input type="checkbox" class="data1 asam" checked name="form63" value="yes"> @elseif($data->form63!='yes')<th><input type="checkbox" class="data1 asam" name="form63" value="yes">@endif	Glutamat</th>
+																					@if($data->form64=='yes')<th><input type="checkbox" class="data1 asam" checked name="form64" value="yes"> @elseif($data->form64!='yes')<th><input type="checkbox" class="data1 asam" name="form64" value="yes">@endif	Arginine</th>   
+																					@if($data->form65=='yes')<th><input type="checkbox" class="data1 asam" checked name="form65" value="yes"> @elseif($data->form65!='yes')<th><input type="checkbox" class="data1 asam" name="form65" value="yes">@endif	Sistein</th>   </tr>
+																			<tr>@if($data->form66=='yes')<th><input type="checkbox" class="data1 asam" checked name="form66" value="yes"> @elseif($data->form66!='yes')<th><input type="checkbox" class="data1 asam" name="form66" value="yes">@endif	Isoleusin</th>
+																					@if($data->form67=='yes')<th><input type="checkbox" class="data1 asam" checked name="form67" value="yes"> @elseif($data->form67!='yes')<th><input type="checkbox" class="data1 asam" name="form67" value="yes">@endif	Threonin</th> 
+																					@if($data->form68=='yes')<th><input type="checkbox" class="data1 asam" checked name="form68" value="yes"> @elseif($data->form68!='yes')<th><input type="checkbox" class="data1 asam" name="form68" value="yes">@endif	Phenilalanin</th>
+																					@if($data->form69=='yes')<th><input type="checkbox" class="data1 asam" checked name="form69" value="yes"> @elseif($data->form69!='yes')<th><input type="checkbox" class="data1 asam" name="form69" value="yes">@endif	Valin</th></tr>
+																		</thead>
+																		@endforeach
+																	</table>
+																</div>
+															</div>
+															<div class="modal-footer">
+																<button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-paper-plane"></i> Submit</button>
+																{{ csrf_field() }}
+															</div>
+															</form>
+														</div>
+													</div>
+												</div>
+												<!-- Modal Selesai -->
+												<a class="btn btn-primary btn-sm" type="button" id="buttonformsavechanges"><i class="fa fa-save"></i> Save Dosis</a>   
 												<div style="overflow-x: scroll;">
+													@foreach($form as $header)
 													<table class="table table-advanced table-bordered" >
-															<thead>
-																<tr>
-																	<th rowspan="2"  class="text-center sticky-col first-col"  class="text-center" style="font-weight: bold;color:white;background-color: #2a3f54;">Nama Sederhana</th>
-																	<th rowspan="2"  class="text-center sticky-col second-col" style="font-weight: bold;color:white;background-color: #2a3f54;">Dosis (Gram)</th>
-																	<th rowspan="2"  class="text-center sticky-col third-col" style="font-weight: bold;color:white;background-color: #2a3f54;">%</th>
-																	<th rowspan="2"  class="text-center sticky-col third-col" style="font-weight: bold;color:white;background-color: #2a3f54;">HPP</th>
-																	<th colspan="66" class="text-center" style="font-size: 12px;font-weight: bold; color:black;background-color: #898686;">Nutrition Data</th>
-																	<th rowspan="2"  class="text-center" style="font-weight: bold;color:white;background-color: #2a3f54;" width="20%">Data_BTP_CarryOver_Bahan_Baku</th>
-																</tr>
-																<tr class="text-center" style="font-weight: bold;color:white;background-color: #2a3f54;">
-																	<!-- Makro -->
-																	<th >Karbohidrat</th>  <th >Glukosa</th>
-																	<th >Serat</th>        <th >Beta</th>
-																	<th >Sorbitol</th>     <th >Maltitol</th>
-																	<th >Laktosa</th>      <th >Sukrosa</th>
-																	<th >Gula</th>         <th >Erythritol</th>
-																	<th >DHA</th>          <th >EPA</th>
-																	<th >Omega3</th>      <th >MUFA</th>
-																	<th >Lemak Trans</th>  <th >Lemak Jenuh</th>
-																	<th >SFA</th>          <th >Omega6</th>
-																	<th >Kolestrol</th>    <th >Protein</th>
-																	<th >Kadar Air</th>
-																	<!-- Mineral -->
-																	<th >Ca (mg)</th>      <th >Mg (mg)</th>
-																	<th >K (mg)</th>       <th >Zink</th>
-																	<th >P (mg)</th>       <th >Na (mg)</th>
-																	<th >NaCi</th>         <th >Energi</th>
-																	<th >Fosfor</th>       <th >Mn</th>
-																	<th >Cr(mcg)</th>      <th >Fe</th>
-																	<!-- Vitamin -->
-																	<th >VitA (mg)</th>   <th >VitB1 (mg)</th>
-																	<th >VitB2 (mg)</th>  <th >VitB3 (mg)</th>
-																	<th >VitB5 (mg)</th>  <th >VitB6 (mg)</th>
-																	<th >VitB12 (mg)</th> <th >VitC (mg)</th>
-																	<th >VitD (mg)</th>   <th >VitE (mg)</th>
-																	<th >VitK (mg)</th>   <th >Folat</th>
-																	<th >Biotin</th>       <th >Kolin </th>
-																	<!-- asam amino -->
-																	<th >L-Glutamine</th>  <th >Methionin</th>
-																	<th >Histidin</th>     <th >BCAA</th>
-																	<th >Leusin</th>       <th >Aspartat</th>
-																	<th >Serin</th>        <th >Glutamat</th>
-																	<th >Arginine</th>     <th >Isoleusin</th>
-																	<th >Threonin</th>     <th >Phenilalanin</th>
-																	<th >Lisin</th>        <th >Valin</th>
-																	<th >Sistein</th>      <th >Alanin</th>
-																	<th >Glisin</th>       <th >Tyrosin</th>
-																	<th >Proline</th>
-																</tr>
-															</thead>
-															<tbody>
-																@php $nom = 0; @endphp
-																@foreach ($detail_harga->sortByDesc('per_batch') as $fortail)
-																<tr >
-																	<td class="sticky-col first-col">{{ $fortail['nama_sederhana'] }}</td>
-																	<td class="sticky-col second-col"><input type="number" placeholder="0" onkeyup="jServing(this.id)" class="form-control" id="Serving{{ $fortail['no'] }}"  value="{{ $fortail['per_serving'] }}"   name="Serving[{{ $fortail['no'] }}]"></td>
-																	<td class="sticky-col third-col">{{ $fortail['persen'] }}</td>
-																	<td>Rp.{{ $fortail['hpg'] }}</td>
-																	<td>{{ $fortail['karbohidrat'] }}</td>
-																	<td>{{ $fortail['glukosa'] }}</td>
-																	<td>{{ $fortail['serat'] }}</td>
-																	<td>{{ $fortail['beta'] }}</td>
-																	<td>{{ $fortail['sorbitol'] }}</td>
-																	<td>{{ $fortail['maltitol'] }}</td>
-																	<td>{{ $fortail['laktosa'] }}</td>
-																	<td>{{ $fortail['sukrosa'] }}</td>
-																	<td>{{ $fortail['gula'] }}</td>
-																	<td>{{ $fortail['erythritol'] }}</td>
-																	<td>{{ $fortail['dha'] }}</td>
-																	<td>{{ $fortail['epa'] }}</td>
-																	<td>{{ $fortail['omega3'] }}</td>
-																	<td>{{ $fortail['mufa'] }}</td>
-																	<td>{{ $fortail['lemak_trans'] }}</td>
-																	<td>{{ $fortail['lemak_jenuh'] }}</td>
-																	<td>{{ $fortail['sfa'] }}</td>
-																	<td>{{ $fortail['omega6'] }}</td>
-																	<td>{{ $fortail['kolestrol'] }}</td>
-																	<td>{{ $fortail['protein'] }}</td>
-																	<td>{{ $fortail['air'] }}</td>
+														<thead>
+															<tr class="text-center" style="font-weight: bold;color:white;background-color: #2a3f54;">
+																<th class="text-center sticky-col first-col"  class="text-center" style="font-weight: bold;color:white;background-color: #2a3f54;">Nama Sederhana</th>
+																<th class="text-center sticky-col second-col" style="font-weight: bold;color:white;background-color: #2a3f54;min-width:120px">Dosis (Gram)</th>
+																<th class="text-center sticky-col third-col" style="font-weight: bold;color:white;background-color: #2a3f54;">%</th>
+																<th class="text-center" style="font-weight: bold;color:white;background-color: #2a3f54;min-width:100px">Harga</th>
+																<!-- Makro -->
+																@if($header->form4=='yes')<th class="text-center">Karbohidrat</th>@endif  @if($header->form5=='yes')<th class="text-center">Glukosa</th>@endif
+																@if($header->form6=='yes')<th class="text-center">Serat</th>@endif        @if($header->form7=='yes')<th class="text-center">Beta</th>@endif
+																@if($header->form8=='yes')<th class="text-center">Sorbitol</th>@endif     @if($header->form9=='yes')<th class="text-center">Maltitol</th>@endif
+																@if($header->form10=='yes')<th class="text-center">Laktosa</th>@endif     @if($header->form11=='yes')<th class="text-center">Sukrosa</th>@endif
+																@if($header->form12=='yes')<th class="text-center">Gula</th>@endif        @if($header->form13=='yes')<th class="text-center">Erythritol</th>@endif
+																@if($header->form14=='yes')<th class="text-center">DHA</th>@endif         @if($header->form15=='yes')<th class="text-center">EPA</th>@endif
+																@if($header->form16=='yes')<th class="text-center">Omega3</th>@endif      @if($header->form18=='yes')<th class="text-center">MUFA</th>@endif
+																@if($header->form17=='yes')<th class="text-center">Lemak Trans</th>@endif @if($header->form19=='yes')<th class="text-center">Lemak Jenuh</th>@endif
+																@if($header->form21=='yes')<th class="text-center">Omega6</th>@endif
+																@if($header->form57=='yes')<th class="text-center">Omega9</th>@endif 			@if($header->form22=='yes')<th class="text-center">Kolestrol</th>@endif   
+																@if($header->form23=='yes')<th class="text-center">Protein</th>@endif 		@if($header->form24=='yes')<th class="text-center">Kadar Air</th>@endif
+																<!-- Mineral -->
+																@if($header->form25=='yes')<th class="text-center">Ca </th>@endif     		@if($header->form27=='yes')<th class="text-center">Mg </th>@endif
+																@if($header->form28=='yes')<th class="text-center">K </th>@endif    		  @if($header->form30=='yes')<th class="text-center">Zink</th>@endif
+																@if($header->form32=='yes')<th class="text-center">Na </th>@endif
+																@if($header->form34=='yes')<th class="text-center">NaCi</th>@endif        @if($header->form36=='yes')<th class="text-center">Energi</th>@endif
+																@if($header->form32=='yes')<th class="text-center">Fosfor</th>@endif      @if($header->form35=='yes')<th class="text-center">Mn</th>@endif
+																@if($header->form29=='yes')<th class="text-center">Cr</th>@endif     			@if($header->form26=='yes')<th class="text-center">Fe</th>@endif
+																<!-- Vitamin -->
+																@if($header->form37=='yes')<th class="text-center">VitA </th>@endif   		@if($header->form39=='yes')<th class="text-center">VitB1 </th>@endif
+																@if($header->form40=='yes')<th class="text-center">VitB2 </th>@endif  		@if($header->form42=='yes')<th class="text-center">VitB3 </th>@endif
+																@if($header->form43=='yes')<th class="text-center">VitB5 </th>@endif 	 		@if($header->form45=='yes')<th class="text-center">VitB6 </th>@endif
+																@if($header->form46=='yes')<th class="text-center">VitB12 </th>@endif 		@if($header->form48=='yes')<th class="text-center">VitC </th>@endif
+																@if($header->form49=='yes')<th class="text-center">VitD </th>@endif   		@if($header->form47=='yes')<th class="text-center">VitE </th>@endif
+																@if($header->form44=='yes')<th class="text-center">VitK </th>@endif   		@if($header->form50=='yes')<th class="text-center">Folat</th>@endif
+																@if($header->form38=='yes')<th class="text-center">Biotin</th>@endif      @if($header->form41=='yes')<th class="text-center">Kolin </th>@endif
+																<!-- asam amino -->
+																@if($header->form52=='yes')<th class="text-center">L-Glutamine</th>@endif  @if($header->form54=='yes')<th class="text-center">Methionin</th>@endif
+																@if($header->form55=='yes')<th class="text-center">Histidin</th>@endif     @if($header->form57=='yes')<th class="text-center">BCAA</th>@endif
+																@if($header->form58=='yes')<th class="text-center">Leusin</th>@endif       @if($header->form60=='yes')<th class="text-center">Aspartat</th>@endif
+																@if($header->form61=='yes')<th class="text-center">Serin</th>@endif        @if($header->form63=='yes')<th class="text-center">Glutamat</th>@endif
+																@if($header->form64=='yes')<th class="text-center">Arginine</th>@endif     @if($header->form66=='yes')<th class="text-center">Isoleusin</th>@endif
+																@if($header->form67=='yes')<th class="text-center">Threonin</th>@endif     @if($header->form68=='yes')<th class="text-center">Phenilalanin</th>@endif
+																@if($header->form51=='yes')<th class="text-center">Lisin</th>@endif        @if($header->form69=='yes')<th class="text-center">Valin</th>@endif
+																@if($header->form65=='yes')<th class="text-center">Sistein</th>@endif      @if($header->form62=='yes')<th class="text-center">Alanin</th>@endif
+																@if($header->form59=='yes')<th class="text-center">Glisin</th>@endif       @if($header->form56=='yes')<th class="text-center">Tyrosin</th>@endif
+																@if($header->form53=='yes')<th class="text-center">Proline</th>@endif
+																<th  class="text-center" style="font-weight: bold;color:white;background-color: #2a3f54;" width="20%">Data_BTP_CarryOver_Bahan_Baku</th>
+															</tr>
+														</thead>
+														<tbody>
+															@php $nom = 0; @endphp
+															@foreach ($detail_harga->sortByDesc('per_batch') as $fortail)
+															<tr >
+																<td class="sticky-col first-col">{{ $fortail['nama_sederhana'] }}</td>
+																<td class="sticky-col second-col"><input type="number" placeholder="0" onkeyup="jServing(this.id)" class="form-control" id="Serving{{ $fortail['no'] }}"  value="{{ $fortail['per_serving'] }}"   name="Serving[{{ $fortail['no'] }}]"></td>
+																<td class="sticky-col third-col">{{ $fortail['persen'] }}</td>
+																<td>Rp.{{ $fortail['hpg'] }}</td>
+																@if($header->form4=='yes')<td>{{ $fortail['karbohidrat'] }}</td>@endif
+																@if($header->form5=='yes')<td>{{ $fortail['glukosa'] }}</td>@endif
+																@if($header->form6=='yes')<td>{{ $fortail['serat'] }}</td>@endif
+																@if($header->form7=='yes')<td>{{ $fortail['beta'] }}</td>@endif
+																@if($header->form8=='yes')<td>{{ $fortail['sorbitol'] }}</td>@endif
+																@if($header->form9=='yes')<td>{{ $fortail['maltitol'] }}</td>@endif
+																@if($header->form10=='yes')<td>{{ $fortail['laktosa'] }}</td>@endif
+																@if($header->form11=='yes')<td>{{ $fortail['sukrosa'] }}</td>@endif
+																@if($header->form12=='yes')<td>{{ $fortail['gula'] }}</td>@endif
+																@if($header->form13=='yes')<td>{{ $fortail['erythritol'] }}</td>@endif
+																@if($header->form14=='yes')<td>{{ $fortail['dha'] }}</td>@endif
+																@if($header->form15=='yes')<td>{{ $fortail['epa'] }}</td>@endif
+																@if($header->form16=='yes')<td>{{ $fortail['omega3'] }}</td>@endif
+																@if($header->form18=='yes')<td>{{ $fortail['mufa'] }}</td>@endif
+																@if($header->form17=='yes')<td>{{ $fortail['lemak_trans'] }}</td>@endif
+																@if($header->form19=='yes')<td>{{ $fortail['lemak_jenuh'] }}</td>@endif
+																@if($header->form21=='yes')<td>{{ $fortail['omega6'] }}</td>@endif
+																@if($header->form57=='yes')<td>{{ $fortail['omega9'] }}</td>@endif
+																@if($header->form22=='yes')<td>{{ $fortail['kolestrol'] }}</td>@endif
+																@if($header->form23=='yes')<td>{{ $fortail['protein'] }}</td>@endif
+																@if($header->form24=='yes')<td>{{ $fortail['air'] }}</td>@endif
 
-																	<td>{{ $fortail['ca'] }}</td>
-																	<td>{{ $fortail['mg'] }}</td>
-																	<td>{{ $fortail['k'] }}</td>
-																	<td>{{ $fortail['zink'] }}</td>
-																	<td>{{ $fortail['p'] }}</td>
-																	<td>{{ $fortail['na'] }}</td>
-																	<td>{{ $fortail['naci'] }}</td>
-																	<td>{{ $fortail['energi'] }}</td>
-																	<td>{{ $fortail['fosfor'] }}</td>
-																	<td>{{ $fortail['mn'] }}</td>
-																	<td>{{ $fortail['cr'] }}</td>
-																	<td>{{ $fortail['fe'] }}</td>
+																@if($header->form25=='yes')<td>{{ $fortail['ca'] }}</td>@endif
+																@if($header->form27=='yes')<td>{{ $fortail['mg'] }}</td>@endif
+																@if($header->form28=='yes')<td>{{ $fortail['k'] }}</td>@endif
+																@if($header->form30=='yes')<td>{{ $fortail['zink'] }}</td>@endif
+																@if($header->form33=='yes')<td>{{ $fortail['na'] }}</td>@endif
+																@if($header->form34=='yes')<td>{{ $fortail['naci'] }}</td>@endif
+																@if($header->form36=='yes')<td>{{ $fortail['energi'] }}</td>@endif
+																@if($header->form32=='yes')<td>{{ $fortail['fosfor'] }}</td>@endif
+																@if($header->form35=='yes')<td>{{ $fortail['mn'] }}</td>@endif
+																@if($header->form29=='yes')<td>{{ $fortail['cr'] }}</td>@endif
+																@if($header->form26=='yes')<td>{{ $fortail['fe'] }}</td>@endif
 
-																	<td>{{ $fortail['vitA'] }}</td>
-																	<td>{{ $fortail['vitB1'] }}</td>
-																	<td>{{ $fortail['vitB2'] }}</td>
-																	<td>{{ $fortail['vitB3'] }}</td>
-																	<td>{{ $fortail['vitB5'] }}</td>
-																	<td>{{ $fortail['vitB6'] }}</td>
-																	<td>{{ $fortail['vitB12'] }}</td>
-																	<td>{{ $fortail['vitC'] }}</td>
-																	<td>{{ $fortail['vitD'] }}</td>
-																	<td>{{ $fortail['vitE'] }}</td>
-																	<td>{{ $fortail['vitK'] }}</td>
-																	<td>{{ $fortail['folat'] }}</td>
-																	<td>{{ $fortail['biotin'] }}</td>
-																	<td>{{ $fortail['kolin'] }}</td>
+																@if($header->form37=='yes')<td>{{ $fortail['vitA'] }}</td>@endif
+																@if($header->form39=='yes')<td>{{ $fortail['vitB1'] }}</td>@endif
+																@if($header->form40=='yes')<td>{{ $fortail['vitB2'] }}</td>@endif
+																@if($header->form42=='yes')<td>{{ $fortail['vitB3'] }}</td>@endif
+																@if($header->form43=='yes')<td>{{ $fortail['vitB5'] }}</td>@endif
+																@if($header->form45=='yes')<td>{{ $fortail['vitB6'] }}</td>@endif
+																@if($header->form46=='yes')<td>{{ $fortail['vitB12'] }}</td>@endif
+																@if($header->form48=='yes')<td>{{ $fortail['vitC'] }}</td>@endif
+																@if($header->form49=='yes')<td>{{ $fortail['vitD'] }}</td>@endif
+																@if($header->form47=='yes')<td>{{ $fortail['vitE'] }}</td>@endif
+																@if($header->form44=='yes')<td>{{ $fortail['vitK'] }}</td>@endif
+																@if($header->form50=='yes')<td>{{ $fortail['folat'] }}</td>@endif
+																@if($header->form38=='yes')<td>{{ $fortail['biotin'] }}</td>@endif
+																@if($header->form41=='yes')<td>{{ $fortail['kolin'] }}</td>@endif
 
-																	<td>{{ $fortail['l_glutamine'] }}</td>
-																	<td>{{ $fortail['threonin'] }}</td>
-																	<td>{{ $fortail['methionin'] }}</td>
-																	<td>{{ $fortail['phenilalanin'] }}</td>
-																	<td>{{ $fortail['histidin'] }}</td>
-																	<td>{{ $fortail['lisin'] }}</td>
-																	<td>{{ $fortail['BCAA'] }}</td>
-																	<td>{{ $fortail['valin'] }}</td>
-																	<td>{{ $fortail['leusin'] }}</td>
-																	<td>{{ $fortail['sistein'] }}</td>
-																	<td>{{ $fortail['aspartat'] }}</td>
-																	<td>{{ $fortail['alanin'] }}</td>
-																	<td>{{ $fortail['serin'] }}</td>
-																	<td>{{ $fortail['glisin'] }}</td>
-																	<td>{{ $fortail['glutamat'] }}</td>
-																	<td>{{ $fortail['tyrosin'] }}</td>
-																	<td>{{ $fortail['arginine'] }}</td>
-																	<td>{{ $fortail['proline'] }}</td>
-																	<td>{{ $fortail['Isoleusin'] }}</td>
-																	<td style="width:120px">@if( $fortail['hitung_btp'] !=NULL)@foreach($carryover as $co)@if($fortail['bahan']==$co->id_bahan) {{ $co->btp }}/<br>@endif @endforeach @endif</td>
-																</tr>  
-																@endforeach
-																<tr style="font-size: 12px;font-weight: bold; color:black;background-color: #ddd;">
-																	<td class="text-center sticky-col first-col" style="font-size: 12px;font-weight: bold; color:black;background-color: #ddd;">Total : </td>
-																	<td class="text-center sticky-col second-col" style="font-size: 12px;font-weight: bold; color:black;background-color: #ddd;"><input type="number" class="form-control" placeholder="0" id="jServing" disabled></td>
-																	<td class="text-center sticky-col third-col" style="font-size: 12px;font-weight: bold; color:black;background-color: #ddd;"> 100 </td>
-																	<td>Rp.{{ $total_harga['total_harga_per_gram'] }}</td>
-																	<td>{{ $total_harga['total_karbohidrat'] }}</td>
-																	<td>{{ $total_harga['total_glukosa'] }}</td>
-																	<td>{{ $total_harga['total_serat'] }}</td>
-																	<td>{{ $total_harga['total_beta'] }}</td>
-																	<td>{{ $total_harga['total_sorbitol'] }}</td>
-																	<td>{{ $total_harga['total_maltitol'] }}</td>
-																	<td>{{ $total_harga['total_laktosa'] }}</td>
-																	<td>{{ $total_harga['total_sukrosa'] }}</td>
-																	<td>{{ $total_harga['total_gula'] }}</td>
-																	<td>{{ $total_harga['total_erythritol'] }}</td>
-																	<td>{{ $total_harga['total_dha'] }}</td>
-																	<td>{{ $total_harga['total_epa'] }}</td>
-																	<td>{{ $total_harga['total_omega3'] }}</td>
-																	<td>{{ $total_harga['total_mufa'] }}</td>
-																	<td>{{ $total_harga['total_lemak_trans'] }}</td>
-																	<td>{{ $total_harga['total_lemak_jenuh'] }}</td>
-																	<td>{{ $total_harga['total_sfa'] }}</td>
-																	<td>{{ $total_harga['total_omega6'] }}</td>
-																	<td>{{ $total_harga['total_kolestrol'] }}</td>
-																	<td>{{ $total_harga['total_protein'] }}</td>
-																	<td>{{ $total_harga['total_air'] }}</td>
+																@if($header->form52=='yes')<td>{{ $fortail['l_glutamine'] }}</td>@endif
+																@if($header->form68=='yes')<td>{{ $fortail['threonin'] }}</td>@endif
+																@if($header->form54=='yes')<td>{{ $fortail['methionin'] }}</td>@endif
+																@if($header->form68=='yes')<td>{{ $fortail['phenilalanin'] }}</td>@endif
+																@if($header->form55=='yes')<td>{{ $fortail['histidin'] }}</td>@endif
+																@if($header->form51=='yes')<td>{{ $fortail['lisin'] }}</td>@endif
+																@if($header->form57=='yes')<td>{{ $fortail['BCAA'] }}</td>@endif
+																@if($header->form69=='yes')<td>{{ $fortail['valin'] }}</td>@endif
+																@if($header->form58=='yes')<td>{{ $fortail['leusin'] }}</td>@endif
+																@if($header->form60=='yes')<td>{{ $fortail['sistein'] }}</td>@endif
+																@if($header->form62=='yes')<td>{{ $fortail['aspartat'] }}</td>@endif
+																@if($header->form65=='yes')<td>{{ $fortail['alanin'] }}</td>@endif
+																@if($header->form61=='yes')<td>{{ $fortail['serin'] }}</td>@endif
+																@if($header->form59=='yes')<td>{{ $fortail['glisin'] }}</td>@endif
+																@if($header->form63=='yes')<td>{{ $fortail['glutamat'] }}</td>@endif
+																@if($header->form56=='yes')<td>{{ $fortail['tyrosin'] }}</td>@endif
+																@if($header->form53=='yes')<td>{{ $fortail['arginine'] }}</td>@endif
+																@if($header->form64=='yes')<td>{{ $fortail['proline'] }}</td>@endif
+																@if($header->form66=='yes')<td>{{ $fortail['Isoleusin'] }}</td>@endif
+																<td style="width:120px">@if( $fortail['hitung_btp'] !=NULL)@foreach($carryover as $co)@if($fortail['bahan']==$co->id_bahan) {{ $co->btp }}/<br>@endif @endforeach @endif</td>
+															</tr>  
+															@endforeach
+															<tr style="font-size: 12px;font-weight: bold; color:black;background-color: #ddd;">
+																<td class="text-center sticky-col first-col" style="font-size: 12px;font-weight: bold; color:black;background-color: #ddd;">Total : </td>
+																<td class="text-center sticky-col second-col" style="font-size: 12px;font-weight: bold; color:black;background-color: #ddd;"><input type="number" class="form-control" placeholder="0" id="jServing" disabled></td>
+																<td class="text-center sticky-col third-col" style="font-size: 12px;font-weight: bold; color:black;background-color: #ddd;"> 100 </td>
+																<td>Rp.{{ $total_harga['total_harga_per_gram'] }}</td>
+																@if($header->form4=='yes')<td>{{ $total_harga['total_karbohidrat'] }}</td>@endif
+																@if($header->form5=='yes')<td>{{ $total_harga['total_glukosa'] }}</td>@endif
+																@if($header->form6=='yes')<td>{{ $total_harga['total_serat'] }}</td>@endif
+																@if($header->form7=='yes')<td>{{ $total_harga['total_beta'] }}</td>@endif
+																@if($header->form8=='yes')<td>{{ $total_harga['total_sorbitol'] }}</td>@endif
+																@if($header->form9=='yes')<td>{{ $total_harga['total_maltitol'] }}</td>@endif
+																@if($header->form10=='yes')<td>{{ $total_harga['total_laktosa'] }}</td>@endif
+																@if($header->form11=='yes')<td>{{ $total_harga['total_sukrosa'] }}</td>@endif
+																@if($header->form12=='yes')<td>{{ $total_harga['total_gula'] }}</td>@endif
+																@if($header->form13=='yes')<td>{{ $total_harga['total_erythritol'] }}</td>@endif
+																@if($header->form14=='yes')<td>{{ $total_harga['total_dha'] }}</td>@endif
+																@if($header->form15=='yes')<td>{{ $total_harga['total_epa'] }}</td>@endif
+																@if($header->form16=='yes')<td>{{ $total_harga['total_omega3'] }}</td>@endif
+																@if($header->form18=='yes')<td>{{ $total_harga['total_mufa'] }}</td>@endif
+																@if($header->form17=='yes')<td>{{ $total_harga['total_lemak_total'] }}</td>@endif
+																@if($header->form19=='yes')<td>{{ $total_harga['total_lemak_jenuh'] }}</td>@endif
+																@if($header->form21=='yes')<td>{{ $total_harga['total_omega6'] }}</td>@endif
+																@if($header->form57=='yes')<td>{{ $total_harga['total_omega9'] }}</td>@endif
+																@if($header->form22=='yes')<td>{{ $total_harga['total_kolestrol'] }}</td>@endif
+																@if($header->form23=='yes')<td>{{ $total_harga['total_protein'] }}</td>@endif
+																@if($header->form24=='yes')<td>{{ $total_harga['total_air'] }}</td>@endif
 
-																	<td>{{ $total_harga['total_ca'] }}</td>
-																	<td>{{ $total_harga['total_mg'] }}</td>
-																	<td>{{ $total_harga['total_k'] }}</td>
-																	<td>{{ $total_harga['total_zink'] }}</td>
-																	<td>{{ $total_harga['total_p'] }}</td>
-																	<td>{{ $total_harga['total_na'] }}</td>
-																	<td>{{ $total_harga['total_naci'] }}</td>
-																	<td>{{ $total_harga['total_energi'] }}</td>
-																	<td>{{ $total_harga['total_fosfor']}}</td>
-																	<td>{{ $total_harga['total_mn']}}</td>
-																	<td>{{ $total_harga['total_cr'] }}</td>
-																	<td>{{ $total_harga['total_fe'] }}</td>
+																@if($header->form25=='yes')<td>{{ $total_harga['total_ca'] }}</td>@endif
+																@if($header->form27=='yes')<td>{{ $total_harga['total_mg'] }}</td>@endif
+																@if($header->form28=='yes')<td>{{ $total_harga['total_k'] }}</td>@endif
+																@if($header->form30=='yes')<td>{{ $total_harga['total_zink'] }}</td>@endif
+																@if($header->form33=='yes')<td>{{ $total_harga['total_na'] }}</td>@endif
+																@if($header->form34=='yes')<td>{{ $total_harga['total_naci'] }}</td>@endif
+																@if($header->form36=='yes')<td>{{ $total_harga['total_energi'] }}</td>@endif
+																@if($header->form32=='yes')<td>{{ $total_harga['total_fosfor']}}</td>@endif
+																@if($header->form35=='yes')<td>{{ $total_harga['total_mn']}}</td>@endif
+																@if($header->form29=='yes')<td>{{ $total_harga['total_cr'] }}</td>@endif
+																@if($header->form26=='yes')<td>{{ $total_harga['total_fe'] }}</td>@endif
 
-																	<td>{{ $total_harga['total_vitA'] }}</td>
-																	<td>{{ $total_harga['total_vitB1'] }}</td>
-																	<td>{{ $total_harga['total_vitB2'] }}</td>	
-																	<td>{{ $total_harga['total_vitB3'] }}</td>
-																	<td>{{ $total_harga['total_vitB5'] }}</td>
-																	<td>{{ $total_harga['total_vitB6'] }}</td>
-																	<td>{{ $total_harga['total_vitB12'] }}</td>
-																	<td>{{ $total_harga['total_vitC'] }}</td>
-																	<td>{{ $total_harga['total_vitD'] }}</td>
-																	<td>{{ $total_harga['total_vitE'] }}</td>
-																	<td>{{ $total_harga['total_vitK'] }}</td>
-																	<td>{{ $total_harga['total_folat'] }}</td>
-																	<td>{{ $total_harga['total_biotin'] }}</td>
-																	<td>{{ $total_harga['total_kolin'] }}</td>
-																	
-																	<td>{{ $total_harga['total_l_glutamine'] }}</td>
-																	<td>{{ $total_harga['total_threonin'] }}</td>
-																	<td>{{ $total_harga['total_methionin'] }}</td>	
-																	<td>{{ $total_harga['total_phenilalanin'] }}</td>
-																	<td>{{ $total_harga['total_histidin'] }}</td>
-																	<td>{{ $total_harga['total_lisin'] }}</td>
-																	<td>{{ $total_harga['total_BCAA'] }}</td>
-																	<td>{{ $total_harga['total_valin'] }}</td>
-																	<td>{{ $total_harga['total_leusin'] }}</td>
-																	<td>{{ $total_harga['total_aspartat'] }}</td>
-																	<td>{{ $total_harga['total_alanin'] }}</td>
-																	<td>{{ $total_harga['total_sistein'] }}</td>
-																	<td>{{ $total_harga['total_serin'] }}</td>
-																	<td>{{ $total_harga['total_glisin'] }}</td>
-																	<td>{{ $total_harga['total_glutamat'] }}</td>
-																	<td>{{ $total_harga['total_tyrosin'] }}</td>
-																	<td>{{ $total_harga['total_proline'] }}</td>
-																	<td>{{ $total_harga['total_arginine'] }}</td>
-																	<td>{{ $total_harga['total_Isoleusin'] }}</td>
-																	<td ></td>
-																</tr>
-															</tbody>
-														</table>
-														&nbsp<a class="btn btn-primary btn-sm" type="button" id="buttonformsavechanges"><i class="fa fa-save"></i> Save Dosis</a>   
+																@if($header->form37=='yes')<td>{{ $total_harga['total_vitA'] }}</td>@endif
+																@if($header->form39=='yes')<td>{{ $total_harga['total_vitB1'] }}</td>@endif
+																@if($header->form40=='yes')<td>{{ $total_harga['total_vitB2'] }}</td>@endif	
+																@if($header->form42=='yes')<td>{{ $total_harga['total_vitB3'] }}</td>@endif
+																@if($header->form43=='yes')<td>{{ $total_harga['total_vitB5'] }}</td>@endif
+																@if($header->form45=='yes')<td>{{ $total_harga['total_vitB6'] }}</td>@endif
+																@if($header->form46=='yes')<td>{{ $total_harga['total_vitB12'] }}</td>@endif
+																@if($header->form48=='yes')<td>{{ $total_harga['total_vitC'] }}</td>@endif
+																@if($header->form49=='yes')<td>{{ $total_harga['total_vitD'] }}</td>@endif
+																@if($header->form47=='yes')<td>{{ $total_harga['total_vitE'] }}</td>@endif
+																@if($header->form44=='yes')<td>{{ $total_harga['total_vitK'] }}</td>@endif
+																@if($header->form50=='yes')<td>{{ $total_harga['total_folat'] }}</td>@endif
+																@if($header->form38=='yes')<td>{{ $total_harga['total_biotin'] }}</td>@endif
+																@if($header->form41=='yes')<td>{{ $total_harga['total_kolin'] }}</td>@endif
+																
+																@if($header->form52=='yes')<td>{{ $total_harga['total_l_glutamine'] }}</td>@endif
+																@if($header->form68=='yes')<td>{{ $total_harga['total_threonin'] }}</td>@endif
+																@if($header->form54=='yes')<td>{{ $total_harga['total_methionin'] }}</td>@endif	
+																@if($header->form68=='yes')<td>{{ $total_harga['total_phenilalanin'] }}</td>@endif
+																@if($header->form55=='yes')<td>{{ $total_harga['total_histidin'] }}</td>@endif
+																@if($header->form51=='yes')<td>{{ $total_harga['total_lisin'] }}</td>@endif
+																@if($header->form57=='yes')<td>{{ $total_harga['total_BCAA'] }}</td>@endif
+																@if($header->form69=='yes')<td>{{ $total_harga['total_valin'] }}</td>@endif
+																@if($header->form58=='yes')<td>{{ $total_harga['total_leusin'] }}</td>@endif
+																@if($header->form60=='yes')<td>{{ $total_harga['total_aspartat'] }}</td>@endif
+																@if($header->form62=='yes')<td>{{ $total_harga['total_alanin'] }}</td>@endif
+																@if($header->form65=='yes')<td>{{ $total_harga['total_sistein'] }}</td>@endif
+																@if($header->form61=='yes')<td>{{ $total_harga['total_serin'] }}</td>@endif
+																@if($header->form59=='yes')<td>{{ $total_harga['total_glisin'] }}</td>@endif
+																@if($header->form63=='yes')<td>{{ $total_harga['total_glutamat'] }}</td>@endif
+																@if($header->form56=='yes')<td>{{ $total_harga['total_tyrosin'] }}</td>@endif
+																@if($header->form53=='yes')<td>{{ $total_harga['total_proline'] }}</td>@endif
+																@if($header->form64=='yes')<td>{{ $total_harga['total_arginine'] }}</td>@endif
+																@if($header->form66=='yes')<td>{{ $total_harga['total_Isoleusin'] }}</td>@endif
+																<td ></td>
+															</tr>
+														</tbody>
+													</table>
+													@endforeach
+													&nbsp
 												</div>
 											</div>
 										</div> 
@@ -585,11 +702,11 @@
 																	@else<input type="checkbox" class="data1" value="yes" checked name="energi_lemak" id="energi_lemak">@endif
 																</td>
 																<td>Energi Dari Lemak</td>
-																<td class="text-right">{{ $total_harga['total_lemak_trans']*9 }}</td><td class="text-center">kkal</td>
+																<td class="text-right">{{ $total_harga['total_lemak_total']*9 }}</td><td class="text-center">kkal</td>
 																<td class="text-right">NA</td><td class="text-right">NA</td><td class="text-center">kkal</td>
 																<td class="text-right" style="background-color:#d1d1d1;">
-																	@if($akg->overage_energi_lemak!='yes'){{ $total_harga['total_lemak_trans']*9 }}
-																	@else {{ ($total_harga['total_lemak_trans']*9) * ($formula->overage/100) }} @endif
+																	@if($akg->overage_energi_lemak!='yes'){{ $total_harga['total_lemak_total']*9 }}
+																	@else {{ ($total_harga['total_lemak_total']*9) * ($formula->overage/100) }} @endif
 																</td>
 															</tr>
 															<tr class="" style=" color: black;">
@@ -639,12 +756,22 @@
 																	@else<input type="checkbox" class="data1" value="yes" checked name="lemak_trans" id="lemak_trans">@endif
 																</td>
 																<td>Lemak Total</td>
-																<td class="text-right">{{ $total_harga['total_lemak_trans'] }}</td><td class="text-center">g</td>
+																<td class="text-right">{{ $total_harga['total_lemak_total'] }}</td><td class="text-center">g</td>
 																<td class="text-right">NA</td><td class="text-right">{{$akg->lemak_total}}</td><td class="text-center">g</td>
 																<td class="text-right" style="background-color:#d1d1d1;">
-																	@if($akg->overage_lemak_total!='yes') {{ $total_harga['total_lemak_trans'] }}
-																	@else {{ $total_harga['total_lemak_trans'] * ($formula->overage/100) }} @endif
+																	@if($akg->overage_lemak_total!='yes') {{ $total_harga['total_lemak_total'] }}
+																	@else {{ $total_harga['total_lemak_total'] * ($formula->overage/100) }} @endif
 																</td>
+															</tr>
+															<tr class="" style=" color: black;">
+																<td>
+																	@if($akg->overage_lemak_trans!='yes')<input type="checkbox" class="data1" name="lemak_trans" value="yes" id="lemak_trans">
+																	@else<input type="checkbox" class="data1" value="yes" checked name="lemak_trans" id="lemak_trans">@endif
+																</td>
+																<td>Lemak Trans</td>
+																<td class="text-right">NA</td><td class="text-center">g</td>
+																<td class="text-right">NA</td><td class="text-right"></td><td class="text-center">g</td>
+																<td class="text-right" style="background-color:#d1d1d1;">NA</td>
 															</tr>
 															<tr class="" style=" color: black;">
 																<td>
@@ -652,13 +779,33 @@
 																	@else<input type="checkbox" class="data1" value="yes" checked name="lemak_jenuh" id="lemak_jenuh">@endif
 																</td>
 																<td>Lemak Jenuh</td>
-																<td class="text-right">{{ $total_harga['total_sfa'] }}</td><td class="text-center">g</td>
-																<td class="text-right"><?php $sfa = $total_harga['total_sfa']*($akg->lemak_jenuh/100); $angka_sfa = number_format($sfa,2,",","."); echo $angka_sfa; ?></td>
+																<td class="text-right">{{ $total_harga['total_lemak_jenuh'] }}</td><td class="text-center">g</td>
+																<td class="text-right"><?php $sfa = $total_harga['total_lemak_jenuh']*($akg->lemak_jenuh/100); $angka_sfa = number_format($sfa,2,",","."); echo $angka_sfa; ?></td>
 																<td class="text-right">{{$akg->lemak_jenuh}}</td><td class="text-center">g</td>
 																<td class="text-right" style="background-color:#d1d1d1;">
-																	@if($akg->overage_lemak_jenuh!='yes') {{ $total_harga['total_sfa'] }}
-																	@else {{ $total_harga['total_sfa'] * ($formula->overage/100) }} @endif
+																	@if($akg->overage_lemak_jenuh!='yes') {{ $total_harga['total_lemak_jenuh'] }}
+																	@else {{ $total_harga['total_lemak_jenuh'] * ($formula->overage/100) }} @endif
 																</td>
+															</tr>
+															<tr class="" style=" color: black;">
+																<td>
+																	@if($akg->overage_lemak_tidak_jenuh_tunggal!='yes')<input type="checkbox" class="data1" name="lemak_jenuh" value="yes" id="lemak_jenuh">
+																	@else<input type="checkbox" class="data1" value="yes" checked name="lemak_jenuh" id="lemak_jenuh">@endif
+																</td>
+																<td>Lemak Tidak Jenuh Tunggal</td>
+																<td class="text-right">NA</td><td class="text-center">g</td><td class="text-right">NA</td>
+																<td class="text-right">NA</td><td class="text-center">g</td>
+																<td class="text-right" style="background-color:#d1d1d1;">NA</td>
+															</tr>
+															<tr class="" style=" color: black;">
+																<td>
+																	@if($akg->overage_lemak_tidak_jenuh_ganda!='yes')<input type="checkbox" class="data1" name="lemak_jenuh" value="yes" id="lemak_jenuh">
+																	@else<input type="checkbox" class="data1" value="yes" checked name="lemak_jenuh" id="lemak_jenuh">@endif
+																</td>
+																<td>Lemak Tidak Jenuh Ganda</td>
+																<td class="text-right">NA</td><td class="text-center">g</td><td class="text-right">NA</td>
+																<td class="text-right">NA</td><td class="text-center">g</td>
+																<td class="text-right" style="background-color:#d1d1d1;">NA</td>
 															</tr>
 															<tr class="" style=" color: black;">
 																<td>
@@ -712,6 +859,16 @@
 																	@if($akg->overage_serat_pangan_larut!='yes'){{ $total_harga['total_serat'] }}
 																	@else {{ $total_harga['total_serat'] * ($formula->overage/100) }} @endif
 																</td>
+															</tr>
+															<tr class="" style=" color: black;">
+																<td>
+																	@if($akg->overage_serat_pangan_tidaklarut!='yes')<input type="checkbox" class="data1" name="serat_pangan_larut" value="yes" id="serat_pangan_larut">
+																	@else<input type="checkbox" class="data1" value="yes" checked name="serat_pangan_larut" id="serat_pangan_larut">@endif
+																</td>
+																<td>Serat Pangan Tidak Larut</td>
+																<td class="text-right">NA</td><td class="text-center">g</td>
+																<td class="text-right">NA</td><td class="text-right">NA</td><td class="text-center">g</td>
+																<td class="text-right" style="background-color:#d1d1d1;">NA</td>
 															</tr>
 															<tr class="" style=" color: black;">
 																<td>
@@ -1158,6 +1315,52 @@
 															</tr>
 															<tr class="" style=" color: black;">
 																<td>
+																	@if($akg->overage_omega9!='yes')<input type="checkbox" class="data1" name="omega9" value="yes" id="omega9">
+																	@else<input type="checkbox" class="data1" value="yes" checked name="omega9" id="omega9">@endif
+																</td>
+																<td>Omega 9</td>
+																<td class="text-right">{{ $total_harga['total_omega9'] }}</td><td class="text-center">g</td>
+																<td class="text-right">NA</td><td class="text-right">NA</td><td class="text-center">g</td>
+															  <td class="text-right" style="background-color:#d1d1d1;">
+																	@if($akg->overage_omega9!='yes'){{ $total_harga['total_omega9'] }}
+																	@else	{{ $total_harga['total_omega9']* ($formula->overage/100) }} @endif
+																</td>
+															</tr>
+															<tr class="" style=" color: black;">
+																<td>
+																	@if($akg->overage_Klorida!='yes')<input type="checkbox" class="data1" name="omega9" value="yes" id="omega9">
+																	@else<input type="checkbox" class="data1" value="yes" checked name="omega9" id="omega9">@endif
+																</td>
+																<td>Klorida</td>
+																<td class="text-right">NA</td><td class="text-center">mg</td>
+																<td class="text-right">NA</td><td class="text-right">NA</td><td class="text-center">mg</td>
+															  <td class="text-right" style="background-color:#d1d1d1;">NA</td>
+															</tr>
+															<tr class="" style=" color: black;">
+																<td>
+																	@if($akg->overage_asam_linoleat!='yes')<input type="checkbox" class="data1" name="omega9" value="yes" id="omega9">
+																	@else<input type="checkbox" class="data1" value="yes" checked name="omega9" id="omega9">@endif
+																</td>
+																<td>Asam linoleat</td>
+																<td class="text-right">{{ $total_harga['total_omega6'] }}</td><td class="text-center">g</td>
+																<td class="text-right">NA</td><td class="text-right">NA</td><td class="text-center">g</td>
+															  <td class="text-right" style="background-color:#d1d1d1;">
+																	@if($akg->overage_asam_linoleat!='yes'){{ $total_harga['total_omega6'] }}
+																	@else	{{ $total_harga['total_omega6']* ($formula->overage/100) }} @endif
+																</td>
+															</tr>
+															<tr class="" style=" color: black;">
+																<td>
+																	@if($akg->overage_energi_asam_linoleat!='yes')<input type="checkbox" class="data1" name="omega9" value="yes" id="omega9">
+																	@else<input type="checkbox" class="data1" value="yes" checked name="omega9" id="omega9">@endif
+																</td>
+																<td>Energi dari asam linoleat </td>
+																<td class="text-right">NA</td><td class="text-center">kkal</td>
+																<td class="text-right">NA</td><td class="text-right">NA</td><td class="text-center">kkal</td>
+															  <td class="text-right" style="background-color:#d1d1d1;">NA</td>
+															</tr>
+															<tr class="" style=" color: black;">
+																<td>
 																	@if($akg->overage_energi_protein!='yes')<input type="checkbox" class="data1" name="energi_protein" value="yes" id="energi_protein">
 																	@else<input type="checkbox" class="data1" value="yes" checked name="energi_protein" id="energi_protein">@endif
 																</td>
@@ -1441,8 +1644,278 @@
 							</div>
 						</div>
 					</div>
-					<!-- HPP -->
+					<!-- Logam berat & Mikro Biologi -->
 					<div class="tab-pane" id="3">
+						<div class="row">
+							<div class="panel">
+								<div class="panel-body">    
+									<div class="accordion" id="accordionExample">
+										<div class="panel panel-info">
+											<div aria-labelledby="headingOne" data-parent="#accordionExample"><br> 
+												<form class="form-horizontal form-label-left" method="POST" action="{{route('savedosis',$idf)}}">
+												<button type="submit" class="btn btn-primary btn-sm"><li class="fa fa-save"></li> Save Update</button>
+												{{ csrf_field() }}
+												<div style="overflow-x: scroll;">
+													@foreach($form as $header)
+													<table class="table table-advanced table-bordered" >
+														<thead>
+															<tr class="text-center" style="font-weight: bold;color:white;background-color: #2a3f54;">
+																<th rowspan="2" class="text-center sticky-col first-col"  class="text-center" style="font-weight: bold;color:white;background-color: #2a3f54;">Nama Sederhana</th>
+																<th rowspan="2" class="text-center sticky-col second-col" style="font-weight: bold;color:white;background-color: #2a3f54;min-width:120px">PerServing (Gram)</th>
+																<th rowspan="2" class="text-center sticky-col third-col" style="font-weight: bold;color:white;background-color: #2a3f54;">%</th>
+																<th rowspan ="2" class="text-center  sticky-col fourth-col" style="font-weight: bold;color:white;background-color: #2a3f54;min-width:100px">Kadar Air</th>
+																<th rowspan ="2" class="text-center" style="font-weight: bold;color:white;background-color: #2a3f54;"></th>
+																<th colspan ="8" class="text-center" style="font-weight: bold;color:white;background-color: #2a3f54;min-width:100px">Mikroba</th>
+																<th colspan ="5" class="text-center" style="font-weight: bold;color:white;background-color: #2a3f54;min-width:100px">Logam Berat</th>
+															</tr>
+															<tr class="text-center" style="font-weight: bold;color:white;background-color: #7e7d7d;">
+																<!-- Makro -->
+																<th class="text-center" style="min-width:90px">Enterobacter (CFU/g)</th>  	<th class="text-center" style="min-width:90px">Salmonella (CFU/g)</th>
+																<th class="text-center" style="min-width:90px">S.aureus (CFU/g)</th>       <th class="text-center" style="min-width:90px">TPC (CFU/g)</th>
+																<th class="text-center" style="min-width:90px">Yeast/Mold (CFU/g)</th>     <th class="text-center" style="min-width:90px">Coliform (CFU/g)</th>
+																<th class="text-center" style="min-width:90px">E.Coli (CFU/g)</th>     		<th class="text-center" style="min-width:90px">Bacillus cereus(CFU/g)</th>
+																<th class="text-center" style="min-width:90px">As (mg/kg)</th>        			<th class="text-center" style="min-width:90px">Hg (mg/kg)</th>
+																<th class="text-center" style="min-width:90px">Pb (mg/kg)</th>         		<th class="text-center" style="min-width:90px">Sn (mg/kg)</th>
+																<th class="text-center" style="min-width:90px">Cd (mg/kg)</th>     
+															</tr>
+														</thead>
+														<tbody>
+															@php $nom = 0; @endphp
+															@foreach ($detail_harga->sortByDesc('per_batch') as $fortail)
+															<tr class="text-right">
+																<td class="text-left sticky-col first-col">{{ $fortail['nama_sederhana'] }}</td>
+																<input type="number" name="scores[{{$loop->index}}][id]" value="{{ $fortail['id'] }}" hidden>
+																<td class="sticky-col second-col text-center">{{ $fortail['per_serving'] }}</td>
+																<td class="sticky-col third-col text-center">{{ $fortail['persen'] }}</td>
+																<td class="text-center sticky-col fourth-col">{{ $fortail['air'] }}</td>
+																<td></td>
+																<td><?php $Enterobacter = $fortail['Enterobacter']; $angka_Enterobacter = number_format($Enterobacter,2,",","."); echo $angka_Enterobacter; ?></td>
+																<td><?php $Salmonella = $fortail['Salmonella']; $angka_Salmonella = number_format($Salmonella,2,",","."); echo $angka_Salmonella; ?></td>
+																<td><?php $aureus = $fortail['aureus']; $angka_aureus = number_format($aureus,2,",","."); echo $angka_aureus; ?></td>
+																<td><?php $TPC = $fortail['TPC']; $angka_TPC = number_format($TPC,2,",","."); echo $angka_TPC; ?></td>
+																<td><?php $Yeast = $fortail['Yeast']; $angka_Yeast = number_format($Yeast,2,",","."); echo $angka_Yeast; ?></td>
+																<td><?php $Coliform = $fortail['Coliform']; $angka_Coliform = number_format($Coliform,2,",","."); echo $angka_Coliform; ?></td>
+																<td><?php $Coli = $fortail['Coli']; $angka_Coli = number_format($Coli,2,",","."); echo $angka_Coli; ?></td>
+																<td><?php $Bacilluscereus = $fortail['Bacilluscereus']; $angka_Bacilluscereus = number_format($Bacilluscereus,2,",","."); echo $angka_Bacilluscereus; ?></td>
+																<td><?php $as = $fortail['as']; $angka_as = number_format($as,2,",","."); echo $angka_as; ?></td>
+																<td><?php $hg = $fortail['hg']; $angka_hg = number_format($hg,2,",","."); echo $angka_hg; ?></td>
+																<td><?php $pb = $fortail['pb']; $angka_pb = number_format($pb,2,",","."); echo $angka_pb; ?></td>
+																<td><?php $sn = $fortail['sn']; $angka_sn = number_format($sn,2,",","."); echo $angka_sn; ?></td>
+																<td><?php $cd = $fortail['cd']; $angka_cd = number_format($cd,2,",","."); echo $angka_cd; ?></td>
+															</tr>  
+															@endforeach
+															<tr class="text-right" style="font-size:12px;font-weight: bold; color:black;background-color: #ddd;">
+																<td class="text-center sticky-col first-col" style="font-size: 12px;font-weight: bold; color:black;background-color: #ddd;">Total : </td>
+																<td class="text-center sticky-col second-col" style="font-size: 12px;font-weight: bold; color:black;background-color: #ddd;">{{ $formula['serving_size'] }}</td>
+																<td class="text-center sticky-col third-col" style="font-size: 12px;font-weight: bold; color:black;background-color: #ddd;"> 100 </td>
+																<td class="text-center sticky-col fourth-col" style="font-size: 12px;font-weight: bold; color:black;background-color: #ddd;">{{ $total_harga['total_air'] }}</td>
+																<td></td>
+																<td><?php $aureus = $total_harga['total_Enterobacter']; $angka_aureus = number_format($aureus,2,",","."); echo $angka_aureus; ?></td>
+																<td><?php $aureus = $total_harga['total_Salmonella']; $angka_aureus = number_format($aureus,2,",","."); echo $angka_aureus; ?></td>
+																<td><?php $aureus = $total_harga['total_aureus']; $angka_aureus = number_format($aureus,2,",","."); echo $angka_aureus; ?></td>
+																<td><?php $TPC = $total_harga['total_TPC']; $angka_TPC = number_format($TPC,2,",","."); echo $angka_TPC; ?></td>
+																<td><?php $Yeast = $total_harga['total_Yeast']; $angka_Yeast = number_format($Yeast,2,",","."); echo $angka_Yeast; ?></td>
+																<td><?php $Coliform = $total_harga['total_Coliform']; $angka_Coliform = number_format($Coliform,2,",","."); echo $angka_Coliform; ?></td>
+																<td><?php $Coli = $total_harga['total_Coli']; $angka_Coli = number_format($Coli,2,",","."); echo $angka_Coli; ?></td>
+																<td><?php $Bacilluscereus = $total_harga['total_Bacilluscereus']; $angka_Bacilluscereus = number_format($Bacilluscereus,2,",","."); echo $angka_Bacilluscereus; ?></td>
+																<td><?php $as = $total_harga['total_as']; $angka_as = number_format($as,2,",","."); echo $angka_as; ?></td>
+																<td><?php $hg = $total_harga['total_hg']; $angka_hg = number_format($hg,2,",","."); echo $angka_hg; ?></td>
+																<td><?php $pb = $total_harga['total_pb']; $angka_pb = number_format($pb,2,",","."); echo $angka_pb; ?></td>
+																<td><?php $sn = $total_harga['total_sn']; $angka_sn = number_format($sn,2,",","."); echo $angka_sn; ?></td>
+																<td><?php $cd = $total_harga['total_cd']; $angka_cd = number_format($cd,2,",","."); echo $angka_cd; ?></td>
+															</tr>
+														</tbody>
+														<tbody>
+															<tr>
+																<th class="text-center sticky-col first-col">Saran penyajian</th>
+																<th class="text-center sticky-col second-col"><input type="number" class="form-control" value="{{$formula->saran_saji}}" name="saran" id="saran"></th>
+																<th class="text-center sticky-col third-col">ML</th>
+																<th class="text-center sticky-col fourth-col"></th><th></th><th colspan="7"></th>
+																<th class="text-right" style="font-size: 12px;font-weight: bold; color:white;background-color: #157c16;">RTC</th>
+																<th class="text-right">{{$total_harga['total_rpc_as']}}</th>
+																<th class="text-right">{{$total_harga['total_rpc_hg']}}</th>
+																<th class="text-right">{{$total_harga['total_rpc_pb']}}</th>
+																<th class="text-right">{{$total_harga['total_rpc_sn']}}</th>
+																<th class="text-right">{{$total_harga['total_rpc_cd']}}</th>
+															</tr>
+															<tr>
+															<th  colspan="17">
+															</tr>
+															<tr>
+																<th class="text-center sticky-col first-col" style="font-size: 12px;font-weight: bold; color:white;background-color: #4f4d4d;" rowspan="2">Number Kategori Pangan</th>
+																<td class="text-center sticky-col second-col" rowspan="2">
+																	<select name="katpang" id="katpang" class="form-control">
+																	@if($formula->pangan!=NULL)<option value="{{$formula->pangan}}">{{$formula->katpang->no_katpang}}</option>
+																	@else<option value=""></option>@endif
+																	@foreach($ceklis as $ceklis)
+																	<option value="{{$ceklis->id_cemaran_ceklis }}">{{$ceklis->no_katpang}}</option>
+																	@endforeach
+																	</select>
+																</td>
+																<th class="text-center sticky-col third-col" rowspan="2">Batas % Air</th>
+																<th class="text-center sticky-col fourth-col" rowspan="2">
+																@if($formula->pangan!=NULL)<input type="number" readonly class="form-control" value="{{$formula->katpang->batas_air}}" name="batas" id="batas">
+																@else<input type="number" readonly class="form-control" value="" name="batas" id="batas">@endif</th>
+																<th style="font-size: 12px;font-weight: bold; color:white;background-color: #157c16;">m</th>
+																<th class="text-center">@if($formula->pangan!=NULL){{$formula->katpang->mk_Enterobacter}}@endif</th>
+																<th class="text-center">@if($formula->pangan!=NULL){{$formula->katpang->mk_Salmonella}}@endif</th>
+																<th class="text-center">@if($formula->pangan!=NULL){{$formula->katpang->mk_aureus}}@endif</th>
+																<th class="text-center">@if($formula->pangan!=NULL){{$formula->katpang->mk_TPC}}@endif</th>
+																<th class="text-center">@if($formula->pangan!=NULL){{$formula->katpang->mk_Yeast}}@endif</th>
+																<th class="text-center">@if($formula->pangan!=NULL){{$formula->katpang->mk_Coliform}}@endif</th>
+																<th class="text-center">@if($formula->pangan!=NULL){{$formula->katpang->mk_Coli}}@endif</th>
+																<th class="text-center">@if($formula->pangan!=NULL){{$formula->katpang->mk_Bacilluscereus}}@endif</th>
+																<th class="text-center" rowspan="2">@if($formula->pangan!=NULL){{$formula->katpang->as}}@endif</th>
+																<th class="text-center" rowspan="2">@if($formula->pangan!=NULL){{$formula->katpang->hg}}@endif</th>
+																<th class="text-center" rowspan="2">@if($formula->pangan!=NULL){{$formula->katpang->pb}}@endif</th>
+																<th class="text-center" rowspan="2">@if($formula->pangan!=NULL){{$formula->katpang->sn}}@endif</th>
+																<th class="text-center" rowspan="2">@if($formula->pangan!=NULL){{$formula->katpang->cd}}@endif</th>
+															</tr>
+															<tr>
+																<th class="text-center" style="font-size: 12px;font-weight: bold; color:white;background-color: #157c16;">M</th>
+																<th class="text-center">@if($formula->pangan!=NULL){{$formula->katpang->mb_Enterobacter}}@endif</th>
+																<th class="text-center">@if($formula->pangan!=NULL){{$formula->katpang->mb_Salmonella}}@endif</th>
+																<th class="text-center">@if($formula->pangan!=NULL){{$formula->katpang->mb_aureus}}@endif</th>
+																<th class="text-center">@if($formula->pangan!=NULL){{$formula->katpang->mb_TPC}}@endif</th>
+																<th class="text-center">@if($formula->pangan!=NULL){{$formula->katpang->mb_Yeast}}@endif</th>
+																<th class="text-center">@if($formula->pangan!=NULL){{$formula->katpang->mb_Coliform}}@endif</th>
+																<th class="text-center">@if($formula->pangan!=NULL){{$formula->katpang->mb_Coli}}@endif</th>
+																<th class="text-center">@if($formula->pangan!=NULL){{$formula->katpang->mb_Bacilluscereus}}@endif</th>
+															</tr>
+															<tr>
+																<th class="text-center sticky-col first-col" colspan="3">Status</th>
+																<th style="background-color: #eff897" class="text-center sticky-col fourth-col">
+																@if($formula->pangan!=NULL)	
+																	@if($formula->katpang->batas_air==NULL)
+																	@elseif($total_harga['total_air'] >= $formula->katpang->batas_air)OK
+																	@elseif($total_harga['total_air'] <= $formula->katpang->batas_air)NOT OK
+																	@endif
+																@endif
+																</th>
+																<th></th>
+																<th class="text-center">
+																@if($formula->pangan!=NULL)
+																	@if($total_harga['total_Enterobacter'] <= $formula->katpang->mk_Enterobacter && $total_harga['total_Enterobacter'] <= $formula->katpang->mb_Enterobacter && $formula->katpang->mb_Enterobacter!='N/S')OK
+																	@elseif($total_harga['total_Enterobacter'] >= $formula->katpang->mk_Enterobacter && $total_harga['total_Enterobacter'] <= $formula->katpang->mb_Enterobacter && $formula->katpang->mb_Enterobacter!='N/S')Lihat N
+																	@elseif($total_harga['total_Enterobacter'] >= $formula->katpang->mk_Enterobacter && $total_harga['total_Enterobacter'] >= $formula->katpang->mb_Enterobacter && $formula->katpang->mb_Enterobacter!='N/S' )NOT OK
+																	@elseif($formula->katpang->mk_Enterobacter=='N/S' || $formula->katpang->mb_Enterobacter=='N/S')N/S
+																	@endif
+																@endif
+																</th>
+																<th class="text-center">
+																@if($formula->pangan!=NULL)
+																	@if($total_harga['total_Salmonella'] <= $formula->katpang->mk_Salmonella && $total_harga['total_Salmonella'] <= $formula->katpang->mb_Salmonella && $formula->katpang->mk_Salmonella!='N/S')OK
+																	@elseif($total_harga['total_Salmonella'] >= $formula->katpang->mk_Salmonella && $total_harga['total_Salmonella'] <= $formula->katpang->mb_Salmonella && $formula->katpang->mk_Salmonella!='N/S')Lihat N
+																	@elseif($total_harga['total_Salmonella'] >= $formula->katpang->mk_Salmonella && $total_harga['total_Salmonella'] >= $formula->katpang->mb_Salmonella && $formula->katpang->mk_Salmonella!='N/S')NOT OK
+																	@elseif($formula->katpang->mk_Salmonella=='N/S' || $formula->katpang->mb_Salmonella=='N/S')N/S
+																	@endif
+																@endif
+																</th>
+																<th class="text-center">
+																@if($formula->pangan!=NULL)
+																	@if($total_harga['total_aureus'] <= $formula->katpang->mk_aureus && $total_harga['total_aureus'] <= $formula->katpang->mb_aureus && $formula->katpang->mb_aureus!='N/S')OK
+																	@elseif($total_harga['total_aureus'] >= $formula->katpang->mk_aureus && $total_harga['total_aureus'] <= $formula->katpang->mb_aureus && $formula->katpang->mb_aureus!='N/S')Lihat N
+																	@elseif($total_harga['total_aureus'] >= $formula->katpang->mk_aureus && $total_harga['total_aureus'] >= $formula->katpang->mb_aureus && $formula->katpang->mb_aureus!='N/S')NOT OK
+																	@elseif($formula->katpang->mk_aureus=='N/S' || $formula->katpang->mb_aureus=='N/S')N/S
+																	@endif
+																@endif
+																</th>
+																<th class="text-center">
+																@if($formula->pangan!=NULL)
+																	@if($total_harga['total_TPC'] <= $formula->katpang->mk_TPC && $total_harga['total_TPC'] <= $formula->katpang->mb_TPC && $formula->katpang->mb_TPC!='N/S')OK
+																	@elseif($total_harga['total_TPC'] >= $formula->katpang->mk_TPC && $total_harga['total_TPC'] <= $formula->katpang->mb_TPC && $formula->katpang->mb_TPC!='N/S')Lihat N
+																	@elseif($total_harga['total_TPC'] >= $formula->katpang->mk_TPC && $total_harga['total_TPC'] >= $formula->katpang->mb_TPC && $formula->katpang->mb_TPC!='N/S')NOT OK
+																	@elseif($formula->katpang->mk_TPC=='N/S' || $formula->katpang->mb_TPC=='N/S')N/S
+																	@endif
+																@endif
+																</th>
+																<th class="text-center">
+																@if($formula->pangan!=NULL)
+																	@if($total_harga['total_Yeast'] <= $formula->katpang->mk_Yeast && $total_harga['total_Yeast'] <= $formula->katpang->mb_Yeast && $formula->katpang->mb_Yeast!='N/S' )OK
+																	@elseif($total_harga['total_Yeast'] >= $formula->katpang->mk_Yeast && $total_harga['total_Yeast'] <= $formula->katpang->mb_Yeast && $formula->katpang->mb_Yeast!='N/S' )Lihat N
+																	@elseif($total_harga['total_Yeast'] >= $formula->katpang->mk_Yeast && $total_harga['total_Yeast'] >= $formula->katpang->mb_Yeast && $formula->katpang->mb_Yeast!='N/S' )NOT OK
+																	@elseif($formula->katpang->mk_Yeast=='N/S' || $formula->katpang->mb_Yeast=='N/S')N/S
+																	@endif
+																@endif
+																</th>
+																<th class="text-center">
+																@if($formula->pangan!=NULL)
+																	@if($total_harga['total_Coliform'] <= $formula->katpang->mk_Coliform && $total_harga['total_Coliform'] <= $formula->katpang->mb_Coliform && $formula->katpang->mb_Coliform!='N/S' )OK
+																	@elseif($total_harga['total_Coliform'] >= $formula->katpang->mk_Coliform && $total_harga['total_Coliform'] <= $formula->katpang->mb_Coliform && $formula->katpang->mb_Coliform!='N/S' )Lihat N
+																	@elseif($total_harga['total_Coliform'] >= $formula->katpang->mk_Coliform && $total_harga['total_Coliform'] >= $formula->katpang->mb_Coliform && $formula->katpang->mb_Coliform!='N/S' )NOT OK
+																	@elseif($formula->katpang->mk_Coliform=='N/S' || $formula->katpang->mb_Coliform=='N/S')N/S
+																	@endif
+																@endif
+																</th>
+																<th class="text-center">
+																@if($formula->pangan!=NULL)
+																	@if($total_harga['total_Coli'] <= $formula->katpang->mk_Coli && $total_harga['total_Coli'] <= $formula->katpang->mb_Coli && $formula->katpang->mb_Coli!='N/S' )OK
+																	@elseif($total_harga['total_Coli'] >= $formula->katpang->mk_Coli && $total_harga['total_Coli'] <= $formula->katpang->mb_Coli && $formula->katpang->mb_Coli!='N/S' )Lihat N
+																	@elseif($total_harga['total_Coli'] >= $formula->katpang->mk_Coli && $total_harga['total_Coli'] >= $formula->katpang->mb_Coli && $formula->katpang->mb_Coli!='N/S' )NOT OK
+																	@elseif($formula->katpang->mk_Coli=='N/S' || $formula->katpang->mb_Coli=='N/S')N/S
+																	@endif
+																@endif
+																</th>
+																<th class="text-center">
+																@if($formula->pangan!=NULL)
+																	@if($total_harga['total_Bacilluscereus'] <= $formula->katpang->mk_Bacilluscereus && $total_harga['total_Bacilluscereus'] <= $formula->katpang->mb_Bacilluscereus && $formula->katpang->mb_Bacilluscereus!='N/S')OK
+																	@elseif($total_harga['total_Bacilluscereus'] >= $formula->katpang->mk_Bacilluscereus && $total_harga['total_Bacilluscereus'] <= $formula->katpang->mb_Bacilluscereus && $formula->katpang->mb_Bacilluscereus!='N/S' )Lihat N
+																	@elseif($total_harga['total_Bacilluscereus'] >= $formula->katpang->mk_Bacilluscereus && $total_harga['total_Bacilluscereus'] >= $formula->katpang->mb_Bacilluscereus && $formula->katpang->mb_Bacilluscereus!='N/S' )NOT OK
+																	@elseif($formula->katpang->mk_Bacilluscereus=='N/S' || $formula->katpang->mb_Bacilluscereus=='N/S')N/S
+																	@endif
+																@endif
+																</th>
+																<th class="text-center">
+																@if($formula->pangan!=NULL)
+																	@if($total_harga['total_rpc_as'] >= $formula->katpang->as)OK
+																	@elseif($total_harga['total_rpc_as'] <= $formula->katpang->as)NOT OK
+																	@endif
+																@endif
+																</th>
+																<th class="text-center">
+																@if($formula->pangan!=NULL)
+																	@if($total_harga['total_rpc_hg'] >= $formula->katpang->hg)OK
+																	@elseif($total_harga['total_rpc_hg'] <= $formula->katpang->hg)NOT OK
+																	@endif
+																@endif
+																</th>
+																<th class="text-center">
+																@if($formula->pangan!=NULL)
+																	@if($total_harga['total_rpc_pb'] >= $formula->katpang->pb)OK
+																	@elseif($total_harga['total_rpc_pb'] <= $formula->katpang->pb)NOT OK
+																	@endif
+																@endif
+																</th>
+																<th class="text-center">
+																@if($formula->pangan!=NULL)
+																	@if($total_harga['total_rpc_sn'] >= $formula->katpang->sn)OK
+																	@elseif($total_harga['total_rpc_sn'] <= $formula->katpang->sn)NOT OK
+																	@endif
+																@endif
+																</th>
+																<th class="text-center">
+																@if($formula->pangan!=NULL)
+																	@if($total_harga['total_rpc_cd'] >= $formula->katpang->cd)OK
+																	@elseif($total_harga['total_rpc_cd'] <= $formula->katpang->cd)NOT OK
+																	@endif
+																@endif
+																</th>
+															</tr>
+														</tbody>
+													</table>
+													@endforeach
+													&nbsp
+												</div>
+												</form>
+											</div>
+										</div> 
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- HPP -->
+					<div class="tab-pane" id="4">
 						@php $no = 0; @endphp
 						@if ($ada > 0)
 						<div class="row">
@@ -1554,31 +2027,48 @@
 	</div>
 </div>
 <div class="row" hidden>
-    <div class="col-md-6">
-      <form action="{{ route('savechanges',$idf) }}" id="formsavechanges" method="POST">
-      <table class="table">
-        <tbody>
-				@foreach ($detail_harga->sortByDesc('per_batch') as $fortail)                                                                      
-          <tr>
-						<td>{{ $fortail['nama_sederhana'] }}</td>
-						<input type="hidden" name="ftid[{{ $fortail['no'] }}]" value="{{$fortail['id']}}">                               
-						<td><input type="number" placeholder="0" id="Serving2{{ $fortail['no'] }}"  value="{{ $fortail['per_serving'] }}"   name="Serving[{{ $fortail['no'] }}]"></td>                              
-          </tr>                                                       
-          @endforeach  
-          <tr>
-            <td colspan="3">
-							<br><label>Jumlah Fortail</label><br>
-							<input type="number" name="jFortail" value="{{$ada}}">
-							{{ csrf_field()}}
-            </td>
-          </tr>
-        </tbody>
-      </table>                    
-      </form>
-    </div>
+  <div class="col-md-6">
+    <form action="{{ route('savechanges2',$idf) }}" id="formsavechanges" method="POST">
+    <table class="table">
+      <tbody>
+			@foreach ($detail_harga->sortByDesc('per_batch') as $fortail)                                                                      
+        <tr>
+					<td>{{ $fortail['nama_sederhana'] }}</td>
+					<input type="hidden" name="ftid[{{ $fortail['no'] }}]" value="{{$fortail['id']}}">        
+            <td style="background-color:#f2f2f2;color:black;"><input type="number" id="tServing" value="{{ $formula->serving_size }}"></td>                       
+					<td><input type="number" placeholder="0" id="Serving2{{ $fortail['no'] }}"  value="{{ $fortail['per_serving'] }}"   name="Serving[{{ $fortail['no'] }}]"></td>                              
+        </tr>                                                       
+        @endforeach  
+        <tr>
+          <td colspan="3">
+						<br><label>Jumlah Fortail</label><br>
+						<input type="number" name="jFortail" value="{{$ada}}">
+						{{ csrf_field()}}
+          </td>
+        </tr>
+      </tbody>
+    </table>                    
+    </form>
   </div>
+</div>
 @endsection
 @section('s')
+<script>
+	$(function() { //keep tab
+	// for bootstrap 3 use 'shown.bs.tab', for bootstrap 2 use 'shown' in the next line
+	$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+	// save the latest tab; use cookies if you like 'em better:
+	localStorage.setItem('lastTab', $(this).attr('href'));
+	});
+	
+	// go to the latest tab, if it exists:
+	var lastTab = localStorage.getItem('lastTab');
+	if (lastTab) {
+	$('[href="' + lastTab + '"]').tab('show');
+	}
+	});
+</script>
+
 <script type="text/javascript">
   $(document).ready(function(){        
     var i = {{ $no }};
@@ -1633,7 +2123,6 @@
     $('#jServing').val(total2);
     $('#jsBatch').val(tsb);
     $('#jsServing').val(tss);
-            console.log(total2);
     // Hitung Persen Granulasi            
     var one_persen  = total2/100;
     total_persen    = total_granulasi / one_persen;
@@ -1643,35 +2132,6 @@
     $('#gp').val(total_persen);                      
     $('#pr').val(total_persen_premix);    
   });
-
-  // ONCHANGE SCALE OPTION
-  function SO(myId){
-    var so = $('#'+myId).val();
-    $('#scale_option2').val(so);
-  }
-        
-  // KEYUP BATCH
-  function jBatch(myId){
-    var urutan = myId.substring(5);
-    var i = {{ $no }};
-    var total= 0;
-    for(y=1;y<=i;y++){
-      batch = parseFloat($('#Batch'+y).val());
-      cek_batch = $('#Batch'+y).val();
-        if(cek_batch == ''){
-          batch = 0;
-        }
-      total = total + batch;
-    }
-    $('#jBatch').val(total);
-    x = $('#Batch'+urutan).val();
-    y = $('#rBatch'+urutan).val();
-    if(x != y ){
-      $('#'+myId).css("border", "1px solid cyan");                
-    }else{
-      $('#'+myId).css("border", "");
-    }
-  }
         
   // KEYUP SERVING
   function jServing(myId){
@@ -1685,6 +2145,7 @@
           serving = 0;
         }
       total = total + serving;
+            console.log(total);
       }
     $('#jServing').val(total);
 
@@ -1696,267 +2157,47 @@
     }else{
       $('#'+myId).css("border", "");
     }
-  }
-
-  // KEYUP SCALE BATCH
-  function jsBatch(myId){
-    var urutan = myId.substring(6);
-    x = $('#sBatch'+urutan).val();
-    y = $('#rsBatch'+urutan).val();
-    if(x != y ){
-      $('#'+myId).css("border", "1px solid cyan");
-      // Get The Target
-      $('#scale_method').val("C");
-      var name = $('#'+myId).val();
-      var ftid = $('#'+'ftid'+urutan).val();
-      $('#target_scale').val(name);
-      $('#target_number').val(ftid);
-      //Checking History
-      var history = $('#history_target_scale').val();
-      if(history != myId){
-        // Reset History
-        history_target = $('#history_target_scale').val();
-        history_value = $('#r'+history_target).val();
-        $('#'+history_target).val(history_value);
-        $('#'+history_target).css("border","");
-        // Make New History
-        $('#history_target_scale').val(myId);
+  } 
+	var akhir= ('#Serving');
+	var i = {{ $no }};
+    var total= 0;
+    for(y=1;y<=i;y++){
+      serving = parseFloat($('#Serving'+y).val());
+      cek_serving = $('#Serving'+y).val();
+        if(cek_serving == ''){
+          serving = 0;
+        }
+      total = total + serving;
+            console.log(total);
       }
-    }else{
-      $('#'+myId).css("border", "");
-      // Reset The Target
-      $('#scale_method').val("Z");
-      $('#target_scale').val('');
-      $('#target_number').val('');
-    }                               
-  }
-        
-  // KEYUP SCALE SERVING
-  function jsServing(myId){
-    var urutan = myId.substring(8);
-    x = $('#sServing'+urutan).val();
-    y = $('#rsServing'+urutan).val();
-    if(x != y ){
-      $('#'+myId).css("border", "1px solid cyan");
-      // Get The Target
-      $('#scale_method').val("B");
-      var name = $('#'+myId).val();
-      var ftid = $('#'+'ftid'+urutan).val();
-      $('#target_scale').val(name);
-      $('#target_number').val(ftid);
-      //Checking History
-      var history = $('#history_target_scale').val();
-      if(history != myId){
-        // Reset History
-        history_target = $('#history_target_scale').val();
-        history_value = $('#r'+history_target).val();
-        $('#'+history_target).val(history_value);
-        $('#'+history_target).css("border","");
-        // Make New History
-        $('#history_target_scale').val(myId);
-      }
-    }else{
-      $('#'+myId).css("border", "");
-      // Reset The Target
-      $('#scale_method').val("Z");
-      $('#target_scale').val('');
-      $('#target_number').val('');
-    }
-  }
-
-  // KEYUP JUMLAH SCALE BATCH
-  function cjsBatch(myId){
-    x = $('#jsBatch').val();
-    y = $('#rjsBatch').val();
-    if(x != y ){
-      $('#'+myId).css("border", "1px solid red");
-      // Get The Target
-      $('#scale_method').val("D");
-      var name = $('#'+myId).val();
-      $('#target_scale').val(name);
-      $('#target_number').val("");
-      //Checking History
-      var history = $('#history_target_scale').val();
-      if(history != myId){
-        // Reset History
-        history_target = $('#history_target_scale').val();
-        history_value = $('#r'+history_target).val();
-        $('#'+history_target).val(history_value);
-        $('#'+history_target).css("border","");
-        // Make New History
-        $('#history_target_scale').val(myId);
-      }    
-    }else{
-      $('#'+myId).css("border", "");
-      // Reset The Target
-      $('#scale_method').val("Z");
-      $('#target_scale').val('');
-      $('#target_number').val('');
-    }
-  }
-
-  // KEYUP JUMLAH SCALE SERVING
-  function cjsServing(myId){
-  	x = $('#jsServing').val();
-  	y = $('#rjsServing').val();
-  	if(x != y ){
-      $('#'+myId).css("border", "1px solid red");
-      // Get The Target
-      $('#scale_method').val("A");
-      var name = $('#'+myId).val();
-      $('#target_scale').val(name);
-      $('#target_number').val("");
-      //Checking History
-      var history = $('#history_target_scale').val();
-      if(history != myId){
-        // Reset History
-        history_target = $('#history_target_scale').val();
-        history_value = $('#r'+history_target).val();
-        $('#'+history_target).val(history_value);
-        $('#'+history_target).css("border","");
-        // Make New History
-        $('#history_target_scale').val(myId);
-      }
-    }else{
-      $('#'+myId).css("border", "");
-      // Reset The Target
-      $('#scale_method').val("Z");
-      $('#target_scale').val('');
-      $('#target_number').val('');
-    }
-  }
-
-  // BASE PERHITUNGAN FUNCTION-----------------------------
-  function BASE(myId){
-    var thebase = $('#'+myId).val();
-    $('#thebase').val(thebase);
-    x = $('#'+myId).val();
-    y = $('#rBase').val();
-    if(x != y ){
-      $('#'+myId).css("border", "1px solid cyan");
-      var name = $('#'+myId).attr('name');                    
-    }else{
-      $('#'+myId).css("border", "");
-    }
-  }
-  
-  /* The Button */  
-  $("#buttongantibase").click( function() {            
-    if(confirm("Ganti Base Perhitungan?")){
-      x = $('#base').val();
-      y = $('#rBase').val();
-      if(x != y ){
-        $('#formgantibase').submit();
-        return false;                  
-      }else{
-        alert('Maaf Base Belum Diganti');
-        return false;
-      }                
-    }else{
-      return false;
-    }            
-  });    
-
-  // CHECK SCALE BUTTON ------------------------------
-  $('#buttonformcheckscale').click( function(){
-    if(confirm("Check Scale ?")){
-      var check = $('#scale_method').val();
-      if(check == 'Z'){
-        alert('Anda Belum Memilih Target Scale');
-        return false
-      }else{
-        $('#formcheckscale').submit();
-        return false;
-      }                
-    }else{
-      return false;
-    }
-  });
-
-  // SAVE SCALE BUTTON ----------------        
-  $('#buttonformsavescale').click( function(){
-    if(confirm("Simpan Scale ?")){
-    var check = $('#justcheckscale').val();
-      if(check != ''){
-        $('#formsavescale').submit();
-        return false;
-      }else{
-        alert('Maaf Scale Kosong !');
-        return false;
-      }                   
-    }else{
-      return false;
-    }
-  });
-
   // FORM SAVE CHANGES ------
   $('#buttonformsavechanges').click( function(){
-    if(confirm("Simpan Perubahan Serving ?")){
-      $('#formsavechanges').submit();
-      return false;               
-    }else{
-      return false;
+		var target = parseFloat($('#tServing').val());
+    var total= 0;
+		for(y=1;y<=i;y++){
+      serving = parseFloat($('#Serving'+y).val());
+      cek_serving = $('#Serving'+y).val();
+        if(cek_serving == ''){
+          serving = 0;
+        }
+      total = total + serving;
+            console.log(total);
     }
-  });
-</script>
-
-<script type="text/javascript">
-  $(document).ready(function(){
-    var ckbox = $('#cbase');
-    $('#cbase').on('click',function () {
-      if (ckbox.is(':checked')) {
-        $('#per_batch').removeAttr('disabled');
-        $('#per_batch').prop('required',true);;
-      } else {
-        $('#per_batch').attr('disabled','disabled');
-        $('#per_batch').prop('required',false);
-      }
-    });
-
-    $('#prioritas').on('change', function(){
-      var myId = $(this).val();
-      if(myId){
-        $.ajax({
-          url: '{{URL::to('getAlternatif')}}/'+myId,
-          type: "GET",
-          dataType: "json",
-          beforeSend: function(){
-            $('#loader').css("visibility", "visible");
-          },
-
-          success:function(data){
-            $('#alternatif').empty();
-            $('#alternatif2').empty();
-            $('#alternatif3').empty();
-            $('#alternatif4').empty();
-            $('#alternatif5').empty();
-            $('#alternatif6').empty();
-            $('#alternatif7').empty();
-
-            $.each(data, function(key, value){
-              $('#alternatif').append('<option value="'+ key +'">' + value + '</option>');
-              $('#alternatif2').append('<option value="'+ key +'">' + value + '</option>');
-              $('#alternatif3').append('<option value="'+ key +'">' + value + '</option>');
-              $('#alternatif4').append('<option value="'+ key +'">' + value + '</option>');
-              $('#alternatif5').append('<option value="'+ key +'">' + value + '</option>');
-              $('#alternatif6').append('<option value="'+ key +'">' + value + '</option>');
-              $('#alternatif7').append('<option value="'+ key +'">' + value + '</option>');
-            });
-          },
-          complete: function(){
-            $('#loader').css("visibility","hidden");
-          }
-        });
-      }else{
-        $('#alternatif').empty();
-        $('#alternatif2').empty();
-        $('#alternatif3').empty();
-        $('#alternatif4').empty();
-        $('#alternatif5').empty();
-        $('#alternatif6').empty();
-        $('#alternatif7').empty();
-      }           
-    });
+		if(target==total){
+			if(confirm("Simpan Perubahan data?")){
+				$('#formsavechanges').submit();
+				return false;               
+			}else{
+				return false;
+			}
+		}else{
+			if(confirm("Total Serving tidak sesuai target! yakin akan merubah data?")){
+				$('#formsavechanges').submit();
+				return false;               
+			}else{
+				return false;
+			}
+		}
   });
 </script>
 
@@ -1964,6 +2205,30 @@
   // PKP
   $("#checkAllpkp1").change(function () {
     $(".data1").prop('checked', $(this).prop("checked"));
+  });
+  // Header ALl
+  $("#checkbahan").change(function () {
+    $(".data1").prop('checked', $(this).prop("checked"));
+  });
+  // Header makro
+  $("#checkmakro").change(function () {
+    $(".makro").prop('checked', $(this).prop("checked"));
+  });
+  // Header vitamin
+  $("#checkvitamin").change(function () {
+    $(".vitamin").prop('checked', $(this).prop("checked"));
+  });
+  // Header mineral
+  $("#checkmineral").change(function () {
+    $(".mineral").prop('checked', $(this).prop("checked"));
+  });
+  // Header asam
+  $("#checkasam").change(function () {
+    $(".asam").prop('checked', $(this).prop("checked"));
+  });
+  // Bahan
+  $("#bahan2").change(function () {
+    $(".cekbox1").prop('checked', $(this).prop("checked"));
   });
 </script>
 @endsection

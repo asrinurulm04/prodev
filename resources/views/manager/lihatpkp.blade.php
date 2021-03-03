@@ -155,56 +155,38 @@
                       </tr>
                       <tr>
                         <th>Sales Forecast</th>
-                        <td>
-                          <table class="table table-bordered table-hover">
-                            <thead>
-                              <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
-                                <th>Forecash</th>
-                                <th>Configuration</th>
-                                <th colspan="2" class="text-center">UOM</th>
-                                <th>NFI Price</th>
-                                <th>Costumer Price</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              @foreach($for as $for)
-                              <tr>
-                                <td>{{$for->satuan}} = <?php $angka_format = number_format($for->forecast,2,",","."); echo "Rp. ".$angka_format;?></td>
-                                <td>
-                                @if($for->kemas_eksis!=NULL)
-                                (
-                                @if($for->kemas->tersier!=NULL)
-                                {{ $for->kemas->tersier }}{{ $for->kemas->s_tersier }}
-                                @elseif($for->tersier==NULL)
-                                @endif
-
-                                @if($for->kemas->sekunder1!=NULL)
-                                X {{ $for->kemas->sekunder1 }}{{ $for->kemas->s_sekunder1}}
-                                @elseif($for->kemas->sekunder1==NULL)
-                                @endif
-
-                                @if($for->kemas->sekunder2!=NULL)
-                                X {{ $for->kemas->sekunder2 }}{{ $for->kemas->s_sekunder2 }}
-                                @elseif($for->sekunder2==NULL)
-                                @endif
-
-                                @if($for->kemas->primer!=NULL)
-                                X{{ $for->kemas->primer }}{{ $for->kemas->s_primer }}
-                                @elseif($for->kemas->primer==NULL)
-                                @endif
-                                )
-                                @endif
-                                </td>
-                                <td class="text-center">{{$for->jlh_uom}}</td>
-                                <td class="text-center">{{$for->uom}}</td>
-                                <td><?php $angka_format = number_format($for->nfi_price,2,",","."); echo "Rp. ".$angka_format;?></td>
-                                <td><?php $angka_format = number_format($for->costumer,2,",","."); echo "Rp. ".$angka_format;?></td>
-                              </tr>
-                              @endforeach
-                            </tbody>
+                        <td colspan="2"><?php $seles = []; foreach ($for as $key => $data) If (!$seles || !in_array($data->forecast, $seles)) { $seles += array( $key => $data->forecast ); 
+                        if($data->forecast!=null){ echo"Rp. ". number_format($data->forecast, 0, ".", "."). " ($data->satuan)  <br>"; } } ?>
+                      <br>
+                        <?php $remarks_forecash = []; foreach ($for as $key => $data) If (!$remarks_forecash || !in_array($data->remarks_forecash, $remarks_forecash)) { $remarks_forecash += array( $key => $data->remarks_forecash ); 
+                        if($data->revisi!=$pkp->revisi){ echo"Remarks forecast: <s><font color='#6594c5'>$data->remarks_forecash<br></font></s>"; } if($data->revisi==$pkp->revisi){ echo"Remarks forecast: $data->remarks_forecash <br>";  } } ?></td>
+                      </tr>
+											<tr>
+                        <td>NF Selling Price (Before ppn)</td>
+                        <td colspan="2">
+                          <table>
+                            <tr>
+                              <td>
+                                <?php $selling_price = []; foreach ($pkp1 as $key => $data) If (!$selling_price || !in_array($data->selling_price, $selling_price)) { $selling_price += array( $key => $data->selling_price ); 
+                                if($data->revisi!=$pkp->revisi){ echo" <s><font color='#6594c5'>Rp. ". number_format($data->selling_price, 0, ".", "."). " <br></font></s>"; } if($data->revisi==$pkp->revisi){ echo"Rp. ". number_format($data->selling_price, 0, ".", "."). "  <br>"; } }  ?>
+                              </td>
+                            </tr>
                           </table>
                         </td>
                       </tr>
+                      <tr>
+                        <td>Consumer price target</td>
+                        <td colspan="2">
+                          <table>
+                            <tr>
+                              <td>
+                                <?php $price = []; foreach ($pkp1 as $key => $data) If (!$price || !in_array($data->price, $price)) { $price += array( $key => $data->price ); 
+                                if($data->revisi!=$pkp->revisi){ echo" <s><font color='#6594c5'>Rp. ". number_format($data->price, 0, ".", "."). " <br></font></s>"; } if($data->revisi==$pkp->revisi){ echo"Rp. ". number_format($data->price, 0, ".", "."). " <br>"; } } ?>
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+											</tr>
                       <tr class="table-highlight">
                         <th>Competitive Analysis</th>
                         <td colspan="2"><?php $competitive = []; foreach ($pkp1 as $key => $data) If (!$competitive || !in_array($data->competitive, $competitive)) { $competitive += array( $key => $data->competitive ); 

@@ -18,8 +18,8 @@ class TemplateFormulaController extends Controller
 
     public function index($ftujuan,$id){
         $ada= Fortail::where('formula_id',$id)->count();
-        $formulas = Formula::join('pkp_project','pkp_project.id_project','formulas.workbook_id')->orderBy('pkp_number','asc')->orderBy('versi','asc')->get();
-        $formulas_pdf = Formula::join('pdf_project','pdf_project.id_project_pdf','formulas.workbook_pdf_id')->orderBy('pdf_number','asc')->orderBy('versi','asc')->get();
+        $formulas = Formula::join('tr_project_pkp','tr_project_pkp.id_project','tr_formulas.workbook_id')->orderBy('pkp_number','asc')->orderBy('versi','asc')->get();
+        $formulas_pdf = Formula::join('tr_pdf_project','tr_pdf_project.id_project_pdf','tr_formulas.workbook_pdf_id')->orderBy('pdf_number','asc')->orderBy('versi','asc')->get();
         return view('devwb.template')->with([
             'ada' => $ada,
             'formulas' => $formulas,
@@ -59,7 +59,6 @@ class TemplateFormulaController extends Controller
                 $fortails->nama_bahan7 = $tfortail->nama_bahan7 ;
                 $fortails->per_batch = $tfortail->per_batch ;
                 $fortails->per_serving = $tfortail->per_serving ;
-                $fortails->jenis_timbangan = $tfortail->jenis_timbangan ;
                 $fortails->bahan_baku = $tfortail->bahan_baku ;
                 $fortails->alternatif1 = $tfortail->alternatif1 ;
                 $fortails->alternatif2 = $tfortail->alternatif2 ;

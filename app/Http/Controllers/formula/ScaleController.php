@@ -405,5 +405,48 @@ class ScaleController extends Controller
         $formula->save();
 
         return redirect::back()->with('status','Serving Berhasil Tersimpan');
-    }    
+    }   
+
+    public function savechanges2($idf,Request $request){
+        $jFortail       = $request->jFortail;
+        $total_batch    = 0;
+        $total_serving  = 0;
+        $formula = Formula::where('id',$idf)->first();
+        $wb = $formula->workbook_id;
+        // Get Base
+        $base  = $formula->batch / $formula->serving;
+        for($i=1;$i<=$jFortail;$i++){
+            // Collect Needed Value
+            $id        = $request->ftid[$i];            
+            $Serving   = $request->Serving[$i];
+            $Batch     = $Serving * $base; 
+
+            // Start Updating
+            $myFortail  = Fortail::where('id',$id)->first();
+            $myFortail->per_batch   = $Batch;
+            $myFortail->per_serving = $Serving;
+            $myFortail->save();
+            
+            $total_batch    = $total_batch + $Batch;
+            $total_serving  = $total_serving + $Serving;
+        }
+        
+        // Edit Formula
+        $formula->serving_size   = $total_serving;
+        $formula->batch   = $total_batch;
+        $formula->serving = $total_serving;
+        $formula->save();
+
+        return redirect::back()->with('status','Serving Berhasil Tersimpan');
+    }  
+    
+    public function savedosis($idf,Request $request){
+        $formula = Formula::where('id',$idf)->first();
+        $formula->pangan   = $request->katpang;
+        $formula->batas_air = $request->batas;
+        $formula->saran_saji=$request->saran;
+        $formula->save();
+
+        return redirect::back()->with('status','Data Berhasil ter-Update');
+    }  
 }

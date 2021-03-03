@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class promo extends Model
 {
-    protected $table = 'pkp_promo';
+    protected $table = 'tr_project_promo';
     protected $primaryKey ='id_pkp_promo';
 
     public function departement(){
@@ -23,10 +23,6 @@ class promo extends Model
 
     public function author1(){
         return $this->hasOne('App\model\users\User','id','Author');
-    }
-
-    public function perevisi1(){
-        return $this->hasOne('App\model\users\User','id','perevisi');
     }
 
     public function not(){

@@ -13,7 +13,7 @@ class CreateTableBrand extends Migration
      */
     public function up()
     {
-        Schema::create('brands', function (Blueprint $table) {
+        Schema::create('ms_brands', function (Blueprint $table) {
           $table->increments('id');
           $table->string('brand');
           $table->timestamps();
@@ -27,6 +27,6 @@ class CreateTableBrand extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('brands');
+        Schema::dropIfExists('ms_brands');
     }
 }

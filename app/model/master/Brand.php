@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Brand extends Model
 {
-    protected $table ='brands';
+    protected $table ='ms_brands';
     protected $primaryKey ='id';
 
     public function Subbrand(){

@@ -13,7 +13,7 @@ class CreateTarkonsTable extends Migration
      */
     public function up()
     {
-        Schema::create('tarkons', function (Blueprint $table) {
+        Schema::create('ms_tarkons', function (Blueprint $table) {
             $table->increments('id_tarkon');
             $table->string('tarkons');
             $table->timestamps();
@@ -27,6 +27,6 @@ class CreateTarkonsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tarkons');
+        Schema::dropIfExists('ms_tarkons');
     }
 }

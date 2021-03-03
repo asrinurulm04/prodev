@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class ses extends Model
 {
-    protected $table = 'ses';
+    protected $table = 'ms_ses';
 }

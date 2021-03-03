@@ -89,7 +89,7 @@
             <th>PDF Number</th>
             <th>Project Name</th>
             <th>Brand</th>
-            <th>PV</th>
+            <th width="13%">PV</th>
             <th class="text-center">Priority</th>
             <th class="text-center">Prototype Sample submission status</th>
             <th width="15%" class="text-center">Action</th>

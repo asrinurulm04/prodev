@@ -73,17 +73,21 @@ class Email extends Controller
     public function emailpdf(Request $request,$id_project_pdf,$revisi, $turunan){
         $datapdf = coba::where('pdf_id',$id_project_pdf)->count();
         $pdf1 = coba::where('pdf_id',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->get();
-        $pdf = project_pdf::join('tipu','tipu.pdf_id','=','pdf_project.id_project_pdf')->where('id_project_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->get();
+        $pdf = project_pdf::join('tr_sub_pdf','tr_sub_pdf.pdf_id','=','tr_pdf_project.id_project_pdf')->where('id_project_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->get();
         $id_pdf = coba::where([ ['pdf_id',$id_project_pdf], ['revisi',$revisi], ['turunan',$turunan] ])->first();
-        $for = data_forecast::where('id_pdf',$id_pdf->id)->get();
+        $for = data_forecast::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->get();
         $ses = data_ses::where([ ['id_pdf',$id_project_pdf], ['revisi',$revisi], ['turunan',$turunan] ])->get();
         $picture = picture::where('pdf_id',$id_project_pdf)->where('revisi','<=',$revisi)->where('turunan','<=',$turunan)->get();
         $kemaspdf = kemaspdf::where('id_pdf',$id_project_pdf)->where('revisi','=',$revisi)->where('turunan','=',$turunan)->get();
+        $dataklaim = data_klaim::where('id_pdf',$id_project_pdf)->join('ms_klaim','ms_klaim.id','=','id_klaim')->where('revisi',$revisi)->where('turunan',$turunan)->get();
+        $datadetail = data_detail_klaim::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->get();
         $hitungkemaspdf = kemaspdf::where('id_pdf',$id_project_pdf)->where('revisi','=',$revisi)->where('turunan','=',$turunan)->count();
         try{
             Mail::send('pv.pdfemail', [
                 'pdf' => $pdf,
                 'pdf1' => $pdf1,
+                'datadetail' => $datadetail,
+                'dataklaim' => $dataklaim,
                 'datases' => $ses,
                 'for' => $for,
                 'datapdf' => $datapdf,
@@ -117,7 +121,7 @@ class Email extends Controller
     }
 
     public function emailpromo(Request $request,$id_pkp_promo,$revisi, $turunan){
-        $promoo = data_promo::join('pkp_promo','isi_promo.id_pkp_promoo','=','pkp_promo.id_pkp_promo')->where([ ['id_pkp_promo',$id_pkp_promo], ['revisi',$revisi], ['turunan',$turunan]])->get();
+        $promoo = data_promo::join('tr_project_promo','tr_promo.id_pkp_promoo','=','tr_project_promo.id_pkp_promo')->where([ ['id_pkp_promo',$id_pkp_promo], ['revisi',$revisi], ['turunan',$turunan]])->get();
         
         $promo1 = data_promo::where('id_pkp_promoo',$id_pkp_promo)->where('revisi',$revisi)->where('turunan',$turunan)->get();
         $app = product_allocation::where('id_pkp_promo',$id_pkp_promo)->where('revisi',$revisi)->where('turunan',$turunan)->get();
@@ -167,8 +171,8 @@ class Email extends Controller
         $pkp = pkp_project::where('id_project',$id_project)->get();
         $id_pkp = tipp::where([ ['id_pkp',$id_project], ['revisi',$revisi], ['turunan',$turunan] ])->first();
         $for = data_forecast::where('id_pkp',$id_pkp->id)->get();
-        $dataklaim = data_klaim::where('id_pkp',$id_project)->join('klaim','klaim.id','=','id_klaim')->where('revisi',$revisi)->where('turunan',$turunan)->get();
-        $pkpp = tipp::join('pkp_project','tippu.id_pkp','=','pkp_project.id_project')->where([ ['id_pkp',$id_project], ['revisi',$revisi], ['turunan',$turunan] ])->get();
+        $dataklaim = data_klaim::where('id_pkp',$id_project)->join('ms_klaim','ms_klaim.id','=','id_klaim')->where('revisi',$revisi)->where('turunan',$turunan)->get();
+        $pkpp = tipp::join('tr_project_pkp','tr_sub_pkp.id_pkp','=','tr_project_pkp.id_project')->where([ ['id_pkp',$id_project], ['revisi',$revisi], ['turunan',$turunan] ])->get();
         $ses= data_ses::where([ ['id_pkp',$id_project], ['revisi','<=',$revisi], ['turunan','<=',$turunan] ])->orderBy('revisi','desc')->orderBy('turunan','desc')->get();
         $max = tipp::where('id_pkp',$id_project)->max('turunan');
         $pkp1 = tipp::where('id_pkp',$id_project)->where('revisi',$revisi)->where('turunan',$turunan)->orderBy('turunan','desc')->orderBy('revisi','desc')->get();
@@ -233,7 +237,7 @@ class Email extends Controller
                 //$message->from('app.prodev@nutrifood.co.id', 'Admin PRODEV');
                 $pkp = tipp::where('id_pkp',$id_project)->where('status_data','=','active')->get();
                 foreach($pkp as $pkp){
-                    $user = DB::table('users')->where('id',$pkp->perevisi)->get();
+                    $user = DB::table('tr_users')->where('id',$pkp->perevisi)->get();
                     foreach($user as $user){
                         $data = $user->email;
                         $message->to($data);
@@ -271,7 +275,7 @@ class Email extends Controller
                 //$message->from('app.prodev@nutrifood.co.id', 'Admin PRODEV');
                 $pkp = tipp::where('id_pkp',$id_project)->where('status_data','=','active')->get();
                 foreach($pkp as $pkp){
-                    $user = DB::table('users')->where('id',$pkp->perevisi)->get();
+                    $user = DB::table('tr_users')->where('id',$pkp->perevisi)->get();
                     foreach($user as $user){
                         $data = $user->email;
                         $message->to($data);
@@ -302,7 +306,7 @@ class Email extends Controller
                 //$message->from('app.prodev@nutrifood.co.id', 'Admin PRODEV');
                 $pdf = coba::where('pdf_id',$id_project_pdf)->where('status_pdf','=','active')->get();
                 foreach($pdf as $pdf){
-                    $user = DB::table('users')->where('id',$pdf->perevisi)->get();
+                    $user = DB::table('tr_users')->where('id',$pdf->perevisi)->get();
                     foreach($user as $user){
                         $data = $user->email;
                         $message->to($data);
@@ -340,7 +344,7 @@ class Email extends Controller
                 //$message->from('app.prodev@nutrifood.co.id', 'Admin PRODEV');
                 $pdf = coba::where('pdf_id',$id_project_pdf)->where('status_pdf','=','active')->get();
                 foreach($pdf as $pdf){
-                    $user = DB::table('users')->where('id',$pdf->perevisi)->get();
+                    $user = DB::table('tr_users')->where('id',$pdf->perevisi)->get();
                     foreach($user as $user){
                         $data = $user->email;
                         $message->to($data);
@@ -370,7 +374,7 @@ class Email extends Controller
                 //$message->from('app.prodev@nutrifood.co.id', 'Admin PRODEV');
                 $promo = data_promo::where('id_pkp_promoo',$id_pkp_promo)->where('status_data','=','active')->get();
                 foreach($promo as $promo){
-                    $user = DB::table('users')->where('id',$promo->perevisi)->get();
+                    $user = DB::table('tr_users')->where('id',$promo->perevisi)->get();
                     foreach($user as $user){
                         $data = $user->email;
                         $message->to($data);

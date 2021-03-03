@@ -54,7 +54,7 @@
         <div class="x_content">
           <div class="col-md-12 col-xs-12">
 						<div class="form-group">
-							<div class="col-md-12 col-sm-12 col-xs-12"  style="overflow-x: scroll;">
+							<div class="col-md-12 col-sm-12 col-xs-12">
   							<form class="form-horizontal form-label-left" method="POST" action="{{Route('allocation')}}"> 
 								<br>
 								@foreach($promo as $promo)

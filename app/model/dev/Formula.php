@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Formula extends Model
 {
-    protected $table = 'formulas';
+    protected $table = 'tr_formulas';
 
     public function Workbook(){
         return $this->belongsTo('App\model\pkp\tipp','workbook_id','id_pkp');
@@ -20,6 +20,10 @@ class Formula extends Model
         return $this->hasMany('App\model\dev\Fortail');
     }
 
+    public function katpang(){
+        return $this->hasOne('App\model\dev\ms_cemaran_ceklis','id_cemaran_ceklis','pangan');
+    }
+    
     public function Brand(){
         return $this->belongsTo('App\model\master\Brand');
     }

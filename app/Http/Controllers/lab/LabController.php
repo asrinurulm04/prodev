@@ -50,9 +50,9 @@ class LabController extends Controller
         $count_lab = Dlab::where('id_feasibility',$id_feasibility)->count();
         $Jlab = Dlab::where('id_feasibility',$id_feasibility)->sum('rate');
         $lab2 = DB::table('formulas')
-            ->join('tippu','tippu.id','=','formulas.workbook_id')
-            ->join('fs_kategori_pangan','fs_kategori_pangan.id_pangan','=','tippu.bpom')
-            ->join('fs_jenismikroba','fs_kategori_pangan.no_kategori','=','fs_jenismikroba.no_kategori')
+            ->join('tr_sub_pkp','tr_sub_pkp.id','=','tr_formulas.workbook_id')
+            ->join('ms_kategori_pangan','ms_kategori_pangan.id_pangan','=','tr_sub_pkp.bpom')
+            ->join('ms_jenis_mikroba','ms_jenis_mikroba.no_kategori','=','ms_kategori_pangan.no_kategori')
             ->where('formulas.id',$id)->get();
         $cek_lab =Dlab::where('id_feasibility',$id_feasibility)->count();
         return view('lab.datalab',['fe'=>$fe])->with([

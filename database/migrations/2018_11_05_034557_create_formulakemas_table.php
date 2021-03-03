@@ -13,7 +13,7 @@ class CreateFormulakemasTable extends Migration
      */
     public function up()
     {
-        Schema::create('fs_formula_kemas', function (Blueprint $table) {
+        Schema::create('tr_formula_kemas', function (Blueprint $table) {
             $table->increments('id_fk');
             $table->integer('id_feasibility')->default('0');
             $table->text('nama_sku')->nullable();
@@ -66,6 +66,6 @@ class CreateFormulakemasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('fs_formula_kemas');
+        Schema::dropIfExists('tr_formula_kemas');
     }
 }

@@ -84,15 +84,15 @@
                 @elseif($pkp->status_project=='revisi')
                 The Project in the revised proses
                 @elseif($pkp->status_project=='proses')
-                @if($pkp->userpenerima!=NULL)
-                Sent to ({{$pkp->users->name}})
-                @elseif($pkp->userpenerima==NULL)
-                @if($pkp->status_terima=='proses')
-                New PKP
-                @elseif($pkp->status_terima=='terima')
-                Approve
-                @endif
-                @endif
+                  @if($pkp->userpenerima!=NULL)
+                  Sent to ({{$pkp->users1->name}})
+                  @elseif($pkp->userpenerima==NULL)
+                    @if($pkp->status_terima=='proses')
+                    New PKP
+                    @elseif($pkp->status_terima=='terima')
+                    Approve
+                    @endif
+                  @endif
                 @elseif($pkp->status_project=='close')
                 Project has finished
                 @endif
@@ -105,10 +105,10 @@
                {{$pkp->departement->dept}}
               @elseif($pkp->tujuankirim2=='1')
                 @if($pkp->tujuankirim!='1')
-               {{$pkp->departement->dept}} & {{$pkp->departement2->dept}}
-               @elseif($pkp->tujuankirim=='1')
-               {{$pkp->departement2->dept}}
-               @endif
+                {{$pkp->departement->dept}} & {{$pkp->departement2->dept}}
+                @elseif($pkp->tujuankirim=='1')
+                {{$pkp->departement2->dept}}
+                @endif
               @endif
             </td>
             <td class="text-center">
@@ -165,8 +165,7 @@
                         <form class="form-horizontal form-label-left" method="POST" action="{{ Route('ubahTMpkp',$pkp->id_project)}}" novalidate>
                         <div class="row x_panel"><textarea name="" disabled class="col-md-12 col-sm-10 col-xs-12 text-center" rows="3" style="color:red;">{{$pkp->note_freeze}}</textarea><br><br>
                         <br><br><br>
-                         <label style="">Timeline sending sample : {{$pkp->jangka}} To {{$pkp->waktu}}
-                          <br>
+                         <label style="">Timeline sending sample : {{$pkp->jangka}} To {{$pkp->waktu}}<br>
                           <?php
                             $awal  = date_create( $pkp->waktu );
                             $akhir = date_create(); // waktu sekarang
@@ -185,9 +184,9 @@
                             @if($pkp->status_project!='revisi')
                             @elseif($pkp->status_project=='revisi')
                             <h3><span class="label label-danger" style="color:white">RD subbmitted a revision for this project</span></h3>
-                           @endif
-                           <input type="hidden" name="lamafreeze" value="Revisi Timeline (Date of data freezeing : {{$pkp->waktu_freeze}})">
-                           <input type="hidden" value="{{$pkp->id_project}}" name="pkp" id="pkp">
+                            @endif
+                          <input type="hidden" name="lamafreeze" value="Revisi Timeline (Date of data freezeing : {{$pkp->waktu_freeze}})">
+                          <input type="hidden" value="{{$pkp->id_project}}" name="pkp" id="pkp">
                         </div>
                         <div class="modal-footer">
                           @if($pkp->status_project!='revisi')

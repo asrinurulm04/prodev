@@ -13,7 +13,7 @@ class CreateDatamesinTable extends Migration
      */
     public function up()
     {
-        Schema::create('fs_datamesin', function (Blueprint $table) {
+        Schema::create('ms_mesin', function (Blueprint $table) {
             $table->increments('id_data_mesin');
             $table->enum('workcenter', ['ciawi', 'sentul', 'cibitung','maklon']);
             $table->enum('gedung', ['CIAWI_GD H','CIAWI_GD A','CIAWI_GD D','CIBITUNG_PROD NS','CIBITUNG_PROD DAIRY','SENTUL_PROD SENTUL']);
@@ -36,6 +36,6 @@ class CreateDatamesinTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('fs_datamesin');
+        Schema::dropIfExists('ms_mesin');
     }
 }

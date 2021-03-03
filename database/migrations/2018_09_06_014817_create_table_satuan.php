@@ -13,7 +13,7 @@ class CreateTableSatuan extends Migration
      */
     public function up()
     {
-        Schema::create('satuans', function (Blueprint $table) {
+        Schema::create('ms_satuans', function (Blueprint $table) {
             $table->increments('id');
             $table->string('satuan');
             $table->timestamps();
@@ -27,6 +27,6 @@ class CreateTableSatuan extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('satuans');
+        Schema::dropIfExists('ms_satuans');
     }
 }

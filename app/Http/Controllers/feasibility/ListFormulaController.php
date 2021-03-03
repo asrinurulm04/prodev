@@ -17,7 +17,7 @@ class ListFormulaController extends Controller
     }
 
     public function index(){
-        $formulas = tipp::where('status_data','active')->join('fs_finance','fs_finance.id_formula','=','tippu.id_pkp')->get();
+        $formulas = tipp::where('status_data','active')->join('tr_feasibility','tr_feasibility.id_formula','=','tr_sub_pkp.id_pkp')->get();
         return view('feasibility.formula')->with([
             'formulas' => $formulas
         ]);

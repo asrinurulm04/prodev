@@ -6,6 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class komponen extends Model
 {
-    protected $table = 'komponen';
+    protected $table = 'ms_komponen';
     protected $primaryKey ='id';
 }

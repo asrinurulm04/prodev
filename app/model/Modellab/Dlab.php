@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Dlab extends Model
 {
-    protected $table ='fs_lab';
+    protected $table ='tr_lab';
     protected $primaryKey ='id_lab';
     protected $fillable =['id_feasibility','no_kategori','jenis_mikroba','kode_analisa','tahunan','harian','status','rate'];
 

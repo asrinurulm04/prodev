@@ -13,14 +13,16 @@ class CreateMikrobaTable extends Migration
      */
     public function up()
     {
-        Schema::create('fs_jenismikroba', function (Blueprint $table) {
+        Schema::create('ms_jenis_mikroba', function (Blueprint $table) {
             $table->increments('id_mikroba');
-            $table->string('no_kategori',11);
+            $table->integer('id_pangan');
+            $table->string('no',11);
             $table->string('jenis_mikroba',225);
             $table->string('n',150);
             $table->string('c',150);
             $table->text('mk');
             $table->text('Mb');
+            $table->string('Mb');
             $table->timestamps();
         });
     }
@@ -32,6 +34,6 @@ class CreateMikrobaTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('fs_jenismikroba');
+        Schema::dropIfExists('ms_jenis_mikroba');
     }
 }

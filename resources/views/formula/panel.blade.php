@@ -163,9 +163,9 @@
               <td>{{ $pn->kesimpulan }}</td>
               <td width="15%" class="text-center">
                 @if($pn->status=='proses')
-                @if($pn->id_wb!=NULL)
+                @if($pn->id_wb!='NULL')
                 <a href="{{ route('ajukanpanel',[$pn->id_formula,$pn->id]) }}" class="btn btn-sm btn-primary" title="Done"><li class="fa fa-check"></li></a>
-                @elseif($pn->id_wb_pdf!=NULL)
+                @elseif($pn->id_wb_pdf!='NULL')
                 <a href="{{ route('ajukanpanel',[$pn->id_formula,$pn->id]) }}" class="btn btn-sm btn-primary" title="Done"><li class="fa fa-check"></li></a>
                 @endif
                 <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#edit{{$pn->id}}" title="Edit"><li class=" fa fa-edit"></li></button>
@@ -211,7 +211,7 @@
                           <div class="ln_solid"></div>
                           <div class="form-group">
                             <div class="col-md-6 col-md-offset-3">
-                              <button type="reset" class="btn btn-warning btn-sm"><li class="fa fa-repeat"></li> Reset</button>
+                              <button type="reset" class="btn btn-warning btn-sm"><li class="fa fa-check"></li> Reset</button>
                               <button type="submit" class="btn btn-primary btn-sm"><li class="fa fa-check"></li> Submit</button>
                               {{ csrf_field() }}
                             </div>

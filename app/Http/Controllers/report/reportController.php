@@ -45,9 +45,9 @@ class reportController extends Controller
         $notpdf = notulen::where('note','!=',null)->get();
         $notpromo = notulen::where('note','!=',null)->get();
         $promo = data_promo::max('turunan');
-        $datapkp = tipp::where('status_project','!=','draf') ->join('pkp_project','pkp_project.id_project','=','tippu.id_pkp')->where('status_data','=','active')->orderBy('pkp_number','desc')->get();
-        $datapdf = coba::where('status_project','!=','draf') ->join('pdf_project','pdf_project.id_project_pdf','=','tipu.pdf_id')->where('status_pdf','=','active')->get();
-        $datapromo = promo::where('status_project','!=','draf') ->join('isi_promo','pkp_promo.id_pkp_promo','=','isi_promo.id_pkp_promoo')->where('status_data','=','active')->get();
+        $datapkp = tipp::where('status_project','!=','draf') ->join('tr_project_pkp','tr_project_pkp.id_project','=','tr_sub_pkp.id_pkp')->where('status_data','=','active')->orderBy('pkp_number','desc')->get();
+        $datapdf = coba::where('status_project','!=','draf') ->join('tr_pdf_project','tr_pdf_project.id_project_pdf','=','tr_sub_pdf.pdf_id')->where('status_pdf','=','active')->get();
+        $datapromo = promo::where('status_project','!=','draf') ->join('tr_promo','tr_project_promo.id_pkp_promo','=','tr_promo.id_pkp_promoo')->where('status_data','=','active')->get();
         return view('pv.tabulasi')->with([
             'datapkp' => $datapkp,
             'datapdf' => $datapdf,
@@ -65,9 +65,9 @@ class reportController extends Controller
         $uom = uom::all();
         $par2 = parameter_form::where('user',Auth::user()->id)->limit('1')->get();
         $tarkon = Tarkon::all();
-        $datapkp = pkp_project::where('status_project','!=','draf') ->join('tippu','pkp_project.id_project','=','tippu.id_pkp')
-            ->join('tb_edit','tb_edit.id_pkp','=','pkp_project.id_project')
-            ->join('tb_parameter_form','tb_parameter_form.id_pkp','pkp_project.id_project')->where('id_user',Auth::user()->id)->where('status_data','=','active')->get();
+        $datapkp = pkp_project::where('status_project','!=','draf') ->join('tr_sub_pkp','tr_project_pkp.id_project','=','tr_sub_pkp.id_pkp')
+            ->join('tr_edit','tr_edit.id_pkp','=','tr_project_pkp.id_project')
+            ->join('tr_parameter_form','tr_parameter_form.id_pkp','tr_project_pkp.id_project')->where('id_user',Auth::user()->id)->where('status_data','=','active')->get();
         return view('pv.editpkpall')->with([
             'datapkp' => $datapkp,
             'brand' => $brand,
@@ -79,11 +79,11 @@ class reportController extends Controller
 
     public function reportnotulen(){
         $Npkp = notulen::where('id_pkp','!=',NULL)->where('note','!=',NULL)->orderBy('created_at','desc')->get();
-        $DNpkp = notulen::join('pkp_project','tb_notulen.id_pkp','pkp_project.id_project')->orderBy('prioritas','asc')->select(['id_pkp'])->distinct()->get();
+        $DNpkp = notulen::join('tr_project_pkp','tr_notulen.id_pkp','tr_project_pkp.id_project')->orderBy('prioritas','asc')->select(['id_pkp'])->distinct()->get();
         $Npdf = notulen::where('id_pdf','!=',NULL)->where('note','!=',NULL)->get();
-        $DNpdf = notulen::join('pdf_project','tb_notulen.id_pdf','pdf_project.id_project_pdf')->orderBy('prioritas','asc')->select(['id_pdf'])->distinct()->get();
+        $DNpdf = notulen::join('tr_pdf_project','tr_notulen.id_pdf','tr_pdf_project.id_project_pdf')->orderBy('prioritas','asc')->select(['id_pdf'])->distinct()->get();
         $Npromo = notulen::where('id_promo','!=',NULL)->where('note','!=',NULL)->get();
-        $DNpromo = notulen::join('pkp_promo','tb_notulen.id_promo','pkp_promo.id_pkp_promo')->orderBy('prioritas','asc')->select(['id_promo'])->distinct()->get();
+        $DNpromo = notulen::join('tr_project_promo','tr_notulen.id_promo','tr_project_promo.id_pkp_promo')->orderBy('prioritas','asc')->select(['id_promo'])->distinct()->get();
         return view('pkp.reportnotulen')->with([
             'DNpdf' => $DNpdf,
             'Npdf' => $Npdf,
@@ -116,12 +116,12 @@ class reportController extends Controller
         $type= pkp_type::all();
         $brand = brand::all();
         $par = parameter_form::where('user',Auth::user()->id)->limit('1')->get();
-        $datapdf = project_pdf::where('status_project','!=','draf') ->join('tipu','pdf_project.id_project_pdf','=','tipu.pdf_id')
-            ->join('tb_edit','tb_edit.id_pdf','=','pdf_project.id_project_pdf')
-            ->join('tb_parameter_form','tb_parameter_form.id_pdf','pdf_project.id_project_pdf')->where('id_user',Auth::user()->id)->where('status_pdf','=','active')->get();
-        $datapdf1 = project_pdf::where('status_project','!=','draf') ->join('tipu','pdf_project.id_project_pdf','=','tipu.pdf_id')
-            ->join('tb_edit','tb_edit.id_pdf','=','pdf_project.id_project_pdf')
-            ->join('tb_parameter_form','tb_parameter_form.id_pdf','pdf_project.id_project_pdf')->where('id_user',Auth::user()->id)->where('status_pdf','=','active')->get();
+        $datapdf = project_pdf::where('status_project','!=','draf') ->join('tr_sub_pdf','tr_pdf_project.id_project_pdf','=','tr_sub_pdf.pdf_id')
+            ->join('tr_edit','tr_edit.id_pdf','=','tr_pdf_project.id_project_pdf')
+            ->join('tr_parameter_form','tr_parameter_form.id_pdf','tr_pdf_project.id_project_pdf')->where('id_user',Auth::user()->id)->where('status_pdf','=','active')->get();
+        $datapdf1 = project_pdf::where('status_project','!=','draf') ->join('tr_sub_pdf','tr_pdf_project.id_project_pdf','=','tr_sub_pdf.pdf_id')
+            ->join('tr_edit','tr_edit.id_pdf','=','tr_pdf_project.id_project_pdf')
+            ->join('tr_parameter_form','tr_parameter_form.id_pdf','tr_pdf_project.id_project_pdf')->where('id_user',Auth::user()->id)->where('status_pdf','=','active')->get();
         return view('pv.editpdfall')->with([
             'datapdf' => $datapdf,
             'brand' => $brand,
@@ -134,9 +134,9 @@ class reportController extends Controller
     public function editpromoall(){
         $brand = brand::all();
         $par = parameter_form::where('user',Auth::user()->id)->limit('1')->get();
-        $datapromo = promo::where('status_project','!=','draf') ->join('isi_promo','pkp_promo.id_pkp_promo','=','isi_promo.id_pkp_promoo')
-            ->join('tb_edit','tb_edit.id_promo','=','pkp_promo.id_pkp_promo')->where('id_user',Auth::user()->id)
-            ->join('tb_parameter_form','tb_parameter_form.id_promo','pkp_promo.id_pkp_promo')->where('status_data','=','active')->get();
+        $datapromo = promo::where('status_project','!=','draf') ->join('tr_promo','tr_project_promo.id_pkp_promo','=','tr_promo.id_pkp_promoo')
+            ->join('tr_edit','tr_edit.id_promo','=','tr_project_promo.id_pkp_promo')->where('id_user',Auth::user()->id)
+            ->join('tr_parameter_form','tr_parameter_form.id_promo','tr_project_promo.tr_project_promo')->where('status_data','=','active')->get();
         return view('pv.editpromo')->with([
             'datapromo' => $datapromo,
             'brand' => $brand,
@@ -543,7 +543,7 @@ class reportController extends Controller
     public function notulenpdf(){
         $type= pkp_type::all();
         $brand = brand::all();
-        $datapdf = project_pdf::where('status_project','!=','draf') ->join('tipu','pdf_project.id_project_pdf','=','tipu.pdf_id')->where('status_pdf','=','active')->get();
+        $datapdf = project_pdf::where('status_project','!=','draf') ->join('tr_sub_pdf','tr_pdf_project.id_project_pdf','=','tr_sub_pdf.pdf_id')->where('status_pdf','=','active')->get();
         return view('pdf.notulenpdf')->with([
             'datapdf' => $datapdf,
             'brand' => $brand,
@@ -553,7 +553,7 @@ class reportController extends Controller
 
     public function notulenpkp(){
         $brand = brand::all();
-        $datapkp = tipp::where('status_project','!=','draf') ->join('pkp_project','pkp_project.id_project','=','tippu.id_pkp')->where('status_data','=','active')->get();
+        $datapkp = tipp::where('status_project','!=','draf') ->join('tr_project_pkp','tr_project_pkp.id_project','=','tr_sub_pkp.id_pkp')->where('status_data','=','active')->get();
         return view('pkp.notulen')->with([
             'datapkp' => $datapkp,
             'brand' => $brand
@@ -582,7 +582,7 @@ class reportController extends Controller
     public function indexnotulenpromo(){
         $brand = brand::all();
         $par = parameter_form::where('user',Auth::user()->id)->limit('1')->get();
-        $datapromo = promo::where('status_project','!=','draf') ->join('isi_promo','pkp_promo.id_pkp_promo','=','isi_promo.id_pkp_promoo')->where('status_data','=','active')->get();
+        $datapromo = promo::where('status_project','!=','draf') ->join('tr_promo','tr_project_promo.id_pkp_promo','=','tr_promo.id_pkp_promoo')->where('status_data','=','active')->get();
         return view('promo.notulenpromo')->with([
             'datapromo' => $datapromo,
             'brand' => $brand,
@@ -651,16 +651,16 @@ class reportController extends Controller
         $sent= pkp_project::where('status_project','=','sent')->count();$sent1 = project_pdf::where('status_project','=','sent')->count();$hsent = $sent + $sent1;
         $close = pkp_project::where('status_project','=','close')->count();$close1 = project_pdf::where('status_project','=','close')->count();$hclose = $close + $close1;
 
-        $dhilo1 = pkp_project::where('id_brand','=','Hilo')->join('tippu','tippu.id_pkp','=','pkp_project.id_project')->where('status_data','=','active')->get();$dhilo2 = project_pdf::where('id_brand','=','Hilo')->join('tipu','tipu.pdf_id','=','pdf_project.id_project_pdf')->where('status_pdf','=','active')->get();
-        $dlmen1 = pkp_project::where('id_brand','=','L-Men')->join('tippu','tippu.id_pkp','=','pkp_project.id_project')->where('status_data','=','active')->get();$dlmen2 = project_pdf::where('id_brand','=','L-Men')->join('tipu','tipu.pdf_id','=','pdf_project.id_project_pdf')->where('status_pdf','=','active')->get();
-        $dnr1 = pkp_project::where('id_brand','=','Nutrisari')->join('tippu','tippu.id_pkp','=','pkp_project.id_project')->where('status_data','=','active')->get();$dnr2 = project_pdf::where('id_brand','=','Nutrisari')->join('tipu','tipu.pdf_id','=','pdf_project.id_project_pdf')->where('status_pdf','=','active')->get();
-        $dts1 = pkp_project::where('id_brand','=','Tropicana Slim')->join('tippu','tippu.id_pkp','=','pkp_project.id_project')->where('status_data','=','active')->get();$dts2 = project_pdf::where('id_brand','=','Tropicana Slim')->join('tipu','tipu.pdf_id','=','pdf_project.id_project_pdf')->where('status_pdf','=','active')->get();
-        $dekspor1 = pkp_project::where('id_brand','=','Ekspor')->join('tippu','tippu.id_pkp','=','pkp_project.id_project')->where('status_data','=','active')->get();$dekspor2 = project_pdf::where('id_brand','=','Ekspor')->join('tipu','tipu.pdf_id','=','pdf_project.id_project_pdf')->where('status_pdf','=','active')->get();
-        $ddraf = pkp_project::where('status_project','=','draf')->join('tippu','tippu.id_pkp','=','pkp_project.id_project')->where('status_data','=','active')->get();$ddraf1 = project_pdf::where('status_project','=','draf')->join('tipu','tipu.pdf_id','=','pdf_project.id_project_pdf')->where('status_pdf','=','active')->get();
-        $drevisi = pkp_project::where('status_project','=','revisi')->join('tippu','tippu.id_pkp','=','pkp_project.id_project')->where('status_data','=','active')->get();$drevisi1 = project_pdf::where('status_project','=','revisi')->join('tipu','tipu.pdf_id','=','pdf_project.id_project_pdf')->where('status_pdf','=','active')->get();
-        $dproses = pkp_project::where('status_project','=','proses')->join('tippu','tippu.id_pkp','=','pkp_project.id_project')->where('status_data','=','active')->get();$dproses1 = project_pdf::where('status_project','=','proses')->join('tipu','tipu.pdf_id','=','pdf_project.id_project_pdf')->where('status_pdf','=','active')->get();
-        $dsent= pkp_project::where('status_project','=','sent')->join('tippu','tippu.id_pkp','=','pkp_project.id_project')->where('status_data','=','active')->get();$dsent1 = project_pdf::where('status_project','=','sent')->join('tipu','tipu.pdf_id','=','pdf_project.id_project_pdf')->where('status_pdf','=','active')->get();
-        $dclose = pkp_project::where('status_project','=','close')->join('tippu','tippu.id_pkp','=','pkp_project.id_project')->where('status_data','=','active')->get();$dclose1 = project_pdf::where('status_project','=','close')->join('tipu','tipu.pdf_id','=','pdf_project.id_project_pdf')->where('status_pdf','=','active')->get();
+        $dhilo1 = pkp_project::where('id_brand','=','Hilo')->join('tr_sub_pkp','tr_sub_pkp.id_pkp','=','tr_project_pkp.id_project')->where('status_data','=','active')->get();$dhilo2 = project_pdf::where('id_brand','=','Hilo')->join('tr_sub_pdf','tr_sub_pdf.pdf_id','=','tr_pdf_project.id_project_pdf')->where('status_pdf','=','active')->get();
+        $dlmen1 = pkp_project::where('id_brand','=','L-Men')->join('tr_sub_pkp','tr_sub_pkp.id_pkp','=','tr_project_pkp.id_project')->where('status_data','=','active')->get();$dlmen2 = project_pdf::where('id_brand','=','L-Men')->join('tr_sub_pdf','tr_sub_pdf.pdf_id','=','tr_pdf_project.id_project_pdf')->where('status_pdf','=','active')->get();
+        $dnr1 = pkp_project::where('id_brand','=','Nutrisari')->join('tr_sub_pkp','tr_sub_pkp.id_pkp','=','tr_project_pkp.id_project')->where('status_data','=','active')->get();$dnr2 = project_pdf::where('id_brand','=','Nutrisari')->join('tr_sub_pdf','tr_sub_pdf.pdf_id','=','tr_pdf_project.id_project_pdf')->where('status_pdf','=','active')->get();
+        $dts1 = pkp_project::where('id_brand','=','Tropicana Slim')->join('tr_sub_pkp','tr_sub_pkp.id_pkp','=','tr_project_pkp.id_project')->where('status_data','=','active')->get();$dts2 = project_pdf::where('id_brand','=','Tropicana Slim')->join('tr_sub_pdf','tr_sub_pdf.pdf_id','=','tr_pdf_project.id_project_pdf')->where('status_pdf','=','active')->get();
+        $dekspor1 = pkp_project::where('id_brand','=','Ekspor')->join('tr_sub_pkp','tr_sub_pkp.id_pkp','=','tr_project_pkp.id_project')->where('status_data','=','active')->get();$dekspor2 = project_pdf::where('id_brand','=','Ekspor')->join('tr_sub_pdf','tr_sub_pdf.pdf_id','=','tr_pdf_project.id_project_pdf')->where('status_pdf','=','active')->get();
+        $ddraf = pkp_project::where('status_project','=','draf')->join('tr_sub_pkp','tr_sub_pkp.id_pkp','=','tr_project_pkp.id_project')->where('status_data','=','active')->get();$ddraf1 = project_pdf::where('status_project','=','draf')->join('tr_sub_pdf','tr_sub_pdf.pdf_id','=','tr_pdf_project.id_project_pdf')->where('status_pdf','=','active')->get();
+        $drevisi = pkp_project::where('status_project','=','revisi')->join('tr_sub_pkp','tr_sub_pkp.id_pkp','=','tr_project_pkp.id_project')->where('status_data','=','active')->get();$drevisi1 = project_pdf::where('status_project','=','revisi')->join('tr_sub_pdf','tr_sub_pdf.pdf_id','=','tr_pdf_project.id_project_pdf')->where('status_pdf','=','active')->get();
+        $dproses = pkp_project::where('status_project','=','proses')->join('tr_sub_pkp','tr_sub_pkp.id_pkp','=','tr_project_pkp.id_project')->where('status_data','=','active')->get();$dproses1 = project_pdf::where('status_project','=','proses')->join('tr_sub_pdf','tr_sub_pdf.pdf_id','=','tr_pdf_project.id_project_pdf')->where('status_pdf','=','active')->get();
+        $dsent= pkp_project::where('status_project','=','sent')->join('tr_sub_pkp','tr_sub_pkp.id_pkp','=','tr_project_pkp.id_project')->where('status_data','=','active')->get();$dsent1 = project_pdf::where('status_project','=','sent')->join('tr_sub_pdf','tr_sub_pdf.pdf_id','=','tr_pdf_project.id_project_pdf')->where('status_pdf','=','active')->get();
+        $dclose = pkp_project::where('status_project','=','close')->join('tr_sub_pkp','tr_sub_pkp.id_pkp','=','tr_project_pkp.id_project')->where('status_data','=','active')->get();$dclose1 = project_pdf::where('status_project','=','close')->join('tr_sub_pdf','tr_sub_pdf.pdf_id','=','tr_pdf_project.id_project_pdf')->where('status_pdf','=','active')->get();
         return view('pv.data')->with([
             'hdraf' => $hdraf,'hrevisi' => $hrevisi,
             'hproses' => $proses,'hsent' => $hsent,

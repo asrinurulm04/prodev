@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class pkp_estimasi_market extends Model
 {
-    protected $table = 'pkp_estimated_market';
+    protected $table = 'ms_estimated_market';
 }

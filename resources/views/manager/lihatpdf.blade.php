@@ -258,7 +258,7 @@
                         <thead>
                           <tr style="background-color:grey;font-weight: bold;color:white;font-size: 15px;"><td colspan="2" class="text-center">{{$pdf->project_name}}</td></tr>
                           <tr>
-                            <td>Target market</td>
+                            <th>Target market</th>
                             <td colspan="2">
 													  <table>
                               <tr><th>Age </th><th>&nbsp :</th><td><?php $dariusia = []; foreach ($pdf1 as $key => $data) If (!$dariusia || !in_array($data->dariusia, $dariusia)) { $dariusia += array( $key => $data->dariusia );
@@ -273,112 +273,62 @@
 												    </td>
                           </tr>
                           <tr>
-                            <td>Background / Insight</td>
+                            <th>Background / Insight</th>
                             <td><?php $background = []; foreach ($pdf1 as $key => $data) If (!$background || !in_array($data->background , $background )) { $background += array( $key => $data->background );
                             if($data->revisi!=$pdf->revisi){ echo" <s><font color='#ffa2a2'>$data->background <br></font></s>"; } if($data->revisi==$pdf->revisi){ echo"$data->background <br>"; } }?></td>
                           </tr>
                           <tr>
-                            <td>Attracttiveness</td>
+                            <th>Attracttiveness</th>
                             <td colspan="2"><?php $attractiveness = []; foreach ($pdf1 as $key => $data) If (!$attractiveness || !in_array($data->attractiveness, $attractiveness)) { $attractiveness += array( $key => $data->attractiveness );
                             if($data->revisi!=$pdf->revisi){ echo"<s><font color='#ffa2a2'>$data->attractiveness <br></font></s>"; } if($data->revisi==$pdf->revisi){ echo"$data->attractiveness <br>";} }  ?></td>
                           </tr>
                           <tr>
-                            <td>Target RTO</td>
+                            <th>Target RTO</th>
                             <td colspan="2"><?php $rto = []; foreach ($pdf1 as $key => $data) If (!$rto || !in_array($data->rto, $rto)) { $rto += array( $key => $data->rto );
                             if($data->revisi!=$pdf->revisi){ echo"<s><font color='#ffa2a2'>$data->rto <br></font></s>"; } if($data->revisi==$pdf->revisi){ echo"$data->rto <br>"; } } ?></td>
                           </tr>
                           <tr>
                             <th>Sales Forecast</th>
-                            <td colspan="2">
-                              <table class="table table-bordered table-hover">
-                                <thead>
-                                  <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
-                                    <th>Forecash</th>
-                                    <th>Configuration</th>
-                                    <th colspan="2">UOM</th>
-                                    <th>NFI Price</th>
-                                    <th>Costumer Price</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  @foreach($for as $for)
-                                  <tr>
-                                    <td>{{$for->satuan}} = <?php $angka_format = number_format($for->forecast,2,",","."); echo "Rp. ".$angka_format;?></td>
-                                    <td>
-                                    @if($for->kemas_eksis!=NULL)
-                                    (
-                                    @if($for->kemas->tersier!=NULL)
-                                    {{ $for->kemas->tersier }}{{ $for->kemas->s_tersier }}
-                                    @elseif($for->tersier==NULL)
-                                    @endif
-
-                                    @if($for->kemas->sekunder1!=NULL)
-                                    X {{ $for->kemas->sekunder1 }}{{ $for->kemas->s_sekunder1}}
-                                    @elseif($for->kemas->sekunder1==NULL)
-                                    @endif
-
-                                    @if($for->kemas->sekunder2!=NULL)
-                                    X {{ $for->kemas->sekunder2 }}{{ $for->kemas->s_sekunder2 }}
-                                    @elseif($for->sekunder2==NULL)
-                                    @endif
-
-                                    @if($for->kemas->primer!=NULL)
-                                    X{{ $for->kemas->primer }}{{ $for->kemas->s_primer }}
-                                    @elseif($for->kemas->primer==NULL)
-                                    @endif
-                                    )
-                                    @endif
-                                    </td>
-                                    <td>{{$for->jlh_uom}}</td>
-                                    <td>{{$for->uom}}</td>
-                                    <td><?php $angka_format = number_format($for->nfi_price,2,",","."); echo "Rp. ".$angka_format;?></td>
-                                    <td><?php $angka_format = number_format($for->costumer,2,",","."); echo "Rp. ".$angka_format;?></td>
-                                  </tr>
-                                  @endforeach
-                                </tbody>
-                              </table>
-                              
-                              @if($hitungkemaspdf>=0)
-                              <table class="table table-bordered">
-                                <thead>
-                                  <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
-                                    <th class="text-center">Oracle</th>
-                                    <th class="text-center">KK Code</th>
-                                    <th class="text-center">Note</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  @foreach($kemaspdf as $kf)
-                                  <tr>
-                                    <td>{{$kf->oracle}}</td>
-                                    <td>{{$kf->kk}}</td>
-                                    <td>{{$kf->information}}</td>
-                                  </tr>
-                                  @endforeach
-                                </tbody>
-                              </table>
-                              @endif
-                            </td>
+                            <td colspan="2"><?php $seles = []; foreach ($for as $key => $data) If (!$seles || !in_array($data->forecast, $seles)) { $seles += array( $key => $data->forecast ); 
+                            if($data->revisi!=$pdf->revisi){ echo" <s><font color='#ffa2a2'>$data->satuan = Rp.". number_format($data->forecast, 0, ".", "."). " ( Note : $data->keterangan )<br></font></s>"; } if($data->revisi==$pdf->revisi){ echo" $data->satuan = Rp.". number_format($data->forecast, 0, ".", "."). " ( Note : $data->keterangan )<br>";  } } ?></td>
 											    </tr>
                           <tr>
-                            <td>Competitor</td>
+                            <th>Competitor</th>
                             <td colspan="2">
                               <table>
                                 <tr><th>Nama</th><th>&nbsp :</th><td style="border:none;"><?php $name = []; foreach ($pdf1 as $key => $data) If (!$name || !in_array($data->name, $name)) { $name += array( $key => $data->name );
                                 if($data->revisi!=$pdf->revisi){ echo"<s><font color='#ffa2a2'> $data->name </font><br></s>"; } if($data->revisi==$pdf->revisi){ echo" $data->name <br>"; } } ?></td></tr>
+													      <tr><th>Retailer price</th><th>&nbsp :</th><td style="border:none;"><?php $retailer_price = []; foreach ($pdf1 as $key => $data) If (!$retailer_price || !in_array($data->retailer_price, $retailer_price)) { $retailer_price += array( $key => $data->retailer_price );
+                                if($data->revisi!=$pdf->revisi){ echo" <s><font color='#ffa2a2'>$data->retailer_price<br></font></s>"; } if($data->revisi==$pdf->revisi){ echo" $data->retailer_price<br>"; } } ?></td></tr>
 													      <tr><th>What's Special</th><th>&nbsp :</th><td style="border:none;"><?php $special = []; foreach ($pdf1 as $key => $data) If (!$special || !in_array($data->special, $special)) { $special += array( $key => $data->special );
-                                if($data->revisi!=$pdf->revisi){ echo" <s><font color='#ffa2a2'> $data->special <br></font></s>"; } if($data->revisi==$pdf->revisi){ echo" $data->special <br>"; } } ?></tr>
+                                if($data->revisi!=$pdf->revisi){ echo" <s><font color='#ffa2a2'> $data->special <br></font></s>"; } if($data->revisi==$pdf->revisi){ echo" $data->special <br>"; } } ?></td></tr>
 													    </table>
+                              <table class="table table-bordered">
+                                <tr class="text-center" style="font-weight: bold;color:white;background-color: #2a3f54;">
+                                  <td>Filename</td>
+                                  <td>Information</td>
+                                  <td></td>
+                                </tr>
+                                @foreach($picture as $pic)
+                                <tr>
+                                  <td>{{$pic->filename}} </td>
+                                  <td width="40%"> &nbsp{{$pic->informasi}}</td>  
+                                  <td width="10%" class="text-center"><a href="{{asset('data_file/'.$pic->filename)}}" download="{{$pic->filename}}"><button class="btn btn-primary btn-sm"><li class="fa fa-download"></li></button></a></td>
+                                </tr>
+                                @endforeach
+                              </table>
 												    </td>
                           </tr>
                           <tr>
-                            <td>Product Concept</td>
+                            <th>Product Concept</th>
                             <td colspan="2">
 													    <table>
                                 <tr><th>Weight/Serving </th><th>&nbsp :</th><td style="border:none;"><?php $wight = []; foreach ($pdf1 as $key => $data) If (!$wight || !in_array($data->wight, $wight)) { $wight += array( $key => $data->wight );
                                 if($data->revisi!=$pdf->revisi){ echo"<s><font color='#6594c5'> $data->wight<br></font></s>"; } if($data->revisi==$pdf->revisi){ echo" $data->wight"; } } ?> /
                                 <?php $serving = []; foreach ($pdf1 as $key => $data) If (!$serving || !in_array($data->serving, $serving)) { $serving += array( $key => $data->serving );
-                                if($data->revisi!=$pdf->revisi){ echo"<s><font color='#6594c5'>$data->serving<br></font></s>"; } if($data->revisi==$pdf->revisi){ echo"$data->serving"; } } ?></td></tr>
+                                  if($data->revisi!=$pdf->revisi){ echo"<s><font color='#6594c5'>$data->serving<br></font></s>"; } if($data->revisi==$pdf->revisi){ echo"$data->serving"; } } ?></td></tr>
+														    <tr><th>Target NFI price / ctn</th><th>&nbsp :</th><td style="border:none;"><?php $target_price = [];foreach ($pdf1 as $key => $data)If (!$target_price || !in_array($data->target_price, $target_price)) { $target_price += array($key => $data->target_price);
+                                if($data->revisi!=$pdf->revisi){ echo" <s><font color='#ffa2a2'> $data->target_price<br></font></s>"; } if($data->revisi==$pdf->revisi){ echo"   $data->target_price<br>"; } } ?></td></tr>
 														    <tr><th>Claim / function</th><th>&nbsp :</th><td style="border:none;"><?php $claim = []; foreach ($pdf1 as $key => $data) If (!$claim || !in_array($data->claim, $claim)) { $claim += array( $key => $data->claim );
                                 if($data->revisi!=$pdf->revisi){ echo"<s><font color='#ffa2a2'> $data->claim <br></font></s>"; } if($data->revisi==$pdf->revisi){ echo"  $data->claim <br>"; } } ?></td></tr>
 														    <tr><th>Special Ingredient</th><th>&nbsp :</th><td style="border:none;"><?php $ingredient = []; foreach ($pdf1 as $key => $data) If (!$ingredient || !in_array($data->ingredient, $ingredient)) { $ingredient += array( $key => $data->ingredient );
@@ -386,15 +336,79 @@
 													    </table>
 												    </td>
                           </tr>
+                          <tr>
+                            <th>Packaging Concept</th>
+                            <td colspan="2">
+
+                              @if($pdf->kemas_eksis!=NULL)
+                              (
+                                @if($pdf->kemas->primer!=NULL)
+														    {{ $pdf->kemas->primer }}{{ $pdf->kemas->s_primer }}
+														    @elseif($pdf->kemas->primer==NULL)
+														    @endif
+
+														    @if($pdf->kemas->sekunder1!=NULL)
+														    X {{ $pdf->kemas->sekunder1 }}{{ $pdf->kemas->s_sekunder1}}
+														    @elseif($pdf->kemas->sekunder1==NULL)
+														    @endif
+
+														    @if($pdf->kemas->sekunder2!=NULL)
+														    X {{ $pdf->kemas->sekunder2 }}{{ $pdf->kemas->s_sekunder2 }}
+														    @elseif($pdf->sekunder2==NULL)
+														    @endif
+
+														    @if($pdf->kemas->tersier!=NULL)
+														    X {{ $pdf->kemas->tersier }}{{ $pdf->kemas->s_tersier }}
+														    @elseif($pdf->tersier==NULL)
+														    @endif
+                                )
+                              @elseif($pdf->primer==NULL)
+                                @if($pdf->kemas_eksis==NULL)
+                                @endif
+                              @endif <br><br>
+                              information :
+													    <table class="table table-sm">
+                              @if($pdf->primery!=NULL)
+                              <tr><th style="border:none;">Primery</th><th style="border:none;">:</th><td width="82%" style="border:none;"><?php $primery = []; foreach ($pdf1 as $key => $data) If (!$primery || !in_array($data->primery, $primery)) { $primery += array( $key => $data->primery ); 
+                                if($data->revisi!=$pdf->revisi){  echo" <s><font color='#6594c5'>$data->primery<br></font></s>";  } if($data->revisi==$pdf->revisi){ echo" $data->primery<br>"; } }  ?></td></tr>
+                              @endif
+                              @if($pdf->secondery!=NULL)
+                              <tr><th style="border:none;">Secondary</th><th style="border:none;">:</th><td width="82%" style="border:none;"><?php $secondery = []; foreach ($pdf1 as $key => $data) If (!$secondery || !in_array($data->secondery, $secondery)) { $secondery += array( $key => $data->secondery ); 
+                                if($data->revisi!=$pdf->revisi){  echo" <s><font color='#6594c5'>$data->secondery<br></font></s>";  } if($data->revisi==$pdf->revisi){ echo" $data->secondery<br>"; } }  ?></td></tr>
+                              @endif
+                              @if($pdf->Tertiary!=NULL)
+                              <tr><th style="border:none;">Teriery</th><th style="border:none;">:</th><td width="82%" style="border:none;"><?php $Tertiary = []; foreach ($pdf1 as $key => $data) If (!$Tertiary || !in_array($data->Tertiary, $Tertiary)) { $Tertiary += array( $key => $data->Tertiary ); 
+                                if($data->revisi!=$pdf->revisi){  echo" <s><font color='#6594c5'>$data->Tertiary<br></font></s>";  } if($data->revisi==$pdf->revisi){ echo" $data->Tertiary<br>"; } }  ?></td></tr>
+                              @endif
+                            </table>
+                            @if($hitungkemaspdf>=0)
+                             Additional data :
+                            <table class="table table-bordered">
+                              <thead>
+                                <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
+                                  <th class="text-center">Oracle</th>
+                                  <th class="text-center">KK Code</th>
+                                  <th class="text-center">Note</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                @foreach($kemaspdf as $kf)
+                                <tr>
+                                  <td>{{$kf->oracle}}</td>
+                                  <td>{{$kf->kk}}</td>
+                                  <td>{{$kf->information}}</td>
+                                </tr>
+                                @endforeach
+                              </tbody>
+                            </table>
+                            @endif
+												    </td>
+                          </tr>
                         </thead>
                       </table>
                     </div>
                   </div>
                   @endforeach
-                  <table ALIGN="right">
-                    <tr><td>Revisi/Berlaku :  </td></tr>
-                    <tr><td>Masa Berlaku : Selamanya</td></tr>
-                  </table>
                 </div>
               </div>
             </div>

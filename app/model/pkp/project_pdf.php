@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class project_pdf extends Model
 {
-    protected $table = 'pdf_project';
+    protected $table = 'tr_pdf_project';
     protected $primaryKey ='id_project_pdf';
 
     public function departement(){
