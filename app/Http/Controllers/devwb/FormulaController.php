@@ -452,11 +452,11 @@ class FormulaController extends Controller
 			$total_aureus = $total_aureus + $aureus;					$total_Coli = $total_Coli + $Coli;
 			$total_TPC = $total_TPC + $TPC;								$total_Bacilluscereus = $total_Bacilluscereus + $Bacilluscereus;
 			// RPC
-			$total_rpc_as = $total_as * ($formula->serving_size/1000) / ($formula->serving_size + $formula->saran_sazi / 1000);
-			$total_rpc_hg = $total_hg * ($formula->serving_size/1000) / ($formula->serving_size + $formula->saran_sazi / 1000);
-			$total_rpc_pb = $total_pb * ($formula->serving_size/1000) / ($formula->serving_size + $formula->saran_sazi / 1000);							
-			$total_rpc_sn = $total_sn * ($formula->serving_size/1000) / ($formula->serving_size + $formula->saran_sazi / 1000);
-			$total_rpc_cd = $total_cd * ($formula->serving_size/1000) / ($formula->serving_size + $formula->saran_sazi / 1000);
+			$total_rpc_as = $total_as * ($formula->serving_size/1000) / ($formula->serving_size + $formula->saran_saji / 1000);
+			$total_rpc_hg = $total_hg * ($formula->serving_size/1000) / ($formula->serving_size + $formula->saran_saji / 1000);
+			$total_rpc_pb = $total_pb * ($formula->serving_size/1000) / ($formula->serving_size + $formula->saran_saji / 1000);							
+			$total_rpc_sn = $total_sn * ($formula->serving_size/1000) / ($formula->serving_size + $formula->saran_saji / 1000);
+			$total_rpc_cd = $total_cd * ($formula->serving_size/1000) / ($formula->serving_size + $formula->saran_saji / 1000);
 			// total harga
             $total_harga_per_gram = $total_harga_per_gram + $hpg;
             $total_harga_per_serving = $total_harga_per_serving + $harga_per_serving;
