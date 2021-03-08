@@ -23,7 +23,6 @@ class CreateHasilPanelTable extends Migration
             $table->string('hus');
             $table->enum('status',['proses','done'])->default('proses');
             $table->text('kesimpulan');
-            $tabel->string('');
             $table->timestamps();
         });
     }
