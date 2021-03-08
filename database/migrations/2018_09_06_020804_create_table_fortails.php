@@ -30,7 +30,7 @@ class CreateTableFortails extends Migration
           $table->text('nama_bahan7')->nullable();
           $table->double('per_batch')->nullable();
           $table->double('per_serving')->nullable();
-          $table->interger('bahan_baku')->nullable();
+          $table->integer('bahan_baku')->nullable();
           $table->text('alternatif1')->nullable();
           $table->text('alternatif2')->nullable();
           $table->text('alternatif3')->nullable();
