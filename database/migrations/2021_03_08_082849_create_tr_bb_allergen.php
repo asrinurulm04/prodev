@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMsPanganOlahanTable extends Migration
+class CreateTrBbAllergen extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,11 @@ class CreateMsPanganOlahanTable extends Migration
      */
     public function up()
     {
-        Schema::create('ms_pangan_olahan', function (Blueprint $table) {
-            $table->increments('id_pangan');
-            $table->string('pangan_olahan');
+        Schema::create('tr_bb_allergen', function (Blueprint $table) {
+            $table->increments('id_bb_allergen');
+            $table->integer('id_bb');
+            $table->string('allergen_contain');
+            $table->string('allertgen_maycontain');
             $table->timestamps();
         });
     }
@@ -27,6 +29,6 @@ class CreateMsPanganOlahanTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ms_pangan_olahan');
+        Schema::dropIfExists('tr_bb_allergen');
     }
 }
