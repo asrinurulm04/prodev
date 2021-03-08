@@ -22,7 +22,6 @@ class CreateMikrobaTable extends Migration
             $table->string('c',150);
             $table->text('mk');
             $table->text('Mb');
-            $table->string('Mb');
             $table->timestamps();
         });
     }
