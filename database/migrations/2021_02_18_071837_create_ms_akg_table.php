@@ -44,11 +44,8 @@ class CreateMsAkgTable extends Migration
             $table->decimal('fosfor', 10, 2);
             $table->decimal('magnesium', 10, 2);
             $table->decimal('natrium', 10, 2);
-            $table->decimal('asam_linoleat', 10, 2);
-            $table->decimal('kalium', 10, 2);
             $table->decimal('mangan', 10, 2);
             $table->decimal('tembaga', 10, 2);
-            $table->decimal('vitamin_a', 10, 2);
             $table->decimal('kromium', 10, 2);
             $table->decimal('besi', 10, 2);
             $table->decimal('lodium', 10, 2);

@@ -21,8 +21,8 @@ class CreateDataKemasTable extends Migration
             $table->string('s_sekunder1')->nullable();
             $table->string('sekunder2')->nullable();
             $table->string('s_sekunder2')->nullable();
-            $table->string('tersier')->nullable();
-            $table->string('s_tersier')->nullable();
+            $table->string('primer')->nullable();
+            $table->string('s_primer')->nullable();
             $table->timestamps();
         });
     }
