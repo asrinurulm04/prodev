@@ -812,17 +812,14 @@
               "<div class='col-md-1 col-sm-1 col-xs-12'>"+
                 "<input name='tersier' id='tersier' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='text'>"+
               "</div>"+
-              "<div class='col-md-2 col-sm-2 col-xs-12'>"+pilihan_uom+"</select>"+
+              "<div class='col-md-2 col-sm-2 col-xs-12'>"+
+                "<select class='form-control' name='s_tersier'><option disabled='' selected=''>Tersier</option>"+pilihan_uom+"</select>"+
               "</div>"+
               "<div class='col-md-1 col-sm-1 col-xs-12'>"+
                 "<input name='primer' id=primer' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='text'>"+
               "</div>"+
               "<div class='col-md-2 col-sm-2 col-xs-12'>"+
-                "<select class='form-control' name='s_primer'>"+
-                  "<option disabled='' selected=''>Primer</option>"+
-                  "<option value='G'>G</option>"+
-                  "<option value='ML'>ML</option>"+
-                "</select>"+
+                "<select class='form-control' name='s_primer'><option disabled='' selected=''>Primer</option>"+pilihan_uom_primer+"</select>"+
               "</div>"+
             "</div>"+
           "</div>"+
@@ -846,45 +843,19 @@
                 "<input name='tersier' id='tersier' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='text'>"+
               "</div>"+
               "<div class='col-md-2 col-sm-2 col-xs-12'>"+
-                "<select class='form-control' name='s_tersier'>"+
-                  "<option disabled='' selected=''>Tersier</option>"+
-                  "<option value='D'>D</option>"+
-                  "<option value='S'>S</option>"+
-                  "<option value='G'>G</option>"+
-                  "<option value='SB'>SB</option>"+
-                  "<option value='O'>O</option>"+
-							    "<option value='R'>R</option>"+
-                  "<option value='P'>P</option>"+
-                  "<option value='GST'>GST</option>"+
-                  "<option value='BTL'>BTL</option>"+
-                "</select>"+
+                "<select class='form-control' name='s_tersier'><option disabled='' selected=''>Tersier</option>"+pilihan_uom+"</select>"+
               "</div>"+
               "<div class='col-md-1 col-sm-1 col-xs-12'>"+
                 "<input name='sekunder1' id='sekunder1' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='text'>"+
               "</div>"+
               "<div class='col-md-2 col-sm-2 col-xs-12'>"+
-                "<select class='form-control' name='s_sekunder1'>"+
-                  "<option disabled='' selected=''>Sekunder 1</option>"+
-                  "<option value='D'>D</option>"+
-                  "<option value='S'>S</option>"+
-                  "<option value='G'>G</option>"+
-                  "<option value='SB'>SB</option>"+
-                  "<option value='O'>O</option>"+
-							    "<option value='R'>R</option>"+
-                  "<option value='P'>P</option>"+
-                  "<option value='GST'>GST</option>"+
-                  "<option value='BTL'>BTL</option>"+
-                "</select>"+
+                "<select class='form-control' name='s_sekunder1'><option disabled='' selected=''>Sekunder 1</option>"+pilihan_uom+"</select>"+
               "</div>"+
               "<div class='col-md-1 col-sm-1 col-xs-12'>"+
                 "<input name='primer' id='primer1' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='text'>"+
               "</div>"+
               "<div class='col-md-2 col-sm-2 col-xs-12'>"+
-                "<select class='form-control' name='s_primer'>"+
-                  "<option disabled='' selected=''>Primer</option>"+
-                  "<option value='G'>G</option>"+
-                  "<option value='ML'>ML</option>"+
-                "</select>"+
+                "<select class='form-control' name='s_primer'><option disabled='' selected=''>Primer</option>"+pilihan_uom_primer+"</select>"+
               "</div>"+
             "</div>"+
           "</div>"+
@@ -906,61 +877,24 @@
               "<input name='tersier' id='tersier' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='text'>"+
             "</div>"+
             "<div class='col-md-2 col-sm-2 col-xs-12'>"+
-              "<select class='form-control' name='s_tersier'>"+
-                "<option disabled='' selected=''>Tersier</option>"+
-                "<option value='D'>D</option>"+
-                "<option value='S'>S</option>"+
-                "<option value='G'>G</option>"+
-                "<option value='SB'>SB</option>"+
-                "<option value='O'>O</option>"+
-							  "<option value='R'>R</option>"+
-                "<option value='P'>P</option>"+
-                "<option value='GST'>GST</option>"+
-                "<option value='BTL'>BTL</option>"+
-              "</select>"+
+              "<select class='form-control' name='s_tersier'><option disabled='' selected=''>Tersier</option>"+pilihan_uom+"</select>"+
             "</div>"+
             "<div class='col-md-1 col-sm-1 col-xs-12'>"+
               "<input name='sekunder1' id='sekunder1' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='text'>"+
             "</div>"+
             "<div class='col-md-2 col-sm-2 col-xs-12'>"+
-              "<select class='form-control' name='s_sekunder1'>"+
-                "<option disabled='' selected=''>Sekunder 1</option>"+
-                "<option value='D'>D</option>"+
-                "<option value='S'>S</option>"+
-                "<option value='G'>G</option>"+
-                "<option value='SB'>SB</option>"+
-                "<option value='O'>O</option>"+
-							  "<option value='R'>R</option>"+
-                "<option value='P'>P</option>"+
-                "<option value='GST'>GST</option>"+
-                "<option value='BTL'>BTL</option>"+
-              "</select>"+
+              "<select class='form-control' name='s_sekunder1'><option disabled='' selected=''>Sekunder 1</option></select>"+
             "</div>"+ "<div class='col-md-1 col-sm-1 col-xs-12'>"+
               "<input name='sekunder2' id='sekunder2' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='text'>"+
             "</div>"+
             "<div class='col-md-2 col-sm-2 col-xs-12'>"+
-              "<select class='form-control' name='s_sekunder2'>"+
-                "<option disabled='' selected=''>Sekunder 2</option>"+
-                "<option value='D'>D</option>"+
-                "<option value='S'>S</option>"+
-                "<option value='G'>G</option>"+
-                "<option value='SB'>SB</option>"+
-                "<option value='O'>O</option>"+
-							  "<option value='R'>R</option>"+
-                "<option value='P'>P</option>"+
-                "<option value='GST'>GST</option>"+
-                "<option value='BTL'>BTL</option>"+
-              "</select>"+
+              "<select class='form-control' name='s_sekunder2'><option disabled='' selected=''>Sekunder 2</option></select>"+
             "</div>"+
             "<div class='col-md-1 col-sm-1 col-xs-12'>"+
               "<input name='primer' id='primer' class='date-picker form-control maxlength='4' col-md-12 col-xs-12' type='text'>"+
             "</div>"+
             "<div class='col-md-2 col-sm-2 col-xs-12'>"+
-              "<select class='form-control' name='s_primer'>"+
-                "<option disabled='' selected=''>Primer</option>"+
-                "<option value='G'>G</option>"+
-                "<option value='ML'>ML</option>"+
-              "</select>"+
+                "<select class='form-control' name='s_primer'><option disabled='' selected=''>Primer</option>"+pilihan_uom_primer+"</select>"+
             "</div>"+
           "</div>"+
         "</div>"+
