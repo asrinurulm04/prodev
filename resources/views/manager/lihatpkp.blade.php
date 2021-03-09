@@ -30,6 +30,7 @@
               @if(Auth::user()->departement->dept!='RKA')
                 @if($pkp->status_terima=='terima')
                 <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#kirim{{ $pkp->id_project  }}"><i class="fa fa-paper-plane"></i> Assign</a></button>
+                <button class="btn btn-sm btn-info" data-toggle="modal" data-target="#lintas{{ $pkp->id_project  }}"><i class="fa fa-paper-plane"></i> Different dept</a></button>
                 @elseif($pkp->status_terima=='proses')
                 <?php $last = Date('j-F-Y'); ?>
                 <form class="form-horizontal form-label-left" method="POST" action="{{ route('approve1',$pkp->id_project) }}" novalidate>
@@ -332,6 +333,54 @@
     </div>    
 	</div>
 </div>
+
+
+<!-- modal -->
+<div class="modal" id="lintas{{ $pkp->id_project  }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog " role="document">
+    <div class="modal-content">
+      <div class="modal-header">                 
+        <h3 class="modal-title" id="exampleModalLabel">Send to a different dept
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button></h3>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal form-label-left" method="POST" action="{{ Route('edittuser',$pkp->id_project)}}" novalidate>
+        <div class="form-group row">
+          <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center"> User</label>
+          @if(Auth::user()->departement->dept!="RKA")
+          @if($pkp->userpenerima2!='NULL')
+          <input type="hidden" value="{{$pkp->userpenerima2}}" name="user2">
+          @endif
+          <div class="col-md-9 col-sm-9 col-xs-12">
+            <select required name="user" class="form-control form-control-line" id="user">
+            <option disabled selected>--> Select User <--</option>
+            @foreach($user2 as $user2)
+              @if($user2->id!=Auth::user()->id)
+                @if($user2->role_id==2)
+                <option required value="{{$user2->id}}">( {{$user2->dept}} ) {{ $user2->name }}</option>
+                @endif
+              @endif
+            @endforeach
+            </select>
+          </div>
+          @endif
+        </div>
+        
+        @foreach($picture as $pic)
+          <input type="hidden" value="{{$pic->lokasi}}" name="pic[]" id="pic">
+        @endforeach
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-paper-plane"></i> Assign</button>
+          {{ csrf_field() }}
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal Selesai -->
 
 <!-- modal -->
 <div class="modal" id="kirim{{ $pkp->id_project  }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

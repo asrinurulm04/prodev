@@ -528,6 +528,7 @@
       @endif
       @endforeach
       <div class="col-md-6 col-md-offset-5">
+        <a type="button" href="{{route('rekappkp',$pkp->id_pkp)}}" class="btn btn-danger btn-sm"><li class="fa fa-ban"></li> Cencel</a>
         <button type="reset" class="btn btn-warning btn-sm"><li class="fa fa-repeat"></li> Reset</button>
         <button type="submit" class="btn btn-primary btn-sm"><li class="fa fa-check"></li> Submit And Next</button>
         {{ csrf_field() }}
