@@ -239,14 +239,14 @@ class LoginController extends Controller
             'status' => 'active',
             'role_id' => 13
         ])){
-            return redirect()->route('dasboardcs');        }
+            return redirect()->route('dasboardnr');        }
         elseif(Auth::attempt([
             'username' =>$request->inputEmailUser,
             'password' => $request->password,
             'status' => 'active',
             'role_id' => 13
         ])){
-            return redirect()->route('dasboardcs');        }
+            return redirect()->route('dasboardnr');        }
             
         //PV LOKAL============================================================================================
         if(Auth::attempt([

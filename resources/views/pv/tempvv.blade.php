@@ -156,6 +156,25 @@
                       <li><a href="{{ route('klaim') }}">Claim Regulation</a></li>
                     </ul>
                   </li>
+                  @elseif(auth()->user()->role->namaRule == 'CS')
+                  <li><a><i class="fa fa-folder-open"></i> PKP / PDF / PROMO <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a>List Project<span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                          <li><a href="{{Route('listpkp')}}">List PKP</a> </li>
+                          <li><a href="{{Route('listpdf')}}">List PDF</a> </li>
+                          <li><a href="{{Route('listpromo')}}">List PROMO</a> </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                  <li><a><i class="fa fa-book"></i> Master Data <span class="label label-success"></span> <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{{ route('datapangan') }}">Microbiology</a></li>
+                      <li><a href="{{ route('sku') }}">Active SKU</a></li>
+                      <li><a href="{{ route('klaim') }}">Claim Regulation</a></li>
+                    </ul>
+                  </li>
                   @elseif(auth()->user()->role->namaRule === 'user_produk' || auth()->user()->role->namaRule === 'kemas')
                   <li><a><i class="fa fa-folder-open"></i> PKP/PDF & Workbook <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">

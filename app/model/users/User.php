@@ -17,6 +17,11 @@ class User extends Authenticatable
         return $this->belongsTo('App\model\users\Departement');
     }
 
+    
+    public function dept(){
+        return $this->belongsTo('App\model\users\Departement','id','departement_id');
+    }
+
     public function Workbook(){
         return $this->hasMany('App\model\dev\Workbook');
     }

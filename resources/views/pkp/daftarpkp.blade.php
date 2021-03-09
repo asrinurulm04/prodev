@@ -70,7 +70,7 @@
           <a href="{{ route('buatpkp1',$data->id_project)}}" class="btn btn-primary btn-sm" type="button"><li class="fa fa-plus"></li> Add Data</a>
         @endif
 
-        @if(auth()->user()->role->namaRule == 'pv_lokal')
+        @if(auth()->user()->role->namaRule == 'pv_lokal' || auth()->user()->role->namaRule == 'marketing')
           @if($data->status_project=="revisi")
             <a href="{{ route('datapengajuan')}}" class="btn btn-danger btn-sm" type="button"><li class="fa fa-share"></li> Back</a>
           @elseif($data->status_project=="draf" )
@@ -177,13 +177,13 @@
             </thead>
           </table><br>
         </div>
-        <div class="col-md-5">
+        <div class="col-md-6">
           <table>
             <thead>
               @if($data->datapkp!=null)
               @foreach($data1 as $data)
               <tr><th>Idea</td> <td> : {{$data->idea}}</td></tr>
-              <tr><th>Launch Deadline</th><td>: {{$data->launch}} {{$data->years}} {{$data->tgl_launch}}</td></tr>
+              <tr><th width="25%">Launch Deadline</th><td>: {{$data->launch}} {{$data->years}} {{$data->tgl_launch}}</td></tr>
               <tr><th>Sample Deadline</th><td>: {{$data->jangka}}-  {{$data->waktu}}</td></tr>
               <tr><th>PV</th><td> : {{$data->perevisi2->name}}</td></tr>
               @if($data->file!=NULL)
@@ -287,7 +287,7 @@
       </div>
     </div>
   </div>  
-  @elseif(auth()->user()->role->namaRule == 'pv_lokal')
+  @elseif(auth()->user()->role->namaRule == 'pv_lokal' || auth()->user()->role->namaRule == 'marketing')
   <div class="col-md-12 col-xs-12">
     <div class="x_panel">
       <div class="x_title">
@@ -335,70 +335,72 @@
                 </td>
                 <td class="text-center"> 
                   <a class="btn btn-info btn-sm" href="{{ route('formula.detail',[$for->workbook_id,$for->id]) }}" data-toggle="tooltip" title="Show"><i style="font-size:12px;" class="fa fa-eye"></i></a>
-                  @if($for->vv=='proses')
-                    <a class="btn btn-danger btn-sm" data-toggle="modal" data-target="#rejectsample{{ $for->id  }}" title="Reject"><li class="fa fa-times"></li></a>  
-                      <!-- Modal -->
-                      <div class="modal" id="rejectsample{{ $for->id  }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h3 class="modal-title" id="exampleModalLabel">Reject Sample
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                              </button></h3>
-                            </div>
-                            
-                            <div class="modal-body">
-                              <form class="form-horizontal form-label-left" method="POST" action="{{route('rejectsample',$for->id)}}">
-                              <textarea name="note" id="note" rows="2" cols="60" class="form-control" required></textarea><br>
-                            </div>
-                            <div class="modal-footer">
-                              <button class="btn btn-sm btn-primary" type="submit"><li class="fa fa-check"></li> submit</button>
-                              {{ csrf_field() }}
-                              </form>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <!-- Modal Selesai -->
-                    <button class="btn btn-success btn-sm" title="Approve" data-toggle="modal" data-target="#fs{{ $for->id  }}"><i class="fa fa-check"></i></a></button>
-                      <!-- Modal -->
-                      <div class="modal" id="fs{{ $for->id  }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h3 class="modal-title" id="exampleModalLabel">Approve Sample
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                              </button></h3>
-                            </div>
-                            <div class="modal-body">
-                              <form class="form-horizontal form-label-left" method="POST" action="{{route('approvesample',$for->id)}}">
-                              <textarea name="note" id="note" cols="60" rows="2" class="form-control" required></textarea><br>
-                            </div>
-                            <div class="modal-footer">
-                              <button class="btn btn-sm btn-primary" type="submit"><li class="fa fa-check"></li> submit</button>
-                              {{ csrf_field() }}
-                              </form>
+                  @if(auth()->user()->role->namaRule == 'pv_lokal')
+                    @if($for->vv=='proses')
+                      <a class="btn btn-danger btn-sm" data-toggle="modal" data-target="#rejectsample{{ $for->id  }}" title="Reject"><li class="fa fa-times"></li></a>  
+                        <!-- Modal -->
+                        <div class="modal" id="rejectsample{{ $for->id  }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h3 class="modal-title" id="exampleModalLabel">Reject Sample
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button></h3>
+                              </div>
+                              
+                              <div class="modal-body">
+                                <form class="form-horizontal form-label-left" method="POST" action="{{route('rejectsample',$for->id)}}">
+                                <textarea name="note" id="note" rows="2" cols="60" class="form-control" required></textarea><br>
+                              </div>
+                              <div class="modal-footer">
+                                <button class="btn btn-sm btn-primary" type="submit"><li class="fa fa-check"></li> submit</button>
+                                {{ csrf_field() }}
+                                </form>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                      <!-- Modal Selesai -->
-                  @elseif($for->vv=='approve')
-                    <a href="" class="btn btn-primary btn-sm" title="Ajukan FS"><li class="fa fa-paper-plane"></li></a>
-                      <a href="{{route('finalsample',$for->id)}}" class="btn btn-success btn-sm" title="Final Approval"><li class="fa fa-tag"></li></a>
-                    @if($for->status_fisibility=='not_approved')
-                      @if($hasilpanel>=1)
-                      <a href="{{route('finalsample',$for->id)}}" class="btn btn-success btn-sm" title="Final Approva"><li class="fa fa-tag"></li></a>
+                        <!-- Modal Selesai -->
+                      <button class="btn btn-success btn-sm" title="Approve" data-toggle="modal" data-target="#fs{{ $for->id  }}"><i class="fa fa-check"></i></a></button>
+                        <!-- Modal -->
+                        <div class="modal" id="fs{{ $for->id  }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h3 class="modal-title" id="exampleModalLabel">Approve Sample
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button></h3>
+                              </div>
+                              <div class="modal-body">
+                                <form class="form-horizontal form-label-left" method="POST" action="{{route('approvesample',$for->id)}}">
+                                <textarea name="note" id="note" cols="60" rows="2" class="form-control" required></textarea><br>
+                              </div>
+                              <div class="modal-footer">
+                                <button class="btn btn-sm btn-primary" type="submit"><li class="fa fa-check"></li> submit</button>
+                                {{ csrf_field() }}
+                                </form>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- Modal Selesai -->
+                    @elseif($for->vv=='approve')
+                      <a href="" class="btn btn-primary btn-sm" title="Ajukan FS"><li class="fa fa-paper-plane"></li></a>
+                        <a href="{{route('finalsample',$for->id)}}" class="btn btn-success btn-sm" title="Final Approval"><li class="fa fa-tag"></li></a>
+                      @if($for->status_fisibility=='not_approved')
+                        @if($hasilpanel>=1)
+                        <a href="{{route('finalsample',$for->id)}}" class="btn btn-success btn-sm" title="Final Approva"><li class="fa fa-tag"></li></a>
+                        @endif
+                      @elseif($for->status_fisibility=='selesai')
+                        @if($hasilpanel>=1)
+                        <a href="{{route('finalsample',$for->id)}}" class="btn btn-success btn-sm" title="Final Approval"><li class="fa fa-tag"></li></a>
+                        @endif
                       @endif
-                    @elseif($for->status_fisibility=='selesai')
-                      @if($hasilpanel>=1)
-                      <a href="{{route('finalsample',$for->id)}}" class="btn btn-success btn-sm" title="Final Approval"><li class="fa fa-tag"></li></a>
-                      @endif
+                    @elseif($for->vv=='final')
+                      <a href="{{route('unfinalsample',$for->id)}}" class="btn btn-warning btn-sm" title="Unfinal Approve"><li class="fa fa-times"></li> Unfinal</a>
                     @endif
-                  @elseif($for->vv=='final')
-                    <a href="{{route('unfinalsample',$for->id)}}" class="btn btn-warning btn-sm" title="Unfinal Approve"><li class="fa fa-times"></li> Unfinal</a>
                   @endif
                 </td>
               </tr>
