@@ -11,11 +11,10 @@
       <ul class="nav nav-tabs wizard">
         <li class="active"><a href="" ><span class="nmbr">1</span>Information</a></li>
         <li class="completed"><a href=""><span class="nmbr">2</span>PDF</a></li>
-        <li class="active"><a href=""><span class="nmbr">3</span>File & Image</a></li>
+        <li class="active"><a href=""><span class="nmbr">3</span>File</a></li>
       </ul>
     </div>
   </div>
-
   <div class="col-md-12 col-xs-12">
     <table class="table table-bordered">
       <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
@@ -37,18 +36,49 @@
   @endif
   <?php $date = Date('j-F-Y'); ?>
   <input id="last_up" value="{{ $date }}" class="form-control col-md-12 col-xs-12" type="hidden" name="last_up">
+
+  <div class="row">
+    <div class="col-md-12 col-xs-12">
+      <div class="x_panel">
+        <div class="x_title">
+          <h3><li class="fa fa-folder-o"></li> Data</h3>
+        </div>
+        <div class="card-block">
+          <div class="form-group">
+            <label class="control-label col-md-2 col-sm-3 col-xs-12" style="color:#258039">Project Name</label>
+            <div class="col-md-8 col-sm-8 col-xs-12">
+              <input required value="{{ $pdf->project_name }}" id="name" class="form-control col-md-12 col-xs-12" type="text" name="name">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-md-2 col-sm-3 col-xs-12" style="color:#258039">Brand</label>
+            <div class="col-md-8 col-sm-8 col-xs-12">
+              <select name="brand" id="brand" class="form-control">
+                <option value="{{$pdf->id_brand}}" readonly>{{$pdf->id_brand}}</option>
+                @foreach($brand as $brand)
+                <option value="{{$brand->brand}}">{{$brand->brand}}</option>
+                @endforeach
+              </select>
+            </div>
+          </div>
+          <div class="ln_solid"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="row">
     <div class="col-sm-12">
       <div class="x_panel">
         <div class="x_title">
-          <h3 style="color:#258039"><li class="fa fa-edit"></li> Packaging concept**</h3>
-          <input type="hidden" value="{{ $id_pdf->id_project_pdf }}" name="id">
+          <h3 style="color:#258039"><li class="fa fa-edit"></li> Packaging concept**</h3><h5 style="color:red">*requaired</h5>
+          <input type="hidden" value="{{ $pdf->pdf_id }}" name="id">
         </div>
         <div>
           <div class="form-group row">
             <input type="hidden" value="{{$eksis+1}}" name="kemas" id="kemas">
-            <label class="control-label col-md-1 col-sm-3 col-xs-12" for="last-name">Configuration</label>
-            <div class="col-md-10 col-sm-9 col-xs-12">
+            <label class="control-label col-md-2 col-sm-3 col-xs-12" for="last-name">Configuration</label>
+            <div class="col-md-9 col-sm-9 col-xs-12">
               @if($pdf->kemas_eksis!=NULL)
               <select name="data_eksis" id="data_eksis" class="form-control">
                 <option value="{{$pdf->kemas_eksis}}" readonly>{{$pdf->kemas->nama}}
@@ -76,8 +106,8 @@
                 </option>
               </select>
             </div>
-       			<a type="buton" href="{{ Route('konfig',['pdf_id' => $pdf->pdf_id, 'turunan' => $pdf->turunan])}}" class="fa fa-trash btn btn-danger btn-lg" title="Remove the configuration and create a new configuration"></a>
-          </div>
+       			<a type="buton" href="{{ Route('konfig',$pdf->id)}}" class="fa fa-trash btn btn-danger btn-sm" title="Remove the configuration and create a new configuration"></a>
+            <div class="col-md-9 col-sm-9 col-xs-12">
             @elseif($pdf->kemas_eksis==NULL)
               <input type="hidden" value="{{$eksis+1}}" name="kemas" id="kemas">
               &nbsp&nbsp&nbsp&nbsp
@@ -85,24 +115,74 @@
        			  <input type="radio" name="data" oninput="eksis()" id="radio_eksis"> Configuration exists &nbsp &nbsp
        			  <input type="radio" name="data" oninput="pilih()" id="radio_project"> Previous Project Configuration  &nbsp &nbsp
             @endif
+            </div>
+          </div> 
             @if($pdf->primery	!=NULL)
-              <label class="control-label col-md-2 col-sm-3 col-xs-12" for="last-name">Primary :</label>
+            <div class="form-group row">
+              <label class="control-label col-md-2 col-sm-3 col-xs-12" for="last-name">Primary </label>
               <div class="col-md-8 col-sm-12 col-xs-12">
                 <input name="primary" class="col-md-8 col-sm-12 col-xs-12 form-control" id="" value="{{$pdf->primery	}}">
-              </div><br><br>
-            @elseif($pdf->secondery!=NULL)
-              <label class="control-label col-md-2 col-sm-3 col-xs-12" for="last-name">Secondary:</label>
+              </div>
+            </div>
+            @endif
+            @if($pdf->secondery!=NULL)
+            <div class="form-group row">
+              <label class="control-label col-md-2 col-sm-3 col-xs-12" for="last-name">Secondary</label>
               <div class="col-md-8 col-sm-3 col-xs-12">
                 <input name="secondary" class="col-md-8 col-sm-3 col-xs-12 form-control" id="" value="{{$pdf->secondery}}">
-              </div><br><br>
-            @elseif($pdf->Tertiary!=NULL)
-            <label class="control-label col-md-2 col-sm-3 col-xs-12" for="last-name">Tertiary:</label>
+              </div>
+            </div>
+            @endif
+            @if($pdf->Tertiary!=NULL)
+            <div class="form-group row">
+            <label class="control-label col-md-2 col-sm-3 col-xs-12" for="last-name">Tertiary</label>
             <div class="col-md-8 col-sm-3 col-xs-12">
               <input name="tertiary" class="col-md-8 col-sm-3 col-xs-12 form-control" id="" value="{{$pdf->Tertiary}}">
             </div>
-            @endif
-            <hr>
+          </div>
+            @endif 
           <div id="lihat"></div>
+          @if($pdf->kemas_eksis!=NULL) <br><br>
+          <div class="form-group row">
+            <label class="control-label col-md-2 col-sm-3 col-xs-12" for="last-name">Additional data (Optional)</label>
+            <div class="col-md-8 col-sm-8 col-xs-12"><br>
+              <table class="table table-bordered col-md-12 col-sm-12 col-xs-12" id="tablekemas">
+                <thead>
+                  <tr>
+                    <td class="text-center">Oracle</td>
+                    <td class="text-center">KK Code</td>
+                    <td class="text-center">Note</td>
+                    <td class="text-center" width="14%">Action</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr id='addrow0'>
+                  @if($hitungkemaspdf>=1)
+                    @foreach($kemaspdf as $kf)
+                    <tr>
+                      <td><input type="text" name="oracle[]" id="oracle" value="{{$kf->oracle}}" class="form-control"></td>
+                      <td><input type="text" name="kk[]" id="kk" value="{{$kf->kk}}" class="form-control"></td>
+                      <td><input type="text" name="information[]" id="information" value="{{$kf->information}}" class="form-control"></td>
+                      <td class="text-center"><button id='add_kemas' type='button' class='btn btn-info btn-sm pull-left' title='Add'><li class='fa fa-plus'></li></button>
+                      <a hreaf='' type="button" class='btn btn-danger btn-sm' title='Delete'><li class='fa fa-trash'></li></a></td>
+                    </tr>
+                    @endforeach
+                  @elseif($hitungkemaspdf==0)
+                  <tr>
+                    <td><input type="text" name="oracle[]" id="oracle" class="form-control"></td>
+                    <td><input type="text" name="kk[]" id="kk" class="form-control"></td>
+                    <td><input type="text" name="information[]" id="information" class="form-control"></td>
+                    <td class="text-center"><button id='add_kemas' type='button' class='btn btn-info btn-sm pull-left' title='Add'><li class='fa fa-plus'></li></button>
+                    <a hreaf='' type="button" class='btn btn-danger btn-sm' title='Delete'><li class='fa fa-trash'></li></a></td>
+                  </tr>
+                  @endif
+                  <tr id='addrow1'></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          @endif
+          <hr>
         </div>
       </div>
     </div>
@@ -188,72 +268,74 @@
             </div>
           </div>
           <div class="form-group">
-              <div class="col-md-12 col-sm-12 col-xs-12">
-                <table class="table table-bordered table-hover" id="table">
-                  <thead>
-                    <tr>
-                      <th class="text-center" >Komponen</th>
-                      <th class="text-center" width="15%">Klaim</th>
-                      <th class="text-center" width="25%">Detail</th>
-                      <th class="text-center" width="20%">Note</th>
-                      <th class="text-center">Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr class="tr_clone">
-                    @foreach($dataklaim as $dk)
-                      <td>
-                        <select class="form-control items komponen"   name="komponen[]">
-                          <option value="{{$dk->id_komponen}}">{{$dk->datakp->komponen}}</option>
-                          @foreach($komponen as $kp)
-                          <option value="{{ $kp->id }}">{{ $kp->komponen }}</option>
-                          @endforeach
-                        </select>
-                      </td>
-                      <td>
-                        <select name="klaim[]" class="form-control items">
-                          <option value="{{$dk->id_klaim}}">{{$dk->datakl->klaim}}</option>
-                          <option readonly>--> Select One <--</option>
-                        </select>
-                      </td>
-                      <td>
-                        <select name="detail[]"  multiple="multiple" class="form-control items">
-                          @foreach($datadetail as $dd)
-                          @if($dd->id_klaim==$dk->id)
-                          <option readonly selected value="{{$dd->id_detail}}">{{$dd->datadl->detail}}{{$dk->id_klaim}}</option>
-                          @endif
-                          @endforeach
-                        </select>
-                      </td>
-                      <td><textarea type="text" class="form-control" name="ket[]" value="{{$dk->note}}" id="ket">{{$dk->note}}</textarea></td>
-                      <td><a href="" class="btn btn-danger btn-sm"><li class="fa fa-trash"></li></a>
-                      <button class="tr_clone_add btn btn-info btn-sm" type="button"><li class="fa fa-plus"></li></button>
-                    </tr>
-                    @endforeach
-                    <tr id='addr0'>
-                      <input type="hidden" value="{{$Ddetail}}" name="iddetail" id="iddetail">
-                      <td>
-                        <select class="form-control items komponen" id="komponen" name="komponen[]">
-                          @foreach($komponen as $kp)
-                          <option value="{{ $kp->id }}">{{ $kp->komponen }}</option>
-                          @endforeach
-                        </select>
-                      </td>
-                      <td>
-                        <select name="klaim[]" class="form-control items" id="klaimm"> </select>
-                      </td>
-                      <td>
-                        <select name="detail[]"  id="detaill" multiple="multiple" class="form-control items"> </select>
-                      </td>
-                      <td><textarea type="text" class="form-control" name="ket[]" id="ket"></textarea></td>
-                      <td><button class="tr_clone_add btn btn-info btn-sm" id="add_row" type="button"><li class="fa fa-plus"></li></button></td>
-                    </tr>
-                    <tr id='addr1'></tr>
-                  </tbody>
-                </table>
-                <label style="color:red;">* Mandatory for CCT request</label>
-              </div>
+            <div class="col-md-12 col-sm-12 col-xs-12">
+              <table class="table table-bordered table-hover" id="table">
+                <thead>
+                  <tr>
+                    <th class="text-center" >Komponen</th>
+                    <th class="text-center" width="15%">Klaim</th>
+                    <th class="text-center" width="25%">Detail</th>
+                    <th class="text-center" width="20%">Note</th>
+                    <th class="text-center">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="tr_clone">
+                  @foreach($dataklaim as $dk)
+                    <td>
+                      <select class="form-control items komponen"   name="komponen[]">
+                        <option value="{{$dk->id_komponen}}">{{$dk->datakp->komponen}}</option>
+                        @foreach($komponen as $kp)
+                        <option value="{{ $kp->id }}">{{ $kp->komponen }}</option>
+                        @endforeach
+                      </select>
+                    </td>
+                    <td>
+                      <select name="klaim[]" class="form-control items">
+                        <option value="{{$dk->id_klaim}}">{{$dk->datakl->klaim}}</option>
+                        <option readonly>--> Select One <--</option>
+                      </select>
+                    </td>
+                    <td>
+                      <select name="detail[]"  multiple="multiple" class="form-control items">
+                        @foreach($datadetail as $dd)
+                        @if($dd->id_klaim==$dk->id)
+                        <option readonly selected value="{{$dd->id_detail}}">{{$dd->datadl->detail}}{{$dk->id_klaim}}</option>
+                        @endif
+                        @endforeach
+                      </select>
+                    </td>
+                    <td><textarea type="text" class="form-control" name="ket[]" value="{{$dk->note}}" id="ket">{{$dk->note}}</textarea></td>
+                    <td><a href="" class="btn btn-danger btn-sm"><li class="fa fa-trash"></li></a>
+                    <button class="tr_clone_add btn btn-info btn-sm" type="button"><li class="fa fa-plus"></li></button>
+                  </tr>
+                  @endforeach
+                  <tr id='addr0'>
+                    <input type="hidden" value="{{$Ddetail}}" name="iddetail" id="iddetail">
+                    <td>
+                      <select class="form-control items komponen" id="komponen" name="komponen[]">
+                        @foreach($komponen as $kp)
+                        <option value="{{ $kp->id }}">{{ $kp->komponen }}</option>
+                        @endforeach
+                      </select>
+                    </td>
+                    <td>
+                      <select name="klaim[]" class="form-control items" id="klaimm">
+                      </select>
+                    </td>
+                    <td>
+                      <select name="detail[]"  id="detaill" multiple="multiple" class="form-control items">          
+                      </select>
+                    </td>
+                    <td><textarea type="text" class="form-control" name="ket[]" id="ket"></textarea></td>
+                    <td class="text-center"><button class="tr_clone_add btn btn-info btn-sm" id="add_row" type="button"><li class="fa fa-plus"></li></button></td>
+                  </tr>
+                  <tr id='addr1'></tr>
+                </tbody>
+              </table>
+              <label style="color:red;">* Mandatory for CCT request</label>
             </div>
+          </div>
           <div class="ln_solid"></div>
         </div>
       </div>
@@ -299,10 +381,13 @@
                       <td>
                         <select name="satuan[]"  id="detail1" class="form-control">
                           <option readonly value="{{$for->satuan}}">{{$for->satuan}}</option>
-                          <option value='1 Month'>1 Month</option>
-                          <option value='2 Month'>2 Month</option>
-                          <option value='3 Month'>3 Month</option>
+                          <option value="1st Month">1st Month</option>
+                          <option value="2nd Month">2nd Month</option>
+                          <option value="3rd Month">3rd Month</option>
                         </select>
+                      </td>
+                      <td>
+                      <input type="text" name="keterangan[]" class="form-control" value="{{$for->keterangan}}">
                       </td>
                       <td>
                       <a href="" type="button" class="btn btn-danger btn-sm"><li class="fa fa-trash"></li> Delete</a>
@@ -311,14 +396,16 @@
                     @endforeach
                     @if($for2==0)
                     <tr id='addr0'>
-                      <td><input type="number" name="forecast[]" class="form-control">
-                      </td>
+                      <td><input type="number" value="0" name="forecast[]" class="form-control"></td>
                       <td>
                         <select name="satuan[]"  id="detail1" class="form-control">
-                          <option value='1 Month'>1 Month</option>
-                          <option value='2 Month'>2 Month</option>
-                          <option value='3 Month'>3 Month</option>
+                          <option value="1st Month">1st Month</option>
+                          <option value="2nd Month">2nd Month</option>
+                          <option value="3rd Month">3rd Month</option>
                         </select>
+                      </td>
+                      <td>
+                        <input type="text" name="keterangan[]" class="form-control">
                       </td>
                       <td>
                         <button class="btn btn-info btn-sm pull-left add_data" type="button"><li class="fa fa-plus"></li> Add Forecast</button>
@@ -372,8 +459,8 @@
           @endforeach
           <div class="ln_solid"></div>
           <div class="col-md-6 col-md-offset-5">
-            <button type="reset" class="btn btn-danger">Reset</button>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="reset" class="btn btn-warning btn-sm"><li class="fa fa-repeat"></li> Reset</button>
+            <button type="submit" class="btn btn-primary btn-sm"><li class="fa fa-check"></li> Submit</button>
             {{ csrf_field() }}
           </div>
         </div>
@@ -385,6 +472,26 @@
 </div>
 @endsection
 @section('s')
+<script>
+  $(document).ready(function() {
+  // delete baris proses
+  $('#tablekemas').on('click', 'tr a', function(e) {
+    e.preventDefault();
+    $(this).parents('tr').remove();
+  });
+
+  var i = 1;
+    $("#add_kemas").click(function() {
+      $('#addrow' + i).html( "<td><input type='text' name='oracle[]' id='oracle' class='form-control'>"+
+      "<td><input type='text' name='kk[]' id='kk' class='form-control'></td>"+
+      "<td><input type='text' name='information[]' id='information' class='form-control'></td>"+
+      "<td><a hreaf='' class='btn btn-danger btn-sm' title='Delete'><li class='fa fa-trash'></li></a></td>");
+
+      $('#tablekemas').append('<tr id="addrow' + (i + 1) + '"></tr>');
+      i++;
+    });
+  });
+</script>
 <script>
     $(document).ready(function() {
   
@@ -413,8 +520,8 @@
       $('#addr' + i).html("<input type='hidden' value='"+(a+i)+"' name='iddetail' id='iddetail'><td><select class='form-control items' name='komponen[]' id='komponen"+(a+i)+"' >"+komponen1+
         "</select></td><td><select name='klaim[]' class='form-control items' id='klaimm"+(a+i)+"'>"+
         "</select></td><td><select name='detail[]' multiple='multiple' class='form-control items' id='detaill"+(a+i)+"'>"+
-        "</select></td><td><textarea type='text' class='form-control' name='ket[]' id='ket'></textarea></td><td></td>");
-  
+        "</select></td><td><textarea type='text' class='form-control' name='ket[]' id='ket'></textarea></td><td class='text-center'><a hreaf='' class='btn btn-danger btn-sm' title='Delete'><li class='fa fa-trash'></li></a></td>");
+
         var b = a+i;
         console.log(b);
         $('#komponen' + b).on('change', function(){
@@ -427,7 +534,7 @@
                 beforeSend: function(){
                 $('#loader').css("visibility", "visible");
             },
-  
+
             success:function(data){
               console.log(data)
                 $('#detaill' + b).empty();
@@ -440,13 +547,13 @@
                 $('#loader').css("visibility","hidden");
             }
           });
-  
+
           }
           else{
             $('#detaill' + b).empty();
           }
         });
-  
+
         $('#komponen'+b).on('change', function(){
       var myId = $(this).val();
         if(myId){
@@ -457,7 +564,7 @@
           beforeSend: function(){
               $('#loader').css("visibility", "visible");
           },
-  
+
           success:function(data){
             console.log(data)
               $('#klaimm'+b).empty();
@@ -470,7 +577,7 @@
                 $('#loader').css("visibility","hidden");
             }
         });
-  
+
         }
         else{
             $('#klaimm'+b).empty();
@@ -550,11 +657,11 @@
   var i = 1;
   $(".add_data").click(function() {
     $('#addrow' + i).html( "<td><input type='number' name='forecast[]' class='form-control'></td><td><select name='satuan[]'  class='form-control'>"+
-    "<option disabled selected>--> Select One <--</option>"+
-    "<option value='1 Month'>1 Month</option>"+
-    "<option value='2 Month'>2 Month</option>"+
-    "<option value='3 Month'>3 Month</option>"+
-    "</select></td><td><a hreaf='' class='btn btn-danger'><li class='fa fa-trash'></li> Delete</a></td>");
+      "<option disabled selected>--> Select One <--</option>"+       
+      "<option value='1st Month'>1st Month</option>"+
+      "<option value='2nd Month'>2nd Month</option>"+
+      "<option value='3rd Month'>3rd Month</option>"+
+    "</select></td><td><input type='text' name='keterangan[]' class='form-control'></td><td><a hreaf='' class='btn btn-danger btn-sm'><li class='fa fa-trash'></li> Delete</a></td>");
 
     $('#tabledata').append('<tr id="addrow' + (i + 1) + '"></tr>');
     i++;
@@ -611,7 +718,50 @@
           "<textarea name='tertiary' id='tertiary' class='col-md-12 col-sm-12 col-xs-12'></textarea>"+
         "</div>"+
       "</div>"+
+      "<div class='form-group'>"+
+        "<label for='middle-name' class='control-label col-md-2 col-sm-3 col-xs-12'>Additional data </label>"+
+        "<div class='col-md-9 col-sm-9 col-xs-12'>"+
+          "<table class='table table-bordered' id='tablekemas'>"+
+            "<thead>"+
+              "<tr>"+
+                "<td class='text-center'>Oracle</td>"+
+                "<td class='text-center'>KK Code</td>"+
+                "<td class='text-center'>Note</td>"+
+                "<td class='text-center'>Action</td>"+
+              "</tr>"+
+            "</thead>"+
+            "<tbody>"+
+              "<tr id='addrow0'>"+
+                "<td><input type='text' name='oracle[]' id='oracle' class='form-control'></td>"+
+                "<td><input type='text' name='kk[]' id='kk' class='form-control'></td>"+
+                "<td><input type='text' name='information[]' id='information' class='form-control'></td>"+
+                "<td><button id='add_kemas' type='button' class='btn btn-info btn-sm pull-left' title='Add'><li class='fa fa-plus'></li></button></td>"+
+              "</tr>"+
+              "<tr id='addrow1'></tr>"+
+            "</tbody>"+
+          "</table>"+
+        "</div>"+
+      "</div>"+
       "<div class='ln_solid'></div>"
+
+      $(document).ready(function() {
+        // delete baris proses
+        $('#tablekemas').on('click', 'tr a', function(e) {
+          e.preventDefault();
+          $(this).parents('tr').remove();
+        });
+
+        var i = 1;
+          $("#add_kemas").click(function() {
+            $('#addrow' + i).html( "<td><input type='text' name='oracle[]' id='oracle' class='form-control'>"+
+            "<td><input type='text' name='kk[]' id='kk' class='form-control'></td>"+
+            "<td><input type='text' name='information[]' id='information' class='form-control'></td>"+
+            "<td><a hreaf='' class='btn btn-danger btn-sm' title='Delete'><li class='fa fa-trash'></li></a></td>");
+
+            $('#tablekemas').append('<tr id="addrow' + (i + 1) + '"></tr>');
+            i++;
+          });
+        });
     }
  }
 
@@ -643,6 +793,7 @@
                 "<option value='P'>P</option>"+
                 "<option value='GST'>GST</option>"+
                 "<option value='BTL'>BTL</option>"+
+                "<option value='B'>B</option>"+
               "</select>"+
             "</div>"+
             "<div class='col-md-1 col-sm-1 col-xs-12'>"+
@@ -653,6 +804,7 @@
                 "<option disabled='' selected=''>Primer</option>"+
                 "<option value='G'>G</option>"+
                 "<option value='ML'>ML</option>"+
+                "<option value='Tablet'>Tablet</option>"+
               "</select>"+
             "</div>"+
           "</div>"+
@@ -689,6 +841,7 @@
                 "<option value='P'>P</option>"+
                 "<option value='GST'>GST</option>"+
                 "<option value='BTL'>BTL</option>"+
+                "<option value='B'>B</option>"+
               "</select>"+
             "</div>"+
             "<div class='col-md-1 col-sm-1 col-xs-12'>"+
@@ -706,6 +859,7 @@
                 "<option value='P'>P</option>"+
                 "<option value='GST'>GST</option>"+
                 "<option value='BTL'>BTL</option>"+
+                "<option value='B'>B</option>"+
               "</select>"+
             "</div>"+
             "<div class='col-md-1 col-sm-1 col-xs-12'>"+
@@ -716,6 +870,7 @@
                 "<option disabled='' selected=''>Primer</option>"+
                 "<option value='G'>G</option>"+
                 "<option value='ML'>ML</option>"+
+                "<option value='Tablet'>Tablet</option>"+
               "</select>"+
             "</div>"+
           "</div>"+
@@ -750,6 +905,7 @@
                 "<option value='P'>P</option>"+
                 "<option value='GST'>GST</option>"+
                 "<option value='BTL'>BTL</option>"+
+                "<option value='B'>B</option>"+
               "</select>"+
             "</div>"+
             "<div class='col-md-1 col-sm-1 col-xs-12'>"+
@@ -767,6 +923,7 @@
                 "<option value='P'>P</option>"+
                 "<option value='GST'>GST</option>"+
                 "<option value='BTL'>BTL</option>"+
+                "<option value='B'>B</option>"+
               "</select>"+
             "</div>"+ 
             "<div class='col-md-1 col-sm-1 col-xs-12'>"+
@@ -784,6 +941,7 @@
                 "<option value='P'>P</option>"+
                 "<option value='GST'>GST</option>"+
                 "<option value='BTL'>BTL</option>"+
+                "<option value='B'>B</option>"+
               "</select>"+
             "</div>"+
             "<div class='col-md-1 col-sm-1 col-xs-12'>"+
@@ -794,6 +952,7 @@
                 "<option disabled='' selected=''>Primer</option>"+
                 "<option value='G'>G</option>"+
                 "<option value='ML'>ML</option>"+
+                "<option value='Tablet'>Tablet</option>"+
               "</select>"+
             "</div>"+
           "</div>"+

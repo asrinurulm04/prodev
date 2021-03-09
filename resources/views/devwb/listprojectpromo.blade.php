@@ -1,6 +1,5 @@
-@extends('formula.tempformula')
-@section('title', 'Data PKP promo')
-@section('judulhalaman','Draf PKP pPromo')
+@extends('pv.tempvv')
+@section('title', 'PRODEV|Data PKP promo')
 @section('content')
 
 <div class="col-md-12 col-sm-12 col-xs-12">
@@ -12,26 +11,22 @@
       </div>
       <div>
         <div>
-          <form id="clear">        
-          <!--project-->
+          <form id="clear">      
           <div class="col-md-4 pl-1">
-            <div class="form-group" id="filter_col" data-column="1">
-              <label>Project Name</label>
-              <select name="name" class="form-control column_filter" id="col1_filter">
+            <div class="form-group" id="filter_col" data-column="6">
+              <label>Priority</label>
+              <select name="name" class="form-control column_filter" id="col6_filter">
                 <option disabled selected>-->Select One<--</option>
-                @foreach($promo as $pkp1)
-                  @if($pkp1->status_project=='proses' || $pkp1->status_project=='close')
-                  <option>{{$pkp1->project_name}}</option>
-                  @endif
-                @endforeach
+                <option>Prioritas 1</option>
+                <option>Prioritas 2</option>
+                <option>Prioritas 3</option>
               </select>
             </div>
-          </div>       
-          <!--brand-->
+          </div>      
           <div class="col-md-4 pl-1">
-            <div class="form-group" id="filter_col1" data-column="3">
+            <div class="form-group" id="filter_col1" data-column="2">
               <label>Brand</label>
-              <select name="brand" class="form-control column_filter" id="col3_filter" >
+              <select name="brand" class="form-control column_filter" id="col2_filter" >
                 <option disabled selected>-->Select One<--</option>
                 @foreach($brand as $br)
                 <option>{{$br->brand}}</option>
@@ -39,23 +34,21 @@
               </select>
             </div>
           </div>
-          <!--Data-->
           <div class="col-md-3 pl-1">
-            <div class="form-group" id="filter_col1" data-column="5">
+            <div class="form-group" id="filter_col1" data-column="7">
               <label>Status</label>
-              <select name="status" class="form-control column_filter" id="col5_filter" >
+              <select name="status" class="form-control column_filter" id="col7_filter" >
                 <option disabled selected>-->Select One<--</option>
-                @foreach($promo as $pkp2)
-                  @if($pkp1->status_project=='proses' || $pkp1->status_project=='close')
-                  <option>{{$pkp2->status_project}}</option>
-                  @endif
-                @endforeach
+                <option>sending sample</option>
+                <option>sent to PV</option>
+                <option>approved by PV</option>
+                <option>Time is Up</option>
               </select>
             </div>
           </div>
           <div class="col-md-1 pl-1">
             <div class="form-group" id="filter_col1" data-column="5">
-              <label class="text-center">refresh</label>    
+              <label class="text-center">refresh</label>   <br> 
               <a href="" class="btn btn-info btn-sm"><li class="fa fa-refresh"></li></a>
             </div>
           </div>
@@ -75,8 +68,8 @@
           <h3>List PKP Promo</h3>
         </div>
         <div class="clearfix"></div>
-        <div class="x_content" style="overflow-x: scroll;">
-          <table class="Table table-striped no-border" id="ex">
+        <div class="x_content">
+          <table id="datatable" class="table table-striped table-bordered ex" style="width:100%">
             <thead>
               <tr style="font-weight: bold;color:white;background-color: #2a3f54;" >
                 <th>#</th>
@@ -85,79 +78,139 @@
                 <th>Project</th>
                 <th>Author</th>
                 <th>Created Date</th>
-                <th>Last Update</th>
+                <th>Priority</th>
                 <th width="11%" class="text-center">Status</th>
                 <th width="15%" class="text-center">Action</th>
               </tr>
             </thead>
             <tbody>
+              @php $no = 0; @endphp
+              @foreach($promo as $pkp)
+              @if($pkp->userpenerima2==NULL)
               <tr>
-                @php $no = 0; @endphp
-                @foreach($promo as $pkp)
-                @if($pkp->userpenerima2==NULL)
-                  @if($pkp->userpenerima==Auth::user()->id)
-                  <th>{{ ++$no }}</th>
-                  <th>{{ $pkp->promo_number }}{{ $pkp->ket_no }}</th>
-                  <th>{{ $pkp->brand }}</th>
-                  <th>{{ $pkp->project_name }}</th>
-                  <th>{{ $pkp->author1->name }}</th>
-                  <th>{{ $pkp->created_date }}</th>
-                  <th>{{ $pkp->last_update }}</th>
-                  <th class="text-center">
-                    @if($pkp->status_project=='proses')
-                    <span  class="label label-success" style="color:white">Proses</span>
-                    @elseif($pkp->status_project=='close')
-                    <span  class="label label-info" style="color:white">Close</span>
-                    @elseif($pkp->status_project=='revisi')
-                    <span  class="label label-danger" style="color:white">revisi</span>
+                @if($pkp->userpenerima==Auth::user()->id)
+                  <td>{{ ++$no }}</td>
+                  <td>{{ $pkp->promo_number }}{{ $pkp->ket_no }}</td>
+                  <td>{{ $pkp->brand }}</td>
+                  <td>{{ $pkp->project_name }}</td>
+                  <td>{{ $pkp->author1->name }}</td>
+                  <td>{{ $pkp->created_date }}</td>
+                  <td>
+                    @if($pkp->prioritas==1)
+                    <span class="label label-primary" style="color:white">Prioritas 1</span>
+                    @elseif($pkp->prioritas==2)
+                    <span class="label label-warning" style="color:white">Prioritas 2</span>
+                    @elseif($pkp->prioritas==3)
+                    <span class="label label-success" style="color:white">Prioritas 3</span>
                     @endif
-                  </th>
-                  <th class="text-center">
-                    @if($pkp->status_project=='proses')
-                      <a class="btn btn-info btn-sm" href="{{ Route('rekappromo',$pkp->id_pkp_promo)}}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
-                      {{csrf_field()}}
-                    @elseif($pkp->status_project=='close')
-                      <a class="btn btn-info btn-sm" href="{{ Route('rekappromo',$pkp->id_pkp_promo)}}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
-                      <button class="btn btn-info btn-sm" disabled><li class="fa fa-smile-o" title="close"></li></button>
-                    @elseif($pkp->status_project=='revisi')
-                      <a class="btn btn-info btn-sm" href="{{ Route('rekappromo',$pkp->id_pkp_promo)}}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
+                  </td>
+                  <td class="text-center">
+                    @if($pkp->status_freeze=="inactive")
+                      @if($pkp->status_freeze=='inactive')
+                        @if($pkp->pengajuan_sample=='proses')
+                        <?php
+                          $awal  = date_create( $pkp->waktu );
+                          $akhir = date_create(); // waktu sekarang
+                          if($akhir<=$awal){
+                            $diff  = date_diff( $akhir, $awal );
+                            echo ' You Have ';
+                            echo $diff->m . ' Month, ';
+                            echo $diff->d . ' Days, ';
+                            echo $diff->h . ' Hours, ';
+                            echo ' To sending Sample ';
+                          }else{
+                            echo ' Your Time Is Up ';
+                          }
+                        ?>
+                        @elseif($pkp->pengajuan_sample=='sent')
+                        Sample has been sent to PV
+                        @elseif($pkp->pengajuan_sample=='reject')
+                        Sample rejected by PV
+                        @elseif($pkp->pengajuan_sample=='approve')
+                        Sample has been approved by PV
+                        @endif
+                      @elseif($pkp->status_freeze=='active')
+                        Project Is Inactive
+                      @endif
+                    @elseif($pkp->status_freeze=="active")
+                    Project Is Inactive
                     @endif
-                  </th>
-                  @endif
-                @elseif($pkp->userpenerima2!=NULL)
-                  @if($pkp->userpenerima==Auth::user()->id || $pkp->userpenerima2==Auth::user()->id)
-                  <th>{{ ++$no }}</th>
-                  <th>{{ $pkp->promo_number }}{{ $pkp->ket_no }}</th>
-                  <th>{{ $pkp->brand }}</th>
-                  <th>{{ $pkp->project_name }}</th>
-                  <th>{{ $pkp->Author }}</th>
-                  <th>{{ $pkp->created_date }}</th>
-                  <th>{{$pkp->waktu}}</th>
-                  <th>{{ $pkp->last_update }}</th>
-                  <th class="text-center">
-                    @if($pkp->status_project=='proses')
-                    <span  class="label label-success" style="color:white">Proses</span>
-                    @elseif($pkp->status_project=='close')
-                    <span  class="label label-info" style="color:white">Close</span>
-                    @elseif($pkp->status_project=='revisi')
-                    <span  class="label label-info" style="color:white">revisi</span>
-                    @endif
-                  </th>
-                  <th class="text-center">
+                  </td>
+                  <td class="text-center">
                     @if($pkp->status_project=='proses')
                       <a class="btn btn-info btn-sm" href="{{ Route('rekappromo',$pkp->id_pkp_promo)}}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
-                      {{csrf_field()}}
                     @elseif($pkp->status_project=='close')
                       <a class="btn btn-info btn-sm" href="{{ Route('rekappromo',$pkp->id_pkp_promo)}}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
                       <button class="btn btn-info btn-sm" disabled><li class="fa fa-smile-o" title="close"></li></button>
                     @elseif($pkp->status_project=='revisi')
                       <a class="btn btn-info btn-sm" href="{{ Route('rekappromo',$pkp->id_pkp_promo)}}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
                     @endif
-                  </th>
-                  @endif
+                  </td>
                 @endif
-                @endforeach
+              @elseif($pkp->userpenerima2!=NULL)
+                @if($pkp->userpenerima==Auth::user()->id || $pkp->userpenerima2==Auth::user()->id)
+                  <td>{{ ++$no }}</td>
+                  <td>{{ $pkp->promo_number }}{{ $pkp->ket_no }}</td>
+                  <td>{{ $pkp->brand }}</td>
+                  <td>{{ $pkp->project_name }}</td>
+                  <td>{{ $pkp->Author }}</td>
+                  <td>{{ $pkp->created_date }}</td>
+                  <td>{{$pkp->waktu}}</td>
+                  <td>
+                    @if($pkp->prioritas==1)
+                    <span class="label label-primary" style="color:white">Prioritas 1</span>
+                    @elseif($pkp->prioritas==2)
+                    <span class="label label-warning" style="color:white">Prioritas 2</span>
+                    @elseif($pkp->prioritas==3)
+                    <span class="label label-success" style="color:white">Prioritas 3</span>
+                    @endif
+                  </td>
+                  <td class="text-center">
+                    @if($pkp->status_freeze=="inactive")
+                      @if($pkp->status_freeze=='inactive')
+                        @if($pkp->pengajuan_sample=='proses')
+                        <?php
+                          $awal  = date_create( $pkp->waktu );
+                          $akhir = date_create(); // waktu sekarang
+                          if($akhir<=$awal) {
+                            $diff  = date_diff( $akhir, $awal );
+                            echo ' You Have ';
+                            echo $diff->m . ' Month, ';
+                            echo $diff->d . ' Days, ';
+                            echo $diff->h . ' Hours, ';
+                            echo ' To sending Sample ';
+                          }else{
+                            echo ' Your Time Is Up ';
+                          }
+                        ?>
+                        @elseif($pkp->pengajuan_sample=='sent')
+                        Sample has been sent to PV
+                        @elseif($pkp->pengajuan_sample=='reject')
+                        Sample rejected by PV
+                        @elseif($pkp->pengajuan_sample=='approve')
+                        Sample has been approved by PV
+                        @endif
+                      @elseif($pkp->status_freeze=='active')
+                        Project Is Inactive
+                      @endif
+                    @elseif($pkp->status_freeze=="active")
+                    Project Is Inactive
+                    @endif
+                  </td>
+                  <td class="text-center">
+                    @if($pkp->status_project=='proses')
+                      <a class="btn btn-info btn-sm" href="{{ Route('rekappromo',$pkp->id_pkp_promo)}}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
+                    @elseif($pkp->status_project=='close')
+                      <a class="btn btn-info btn-sm" href="{{ Route('rekappromo',$pkp->id_pkp_promo)}}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
+                      <button class="btn btn-info btn-sm" disabled><li class="fa fa-smile-o" title="close"></li></button>
+                    @elseif($pkp->status_project=='revisi')
+                      <a class="btn btn-info btn-sm" href="{{ Route('rekappromo',$pkp->id_pkp_promo)}}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
+                    @endif
+                  </td>
+                @endif
               </tr>
+              @endif
+              @endforeach
             </tbody>
           </table>
         </div>  
@@ -170,19 +223,19 @@
 @section('s')
 <script>
   function filterGlobal () {
-    $('#ex').DataTable().search(
+    $('.ex').DataTable().search(
       $('#global_filter').val(),
     ).draw();
   }
     
   function filterColumn ( i ) {
-    $('#ex').DataTable().column( i ).search(
+    $('.ex').DataTable().column( i ).search(
       $('#col'+i+'_filter').val()
     ).draw();
   }
     
   $(document).ready(function() {
-    $('#ex').DataTable();    
+    $('.ex').DataTable();    
       $('input.global_filter').on( 'keyup click', function () {
         filterGlobal();
       } );

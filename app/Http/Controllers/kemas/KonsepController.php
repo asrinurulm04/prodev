@@ -5,12 +5,12 @@ namespace App\Http\Controllers\kemas;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-use App\dev\Formula;
-use App\Modelfn\finance;
-use App\Modelfn\pesan;
-use App\Modelkemas\konsep;
-use App\Modelkemas\userkemas;
-use App\Modelkemas\gramasi;
+use App\model\dev\Formula;
+use App\model\Modelfn\finance;
+use App\model\Modelfn\pesan;
+use App\model\Modelkemas\konsep;
+use App\model\Modelkemas\userkemas;
+use App\model\pkp\tipp;
 use Redirect;
 use Auth;
 
@@ -22,9 +22,9 @@ class KonsepController extends Controller
     }
 
     public function index($id,$id_feasibility){
-        $formulas = Formula::where('id',$id)->get();
+        $formulas = tipp::where('id_pkp',$id)->where('status_data','=','active')->get();
         $fe=finance::find($id_feasibility);
-        $myFormula = Formula::where('id',$id)->first();
+        $myFormula = Formula::where('id',$id)->get();
         $konsep = konsep::where('id_feasibility',$id_feasibility)->get();
         $dataF = finance::where('id_feasibility', $id_feasibility)->get();
         $count_konsep = konsep::where('id_feasibility',$id_feasibility)->count();
@@ -40,44 +40,48 @@ class KonsepController extends Controller
         ]);
     }
 
-    public function inboxkemas($id,$id_feasibility)
-    {
+    public function inboxkemas($id,$id_feasibility){
         $inboxs = pesan::all()->where('user','kemas')->sortByDesc('created_at');
         $inbox = pesan::where('user','kemas');
         $jumlah = pesan::where('user','kemas')->count();
         $dataF = finance::with('formula')->get()->where('id_feasibility', $id_feasibility)->first();
-        return view('kemas.inboxkemas')
-        ->with(['id_feasibility' => $id_feasibility])
-        ->with(['id' => $id])
-        ->with(['jumlah' => $jumlah])
-        ->with(['dataF' => $dataF])
-        ->with(['inbox' => $inbox])
-        ->with(['inboxs' => $inboxs]);
+        return view('kemas.inboxkemas')->with([
+            'id_feasibility' => $id_feasibility,
+            'id' => $id,
+            'jumlah' => $jumlah,
+            'dataF' => $dataF,
+            'inbox' => $inbox,
+            'inboxs' => $inboxs
+        ]);
     }
 
-    public function hasilnya(Request $request,$id, $id_feasibility)
-    {
+    public function hasilnya(Request $request,$id, $id_feasibility){
         $formulas = Formula::where('id',$id)->get();
         $request->session()->get('id_feasibility');
         $request->session()->put('id_feasibility', $id_feasibility);
         $id = $request->session()->get('id_feasibility');
         $myFormula = Formula::where('id',$id)->first();
+        $konsep = konsep::where('id_feasibility',$id_feasibility)->get();
         $data = finance::where('id_feasibility', $id)->pluck('id_formula')->first();
         $fe=finance::find($id_feasibility);
 		$kemas =userkemas::where('id_feasibility', $id_feasibility)->get();
         $dataF = finance::where('id_feasibility', $id_feasibility)->get();
-        return view('kemas.has',['fe'=>$fe], compact('toImport'))
-			->with(['dataF' => $dataF])
-            ->with(['kemas' => $kemas])
-            ->with(['id' => $id])
-            ->with(['data' => $data])
-            ->with(['myFormula' => $myFormula])
-            ->with(['id_feasibility' => $id_feasibility]);
+        return view('kemas.has', compact('toImport'))->with([
+            'fe'=>$fe,
+            'dataF' => $dataF,
+            'kemas' => $kemas,
+            'id' => $id,
+            'konsep' => $konsep,
+            'data' => $data,
+            'myFormula' => $myFormula,
+            'id_feasibility' => $id_feasibility
+        ]);
     }
 
     public function insert(Request $request){
         $kemass= new konsep;
         $kemass->konsep=$request->get('konsepkemas');
+        $kemass->keterangan=$request->keterangan;
         $kemass->id_feasibility=$request->finance;
         $kemass->s_primer=$request->get('primer');
         $kemass->primer=$request->d;
@@ -96,11 +100,14 @@ class KonsepController extends Controller
         $kemass->renceng=$request->ren;
         $kemass->save();
 
+        $change_status  = finance::where('id_feasibility',$request->finance)->first();
+		$change_status->status_kemas='sending';
+		$change_status->save();
+
         return redirect()->back();
     }
 
-    public function destroykemas($id)
-    {
+    public function destroykemas($id){
         $mail = pesan::find($id);
         $mail->delete();
         return redirect::back();

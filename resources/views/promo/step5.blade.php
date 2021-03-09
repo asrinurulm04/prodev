@@ -1,17 +1,15 @@
 @extends('pv.tempvv')
-@section('title', 'Data Tambahan PKP')
-@section('judulhalaman','Data Tambahan PKP')
+@section('title', 'PRODEV|Data Tambahan PKP')
 @section('content')
 
 <div class="row">
-  <div class="col-md-2"></div>
-  <div class="col-md-10">
+  <div class="col-md-3"></div>
+  <div class="col-md-9">
     <div class="tabbable">
       <ul class="nav nav-tabs wizard">
-        <li class="active"><a href="" ><span class="nmbr">1</span>Information</a></li>
-        <li class="active"><a href=""><span class="nmbr">2</span>Data</a></li>
-        <li class="active"><a href=""><span class="nmbr">3</span>Products</a></li>
-        <li class="completed"><a href=""><span class="nmbr">4</span>File & Image</a></li>
+        <li class="active"><a href=""><span class="nmbr">1</span>Data</a></li>
+        <li class="active"><a href=""><span class="nmbr">2</span>Products</a></li>
+        <li class="completed"><a href=""><span class="nmbr">3</span>File & Image</a></li>
       </ul>
     </div>
   </div>
@@ -34,27 +32,10 @@
 </div>
 @endif
 
-@if (count($errors) > 0)
-<div class="alert alert-danger">
-  <strong>Whoops!</strong> There were some problems with your input.<br><br>
-  <ul>
-    @foreach ($errors->all() as $error)
-    <li>{{ $error }}</li>
-    @endforeach
-  </ul>
-</div>
-@endif
-
-@if(session('success'))
-<div class="alert alert-success">
-   {{ session('success') }}
-</div> 
-@endif
-
 <div class="col-md-12 col-sm-12 col-xs-12">
   <div class="x_panel">
     <div class="x_title">
-			<h3 class="jumbotron"><li class=" fa fa-upload"></li> File Upload (Max 5MB)</h3>
+			<h3 class="jumbotron"><li class=" fa fa-upload"></li> File Upload (Max 2MB)</h3>
       <form method="post" action="{{url('uploadpromo')}}" enctype="multipart/form-data">
 		  {{csrf_field()}}
 			<div class="input-group control-group increment" >
@@ -64,7 +45,7 @@
       @endforeach
 				<input type="file" name="filename[]" class="form-control" multiple>
 		  </div>
-			<button type="submit" class="btn btn-primary" style="margin-top:10px"> Submit</button>
+			<button type="submit" class="btn btn-primary btn-sm" style="margin-top:10px"> Submit</button>
 	    </form>        
 		</div>
 	</div>
@@ -99,8 +80,8 @@
 @else
 <div class="col-md-12">
   <div class="x_panel">
-    @foreach ($id_pkp as $pkp)
-    <a href="{{route('rekappromo',$pkp->id_pkp_promoo)}}" class="btn btn-primary col-md-12 btn-sm"><li class="fa fa-check"></li> Save And Finish</a>
+    @foreach ($id as $pkp)
+    <a href="{{route('rekappromo',$pkp->id_pkp_promo)}}" class="btn btn-primary col-md-12 btn-sm"><li class="fa fa-check"></li> Save And Finish</a>
     @endforeach
   </form>
   </div>

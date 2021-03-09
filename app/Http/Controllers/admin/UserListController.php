@@ -5,11 +5,10 @@ namespace App\Http\Controllers\admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-use App\PKP\jenis;
-use App\users\Departement;
-
-use App\User;
-use App\Role;
+use App\model\pkp\jenis;
+use App\model\users\Departement;
+use App\model\users\User;
+use App\model\users\Role;
 use Redirect;
 use DB;
 
@@ -41,7 +40,6 @@ class UserListController extends Controller
         $users = User::find($id);
         $roles = Role::all();
         $depts = Departement::all();
-
         return view('admin.detail')->with([
             'users' => $users,
             'depts' =>$depts,
@@ -78,11 +76,9 @@ class UserListController extends Controller
         $user->email = $request->email;
         $user->departement_id = $request->departement;
         $user->role_id = $request->role;
-        
         $user->password = $request->password;
         $user->save(); 
         
         return Redirect::back()->with('status','Profil User Telah Dirubah !');
     }
-
 }

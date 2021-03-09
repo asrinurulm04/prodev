@@ -12,7 +12,6 @@
 <body class="nav-md">
 
 <!-- top navigation -->
-
 <div class="top_nav">
   <div class="nav_menu">
     <nav>
@@ -84,19 +83,16 @@
                   @foreach($datapkp as $Dpkp)
                   <!-- perbandingan 1 -->
                   <tr>
-                      <input type="hidden" name="note[{{$loop->index}}][pkp]" value="{{$Dpkp->id_pkp}}">
-                      <?php $date = Date('j-F-Y'); ?>
-                      <input type="hidden" name="note[{{$loop->index}}][date]" value="{{$date}}">
+                    <input type="hidden" name="note[{{$loop->index}}][pkp]" value="{{$Dpkp->id_pkp}}">
+                    <?php $date = Date('j-F-Y'); ?>
+                    <input type="hidden" name="note[{{$loop->index}}][date]" value="{{$date}}">
                     <td><input type="text" disabled name="scores[{{$loop->index}}][name]" class="form-control" value="{{$Dpkp->project_name}}"></td>
                     <td><input type="text" disabled name="scores[{{$loop->index}}][brand]" class="form-control" value="{{$Dpkp->id_brand}}"></td>
                     <td>
                       <select name="note[{{$loop->index}}][prioritas]" class="form-control" id="prioritas">
-                        @if($Dpkp->prioritas=='1')
-                        <option value="1" style="font-weight: bold;color:white;background-color: #2a3f54;">1</option>
-                        @elseif($Dpkp->prioritas=='2')
-                        <option value="2" style="font-weight: bold;color:white;background-color: #2a3f54;">2</option>
-                        @elseif($Dpkp->prioritas=='3')
-                        <option value="3" style="font-weight: bold;color:white;background-color: #2a3f54;">3</option>
+                        @if($Dpkp->prioritas=='1')<option value="1" style="font-weight: bold;color:white;background-color: #2a3f54;">1</option>
+                        @elseif($Dpkp->prioritas=='2')<option value="2" style="font-weight: bold;color:white;background-color: #2a3f54;">2</option>
+                        @elseif($Dpkp->prioritas=='3')<option value="3" style="font-weight: bold;color:white;background-color: #2a3f54;">3</option>
                         @endif
                         <option value="1">1</option>
                         <option value="2">2</option>
@@ -121,9 +117,9 @@
                   @endforeach
                 </tbody>
               </table>
-              <button class="btn btn-primary" type="submit"><li class="fa fa-check"></li> Submit</button>
+              <button class="btn btn-primary btn-sm" type="submit"><li class="fa fa-check"></li> Submit</button>
               {{ csrf_field() }}
-              <a href="{{route('hapuscheck')}}" class="btn btn-danger"><li class="fa fa-arrow-left"></li> Back</a>
+              <a href="{{route('hapuscheck')}}" class="btn btn-danger btn-sm"><li class="fa fa-arrow-left"></li> Back</a>
             </form>
           </div>
         </div>

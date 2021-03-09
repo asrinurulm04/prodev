@@ -1,5 +1,5 @@
-@extends('formula.tempformula')
-@section('title', 'Dasboard')
+@extends('pv.tempvv')
+@section('title', 'PRODEV|Dasboard')
 @section('content')
 
 <div class="row top_tiles">
@@ -45,5 +45,4 @@
     <center><h1><li class="fa fa-star-o"></li><b> Welcome To Product Development!!..</h1></center>
 	</div>
 </div>
-
 @endsection

@@ -1,86 +1,80 @@
 @extends('mesin.tempmesin')
-
-@section('title','Feasibility|inputor')
-
+@section('title','Feasibility|Data Mesin')
 @section('content')
 
 <div id="RM" class="tab-pane">
-<div class="row">
-  <div class="col-md-12 col-sm-12 col-xs-12">
-    <div class="card">
-    <div class="card-block">
-      <div class="card-header">
-        <h2><i class="fa fa-cogs"></i> Data Mesin </h2>
-        <div class="clearfix"></div>
-      </div>
-      <br>
-      <div class="x_content">
-        <div class="" role="tabpanel" data-example-id="togglable-tabs">
-          <ul class="nav nav-tabs  tabs" role="tablist">
-          @foreach($dataF as $dF)
-            <li class="nav-item"><a class="nav-link" href="{{ route('runtimemesin',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}">GRANULASI</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ route('mesinmixing',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}">MIXING</a></li>
-            <li class="nav-item"><a class="nav-link active" href="{{ route('mesinfilling',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}">FILLING</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ route('mesinpacking',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}">PACKING</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ route('activitymesin',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}">ACTIVITY</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ route('labmesin',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}">LAB</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ route('standaryield',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}">OH LAIN-LAIN</a></li>
-          @endforeach
-          </ul><br>
-          <div id="myTabContent" class="tab-content">
-                        <!-- FILLING -->
-          <table class="table table-hover table-bordered">
-            <thead>
-            <tr>
-              <th class="text-center">mesin</th>
-              <th class="text-center">standar sdm</th>
-              <th class="text-center">Speed</th>
-              <th class="text-center">Aksi</th>
-              <th class="text-center">Hasil</th>
-            </tr>
-            </thead>
-            <tbody>
-              @foreach($Mdata as $dM)
-                <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" action="/updatemss/{{$dM->id_mesin}}" method="post">
-              {!!csrf_field()!!}
-                <tr>
-                  @if( $dM->meesin->kategori=='filling' )
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <div class="x_panel">
+        <div class="x_title">
+          <h3><li class="fa fa-cogs"> Data Mesin</li></h3>
+        </div>
+        <div class="x_content">
+          <div class="" role="tabpanel" data-example-id="togglable-tabs">
+            <ul class="nav nav-tabs  tabs" role="tablist">
+              @foreach($dataF as $dF)
+              <li role="presentation" class=""><a href="{{ route('runtimemesin',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}">GRANULASI</a></li>
+              <li role="presentation" class=""><a href="{{ route('mesinmixing',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}">MIXING</a></li>
+              <li role="presentation" class="active"><a href="{{ route('mesinfilling',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}">FILLING</a></li>
+              <li role="presentation" class=""><a href="{{ route('mesinpacking',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}">PACKING</a></li>
+              <li role="presentation" class=""><a href="{{ route('activitymesin',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}">ACTIVITY</a></li>
+              <li role="presentation" class=""><a href="{{ route('labmesin',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}">LAB</a></li>
+              <li role="presentation" class=""><a href="{{ route('standaryield',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}">OH LAIN-LAIN</a></li>
+              @endforeach
+            </ul><br>
+            <div id="myTabContent" class="tab-content">
+                        
+              <!-- FILLING -->
+              <table class="Table table-hover table-bordered">
+                <thead>
+                  <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
+                    <th class="text-center">mesin</th>
+                    <th class="text-center">standar sdm</th>
+                    <th class="text-center">Speed</th>
+                    <th class="text-center">Aksi</th>
+                    <th class="text-center">Hasil</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @foreach($Mdata as $dM)
+                  <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" action="/updatemss/{{$dM->id_mesin}}" method="post">
+                  {!!csrf_field()!!}
+                  <tr>
+                    @if( $dM->meesin->kategori=='filling' )
                     <td> {{ $dM->meesin->nama_mesin }}</td>
-                      <td class="text-center" width="15%">{{$dM->standar_sdm}} Orang </td>
-                      <td class="text-center" width="15%">{{$dM->runtime}} Menit</td>
-                      <td class="text-center" width="15%">
-                  </div>
-
-                  </form>
-                  <form action="{{ route('mesin.destroy', $dM->id_mesin) }}" method="post">
-                    {{csrf_field()}}
-                    <button type="submit" class="btn btn-danger fa fa-trash-o"></button>
-                    <input type="hidden" name="_method" value="DELETE">
-                  </form>
-                      </td>
-                      <td width="15%"><input type="number" id='hasill{{$dM->id_mesin}}' class="form-control1 text-center col-md-7 col-xs-12" value="{{ $dM->hasil }}" disabled> </td>
+                    <td class="text-center" width="15%">{{$dM->standar_sdm}} Orang </td>
+                    <td class="text-center" width="15%">{{$dM->runtime}} Menit</td>
+                    <td class="text-center" width="15%">
+                      </form>
+                      <form action="{{ route('mesin.destroy', $dM->id_mesin) }}" method="post">
+                        {{csrf_field()}}
+                        <button type="submit" class="btn btn-danger fa fa-trash-o"></button>
+                        <input type="hidden" name="_method" value="DELETE">
+                      </form>
+                    </td>
+                    <td width="15%"><input type="number" id='hasill{{$dM->id_mesin}}' class="form-control1 text-center col-md-7 col-xs-12" value="{{ $dM->hasil }}" disabled> </td>
                     @endif
                   </tr>
-                      @endforeach
-                    </tbody>
-                    </table>
-                        </div>
-                        @foreach($dataF as $dF)
-                        <a href="{{ route('dataoh',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}" class="btn btn-success fa fa-plus" type="button"> Add Activity</a>
-                        <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" action="{{route('statusM',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula])}}" method="post">
-                          <input class="form-control1" type="hidden" name="statusM" class="text-center col-md-7 col-xs-12" value="sending">
-                            <center>
-                            <a href="{{ route('datamesin',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}" class="btn btn-danger" type="button">Kembali</a>
-                            <button type="submit" class="btn btn-primary">Selesai</button>
-			                         {{ csrf_field() }}
-                              </center>
-                        </form>
-                        @endforeach
-                    </div>
-
-                  </div>
-                </div>
-              </div>
+                  @endforeach
+                </tbody>
+              </table>
+            </div>
+            @foreach($dataF as $dF)
+              <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" action="{{route('statusM',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula])}}" method="post">
+              <input class="form-control1" type="hidden" name="statusM" class="text-center col-md-7 col-xs-12" value="sending">
+              <center>
+                <a href="{{ route('datamesin',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula]) }}" class="btn btn-danger" type="button">Kembali</a>
+                <button type="submit" class="btn btn-primary">Selesai</button>
+			          {{ csrf_field() }}
+              </center>
+              </form>
+            @endforeach
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 
 
 @endsection
 

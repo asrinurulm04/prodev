@@ -135,7 +135,7 @@
                         <input type="hidden" value="_{{$tanggal}}/PKP_{{ $Dpkp->project_name }} _{{ $Dpkp->revisi+1 }}.{{ $Dpkp->turunan }}" name="scores[{{$loop->index}}][ket]" id="ket_no">
                         @endif
                       @endif
-                    <td><a href="{{route('deletepkp1',$Dpkp->id_project)}}" class="btn btn-danger" type="button"><li class="fa fa-trash"></li></a></td>
+                    <td><a href="{{route('deletepkp1',$Dpkp->id_project)}}" class="btn btn-danger btn-sm" type="button"><li class="fa fa-trash"></li></a></td>
                     @if($Dpkp->form1=='ya')<td><input type="text" readonly name="scores[{{$loop->index}}][name]" class="form-control" value="{{$Dpkp->project_name}}">
                     @elseif($Dpkp->form1=='')<input type="hidden" name="scores[{{$loop->index}}][name]" class="form-control" value="{{$Dpkp->project_name}}"></td> @endif 
                     @if($Dpkp->form2=='ya')<td>
@@ -186,7 +186,7 @@
                     @elseif($pr->form4=='')<input type="hidden" name="scores[{{$loop->index}}][idea]" class="form-control" value="{{$Dpkp->idea}}">@endif
                     @if($pr->form5=='ya')<td><input type="number" name="scores[{{$loop->index}}][dariumur]" class="form-control" value="{{$Dpkp->dariumur}}"></td>
                     @elseif($pr->form5=='')<input type="hidden" name="scores[{{$loop->index}}][dariumur]" class="form-control" value="{{$Dpkp->dariumur}}">@endif
-                    @if($pr->form5=='ya')<td><input type="number" name="scores[{{$loop->index}}][sampaiumur]" class="form-control" value="{{$Dpkp->sampaiumur}}"></td>
+                    @if($pr->form5=='ya')<td><input type="text" name="scores[{{$loop->index}}][sampaiumur]" class="form-control" value="{{$Dpkp->sampaiumur}}"></td>
                     @elseif($pr->form5=='')<input type="hidden" name="scores[{{$loop->index}}][sampaiumur]" class="form-control" value="{{$Dpkp->sampaiumur}}">@endif
                     @if($pr->form6=='ya')<td>
                       <select class="form-control" name="scores[{{$loop->index}}][gender]">
@@ -196,7 +196,7 @@
                         <option value="Male & Female">Male & Female</option>
                       </select>
                       @elseif($pr->form6=='')<select style="display:none;" class="form-control" name="scores[{{$loop->index}}][gender]">
-                        <option value="{{$Dpkp->gender}}">{{$Dpkp->gender}}</option>
+                        <option value="{{$Dpkp->gender}}">{{$Dpkp->gendera}}</option>
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
                         <option value="Male & Female">Male & Female</option>
@@ -219,7 +219,7 @@
                     @if($pr->form14=='ya')<td><input type="text" value="{{$Dpkp->competitive}}" class="form-control" name="scores[{{$loop->index}}][competitive]"></td>
                     @elseif($pr->form14=='')<input type="hidden" value="{{$Dpkp->competitive}}" class="form-control" name="scores[{{$loop->index}}][competitive]">@endif
                     @if($pr->form15=='ya')<td><input type="text" value="{{$Dpkp->UOM}}" class="form-control" name="scores[{{$loop->index}}][uom]">
-                    @elseif($pr->form15=='')<input type="text" value="{{$Dpkp->UOM}}" class="form-control" name="scores[{{$loop->index}}][uom]"></td>@endif
+                    @elseif($pr->form15=='')<input type="hidden" value="{{$Dpkp->UOM}}" class="form-control" name="scores[{{$loop->index}}][uom]"></td>@endif
                     @if($pr->form16=='ya')<td><input type="text" value="{{$Dpkp->product_form}}" class="form-control" name="scores[{{$loop->index}}][form]"></td>
                     @elseif($pr->form16=='')<input type="hidden" value="{{$Dpkp->product_form}}" class="form-control" name="scores[{{$loop->index}}][form]">@endif
                     @if($pr->form17=='ya')<td>
@@ -247,9 +247,9 @@
                     @endforeach
                 </tbody>
               </table>
-              <button class="btn btn-primary" type="submit"><li class="fa fa-check"></li> Submit</button>
+              <button class="btn btn-primary btn-sm" type="submit"><li class="fa fa-check"></li> Submit</button>
               {{ csrf_field() }}
-              <a href="{{route('hapuscheck')}}" class="btn btn-danger"><li class="fa fa-arrow-left"></li> Back</a>
+              <a href="{{route('hapuscheck')}}" class="btn btn-danger btn-sm"><li class="fa fa-ban"></li> Cencel</a>
             </form>
           </div>
         </div>

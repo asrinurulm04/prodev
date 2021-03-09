@@ -1,6 +1,5 @@
-@extends('admin.tempadmin')
-@section('title', 'Data Kategori')
-@section('judulnya','Data Kategori')
+@extends('pv.tempvv')
+@section('title', 'PRODEV|Data Kategori')
 @section('content')
 
 <div class="row">
@@ -27,7 +26,7 @@
     <h3><li class="fa fa-list"> List Kategori</li></h3>
   </div>
   <div class="card-block">
-    <a type="button" class="btn btn-info" data-toggle="modal" data-target="#add_kategori"><i class="fa fa-plus"></i> Tambah Kategori </a>
+    <a type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#add_kategori"><i class="fa fa-plus"></i> Add Kategori </a>
 	  <div class="dt-responsive table-responsive">
       <table class="Table table-striped table-bordered nowrap">
         <thead>
@@ -63,8 +62,7 @@
                 {{ csrf_field() }}
               </div>
               <div class="modal-footer">
-                <button class="btn btn-primary" type="submit"><i class="fa fa-edit"></i> Submit</button>
-                <a type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Cencel</a>
+                <button class="btn btn-primary btn-sm" type="submit"><i class="fa fa-edit"></i> Submit</button>
                 {{ csrf_field() }}
                 {{ method_field('PATCH') }}
                 </form>
@@ -85,7 +83,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="EWBModalLabel"><i class="fa fa-plus"></i> Tambah Kategori
+        <h4 class="modal-title" id="EWBModalLabel"><i class="fa fa-plus"></i> Add Kategori
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button></h4>
       </div>
       <div class="modal-body">
@@ -95,12 +93,11 @@
         {{ csrf_field() }}
       </div>
       <div class="modal-footer">
-        <button class="btn btn-primary" type="submit"><i class="fa fa-plus"></i> Submit</button>
-        <a type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> BATAL</a>
+        <button class="btn btn-primary btn-sm" type="submit"><i class="fa fa-plus"></i> Submit</button>
         </form>
       </div>   
     </div>
   </div>
 </div>
-{{-- selesai --}}
+<!-- Selesai -->
 @endsection

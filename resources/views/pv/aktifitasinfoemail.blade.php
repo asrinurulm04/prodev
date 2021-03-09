@@ -6,7 +6,7 @@
     <title>Boardicle Email</title>
 	</head>
 	<body class="">
-		<table border="0" cellpadding="0" cellspacing="0" class="body">
+    <table border="0" cellpadding="0" cellspacing="0" class="body">
     	<tr>
         <td>&nbsp;</td>
         <td class="container">
@@ -19,36 +19,42 @@
                   <table border="0" cellpadding="0" cellspacing="0">
                     <tr>
                       <td>
-                        <p>Hai, </p>
-                        <p>Saat ini terdapat perubahan data PKP</p>
-                        <td align="left">
+                        <p>Hi,</p>
+                        <p>{{$info}}</p>
                           <table border="0" cellpadding="0" cellspacing="0">
                             <tbody>
                               <tr>
-                                <td> 
-                                  <div class="container"><hr>
-                                    Dengan data sebagai berikut : <br>
-                                    <table>
-                                    @foreach($app as $pkp)
-                                    <tr><td>PKP</td><td>: PKP {{$pkp->datapkpp->jenis}}</td></tr>
-                                    <tr><td>Project Name</td><td>: {{$pkp->datapkpp->project_name}}</td></tr>
-                                    <tr><td>Brand</td><td>: {{$pkp->datapkpp->id_brand}}</td></tr>
-                                    <tr><td>Forecast</td><td>: {{$pkp->for1->satuan}} = {{$pkp->for1->forecast}}</td></tr>
-                                    <tr><td>NF Selling Price</td><td>: {{$pkp->selling_price}}</td></tr>
-                                    @endforeach
-                                    </table>
-                                    <hr>
-                                    Untuk melihat data PKP lengkap, silahkan masuk ke link berikut : https://prodev.nutrifood.co.id </p><br><br><br>
-                                    Terimakasih,<br>
-                                    Admin PRODEV
-                                  </div>
+                                <td align="left">
+                                  <table border="0" cellpadding="0" cellspacing="0">
+                                    <tbody>
+                                    	<tr>
+                                        <td> 
+																					<div class="container"><hr>
+                                            Dengan data sebagai berikut : <br>
+                                            <table>
+                                            @foreach($app as $pkp)
+                                            <tr><td>PKP</td><td>: PKP {{$pkp->datapkpp->jenis}}</td></tr>
+                                            <tr><td>Project Name</td><td>: {{$pkp->datapkpp->project_name}}</td></tr>
+                                            <tr><td>Brand</td><td>: {{$pkp->datapkpp->id_brand}}</td></tr>
+                                            <tr><td>Forecast</td><td>: {{$pkp->for1->satuan}} = {{$pkp->for1->forecast}}</td></tr>
+                                            <tr><td>NF Selling Price</td><td>: {{$pkp->selling_price}}</td></tr>
+                                            @endforeach
+                                            </table>
+                                            <hr>
+                                            Untuk melihat data PKP lengkap, silahkan masuk ke link berikut : https://prodev.nutrifood.co.id </p><br><br><br>
+                                            Terimakasih,<br>
+                                            Admin PRODEV
+                                          </div>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
                                 </td>
                               </tr>
                             </tbody>
                           </table>
-                        </td>
-                      </tr>
-                    </tbody>
+                      </td>
+                    </tr>
                   </table>
                 </td>
 							</tr>	

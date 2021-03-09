@@ -4,65 +4,105 @@ namespace App\Http\Controllers\formula;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\master\Subbrand;
-use App\master\Gudang;
-use App\master\Produksi;
-use App\master\Maklon;
-use App\pkp\tipp;
-use App\pkp\pkp_project;
-use App\User;
-use App\users\Departement;
-use App\dev\Formula;
+use App\model\master\Subbrand;
+use App\model\master\Produksi;
+use App\model\pkp\tipp;
+use App\model\pkp\pkp_project;
+use App\model\users\User;
+use App\model\users\Departement;
+use App\model\dev\Formula;
+use App\model\dev\tr_data_formula;
+use Redirect;
 
 class Step1Controller extends Controller
 {
     public function __construct(){
-
         $this->middleware('auth');
         $this->middleware('rule:user_rd_proses' || 'rule:user_produk');
     }
     
-    public function create($id){
+    public function create($formula,$id){
         $depts = Departement::all();
         $subbrands = Subbrand::all();
-        $gudangs = Gudang::all();
         $produksis = Produksi::all();
-        $maklons = Maklon::all();
-        $formula = Formula::find($id);
+        $formula = Formula::where('id',$id)->first();
+        $idfor = $formula->workbook_id;
         $idf = $id;
+        $data = tr_data_formula::where('id_formula',$id)->get();
         return view('formula/step1')->with([
             'idf' => $idf,
             'formula' => $formula,
             'depts' => $depts,
             'subbrands' => $subbrands,
-            'gudangs' => $gudangs,
-            'produksis' => $produksis,
-            'maklons' => $maklons,
-            ]);
+            'data' => $data,
+            'idfor' => $idfor,
+            'produksis' => $produksis
+        ]);
     }
 
-    public function update($id,Request $request){
-        $this->validate(request(), [
-            'bj' => 'numeric',
-            'batch' => 'numeric',
-            'serving' => 'numeric',
-            'liter' => 'numeric'
+    public function step1_pdf($formula,$id){
+        $depts = Departement::all();
+        $subbrands = Subbrand::all();
+        $produksis = Produksi::all();
+        $formula = Formula::where('id',$id)->first();
+        $idfor_pdf = $formula->workbook_pdf_id;
+        $idf = $id;
+        $data = tr_data_formula::where('id_formula',$id)->get();
+        return view('formula/step1_pdf')->with([
+            'idf' => $idf,
+            'data' => $data,
+            'formula' => $formula,
+            'depts' => $depts,
+            'subbrands' => $subbrands,
+            'idfor_pdf' => $idfor_pdf,
+            'produksis' => $produksis
         ]);
+    }
 
-        $formula = Formula::find($id);
-        $formula->kode_formula = $request->kode_formula;
-        $formula->gudang_id = $request->gudang;
-        $formula->produksi_id = $request->produksi;
-        $formula->maklon_id = $request->maklon;
-        $formula->main_item = $request->main_item;
-        $formula->main_item_eks = $request->main_item_eks;
-        $formula->bj = $request->bj;
-        $formula->batch = $request->batch;
-        $formula->serving = $request->serving;
-        $formula->liter = $request->liter;
-        $formula->keterangan = $request->keterangan;
+    public function update($formula,$id,Request $request){
+        $formula = Formula::where('id',$formula)->first();
+        $formula->catatan_rd = $request->keterangan;
+        $formula->note_formula = $request->formula;
+        $formula->serving_size = $request->serving;
+        $formula->formula = $request->sample;
+        $formula->satuan = $request->satuan;
+        $formula->berat_jenis = $request->berat_jenis;
+		if($request->kategori_formula!=NULL){
+		$formula->kategori=$request->kategori_formula;
+		}else{
+			$formula->kategori='fg';
+		}
         $formula->save();
-        
-        return Redirect()->route('step2', $formula->id);
+
+        if($request->file('filename')!=''){
+            $files = [];
+            foreach ($request->file('filename') as $file) {
+            if ($file->isValid()) {
+                $nama = time();
+                $nama_file = time()."_".$file->getClientOriginalName();
+                $tujuan_upload = 'data_file';
+                $path = $file->move($tujuan_upload,$nama_file);
+                $form=$request->id;
+                $files[] = [
+                    'file' => $nama_file,
+                    'lokasi' => $path,
+                    'id_formula' => $formula->id,
+                ];
+                }
+            }
+            tr_data_formula::insert($files);
+        }
+
+        if($formula->workbook_id!=NULL){
+            return Redirect()->route('step2', [$formula->workbook_id,$formula->id]);
+        }
+        if($formula->workbook_pdf_id!=NULL){
+            return Redirect()->route('step2', [$formula->workbook_pdf_id,$formula->id]);
+        }
+    }
+    
+    public function hapus_file($id){
+        $file = tr_data_formula::where('id_data',$id)->delete();
+        return redirect::back();
     }
 }

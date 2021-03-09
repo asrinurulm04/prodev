@@ -5,8 +5,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
-use App\User;
-
+use App\model\users\User;
 use DB;
 use Mail;
 use Redirect;
@@ -15,8 +14,8 @@ use Carbon\Carbon;
 class AccountsController extends Controller
 {
     public function validatePasswordRequest(Request $request){
-        $user = DB::table('users')->where('email', '=', $request->email)->where('username',$request->username)->first();
-        $user1 = DB::table('users')->where('email', '=', $request->email)->where('username',$request->username)->count();
+        $user = DB::table('tr_users')->where('email', '=', $request->email)->where('username',$request->username)->first();
+        $user1 = DB::table('tr_users')->where('email', '=', $request->email)->where('username',$request->username)->count();
 
         //Check if the user exists
         if ($user1 < 1) {
@@ -34,14 +33,12 @@ class AccountsController extends Controller
         if ($this->sendResetEmail($request->email, $tokenData->token)) {
             return redirect()->route('reset',$user->id);
         } else {
-            
             return redirect()->back()->withErrors(['error' => trans('A Network Error occurred. Please try again.')]);
         }
     }
 
     public function update(Request $request){
         $user = User::find($request->id);
-        
         $this->validate(request(), [
             'username' => 'unique:users,username,'.$user->id,
             'email' => 'unique:users,email,'.$user->id,
@@ -55,16 +52,13 @@ class AccountsController extends Controller
         $user->save();
         
         return Redirect::route('signin')->with('status','Profil Anda Telah Dirubah !');
-
     }
 
-    private function sendResetEmail($email, $token)
-    {
+    private function sendResetEmail($email, $token){
         //Retrieve the user from the database
-        $user = DB::table('users')->where('email', $email)->select('username', 'email')->first();
+        $user = DB::table('tr_users')->where('email', $email)->select('username', 'email')->first();
         //Generate, the password reset link. The token generated is embedded in the link
         $link = config('base_url') . 'password/reset/' . $token . '?email=' . urlencode($user->email);
-        
         return view('resetpass')->with([
             'user' => $user,
             'token' => $token

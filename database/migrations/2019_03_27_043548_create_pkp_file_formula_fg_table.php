@@ -13,10 +13,11 @@ class CreatePkpFileFormulaFgTable extends Migration
      */
     public function up()
     {
-        Schema::create('pkp_file_formula_fg', function (Blueprint $table) {
-            $table->increments('id_file_formula');
-            $table->integer('id_project')->nullable();
+        Schema::create('tr_data_formula', function (Blueprint $table) {
+            $table->increments('id_data');
+            $table->integer('id_formula')->nullable();
             $table->string('file')->nullable();
+            $table->string('lokasi')->nullable();
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ class CreatePkpFileFormulaFgTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pkp_file_formula_fg');
+        Schema::dropIfExists('tr_data_formula');
     }
 }

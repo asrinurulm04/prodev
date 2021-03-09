@@ -1,5 +1,5 @@
-@extends('admin.tempadmin')
-@section('title', 'Data Uom')
+@extends('pv.tempvv')
+@section('title', 'PRODEV|Data UOM')
 @section('content')
 
 <div class="row">
@@ -42,11 +42,10 @@
       	  </div>
       	</div>
   		</div>
-			<center><button type="submit" class="btn btn-primary">Submit</button></center>
+			<center><button type="submit" class="btn btn-primary btn-sm">Submit</button></center>
       {{ csrf_field() }}
 		</div>
 		</form>
 	</div>
 </div>		
-
 @endsection

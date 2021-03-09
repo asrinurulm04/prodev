@@ -4,32 +4,29 @@ namespace App\Http\Controllers\finance;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+
+use App\model\Modelmesin\Dmesin;
+use App\model\Modelmesin\datamesin;
+use App\model\Modelfn\finance;
+use App\model\Modelfn\pesan;
+use App\model\Modellab\Dlab;
+use App\model\modelkemas\konsep;
+use App\model\Modelkemas\userkemas;
+use App\model\dev\Bahan;
+use App\model\dev\Formula;
+use App\model\dev\Fortail;
+use App\model\master\Curren;
+use Auth;
 use DB;
 use Redirect;
 use Input;
 use Validator;
 
-use App\Modelmesin\Dmesin;
-use App\Modelmesin\oh;
-use App\Modelfn\finance;
-use App\Modelfn\pesan;
-use App\dev\Formula;
-use App\Modellab\Dlab;
-use App\modelkemas\konsep;
-use App\Modelkemas\userkemas;
-use App\Modelmesin\aktifitasOH;
-use App\Modelmesin\workcenter;
-use App\Modelmesin\datamesin;
-use App\dev\Bahan;
-use App\master\Curren;
-use App\dev\Fortail;
-use Auth;
-
 class FinanceController extends Controller
 {
     public function __construct(){
         $this->middleware('auth');
-        $this->middleware('rule:finance');
+        $this->middleware('rule:finance' || 'rule:pv_lokal' || 'rule:pv_global');
     }
 
     public function indexx($id,$id_feasibility){
@@ -60,18 +57,142 @@ class FinanceController extends Controller
     }
 
     public function summary($id,$id_feasibility){
+        $ko= konsep::where('id_feasibility',$id_feasibility)->first();
+        $u= Dmesin::where('id_feasibility',$id_feasibility)->first();
         $Mdata = Dmesin::with('meesin')->get()->where('id_feasibility', $id_feasibility);
         $dataO = oh::with('dataoh')->get()->where('id_feasibility', $id_feasibility);
         $fe=finance::find($id_feasibility);
+        $Jlab = Dlab::where('id_feasibility',$id_feasibility)->sum('rate');
+        $Jmesin = Dmesin::where('id_feasibility',$id_feasibility)->sum('hasil');
+        $Joh = oh::where('id_feasibility',$id_feasibility)->sum('hasil');
+        $konsep = konsep::where('id_feasibility',$id_feasibility)->get();
+        $total = $Jmesin+$Joh;
         $dataL =Dlab::where('id_feasibility',$id_feasibility)->get();
         $kemas =userkemas::where('id_feasibility', $id_feasibility)->get();
         $dataF = finance::where('id_feasibility', $id_feasibility)->get();
+        $formula = Formula::where('workbook_id',$id)->first();
+        $fortails = Fortail::where('formula_id',$id)->get();
+        $ada = Fortail::where('formula_id',$id)->count();
+
+        if($ada < 1){
+            return Redirect::back()->with('error','Data Bahan Formula Versi '.$formula->versi.' Masih Kosong');
+        }elseif($formula->batch < 1){
+            return Redirect::back()->with('error','Data Bahan Formula Versi '.$formula->versi.'.'.$formula->turunan.' Belum Memliki Batch');
+        }
+
+        $detail_formula     = collect();
+        $granulasi          = 0;
+        $jumlah_granulasi   = 0;
+        $biasa              = 0;
+        $one_persen         = $formula->batch / 100;
+
+        foreach($fortails as $fortail){
+            // Get Persen
+            $persen = $fortail->per_batch / $one_persen; $persen = round($persen, 2);
+            $detail_formula->push([
+
+                'id' => $fortail->id,
+                'kode_komputer' => $fortail->kode_komputer,
+                'nama_sederhana' => $fortail->nama_sederhana,
+                'nama_bahan' => $fortail->nama_bahan,
+                'per_batch' => $fortail->per_batch,
+                'per_serving' => $fortail->per_serving,
+                'granulasi' => $fortail->granulasi,
+                'persen' => $persen,
+            ]);            
+
+            if($fortail->granulasi == 'ya'){
+                $granulasi = $granulasi + 1;
+                $jumlah_granulasi = $jumlah_granulasi + $fortail->per_batch;
+            }
+        }
+
+        $biasa = $ada - $granulasi;
+        $gp    = $jumlah_granulasi / $one_persen; $gp = round($gp , 2);
+
+        // Tampil Harga Bahan Baku
+        $detail_harga = collect();
+        $satu_persen = $formula->serving / 100;
+        // Inisialisasi Total
+        $total_harga_per_gram = 0;
+        $total_berat_per_serving = 0;
+        $total_harga_per_serving = 0;
+        $total_berat_per_batch = 0;
+        $total_harga_per_batch = 0;
+        $total_berat_per_kg = 0;
+        $total_harga_per_kg = 0; 
+
+        foreach($fortails as $fortail){
+            //Get Needed
+            $bahan  = Bahan::where('id',$fortail->bahan_id)->first();
+            $curren = Curren::where('id',$bahan->curren_id)->first();
+            //Start Count
+                // Harga Pergram
+                $hpg = ($bahan->harga_satuan * $curren->harga) / ($bahan->berat * 1000); $hpg = round($hpg,2);
+                // PerServing
+                $berat_per_serving = $fortail->per_serving; $berat_per_serving = round($berat_per_serving,5);
+                $persen = $fortail->per_serving / $satu_persen; $persen = round($persen,2);
+                $harga_per_serving = $berat_per_serving * $hpg; $harga_per_serving = round($harga_per_serving,2);
+                // Per Batch
+                $berat_per_batch = $fortail->per_batch; $berat_per_batch = round($berat_per_batch,5);
+                $harga_per_batch = $berat_per_batch * $hpg; $harga_per_batch = round($harga_per_batch,2);
+                // Per Kg
+                $berat_per_kg = (1000 * $berat_per_serving) / $formula->serving; $berat_per_kg = round($berat_per_kg,5);
+                $harga_per_kg = $berat_per_kg * $hpg; $harga_per_kg = round($harga_per_kg,2);       
+            // Tampilkan
+            $detail_harga->push([
+                'id' => $fortail->id,
+                'kode_komputer' => $bahan->kode_komputer,
+                'nama_sederhana' => $bahan->nama_sederhana,
+                'hpg' => $hpg,
+                'per_serving' =>  $berat_per_serving,
+                'persen' => $persen,
+                'harga_per_serving' => $harga_per_serving,
+                'per_batch' => $berat_per_batch,
+                'harga_per_batch' => $harga_per_batch,
+                'per_kg' => $berat_per_kg,
+                'harga_per_kg' => $harga_per_kg
+            ]);
+
+            // Count Total
+            $total_harga_per_gram = $total_harga_per_gram + $hpg;
+            $total_berat_per_serving = $total_berat_per_serving + $berat_per_serving;
+            $total_harga_per_serving = $total_harga_per_serving + $harga_per_serving;
+            $total_berat_per_batch = $total_berat_per_batch + $berat_per_batch;
+            $total_harga_per_batch = $total_harga_per_batch + $harga_per_batch;
+            $total_berat_per_kg = $total_berat_per_kg + $berat_per_kg;
+            $total_harga_per_kg = $total_harga_per_kg + $harga_per_kg;
+        }
+
+        $total_harga = collect([
+            'total_harga_per_gram' => $total_harga_per_gram,
+            'total_berat_per_serving' => $total_berat_per_serving,
+            'total_persen' => 100,
+            'total_harga_per_serving' => $total_harga_per_serving,
+            'total_berat_per_batch' => $total_berat_per_batch,
+            'total_harga_per_batch' => $total_harga_per_batch,
+            'total_berat_per_kg' => $total_berat_per_kg,
+            'total_harga_per_kg' => $total_harga_per_kg,                       
+        ]);
         return view('finance.hasilakhir')->with([
+            'ada'     => $ada,
+            'formula' => $formula,
+            'detail_formula' =>  $detail_formula,
+            'granulasi' => $granulasi,
+            'gp' => $gp,
+            'detail_harga' => $detail_harga,
+            'total_harga' => $total_harga,
             'id_feasibility' => $id_feasibility,
             'fe' => $fe,
             'kemas' => $kemas,
             'Mdata' => $Mdata,
             'id' => $id,
+            'formula' => $formula,
+            'konsep' => $konsep,
+            'total' => $total,
+            'jlab' =>$Jlab,
+            'u' => $u,
+            'ko' => $ko,
             'dataL' => $dataL,
             'dataO' => $dataO,
             'dataF' => $dataF
@@ -171,6 +292,23 @@ class FinanceController extends Controller
         $change_status->save();
 
     	return redirect()->back();
+    }
+
+    public function kemasselesai($id){
+        $change_status  = finance::where('id_feasibility',$id)->first();
+        $change_status->status_kemas='selesai';
+        $change_status->save();
+
+        return redirect::back();
+    }
+
+    public function mesinselesai($id){
+        $change_status  = finance::where('id_feasibility',$id)->first();
+        $change_status->status_mesin='selesai';
+        $change_status->status_sdm='selesai';
+        $change_status->save();
+
+        return redirect::back();
     }
 
     public function DMmesin($id,$id_feasibility){
@@ -279,11 +417,20 @@ class FinanceController extends Controller
     public function status(Request $request,$id, $id_feasibility){
         $statuss=finance::where('id_feasibility',$id_feasibility)->first();
         $statuss->status_finance=$request->statusF;
-        $statuss->status_kemas=$request->statusK;
-        $statuss->status_SDM=$request->statusS;
-        $statuss->status_mesin=$request->statusM;
         $statuss->save();
         return redirect()->route('myFeasibility',$id);
+    }
+
+    public function akhirfs($id_feasibility,$id){
+        $statuss=finance::where('id_feasibility',$id_feasibility)->first();
+        $statuss->status_feasibility='selesai';
+        $statuss->save();
+
+        $formula = Formula::where('id',$id)->first();
+        $formula->status_fisibility='selesai';
+        $formula->save();
+
+        return redirect::back();
     }
 
     public function akhir($id_feasibility){
@@ -320,13 +467,14 @@ class FinanceController extends Controller
         $Jlab = Dlab::where('id_feasibility',$id_feasibility)->sum('rate');
         $Jmesin = Dmesin::where('id_feasibility',$id_feasibility)->sum('hasil');
         $Joh = oh::where('id_feasibility',$id_feasibility)->sum('hasil');
+        $konsep = konsep::where('id_feasibility',$id_feasibility)->get();
         $total = $Jmesin+$Joh;
         $dataL =Dlab::where('id_feasibility',$id_feasibility)->get();
         $kemas =userkemas::where('id_feasibility', $id_feasibility)->get();
         $dataF = finance::where('id_feasibility', $id_feasibility)->get();
-        $formula = Formula::where('id',$id)->first();
-        $fortails = Fortail::where('formula_id',$formula->id)->get();
-        $ada = Fortail::where('formula_id',$formula->id)->count();
+        $formula = Formula::where('workbook_id',$id)->first();
+        $fortails = Fortail::where('formula_id',$id)->get();
+        $ada = Fortail::where('formula_id',$id)->count();
 
         if($ada < 1){
             return Redirect::back()->with('error','Data Bahan Formula Versi '.$formula->versi.' Masih Kosong');
@@ -445,6 +593,7 @@ class FinanceController extends Controller
             'Mdata' => $Mdata,
             'id' => $id,
             'formula' => $formula,
+            'konsep' => $konsep,
             'total' => $total,
             'jlab' =>$Jlab,
             'u' => $u,

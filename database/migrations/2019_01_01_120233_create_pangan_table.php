@@ -13,10 +13,11 @@ class CreatePanganTable extends Migration
      */
     public function up()
     {
-        Schema::create('fs_kategori_pangan', function (Blueprint $table) {
-            $table->increments('id_pangan');
-            $table->string('no_kategori',12);
-            $table->string('kategori',125);
+        Schema::create('ms_kategori_pangan', function (Blueprint $table) {
+            $table->increments('id_kategori');
+            $table->integer('id_pangan');
+            $table->text('pangan_olahan');
+            $table->text('karakteristik');
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ class CreatePanganTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('fs_kategori_pangan');
+        Schema::dropIfExists('ms_kategori_pangan');
     }
 }

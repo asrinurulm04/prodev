@@ -13,11 +13,10 @@ class CreateTableSubkategori extends Migration
      */
     public function up()
     {
-        Schema::create('subkategoris', function (Blueprint $table) {
+        Schema::create('ms_subkategoris', function (Blueprint $table) {
           $table->increments('id');
           $table->string('subkategori');
           $table->integer('kategori_id')->index();
-          $table->double('pembulatan');
           $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ class CreateTableSubkategori extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('subkategoris');
+        Schema::dropIfExists('ms_subkategoris');
     }
 }

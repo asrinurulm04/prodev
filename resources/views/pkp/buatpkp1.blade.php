@@ -3,20 +3,17 @@
 @section('judulhalaman','Request PKP')
 @section('content')
 
-<div class="row">
-  <div class="col-md-3"></div>
-  <div class="col-md-8">
+<div class="x_panel">
+  <div class="col-md-3 col-sm-3 col-xs-12"></div>
+  <div class="col-md-8 col-sm-5 col-xs-12">
     <div class="tabbable">
       <ul class="nav nav-tabs wizard">
         <li class="active"><a href="" ><span class="nmbr">1</span>Information</a></li>
         <li class="completed"><a href=""><span class="nmbr">2</span>PKP</a></li>
-        <li class="active"><a href=""><span class="nmbr">3</span>File & Image</a></li>
+        <li class="active"><a href=""><span class="nmbr">3</span>File</a></li>
       </ul>
     </div>
   </div>
-</div>
-
-<div class="row">
   <div class="col-md-12 col-xs-12">
     <table class="table table-bordered">
       <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
@@ -28,8 +25,8 @@
     </table>
   </div>
 </div>
-
-<form class="form-horizontal form-label-left" method="POST" action="{{ route('tippp') }}" novalidate>
+  
+<form class="form-horizontal form-label-left" method="POST" action="{{ route('tippp') }}">
 <div class="row">
   <div class="col-md-12 col-xs-12">
     <div class="x_panel">
@@ -40,14 +37,14 @@
         <div class="x_content">
           <div class="form-group row">
             <input type="hidden" value="{{ $id_pkp->id_project }}" name="id">
-            <label class="control-label col-md-2 col-sm-3 col-xs-12" for="first-name" * style="color:#31a9b8">Idea*</label>
-            <div class="col-md-9 col-sm-10 col-xs-12">
+            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="first-name" * style="color:#31a9b8">Idea*</label>
+            <div class="col-md-9 col-sm-9 col-xs-12">
               <textarea name="idea" id="idea" class="form-control col-md-12 col-xs-12" ></textarea>
             </div>
           </div>
           <div class="form-group row">
-            <label class="control-label col-md-2 col-sm-3 col-xs-12" for="last-name" style="color:#31a9b8">Target Market</label>
-            <label class="control-label col-md-1 col-sm-3 col-xs-12" for="last-name" style="color:#31a9b8">Gender*:</label>
+            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="last-name" style="color:#31a9b8">Target Market</label>
+            <label class="control-label col-md-1 col-sm-1 col-xs-12" for="last-name" style="color:#31a9b8">Gender*:</label>
             <div class="col-md-4 col-sm-3 col-xs-12">
               <select id="gender"  name="gender" class="form-control" >
                 <option disabled selected>-- Select Gender --</option>
@@ -56,8 +53,8 @@
                 <option value="Male dan Female">Male & Female</option>
               </select>
             </div>
-            <label for="middle-name" class="control-label col-md-1 col-sm-2 col-xs-12" style="color:#31a9b8">SES* </label>
-              <div class="col-md-3 col-sm-6 col-xs-12">
+            <label for="middle-name" class="control-label col-md-1 col-sm-1 col-xs-12" style="color:#31a9b8">SES* </label>
+              <div class="col-md-3 col-sm-3 col-xs-12">
                 <select placeholder="SES" class="form-control form-control-line items" name="ses[]"   multiple="multiple">
                   <option disabled="">-- Select One --</option>
                   @foreach($ses as $ses)
@@ -66,16 +63,16 @@
                 </select>
               </div><br><br><br>
             <div class="form-group row">
-              <label for="middle-name" class="control-label col-md-1 col-sm-3 col-xs-12"></label>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+              <label for="middle-name" class="control-label col-md-1 col-sm-1 col-xs-12"></label>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
               <label for="middle-name" class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#31a9b8"> &nbsp  &nbsp Remarks SES* : </label>
-              <div class="col-md-8 col-sm-3 col-xs-12">
+              <div class="col-md-8 col-sm-8 col-xs-12">
                 <input type="text"  name="remarks_ses" id="remarks_ses" class="form-control col-md-12 col-xs-12">
               </div>
             </div>
             <div class="form-group row">
-              <label for="middle-name" class="control-label col-md-1 col-sm-3 col-xs-12"></label>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+              <label for="middle-name" class="control-label col-md-1 col-sm-1 col-xs-12"></label>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
               <label for="middle-name" class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#31a9b8"> &nbsp  &nbsp Age Range form* : </label>
-              <div class="col-md-2 col-sm-3 col-xs-12">
+              <div class="col-md-2 col-sm-2 col-xs-12">
                 <input type="number"  name="dariumur" id="dariumur" class="form-control col-md-12 col-xs-12">
               </div>
               <div class="col-md-2 col-sm-3 col-xs-12">&nbsp &nbsp &nbsp &nbsp &nbsp 
@@ -83,14 +80,14 @@
      			      <input type="radio" name="data" oninput="minus()" id="radio_minus"> - &nbsp /  
      			      <input type="radio" name="data" oninput="to()" id="radio_to"> To 
               </div>
-              <div class="col-md-2 col-sm-3 col-xs-12" id="umur"></div>
+              <div class="col-md-1 col-sm-2 col-xs-12" id="umur"></div>
             </div>
           </div>
           <?php $last = Date('j-F-Y'); ?>
           <input id="last_up" value="{{ $last }}" class="form-control col-md-12 col-xs-12" type="hidden" name="last_up">
           <div class="form-group row">
-            <label for="middle-name" class="control-label col-md-2 col-sm-3 col-xs-12" style="color:#31a9b8">Uniqueness of Idea* </label>
-            <div class="col-md-4 col-sm-6 col-xs-12">
+            <label for="middle-name" class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#31a9b8">Uniqueness of Idea* </label>
+            <div class="col-md-4 col-sm-4 col-xs-12">
               <select class="form-control form-control-line" name="uniq_idea" >
                 <option disabled="" selected="">-- Select One --</option>
                 @foreach($idea as $idea)
@@ -98,8 +95,8 @@
                 @endforeach
               </select>
             </div>
-            <label class="control-label col-md-1 col-sm-3 col-xs-12" style="color:#31a9b8">Estimated*</label>
-            <div class="col-md-4 col-sm-6 col-xs-12">
+            <label class="control-label col-md-1 col-sm-1 col-xs-12" style="color:#31a9b8">Estimated*</label>
+            <div class="col-md-4 col-sm-4 col-xs-12">
               <select class="form-control form-control-line" name="estimated" >
                 <option disabled="" selected="">-- Select Estimated potential market --</option>
                 @foreach($market as $market)
@@ -109,8 +106,8 @@
             </div>
           </div>
           <div class="form-group row">
-            <label class="control-label col-md-2 col-sm-3 col-xs-12" for="first-name" style="color:#31a9b8">reason*</label>
-            <div class="col-md-9 col-sm-10 col-xs-12">
+            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="first-name" style="color:#31a9b8">reason*</label>
+            <div class="col-md-9 col-sm-9 col-xs-12">
               <textarea name="reason" id="reason" class="form-control col-md-12 col-xs-12" ></textarea>
             </div>
           </div>
@@ -130,42 +127,39 @@
       <div class="card-block">
         <div class="x_content">
           <div class="form-group row">
-            <label class="control-label col-md-2 col-sm-3 col-xs-12" style="color:#31a9b8">Launch* </label> &nbsp
+            <label class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#31a9b8">Launch* </label> &nbsp
       		  <input type="radio" name="data" oninput="template()" id="radio_temp"> Launch periode  &nbsp &nbsp
      			  <input type="radio" name="data" oninput="kalender()" id="radio_cal"> Launch date &nbsp &nbsp
           </div>
           <div id="tampilkan"></div>
           <div class="form-group row">
-            <label class="control-label col-md-2 col-sm-3 col-xs-12" style="color:#31a9b8">Aisle Placement*</label>
+            <label class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#31a9b8">Aisle Placement*</label>
             <div class="col-md-9 col-sm-9 col-xs-12">
               <input type="text" placeholder="Aisle Placement" name="aisle" id="aisle" class="form-control col-md-12 col-xs-12">
             </div>
           </div>
           <div class="form-group row">
-            <label class="control-label col-md-2 col-sm-3 col-xs-12" style="color:#31a9b8">Comperitor*</label>
-            <div class="col-md-4 col-sm-9 col-xs-12">
+            <label class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#31a9b8">Comperitor*</label>
+            <div class="col-md-4 col-sm-4 col-xs-12">
               <input type="text" placeholder="Comperitor" name="competitor" id="" class="form-control col-md-12 col-xs-12">
             </div>
-            <label class="control-label col-md-1 col-sm-3 col-xs-12" style="color:#31a9b8">Competitiveness*</label>
-            <div class="col-md-4 col-sm-9 col-xs-12">
+            <label class="control-label col-md-1 col-sm-1 col-xs-12" style="color:#31a9b8">Competitiveness*</label>
+            <div class="col-md-4 col-sm-4 col-xs-12">
               <input type="text" placeholder="Competitive Advantage" name="Competitive" id="" class="form-control col-md-12 col-xs-12">
             </div>
           </div>
           <div class="form-group row">
-            <div class="col-md-2 col-sm-9 col-xs-12" >
-              <label class="control-label col-md-12 col-sm-3 col-xs-12" style="color:#31a9b8">Sales Forecast*</label> 
-            </div>
+            <label class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#31a9b8">Sales Forecast*</label> 
             <div class="col-md-9 col-sm-9 col-xs-12" style="overflow-x: scroll;">
               <table class="table table-bordered table-hover" id="tabledata">
         				<tbody>
         				  <tr id='tr_clone'>
-                    <td><input type="number" name="forecast[]" min="0" step="0.0001" width="500px" class="form-control"></td>
+                    <td><input type="number" name="forecast[]" min="0" step="0.0001" class="form-control"></td>
                     <td>
                       <select name="satuan[]" class="form-control items">
-                        <option disabled selected>--> Select One <--</option>
-                        <option value="1 Month">1 Month</option>
-                        <option value="2 Month">2 Month</option>
-                        <option value="3 Month">3 Month</option>
+                        <option value="1st Month">1st Month</option>
+                        <option value="2nd Month">2nd Month</option>
+                        <option value="3rd Month">3rd Month</option>
                       </select>
                     </td>
                     <td>
@@ -178,23 +172,23 @@
             </div>
           </div>
           <div class="form-group row">
-            <label class="control-label col-md-2 col-sm-3 col-xs-12" style="color:#31a9b8">Remarks Forecash*</label>
-            <div class="col-md-9 col-sm-10 col-xs-12">
+            <label class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#31a9b8">Remarks Forecash*</label>
+            <div class="col-md-9 col-sm-9 col-xs-12">
               <textarea name="remarks_forecash" id="remarks_forecash" class="form-control col-md-12 col-xs-12" rows="2"></textarea>
             </div>
           </div>
           <div class="form-group row">
-            <label class="control-label col-md-2 col-sm-3 col-xs-12" style="color:#31a9b8">Selling Price (Before PPN)*</label>
+            <label class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#31a9b8">Selling Price (Before PPN)*</label>
             <div class="col-md-4 col-sm-4 col-xs-12">
               <input type="number" name="Selling_price" id="Selling_price" class="form-control col-md-12 col-xs-12">
             </div>
-            <label class="control-label col-md-2 col-sm-3 col-xs-12" style="color:#31a9b8">Consumer Price*</label>
-            <div class="col-md-3 col-sm-9 col-xs-12">
+            <label class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#31a9b8">Consumer Price*</label>
+            <div class="col-md-3 col-sm-3 col-xs-12">
               <input type="number" placeholder="Consumer Price" name="consumer_price" id="consumer_price" class="form-control col-md-12 col-xs-12">
             </div>
           </div>
           <div class="form-group row">
-            <label class="control-label col-md-2 col-sm-3 col-xs-12" style="color:#31a9b8">UOM*</label>
+            <label class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#31a9b8">UOM*</label>
             <div class="col-md-9 col-sm-9 col-xs-12">
               <input type="text" placeholder="UOM" name="uom" id="uom" class="form-control col-md-12 col-xs-12">
             </div>
@@ -214,7 +208,7 @@
       <div class="card-block">
         <div class="x_content">
           <div class="form-group">
-            <label class="control-label col-md-2 col-sm-3 col-xs-12" style="color:#31a9b8">Product Form*</label>
+            <label class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#31a9b8">Product Form*</label>
             <div class="col-md-9 col-sm-9 col-xs-12">
               <select  id="product" name="product" class="form-control" >
                 <option disabled selected>-- Select one --</option>
@@ -226,17 +220,16 @@
             </div>
           </div>
           <div class="form-group row">
-            <label class="control-label col-md-2 col-sm-3 col-xs-12" style="color:#31a9b8">Remarks Product Form*</label>
-            <div class="col-md-9 col-sm-10 col-xs-12">
+            <label class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#31a9b8">Remarks Product Form*</label>
+            <div class="col-md-9 col-sm-9 col-xs-12">
               <textarea name="remarks_product_form" id="remarks_product_form" class="form-control col-md-12 col-xs-12" rows="2"></textarea>
             </div>
           </div>
           @if(auth()->user()->role->namaRule == 'pv_lokal' || auth()->user()->role->namaRule == 'admin')
           <div class="form-group">
-            <label class="control-label col-md-2 col-sm-3 col-xs-12" style="color:#cf3721">AKG^</label>
+            <label class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#cf3721">AKG^</label>
             <div class="col-md-9 col-sm-9 col-xs-12">
               <select name="akg" required id="akg" class="form-control">
-                <option value=""></option>
                 @foreach($tarkon as $tr)
                 <option value="{{ $tr->id_tarkon}}">{{$tr->tarkon}}</option>
                 @endforeach
@@ -244,17 +237,17 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="control-label col-md-2 col-sm-3 col-xs-12" style="color:#cf3721">No category BPOM^</label>
-            <div class="col-md-2 col-sm-9 col-xs-12">
-              <select class="form-control"  id="bpom" name="bpom">
+            <label class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#cf3721">No category BPOM^</label>
+            <div class="col-md-2 col-sm-2 col-xs-12">
+              <select class="form-control"  id="bpom" name="bpom" required>
                 <option value=""></option>
                 @foreach($pangan as $dp)
                 <option value="{{ $dp->id_pangan }}">{{ $dp->no_kategori }}</option>
                 @endforeach
               </select>
             </div>
-            <label class="control-label col-md-1 col-sm-3 col-xs-12" style="color:#cf3721">category</label>
-            <div class="col-md-3 col-sm-9 col-xs-12">
+            <label class="control-label col-md-1 col-sm-1 col-xs-12" style="color:#cf3721">category</label>
+            <div class="col-md-3 col-sm-3 col-xs-12">
               <select name="katbpom"  id="katbpom" class="form-control">
                 <option value=""></option>
                 @foreach($pangan as $kat)
@@ -262,7 +255,7 @@
                 @endforeach
               </select>
             </div>
-            <div class="col-md-3 col-sm-9 col-xs-12">
+            <div class="col-md-3 col-sm-3 col-xs-12">
               <select name="olahan"  id="olahan" class="form-control">
               </select>
             </div>
@@ -277,25 +270,25 @@
           @endif
           <div id="lihat"></div>
           <div class="form-group">
-            <label class="control-label col-md-2 col-sm-3 col-xs-12" style="color:#31a9b8">prefered flavour (varian/rasa)*</label>
+            <label class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#31a9b8">prefered flavour (varian/rasa)*</label>
             <div class="col-md-9 col-sm-9 col-xs-12">
               <textarea id="prefered" class="form-control col-md-12 col-xs-12" type="text" name="prefered"></textarea>
             </div>
           </div>
           <div class="form-group">
-            <label class="control-label col-md-2 col-sm-3 col-xs-12" style="color:#258039">Serving Suggestion (gr/ml)**</label>
+            <label class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#258039">Serving Suggestion (gr/ml)**</label>
             <div class="col-md-9 col-sm-9 col-xs-12">
               <textarea  id="suggestion" class="form-control col-md-12 col-xs-12" type="text" name="suggestion"></textarea>
             </div>
           </div>	
           <div class="form-group">
-            <label  class="control-label col-md-2 col-sm-3 col-xs-12" style="color:#31a9b8">Mandatory Ingredient*</label>
+            <label  class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#31a9b8">Mandatory Ingredient*</label>
             <div class="col-md-9 col-sm-9 col-xs-12">
               <textarea id="ingredient"  class="form-control col-md-12 col-xs-12" placeholder="" type="text" name="ingredient"></textarea>
             </div>
           </div>	
           <div class="form-group">
-            <label class="control-label col-md-2 col-sm-3 col-xs-12" style="color:#31a9b8">Product Benefits*</label>
+            <label class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#31a9b8">Product Benefits*</label>
             <div class="col-md-9 col-sm-9 col-xs-12">
               <textarea  id="benefits" class="form-control col-md-12 col-xs-12" type="text" name="benefits"></textarea>
             </div>
@@ -338,9 +331,14 @@
               </table>
             </div>
           </div>
-          <div class="col-md-6 col-md-offset-5">
-            <button type="reset" class="btn btn-danger">Reset</button>
-            <button type="submit" class="btn btn-primary">Submit And Next</button>
+          <input type="hidden" value="{{ Auth::user()->email }}" name="pengirim1" id="pengirim1">
+            @foreach($teams as $teams)
+            <input type="hidden" value="{{$teams->user->name}}" name="namatujuan[]" id="namatujuan">
+            <input type="hidden" value="{{$teams->user->email}}" name="emailtujuan[]" id="emailtujuan">
+            @endforeach
+          <div class="col-md-6 col-sm-offset-5 col-md-offset-5">
+            <button type="reset" class="btn btn-warning btn-sm"><li class="fa fa-repeat"></li> Reset</button>
+            <button type="submit" class="btn btn-primary btn-sm"><li class="fa fa-check"></li> Submit</button>
             {{ csrf_field() }}
           </div>
         </div>
@@ -353,61 +351,57 @@
 @endsection
 @section('s')
 <script>
-  
   $(document).ready(function() {
 
     var idkomponen = []
-  <?php foreach($komponen as $key => $value) { ?>
-    if(!idkomponen){
-      idkomponen += [ { '<?php echo $key; ?>' : '<?php echo $value->id; ?>', } ];
-    } else { idkomponen.push({ '<?php echo $key; ?>' : '<?php echo $value->id; ?>', }) }
-  <?php } ?>
+    <?php foreach($komponen as $key => $value) { ?>
+      if(!idkomponen){
+        idkomponen += [ { '<?php echo $key; ?>' : '<?php echo $value->id; ?>', } ];
+      } else { idkomponen.push({ '<?php echo $key; ?>' : '<?php echo $value->id; ?>', }) }
+    <?php } ?>
 
-  var komponen = []
-  <?php foreach($komponen as $key => $value) { ?>
-    if(!komponen){
-      komponen += [ { '<?php echo $key; ?>' : '<?php echo $value->komponen; ?>', } ];
-    } else { komponen.push({ '<?php echo $key; ?>' : '<?php echo $value->komponen; ?>', }) }
-  <?php } ?>
+    var komponen = []
+    <?php foreach($komponen as $key => $value) { ?>
+      if(!komponen){
+        komponen += [ { '<?php echo $key; ?>' : '<?php echo $value->komponen; ?>', } ];
+      } else { komponen.push({ '<?php echo $key; ?>' : '<?php echo $value->komponen; ?>', }) }
+    <?php } ?>
 
-  var komponen1 = '';
-    for(var i = 0; i < Object.keys(komponen).length; i++){
-    komponen1 += '<option value="'+idkomponen[i][i]+'">'+komponen[i][i]+'</option>';
-  }
+    var komponen1 = '';
+      for(var i = 0; i < Object.keys(komponen).length; i++){
+      komponen1 += '<option value="'+idkomponen[i][i]+'">'+komponen[i][i]+'</option>';
+    }
 
-  var i = 1;
-  var a = {!! json_encode($Ddetail) !!};
-  $("#add_row").click(function() {
-    $('#addr' + i).html("<input type='hidden' value='"+(a+i)+"' name='iddetail' id='iddetail'><td><select class='form-control items' name='komponen[]' id='komponen"+(a+i)+"' >"+komponen1+
-      "</select></td><td><select name='klaim[]' class='form-control items' id='klaimm"+(a+i)+"'>"+
-      "</select></td><td><select name='detail[]' multiple='multiple' class='form-control items' id='detaill"+(a+i)+"'>"+
-      "</select></td><td><textarea type='text' class='form-control' name='ket[]' id='ket'></textarea></td><td></td>");
+    var i = 1;
+    var a = {!! json_encode($Ddetail) !!};
+    $("#add_row").click(function() {
+      $('#addr' + i).html("<input type='hidden' value='"+(a+i)+"' name='iddetail' id='iddetail'><td><select class='form-control items' name='komponen[]' id='komponen"+(a+i)+"' >"+komponen1+
+        "</select></td><td><select name='klaim[]' class='form-control items' id='klaimm"+(a+i)+"'>"+
+        "</select></td><td><select name='detail[]' multiple='multiple' class='form-control items' id='detaill"+(a+i)+"'>"+
+        "</select></td><td><textarea type='text' class='form-control' name='ket[]' id='ket'></textarea></td><td></td>");
 
       var b = a+i;
-      console.log(b);
       $('#komponen' + b).on('change', function(){
         var myId = $(this).val();
-          if(myId){
-            $.ajax({
-              url: '{{URL::to('getdetail')}}/'+myId,
-              type: "GET",
-              dataType: "json",
-              beforeSend: function(){
+        if(myId){
+          $.ajax({
+            url: '{{URL::to('getdetail')}}/'+myId,
+            type: "GET",
+            dataType: "json",
+            beforeSend: function(){
               $('#loader').css("visibility", "visible");
-          },
+            },
 
-          success:function(data){
-            console.log(data)
+            success:function(data){
               $('#detaill' + b).empty();
               $.each(data, function(key, value){
                 $('#detaill' + b).append('<option value="'+ key +'">' + value + '</option>');
               });
-            console.log(data)
             },
             complete: function(){
               $('#loader').css("visibility","hidden");
-          }
-        });
+            }
+          });
 
         }
         else{
@@ -416,104 +410,95 @@
       });
 
       $('#komponen'+b).on('change', function(){
-    var myId = $(this).val();
-      if(myId){
-        $.ajax({
-        url: '{{URL::to('getkomponen')}}/'+myId,
-        type: "GET",
-        dataType: "json",
-        beforeSend: function(){
-            $('#loader').css("visibility", "visible");
-        },
+        var myId = $(this).val();
+        if(myId){
+          $.ajax({
+            url: '{{URL::to('getkomponen')}}/'+myId,
+            type: "GET",
+            dataType: "json",
+            beforeSend: function(){
+              $('#loader').css("visibility", "visible");
+            },
 
-        success:function(data){
-          console.log(data)
-            $('#klaimm'+b).empty();
-            $.each(data, function(key, value){
+            success:function(data){
+              $('#klaimm'+b).empty();
+              $.each(data, function(key, value){
                 $('#klaimm'+b).append('<option value="'+ key +'">' + value + '</option>');
-            });
-        console.log(data)
-        },
-        complete: function(){
+              });
+            },
+            complete: function(){
               $('#loader').css("visibility","hidden");
-          }
-      });
-
-      }
-      else{
+            }
+          });
+        }
+        else{
           $('#klaimm'+b).empty();
-      }
-  });
-    $('#tab_logic').append('<tr id="addr' + (i + 1) + '"></tr>');
-    i++;
-  });
+        }
+      });
+      $('#tab_logic').append('<tr id="addr' + (i + 1) + '"></tr>');
+      i++;
+    });
 
-  $('#komponen').on('change', function(){
-    var myId = $(this).val();
+    $('#komponen').on('change', function(){
+      var myId = $(this).val();
       if(myId){
         $.ajax({
-        url: '{{URL::to('getkomponen')}}/'+myId,
-        type: "GET",
-        dataType: "json",
-        beforeSend: function(){
+          url: '{{URL::to('getkomponen')}}/'+myId,
+          type: "GET",
+          dataType: "json",
+          beforeSend: function(){
             $('#loader').css("visibility", "visible");
-        },
+          },
 
-        success:function(data){
-          console.log(data)
+          success:function(data){
+            console.log(data)
             $('#klaimm').empty();
             $.each(data, function(key, value){
                 $('#klaimm').append('<option value="'+ key +'">' + value + '</option>');
             });
-        console.log(data)
-        },
-        complete: function(){
-              $('#loader').css("visibility","hidden");
+          },
+          complete: function(){
+            $('#loader').css("visibility","hidden");
           }
-      });
-
+        });
       }
       else{
-          $('#klaimm').empty();
+        $('#klaimm').empty();
       }
-  });
+    });
 
-  $('#komponen').on('change', function(){
-    var myId = $(this).val();
+    $('#komponen').on('change', function(){
+      var myId = $(this).val();
       if(myId){
         $.ajax({
-        url: '{{URL::to('getdetail')}}/'+myId,
-        type: "GET",
-        dataType: "json",
-        beforeSend: function(){
+          url: '{{URL::to('getdetail')}}/'+myId,
+          type: "GET",
+          dataType: "json",
+          beforeSend: function(){
             $('#loader').css("visibility", "visible");
-        },
+          },
 
-        success:function(data){
-          console.log(data)
+          success:function(data){
+            console.log(data)
             $('#detaill').empty();
             $.each(data, function(key, value){
-                $('#detaill').append('<option value="'+ key +'">' + value + '</option>');
+              $('#detaill').append('<option value="'+ key +'">' + value + '</option>');
             });
-        console.log(data)
-        },
-        complete: function(){
+          },
+          complete: function(){
               $('#loader').css("visibility","hidden");
           }
-      });
-
+        });
       }
       else{
-          $('#katbpom').empty();
+        $('#katbpom').empty();
       }
-  });
+    });
 
   });
-
 </script>
 
 <script>
-
   function plus(){
     var plus = document.getElementById('radio_plus')
 
@@ -547,6 +532,30 @@
     }
   }
 
+  var kode_uom = []
+  <?php foreach($uom as $key => $value) { ?>
+  if(!kode_uom){
+    kode_uom += [ { '<?php echo $key; ?>' : '<?php echo $value->kode; ?>', } ];
+  } else { kode_uom.push({ '<?php echo $key; ?>' : '<?php echo $value->kode; ?>', }) }
+  <?php } ?>
+
+  var pilihan_uom = '';
+  for(var i = 0; i < Object.keys(kode_uom).length; i++){
+    pilihan_uom += '<option value="'+kode_uom[i][i]+'">'+kode_uom[i][i]+'</option>';
+  }
+
+  var uom_primer = []
+  <?php foreach($uom_primer as $key => $value) { ?>
+  if(!uom_primer){
+    uom_primer += [ { '<?php echo $key; ?>' : '<?php echo $value->kode; ?>', } ];
+  } else { uom_primer.push({ '<?php echo $key; ?>' : '<?php echo $value->kode; ?>', }) }
+  <?php } ?>
+
+  var pilihan_uom_primer = '';
+  for(var i = 0; i < Object.keys(uom_primer).length; i++){
+    pilihan_uom_primer += '<option value="'+uom_primer[i][i]+'">'+uom_primer[i][i]+'</option>';
+  }
+  
   function baru(){
     var baru = document.getElementById('radio_baru')
 
@@ -589,7 +598,6 @@
 
   function dua(){
     var dua = document.getElementById('radio_dua');
-
     if(dua.checked != true){
       document.getElementById('tampil').innerHTML = "";
     }else{
@@ -604,28 +612,13 @@
                 "<input name='tersier' id='tersier' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='text'>"+
               "</div>"+
               "<div class='col-md-2 col-sm-2 col-xs-12'>"+
-                "<select class='form-control' name='s_tersier'>"+
-                  "<option disabled='' selected=''>Tersier</option>"+
-                  "<option value='D'>D</option>"+
-                  "<option value='S'>S</option>"+
-                  "<option value='G'>G</option>"+
-                  "<option value='SB'>SB</option>"+
-                  "<option value='O'>O</option>"+
-							    "<option value='R'>R</option>"+
-                  "<option value='P'>P</option>"+
-                  "<option value='GST'>GST</option>"+
-                  "<option value='BTL'>BTL</option>"+
-                "</select>"+
+                "<select class='form-control' name='s_tersier'><option disabled='' selected=''>Tersier</option>"+pilihan_uom+"</select>"+
               "</div>"+
               "<div class='col-md-1 col-sm-1 col-xs-12'>"+
                 "<input name='primer' id=primer' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='text'>"+
               "</div>"+
               "<div class='col-md-2 col-sm-2 col-xs-12'>"+
-                "<select class='form-control' name='s_primer'>"+
-                  "<option disabled='' selected=''>Primer</option>"+
-                  "<option value='G'>G</option>"+
-                  "<option value='ML'>ML</option>"+
-                "</select>"+
+                "<select class='form-control' name='s_primer'><option disabled='' selected=''>Primer</option>"+pilihan_uom_primer+"</select>"+
               "</div>"+
             "</div>"+
           "</div>"+
@@ -635,7 +628,6 @@
 
   function tiga(){
     var tiga = document.getElementById('radio_tiga');
-
     if(tiga.checked != true){
       document.getElementById('tampil').innerHTML = "";
     }else{
@@ -650,45 +642,19 @@
                 "<input name='tersier' id='tersier' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='text'>"+
               "</div>"+
               "<div class='col-md-2 col-sm-2 col-xs-12'>"+
-                "<select class='form-control' name='s_tersier'>"+
-                  "<option disabled='' selected=''>Tersier</option>"+
-                  "<option value='D'>D</option>"+
-                  "<option value='S'>S</option>"+
-                  "<option value='G'>G</option>"+
-                  "<option value='SB'>SB</option>"+
-                  "<option value='O'>O</option>"+
-							    "<option value='R'>R</option>"+
-                  "<option value='P'>P</option>"+
-                  "<option value='GST'>GST</option>"+
-                  "<option value='BTL'>BTL</option>"+
-                "</select>"+
+                "<select class='form-control' name='s_tersier'><option disabled='' selected=''>Tersier</option>"+pilihan_uom+"</select>"+
               "</div>"+
               "<div class='col-md-1 col-sm-1 col-xs-12'>"+
                 "<input name='sekunder1' id='sekunder1' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='text'>"+
               "</div>"+
               "<div class='col-md-2 col-sm-2 col-xs-12'>"+
-                "<select class='form-control' name='s_sekunder1'>"+
-                  "<option disabled='' selected=''>Sekunder 1</option>"+
-                  "<option value='D'>D</option>"+
-                  "<option value='S'>S</option>"+
-                  "<option value='G'>G</option>"+
-                  "<option value='SB'>SB</option>"+
-                  "<option value='O'>O</option>"+
-							    "<option value='R'>R</option>"+
-                  "<option value='P'>P</option>"+
-                  "<option value='GST'>GST</option>"+
-                  "<option value='BTL'>BTL</option>"+
-                "</select>"+
+                "<select class='form-control' name='s_sekunder1'><option disabled='' selected=''>Sekunder 1</option>"+pilihan_uom+"</select>"+
               "</div>"+
               "<div class='col-md-1 col-sm-1 col-xs-12'>"+
                 "<input name='primer' id='primer1' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='text'>"+
               "</div>"+
               "<div class='col-md-2 col-sm-2 col-xs-12'>"+
-                "<select class='form-control' name='s_primer'>"+
-                  "<option disabled='' selected=''>Primer</option>"+
-                  "<option value='G'>G</option>"+
-                  "<option value='ML'>ML</option>"+
-                "</select>"+
+                "<select class='form-control' name='s_primer'><option disabled='' selected=''>Primer</option>"+pilihan_uom_primer+"</select>"+
               "</div>"+
             "</div>"+
           "</div>"+
@@ -698,7 +664,6 @@
 
   function empat(){
     var empat = document.getElementById('radio_empat');
-
     if(empat.checked != true){
       document.getElementById('tampil').innerHTML = "";
     }else{
@@ -711,61 +676,24 @@
               "<input name='tersier' id='tersier' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='text'>"+
             "</div>"+
             "<div class='col-md-2 col-sm-2 col-xs-12'>"+
-              "<select class='form-control' name='s_tersier'>"+
-                "<option disabled='' selected=''>Tersier</option>"+
-                "<option value='D'>D</option>"+
-                "<option value='S'>S</option>"+
-                "<option value='G'>G</option>"+
-                "<option value='SB'>SB</option>"+
-                "<option value='O'>O</option>"+
-							  "<option value='R'>R</option>"+
-                "<option value='P'>P</option>"+
-                "<option value='GST'>GST</option>"+
-                "<option value='BTL'>BTL</option>"+
-              "</select>"+
+              "<select class='form-control' name='s_tersier'><option disabled='' selected=''>Tersier</option>"+pilihan_uom+"</select>"+
             "</div>"+
             "<div class='col-md-1 col-sm-1 col-xs-12'>"+
               "<input name='sekunder1' id='sekunder1' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='text'>"+
             "</div>"+
             "<div class='col-md-2 col-sm-2 col-xs-12'>"+
-              "<select class='form-control' name='s_sekunder1'>"+
-                "<option disabled='' selected=''>Sekunder 1</option>"+
-                "<option value='D'>D</option>"+
-                "<option value='S'>S</option>"+
-                "<option value='G'>G</option>"+
-                "<option value='SB'>SB</option>"+
-                "<option value='O'>O</option>"+
-							  "<option value='R'>R</option>"+
-                "<option value='P'>P</option>"+
-                "<option value='GST'>GST</option>"+
-                "<option value='BTL'>BTL</option>"+
-              "</select>"+
+              "<select class='form-control' name='s_sekunder1'><option disabled='' selected=''>Sekunder 1</option></select>"+
             "</div>"+ "<div class='col-md-1 col-sm-1 col-xs-12'>"+
               "<input name='sekunder2' id='sekunder2' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='text'>"+
             "</div>"+
             "<div class='col-md-2 col-sm-2 col-xs-12'>"+
-              "<select class='form-control' name='s_sekunder2'>"+
-                "<option disabled='' selected=''>Sekunder 2</option>"+
-                "<option value='D'>D</option>"+
-                "<option value='S'>S</option>"+
-                "<option value='G'>G</option>"+
-                "<option value='SB'>SB</option>"+
-                "<option value='O'>O</option>"+
-							  "<option value='R'>R</option>"+
-                "<option value='P'>P</option>"+
-                "<option value='GST'>GST</option>"+
-                "<option value='BTL'>BTL</option>"+
-              "</select>"+
+              "<select class='form-control' name='s_sekunder2'><option disabled='' selected=''>Sekunder 2</option></select>"+
             "</div>"+
             "<div class='col-md-1 col-sm-1 col-xs-12'>"+
               "<input name='primer' id='primer' class='date-picker form-control maxlength='4' col-md-12 col-xs-12' type='text'>"+
             "</div>"+
             "<div class='col-md-2 col-sm-2 col-xs-12'>"+
-              "<select class='form-control' name='s_primer'>"+
-                "<option disabled='' selected=''>Primer</option>"+
-                "<option value='G'>G</option>"+
-                "<option value='ML'>ML</option>"+
-              "</select>"+
+                "<select class='form-control' name='s_primer'><option disabled='' selected=''>Primer</option>"+pilihan_uom_primer+"</select>"+
             "</div>"+
           "</div>"+
         "</div>"+
@@ -800,7 +728,6 @@
   } else { namekemas.push({ '<?php echo $key; ?>' : '<?php echo $value->nama; ?>', }) }
   <?php } ?>
  
-  console.log(namekemas);
   var kemas = []
   <?php foreach($kemas as $key => $value) { ?>
   if(!kemas){
@@ -857,12 +784,11 @@
 
   var kemaseksis = '';
   for(var i = 0; i < Object.keys(kemas).length; i++){
-  kemaseksis += '<option value="'+idkemas[i][i]+'">'+' ('+kemas[i][i]+''+kemas1[i][i]+' '+kemas2[i][i]+''+kemas3[i][i]+' '+kemas4[i][i]+''+kemas5[i][i]+' '+kemas6[i][i]+''+kemas7[i][i]+')</option>';
+  kemaseksis += '<option value="'+idkemas[i][i]+'">'+' ('+kemas6[i][i]+''+kemas7[i][i]+' '+kemas4[i][i]+''+kemas5[i][i]+' '+kemas2[i][i]+''+kemas3[i][i]+' '+kemas[i][i]+''+kemas1[i][i]+')</option>';
   }
 
   function pilih(){
     var eksis = document.getElementById('radio_project')
-
     if(eksis.checked != true){
       document.getElementById('lihat').innerHTML = "";
     }else{
@@ -883,7 +809,6 @@
 
   function eksis(){
     var eksis = document.getElementById('radio_eksis')
-
     if(eksis.checked != true){
       document.getElementById('lihat').innerHTML = "";
     }else{
@@ -912,147 +837,134 @@
   });
 
   $(document).ready(function(){
+    // Get Pangan
+    $('#bpom').on('change', function(){
+      var myId = $(this).val();
+      if(myId){
+        $.ajax({
+          url: '{{URL::to('getpangan')}}/'+myId,
+          type: "GET",
+          dataType: "json",
+          beforeSend: function(){
+            $('#loader').css("visibility", "visible");
+          },
 
-      // Get Pangan
-      $('#bpom').on('change', function(){
-          var myId = $(this).val();
-            if(myId){
-              $.ajax({
-              url: '{{URL::to('getpangan')}}/'+myId,
-              type: "GET",
-              dataType: "json",
-              beforeSend: function(){
-                  $('#loader').css("visibility", "visible");
-              },
+          success:function(data){
+            console.log(data)
+            $('#katbpom').empty();
+            $.each(data, function(key, value){
+              $('#katbpom').append('<option value="'+ key +'">' + value + '</option>');
+            });
+          },
+          complete: function(){
+            $('#loader').css("visibility","hidden");
+          }
+        });
+      }
+      else{
+        $('#katbpom').empty();
+      }
+    });
+    // kategori bpom
+    $('#katbpom').on('change', function(){
+      var myId = $(this).val();
+        if(myId){
+          $.ajax({
+            url: '{{URL::to('getkatpangan')}}/'+myId,
+            type: "GET",
+            dataType: "json",
+            beforeSend: function(){
+              $('#loader').css("visibility", "visible");
+            },
 
-              success:function(data){
-                console.log(data)
-                  $('#katbpom').empty();
-                  $.each(data, function(key, value){
-                      $('#katbpom').append('<option value="'+ key +'">' + value + '</option>');
-                  });
+            success:function(data){
               console.log(data)
-              },
-              complete: function(){
-                  $('#loader').css("visibility","hidden");
-              }
-          });
-
-          }
-          else{
-              $('#katbpom').empty();
-          }
-      });
-
-      $('#katbpom').on('change', function(){
-          var myId = $(this).val();
-            if(myId){
-              $.ajax({
-              url: '{{URL::to('getkatpangan')}}/'+myId,
-              type: "GET",
-              dataType: "json",
-              beforeSend: function(){
-                  $('#loader').css("visibility", "visible");
-              },
-
-              success:function(data){
-                console.log(data)
-                  $('#bpom').empty();
-                  $.each(data, function(key, value){
-                      $('#bpom').append('<option value="'+ key +'">' + value + '</option>');
-                  });
-              console.log(data)
-              },
-              complete: function(){
-                  $('#loader').css("visibility","hidden");
-              }
-          });
-
-          }
-          else{
               $('#bpom').empty();
-          }
-      });
+              $.each(data, function(key, value){
+                $('#bpom').append('<option value="'+ key +'">' + value + '</option>');
+              });
+            },
+            complete: function(){
+              $('#loader').css("visibility","hidden");
+            }
+        });
+      }
+      else{
+        $('#bpom').empty();
+      }
+    });
 
-      // get Olahan
-      $('#bpom').on('change', function(){
-          var myId = $(this).val();
-            if(myId){
-              $.ajax({
-              url: '{{URL::to('getolahan')}}/'+myId,
-              type: "GET",
-              dataType: "json",
-              beforeSend: function(){
-                  $('#loader').css("visibility", "visible");
-              },
+    // get Olahan
+    $('#bpom').on('change', function(){
+      var myId = $(this).val();
+      if(myId){
+        $.ajax({
+          url: '{{URL::to('getolahan')}}/'+myId,
+          type: "GET",
+          dataType: "json",
+          beforeSend: function(){
+            $('#loader').css("visibility", "visible");
+          },
 
-              success:function(data){
-                console.log(data)
-                  $('#olahan').empty();
-                  $.each(data, function(key, value){
-                      $('#olahan').append('<option value="'+ key +'">' + value + '</option>');
-                  });
-              console.log(data)
-              },
-              complete: function(){
-                  $('#loader').css("visibility","hidden");
-              }
-          });
-
+          success:function(data){
+            $('#olahan').empty();
+            $.each(data, function(key, value){
+              $('#olahan').append('<option value="'+ key +'">' + value + '</option>');
+            });
+          },
+          complete: function(){
+            $('#loader').css("visibility","hidden");
           }
-          else{
-              $('#katbpom').empty();
-          }
-      });
+        });
+      }
+      else{
+        $('#katbpom').empty();
+      }
+    });
   });
-
 
   function template(){
     var template = document.getElementById('radio_temp')
-
     if(template.checked != true){
       document.getElementById('tampilkan').innerHTML = "";
     }else{
-
       document.getElementById('tampilkan').innerHTML =
       "<hr>"+
-            "<div class='form-group row'>"+
-            "  <label class='control-label col-md-2 col-sm-3 col-xs-12'>Launch</label>"+
-            "  <div class='col-md-4 col-sm-9 col-xs-12'>"+
-            "    <select class='form-control form-control-line' name='launch'>"+
-            "      <option disabled='' selected=''>-- Launch Deadline --</option>"+
-            "      <option>Q1</option>"+
-            "      <option>Q2</option>"+
-            "      <option>Q3</option>"+
-            "      <option>Q4</option>"+
-            "      <option>S1</option>"+
-            "      <option>S2</option>"+
-            "    </select>"+
-            "  </div>"+
-            "  <div class='col-md-4 col-sm-9 col-xs-12'>"+
-            "    <input type='number' placeholder='Years' name='tahun' id='tahun' class='form-control col-md-12 col-xs-12'>"+
-            "  </div>"+
-            "</div>"+
-          "<div class='ln_solid'></div>"
+      "<div class='form-group row'>"+
+      "  <label class='control-label col-md-2 col-sm-2 col-xs-12'>Launch</label>"+
+      "  <div class='col-md-4 col-sm-4 col-xs-12'>"+
+      "    <select class='form-control form-control-line' name='launch'>"+
+      "      <option disabled='' selected=''>-- Launch Deadline --</option>"+
+      "      <option>Q1</option>"+
+      "      <option>Q2</option>"+
+      "      <option>Q3</option>"+
+      "      <option>Q4</option>"+
+      "      <option>S1</option>"+
+      "      <option>S2</option>"+
+      "    </select>"+
+      "  </div>"+
+      "  <div class='col-md-4 col-sm-4 col-xs-12'>"+
+      "    <input type='number' placeholder='Years' name='tahun' id='tahun' class='form-control col-md-12 col-xs-12'>"+
+      "  </div>"+
+      "</div>"+
+      "<div class='ln_solid'></div>"
     }
   }
 
   function kalender(){
     var baru = document.getElementById('radio_cal')
-
     if(baru.checked != true){
       document.getElementById('tampilkan').innerHTML = "";
     }else{
-
       document.getElementById('tampilkan').innerHTML =
       "<hr>"+
-            "<div class='form-group row'>"+
-            "  <label class='control-label col-md-2 col-sm-3 col-xs-12'>Launch</label>"+
-            "  <div class='col-md-9 col-sm-12 col-xs-12'>"+
-            "    <input type='date' name='tanggal' id='tanggal' class='form-control col-md-12 col-xs-12'>"+
-            "  </div>"+
-            "</div>"+
-          "<div class='ln_solid'></div>"
+      "<div class='form-group row'>"+
+      "  <label class='control-label col-md-2 col-sm-2 col-xs-12'>Launch</label>"+
+      "  <div class='col-md-9 col-sm-9 col-xs-12'>"+
+      "    <input type='date' name='tanggal' id='tanggal' class='form-control col-md-12 col-xs-12'>"+
+      "  </div>"+
+      "</div>"+
+      "<div class='ln_solid'></div>"
     }
   }
 </script>
@@ -1061,22 +973,21 @@
   $(document).ready(function() {
     // delete baris proses
     $('#tabledata').on('click', 'tr a', function(e) {
-  e.preventDefault();
+      e.preventDefault();
       $(this).parents('tr').remove();
-  });
+    });
 
-  var i = 1;
-  $("#add_data").click(function() {
-    $('#addrow' + i).html( "<td><input type='number' name='forecast[]' class='form-control'></td><td><select name='satuan[]'  class='form-control items'>"+
-    "<option disabled selected>--> Select One <--</option>"+
-    "<option value='1 Month'>1 Month</option>"+
-    "<option value='2 Month'>2 Month</option>"+
-    "<option value='3 Month'>3 Month</option>"+
-    "</select></td><td><a hreaf='' class='btn btn-danger'><li class='fa fa-trash'></li> Delete</a></td>");
+    var i = 1;
+    $("#add_data").click(function() {
+      $('#addrow' + i).html( "<td><input type='number' name='forecast[]' class='form-control'></td><td><select name='satuan[]'  class='form-control items'>"+
+        "<option value='1st Month'>1st Month</option>"+
+        "<option value='2nd Month'>2nd Month</option>"+
+        "<option value='3rd Month'>3rd Month</option>"+
+      "</select></td><td><a hreaf='' class='btn btn-danger'><li class='fa fa-trash'></li> Delete</a></td>");
 
-    $('#tabledata').append('<tr id="addrow' + (i + 1) + '"></tr>');
-    i++;
-  });
+      $('#tabledata').append('<tr id="addrow' + (i + 1) + '"></tr>');
+      i++;
+    });
   });
 
   $('.input').keyup(function(event) {

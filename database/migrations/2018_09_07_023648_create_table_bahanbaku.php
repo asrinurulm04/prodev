@@ -13,7 +13,7 @@ class CreateTableBahanbaku extends Migration
      */
     public function up()
     {
-        Schema::create('bahans', function (Blueprint $table) {
+        Schema::create('ms_bahans', function (Blueprint $table) {
           $table->increments('id');
           $table->string('nama_sederhana')->default('-');
           $table->string('nama_bahan');
@@ -24,15 +24,17 @@ class CreateTableBahanbaku extends Migration
           $table->string('nama_formB')->nullable();
           $table->string('no_HEIPBR')->nullable()->default('-');
           $table->string('PIC')->nullable()->default('-');
-          $table->string('cek_halal')->nullable()->default('-');
           $table->double('berat');
-          $table->integer('satuan_id')->index();
+          $table->string('satuan')->index();
           $table->integer('subkategori_id')->index();
           $table->double('harga_satuan');
           $table->integer('curren_id')->index();
           $table->integer('user_id')->index();
-          $table->integer('kelompok_id')->index();
-          $table->enum('status',['active','proses',''])->default('active');
+          $table->string('created_date')->index();
+          $table->string('last_update')->index();
+          $table->string('updated_by')->index();
+          $table->enum('status',['active','inactive',''])->default('active');
+          $table->enum('status_bb',['eksis','baru',''])->default('baru');
           $table->timestamps();
         });
     }
@@ -44,6 +46,6 @@ class CreateTableBahanbaku extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bahans');
+        Schema::dropIfExists('ms_bahans');
     }
 }

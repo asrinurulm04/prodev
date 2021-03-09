@@ -1,6 +1,5 @@
 @extends('pv.tempvv')
-@section('title', 'Data')
-@section('judulhalaman')
+@section('title', 'PRODEV|Data')
 @section('content')
 
 <div class="row">
@@ -16,9 +15,7 @@
 						<th class="text-center">Hilo</th>
 						<th class="text-center">L-Men</th>
 						<th class="text-center">Nutrisari</th>
-						<th class="text-center">WRP</th>
 						<th class="text-center">Tropicana Slim</th>
-						<th class="text-center">Heavenly Blush</th>
 						<th class="text-center">Ekspor</th>
 					</tr>
 					<tr>
@@ -26,9 +23,7 @@
 						<td class="text-center"><a data-toggle="modal" data-target="#hillo">{{$hhilo}} Project Hilo</a></td>
 						<td class="text-center"><a data-toggle="modal" data-target="#lmen">{{$hlmen}} Project Lmen</a></td>
 						<td class="text-center"><a data-toggle="modal" data-target="#nr">{{$hnr}} Project Nutrisari</a></td>
-						<td class="text-center"><a data-toggle="modal" data-target="#wrp">{{$hwrp}} Project WRP</a></td>
 						<td class="text-center"><a data-toggle="modal" data-target="#ts">{{$hts}} Project Tropicana Slim</a></td>
-						<td class="text-center"><a data-toggle="modal" data-target="#hb">{{$hhb}} Project Heavenly Blush</a></td>
 						<td class="text-center"><a data-toggle="modal" data-target="#eks">{{$hekspor}} Project Ekspor</a></td>
 					</tr>
 				</thead>
@@ -181,54 +176,6 @@
 <!-- Modal Selesai -->
 
 <!-- modal -->
-<div class="modal" id="wrp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h3 class="modal-title text-left" id="exampleModalLabel" >Data Project WRP
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span></h3>
-				</button>
-			</div>
-			<div class="modal-body">
-				<table class="table table-bordered">
-					<thead>
-						<tr style="font-weight: bold;color:white;background-color: #2a3f54;">
-							<td>Project Name</td>
-							<td>created date</td>
-							<td>Revisi</td>
-							<td>Status</td>
-							<td>Type</td>
-						</tr>
-					</thead>
-					<tbody>
-						@foreach ($dwrp1 as $dwrp1)
-						<tr>
-							<td>{{$dwrp1->project_name}}</td>
-							<td>{{$dwrp1->created_date}}</td>
-							<td class="text-center">{{$dhilo->revisi}}.{{$dhilo->turunan}}</td>
-							<td>{{$dhilo->status_project}}</td>
-							<td>PKP</td>
-						@endforeach
-						</tr>
-						@foreach ($dwrp2 as $dwrp2)
-						<tr>
-							<td>{{$dwrp2->project_name}}</td>
-							<td>{{$dwrp2->created_date}}</td>	
-							<td class="text-center">{{$dhilo->revisi}}.{{$dhilo->turunan}}</td>
-							<td>{{$dhilo->status_project}}</td>
-							<td>PDF</td>
-						@endforeach
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</div>
-	</div>
-</div>
-<!-- Modal Selesai -->
-
-<!-- modal -->
 <div class="modal" id="ts" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
@@ -263,54 +210,6 @@
 						<tr>
 							<td>{{$dts2->project_name}}</td>
 							<td>{{$dts2->created_date}}</td>	
-							<td class="text-center">{{$dhilo->revisi}}.{{$dhilo->turunan}}</td>
-							<td>{{$dhilo->status_project}}</td>
-							<td>PDF</td>
-						@endforeach
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</div>
-	</div>
-</div>
-<!-- Modal Selesai -->
-
-<!-- modal -->
-<div class="modal" id="hb" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">dekspor1
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h3 class="modal-title text-left" id="exampleModalLabel" >Data Project Heavenly Blush
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span></h3>
-				</button>
-			</div>
-			<div class="modal-body">
-				<table class="table table-bordered">
-					<thead>
-						<tr style="font-weight: bold;color:white;background-color: #2a3f54;">
-							<td>Project Name</td>
-							<td>created date</td>
-							<td>Revisi</td>
-							<td>Status</td>
-							<td>Type</td>
-						</tr>
-					</thead>
-					<tbody>
-						@foreach ($dhb1 as $dhb1)
-						<tr>
-							<td>{{$dhb1->project_name}}</td>
-							<td>{{$dhb1->created_date}}</td>
-							<td class="text-center">{{$dhilo->revisi}}.{{$dhilo->turunan}}</td>
-							<td>{{$dhilo->status_project}}</td>
-							<td>PKP</td>
-						@endforeach
-						</tr>
-						@foreach ($dhb2 as $dhb2)
-						<tr>
-							<td>{{$dhb2->project_name}}</td>
-							<td>{{$dhb2->created_date}}</td>	
 							<td class="text-center">{{$dhilo->revisi}}.{{$dhilo->turunan}}</td>
 							<td>{{$dhilo->status_project}}</td>
 							<td>PDF</td>

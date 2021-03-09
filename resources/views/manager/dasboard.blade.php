@@ -1,6 +1,5 @@
 @extends('manager.tempmanager')
-@section('title', 'Dashboard')
-@section('judulhalaman','Dashboard')
+@section('title', 'PRODEV|Dashboard')
 @section('content')
 
 <div class="row">
@@ -17,9 +16,9 @@
         <div class="tile-stats">
           <div class="icon"><i class="fa fa-file"></i></div>
           @if(Auth::user()->departement->dept!='RKA')
-          <div class="count">{{$hitungppkp}}</div>
+          <div class="count">{{$hitungpkpselesai}}</div>
           @else
-          <div class="count">{{$hitungppkp1}}</div>
+          <div class="count">{{$hitungpkpselesai2}}</div>
           @endif
           <h3>PKP</h3>
           <p>Click To See Details...</p>
@@ -33,9 +32,9 @@
         <div class="tile-stats">
           <div class="icon"><i class="fa fa-file"></i></div>
           @if(Auth::user()->departement->dept!='RKA')
-          <div class="count">{{$hitungppromo}}</div>
+          <div class="count">{{$hitungpromoselesai}}</div>
           @else
-          <div class="count">{{$hitungppromo1}}</div>
+          <div class="count">{{$hitungpromoselesai2}}</div>
           @endif
           <h3>PKP Promo</h3>
           <p>Click To See Details...</p>
@@ -49,9 +48,9 @@
         <div class="tile-stats">
           <div class="icon"><i class="fa fa-file"></i></div>
           @if(Auth::user()->departement->dept!='RKA')
-          <div class="count">{{$hitungppdf}}</div>
+          <div class="count">{{$hitungpdfselesai}}</div>
           @else
-          <div class="count">{{$hitungppdf1}}</div>
+          <div class="count">{{$hitungpdfselesai2}}</div>
           @endif
           <h3>PDFe & PDFp</h3>
           <p>Click To See Details...</p>

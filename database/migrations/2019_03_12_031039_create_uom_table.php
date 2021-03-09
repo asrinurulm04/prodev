@@ -13,9 +13,11 @@ class CreateUomTable extends Migration
      */
     public function up()
     {
-        Schema::create('uom', function (Blueprint $table) {
+        Schema::create('ms_uom', function (Blueprint $table) {
             $table->increments('id');
-            $table->enum('primary_uom',['KG','L']);
+            $table->string('primary_uom');
+            $table->string('kode');
+            $table->text('note');
             $table->timestamps();
         });
     }
@@ -27,6 +29,6 @@ class CreateUomTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('uom');
+        Schema::dropIfExists('ms_uom');
     }
 }

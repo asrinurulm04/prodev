@@ -1,6 +1,5 @@
 @extends('pv.tempvv')
-@section('title', 'SKU')
-@section('judulhalaman','SKU')
+@section('title', 'PRODEV|SKU')
 @section('content')
 
 <div class="row">
@@ -54,7 +53,7 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="submit" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Submit</button>
+						<button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-plus-circle"></i> Submit</button>
 						{{ csrf_field() }}
 					</div>
 					</form>
@@ -63,7 +62,7 @@
 		</div>
 		<!-- modal selesai -->
 		@endif
-		<table class="Table table-bordered">
+		<table  id="datatable" class="table table-striped table-bordered" style="width:100%">
 			<thead>
 				<tr style="font-weight: bold;color:white;background-color: #2a3f54;">
 					<td width="10px">No</td>
@@ -137,7 +136,7 @@
 									</div>
 								</div>
 								<div class="modal-footer">
-									<button type="submit" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Submit</button>
+									<button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-plus-circle"></i> Submit</button>
 									{{ csrf_field() }}
 								</div>
 								</form>

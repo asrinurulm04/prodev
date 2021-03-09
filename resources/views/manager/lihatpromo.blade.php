@@ -1,6 +1,5 @@
 @extends('manager.tempmanager')
-@section('title', 'List promo')
-@section('judulhalaman','List promo')
+@section('title', 'PRODEV|List Promo')
 @section('content')
 
 @if (session('status'))
@@ -20,50 +19,32 @@
       <div class="row" style="margin:20px">
         <div id="exTab2" class="container">                   
 					<div class="col-md-11" align="left">
+          <?php $last = Date('j-F-Y'); ?>
             @foreach($promoo as $promo)
-            
-            <?php $last = Date('j-F-Y'); ?>
+            <a class="btn btn-danger btn-sm" href="{{ route('daftarpromo',$promo->id_pkp_promo)}}"><i class="fa fa-share"></i> Back</a>
+            <a class="btn btn-warning btn-sm" href="" onclick="return confirm('Print this data PROMO ?')"><i class="fa fa-download"></i> Download/print PROMO</a>
+            @if($hitung==0)
+            <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#ajukan{{ $promo->id_pkp_promo  }}"><i class="fa fa-comments-o"></i> Sent Revision request</a></button>
+            @endif
             @if(Auth::user()->departement->dept!='RKA')
               @if($promo->status_terima=='proses')
               <form class="form-horizontal form-label-left" method="POST" action="{{ route('approvepromo1',$promo->id_pkp_promo) }}" novalidate>
-                <a class="btn btn-danger btn-sm" href="{{ route('daftarpromo',$promo->id_pkp_promo)}}"><i class="fa fa-share"></i>Back</a>
-                <a class="btn btn-warning btn-sm" href="" onclick="return confirm('Print this data PROMO ?')"><i class="fa fa-download"></i> Download/print PROMO</a>
                 <input type="hidden" value="{{$last}}" name="tgl">
                 <button type="submit" class="btn btn-dark btn-sm"><li class="fa fa-check"></li> Approve data</button>
                 {{ csrf_field() }}
               </form>
-              @elseif($promo->status_terima!='proses')
-              <a class="btn btn-danger btn-sm" href="{{ route('daftarpromo',$promo->id_pkp_promo)}}"><i class="fa fa-share"></i>Back</a>
-              <a class="btn btn-warning btn-sm" href="" onclick="return confirm('Print this data PROMO ?')"><i class="fa fa-download"></i> Download/print PROMO</a>
+              @elseif($promo->status_terima=='terima')
+                <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#kirim{{ $promo->id_pkp_promo  }}"><i class="fa fa-paper-plane"></i> Assign</a></button>
               @endif
             @elseif(Auth::user()->departement->dept=='RKA')
               @if($promo->status_terima2=='proses')
               <form class="form-horizontal form-label-left" method="POST" action="{{ route('approvepromo2',$promo->id_pkp_promo) }}" novalidate>
-                <a class="btn btn-danger btn-sm" href="{{ route('daftarpromo',$promo->id_pkp_promo)}}"><i class="fa fa-share"></i>Back</a>
-                <a class="btn btn-warning btn-sm" href="" onclick="return confirm('Print this data PROMO ?')"><i class="fa fa-download"></i> Download/print PROMO</a>
                 <input type="hidden" value="{{$last}}" name="tgl">
                 <button type="submit" class="btn btn-dark btn-sm"><li class="fa fa-check"></li> Approve data</button>
                 {{ csrf_field() }}
               </form>
-              @endif
-            @endif
-            @if($promo->status_project=='sent' || $promo->status_project=='proses')
-              @if(Auth::user()->departement->dept!='RKA')
-                @if($promo->status_terima=='terima')
-                  @if($hitung==0)
-                  <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#kirim{{ $promo->id_pkp_promo  }}"><i class="fa fa-paper-plane"></i> Assign</a></button>
-                  @endif
-                  @endif
-              <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#ajukan{{ $promo->id_pkp_promo  }}"><i class="fa fa-comments-o"></i> Sent Revision request</a></button>
-                @elseif(Auth::user()->departement->dept=='RKA')
-                @if($promo->status_terima2=='terima')
-                  @if($hitung==0)
-                  <a class="btn btn-danger btn-sm" href="{{ route('daftarpromo',$promo->id_pkp_promo)}}"><i class="fa fa-share"></i>Back</a>
-                   <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#kirim{{ $promo->id_pkp_promo  }}"><i class="fa fa-paper-plane"></i> Assign</a></button>
-                  @endif
-                  <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#ajukan{{ $promo->id_pkp_promo  }}"><i class="fa fa-comments-o"></i> Sent Revision request</a></button>
-                  
-                @endif
+              @elseif($promo->status_terima2=='terima')
+                 <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#kirim{{ $promo->id_pkp_promo  }}"><i class="fa fa-paper-plane"></i> Assign</a></button>
               @endif
             @endif
           </div> 
@@ -79,32 +60,25 @@
       					<center> <h2 style="font-weight: bold;">Project Name : {{ $promo->project_name }} </h2> </center>
 								<table class=" table">
                   <tr>
-                    <td width="25%"><b>Author</td>
-                    <td colspan="2">: {{$promo->datapromoo->author1->name}}</td>
+                    <td width="25%"><b>Author</td><td colspan="2">: {{$promo->datapromoo->author1->name}}</td>
                   </tr>
                   <tr>
-                    <td width="25%"><b>Created date</td>
-                    <td colspan="2">: {{$promo->created_date}}</td>
+                    <td width="25%"><b>Created date</td><td colspan="2">: {{$promo->created_date}}</td>
                   </tr>
                   <tr>
-                    <td width="25%"><b>Last update </td>
-                    <td colspan="2">: {{$promo->last_update}}</td>
+                    <td width="25%"><b>Last update </td><td colspan="2">: {{$promo->last_update}}</td>
                   </tr>
                     <tr>
-                      <td width="25%">Revised By</td>
-                      <td colspan="2">: {{$promo->perevisi2->name}}</td>
+                      <td width="25%">Revised By</td><td colspan="2">: {{$promo->perevisi2->name}}</td>
                     </tr>
                   <tr>
-                    <td width="25%"><b>Revision Number</td>
-                    <td colspan="2">: {{$promo->revisi}}.{{$promo->turunan}}</td>
+                    <td width="25%"><b>Revision Number</td><td colspan="2">: {{$promo->revisi}}.{{$promo->turunan}}</td>
                   </tr>
                   <tr>
-                    <td width="25%"><b>Country</td>
-                    <td colspan="2">: {{$promo->country}}</td>
+                    <td width="25%"><b>Country</td><td colspan="2">: {{$promo->country}}</td>
                   </tr>
                   <tr>
-                    <td width="25%"><b>Item Promo type</td>
-                    <td colspan="2">: {{$promo->promo_type}}</td>
+                    <td width="25%"><b>Item Promo type</td><td colspan="2">: {{$promo->promo_type}}</td>
                   </tr>
                   <tr>
                     <td width="25%"><b>Type</td>
@@ -121,7 +95,7 @@
                     <td width="65%">
                       <table class="table table-striped table-bordered nowrap">
                         <thead>
-                          <tr style="background-color:#13699a;color:white;">
+                          <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
                             <th class="text-center">Idea</th>
                             <th class="text-center">Dimension</th>
                           </tr>
@@ -154,35 +128,35 @@
                 </table>
                 <label for="">Product And Allocation :</label>
                 <table class="table table-striped table-bordered nowrap" id="table">
-                    <thead>
-                        <tr style="background-color:#13699a;color:white;">
-                          <td>Product SKU Name</td>
-                          <td>Allocation</td>
-                          <td>Remarks</td>
-                          <td>Start</td>
-                          <td>End</td>
-                          <td>RTO</td>
-                          <td>Opsi</td>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td><?php $product_sku = []; foreach ($app as $key => $data) If (!$product_sku || !in_array($data->product_sku, $product_sku)) { $product_sku += array( $key => $data->product_sku );
-                          if($data->turunan!=$promo->turunan){ echo"<s><font color='#6594c5'>".$data->sku->nama_sku."<br></font></s>"; } if($data->turunan==$promo->turunan){ echo"".$data->sku->nama_sku."<br>"; } } ?></td>
-                          <td><?php $allocation = []; foreach ($app as $key => $data) If (!$allocation || !in_array($data->allocation, $allocation)) { $allocation += array( $key => $data->allocation );
-                          if($data->turunan!=$promo->turunan){ echo"<s><font color='#6594c5'>$data->allocation<br></font></s>"; } if($data->turunan==$promo->turunan){ echo"$data->allocation<br>"; } } ?></td>
-                          <td><?php $remarks = []; foreach ($app as $key => $data) If (!$remarks || !in_array($data->remarks, $remarks)) { $remarks += array( $key => $data->remarks );
-                          if($data->turunan!=$promo->turunan){ echo"<s><font color='#6594c5'>$data->remarks<br></font></s>"; } if($data->turunan==$promo->turunan){ echo"$data->remarks<br>"; } } ?></td>
-                          <td><?php $start = []; foreach ($app as $key => $data) If (!$start || !in_array($data->start, $start)) { $start += array( $key => $data->start );
-                          if($data->turunan!=$promo->turunan){ echo"<s><font color='#6594c5'>$data->start<br></font></s>"; } if($data->turunan==$promo->turunan){ echo"$data->start<br>"; } } ?></td>
-                          <td><?php $end = []; foreach ($app as $key => $data) If (!$end || !in_array($data->end, $end)) { $end += array( $key => $data->end );
-                          if($data->turunan!=$promo->turunan){ echo"<s><font color='#6594c5'>$data->end<br></font></s>"; } if($data->turunan==$promo->turunan){ echo"$data->end<br>"; } } ?></td>
-                          <td><?php $rto = []; foreach ($app as $key => $data) If (!$rto || !in_array($data->rto, $rto)) { $rto += array( $key => $data->rto );
-                           if($data->turunan!=$promo->turunan){ echo"<s><font color='#6594c5'>$data->rto<br></font></s>"; } if($data->turunan==$promo->turunan){ echo"$data->rto<br>"; } } ?></td>
-                          <td><?php $opsi = []; foreach ($app as $key => $data) If (!$opsi || !in_array($data->opsi, $opsi)) { $opsi += array( $key => $data->opsi );
-                            if($data->turunan!=$promo->turunan){ echo"<s><font color='#6594c5'>$data->opsi<br></font></s>"; } if($data->turunan==$promo->turunan){ echo"$data->opsi<br>"; } } ?></td>
-                        </tr>
-                      </tbody>
+                  <thead>
+                    <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
+                      <td>Product SKU Name</td>
+                      <td>Allocation</td>
+                      <td>Remarks</td>
+                      <td>Start</td>
+                      <td>End</td>
+                      <td>RTO</td>
+                      <td>Opsi</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><?php $product_sku = []; foreach ($app as $key => $data) If (!$product_sku || !in_array($data->product_sku, $product_sku)) { $product_sku += array( $key => $data->product_sku );
+                      if($data->turunan!=$promo->turunan){ echo"<s><font color='#6594c5'>".$data->sku->nama_sku."<br></font></s>"; } if($data->turunan==$promo->turunan){ echo"".$data->sku->nama_sku."<br>"; } } ?></td>
+                      <td><?php $allocation = []; foreach ($app as $key => $data) If (!$allocation || !in_array($data->allocation, $allocation)) { $allocation += array( $key => $data->allocation );
+                      if($data->turunan!=$promo->turunan){ echo"<s><font color='#6594c5'>$data->allocation<br></font></s>"; } if($data->turunan==$promo->turunan){ echo"$data->allocation<br>"; } } ?></td>
+                      <td><?php $remarks = []; foreach ($app as $key => $data) If (!$remarks || !in_array($data->remarks, $remarks)) { $remarks += array( $key => $data->remarks );
+                      if($data->turunan!=$promo->turunan){ echo"<s><font color='#6594c5'>$data->remarks<br></font></s>"; } if($data->turunan==$promo->turunan){ echo"$data->remarks<br>"; } } ?></td>
+                      <td><?php $start = []; foreach ($app as $key => $data) If (!$start || !in_array($data->start, $start)) { $start += array( $key => $data->start );
+                      if($data->turunan!=$promo->turunan){ echo"<s><font color='#6594c5'>$data->start<br></font></s>"; } if($data->turunan==$promo->turunan){ echo"$data->start<br>"; } } ?></td>
+                      <td><?php $end = []; foreach ($app as $key => $data) If (!$end || !in_array($data->end, $end)) { $end += array( $key => $data->end );
+                      if($data->turunan!=$promo->turunan){ echo"<s><font color='#6594c5'>$data->end<br></font></s>"; } if($data->turunan==$promo->turunan){ echo"$data->end<br>"; } } ?></td>
+                      <td><?php $rto = []; foreach ($app as $key => $data) If (!$rto || !in_array($data->rto, $rto)) { $rto += array( $key => $data->rto );
+                       if($data->turunan!=$promo->turunan){ echo"<s><font color='#6594c5'>$data->rto<br></font></s>"; } if($data->turunan==$promo->turunan){ echo"$data->rto<br>"; } } ?></td>
+                      <td><?php $opsi = []; foreach ($app as $key => $data) If (!$opsi || !in_array($data->opsi, $opsi)) { $opsi += array( $key => $data->opsi );
+                        if($data->turunan!=$promo->turunan){ echo"<s><font color='#6594c5'>$data->opsi<br></font></s>"; } if($data->turunan==$promo->turunan){ echo"$data->opsi<br>"; } } ?></td>
+                    </tr>
+                  </tbody>
                 </table>
         				<table ALIGN="right">
         					<tr><td>Revisi/Berlaku :  </td></tr>
@@ -244,7 +218,7 @@
           @endif
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Sent</button>
+          <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-paper-plane"></i> Sent</button>
           {{ csrf_field() }}
         </div>
         </form>
@@ -269,13 +243,11 @@
         <div class="form-group row">
         <input type="hidden" value="{{$promo->id_pkp_promo}}" name="promo">
         <input type="hidden" value="{{$promo->turunan}}" name="turunan">
+        <input type="hidden" value="{{$promo->revisi}}" name="revisi">
           <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center">Destination</label>
           <div class="col-md-9 col-sm-9 col-xs-12">
-            <select name="penerima" class="form-control form-control-line" id="penerima">
-            <option disabled selected>--> Select One <--</option>
-            <option value="14">PV</option>
-            <option value="1">Marketing</option>
-            </select>
+          <input type="hidden" value="{{$promo->perevisi}}" class="form-control" id="penerima" name="penerima">
+          <input type="text" value="{{$promo->perevisi2->name}}" class="form-control" readonly>
           </div>
         </div>
         <div class="form-group row">
@@ -308,7 +280,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Sent</button>
+          <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-paper-plane"></i> Sent</button>
           {{ csrf_field() }}
         </div>
         </form>

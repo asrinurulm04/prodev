@@ -13,21 +13,14 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
+Route::middleware('auth:api')->get('/user', function (Request $request) { return $request->user(); });
 Route::get('ajax','finance\ajax@index')->name('ajax');
-
 Route::get('runtime/{id_feasibility}', 'DataController@runtime');
-
 Route::delete('runtime/{id}', 'DataController@delete');
-
 Route::get('update/{id}', 'DataController@updateView');
-
 Route::get('updatejeniss/{id_jenis}','DataController@updatejenis');
 Route::get('getjenis/{id_jenis}', 'DataController@getjenis');
-
-Route::post('/post', 'PostController@store');
-//ApiController
-Route::get('pkp','DataController@index')->name('pkp');
+// Route::post('add','DataController@add');
+// Route::put('update','DataController@update');
+// Route::get('pkp','DataController@index')->name('pkp');
+// Route::get('for','DataController@for')->name('for');

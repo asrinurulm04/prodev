@@ -1,6 +1,5 @@
-@extends('admin.tempadmin')
-@section('title', 'Approval')
-@section('judulhalaman','Edit Data Form')
+@extends('pv.tempvv')
+@section('title', 'PRODEV|Approval')
 @section('content')
 
 <div class="row">
@@ -31,7 +30,7 @@
 	</div>
 	<div class="col-md-6 col-sm-12 col-xs-12">
 		<div class="x_panel">
-		<form class="form-horizontal form-label-left" method="POST" action="{{ route('ses') }}" novalidate>
+			<form class="form-horizontal form-label-left" method="POST" action="{{ route('ses') }}" novalidate>
 			<div class="x_title">
     		<h3><li class="fa fa-file"> Create New SES</li></h3>
   		</div>
@@ -43,11 +42,10 @@
       	  </div>
       	</div>
   		</div>
-			<center><button type="submit" class="btn btn-primary">Submit</button></center>
+			<center><button type="submit" class="btn btn-primary btn-sm"><li class="fa fa-check"></li> Submit</button></center>
       {{ csrf_field() }}
 		</div>
 		</form>
 	</div>
 </div>		
-
 @endsection

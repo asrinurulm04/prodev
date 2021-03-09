@@ -13,10 +13,9 @@ class CreatePkpTypeTable extends Migration
      */
     public function up()
     {
-        Schema::create('pkp_type', function (Blueprint $table) {
-            $table->increments('id_type');
+        Schema::create('ms_type', function (Blueprint $table) {
+            $table->increments('id');
             $table->string('type')->nullable();
-            $table->enum('status',['active','nonactive']);
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ class CreatePkpTypeTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pkp_type');
+        Schema::dropIfExists('ms_type');
     }
 }

@@ -1,6 +1,5 @@
 @extends('pv.tempvv')
-@section('title', 'komponen Klaim')
-@section('judulhalaman','komponen Klaim')
+@section('title', 'PRODEV|komponen Klaim')
 @section('content')
 
 <div class="row">
@@ -28,7 +27,7 @@
 										<input value="" required="required" class="form-control col-md-12 col-xs-12" type="text" name="komponen">
 									</div>
 								</div>
-								<table class="table table-bordered">
+								<table id="datatable" class="table table-striped table-bordered" style="width:100%">
 									<thead>
 										<tr style="font-weight: bold;color:white;background-color: #2a3f54;">
 											<td class="text-center">Klaim</td>
@@ -48,7 +47,7 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="submit" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Submit</button>
+						<button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-plus-circle"></i> Submit</button>
 						{{ csrf_field() }}
 					</div>
 					</form>
@@ -102,7 +101,7 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="submit" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Submit</button>
+						<button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-plus-circle"></i> Submit</button>
 						{{ csrf_field() }}
 					</div>
 					</form>
@@ -111,7 +110,7 @@
 		</div>
 		<!-- modal selesai -->
 		@endif
-		<table class="Table table-bordered">
+		<table id="datatable" class="table table-striped table-bordered" style="width:100%">
 			<thead>
 				<tr style="font-weight: bold;color:white;background-color: #2a3f54;">
 					<td class="text-center" width="10px">No</td>
@@ -130,9 +129,9 @@
 				@foreach($klaim as $klaim)
 				<tr>
 					<td class="text-center">{{++$no}}</td>
-					<td>{{$klaim->komponen}}</td>
-					<td>{{$klaim->dataklaim->klaim}}</td>
-					<td>{{$klaim->dataklaim->persyaratan}}</td>
+					<td>{{$klaim->komponen->komponen}}</td>
+					<td>{{$klaim->klaim}}</td>
+					<td>{{$klaim->persyaratan}}</td>
 					@if(auth()->user()->role->namaRule == 'admin')
 					<td><button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#exampleModal{{ $klaim->id }}" data-toggle="tooltip" data-placement="top" title="Edit"><li class="fa fa-edit "></li></button></td>
 					@endif
@@ -158,20 +157,20 @@
 												</div>
 												<label class="control-label col-md-1 col-sm-3 col-xs-12">Klaim</label>
 												<div class="col-md-4 col-sm-4 col-xs-12">
-													<input value="{{$klaim->dataklaim->klaim}}" required="required" class="form-control col-md-12 col-xs-12" type="text" name="klaim">
+													<input value="{{$klaim->klaim}}" required="required" class="form-control col-md-12 col-xs-12" type="text" name="klaim">
 												</div>
 											</div><br><br>
 											<div class="form-group">
 												<label class="control-label col-md-2 col-sm-3 col-xs-12">Persyaratan</label>
 												<div class="col-md-9 col-sm-9 col-xs-12">
-													<textarea name="persyaratan" class="form-control col-md-12 col-xs-12" rows="4" value="{{$klaim->dataklaim->persyaratan}}">{{$klaim->dataklaim->persyaratan}}</textarea>
+													<textarea name="persyaratan" class="form-control col-md-12 col-xs-12" rows="4" value="{{$klaim->persyaratan}}">{{$klaim->persyaratan}}</textarea>
 												</div>
 											</div>
 										</div>
 									</div>
 								</div>
 								<div class="modal-footer">
-									<button type="submit" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Submit</button>
+									<button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-plus-circle"></i> Submit</button>
 									{{ csrf_field() }}
 								</div>
 								</form>

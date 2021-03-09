@@ -1,6 +1,5 @@
 @extends('manager.tempmanager')
-@section('title', 'Data PKP promo')
-@section('judulhalaman','Draf PKP pPromo')
+@section('title', 'PRODEV|Data PKP promo')
 @section('content')
 
 @if (session('status'))
@@ -19,55 +18,65 @@
 </div>
 @endif
 
-{{-- <div class="col-md-12 col-sm-12 col-xs-12">
+<div class="col-md-12 col-sm-12 col-xs-12">
   <div class="row">
     <!-- filter data -->
     <div class="panel panel-default">
 	    <div class="panel-heading">
-        <h2><li class="fa fa-filter"></li> Filter Project PKP PROMO</h2>
+        <h2><li class="fa fa-filter"></li> Filter Project PKP</h2>
       </div>
       <div>
         <div>
           <form id="clear">
-          <!--brand-->
-          <div class="col-md-4 pl-1">
-            <div class="form-group" id="filter_col1" data-column="3">
+          <div class="col-md-2 pl-1">
+            <div class="form-group" id="filter_col1" data-column="2">
               <label>Brand</label>
-              <select name="brand" class="form-control column_filter" id="col3_filter" >
+              <select name="brand" class="form-control column_filter" id="col2_filter" >
                 <option disabled selected>-->Select One<--</option>
                 @foreach($brand as $br)
                 <option>{{$br->brand}}</option>
                 @endforeach
               </select>
             </div>
-          </div>
-          <!--Data-->
+          </div> 
           <div class="col-md-3 pl-1">
-            <div class="form-group" id="filter_col1" data-column="5">
-              <label>Status</label>
-              <select name="status" class="form-control column_filter" id="col5_filter" >
+            <div class="form-group" id="filter_col1" data-column="4">
+              <label>Status RD Kemas</label>
+              <select name="status" class="form-control column_filter" id="col4_filter" >
                 <option disabled selected>-->Select One<--</option>
+                <option>New</option>
+                <option>approve</option>
                 <option>sent</option>
-                <option>revisi</option>
-                <option>proses</option>
-                <option>close</option>
+                <option>no proses</option>
               </select>
             </div>
-          </div>        
-          <!--project-->
-          <div class="col-md-4 pl-1">
+          </div>  
+          <div class="col-md-3 pl-1">
+            <div class="form-group" id="filter_col1" data-column="5">
+              <label>Status RD Product</label>
+              <select name="status" class="form-control column_filter" id="col5_filter" >
+                <option disabled selected>-->Select One<--</option>
+                <option>New</option>
+                <option>approve</option>
+                <option>sent</option>
+                <option>no proses</option>
+              </select>
+            </div>
+          </div>      
+          <div class="col-md-3 pl-1">
             <div class="form-group" id="filter_col1" data-column="6">
-              <label>Status terima</label>
+              <label>Priority</label>
               <select name="name" class="form-control column_filter" id="col6_filter">
                 <option disabled selected>-->Select One<--</option>
-                <option>terima</option>
-                <option>proses</option>
+                <option>prioritas 1</option>
+                <option>prioritas 2</option>
+                <option>prioritas 3</option>
               </select>
             </div>
           </div> 
           <div class="col-md-1 pl-1">
             <div class="form-group" id="filter_col1" data-column="5">
-              <label class="text-center">refresh</label>    
+              <label class="text-center">refresh</label><br>  
               <a href="" class="btn btn-info btn-sm"><li class="fa fa-refresh"></li></a>
             </div>
           </div>
@@ -77,7 +86,7 @@
     </div>
   <!-- filter data selesai -->
   </div>
-</div> --}}
+</div> 
 
 <div class="">
   <div class="row">
@@ -86,27 +95,27 @@
         <div class="x_title">
           <h3><li class="fa fa-wpforms"> List PKP Promo</h3>
         </div>
-        <div class="x_content">
-          <table class="Table table-striped no-border" id="ex">
+        <div class="card-box table-responsive">
+          <table id="datatable" class="table table-striped table-bordered ex" style="width:100%">
             <thead>
               <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
                 <td>No</td>
                 <td>PKP Promo Number</td>
                 <td>Brand</td>
-                <td>PV</td>
+                <td width="10%">PV</td>
                 <td class="text-center">Status RD Kemas</td>
                 <td class="text-center">Status RD Produk</td>
                 <td class="text-center">Priority</td>
-                <td width="15%" class="text-center">Action</td>
+                <td width="8%" class="text-center">Action</td>
                 <td width="15%">Information</td>
               </tr>
             </thead>
             <tbody>
               @php $no = 0; @endphp
               @foreach($pkp as $pkp)
-              <tr>
               @if($pkp->tujuankirim2=="1")
                 @if($pkp->departement->dept==Auth::user()->departement->dept || $pkp->departement2->dept==Auth::user()->departement->dept)
+                <tr>
                   <td class="text-center">{{ ++$no }}</td>
                   <td>{{ $pkp->promo_number}}{{$pkp->ket_no}}</td>
                   <td>{{ $pkp->brand }}</td>
@@ -173,13 +182,6 @@
                   @if($pkp->status_project=='sent')
                   <td class="text-center">
                     <a class="btn btn-info btn-sm" href="{{ Route('daftarpromo',$pkp->id_pkp_promo)}}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
-                    @if($pkp->prioritas=='1')
-                    <a href="{{route('kalenderpromo',$pkp->id_pkp_promo)}}"  data-toggle="tooltip" class="btn btn-danger btn-sm" title="calendar hight priority"><li class="fa fa-calendar"></li></a>
-                    @elseif($pkp->prioritas=='2')
-                    <a href="{{route('kalenderpromo',$pkp->id_pkp_promo)}}"  data-toggle="tooltip" class="btn btn-warning btn-sm" title="calendar standar priority"><li class="fa fa-calendar"></li></a>
-                    @elseif($pkp->prioritas=='3')
-                    <a href="{{route('kalenderpromo',$pkp->id_pkp_promo)}}"  data-toggle="tooltip" class="btn btn-success btn-sm" title="calendar low priority"><li class="fa fa-calendar"></li></a>
-                    @endif
                   </td>
                   <td>
                     @if($pkp->status_freeze=="inactive")
@@ -188,8 +190,7 @@
                         <?php
                           $awal  = date_create( $pkp->waktu );
                           $akhir = date_create(); // waktu sekarang
-                          if($akhir<=$awal)
-                          {
+                          if($akhir<=$awal){
                             $diff  = date_diff( $akhir, $awal );
                             echo ' You Have ';
                             echo $diff->m . ' Month, ';
@@ -220,38 +221,7 @@
                   @elseif($pkp->status_project=='proses')
                   <td class="text-center">
                     <a class="btn btn-info btn-sm" href="{{ Route('daftarpromo',$pkp->id_pkp_promo) }}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
-                    @if(Auth::user()->departement->dept!='RKA')
-                    <button class="btn btn-primary btn-sm" data-toggle="tooltip" title="Close" data-toggle="modal" data-target="#close{{$pkp->id_pkp_promo}}"><i class="fa fa-power-off"></i></button>
-                    @endif
                   </td>
-                  <!-- modal -->
-                  <div class="modal" id="close{{$pkp->id_pkp_promo}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                      <div class="modal-content">
-                        <div class="modal-header">                 
-                          <h3 class="modal-title text-left" id="exampleModalLabel" >Close Data
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span></h3>
-                          </button>
-                        </div>
-                        <div class="modal-body">
-                          <form class="form-horizontal form-label-left" method="POST" action="{{route('closepromo',$pkp->id_pkp_promo)}}" novalidate>
-                          <div class="form-group row">
-                            <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center">Note</label>
-                            <div class="col-md-9 col-sm-9 col-xs-12">
-                              <textarea name="note" id="note" class="col-md-12 col-sm-12 col-xs-12"></textarea>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="modal-footer">
-                          <button class="btn btn-success" title="Close Project"><li class="fa fa-check"></li> Close</button>
-                          {{ csrf_field() }}
-                        </div>
-                        </form>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Modal Selesai -->
                   <td>
                     @if($pkp->status_freeze=='inactive')
                       @if($pkp->userpenerima2==NULL)
@@ -271,17 +241,17 @@
                     <a class="btn btn-success btn-sm" data-toggle="tooltip" title="Project Finish" disabled><li class="fa fa-smile-o"></li></a>
                   </td>
                   <td>Project Finish</td>
-                  @endif
+                </tr>
+                @endif
                 @endif
               @elseif($pkp->tujuankirim2=="0") 
                 @if($pkp->departement->dept==Auth::user()->departement->dept)
+                <tr>
                   <td class="text-center">{{ ++$no }}</td>
                   <td>{{ $pkp->promo_number}}{{$pkp->ket_no}}</td>
                   <td>{{ $pkp->brand }}</td>
                   <td>{{ $pkp->datapromo->perevisi2->name}}</td>
-                  <td>
-                    No Prosess
-                  </td>
+                  <td>No Prosess</td>
                   <td>
                     @if($pkp->tujuankirim!=1)
                       @if($pkp->status_project=='sent')
@@ -321,13 +291,6 @@
                   @if($pkp->status_project=='sent')
                   <td class="text-center">
                     <a class="btn btn-info btn-sm" href="{{ Route('daftarpromo',$pkp->id_pkp_promo)}}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
-                    @if($pkp->prioritas=='1')
-                    <a href="{{route('kalenderpromo',$pkp->id_pkp_promo)}}" data-toggle="tooltip" class="btn btn-danger btn-sm" title="calendar hight priority"><li class="fa fa-calendar"></li></a>
-                    @elseif($pkp->prioritas=='2')
-                    <a href="{{route('kalenderpromo',$pkp->id_pkp_promo)}}" data-toggle="tooltip" class="btn btn-warning btn-sm" title="calendar standar priority"><li class="fa fa-calendar"></li></a>
-                    @elseif($pkp->prioritas=='3')
-                    <a href="{{route('kalenderpromo',$pkp->id_pkp_promo)}}" data-toggle="tooltip" class="btn btn-success btn-sm" title="calendar low priority"><li class="fa fa-calendar"></li></a>
-                    @endif
                   </td>
                   <td>
                     @if($pkp->status_freeze=="inactive")
@@ -336,8 +299,7 @@
                         <?php
                           $awal  = date_create( $pkp->waktu );
                           $akhir = date_create(); // waktu sekarang
-                          if($akhir<=$awal)
-                          {
+                          if($akhir<=$awal){
                             $diff  = date_diff( $akhir, $awal );
                             echo ' You Have ';
                             echo $diff->m . ' Month, ';
@@ -368,38 +330,7 @@
                   @elseif($pkp->status_project=='proses')
                   <td class="text-center">
                     <a class="btn btn-info btn-sm" href="{{ Route('daftarpromo',$pkp->id_pkp_promo) }}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
-                    @if(Auth::user()->departement->dept!='RKA')
-                    <button class="btn btn-primary btn-sm" data-toggle="tooltip" title="Close" data-toggle="modal" data-target="#close{{$pkp->id_pkp_promo}}"><i class="fa fa-power-off"></i></button>
-                  @endif
                   </td>
-                  <!-- modal -->
-                  <div class="modal" id="close{{$pkp->id_pkp_promo}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                      <div class="modal-content">
-                        <div class="modal-header">                 
-                          <h3 class="modal-title text-left" id="exampleModalLabel" >Close Data
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span></h3>
-                          </button>
-                        </div>
-                        <div class="modal-body">
-                          <form class="form-horizontal form-label-left" method="POST" action="{{route('closepromo',$pkp->id_pkp_promo)}}" novalidate>
-                          <div class="form-group row">
-                            <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center">Note</label>
-                            <div class="col-md-9 col-sm-9 col-xs-12">
-                              <textarea name="note" id="note" class="col-md-12 col-sm-12 col-xs-12"></textarea>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="modal-footer">
-                          <button class="btn btn-success" title="Close Project"><li class="fa fa-check"></li> Close</button>
-                          {{ csrf_field() }}
-                        </div>
-                        </form>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Modal Selesai -->
                   <td>
                     @if($pkp->status_freeze=='inactive')
                       @if($pkp->userpenerima2==NULL)
@@ -420,9 +351,9 @@
                   </td>
                   <td>Project Finish</td>
                   @endif
+                </tr>
                 @endif
-              @endif                
-              </tr>
+              @endif  
               @endforeach
             </tbody>
           </table>
@@ -431,38 +362,35 @@
     </div>
   </div>
 </div>
-
 @endsection
 
 @section('s')
 <script>
  function filterGlobal () {
-    $('#ex').DataTable().search(
+    $('.ex').DataTable().search(
         $('#global_filter').val(),
-    
     ).draw();
-    }
+  }
     
-    function filterColumn ( i ) {
-        $('#ex').DataTable().column( i ).search(
-            $('#col'+i+'_filter').val()
-        ).draw();
-    }
+  function filterColumn ( i ) {
+    $('.ex').DataTable().column( i ).search(
+        $('#col'+i+'_filter').val()
+    ).draw();
+  }
     
-    $(document).ready(function() {
-        $('#ex').DataTable();
-        
-        $('input.global_filter').on( 'keyup click', function () {
-            filterGlobal();
-        } );
-    
-        $('input.column_filter').on( 'keyup click', function () {
-            filterColumn( $(this).parents('div').attr('data-column') );
-        } );
+  $(document).ready(function() {
+    $('.ex').DataTable();
+    $('input.global_filter').on( 'keyup click', function () {
+      filterGlobal();
     } );
+    
+    $('input.column_filter').on( 'keyup click', function () {
+      filterColumn( $(this).parents('div').attr('data-column') );
+    } );
+  } );
 
-        $('select.column_filter').on('change', function () {
-            filterColumn( $(this).parents('div').attr('data-column') );
-        } );
+  $('select.column_filter').on('change', function () {
+    filterColumn( $(this).parents('div').attr('data-column') );
+  } );
 </script>
 @endsection

@@ -1,6 +1,5 @@
 @extends('pv.tempvv')
-@section('title', 'Data Pangan')
-@section('judulhalaman','Data Pangan')
+@section('title', 'PRODEV|Data Pangan')
 @section('content')
 
 <div class="row">
@@ -8,9 +7,8 @@
 		<div class="x_title">
 			<h3><li class="fa fa-file"></li> PKBPOM No 16 thn.2016 tentang kriteria Mikrobiologi dalam olahan pangan</h3>
 		  </div>
-		<a href="{{route('exportBpom')}}" class="btn btn-info btn-sm"><li class="fa fa-download"></li> Export Data BPOMa</a>
 		@if(auth()->user()->role->namaRule == 'admin')
-		<button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#pangan"><i class="fa fa-plus"></i> Add Data Pangan</button>
+		<button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#pangan"><i class="fa fa-plus"></i> Add Mikro Biologi</button>
 		<!-- modal -->
 		<div class="modal" id="pangan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog" role="document">
@@ -22,63 +20,53 @@
 						</button>
 					</div>
 					<div class="modal-body">
-						<form class="form-horizontal form-label-left" method="POST" action="{{route('tambahpangan')}}" novalidate>
-						<div class="form-group row">
-							<label class="control-label text-bold col-md-3 col-sm-3 col-xs-12 text-center">Jenis</label>
-							<div class="col-md- col-sm-3 col-xs-12">
-								<select name="jenis" class="form-control form-control-line" style="width:408px">
-									@foreach($datapangan as $data)
-									<option value="{{$data->kategori_pangan}}">{{$data->kategori_pangan}}</option>
-									@endforeach
-								</select>
-							</div>
-						</div>
+						<form class="form-horizontal form-label-left" method="POST" action="{{route('tambahpangan')}}">
 						<div class="form-group row">
 							<label class="control-label text-bold col-md-3 col-sm-3 col-xs-12 text-center">No.Kategori</label>
 							<div class="col-md-9 col-sm-3 col-xs-12">
-								<input type="text" class="form-control" name="no">
+								<input type="text" class="form-control" name="no" required>
 							</div>
 						</div>
 						<div class="form-group row">
 							<label class="control-label text-bold col-md-3 col-sm-3 col-xs-12 text-center">Kategori</label>
 							<div class="col-md-9 col-sm-3 col-xs-12">
-								<input type="text" class="form-control" name="kategori">
+								<input type="text" class="form-control" name="kategori" required>
 							</div>
 						</div>
 						<div class="form-group row">
 							<label class="control-label text-bold col-md-3 col-sm-3 col-xs-12 text-center">Jenis Mikroba</label>
 							<div class="col-md-9 col-sm-3 col-xs-12">
-								<input type="text" class="form-control" name="mikroba">
+								<input type="text" class="form-control" name="mikroba" required>
 							</div>
 						</div>
 						<div class="form-group row">
 							<label class="control-label text-bold col-md-3 col-sm-3 col-xs-12 text-center">n</label>
 							<div class="col-md-4 col-sm-3 col-xs-12">
-								<input type="text" class="form-control" name="n">
+								<input type="text" class="form-control" name="n" required>
 							</div>
 							<label class="control-label text-bold col-md-1 col-sm-3 col-xs-12 text-center">c</label>
 							<div class="col-md-4 col-sm-3 col-xs-12">
-								<input type="text" class="form-control" name="c">
+								<input type="text" class="form-control" name="c" required>
 							</div>
 						</div>
 						<div class="form-group row">
 							<label class="control-label text-bold col-md-3 col-sm-3 col-xs-12 text-center">m</label>
 							<div class="col-md-4 col-sm-3 col-xs-12">
-								<input type="text" class="form-control" name="m1">
+								<input type="text" class="form-control" name="m1" required>
 							</div>
 							<label class="control-label text-bold col-md-1 col-sm-3 col-xs-12 text-center">M</label>
 							<div class="col-md-4 col-sm-3 col-xs-12">
-								<input type="text" class="form-control" name="m2">
+								<input type="text" class="form-control" name="m2" required>
 							</div>
 						</div>
 						<div class="form-group row">
 							<label class="control-label text-bold col-md-3 col-sm-3 col-xs-12 text-center">Metode Analisa</label>
 							<div class="col-md-9 col-sm-3 col-xs-12">
-								<input type="text" class="form-control" name="analisa">
+								<input type="text" class="form-control" name="analisa" required>
 							</div>
 						</div>
 						<div class="modal-footer">
-							<button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i> Submit</button>
+							<button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> Submit</button>
 							{{ csrf_field() }}
 						</div>
 					</form>
@@ -89,7 +77,7 @@
 		<!-- Modal Selesai -->
 		@endif
 
-		<table class="Table table-bordered">
+		<table id="datatable" class="table table-striped table-bordered" style="width:100%">
 			<thead>
 				<tr style="font-weight: bold;color:white;background-color: #2a3f54;">
 					<th class="text-center" width="10">No Category</th>
@@ -100,9 +88,6 @@
 					<th class="text-center" width="13%">m</th>
 					<th class="text-center" width="13%">M</th>
 					<th class="text-center" width="20%">Method</th>
-					@if(auth()->user()->role->namaRule == 'admin')
-					<th class="text-center"></th>
-					@endif
 				</tr>
 			</thead>
 			<tbody>
@@ -115,7 +100,7 @@
 					<td>{{$item->kategori}}</td>
 					<td>
 						@foreach($mikroba as $mikro)
-						@if($item->no_kategori == $mikro->no_kategori)
+						@if($item->no_kategori == $mikro->no)
 						=> {{$mikro->jenis_mikroba}} <br>
 						@else
 						@endif
@@ -123,7 +108,7 @@
 					</td>
 					<td>
 						@foreach($mikroba as $mikro)
-						@if($item->no_kategori == $mikro->no_kategori)
+						@if($item->no_kategori == $mikro->no)
 						=> {{$mikro->n}} <br>
 						@else
 						@endif
@@ -131,7 +116,7 @@
 					</td>
 					<td>
 						@foreach($mikroba as $mikro)
-						@if($item->no_kategori == $mikro->no_kategori)
+						@if($item->no_kategori == $mikro->no)
 						=> {{$mikro->c}} <br>
 						@else
 						@endif
@@ -139,7 +124,7 @@
 					</td>
 					<td>
 						@foreach($mikroba as $mikro)
-						@if($item->no_kategori == $mikro->no_kategori)
+						@if($item->no_kategori == $mikro->no)
 						=> {{$mikro->mk}} <br>
 						@else
 						@endif
@@ -147,7 +132,7 @@
 					</td>
 					<td>
 						@foreach($mikroba as $mikro)
-						@if($item->no_kategori == $mikro->no_kategori)
+						@if($item->no_kategori == $mikro->no)
 						=> {{$mikro->Mb}} <br>
 						@else
 						@endif
@@ -155,7 +140,7 @@
 					</td>
 					<td>
 						@foreach($mikroba as $mikro)
-						@if($item->no_kategori == $mikro->no_kategori)
+						@if($item->no_kategori == $mikro->no)
 						=> {{$mikro->metode_analisa}} <br>
 						@else
 						@endif

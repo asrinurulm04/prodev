@@ -1,6 +1,5 @@
-@extends('admin.tempadmin')
+@extends('pv.tempvv')
 @section('title', 'Approved User')
-@section('judulhalaman','User Management')
 @section('content')
 
 <div class="x_panel">

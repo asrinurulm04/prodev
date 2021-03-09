@@ -1,6 +1,5 @@
 @extends('pv.tempvv')
-@section('title', 'Data Tambahan PDF')
-@section('judulhalaman','Data Tambahan PDF')
+@section('title', 'PRODEV|Data Tambahan PDF')
 @section('content')
 
 <div class="row">
@@ -32,37 +31,20 @@
 </div>
 @endif
 
-@if (count($errors) > 0)
-<div class="alert alert-danger">
-  <strong>Whoops!</strong> There were some problems with your input.<br><br>
-  <ul>
-    @foreach ($errors->all() as $error)
-    <li>{{ $error }}</li>
-    @endforeach
-  </ul>
-</div>
-@endif
-
-@if(session('success'))
-<div class="alert alert-success">
-   {{ session('success') }}
-</div> 
-@endif
-
 <div class="col-md-12 col-sm-12 col-xs-12">
   <div class="x_panel">
     <div class="x_title">
-			<h3 class="jumbotron"><li class=" fa fa-upload"></li> File Upload (Max 5MB)</h3>
+			<h3 class="jumbotron"><li class=" fa fa-upload"></li> File Upload (Max 2MB)</h3>
       <form method="post" action="{{url('uploadpdf')}}" enctype="multipart/form-data">
 		  {{csrf_field()}}
 			<div class="input-group control-group increment" >
-			<input type="hidden" value="{{ $id_pdf->id_project_pdf }}" name="id">
-      @foreach($turunan as $turun)
-      <input type="hidden" value="{{$turun->turunan}}" name="turunan">
-      @endforeach
+        <input type="hidden" value="{{ $id_pdf->id_project_pdf }}" name="id">
+        @foreach($turunan as $turun)
+        <input type="hidden" value="{{$turun->turunan}}" name="turunan">
+        @endforeach
 				<input type="file" name="filename[]" class="form-control" multiple>
 		  </div>
-			<button type="submit" class="btn btn-primary" style="margin-top:10px"> Submit</button>
+			<button type="submit" class="btn btn-primary btn-sm" style="margin-top:10px"><li class=" fa fa-check"></li> Submit</button>
 	    </form>        
 		</div>
 	</div>
@@ -76,12 +58,12 @@
     </div>
 		<div class="card-body">
       <form class="form-horizontal form-label-left" method="POST" action="{{route('infogambarpdf')}}" novalidate>
-		  &nbsp&nbsp<embed src="{{asset('data_file/'.$pdf->filename)}}" width="110px" height="100px" type="">
       <input name="id" value="{{$pdf->pdf_id}}" type="hidden">
       <input name="informasi[{{$loop->index}}][pic]" value="{{$pdf->id_pictures}}" type="hidden">
-      <textarea name="informasi[{{$loop->index}}][info]" class="col-md-7" rows="4">{{$pdf->informasi}}</textarea><br>
-		  <a href="{{ Route('destroydata',$pdf->id_pictures) }}" type="button" class="btn btn-danger" data-toggle="tooltip" title="Delete"><li class="fa fa-trash-o"></li> Delete</a>
-    </div>
+      <textarea name="informasi[{{$loop->index}}][info]" class="col-md-10" rows="4">{{$pdf->informasi}}</textarea><br>
+		  &nbsp&nbsp<a href="{{ Route('destroydata',$pdf->id_pictures) }}" type="button" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Delete"><li class="fa fa-trash-o"></li></a>
+      <br>&nbsp&nbsp<a href="{{asset('data_file/'.$pdf->filename)}}" class="btn btn-warning btn-sm" download="{{$pdf->filename}}" title="Download file"><li class="fa fa-download"></li></a>
+   </div>
   </div>
 </div>
 @endforeach

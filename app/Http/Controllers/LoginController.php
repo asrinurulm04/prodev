@@ -25,7 +25,6 @@ class LoginController extends Controller
     }
 
     public function postLogin(Request $request){
-
         //MARKETING==========================================================================================
         if(Auth::attempt([
             'email' =>$request->inputEmailUser,
@@ -123,7 +122,7 @@ class LoginController extends Controller
             'status' => 'active',
             'role_id' => 6
         ])){
-            return redirect()->route('dasboardawal');
+            return redirect()->route('formula.feasibility');
         }
         elseif(Auth::attempt([
             'username' =>$request->inputEmailUser,
@@ -131,7 +130,7 @@ class LoginController extends Controller
             'status' => 'active',
             'role_id' => 6
         ])){
-            return redirect()->route('dasboardawal');        }
+            return redirect()->route('formula.feasibility');        }
 
         //KEMAS============================================================================================
         if(Auth::attempt([

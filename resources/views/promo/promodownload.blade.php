@@ -60,7 +60,6 @@
                 <td width="25%"><b>Type</td>
                 <td colspan="2">{{$promo->type}}</td>
               </tr>
-              @endforeach
               <tr>
                 <td width="25%"><b>Promo</td>
                 <td width="65%">
@@ -72,31 +71,30 @@
                       </tr>
                     </thead>
                     <tbody>
+                      @foreach($idea as $ide)
                       <tr>
-                        <td><?php $promo_idea = []; foreach ($idea as $key => $data)If (!$promo_idea || !in_array($data->promo_idea, $promo_idea)) {$promo_idea += array($key => $data->promo_idea);
-                          if($data->turunan!=$promo->turunan){ echo" <s><font color='#6594c5'>".$data->idea ."(".$data->turunan.")" ."<br></font></s>"; } if($data->turunan==$promo->turunan){ echo $data->promo_idea ."(".$data->turunan.")<br>"; } } ?></td>
-                        <td><?php $dimension = []; foreach ($idea as $key => $data)If (!$dimension || !in_array($data->dimension, $dimension)) {$dimension += array($key => $data->dimension);
-                          if($data->turunan!=$promo->turunan){ echo" <s><font color='#6594c5'>".$data->dimension ."(".$data->turunan.")<br></font></s>"; } if($data->turunan==$promo->turunan){ echo $data->dimension ."(".$data->turunan.")<br>"; } } ?></td>
+                        <td>{{$ide->promo_idea}}</td>
+                        <td>{{$ide->dimension}}</td>
                       </tr>
+                      @endforeach
                     </tbody>
                   </table>
                 </td>
               </tr>
               <tr>
                 <td width="25%"><b>Application</td>
-                <?php $application = []; foreach ($promo1 as $key => $data) If (!$application || !in_array($data->application, $application)) { $application += array( $key => $data->application );}  ?>
-                <td colspan="2">	@foreach($application as $application){{ $application }} <br>@endforeach</td>
+                <td colspan="2">	{{ $promo->application }}</td>
               </tr>
               <tr class="table-highlight">
-                <?php $promo_readiness = []; foreach ($promo1 as $key => $data) If (!$promo_readiness || !in_array($data->promo_readiness, $promo_readiness)) { $promo_readiness += array( $key => $data->promo_readiness );}  ?>
                 <td width="25%"><b>Item Promo Readiness</td>
-                <td colspan="2">	@foreach($promo_readiness as $promo_readiness){{ $promo_readiness }} <br>@endforeach</td>
+                <td colspan="2">	{{$promo->promo_readiness}}</td>
               </tr>
               <tr>
                 <td width="25%"><b>Related Picture</td>
                 <td colspan="2">@foreach($picture as $pic)<embed src="{{asset('data_file/'.$promo->filename)}}" width="150px" height="170" type="">@endforeach</td>
               </tr>
             </table>
+            @endforeach
             <label for="">Product And Allocation :</label>
             <table class="table table-striped table-bordered nowrap" id="table">
               <thead>
@@ -111,22 +109,17 @@
                 </tr>
               </thead>
               <tbody>
+                @foreach($app as $data)
                 <tr>
-                  <td><?php $product_sku = []; foreach ($app as $key => $data) If (!$product_sku || !in_array($data->product_sku, $product_sku)) { $product_sku += array( $key => $data->product_sku );
-                  if($data->turunan!=$promo->turunan){ echo"<s><font color='#6594c5'>".$data->sku->nama_sku."<br></font></s>"; } if($data->turunan==$promo->turunan){ echo"".$data->sku->nama_sku."<br>"; } } ?></td>
-                  <td><?php $allocation = []; foreach ($app as $key => $data) If (!$allocation || !in_array($data->allocation, $allocation)) { $allocation += array( $key => $data->allocation );
-                  if($data->turunan!=$promo->turunan){ echo"<s><font color='#6594c5'>$data->allocation<br></font></s>"; } if($data->turunan==$promo->turunan){ echo"$data->allocation<br>"; } } ?></td>
-                  <td><?php $remarks = []; foreach ($app as $key => $data) If (!$remarks || !in_array($data->remarks, $remarks)) { $remarks += array( $key => $data->remarks );
-                  if($data->turunan!=$promo->turunan){ echo"<s><font color='#6594c5'>$data->remarks<br></font></s>"; } if($data->turunan==$promo->turunan){ echo"$data->remarks<br>"; } } ?></td>
-                  <td><?php $start = []; foreach ($app as $key => $data) If (!$start || !in_array($data->start, $start)) { $start += array( $key => $data->start );
-                  if($data->turunan!=$promo->turunan){ echo"<s><font color='#6594c5'>$data->start<br></font></s>"; } if($data->turunan==$promo->turunan){ echo"$data->start<br>"; } } ?></td>
-                  <td><?php $end = []; foreach ($app as $key => $data) If (!$end || !in_array($data->end, $end)) { $end += array( $key => $data->end );
-                  if($data->turunan!=$promo->turunan){ echo"<s><font color='#6594c5'>$data->end<br></font></s>"; } if($data->turunan==$promo->turunan){ echo"$data->end<br>"; } } ?></td>
-                  <td><?php $rto = []; foreach ($app as $key => $data) If (!$rto || !in_array($data->rto, $rto)) { $rto += array( $key => $data->rto );
-                   if($data->turunan!=$promo->turunan){ echo"<s><font color='#6594c5'>$data->rto<br></font></s>"; } if($data->turunan==$promo->turunan){ echo"$data->rto<br>"; } } ?></td>
-                  <td><?php $opsi = []; foreach ($app as $key => $data) If (!$opsi || !in_array($data->opsi, $opsi)) { $opsi += array( $key => $data->opsi );
-                    if($data->turunan!=$promo->turunan){ echo"<s><font color='#6594c5'>$data->opsi<br></font></s>"; } if($data->turunan==$promo->turunan){ echo"$data->opsi<br>"; } } ?></td>
+                  <td>{{$data->product_sku}}</td>
+                  <td>{{$data->allocation}}</td>
+                  <td>{{$data->remarks}}</td>
+                  <td>{{$data->start}}</td>
+                  <td>{{$data->end}}</td>
+                  <td>{{$data->rto}}</td>
+                  <td>{{$data->opsi}}</td>
                 </tr>
+                @endforeach
               </tbody>
             </table>
       			<table ALIGN="right">

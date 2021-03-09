@@ -1,17 +1,15 @@
 @extends('pv.tempvv')
-@section('title', 'Request PKP Promo')
-@section('judulhalaman','Form PKP Promo')
+@section('title', 'PRODEV|Request PKP Promo')
 @section('content')
 
 <div class="row">
-  <div class="col-md-2"></div>
-  <div class="col-md-10">
+  <div class="col-md-3"></div>
+  <div class="col-md-9">
     <div class="tabbable">
       <ul class="nav nav-tabs wizard">
-        <li class="active"><a href="" ><span class="nmbr">1</span>Information</a></li>
-        <li class="completed"><a href=""><span class="nmbr">2</span>Data</a></li>
-        <li class="active"><a href=""><span class="nmbr">3</span>Products</a></li>
-        <li class="active"><a href=""><span class="nmbr">4</span>File & Image</a></li>
+        <li class="completed"><a href=""><span class="nmbr">1</span>Data</a></li>
+        <li class="active"><a href=""><span class="nmbr">2</span>Products</a></li>
+        <li class="active"><a href=""><span class="nmbr">3</span>File & Image</a></li>
       </ul>
     </div>
   </div>
@@ -71,6 +69,8 @@
               <input required="required" id="application" class="form-control col-md-12 col-xs-12" type="text" name="application">
             </div>
           </div>
+          <?php $date = Date('j-F-Y'); ?>
+          <input id="last_up" value="{{ $date }}" class="form-control col-md-12 col-xs-12" type="hidden" name="last_up">
 					<div class="form-group">
             <label class="control-label col-md-2 col-sm-3 col-xs-12" style="color:#258039">Promo Readiness**</label>
             <div class="col-md-3 col-sm-9 col-xs-12">
@@ -85,7 +85,7 @@
             </div>
           </div>
           <div class="ln_solid"></div>
-          <center><button class="btn btn-primary" type="submit"><li class="fa fa-plus"></li> Submit And Next</button></center>
+          <center><button class="btn btn-primary btn-sm" type="submit"><li class="fa fa-check"></li> Submit And Next</button></center>
           {{ csrf_field() }}
         </div>
       </div>
@@ -97,18 +97,16 @@
 
 @section('s')
 <script>
-    $(document).ready(function() {
-  
-      $('#tabledata').on('click', 'tr a', function(e) {
-  
-          e.preventDefault();
-          var lenRow = $('#tabledata tbody tr').length;
-          if (lenRow == 1 || lenRow <= 1) {
-              alert("Tidak bisa hapus semua baris!!");
-          } else {
-              $(this).parents('tr').remove();
-          }
-      });
+  $(document).ready(function() {
+    $('#tabledata').on('click', 'tr a', function(e) {
+      e.preventDefault();
+      var lenRow = $('#tabledata tbody tr').length;
+      if (lenRow == 1 || lenRow <= 1) {
+        alert("Tidak bisa hapus semua baris!!");
+      } else {
+        $(this).parents('tr').remove();
+      }
+    });
   
     var i = 1;
     $("#add_data").click(function() {
@@ -117,11 +115,9 @@
         "<td><input required='required' id='dimension' class='form-control col-md-12 col-xs-12' type='text' name='dimension[]'></td>"+
         "<td><a href='' class='btn btn-danger btn-sm'><li class='fa fa-trash'></li></a>"+
         "</td>");
-  
       $('#tabledata').append('<tr id="addrow' + (i + 1) + '"></tr>');
       i++;
     });
-    });
-  
-  </script>
+  });
+</script>
 @endsection

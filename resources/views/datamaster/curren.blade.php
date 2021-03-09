@@ -1,6 +1,5 @@
-@extends('admin.tempadmin')
-@section('title', 'Data currency')
-@section('judulhalaman','Data Master')
+@extends('pv.tempvv')
+@section('title', 'PRODEV|Data currency')
 @section('content')
 
 <div class="row">
@@ -27,9 +26,9 @@
     <h3><li class="fa fa-list"> List Currency</li></h3>
   </div>
   <div class="card-block">
-    <a type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#add_curren"><i class="fa fa-plus"></i> Tambah Currency </a>
+    <a type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#add_curren"><i class="fa fa-plus"></i> Add Currency </a>
 	  <div class="dt-responsive table-responsive">
-      <table class="Table table-striped table-bordered ">
+      <table class="table table-striped table-bordered ">
         <thead>
           <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
             <th>ID</th>
@@ -40,15 +39,15 @@
           </tr>
         </thead>
         <tbody>
-        @foreach($currens as $curren)
+          @foreach($currens as $curren)
           <tr>
             <td>{{ $curren->id }}</td>
             <td>{{ $curren->currency }}</td>
-            <td>{{ $curren->harga }}</td>
+            <td><?php $angka_format = number_format($curren->harga,2,",","."); echo "Rp. ".$angka_format;?></td>
             <td>{{ $curren->keterangan }}</td>
             <td class="text-center">
-              <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#edit_curren{{ $curren->id }}"><i class="fa fa-edit"></i></a></button>
-              <button class="btn-sm btn-danger btn-sm" onclick="return confirm('Hapus currency ?')" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash-o"></i></button>
+              <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#edit_curren{{ $curren->id }}"><i class="fa fa-edit"></i></a></button>
+              <button class="btn btn-danger btn-sm" onclick="return confirm('Hapus currency ?')" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash-o"></i></button>
               {!! Form::close() !!}
             </td>
           </tr>
@@ -65,13 +64,13 @@
                     <label for="" class="control-label">Currency</label>
                     <input class="form-control" id="currency" name="currency" placeholder="Currency" value="{{ $curren->currency }}" required />
                     <label for="" class="control-label">Harga</label>
-                    <input type="number" class="form-control" id="harga" name="harga" placeholder="Harga" required value="{{ $curren->harga }}"/>
+                    <input type="text" class="form-control" id="harga" name="harga" placeholder="Harga" required value="{{ $curren->harga }}"/>
+                  <label for="" style="color:red">* gunakan "." untuk tanda baca ","</label><br>
                     <label for="" class="control-label">Keterangan</label>
                     <input class="form-control" id="keterangan" name="keterangan" placeholder="Keterangan" value="{{ $curren->keterangan }}" required />
                   </div>
                   <div class="modal-footer">
-                    <button class="btn btn-primary" type="submit"><i class="fa fa-plus"></i> Submit</button>
-                    <a type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> BATAL</a>
+                    <button class="btn btn-primary btn-sm" type="submit"><i class="fa fa-plus"></i> Submit</button>
                     {{ csrf_field() }}
                     {{ method_field('PATCH') }}
                   </div>      
@@ -79,21 +78,21 @@
               </div>
             </div>
           </div>
-          {{-- selesai --}}
-        @endforeach
+          <!-- selesai -->
+          @endforeach
         </tbody>
       </table>
     </div>
   </div>
 </div>
-{{-- selesai --}}
+<!-- Selesai -->
 
 <!-- Add New  Currency-->
 <div class="modal fade" id="add_curren" role="dialog" aria-labelledby="EWBModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="EWBModalLabel"><i class="fa fa-plus"></i> Tambah Currency
+        <h4 class="modal-title" id="EWBModalLabel"><i class="fa fa-plus"></i> Add Currency
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button></h4>
       </div>
       <div class="modal-body">
@@ -107,16 +106,14 @@
         {{ csrf_field() }}
       </div>
       <div class="modal-footer">
-        <button class="btn btn-primary" type="submit"><i class="fa fa-plus"></i> Submit</button>
-        <a type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> BATAL</a>
+        <button class="btn btn-primary btn-sm" type="submit"><i class="fa fa-plus"></i> Submit</button>
         </form>
       </div>      
     </div>
   </div>
 </div>
-{{-- selesai --}}
+<!-- selesai -->
 @endsection
-
 
 @section('s')
 <script type="text/javascript"></script>

@@ -13,10 +13,17 @@ class CreatePkpRelatedPicturesTable extends Migration
      */
     public function up()
     {
-        Schema::create('pkp_related_pictures', function (Blueprint $table) {
+        Schema::create('tr_file_project', function (Blueprint $table) {
             $table->increments('id_pictures');
-            $table->string('request');
-            $table->string('pictured');
+            $table->text('filename');
+            $table->integer('pkp_id')->nullable();
+            $table->integer('pdf_id')->nullable();
+            $table->integer('promo')->nullable();
+            $table->string('lokasi');
+            $table->integer('revisi')->default('0');
+            $table->integer('turunan')->default('0');
+            $table->text('informasi')->nullable();
+            $table->string('status_picture')->default('active');
             $table->timestamps();
         });
     }
@@ -28,6 +35,6 @@ class CreatePkpRelatedPicturesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pkp_related_pictures');
+        Schema::dropIfExists('tr_file_project');
     }
 }

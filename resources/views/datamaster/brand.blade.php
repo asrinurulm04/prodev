@@ -1,6 +1,5 @@
-@extends('admin.tempadmin')
-@section('title', 'Data Brand')
-@section('judulhalaman','Data Master')
+@extends('pv.tempvv')
+@section('title', 'PRODEV|Data Brand')
 @section('content')
 
 <div class="row">
@@ -26,7 +25,7 @@
   <div class="x_title">
     <h3><li class="fa fa-list"> List Brand</li></h3>
   </div>
-  <a type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#add_brand" id="tambah"><i class="fa fa-plus"></i> Tambah Brand</a>
+  <a type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#add_brand" id="tambah"><i class="fa fa-plus"></i> Add Brand</a>
   <div class="card-block">
     <div class="dt-responsive table-responsive">
       <table class="Table table-striped table-bordered nowrap">
@@ -47,33 +46,32 @@
             <td>{{ $brand->created_at }}</td>
             <td>{{ $brand->updated_at }}</td>
             <td class="text-center">
-              <a class="btn-sm btn-primary" type="button" class="btn btn-info" data-toggle="modal" data-target="#edit_brand{{ $brand->id}}"><i class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a> &nbsp
+              <a class="btn-sm btn-primary" type="button" data-toggle="modal" data-target="#edit_brand{{ $brand->id}}"><i class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a> &nbsp
               <a class="btn-sm btn-danger" onclick="return confirm('Hapus Bahan Baku ?')" data-toggle="tooltip" title="Delete" href="{{ route('brand.destroy',$brand->id) }}"><i class="fa fa-trash-o"></i></a>
             </td>
           </tr>
             <!-- Edit Brand-->
-              <div class="modal fade" id="edit_brand{{ $brand->id}}" role="dialog" aria-labelledby="EWBModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-sm">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h4 class="modal-title" id="EWBModalLabel"><i class="fa fa-plus"></i> Edit Brand {{ $brand->brand}}
-                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button></h4>
-                    </div>
-                    <form method="POST" action="{{ route('brand.update',$brand->id) }}">
-                    <div class="modal-body">
-                      <label for="nama_produk" class="control-label">Brand</label>
-                      <input class="form-control" id="brand" name=brand placeholder="Brand" value="{{ $brand->brand }}" required />
-                    </div>
-                    <div class="modal-footer">
-                      {{ csrf_field() }}
-                      <button class="btn btn-primary" type="submit"><i class="fa fa-edit"></i> Simpan Perubahan</button>
-                      <a type="button" class="btn btn-danger" id="xx" href="{{ route('brand.index') }}"><i class="fa fa-times"></i> BATAL</a>
-                    </div>
-                    </form>
+            <div class="modal fade" id="edit_brand{{ $brand->id}}" role="dialog" aria-labelledby="EWBModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title" id="EWBModalLabel"><i class="fa fa-plus"></i> Edit Brand {{ $brand->brand}}
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button></h4>
                   </div>
+                  <form method="POST" action="{{ route('brand.update',$brand->id) }}">
+                  <div class="modal-body">
+                    <label for="nama_produk" class="control-label">Brand</label>
+                    <input class="form-control" id="brand" name=brand placeholder="Brand" value="{{ $brand->brand }}" required />
+                  </div>
+                  <div class="modal-footer">
+                    {{ csrf_field() }}
+                    <button class="btn btn-primary btn-sm" type="submit"><i class="fa fa-edit"></i> Save</button>
+                  </div>
+                  </form>
                 </div>
               </div>
-              {{-- selesai --}}
+            </div>
+            <!-- selesai -->
           @endforeach
         </tbody>
       </table>
@@ -86,26 +84,21 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="EWBModalLabel"><i class="fa fa-plus"></i> Tambah Brand
+        <h4 class="modal-title" id="EWBModalLabel"><i class="fa fa-plus"></i> Add Brand
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button></h4>
       </div>
+      <form method="POST" action="{{ route('brand.store') }}">
       <div class="modal-body">
-        <form method="POST" action="{{ route('brand.store') }}">
         <label for="nama_produk" class="control-label">Brand</label>
         <input class="form-control" id="brand" name=brand placeholder="Brand" required />
         {{ csrf_field() }}     
       </div>
       <div class="modal-footer">
-        <button class="btn btn-primary" type="submit"><i class="fa fa-plus"></i> Submit</button>
-        <a type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> BATAL</a>
-        </form>
+        <button class="btn btn-primary btn-sm" type="submit"><i class="fa fa-plus"></i> Add</button>
       </div>
+      </form>
     </div>
   </div>
 </div>
-{{-- selesai --}}
-@endsection
-
-@section('s')
-<script type="text/javascript"></script>
+<!-- selesai -->
 @endsection

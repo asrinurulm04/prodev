@@ -1,6 +1,5 @@
 @extends('pv.tempvv')
-@section('title', 'Data PDF')
-@section('judulhalaman','Draf PDEp & PDF')
+@section('title', 'PRODEV|Data PDF')
 @section('content')
 
 <div class="">
@@ -21,10 +20,8 @@
                   <th class="text-center">Project Name</th>
                   <th class="text-center">Author</th>
                   <th class="text-center">Created Date</th>
-                  <th class="text-center">Priority</th>
-                  <th class="text-center">Last Update</th>
                   <th width="11%" class="text-center">Status</th>
-                  <th class="text-center">Action</th>
+                  <th width="11%" class="text-center">Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -39,16 +36,6 @@
                   <th>{{ $pdf->project_name }}</th>
                   <th>{{ $pdf->author1->name }}</th>
                   <th>{{ $pdf->created_date }}</th>
-                  <th>
-                    @if($pdf->prioritas==1)
-                    <span class="label label-danger">High Priority</span>
-                    @elseif($pdf->prioritas==2)
-                    <span class="label label-warning">Standar Priority</span>
-                    @elseif($pdf->prioritas==3)
-                    <span class="label label-primary">Low Priority</span>
-                    @endif
-                  </th>
-                  <th>{{ $pdf->last_updated }}</th>
                   <th class="text-center">{{ $pdf->status_project }}</th>
                   <th class="text-center">
                     <a class="btn btn-info btn-sm" href="{{ Route('rekappdf',$pdf->id_project_pdf)}}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>

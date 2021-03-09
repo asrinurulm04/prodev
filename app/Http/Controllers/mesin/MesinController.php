@@ -5,21 +5,17 @@ namespace App\Http\Controllers\mesin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
-use Redirect;
 
-use App\Modelmesin\aktifitasOH;
-use App\Modelmesin\workcenter;
-use App\Modelmesin\kategori;
-use App\Modelmesin\datamesin;
-use App\Modelkemas\userkemas;
-use App\Modelfn\finance;
-use App\modelfn\pesan;
-use App\modelkemas\konsep;
-use App\Modelmesin\Dmesin;
-use App\Modelmesin\oh;
-use App\dev\Formula;
-use App\Modelmesin\std;
+use App\model\Modelmesin\datamesin;
+use App\model\Modelmesin\Dmesin;
+use App\model\modelkemas\konsep;
+use App\model\Modelkemas\userkemas;
+use App\model\Modelfn\finance;
+use App\model\modelfn\pesan;
+use App\model\pkp\tipp;
+use App\model\dev\Formula;
 use Auth;
+use Redirect;
 
 class MesinController extends Controller
 {
@@ -28,19 +24,16 @@ class MesinController extends Controller
         $this->middleware('rule:evaluator');
     }
 
-    public function index(Request $request,$id,$id_feasibility)
-    {
-        // $request->session()->forget('references');
+    public function index(Request $request,$id,$id_feasibility){
         $reference = $request->session()->get('references');
         $formulas = Formula::where('id',$id)->get();
         $konsep= konsep::where('id_feasibility', $id_feasibility)->get();
         $mesins = datamesin::all();
         $dataMesin = Dmesin::where('id_feasibility',$id_feasibility)->count();
         $messin = DB::table('fs_datamesin')->select(['workcenter'])->distinct()->get();
-        $Mdata = DB::table('fs_mesin')
-            ->join('fs_datamesin','fs_mesin.id_data_mesin','=','fs_datamesin.id_data_mesin')
-            ->where('id_feasibility', $id_feasibility)
-            ->get();
+        $Mdata = DB::table('tr_mesin')
+            ->join('ms_mesin','tr_mesin.id_data_mesin','=','fs_datamesin.id_data_mesin')
+            ->where('id_feasibility', $id_feasibility)->get();
         $dataF = finance::where('id_feasibility', $id_feasibility)->get();
         $jumlah = pesan::where('user','inputor')->count();
         $fe=finance::find($id_feasibility);
@@ -61,9 +54,7 @@ class MesinController extends Controller
 
     }
 
-    public function ubah(Request $request,$id,$id_feasibility)
-    {
-        // $request->session()->forget('references');
+    public function ubah(Request $request,$id,$id_feasibility){
         $reference = $request->session()->get('references');
         $formulas = Formula::where('id',$id)->get();
         $konsep= konsep::where('id_feasibility', $id_feasibility)->get();
@@ -106,16 +97,14 @@ class MesinController extends Controller
         return redirect()->route('myFeasibility',$id);
     }
 
-    public function lihat(Request $request)
-    {
-       // $request->session()->forget('refrences');
-        $data = DB::table('fs_datamesin')
-            ->leftjoin('fs_mesin','fs_mesin.id_data_mesin','=','fs_datamesin.id_data_mesin')
-            ->rightjoin('fs_finance','fs_mesin.id_feasibility','=','fs_finance.id_feasibility')
-            ->rightjoin('formulas','fs_finance.id_formula','=','formulas.id')
+    public function lihat(Request $request){
+        $data = DB::table('ms_mesin')
+            ->leftjoin('tr_mesin','tr_mesin.id_data_mesin','=','ms_mesin.id_data_mesin')
+            ->rightjoin('tr_feasibility','tr_mesin.id_feasibility','=','tr_feasibility.id_feasibility')
+            ->rightjoin('tr_formulas','tr_feasibility.id_formula','=','tr_formulas.id')
             ->where([
-                ['fs_finance.status_mesin','selesai'],
-                ['fs_finance.id_feasibility', $request->id_feasibility]
+                ['tr_feasibility.status_mesin','selesai'],
+                ['tr_feasibility.id_feasibility', $request->id_feasibility]
             ])->get();
         $reference = $request->session()->get('references');
         $reference = $request->session()->put('references', $data);
@@ -166,28 +155,24 @@ class MesinController extends Controller
             $add_lab->hasil=$hasil[$i];
             $add_lab->save();
         }
-
         return redirect()->back();
     }
 
-    public function reference(Request $request, $id,$id_feasibility)
-    {
+    public function reference(Request $request, $id,$id_feasibility){
         $request->session()->get('references');
         $mesins = datamesin::all();
         $jumlah = pesan::where('user','inputor')->count();
         $formulas = Formula::where('status_fisibility','proses')->get();
-        $messin = DB::table('fs_datamesin')->select(['workcenter'])->distinct()->get();
+        $messin = DB::table('ms_mesin')->select(['workcenter'])->distinct()->get();
         $Mdata = Dmesin::with('meesin')->get()->where('id_feasibility', $id_feasibility);
         $cek_mesin =Dmesin::where('id_feasibility',$id_feasibility)->count();
         $dataN = finance::with('formula')->get();
-        $data = DB::table('fs_datamesin')
-            ->leftjoin('fs_mesin','fs_mesin.id_data_mesin','=','fs_datamesin.id_data_mesin')
-            ->leftjoin('fs_finance','fs_mesin.id_feasibility','=','fs_finance.id_feasibility')
-            ->rightjoin('formulas','fs_finance.id_formula','=','formulas.id')
-            ->where([
-                ['fs_finance.status_mesin','selesai']
-            ])->get();
-        $dataMesin = Dmesin::join('fs_datamesin','fs_datamesin.id_data_mesin','fs_mesin.id_data_mesin')->get();
+        $data = DB::table('ms_mesin')
+            ->leftjoin('tr_mesin','tr_mesin.id_data_mesin','=','ms_mesin.id_data_mesin')
+            ->leftjoin('tr_feasibility','tr_mesin.id_feasibility','=','tr_feasibility.id_feasibility')
+            ->rightjoin('tr_formulas','tr_feasibility.id_formula','=','tr_formulas.id')
+            ->where([['tr_feasibility.status_mesin','selesai']])->get();
+        $dataMesin = Dmesin::join('ms_mesin','ms_mesin.id_data_mesin','tr_mesin.id_data_mesin')->get();
         $dataF = finance::where('id_feasibility', $id_feasibility)->get();
         $dataO = oh::with('dataoh')->get()->where('id_feasibility', $id_feasibility);
         $fe=finance::find($id_feasibility);
@@ -209,8 +194,7 @@ class MesinController extends Controller
         ]);
     }
 
-    public function data($id,$id_feasibility)
-    {
+    public function data($id,$id_feasibility){
         $aktifitas = aktifitasOH::all();
         $dataF = finance::where('id_feasibility', $id_feasibility)->get();
         $fe=finance::find($id_feasibility);
@@ -236,8 +220,7 @@ class MesinController extends Controller
         return redirect()->back();
      }
      
-    public function dataO(Request $request)
-    {
+    public function dataO(Request $request){
         $aktifitas= new oh;
         foreach ($request->input("oh") as $oh){
             $add_oh = new oh;
@@ -249,18 +232,17 @@ class MesinController extends Controller
         return redirect()->back();
     }
 
-    public function std($id_feasibility)
-    {
+    public function std($id_feasibility){
         $dataF = finance::with('formula')->get()->where('id_feasibility', $id_feasibility)->first();
         $fe=finance::find($id_feasibility);
-        return view('mesin.std',['fe'=>$fe])
-            ->with(['id_feasibility' => $id_feasibility])
-            ->with(['dataF' => $dataF]
-        );
+        return view('mesin.std',[])->with([
+            'fe'=>$fe,
+            'id_feasibility' => $id_feasibility,
+            'dataF' => $dataF
+        ]);
     }
 
-    public function store(Request $request)
-    {
+    public function store(Request $request){
         $this->validate($request, [
             'nama' => 'required',
             'acid' =>'required',
@@ -279,8 +261,7 @@ class MesinController extends Controller
     }
 
 
-    public function inbox($id,$id_feasibility)
-    {
+    public function inbox($id,$id_feasibility){
         $inboxs = pesan::all()->sortByDesc('created_at')->where('user','inputor');
         $jumlah = pesan::where('user','inputor')->count();
         $dataF = finance::with('formula')->get()->where('id_feasibility', $id_feasibility)->first();
@@ -293,8 +274,7 @@ class MesinController extends Controller
         );
     }
 
-    public function runM(Request $request, $id_mesin)
-    {
+    public function runM(Request $request, $id_mesin){
         $data_mesin = Dmesin::where('id_mesin', $id_mesin)->first();
 
         $standar =  $data_mesin->standar_sdm;
@@ -311,8 +291,7 @@ class MesinController extends Controller
         return redirect()->back();
      }
 
-     public function runO(Request $request, $id_oh)
-    {
+     public function runO(Request $request, $id_oh){
         $data_oh = oh::where('id_oh', $id_oh)->first();
 
         $standarr =  $data_oh->standar_sdm;
@@ -328,8 +307,7 @@ class MesinController extends Controller
         return redirect()->back();
      }
 
-     public function hasil($id,$id_feasibility)
-    {
+     public function hasil($id,$id_feasibility){
         $fe=finance::find($id_feasibility);
         $dataF = finance::with('formula')->get()->where('id_feasibility', $id_feasibility)->first();
         $Mdata = Dmesin::with('meesin')->get()->where('id_feasibility', $id_feasibility);
@@ -340,7 +318,7 @@ class MesinController extends Controller
         $lihat = std::where('id_feasibility', $id_feasibility)->get();
         $dataO = oh::with('dataoh')->get()->where('id_feasibility', $id_feasibility);
         $yieldd = DB::table('fs_formula_kemas')
-            ->join('fs_finance','fs_formula_kemas.id_feasibility','=','fs_finance.id_feasibility')
+            ->join('tr_feasibility','fs_formula_kemas.id_feasibility','=','tr_feasibility.id_feasibility')
             ->join('fs_data_yield','fs_formula_kemas.kode','=','fs_data_yield.kode_item')
             ->where('fs_formula_kemas.id_feasibility', $id_feasibility)->get();
         return view('mesin.lihat')->with([
@@ -357,8 +335,7 @@ class MesinController extends Controller
         ]);
     }
 
-     public function createrateM($id,$id_feasibility)
-    {
+     public function createrateM($id,$id_feasibility){
         $Jmesin = Dmesin::where('id_feasibility',$id_feasibility)->sum('hasil');
         $Joh = oh::where('id_feasibility',$id_feasibility)->sum('hasil');
         $total = $Jmesin+$Joh;
@@ -382,8 +359,7 @@ class MesinController extends Controller
         ]);
     }
 
-    public function destroy(Request $request, $id)
-    {
+    public function destroy(Request $request, $id){
         $request->session()->forget('references');
         $mesin = Dmesin::find($id);
         $mesin->delete();
@@ -391,22 +367,19 @@ class MesinController extends Controller
         return redirect::back()->with('alert', 'Data berhasil dihapus!');
     }
 
-    public function destroyoh($id)
-    {
+    public function destroyoh($id){
         $mesin = oh::find($id);
         $mesin->delete();
         return redirect::back()->with('message', 'Data berhasil dihapus!');
     }
 
-    public function destroyP($id)
-    {
+    public function destroyP($id){
         $mail = pesan::find($id);
         $mail->delete();
         return redirect::back();
     }
 
-    public function speed(Request $request,$id_mesin)
-    {
+    public function speed(Request $request,$id_mesin){
         $ms= new Dmesin;
         foreach (array_combine($request->input('hasil'), $request->input('no')) as $hasil => $no){
             $data_mesin = Dmesin::find($no);
@@ -417,8 +390,7 @@ class MesinController extends Controller
         return redirect()->back();
     }
 
-    public function Mdata(Request $request)
-    {
+    public function Mdata(Request $request){
         $ms= new Dmesin;
         foreach ($request->input("pmesin") as $pmesin){
             $add_mesin = new Dmesin;
@@ -434,19 +406,16 @@ class MesinController extends Controller
             $add_mesin->save();
             $id = Dmesin::orderBy('created_at', 'desc')->pluck('id_feasibility')->first();
             $data = DB::table('fs_datamesin')
-                ->leftjoin('fs_mesin','fs_mesin.id_data_mesin','=','fs_datamesin.id_data_mesin')
-                ->rightjoin('fs_finance','fs_mesin.id_feasibility','=','fs_finance.id_feasibility')
-                ->rightjoin('formulas','fs_finance.id_formula','=','formulas.id')
-                ->where([
-                    ['fs_finance.id_feasibility', $id]
-                ])->first();
+                ->leftjoin('tr_mesin','tr_mesin.id_data_mesin','=','fs_datamesin.id_data_mesin')
+                ->rightjoin('tr_feasibility','tr_mesin.id_feasibility','=','tr_feasibility.id_feasibility')
+                ->rightjoin('formulas','tr_feasibility.id_formula','=','formulas.id')
+                ->where([['tr_feasibility.id_feasibility', $id]])->first();
             $request->session()->push('references', $data);
         }
     return redirect()->back();
     }
 
-    public function createDMmesin(Request $request)
-    {
+    public function createDMmesin(Request $request){
         $Dm= new datamesin;
         $Dm->workcenter=$request->workcenter;
         $Dm->rate_mesin=$request->rate;
@@ -462,8 +431,7 @@ class MesinController extends Controller
         return redirect()->back();
     }
 
-    public function createmixing($id,$id_feasibility)
-    {
+    public function createmixing($id,$id_feasibility){
         $Jmesin = Dmesin::where('id_feasibility',$id_feasibility)->sum('hasil');
         $Joh = oh::where('id_feasibility',$id_feasibility)->sum('hasil');
         $total = $Jmesin+$Joh;
@@ -487,8 +455,7 @@ class MesinController extends Controller
             ]);
     }
 
-    public function createfilling($id,$id_feasibility)
-    {
+    public function createfilling($id,$id_feasibility){
         $Jmesin = Dmesin::where('id_feasibility',$id_feasibility)->sum('hasil');
         $Joh = oh::where('id_feasibility',$id_feasibility)->sum('hasil');
         $total = $Jmesin+$Joh;
@@ -514,8 +481,7 @@ class MesinController extends Controller
         ]);
     }
 
-    public function createpacking($id,$id_feasibility)
-    {
+    public function createpacking($id,$id_feasibility){
         $Jmesin = Dmesin::where('id_feasibility',$id_feasibility)->sum('hasil');
         $Joh = oh::where('id_feasibility',$id_feasibility)->sum('hasil');
         $total = $Jmesin+$Joh;
@@ -538,8 +504,7 @@ class MesinController extends Controller
         ]);
     }
 
-    public function createactivity($id,$id_feasibility)
-    {
+    public function createactivity($id,$id_feasibility){
         $Jmesin = Dmesin::where('id_feasibility',$id_feasibility)->sum('hasil');
         $Joh = oh::where('id_feasibility',$id_feasibility)->sum('hasil');
         $total = $Jmesin+$Joh;
@@ -560,14 +525,14 @@ class MesinController extends Controller
         ]);
     }
 
-    public function createlab($id,$id_feasibility)
-    {
+    public function createlab($id,$id_feasibility){
         $Jmesin = Dmesin::where('id_feasibility',$id_feasibility)->sum('hasil');
         $Joh = oh::where('id_feasibility',$id_feasibility)->sum('hasil');
         $total = $Jmesin+$Joh;
         $jumlah = pesan::where('user','inputor')->count();
         $lab = DB::table('formulas')
-            ->join('fs_kategori_pangan','fs_kategori_pangan.id_pangan','=','formulas.id_pangan')
+            ->join('tippu','tippu.id','=','formulas.workbook_id')
+            ->join('fs_kategori_pangan','fs_kategori_pangan.id_pangan','=','tippu.bpom')
             ->join('fs_jenismikroba','fs_kategori_pangan.no_kategori','=','fs_jenismikroba.no_kategori')
             ->where('formulas.id',$id)->get();
         $std = std::with('kemas')->get()->where('kode_kemas','item_code');
@@ -590,8 +555,7 @@ class MesinController extends Controller
         ]);
     }
 
-    public function createstd($id,$id_feasibility)
-    {
+    public function createstd($id,$id_feasibility){
         $Jmesin = Dmesin::where('id_feasibility',$id_feasibility)->sum('hasil');
         $Joh = oh::where('id_feasibility',$id_feasibility)->sum('hasil');
         $total = $Jmesin+$Joh;
@@ -600,7 +564,7 @@ class MesinController extends Controller
         $jumlah = pesan::where('user','inputor')->count();
         $fe=finance::find($id_feasibility);
         $yieldd = DB::table('fs_formula_kemas')
-            ->join('fs_finance','fs_formula_kemas.id_feasibility','=','fs_finance.id_feasibility')
+            ->join('tr_feasibility','fs_formula_kemas.id_feasibility','=','tr_feasibility.id_feasibility')
             ->join('fs_data_yield','fs_formula_kemas.kode','=','fs_data_yield.kode_item')
             ->where('fs_formula_kemas.id_feasibility', $id_feasibility)->get();
         $kemas = userkemas::with('kemas')->get()->where('id_feasibility', $id_feasibility);
@@ -618,5 +582,4 @@ class MesinController extends Controller
             'total' => $total
             ]);
     }
-
 }

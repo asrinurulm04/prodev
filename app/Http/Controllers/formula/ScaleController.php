@@ -4,10 +4,9 @@ namespace App\Http\Controllers\formula;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\dev\Bahan;
-use App\dev\Workbook;
-use App\dev\Formula;
-use App\dev\Fortail;
+use App\model\dev\Bahan;
+use App\model\dev\Formula;
+use App\model\dev\Fortail;
 
 use Redirect;
 use DB;
@@ -16,27 +15,10 @@ use Auth;
 class ScaleController extends Controller
 {
     public function __construct(){
-
         $this->middleware('auth');
         $this->middleware('rule:user_rd_proses' || 'rule:user_produk');
     }    
 
-    // HAPUS BASE -----------------------------------------------
-    public function hapusbase($id){
-        $formula = Formula::where('worbook_id',$id)->first();
-        $formula->batch = null;
-        $formula->save();
-
-        $fortails = Fortail::where('formula_id',$id)->get();
-        foreach($fortails as $fortail){
-            $fortail->per_batch = null;
-            $fortail->save();
-        }
-
-        return redirect()->route('step2',$id)->with('error','Base Telah Terhapus');
-    }
-
-    // GANTI BASE ----------------------------------------------
     public function gantibase($idf,Request $request){
         $base           = $request->thebase;
         if($base == ''){
@@ -54,15 +36,16 @@ class ScaleController extends Controller
             $total_batch    = $total_batch + $batch;                       
         }
         // Edit Formula
-        $formula = Formula::where('workbook_id',$idf)->first();
+        $formula = Formula::where('id',$idf)->first();
         $formula->batch = $total_batch;
         $formula->save();
 
-        return redirect()->route('step2',$idf)->with('status','Base Telah Diubah menjadi '.$base);
+        $wb = $formula->workbook_id;
+        return redirect::back()->with('status','Base Telah Diubah menjadi '.$base);
 
     }
 
-    public function cekscale($idf,Request $request){
+    public function cekscale(Request $request, $for,$idf){
         // check scale option
         $scale_option  = $request->scale_option;
         $scale_method  = $request->scale_method;
@@ -72,7 +55,7 @@ class ScaleController extends Controller
         $jFortail      = $request->jFortail;
 
         // Base Lama
-        $formula = Formula::where('workbook_id',$idf)->first();        
+        $formula = Formula::where('id',$idf)->first();   
         $base    = $formula->batch / $formula->serving;
         $mybase = $base;
         
@@ -107,6 +90,8 @@ class ScaleController extends Controller
         $scalecollect = collect();
         // Hitung Granulasi
         $granulasi = 0;
+        // Hitung premix
+        $premix = 0;
         // Get Fortails;
         $fortails  = Fortail::where('formula_id',$idf)->get();
 
@@ -130,6 +115,7 @@ class ScaleController extends Controller
                 $c_id = $fortail->id;
                 $c_nama_sederhana = $fortail->nama_sederhana;
                 $c_granulasi = $fortail->granulasi;
+                $c_premix = $fortail->premix;
                 $c_per_batch = $fortail->per_batch;
                 $c_per_serving = $fortail->per_serving;
                 // Insert To Collect
@@ -141,12 +127,24 @@ class ScaleController extends Controller
                     'per_serving' => $c_per_serving,
                     'scale_batch' => $c_scale_batch,
                     'scale_serving' => $c_scale_serving,
+                    'alternatif1' => $fortail->alternatif1,
+                    'alternatif2' => $fortail->alternatif2,
+                    'alternatif3' => $fortail->alternatif3,
+                    'alternatif4' => $fortail->alternatif4,
+                    'alternatif5' => $fortail->alternatif5,
+                    'alternatif6' => $fortail->alternatif6,
+                    'alternatif7' => $fortail->alternatif7,
+                    'premix' => $c_premix,
                     'granulasi' => $c_granulasi                
                 ]);
 
                 // Jika Granulasi
                 if($fortail->granulasi == 'ya'){
                     $granulasi = $granulasi + 1;
+                }
+                // Jika premix
+                if($fortail->premix == 'ya'){
+                    $premix = $premix + 1;
                 }
             }                        
         }
@@ -169,6 +167,7 @@ class ScaleController extends Controller
                 $c_id = $fortail->id;
                 $c_nama_sederhana = $fortail->nama_sederhana;
                 $c_granulasi = $fortail->granulasi;
+                $c_premix = $fortail->premix;
                 $c_per_batch = $fortail->per_batch;
                 $c_per_serving = $fortail->per_serving;
                 // Insert To Collect
@@ -180,12 +179,24 @@ class ScaleController extends Controller
                     'per_serving' => $c_per_serving,
                     'scale_batch' => $c_scale_batch,
                     'scale_serving' => $c_scale_serving,
+                    'alternatif1' => $fortail->alternatif1,
+                    'alternatif2' => $fortail->alternatif2,
+                    'alternatif3' => $fortail->alternatif3,
+                    'alternatif4' => $fortail->alternatif4,
+                    'alternatif5' => $fortail->alternatif5,
+                    'alternatif6' => $fortail->alternatif6,
+                    'alternatif7' => $fortail->alternatif7,
+                    'premix' => $fortail->premix,
                     'granulasi' => $c_granulasi                
                 ]);
                 
                 // Jika Granulasi
                 if($fortail->granulasi == 'ya'){
                     $granulasi = $granulasi + 1;
+                }
+                // Jika premix
+                if($fortail->premix == 'ya'){
+                    $premix = $premix + 1;
                 }
             }
         }
@@ -212,6 +223,7 @@ class ScaleController extends Controller
                 $c_id = $fortail->id;
                 $c_nama_sederhana = $fortail->nama_sederhana;
                 $c_granulasi = $fortail->granulasi;
+                $c_premix = $fortail->premix;
                 $c_per_batch = $fortail->per_batch;
                 $c_per_serving = $fortail->per_serving;
                 // Insert To Collect
@@ -223,12 +235,24 @@ class ScaleController extends Controller
                     'per_serving' => $c_per_serving,
                     'scale_batch' => $c_scale_batch,
                     'scale_serving' => $c_scale_serving,
+                    'alternatif1' => $fortail->alternatif1,
+                    'alternatif2' => $fortail->alternatif2,
+                    'alternatif3' => $fortail->alternatif3,
+                    'alternatif4' => $fortail->alternatif4,
+                    'alternatif5' => $fortail->alternatif5,
+                    'alternatif6' => $fortail->alternatif6,
+                    'alternatif7' => $fortail->alternatif7,
+                    'premix' => $fortail->premix,
                     'granulasi' => $c_granulasi                
                 ]);
                 
                 // Jika Granulasi
                 if($fortail->granulasi == 'ya'){
                     $granulasi = $granulasi + 1;
+                }
+                // Jika premix
+                if($fortail->premix == 'ya'){
+                    $premix = $premix + 1;
                 }
             }
         }
@@ -253,6 +277,7 @@ class ScaleController extends Controller
                 $c_id = $fortail->id;
                 $c_nama_sederhana = $fortail->nama_sederhana;
                 $c_granulasi = $fortail->granulasi;
+                $c_premix = $fortail->premix;
                 $c_per_batch = $fortail->per_batch;
                 $c_per_serving = $fortail->per_serving;
                 // Insert To Collect
@@ -264,6 +289,14 @@ class ScaleController extends Controller
                     'per_serving' => $c_per_serving,
                     'scale_batch' => $c_scale_batch,
                     'scale_serving' => $c_scale_serving,
+                    'alternatif1' => $fortail->alternatif1,
+                    'alternatif2' => $fortail->alternatif2,
+                    'alternatif3' => $fortail->alternatif3,
+                    'alternatif4' => $fortail->alternatif4,
+                    'alternatif5' => $fortail->alternatif5,
+                    'alternatif6' => $fortail->alternatif6,
+                    'alternatif7' => $fortail->alternatif7,
+                    'premix' => $fortail->premix,
                     'granulasi' => $c_granulasi                
                 ]);
                 
@@ -271,23 +304,25 @@ class ScaleController extends Controller
                 if($fortail->granulasi == 'ya'){
                     $granulasi = $granulasi + 1;
                 }
+                // Jika premix
+                if($fortail->premix == 'ya'){
+                    $premix = $premix + 1;
+                }
             }
         }
 
         // GET Other Needed
-        $formula   = Formula::where('workbook_id',$idf)->first();
+        $formula   = Formula::where('id',$idf)->first();
         $bahans    = $bahans = Bahan::where('status','active')->orWhere('user_id',Auth::id())->get();        
         $ada = $fortails->count();        
-        $target_serving = Formula::where('workbook_id',$idf)->first()->target_serving;
+        $target_serving = Formula::where('id',$idf)->first()->target_serving;
         
         // Check Total Serving
         if($ada > 0){
             $sesuai_target = $formula->serving - $target_serving;
-        }
-        else{
+        }else{
             $sesuai_target = 0;
         }  
-        
         return view('formula/step2')->with([
             'target_serving' => $target_serving,
             'formula' => $formula,
@@ -296,13 +331,16 @@ class ScaleController extends Controller
             'scalecollect' => $scalecollect,
             'bahans' => $bahans,
             'idf' => $idf,
+            'idfor' => $for,
+            'idfor_pdf' => $for,
             'granulasi' => $granulasi,
+            'premix' => $premix,
             'ada' => $ada,
             'sesuai_target' => $sesuai_target
         ]);
     }
 
-    public function savescale($idf,Request $request){
+    public function savescale($for,Request $request){
         $jFortail       = $request->jFortail;
         $total_batch    = 0;
         $total_serving  = 0;
@@ -323,20 +361,26 @@ class ScaleController extends Controller
         }
         
         // Edit Formula
-        $formula = Formula::where('workbook_id',$idf)->first();
+        $formula = Formula::where('id',$for)->first();
         $formula->batch   = $total_batch;
         $formula->serving = $total_serving;
         $formula->save();        
         
-        return redirect()->route('step2',$idf)->with('status','Scale Berhasil Tersimpan');
-
+        if($formula->workbook_id!=NULL){
+            $wb = $formula->workbook_id;
+            return redirect()->route('step2',['id'=>$wb,'workbook_id' => $for])->with('status','Scale Berhasil Tersimpan');
+        }if($formula->workbook_pdf_id!=NULL){
+            $wb = $formula->workbook_pdf_id;
+            return redirect()->route('step2',['id'=>$wb,'workbook_pdf_id' => $for])->with('status','Scale Berhasil Tersimpan');
+        }
     }
 
     public function savechanges($idf,Request $request){
         $jFortail       = $request->jFortail;
         $total_batch    = 0;
         $total_serving  = 0;
-        $formula = Formula::where('workbook_id',$idf)->first();
+        $formula = Formula::where('id',$idf)->first();
+        $wb = $formula->workbook_id;
         // Get Base
         $base  = $formula->batch / $formula->serving;
         for($i=1;$i<=$jFortail;$i++){
@@ -356,11 +400,53 @@ class ScaleController extends Controller
         }
         
         // Edit Formula
-        
         $formula->batch   = $total_batch;
         $formula->serving = $total_serving;
         $formula->save();
 
-        return redirect()->route('step2',$idf)->with('status','Serving Berhasil Tersimpan');
-    }    
+        return redirect::back()->with('status','Serving Berhasil Tersimpan');
+    }   
+
+    public function savechanges2($idf,Request $request){
+        $jFortail       = $request->jFortail;
+        $total_batch    = 0;
+        $total_serving  = 0;
+        $formula = Formula::where('id',$idf)->first();
+        $wb = $formula->workbook_id;
+        // Get Base
+        $base  = $formula->batch / $formula->serving;
+        for($i=1;$i<=$jFortail;$i++){
+            // Collect Needed Value
+            $id        = $request->ftid[$i];            
+            $Serving   = $request->Serving[$i];
+            $Batch     = $Serving * $base; 
+
+            // Start Updating
+            $myFortail  = Fortail::where('id',$id)->first();
+            $myFortail->per_batch   = $Batch;
+            $myFortail->per_serving = $Serving;
+            $myFortail->save();
+            
+            $total_batch    = $total_batch + $Batch;
+            $total_serving  = $total_serving + $Serving;
+        }
+        
+        // Edit Formula
+        $formula->serving_size   = $total_serving;
+        $formula->batch   = $total_batch;
+        $formula->serving = $total_serving;
+        $formula->save();
+
+        return redirect::back()->with('status','Serving Berhasil Tersimpan');
+    }  
+    
+    public function savedosis($idf,Request $request){
+        $formula = Formula::where('id',$idf)->first();
+        $formula->pangan   = $request->katpang;
+        $formula->batas_air = $request->batas;
+        $formula->saran_saji=$request->saran;
+        $formula->save();
+
+        return redirect::back()->with('status','Data Berhasil ter-Update');
+    }  
 }
