@@ -1286,6 +1286,49 @@ class pkpController extends Controller
         return redirect::back();
     }
 
+    
+    public function dasboardnr(){
+        $pkp1 = pkp_project::all()->count();
+        $promo1 = promo::all()->count();
+        $pdf1 = project_pdf::all()->count();
+        $pengajuan = pengajuan::count();
+        $hitungpkp = pkp_project::where('status_project','=','draf')->count();
+        $pkp1 = pkp_project::all()->count();
+        $hitungpromo = promo::where('status_project','=','draf')->count();
+        $promo1 = promo::all()->count();
+        $hitungpdf = project_pdf::where('status_project','=','draf')->count();
+        $revisi = pkp_project::where('status_project','=','revisi')->count();
+        $proses = pkp_project::where('status_project','=','proses')->count();
+        $sent= pkp_project::where('status_project','=','sent')->count();
+        $close = pkp_project::where('status_project','=','close')->count();
+        $pie  =	 Charts::create('bar', 'highcharts')->title('Data PKP')->colors(['#ff0000', '#ff9000', '#1384fb', '#2afb13', '#d5fb13'])->labels(['draf', 'sent', 'revisi', 'proses', 'close'])
+            ->values([$hitungpkp,$sent,$revisi,$proses,$close])->responsive(false);
+        $revisipdf = project_pdf::where('status_project','=','revisi')->count();
+        $prosespdf = project_pdf::where('status_project','=','proses')->count();
+        $sentpdf= project_pdf::where('status_project','=','sent')->count();
+        $closepdf = project_pdf::where('status_project','=','close')->count();
+        $pie2  =	 Charts::create('pie', 'highcharts')->title('Data PDF')->colors(['#ff0000', '#ff9000', '#1384fb', '#2afb13', '#d5fb13'])->labels(['draf', 'sent', 'revisi', 'proses', 'close'])
+            ->values([$hitungpdf,$sentpdf,$revisipdf,$prosespdf,$closepdf])->responsive(false);
+        $revisipromo = promo::where('status_project','=','revisi')->count();
+        $prosespromo = promo::where('status_project','=','proses')->count();
+        $sentpromo = promo::where('status_project','=','sent')->count();
+        $closepromo = promo::where('status_project','=','close')->count();
+        $pie3  =	 Charts::create('area', 'highcharts')->title('Data PKP Promo')->labels(['draf', 'sent', 'revisi', 'proses', 'close'])
+			->values([$hitungpromo,$sentpromo,$revisipromo,$prosespromo,$closepromo])->responsive(false);
+        return view('NR.dasboard')->with([
+            'pkp1' => $pkp1,
+            'promo1' => $promo1,
+            'pie' => $pie,
+            'pie2' => $pie2,
+            'hitungpkp' => $hitungpkp,
+            'hitungpromo' => $hitungpromo,
+            'hitungpdf' => $hitungpdf,
+            'pengajuan' => $pengajuan,
+            'pie3' => $pie3,
+            'pdf1' => $pdf1
+        ]);
+    }
+
     public function dasboardpv(){
         $hitungpkp = pkp_project::where('status_project','=','draf')->count();
         $pkp1 = pkp_project::all()->count();
