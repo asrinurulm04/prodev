@@ -359,7 +359,7 @@
             @foreach($user2 as $user2)
               @if($user2->id!=Auth::user()->id)
                 @if($user2->role_id==2)
-                <option required value="{{$user2->id}}">( {{$user2->dept}} ) {{ $user2->name }}</option>
+                <option required value="{{$user2->id}}">{{ $user2->name }}</option>
                 @endif
               @endif
             @endforeach
