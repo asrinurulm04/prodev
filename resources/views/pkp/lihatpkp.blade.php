@@ -120,7 +120,7 @@
                         </button>
                       </div>
                       <div class="modal-body">
-                        <form class="form-horizontal form-label-left" method="POST" action="{{ url('emailpkp',['id_pkp' => $pkp->id_pkp, 'revisi' => $pkp->revisi, 'turunan' => $pkp->turunan]) }}" novalidate>
+                        <form class="form-horizontal form-label-left" method="POST" action="{{ url('emailpkp',['id_pkp' => $pkp->id_pkp, 'revisi' => $pkp->revisi, 'turunan' => $pkp->turunan]) }}">
                         <div class="form-group row">
                           <label class="control-label text-bold col-md-1 col-sm-1 col-xs-12 text-center">Email</label>
                           <label class="control-label text-bold col-md-1 col-sm-1 col-xs-12 text-center">To</label>
@@ -136,9 +136,9 @@
                         <div class="form-group row">
                           <label class="control-label text-bold col-md-1 col-sm-1 col-xs-12 text-center"></label>
                           <label class="control-label text-bold col-md-1 col-sm-1 col-xs-12 text-center">Cc</label>
+                          <div class="col-md-3 col-sm-10 col-xs-12"><input type="text" class="form-control " value="" required name="pengirim2" id="pengirim2"></div>
                           <div class="col-md-3 col-sm-10 col-xs-12"><input type="text" readonly class="form-control " value="{{auth()->user()->email}}" name="pengirim" id="pengirim"></div>
                           <div class="col-md-3 col-sm-10 col-xs-12"><input type="text" class="form-control" readonly value="{{$pkp->datapkpp->author1->email}}" name="pengirim1" id="pengirim1"></div>
-                          <div class="col-md-3 col-sm-10 col-xs-12">@if($pkp->perevisi!=NULL)<input type="text" readonly class="form-control " value="{{$pkp->perevisi2->email}}" name="pengirim2" id="pengirim2">@endif</div>
                         </div>
                         <div class="modal-footer">
                           <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-paper-plane"></i> Sent</button>
