@@ -160,9 +160,34 @@ class managerController extends Controller
         $pengajuan->turunan=$request->turunan;
         $pengajuan->save();
 
-        $pkp = project_pdf::where('id_project_pdf',$request->pdf)->first();
-        $pkp->status_project='revisi';
-        $pkp->save();
+        $pdf = project_pdf::where('id_project_pdf',$request->pdf)->first();
+        $pdf->status_project='revisi';
+        $pdf->save();
+
+        $turunan = coba::where('pdf_id',$request->pdf)->max('turunan');
+        $revisi =coba::where('pdf_id',$request->pdf)->max('revisi');
+
+        $isipdf = coba::where('pdf_id',$request->pdf)->where('status_pdf','=','active')->get();
+        try{
+            Mail::send('manager.infoemailpdf', [
+                'app'=>$isipdf,
+                'info' => 'Manager RD mengajukan revisi pada project PDF berikut',
+                'jangka' => $request->jangka,
+                'waktu' => $request->waktu,],function($message)use($request)
+                {
+                    $message->subject('Revision Request PROJECT PDF');
+                    //sent email to PV
+                    $user = DB::table('tr_users')->where('id',$request->perevisi)->get();
+                    foreach($user as $user){
+                        $data = $user->email;
+                        $message->to($data);
+                    }
+                });
+                return back()->with('status','E-mail Successfully');
+            }
+            catch (Exception $e){
+            return response (['status' => false,'errors' => $e->getMessage()]);
+        }
 
         return Redirect::Route('listpdfrka');
     }
@@ -382,7 +407,7 @@ class managerController extends Controller
             'hitungpkpselesai' =>$hitungpkpselesai,'hitungpkpselesai2' => $hitungpkpselesai2,
             'hitungpdfselesai' => $hitungpdfselesai,'hitungpdfselesai2' => $hitungpdfselesai2,
             'hitungpromoselesai' => $hitungpromoselesai,'hitungpromoselesai2' => $hitungpromoselesai2
-        ]); 
+        ]);
     }
 
     public function lihatpromo($id_pkp_promo,$revisi,$turunan){

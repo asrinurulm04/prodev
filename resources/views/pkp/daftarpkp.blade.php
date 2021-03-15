@@ -127,7 +127,7 @@
                        <label class="col-lg-3 control-label">Target Serving</label>
                        <div class="col-lg-8">
                          <div class="row">
-                           <div class="col-md-6"><input class="form-control " id="target_serving" name="target_serving" type="number" required/></div>
+                           <div class="col-md-6"><input class="form-control " id="target_serving" name="target_serving" type="text" required/></div>
                            <div class="col-md-6">
                              <input type="radio" checked name="satuan" oninput="satuan_gram()" id="id_gram" value="Gram"> Gram
                              <input type="radio" name="satuan" oninput="satuan_ml()" id="id_ml" value="Ml"> Ml
@@ -183,6 +183,31 @@
               @if($data->datapkp!=null)
               @foreach($data1 as $data)
               <tr><th>Idea</td> <td> : {{$data->idea}}</td></tr>
+              <tr><th>Configuration</th><td>: 
+                @if($data->kemas_eksis!=NULL)
+                (
+                @if($data->kemas->tersier!=NULL)
+                {{ $data->kemas->tersier }}{{ $data->kemas->s_tersier }}
+                @elseif($data->kemas->tersier==NULL)
+                @endif
+
+								@if($data->kemas->sekunder1!=NULL)
+								X {{ $data->kemas->sekunder1 }}{{ $data->kemas->s_sekunder1}}
+								@elseif($data->kemas->sekunder1==NULL)
+								@endif
+
+								@if($data->kemas->sekunder2!=NULL)
+								X {{ $data->kemas->sekunder2 }}{{ $data->kemas->s_sekunder2 }}
+								@elseif($data->kemas->sekunder2==NULL)
+								@endif
+
+                @if($data->kemas->primer!=NULL)
+								X{{ $data->kemas->primer }}{{ $data->kemas->s_primer }}
+								@elseif($data->kemas->primer==NULL)
+								@endif
+                )
+                @endif
+              </td></tr>
               <tr><th width="25%">Launch Deadline</th><td>: {{$data->launch}} {{$data->years}} {{$data->tgl_launch}}</td></tr>
               <tr><th>Sample Deadline</th><td>: {{$data->jangka}}-  {{$data->waktu}}</td></tr>
               <tr><th>PV</th><td> : {{$data->perevisi2->name}}</td></tr>
@@ -301,8 +326,8 @@
                 <th width="1%"></th>
                 <th class="text-center" width="3%">Versi</th>
                 <th class="text-center">Formula</th>
-                <th class="text-center" width="25%">Note PV</th>
                 <th class="text-center" width="25%">Note RD</th>
+                <th class="text-center" width="25%">Note PV</th>
                 <th class="text-center" width="10%">Status</th>
                 <th class="text-center" width="13%">Action</th>
               </tr>
@@ -320,8 +345,8 @@
                 <td width="1%"></td>
                 <td>{{$for->versi}}.{{$for->turunan}}</td>
                 <td>{{$for->formula}}</td>
-                <td width="25%">{{$for->catatan_pv}}</td>
                 <td width="25%">{{$for->catatan_rd}}</td>
+                <td width="25%">{{$for->catatan_pv}}</td>
                 <td class="text-center">
                   @if($for->vv=='proses')
                   <span class="label label-primary" style="color:white">New Sample</span>
@@ -387,7 +412,7 @@
                         </div>
                         <!-- Modal Selesai -->
                     @elseif($for->vv=='approve')
-                      <a href="" class="btn btn-primary btn-sm" title="Ajukan FS"><li class="fa fa-paper-plane"></li></a>
+                      <a href="" disabled class="btn btn-primary btn-sm" title="Ajukan FS"><li class="fa fa-paper-plane"></li></a>
                         <a href="{{route('finalsample',$for->id)}}" class="btn btn-success btn-sm" title="Final Approval"><li class="fa fa-tag"></li></a>
                       @if($for->status_fisibility=='not_approved')
                         @if($hasilpanel>=1)

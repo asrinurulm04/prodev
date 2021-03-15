@@ -45,9 +45,7 @@
                             <option disabled selected> Departement</option>
                             @foreach($dept as $departement)
                             @if($departement->Divisi=='RND')
-                              @if($departement->dept!='RKA')
                               <option value="{{$departement->id}}"> Manager {{ $departement->dept }} ({{$departement->users->name}})</option>
-                              @endif
                             @endif
                             @endforeach
                           </select>

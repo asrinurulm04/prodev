@@ -34,7 +34,7 @@ class listprojectController extends Controller
     }
 
     public function listpkp(){
-        $pkp = pkp_project::where('status_project','!=','draf')->where('status_project','!=','sent')->orderBy('pkp_number','desc')->get();
+        $pkp = tipp::where('status_data','=','active')->join('tr_project_pkp','tr_project_pkp.id_project','=','tr_sub_pkp.id_pkp')->where('status_project','!=','draf')->where('status_project','!=','sent')->orderBy('pkp_number','desc')->get();
         $type = pkp_type::all();
         $brand = brand::all();
         $hitungpkp = tipp::where('status_pkp','=','draf')->count();

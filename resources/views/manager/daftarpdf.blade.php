@@ -3,6 +3,24 @@
 @section('content')
 
 <div class="row">
+  @if (session('status'))
+  <div class="col-lg-12 col-md-12 col-sm-12">
+    <div class="alert alert-success">
+    	<button type="button" class="close" data-dismiss="alert">×</button>
+      {{ session('status') }}
+    </div>
+  </div>
+  @elseif(session('error'))
+  <div class="col-lg-12 col-md-12 col-sm-12">
+    <div class="alert alert-danger">
+    	<button type="button" class="close" data-dismiss="alert">×</button>
+      {{ session('error') }}
+    </div>
+  </div>
+  @endif
+</div>
+
+<div class="row">
   <div class="col-md-12 col-xs-12">
 		@foreach($data as $data)
     <div class="x_panel">
@@ -30,7 +48,7 @@
                       <select name="tujuankirim" class="form-control form-control-line" id="type">
                         <option  value="{{$data->tujuankirim}}" selected>{{$data->departement->dept}} ({{$data->departement->nama_dept}})</option>
                         @foreach($dept as $dept)
-                          @if($dept->dept=='RPE')
+                          @if($dept->Divisi=='RND')
                           <option value="{{$dept->id}}">{{$dept->dept}} ({{$dept->nama_dept}})</option>
                           @endif
                         @endforeach
@@ -97,13 +115,13 @@
 
       <div class="x_panel">
         <div class="card-block">
-          <div class="col-md-5">
+          <div class="col-md-6">
             <table>
               <thead>
-                <tr><td>PDF Number</td><td> : {{$data->pdf_number}}{{$data->ket_no}} </td></tr>
-                <tr><td>Brand</td><td> : {{$data->id_brand}} </td></tr>
-                <tr><td>Type</td><td> : {{$data->datapdf->type->type}} </td></tr>
-                <tr><td>Priority</td><td> : 
+                <tr><th>PDF Number</th><td> : {{$data->pdf_number}}{{$data->ket_no}} </td></tr>
+                <tr><th>Brand</th><td> : {{$data->id_brand}} </td></tr>
+                <tr><th>Type</th><td> : {{$data->datapdf->type->type}} </td></tr>
+                <tr><th>Priority</th><td> : 
                   @if($data->prioritas=='1')
                   <span class="label label-danger">High Priority</span>
                   @elseif($data->prioritas=='2')
@@ -112,16 +130,41 @@
                   <span class="label label-primary">Low Priority</span>
                   @endif
                 </td></tr>
-                <tr><td>PV</td><td> : {{$data->perevisi2->name}} </td></tr>
+                <tr><th>PV</th><td> : {{$data->perevisi2->name}} </td></tr>
               </thead>
             </table><br>
           </div>
           <div class="col-md-5">
             <table>
               <thead>
-                <tr><td>Created</td><td> : {{$data->created_date}} </td></tr>
-                <tr><td>Last Update</td><td> : {{$data->last_update}} </td></tr>
-                <tr><td>Background</td><td> : {{$data->background}} </td></tr>
+                <tr><th>Created</th><td> : {{$data->created_date}} </td></tr>
+                <tr><th>Last Update</th><td> : {{$data->last_update}} </td></tr>
+                <tr><th>Background</hd><td> : {{$data->background}} </td></tr>
+                <tr><th>Configuration</th><td>: 
+                  @if($data->kemas_eksis!=NULL)
+                    (
+                    @if($data->kemas->tersier!=NULL)
+                    {{ $data->kemas->tersier }}{{ $data->kemas->s_tersier }}
+                    @elseif($data->kemas->tersier==NULL)
+                    @endif
+
+                    @if($data->kemas->sekunder1!=NULL)
+                    X {{ $data->kemas->sekunder1 }}{{ $data->kemas->s_sekunder1}}
+                    @elseif($data->kemas->sekunder1==NULL)
+                    @endif
+
+                    @if($data->kemas->sekunder2!=NULL)
+                    X {{ $data->kemas->sekunder2 }}{{ $data->kemas->s_sekunder2 }}
+                    @elseif($data->kemas->sekunder2==NULL)
+                    @endif
+
+                    @if($data->kemas->primer!=NULL)
+                    X{{ $data->kemas->primer }}{{ $data->kemas->s_primer }}
+                    @elseif($data->kemas->primer==NULL)
+                    @endif
+                    )
+                  @endif
+                </td></tr>
                 @if($data->file!=NULL)
                 <tr><th>File</th><td> : <a href="{{asset('data_file/'.$data->file)}}" download="{{$data->file}}" title="download file"><li class="fa fa-download"></li></a> {{$data->file}}</td></tr>
                 @endif

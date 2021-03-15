@@ -154,7 +154,7 @@
               <table class="table table-bordered table-hover" id="tabledata">
         				<tbody>
         				  <tr id='tr_clone'>
-                    <td><input type="number" name="forecast[]" min="0" step="0.0001" class="form-control"></td>
+                    <td><input type="number" value="0" name="forecast[]" min="0" step="0.0001" class="form-control"></td>
                     <td>
                       <select name="satuan[]" class="form-control items">
                         <option value="1st Month">1st Month</option>
@@ -977,7 +977,7 @@
 
     var i = 1;
     $("#add_data").click(function() {
-      $('#addrow' + i).html( "<td><input type='number' name='forecast[]' class='form-control'></td><td><select name='satuan[]'  class='form-control items'>"+
+      $('#addrow' + i).html( "<td><input type='number' name='forecast[]' value='0' class='form-control'></td><td><select name='satuan[]'  class='form-control items'>"+
         "<option value='1st Month'>1st Month</option>"+
         "<option value='2nd Month'>2nd Month</option>"+
         "<option value='3rd Month'>3rd Month</option>"+

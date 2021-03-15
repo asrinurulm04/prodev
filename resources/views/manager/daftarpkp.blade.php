@@ -115,9 +115,9 @@
         <div class="col-md-5">
           <table>
 						<thead>
-              <tr><td width="20%">PKP Number</td><td>: </td><td> {{$listpkp->pkp_number}}{{$listpkp->ket_no}}</td></tr>
-							<tr><td>Brand</td><td>: </td><td> {{$listpkp->id_brand}}</td></tr>
-							<tr><td>Type PKP</td><td>: </td><td> 
+              <tr><th width="20%">PKP Number</th><td>: </td><td> {{$listpkp->pkp_number}}{{$listpkp->ket_no}}</td></tr>
+							<tr><th>Brand</th><td>: </td><td> {{$listpkp->id_brand}}</td></tr>
+							<tr><th>Type PKP</th><td>: </td><td> 
               @if($listpkp->type==1)
               Maklon
               @elseif($listpkp->type==2)
@@ -125,15 +125,15 @@
               @elseif($listpkp->type==3)
               Maklon/Internal
               @endif</td></tr>
-              <tr><td>Last Update</td><td>: </td><td> {{ $listpkp->last_update}}</td></tr>
-              <tr><td>Created</td><td>: </td><td> {{$listpkp->created_date}}</td></tr>
+              <tr><th>Last Update</th><td>: </td><td> {{ $listpkp->last_update}}</td></tr>
+              <tr><th>Created</th><td>: </td><td> {{$listpkp->created_date}}</td></tr>
 						</thead>
 					</table>
         </div>
         <div class="col-md-5">
           <table>
 						<thead>
-              <tr><td>Prioritas</td><td>: </td><td> 
+              <tr><th>Prioritas</th><td>: </td><td> 
                 @if($listpkp->prioritas=='1')
                 <span class="label label-danger">High Priority</span>
                 @elseif($listpkp->prioritas=='2')
@@ -142,8 +142,33 @@
                 <span class="label label-primary">Low Priority</span>
                 @endif  
               </td></tr>
-              <tr><td>Perevisi</td><td>:</td><td> {{$listpkp->perevisi2->name}}</td></tr>
-              <tr><td>Idea</td><td>:</td> <td> {{$listpkp->idea}}</td></tr>
+              <tr><th>Perevisi</th><td>:</td><td> {{$listpkp->perevisi2->name}}</td></tr>
+              <tr><th>Idea</th><td>:</td> <td> {{$listpkp->idea}}</td></tr>
+              <tr><th>Configuration</th><td>: </td><td>
+                @if($listpkp->kemas_eksis!=NULL)
+                  (
+                  @if($listpkp->kemas->tersier!=NULL)
+                  {{ $listpkp->kemas->tersier }}{{ $pkp->kemas->s_tersier }}
+                  @elseif($listpkp->kemas->tersier==NULL)
+                  @endif
+
+                  @if($listpkp->kemas->sekunder1!=NULL)
+                  X {{ $listpkp->kemas->sekunder1 }}{{ $listpkp->kemas->s_sekunder1}}
+                  @elseif($listpkp->kemas->sekunder1==NULL)
+                  @endif
+
+                  @if($listpkp->kemas->sekunder2!=NULL)
+                  X {{ $listpkp->kemas->sekunder2 }}{{ $listpkp->kemas->s_sekunder2 }}
+                  @elseif($listpkp->kemas->sekunder2==NULL)
+                  @endif
+
+                  @if($listpkp->kemas->primer!=NULL)
+                  X{{ $listpkp->kemas->primer }}{{ $pkp->kemas->s_primer }}
+                  @elseif($listpkp->kemas->primer==NULL)
+                  @endif
+                  )
+                @endif
+              </td></tr>
               @if($listpkp->datapkpp->file!=NULL)
               <tr><th>File</th><td>:</td><td> <a href="{{asset('data_file/'.$listpkp->datapkpp->file)}}" download="{{$listpkp->datapkpp->file}}" title="download file"><li class="fa fa-download"></li></a> {{$listpkp->datapkpp->file}}</td></tr>
               @endif

@@ -253,7 +253,7 @@
                     <div class="col-sm-6">
                       <table ALIGN="left">
     								    <tr><th class="text-left" width="20%">Revision Number</th> <th>&nbsp:</th> <th> {{$pdf->revisi}}.{{$pdf->turunan}}</th></tr>
-    								    <tr><th class="text-left">PDF Number</th><th>&nbsp:</th> <th> {{$pdf->pdf_number}}.{{$pdf->ket_no}}</th></tr>
+    								    <tr><th class="text-left">PDF Number</th><th>&nbsp:</th> <th> {{$pdf->pdf_number}}{{$pdf->ket_no}}</th></tr>
     								    <tr><th class="text-left">Type</th><th>&nbsp:</th> <th> {{$pdf->datapdf->type->type}}</th></tr>
                       </table>
                     </div>
@@ -315,7 +315,7 @@
                               <tr><th>Name</th><td style="border:none;"><?php $name = []; foreach ($pdf1 as $key => $data) If (!$name || !in_array($data->name, $name)) { $name += array( $key => $data->name );
                               if($data->turunan!=$pdf->turunan){ echo" : <s><font color='#6594c5'>$data->name <br></font></s>"; } if($data->turunan==$pdf->turunan){ echo" : $data->name <br>"; } } ?></td></tr>
 													    <tr><th>Retailer price</th><td style="border:none;"><?php $retailer_price = []; foreach ($pdf1 as $key => $data) If (!$retailer_price || !in_array($data->retailer_price, $retailer_price)) { $retailer_price += array( $key => $data->retailer_price );
-                              if($data->turunan!=$pdf->turunan){ echo" : <s><font color='#6594c5'>: Rp. ". number_format( $data->retailer_price, 0, ".", "."). "<br></font></s>"; } if($data->turunan==$pdf->turunan){ echo": Rp. ". number_format( $data->retailer_price, 0, ".", "."). "<br>"; } } ?></td></tr>
+                              if($data->turunan!=$pdf->turunan){ echo" : <s><font color='#6594c5'> Rp. ". number_format( $data->retailer_price, 0, ".", "."). "<br></font></s>"; } if($data->turunan==$pdf->turunan){ echo": Rp. ". number_format( $data->retailer_price, 0, ".", "."). "<br>"; } } ?></td></tr>
 													    <tr><th>What's Special</th><td style="border:none;"><?php $special = []; foreach ($pdf1 as $key => $data) If (!$special || !in_array($data->special, $special)) { $special += array( $key => $data->special );
                               if($data->turunan!=$pdf->turunan){ echo" <s><font color='#6594c5'> :$data->special <br></font></s>"; } if($data->turunan==$pdf->turunan){ echo" : $data->special <br>"; } } ?></tr>
 													  </table>

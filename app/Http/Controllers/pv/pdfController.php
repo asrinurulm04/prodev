@@ -1066,6 +1066,7 @@ class pdfController extends Controller
     }
 
     public function daftarpdf($id_project_pdf){
+        $data1 = coba::where('status_pdf','active')->join('tr_pdf_project','tr_pdf_project.id_project_pdf','tr_sub_pdf.pdf_id')->where('id_project_pdf',$id_project_pdf)->get();
         $data = project_pdf::where('id_project_pdf',$id_project_pdf)->get();
         $hitung = coba::where('pdf_id',$id_project_pdf)->count();
         $cf =Formula::where('workbook_pdf_id',$id_project_pdf)->count();
@@ -1076,6 +1077,7 @@ class pdfController extends Controller
         $pdf = coba::where('pdf_id',$id_project_pdf)->where('turunan',$max)->where('revisi',$max2)->where('status_pdf','active')->get();
         return view('pdf.daftarpdf')->with([
             'data' => $data,
+            'data1' => $data1,
             'sample' => $sample_project,
             'sample_pv' => $sample_project_PV,
             'cf' => $cf,

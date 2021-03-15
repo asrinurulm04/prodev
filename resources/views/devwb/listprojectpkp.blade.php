@@ -98,7 +98,7 @@
             <td>{{$pkp->pkp_number}}{{$pkp->ket_no}}</td>
             <td>{{ $pkp->project_name }}</td>
             <td>{{ $pkp->id_brand}}</td>
-            <td>{{ $pkp->datapkp->perevisi2->name }}</td>
+            <td>{{ $pkp->perevisi2->name }}</td>
             <td>
               @if($pkp->prioritas==1)
               <span class="label label-primary" style="color:white">prioritas 1</span>
@@ -153,7 +153,7 @@
             <td>{{$pkp->pkp_number}}{{$pkp->ket_no}}</td>
             <td>{{ $pkp->project_name }}</td>
             <td>{{ $pkp->id_brand}}</td>
-            <td>{{ $pkp->datapkp->perevisi2->name }}</td>
+            <td>{{ $pkp->perevisi2->name }}</td>
             <td>
               @if($pkp->prioritas==1)
               <span class="label label-primary" style="color:white">prioritas 1</span>

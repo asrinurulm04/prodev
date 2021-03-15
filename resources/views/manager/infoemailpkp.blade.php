@@ -44,6 +44,25 @@
                                               <tr><td>Forecast</td><td>: {{$pkp->for1->satuan}} = <?php $angka_format = number_format($pkp->for1->forecast,2,",","."); echo "Rp. ".$angka_format;?></td></tr>
                                               <tr><td>NF Selling Price</td><td>: {{$pkp->selling_price}}</td></tr>
                                               <tr><td>Packaging Concept</td><td>:
+                                                @if($pkp->kemas->tersier!=NULL)
+                                                  {{ $pkp->kemas->tersier }}{{ $pkp->kemas->s_tersier }}
+                                                  @elseif($pkp->tersier==NULL)
+                                                  @endif  
+                          
+                                                  @if($pkp->kemas->sekunder1!=NULL)
+                                                  X {{ $pkp->kemas->sekunder1 }}{{ $pkp->kemas->s_sekunder1}}
+                                                  @elseif($pkp->kemas->sekunder1==NULL)
+                                                  @endif
+                          
+                                                  @if($pkp->kemas->sekunder2!=NULL)
+                                                  X {{ $pkp->kemas->sekunder2 }}{{ $pkp->kemas->s_sekunder2 }}
+                                                  @elseif($pkp->sekunder2==NULL)
+                                                  @endif
+                          
+                                                  @if($pkp->kemas->primer!=NULL)
+                                                  X{{ $pkp->kemas->primer }}{{ $pkp->kemas->s_primer }}
+                                                @elseif($pkp->kemas->primer==NULL)
+                                                @endif
                                               </td></tr>
                                               <tr><td>Deadline for sending Sample</td><td>: {{$pkp->datapkpp->jangka}} To {{$pkp->datapkpp->waktu}}</td></tr>
                                               <tr><td>Launch Deadline</td><td>: {{$pkp->launch}} {{$pkp->years}} {{$pkp->tgl_launch}}</td></tr>

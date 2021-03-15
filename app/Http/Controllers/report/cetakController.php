@@ -402,7 +402,7 @@ class cetakController extends Controller
         $pertama=2;
 
         if(Auth::user()->departement_id!='1'){
-        $data=tr_project_pkp::join('tr_sub_pkp','tr_project_pkp.id_project','tr_sub_pkp.id_pkp')
+        $data=pkp_project::join('tr_sub_pkp','tr_project_pkp.id_project','tr_sub_pkp.id_pkp')
             ->join('ms_tarkons','ms_tarkons.id_tarkon','tr_sub_pkp.akg')
             ->join('tr_users','tr_users.id','tr_sub_pkp.perevisi')
             ->join('tr_kemas','tr_kemas.id_kemas','tr_sub_pkp.kemas_eksis')
@@ -412,7 +412,7 @@ class cetakController extends Controller
             ->where('status_project','!=','draf')->orderBy('pkp_number','asc')->get();
         $no=1;
         }elseif(Auth::user()->departement_id=='1'){
-            $data=tr_project_pkp::join('tr_sub_pkp','tr_project_pkp.id_project','tr_sub_pkp.id_pkp')
+            $data=pkp_project::join('tr_sub_pkp','tr_project_pkp.id_project','tr_sub_pkp.id_pkp')
             ->join('ms_tarkons','ms_tarkons.id_tarkon','tr_sub_pkp.akg')
             ->join('tr_users','tr_users.id','tr_sub_pkp.perevisi')
             ->join('tr_kemas','tr_kemas.id_kemas','tr_sub_pkp.kemas_eksis')
@@ -428,9 +428,6 @@ class cetakController extends Controller
                     'color' => array('rgb' => 'FF0000'),
                 ));
 
-
-                //Bagian Isi
-        
                 $baris=$awal;
                 $objPHPExcel->setActiveSheetIndex(0)
                     ->setCellValue('A'.$baris, 'PKP Number')
