@@ -18,7 +18,7 @@
             <th class="text-center">Status PV</th>
             <th class="text-center">Action</th>
           </tr>
-        </thead>{{auth()->user()->dept}}
+        </thead>
         <tbody>
         <!-- Untuk Project PKP -->
         @if(auth()->user()->departement_id != '6')

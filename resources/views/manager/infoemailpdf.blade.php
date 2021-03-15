@@ -33,7 +33,7 @@
                                             <hr>
 																						Dengan data sebagai berikut : <br>
 																						<table>
-                                              @foreach($app as $pdf)
+                                            @foreach($app as $pdf)
                                             <tr><td>PDF Number</td><td>: {{$pdf->datapdf->pdf_number}} {{$pdf->datapdf->ket_no}}</td></tr>
                                             <tr><td>Brand</td><td>: {{$pdf->datapdf->id_brand}}</td></tr>
                                             <tr><td>Background / Insight</td><td>: {{$pdf->background}}</td></tr>

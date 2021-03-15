@@ -297,9 +297,7 @@
                 @else
                 <tr>
                 @endif
-                  <td width="2%" class="text-center">
-                    <a href="{{ route('deleteFormula',$sample1->id) }}" onclick="return confirm('Hapus Formula ?')"><i style="font-size:12px;" class="fa fa-trash" data-toggle="tooltip" title="Delete"></i></a>
-                  </td> 
+                  <td width="2%" class="text-center"></td> 
                   <td>{{ $sample1->versi }}.{{ $sample1->turunan }}</td>
                   <td>
                     @if($sample1->kategori!='fg')
@@ -319,8 +317,8 @@
                   <td class="text-center">{{$sample1->catatan_rd}}</td>
                   <td class="text-center">{{$sample1->catatan_pv}}</td>
                   <td class="text-center"> 
-                  @if($sample1->vv=='proses')
                     <a class="btn btn-info btn-sm" href="{{ route('formula.detail',[$sample1->workbook_pdf_id,$sample1->id]) }}" data-toggle="tooltip" title="Show"><i style="font-size:12px;" class="fa fa-eye"></i></a>
+                  @if($sample1->vv=='proses')
                     <a class="btn btn-danger btn-sm" data-toggle="modal" data-target="#rejectsample{{ $sample1->id  }}" title="Reject"><li class="fa fa-times"></li></a>  
                     <!-- Modal -->
                     <div class="modal" id="rejectsample{{ $sample1->id  }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -371,17 +369,8 @@
                     </div>
                     <!-- Modal Selesai -->
                   @elseif($sample1->vv=='approve')
-                    <a href="" class="btn btn-primary btn-sm" title="Ajukan FS"><li class="fa fa-paper-plane"></li></a>
+                    <a href="" disabled class="btn btn-primary btn-sm" title="Ajukan FS"><li class="fa fa-paper-plane"></li></a>
                     <a href="{{route('finalsample',$sample1->id)}}" class="btn btn-success btn-sm" title="Final Approval"><li class="fa fa-tag"></li></a>
-                    @if($sample1->status_fisibility=='not_approved')
-                      @if($hasilpanel>=1)
-                      <a href="{{route('finalsample',$sample1->id)}}" class="btn btn-success btn-sm" title="Final Approva"><li class="fa fa-tag"></li></a>
-                      @endif
-                    @elseif($sample1->status_fisibility=='selesai')
-                      @if($hasilpanel>=1)
-                      <a href="{{route('finalsample',$sample1->id)}}" class="btn btn-success btn-sm" title="Final Approval"><li class="fa fa-tag"></li></a>
-                      @endif
-                    @endif
                   @elseif($sample1->vv=='final')
                     <a href="{{route('unfinalsample',$sample1->id)}}" class="btn btn-warning btn-sm" title="Unfinal Approve"><li class="fa fa-times"></li> Unfinal</a>
                   @endif

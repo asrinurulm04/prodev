@@ -112,8 +112,8 @@ class Step2Controller extends Controller
 
     public function update($formula,$id,Request $request){
         $formula = Formula::where('id',$formula)->first();
-        $formula->catatan_rd = $request->keterangan;
-        $formula->note_formula = $request->formula;
+        $formula->catatan_rd = $request->formula;
+        $formula->note_formula = $request->keterangan;
         $formula->catatan_manager = $request->manager;
         $formula->save();
         

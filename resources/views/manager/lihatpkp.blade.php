@@ -323,6 +323,25 @@
                         <td colspan="2"><?php $mandatory_ingredient = []; foreach ($pkp1 as $key => $data) If (!$mandatory_ingredient || !in_array($data->mandatory_ingredient, $mandatory_ingredient)) { $mandatory_ingredient += array( $key => $data->mandatory_ingredient ); 
                         if($data->revisi!=$pkp->revisi){ echo" <s><font color='#6594c5'>$data->mandatory_ingredient<br></font></s>"; } if($data->revisi==$pkp->revisi){ echo" $data->mandatory_ingredient<br>"; } }  ?></td>
                       </tr>
+                      <tr>
+                        <th>Related Picture</th>
+                        <td colspan="2">
+                          <table class="table table-bordered">
+                            <tr class="text-center" style="font-weight: bold;color:white;background-color: #2a3f54;">
+                              <td class="text-center">Filename</td>
+                              <td class="text-center">Information</td>
+                              <td class="text-center"></td>
+                            </tr>
+                            @foreach($picture as $pic)
+                            <tr>
+                              <td>{{$pic->filename}} </td>
+                              <td width="40%"> &nbsp{{$pic->informasi}}</td>  
+                              <td width="10%" class="text-center"><a href="{{asset('data_file/'.$pic->filename)}}" download="{{$pic->filename}}"><button class="btn btn-warning btn-sm"><li class="fa fa-download"></li></button></a></td>
+                            </tr>
+                            @endforeach
+                          </table>
+                        </td>
+                      </tr>
                     </table>
 								</div>
 							</div>

@@ -650,9 +650,9 @@
 													<table>
                             @if($pkp->kemas_eksis!=NULL)
                               (<input type="hidden" name="configuration" value="{{ $pkp->kemas->primer }}{{ $pkp->kemas->s_primer }} X {{ $pkp->kemas->sekunder1 }}{{ $pkp->kemas->s_sekunder1}} X {{ $pkp->kemas->sekunder2 }}{{ $pkp->kemas->s_sekunder2 }} X {{ $pkp->kemas->tersier }}{{ $pkp->kemas->s_tersier }}">
-                              @if($pkp->kemas->primer!=NULL)
-                              {{ $pkp->kemas->primer }}{{ $pkp->kemas->s_primer }}
-                              @elseif($pkp->kemas->primer==NULL)
+                              @if($pkp->kemas->tersier!=NULL)
+                              {{ $pkp->kemas->tersier }}{{ $pkp->kemas->s_tersier }}
+                              @elseif($pkp->tersier==NULL)
                               @endif
 
                               @if($pkp->kemas->sekunder1!=NULL)
@@ -665,11 +665,10 @@
                               @elseif($pkp->sekunder2==NULL)
                               @endif
 
-                              @if($pkp->kemas->tersier!=NULL)
-                              X {{ $pkp->kemas->tersier }}{{ $pkp->kemas->s_tersier }}
-                              @elseif($pkp->tersier==NULL)
-                              @endif
-                              )
+                              @if($pkp->kemas->primer!=NULL)
+                              X {{ $pkp->kemas->primer }}{{ $pkp->kemas->s_primer }}
+                              @elseif($pkp->kemas->primer==NULL)
+                              @endif )
                             @elseif($pkp->primer==NULL)
                               @if($pkp->kemas_eksis==NULL)
                               @endif

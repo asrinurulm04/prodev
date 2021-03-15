@@ -42,6 +42,7 @@
                           <input type="hidden" value="{{$pdf->id_project_pdf}}" name="pdf">
                           <input type="hidden" value="{{$pdf->turunan}}" name="turunan">
                           <input type="hidden" value="{{$pdf->revisi}}" name="revisi">
+                          <input type="hidden" value="{{$pdf->perevisi}}" name="perevisi">
                           <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center">Destination</label>
                           <div class="col-md-9 col-sm-9 col-xs-12">
                             <select name="penerima" class="form-control form-control-line" id="penerima">
@@ -157,7 +158,7 @@
                   <!-- Modal Selesai -->
                 @endif
               @elseif(Auth::user()->departement->dept=='RKA')
-                  @if($pdf->status_terima2=='proses')
+                @if($pdf->status_terima2=='proses')
                   <form class="form-horizontal form-label-left" method="POST" action="{{ route('approvepdf2',$pdf->id_project_pdf) }}" novalidate>
                     <input type="hidden" value="{{$last}}" name="tgl">
                     <button type="submit" class="btn btn-dark btn-sm"><li class="fa fa-check"></li> Approve data</button>

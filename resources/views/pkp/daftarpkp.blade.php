@@ -183,7 +183,6 @@
               @if($data->datapkp!=null)
               @foreach($data1 as $data)
               <tr><th>Idea</td> <td> : {{$data->idea}}</td></tr>
-<<<<<<< HEAD
               <tr><th>Configuration</th><td>: 
                 @if($data->kemas_eksis!=NULL)
                 (
@@ -209,10 +208,7 @@
                 )
                 @endif
               </td></tr>
-              <tr><th>Launch Deadline</th><td>: {{$data->launch}} {{$data->years}} {{$data->tgl_launch}}</td></tr>
-=======
               <tr><th width="25%">Launch Deadline</th><td>: {{$data->launch}} {{$data->years}} {{$data->tgl_launch}}</td></tr>
->>>>>>> 0216f421cecdf0fbfe7971f54e1d47599ba8fdb1
               <tr><th>Sample Deadline</th><td>: {{$data->jangka}}-  {{$data->waktu}}</td></tr>
               <tr><th>PV</th><td> : {{$data->perevisi2->name}}</td></tr>
               @if($data->file!=NULL)
@@ -330,8 +326,8 @@
                 <th width="1%"></th>
                 <th class="text-center" width="3%">Versi</th>
                 <th class="text-center">Formula</th>
-                <th class="text-center" width="25%">Note PV</th>
                 <th class="text-center" width="25%">Note RD</th>
+                <th class="text-center" width="25%">Note PV</th>
                 <th class="text-center" width="10%">Status</th>
                 <th class="text-center" width="13%">Action</th>
               </tr>
@@ -349,8 +345,8 @@
                 <td width="1%"></td>
                 <td>{{$for->versi}}.{{$for->turunan}}</td>
                 <td>{{$for->formula}}</td>
-                <td width="25%">{{$for->catatan_pv}}</td>
                 <td width="25%">{{$for->catatan_rd}}</td>
+                <td width="25%">{{$for->catatan_pv}}</td>
                 <td class="text-center">
                   @if($for->vv=='proses')
                   <span class="label label-primary" style="color:white">New Sample</span>
@@ -416,7 +412,7 @@
                         </div>
                         <!-- Modal Selesai -->
                     @elseif($for->vv=='approve')
-                      <a href="" class="btn btn-primary btn-sm" title="Ajukan FS"><li class="fa fa-paper-plane"></li></a>
+                      <a href="" disabled class="btn btn-primary btn-sm" title="Ajukan FS"><li class="fa fa-paper-plane"></li></a>
                         <a href="{{route('finalsample',$for->id)}}" class="btn btn-success btn-sm" title="Final Approval"><li class="fa fa-tag"></li></a>
                       @if($for->status_fisibility=='not_approved')
                         @if($hasilpanel>=1)

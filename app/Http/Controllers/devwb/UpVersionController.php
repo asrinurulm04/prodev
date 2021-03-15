@@ -177,6 +177,7 @@ class UpVersionController extends Controller
 
     public function upversion2(Request $request,$id,$wb){ 
         $lastf=Formula::where('id',$id)->first();
+        dd($lastf);
         
         if($lastf->workbook_id!=NULL){
             $pkp_hitung = pkp_project::where('id_project',$lastf->workbook_id)->max('workbook')+1;
@@ -186,7 +187,7 @@ class UpVersionController extends Controller
             
             $lastversion = Formula::where('workbook_id',$lastf->workbook_id)->max('versi');
             $myformulas  = Formula::where('versi',$lastversion)->where('workbook_id',$lastf->workbook_id)->get();
-            $lastturunan = Formula::where('workbook_id',$lastf->workbook_id)->max('turunan')+1;
+            $lastturunan = Formula::where('workbook_id',$lastf->workbook_id)->where('versi',$lastf->versi)->max('turunan')+1;
         }
         if($lastf->workbook_pdf_id!=NULL){
             $pdf_hitung = project_pdf::where('id_project_pdf',$lastf->workbook_pdf_id)->max('workbook')+1;
@@ -196,7 +197,7 @@ class UpVersionController extends Controller
             
             $lastversion = Formula::where('workbook_pdf_id',$lastf->workbook_pdf_id)->max('versi');
             $myformulas  = Formula::where('versi',$lastversion)->where('workbook_pdf_id',$wb)->get();
-            $lastturunan = Formula::where('workbook_pdf_id',$lastf->workbook_pdf_id)->max('turunan')+1;
+            $lastturunan = Formula::where('workbook_pdf_id',$lastf->workbook_pdf_id)->where('versi',$lastf->versi)->max('turunan')+1;
         }
 
         $formulas = new Formula;
