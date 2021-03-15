@@ -389,3 +389,6 @@ Route::patch('/forgotpass','AccountsController@update')->name('forgotpass');
 Route::get('reset/{id}','LoginController@reset')->name('reset');
 
 Route::get('coba','Controller@cobain')->name('coba');
+
+// Marketing
+Route::get('dasboardnr','pv\pkpController@dasboardnr')->name('dasboardnr');

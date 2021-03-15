@@ -24,8 +24,8 @@ class RegistrationController extends Controller
 
     public function registrationPost(Request $request){
         $this->validate(request(), [
-            'username' => 'unique:users',
-            'email' => 'unique:users|regex:"@nutrifood.co.id"',
+            'username' => 'unique:tr_users',
+            'email' => 'unique:tr_users|regex:"@nutrifood.co.id"',
             'password' => 'confirmed'
         ]);
         

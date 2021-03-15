@@ -225,7 +225,6 @@
               <textarea name="remarks_product_form" id="remarks_product_form" class="form-control col-md-12 col-xs-12" rows="2"></textarea>
             </div>
           </div>
-          @if(auth()->user()->role->namaRule == 'pv_lokal' || auth()->user()->role->namaRule == 'admin')
           <div class="form-group">
             <label class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#cf3721">AKG^</label>
             <div class="col-md-9 col-sm-9 col-xs-12">
@@ -267,7 +266,6 @@
        			<input type="radio" name="data" oninput="eksis()" id="radio_eksis"> Configuration exists &nbsp &nbsp
        			<input type="radio" name="data" oninput="pilih()" id="radio_project"> Previous Project Configuration  &nbsp &nbsp
 					</div>
-          @endif
           <div id="lihat"></div>
           <div class="form-group">
             <label class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#31a9b8">prefered flavour (varian/rasa)*</label>
