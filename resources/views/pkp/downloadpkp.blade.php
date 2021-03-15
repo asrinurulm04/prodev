@@ -78,11 +78,11 @@
                             <?php $dariumur = []; foreach ($pkp1 as $key => $data) If (!$dariumur || !in_array($data->dariumur, $dariumur)) { $dariumur += array( $key => $data->dariumur ); if($data->turunan!=$pkp->turunan){
                             echo" <s><font color='#6594c5'>: $data->dariumur</font></s>";} if($data->turunan==$pkp->turunan){ echo": $data->dariumur ";} } ?>
                             <?php $sampaiumur = []; foreach ($pkp1 as $key => $data) If (!$sampaiumur || !in_array($data->sampaiumur, $sampaiumur)) { $sampaiumur += array( $key => $data->sampaiumur ); if($data->turunan!=$pkp->turunan){
-                            echo" <s><font color='#6594c5'>: $data->sampaiumur</font></s>";} if($data->turunan==$pkp->turunan){ echo": $data->sampaiumur ";} } ?> </th></tr>
+                            echo" <s><font color='#6594c5'> $data->sampaiumur</font></s>";} if($data->turunan==$pkp->turunan){ echo" $data->sampaiumur ";} } ?> </th></tr>
                               
                             <tr><th style="border:none;">SES </th><td style="border:none;"> 
                             <?php $ses = []; foreach ($datases as $key => $data) If (!$ses || !in_array($data->ses, $ses)) { $ses += array( $key => $data->ses ); 
-                            if($data->turunan!=$pkp->turunan){ echo" <s><font color='#6594c5'>$data->ses<br></font></s>"; }if($data->turunan==$pkp->turunan){ echo" $data->ses <br>"; } } ?></th></tr>
+                            if($data->turunan!=$pkp->turunan){ echo" <s><font color='#6594c5'>: $data->ses,</font></s>"; }if($data->turunan==$pkp->turunan){ echo" : $data->ses,"; } } ?></th></tr>
                             
                             <tr><th style="border:none;">Remarks SES </th><td style="border:none;"> 
                             <?php $remarks_ses = []; foreach ($pkp1 as $key => $data) If (!$remarks_ses || !in_array($data->remarks_ses, $remarks_ses)) { $remarks_ses += array( $key => $data->remarks_ses ); if($data->turunan!=$pkp->turunan){
@@ -130,10 +130,10 @@
                       <tr>
                         <td>Sales Forecast</td>
                         <td colspan="2"><?php $seles = []; foreach ($for as $key => $data) If (!$seles || !in_array($data->forecast, $seles)) { $seles += array( $key => $data->forecast ); 
-                        if($data->turunan!=$pkp->turunan){ echo" <s><font color='#6594c5'>$data->satuan = $data->forecast<br></font></s>"; } if($data->turunan==$pkp->turunan){ echo" $data->satuan = $data->forecast <br>";  } } ?></td>
+                        if($data->turunan!=$pkp->turunan){ echo" <s><font color='#6594c5'>$data->satuan = $data->forecast<br></font></s>"; } if($data->turunan==$pkp->turunan){ echo" $data->satuan = $data->forecast <br>";  } } ?><br>
                         
                         <?php $remarks_forecash = []; foreach ($for as $key => $data) If (!$remarks_forecash || !in_array($data->remarks_forecash, $remarks_forecash)) { $remarks_forecash += array( $key => $data->remarks_forecash ); 
-                        if($data->turunan!=$pkp->turunan){ echo"Remarks Forecash: <s><font color='#6594c5'>$data->remarks_forecash<br></font></s>"; } if($data->turunan==$pkp->turunan){ echo"Remarks Forecash: $data->remarks_forecash <br>";  } } ?>
+                        if($data->turunan!=$pkp->turunan){ echo"Remarks Forecash: <s><font color='#6594c5'>$data->remarks_forecash<br></font></s>"; } if($data->turunan==$pkp->turunan){ echo"Remarks Forecash: $data->remarks_forecash <br>";  } } ?></td>
                       </tr>
                       <tr>
                         <td>NF Selling Price (Before ppn)</td>
@@ -189,10 +189,10 @@
                         <tr>
                           <td>Product Form</td>
                           <td colspan="2"><?php $product_form = []; foreach ($pkp1 as $key => $data) If (!$product_form || !in_array($data->product_form, $product_form)) { $product_form += array( $key => $data->product_form  ); 
-                          if($data->turunan!=$pkp->turunan){ echo" <s><font color='#6594c5'>$data->product_form<br></font></s>"; } if($data->turunan==$pkp->turunan){ echo" $data->product_form<br>"; } }  ?></td>
+                          if($data->turunan!=$pkp->turunan){ echo" <s><font color='#6594c5'>$data->product_form<br></font></s>"; } if($data->turunan==$pkp->turunan){ echo" $data->product_form<br>"; } }  ?><br>
                         
-                        <?php $remarks_product_form = []; foreach ($pkp1 as $key => $data) If (!$remarks_product_form || !in_array($data->remarks_product_form, $remarks_product_form)) { $remarks_product_form += array( $key => $data->remarks_product_form  ); 
-                          if($data->turunan!=$pkp->turunan){ echo"Remarks : <s><font color='#6594c5'>$data->remarks_product_form<br></font></s>"; } if($data->turunan==$pkp->turunan){ echo"Remarks: $data->remarks_product_form<br>"; } }  ?>
+                          <?php $remarks_product_form = []; foreach ($pkp1 as $key => $data) If (!$remarks_product_form || !in_array($data->remarks_product_form, $remarks_product_form)) { $remarks_product_form += array( $key => $data->remarks_product_form  ); 
+                          if($data->turunan!=$pkp->turunan){ echo"Remarks : <s><font color='#6594c5'>$data->remarks_product_form<br></font></s>"; } if($data->turunan==$pkp->turunan){ echo"Remarks: $data->remarks_product_form<br>"; } }  ?></td>
                         </tr>
                         <tr>
                         <td>Product Packaging</td>

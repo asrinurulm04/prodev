@@ -101,7 +101,7 @@
                        <label class="col-lg-3 control-label">Target Serving</label>
                        <div class="col-lg-8">
                          <div class="row">
-                           <div class="col-md-6"><input class="form-control " id="target_serving" name="target_serving" type="number" required/></div>
+                           <div class="col-md-6"><input class="form-control " id="target_serving" name="target_serving" type="text" required/></div>
                            <div class="col-md-6">
                              <input type="radio" checked name="satuan" oninput="satuan_gram()" id="id_gram" value="Gram"> Gram
                              <input type="radio" name="satuan" oninput="satuan_ml()" id="id_ml" value="Ml"> Ml
@@ -136,11 +136,38 @@
           <div class="x_content">
             <table>
               <thead>
-                <tr><td>Brand</td><td> : {{$data->id_brand}}</td></tr>
-                <tr><td>Type</td><td> : {{$data->type->type}}</td></tr>
-                <tr><td>PDF Number</td><td> : {{$data->pdf_number}}{{$data->ket_no}}</td></tr>
-                <tr><td>Created</td><td> : {{$data->created_date}}</td></tr>
-                <tr><td>Author</td><td> : {{$data->author1->name}}</td></tr>
+                <tr><th>Brand</th><td> : {{$data->id_brand}}</td></tr>
+                <tr><th>Type</th><td> : {{$data->type->type}}</td></tr>
+                <tr><th>PDF Number</th><td> : {{$data->pdf_number}}{{$data->ket_no}}</td></tr>
+                <tr><th>Created</th><td> : {{$data->created_date}}</td></tr>
+                @foreach($data1 as $data1)
+                <tr><th>PV</th><td> : {{$data1->perevisi2->name}}</td></tr>
+                <tr><th>Configuration</th><td>: 
+                  @if($data1->kemas_eksis!=NULL)
+                    (
+                    @if($data1->kemas->tersier!=NULL)
+                    {{ $data1->kemas->tersier }}{{ $data1->kemas->s_tersier }}
+                    @elseif($data1->kemas->tersier==NULL)
+                    @endif
+
+                    @if($data1->kemas->sekunder1!=NULL)
+                    X {{ $data1->kemas->sekunder1 }}{{ $data1->kemas->s_sekunder1}}
+                    @elseif($data1->kemas->sekunder1==NULL)
+                    @endif
+
+                    @if($data1->kemas->sekunder2!=NULL)
+                    X {{ $data1->kemas->sekunder2 }}{{ $data1->kemas->s_sekunder2 }}
+                    @elseif($data1->kemas->sekunder2==NULL)
+                    @endif
+
+                    @if($data1->kemas->primer!=NULL)
+                    X{{ $data1->kemas->primer }}{{ $data1->kemas->s_primer }}
+                    @elseif($data1->kemas->primer==NULL)
+                    @endif
+                    )
+                  @endif
+                </td></tr>
+                @endforeach
                 @if($data->file!=NULL)
                 <tr><th>File</th><td> : <a href="{{asset('data_file/'.$data->file)}}" download="{{$data->file}}" title="Download file"><li class="fa fa-download"></li></a> {{$data->file}} </a><a href="{{route('hapus_upload_pdf',$data->id_project_pdf)}}" title="Delete"><li class="fa fa-times"></li></a></td></tr>
                 @endif

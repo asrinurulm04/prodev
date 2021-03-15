@@ -360,6 +360,7 @@ class managerController extends Controller
         $pengajuan = pengajuan::where('id_pkp',$id_project)->where('turunan',$turunan)->count();
         $datadetail = data_detail_klaim::where('id_pkp',$id_project)->where('turunan',$turunan)->get();
         $user = DB::table('tr_users')->where('departement_id',Auth::user()->departement->id)->get();
+        $user2 = DB::table('tr_users')->where('departement_id','!=',Auth::user()->departement->id)->get();
         $picture = picture::where('pkp_id',$id_project)->where('revisi','<=',$revisi)->where('turunan','<=',$turunan)->get();
         $hitungpkpselesai2 = pkp_project::where('status_terima2','=','proses')->where('status_project','=','sent')->where('tujuankirim2',Auth::user()->Departement->id)->count();$hitungpkpselesai = pkp_project::where('status_terima','=','proses')->where('status_project','=','sent')->where('tujuankirim',Auth::user()->Departement->id)->count();
         $hitungpdfselesai2= project_pdf::where('status_terima2','=','proses')->where('status_project','=','sent')->where('tujuankirim2',Auth::user()->Departement->id)->count();$hitungpdfselesai= project_pdf::where('status_terima','=','proses')->where('status_project','=','sent')->where('tujuankirim',Auth::user()->Departement->id)->count();
@@ -375,12 +376,13 @@ class managerController extends Controller
             'dataklaim' => $dataklaim,
             'pkp1' => $pkp1,
             'user' => $user,
+            'user2' => $user2,
             'picture' => $picture,
             'hitungnotif' => $hitungnotif,'hitungnotif2' => $hitungnotif2,
             'hitungpkpselesai' =>$hitungpkpselesai,'hitungpkpselesai2' => $hitungpkpselesai2,
             'hitungpdfselesai' => $hitungpdfselesai,'hitungpdfselesai2' => $hitungpdfselesai2,
             'hitungpromoselesai' => $hitungpromoselesai,'hitungpromoselesai2' => $hitungpromoselesai2
-        ]); 
+        ]);
     }
 
     public function lihatpromo($id_pkp_promo,$revisi,$turunan){

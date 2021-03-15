@@ -47,9 +47,7 @@
                               <option disabled selected>Departement</option>
                               @foreach($dept as $dept)
                               @if($dept->Divisi=='RND')
-                                @if($dept->dept!='RKA')
                                 <option value="{{$dept->id}}"> Manager {{ $dept->dept }} ({{$dept->users->name}})</option>
-                                @endif
                               @endif
                               @endforeach
                             </select>
@@ -136,9 +134,9 @@
                         <div class="form-group row">
                           <label class="control-label text-bold col-md-1 col-sm-1 col-xs-12 text-center"></label>
                           <label class="control-label text-bold col-md-1 col-sm-1 col-xs-12 text-center">Cc</label>
-                          <div class="col-md-3 col-sm-10 col-xs-12"><input type="text" class="form-control " value="" required name="pengirim2" id="pengirim2"></div>
-                          <div class="col-md-3 col-sm-10 col-xs-12"><input type="text" readonly class="form-control " value="{{auth()->user()->email}}" name="pengirim" id="pengirim"></div>
-                          <div class="col-md-3 col-sm-10 col-xs-12"><input type="text" class="form-control" readonly value="{{$pkp->datapkpp->author1->email}}" name="pengirim1" id="pengirim1"></div>
+                          <div class="col-md-3 col-sm-10 col-xs-12">@if($pkp->perevisi!=NULL)<input type="text" required class="form-control " value="{{$pkp->perevisi2->email}}" name="pengirim2" id="pengirim2">@endif</div>
+                          <div class="col-md-3 col-sm-10 col-xs-12"><input type="text" required class="form-control " value="{{auth()->user()->email}}" name="pengirim" id="pengirim"></div>
+                          <div class="col-md-3 col-sm-10 col-xs-12"><input type="text" class="form-control" required value="{{$pkp->datapkpp->author1->email}}" name="pengirim1" id="pengirim1"></div>
                         </div>
                         <div class="modal-footer">
                           <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-paper-plane"></i> Sent</button>
@@ -172,9 +170,9 @@
                             <select name="kirim" class="form-control form-control-line" id="kirim">
                               <option readonly value="{{$pkp->tujuankirim}}" selected>{{$pkp->departement->dept}}</option>
                               @foreach($dept as $dept)
-                              @if($dept->Divisi=='RND')
-                              <option value="{{$dept->id}}"> Manager {{ $dept->dept }} ({{$dept->users->name}})</option>
-                              @endif
+                                @if($dept->Divisi=='RND')
+                                <option value="{{$dept->id}}"> Manager {{ $dept->dept }} ({{$dept->users->name}})</option>
+                                @endif
                               @endforeach
                             </select>
                           </div>
@@ -651,7 +649,7 @@
                         <td colspan="2">
 													<table>
                             @if($pkp->kemas_eksis!=NULL)
-                              (<input type="hidden" name="configuration" value="{{$pkp->kemas_eksis}}">
+                              (<input type="hidden" name="configuration" value="{{ $pkp->kemas->primer }}{{ $pkp->kemas->s_primer }} X {{ $pkp->kemas->sekunder1 }}{{ $pkp->kemas->s_sekunder1}} X {{ $pkp->kemas->sekunder2 }}{{ $pkp->kemas->s_sekunder2 }} X {{ $pkp->kemas->tersier }}{{ $pkp->kemas->s_tersier }}">
                               @if($pkp->kemas->primer!=NULL)
                               {{ $pkp->kemas->primer }}{{ $pkp->kemas->s_primer }}
                               @elseif($pkp->kemas->primer==NULL)
@@ -696,7 +694,7 @@
                         <th>Food Category (BPOM)</th>
                         <td colspan="2">
                         @if($pkp->bpom!=NULL && $pkp->kategori_bpom!=NULL)
-                        <input type="hidden" name="bpom" value="{{$pkp->bpom}}"><input type="hidden" name="olahan" value="{{$pkp->olahan}}"><input type="hidden" name="kategori_bpom" value="{{$pkp->kategori_bpom}}">
+                        <input type="hidden" name="bpom" value="{{$pkp->katpangan->no_kategori}}"><input type="hidden" name="olahan" value="{{$pkp->katpangan->pangan}}"><input type="hidden" name="kategori_bpom" value="{{$pkp->kategori_bpom}}">
                         <?php $pangan = []; foreach ($pkp2 as $key => $data) If (!$pangan || !in_array($data->katpangan, $pangan)) { $pangan += array( $key => $data->katpangan );  
                         if($data->revisi==$pkp->revisi){ echo "(".$data->katpangan->no_kategori .") ". $data->katpangan->pangan." <br>"; } }  ?>  @endif
                         </td>
@@ -704,7 +702,7 @@
                       <tr>
                         <th>AKG</th>
                         <td>
-                          <input type="hidden" name="akg" value="{{$pkp->akg}}"><?php $tarkon = []; foreach ($pkp2 as $key => $data) If (!$tarkon || !in_array($data->tarkon, $tarkon)) { $tarkon += array( $key => $data->tarkon ); 
+                          <input type="hidden" name="akg" value="{{$pkp->tarkon->tarkon}}"><?php $tarkon = []; foreach ($pkp2 as $key => $data) If (!$tarkon || !in_array($data->tarkon, $tarkon)) { $tarkon += array( $key => $data->tarkon ); 
                           if($data->revisi==$pkp->revisi){ echo"". $data->tarkon->tarkon."<br>"; } }  ?>
                         </td>
                       </tr>

@@ -398,16 +398,16 @@
         <div class="col-md-8">
           @if($formula->workbook_id!=NULL)
             @if($ada==0)                                    
-            <a type="button" class="btn btn-warning btn-sm" href="{{ route('getTemplate',[$idfor,$idf]) }}"><i class="fa fa-download"></i> Import Formula Template</a>        
+            <!-- <a type="hidden" class="btn btn-warning btn-sm" href="{{ route('getTemplate',[$idfor,$idf]) }}"><i class="fa fa-download"></i> Import Formula Template</a>         -->
             @else
-            <a class="btn btn-success btn-sm" href="{{ route('getTemplate',[$idfor,$idf]) }}" type="button" id="buttonformcheckscale"><i class="fa fa-eye"></i> Import Granulasi/Premix</a>
+            <!-- <a class="btn btn-success btn-sm" href="{{ route('getTemplate',[$idfor,$idf]) }}" type="button" id="buttonformcheckscale"><i class="fa fa-eye"></i> Import Granulasi/Premix</a> -->
             <a class="btn btn-primary btn-sm" type="button" id="buttonformsavechanges"><i class="fa fa-save"></i> Save Serving Changes</a>                            
             @endif
           @elseif($formula->workbook_pdf_id!=NULL)
             @if($ada==0)                                    
-            <a type="button" class="btn btn-warning btn-sm" href="{{ route('getTemplate',[$idfor_pdf,$idf]) }}"><i class="fa fa-download"></i> Import Formula Template</a>        
+            <!-- <a type="button" class="btn btn-warning btn-sm" href="{{ route('getTemplate',[$idfor_pdf,$idf]) }}"><i class="fa fa-download"></i> Import Formula Template</a>         -->
             @else
-            <a class="btn btn-success btn-sm" href="{{ route('getTemplate',[$idfor_pdf,$idf]) }}" type="button" id="buttonformcheckscale"><i class="fa fa-eye"></i> Import Granulasi/Premix</a>
+            <!-- <a class="btn btn-success btn-sm" href="{{ route('getTemplate',[$idfor_pdf,$idf]) }}" type="button" id="buttonformcheckscale"><i class="fa fa-eye"></i> Import Granulasi/Premix</a> -->
             <a class="btn btn-primary btn-sm" type="button" id="buttonformsavechanges"><i class="fa fa-save"></i> Save Serving Changes</a>                            
             @endif
           @endif

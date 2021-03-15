@@ -225,8 +225,7 @@
         				<tbody>
                   @foreach($for as $for)
         				  <tr id='addrow0'>
-                    <td width="15%" class="text-center">
-                      <a href="" type="button" class="btn btn-danger btn-sm"><li class="fa fa-trash"></li></a>
+                    <td width="10%" class="text-center">
                       <button class="btn btn-info btn-sm pull-left add_data" type="button"><li class="fa fa-plus"></li></button>
                     </td>
                     <td><input type="number" value="{{$for->forecast}}" name="forecast[]" class="form-control" required></td>
@@ -349,8 +348,6 @@
               <select name="katbpom"  id="katbpom" class="form-control">
                 @if($pkp->kategori_bpom!=null)
                 <option selected value="{{$pkp->kategori_bpom}}">{{$pkp->kategori->pangan}}</option>
-                @elseif($pkp->kategori_bpom==null)
-                <option value=""></option>
                 @endif
                 @foreach($pangan as $kat)
                 <option value="{{$kat->id_pangan}}">{{$kat->pangan}}</option>
@@ -1246,11 +1243,11 @@
 
   var i = 1;
   $(".add_data").click(function() {
-    $('#addrow' + i).html( "<td><input type='number' value='0' name='forecast[]' class='form-control'></td><td><select name='satuan[]'  class='form-control'>"+
+    $('#addrow' + i).html( "</td><td><a hreaf='' class='btn btn-danger btn-sm'><li class='fa fa-trash'></li></a></td><td><input type='number' value='0' name='forecast[]' class='form-control'></td><td><select name='satuan[]'  class='form-control'>"+
       "<option value='1st Month'>1st Month</option>"+
       "<option value='2nd Month'>2nd Month</option>"+
       "<option value='3rd Month'>3rd Month</option>"+
-    "</select></td><td><a hreaf='' class='btn btn-danger btn-sm'><li class='fa fa-trash'></li> Delete</a></td>");
+    "</select>");
 
     $('#tabledata').append('<tr id="addrow' + (i + 1) + '"></tr>');
     i++;
