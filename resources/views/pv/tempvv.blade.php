@@ -284,6 +284,12 @@
                     </li>
                     </ul>
                   </li>
+                  <li><a><i class="fa fa-registered"></i> Material Registration <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{{ route('registrasi_bb_rd') }}"> Material Registration</a> </li>
+                      <li><a href="{{ route('tabulasibb') }}">Material Tabulation</a></li>
+                    </ul>
+                  </li>
                   <li class="mt"><a href="{{ route('dept') }}"><i class="fa fa-group"></i><span>Departement</span></a></li>
 								  <li><a><i class="fa fa-book"></i> Master Data <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
@@ -292,7 +298,8 @@
                       <li><a href="{{ route('datapangan') }}">Microbiology</a></li>
                       <li><a href="{{ route('sku') }}">Active SKU</a></li>
                       <li><a href="{{ route('klaim') }}">Claim Regulation</a></li>
-                      <li><a href="{{ route('bahanbaku') }}">Bahan Baku</a></li>
+                      <li><a href="{{ route('bahanbaku') }}">Bahan Baku Eksis</a></li>
+                      <li><a href="{{ route('bahan_rd') }}">Bahan Baku RD</a></li>
                       <li><a href="{{ route('brand.index') }}">Brand</a></li>
                       <li><a href="{{ route('subbrand.index') }}">Subbrand</a></li>
                       <li><a href="{{ route('curren.index') }}">Currency</a></li>
