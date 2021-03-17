@@ -8,24 +8,31 @@
   <div class="x_title">
     <h3><li class="fa fa-list"></li> Registrasi Bahan</h3>
   </div>
-	@if($bahan->status_bb=='baru')
   <div class="row">
     <?php $last = Date('j-F-Y'); ?>
     <input id="last" value="{{ $last }}" class="form-control col-md-12 col-xs-12" name="last" type="hidden" readonly>
     <div class="form-group">
       <label  class="control-label col-md-2 col-sm-2 col-xs-12">Nama Sederhana*</label>
-      <div class="col-md-3 col-sm-3 col-xs-12">
+      <div class="col-md-2 col-sm-2 col-xs-12">
         <input type="text" class="form-control" required value="{{$bahan->nama_sederhana}}" name="sederhana" id="sederhana">
       </div>
-      <label  class="control-label col-md-2 col-sm-2 col-xs-12">Kode Komputer</label>
-      <div class="col-md-3 col-sm-3 col-xs-12">
-        <input type="text" class="form-control" value="{{$bahan->kode_komputer}}" name="komputer" id="komputer">
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Nama Bahan</label>
+      <div class="col-md-2 col-sm-2 col-xs-12">
+        <input type="text" required class="form-control" value="{{$bahan->nama_bahan}}" name="nama" id="nama">
+      </div>
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Status</label>
+      <div class="col-md-2 col-sm-2 col-xs-12">
+        <select name="status" class="form-control" id="status">
+          <option value="{{$bahan->status_bb}}">{{$bahan->status_bb}}</option>
+          <option value="Baru">Baru</option>
+          <option value="Eksis">Eksis</option>
+        </select>
       </div>
     </div>
 		<div class="form-group">
-      <label  class="control-label col-md-2 col-sm-2 col-xs-12">Nama Bahan</label>
+      <label  class="control-label col-md-2 col-sm-2 col-xs-12">Kode Komputer</label>
       <div class="col-md-3 col-sm-3 col-xs-12">
-        <input type="text" required class="form-control" value="{{$bahan->nama_bahan}}" name="nama" id="nama">
+        <input type="text" class="form-control" value="{{$bahan->kode_komputer}}" name="komputer" id="komputer">
       </div>
       <label  class="control-label col-md-2 col-sm-2 col-xs-12">Kode Oracle</label>
       <div class="col-md-3 col-sm-3 col-xs-12">
@@ -99,99 +106,11 @@
       </div>
     </div>
   </div>
-	@elseif($bahan->status_bb=='eksis')
-	<div class="row">
-    <?php $last = Date('j-F-Y'); ?>
-    <input id="last" value="{{ $last }}" class="form-control col-md-12 col-xs-12" name="last" type="hidden" readonly>
-    <div class="form-group">
-      <label  class="control-label col-md-2 col-sm-2 col-xs-12">Nama Sederhana</label>
-      <div class="col-md-3 col-sm-3 col-xs-12">
-        <input type="text" class="form-control" value="{{$bahan->nama_sederhana}}" name="sederhana" id="sederhana"readonly>
-      </div>
-      <label  class="control-label col-md-2 col-sm-2 col-xs-12">Kode Komputer</label>
-      <div class="col-md-3 col-sm-3 col-xs-12">
-        <input type="text" class="form-control" value="{{$bahan->kode_komputer}}" name="komputer" id="komputer"readonly>
-      </div>
-    </div>
-		<div class="form-group">
-      <label  class="control-label col-md-2 col-sm-2 col-xs-12">Nama Bahan</label>
-      <div class="col-md-3 col-sm-3 col-xs-12">
-        <input type="text" required class="form-control" value="{{$bahan->nama_bahan}}" name="nama" id="nama"readonly>
-      </div>
-      <label  class="control-label col-md-2 col-sm-2 col-xs-12">Kode Oracle</label>
-      <div class="col-md-3 col-sm-3 col-xs-12">
-        <input type="text" class="form-control" value="{{$bahan->kode_oracle}}" name="oracle" id="oracle"readonly>
-      </div>
-    </div>
-    <div class="form-group">
-      <label  class="control-label col-md-2 col-sm-2 col-xs-12">PIC</label>
-      <div class="col-md-3 col-sm-3 col-xs-12">
-        <input type="text" class="form-control" value="{{$bahan->PIC}}" name="pic" id="pic"readonly>
-      </div>
-      <label  class="control-label col-md-2 col-sm-2 col-xs-12">No HEIPBR</label>
-      <div class="col-md-3 col-sm-3 col-xs-12">
-        <input type="text" class="form-control" value="{{$bahan->no_HEIPBR}}" name="heipbr" id="heipbr"readonly>
-      </div>
-    </div>
-    <div class="form-group">
-      <label  class="control-label col-md-2 col-sm-2 col-xs-12">Harga</label>
-      <div class="col-md-2 col-sm-2 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" value="{{$bahan->harga_satuan}}" name="harga" id="harga" readonly>
-      </div>
-      <div class="col-md-1 col-sm-1 col-xs-12">
-        <select name="currency" id="currency" class="form-control select" readonly>
-          <option value="{{$bahan->curren_id }}">{{$bahan->Curren->currency }}</option>
-          @foreach($curren as $curren)
-          <option value="{{$curren->id}}">{{$curren->currency}}</option>
-          @endforeach
-        </select>
-      </div>
-      <label  class="control-label col-md-2 col-sm-2 col-xs-12">Berat</label>
-      <div class="col-md-2 col-sm-2 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" value="{{$bahan->berat}}" name="berat" id="berat" readonly>
-      </div>
-      <div class="col-md-1 col-sm-1 col-xs-12">
-        <select name="satuan" id="satuan" class="form-control select" readonly>
-          <option value="{{$bahan->satuan_id  }}">{{$bahan->satuan }}</option>
-          <option value="Kg">Kg</option>
-          <option value="G">G</option>
-          <option value="Mg">Mg</option>
-        </select>
-      </div>
-    </div>
-    <div class="form-group">
-      <label  class="control-label col-md-2 col-sm-2 col-xs-12">Ketegori</label>
-      <div class="col-md-4 col-sm-4 col-xs-12">
-        <select name="kategori" id="kategori" class="form-control select" readonly>
-					@if($bahan->id_kategori!=NULL)
-					<option value="{{$bahan->id_kategori  }}">{{$bahan->kategoris->kategori }}</option>
-					@endif
-        </select>
-      </div>
-      <div class="col-md-4 col-sm-4 col-xs-12">
-        <select name="subkategori" id="subkategori" class="form-control select" readonly>
-				@if($bahan->id_kategori!=NULL)<option value="{{$bahan->subkategori_id   }}">{{$bahan->Subkategori->subkategori }}</option>@endif
-        </select>
-      </div>
-    </div>
-    <div class="form-group">
-      <label  class="control-label col-md-2 col-sm-2 col-xs-12">Supplier</label>
-      <div class="col-md-3 col-sm-3 col-xs-12">
-        <input type="text" class="form-control" value="{{$bahan->supplier}}" name="supplier" id="supplier" readonly>
-      </div>
-      <label  class="control-label col-md-2 col-sm-2 col-xs-12">Principle</label>
-      <div class="col-md-3 col-sm-3 col-xs-12">
-        <input type="text" class="form-control" value="{{$bahan->principle}}" name="principle" id="principle" readonly>
-      </div>
-    </div>
-  </div>
-	@endif
 </div>
 
 <div class="x_panel">
   <div class="x_title">
-    <h3><li class="fa fa-flask"></li> Registrasi Nutrition</h3>
-    <label for="" style="color:red">* Gunakan (.) sebagai pengganti (,)</label>
+    <h3><li class="fa fa-flask"></li> Registrasi Nutrition <small for="" style="color:red">* Gunakan (.) sebagai pengganti (,)</small></h3>
   </div>
   <!-- Makro -->
   <h4><li class="fa fa-tags"></li> Makro (g/ 100 g)</h4>

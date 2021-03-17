@@ -522,9 +522,9 @@
 																@foreach ($detail_harga->sortByDesc('per_batch') as $fortail)
 																<tr >
 																	<td class="sticky-col first-col">{{ $fortail['nama_sederhana'] }}</td>
-																	<td class="sticky-col second-col">{{ $fortail['per_serving'] }}</td>
+																	<td class="sticky-col second-col"><input type="number" placeholder="0" onkeyup="jServing(this.id)" class="form-control" id="Serving{{ $fortail['no'] }}"  value="{{ $fortail['per_serving'] }}"   name="Serving[{{ $fortail['no'] }}]"></td>
 																	<td class="sticky-col third-col">{{ $fortail['persen'] }}</td>
-																	<td>Rp.{{ $fortail['hpg'] }}</td>
+																	<td><?php echo"Rp. ". number_format($fortail['harga_per_serving'], 2, ",", ".")  ?></td>
 																	@if($header->form4=='yes')<td>{{ $fortail['karbohidrat'] }}</td>@endif
 																	@if($header->form5=='yes')<td>{{ $fortail['glukosa'] }}</td>@endif
 																	@if($header->form6=='yes')<td>{{ $fortail['serat'] }}</td>@endif
@@ -594,13 +594,13 @@
 																	@if($header->form64=='yes')<td>{{ $fortail['proline'] }}</td>@endif
 																	@if($header->form66=='yes')<td>{{ $fortail['Isoleusin'] }}</td>@endif
 																	<td style="width:120px">@if( $fortail['hitung_btp'] !=NULL)@foreach($carryover as $co)@if($fortail['bahan']==$co->id_bahan) {{ $co->btp }}/<br>@endif @endforeach @endif</td>
-																</tr>  
+																</tr> 
 																@endforeach
 																<tr style="font-size: 12px;font-weight: bold; color:black;background-color: #ddd;">
 																	<td class="text-center sticky-col first-col" style="font-size: 12px;font-weight: bold; color:black;background-color: #ddd;">Total : </td>
 																	<td class="text-center sticky-col second-col" style="font-size: 12px;font-weight: bold; color:black;background-color: #ddd;">{{ $formula['serving_size'] }}</td>
 																	<td class="text-center sticky-col third-col" style="font-size: 12px;font-weight: bold; color:black;background-color: #ddd;"> 100 </td>
-																	<td>Rp.{{ $total_harga['total_harga_per_gram'] }}</td>
+																	<td><?php echo"Rp. ". number_format($total_harga['total_harga_per_serving'], 2, ",", ".")  ?></td>
 																	@if($header->form4=='yes')<td>{{ $total_harga['total_karbohidrat'] }}</td>@endif
 																	@if($header->form5=='yes')<td>{{ $total_harga['total_glukosa'] }}</td>@endif
 																	@if($header->form6=='yes')<td>{{ $total_harga['total_serat'] }}</td>@endif
@@ -1935,10 +1935,8 @@
 							</div>
 						</div>
 						<!-- HPP -->
-						<!-- HPP -->
 						<div class="tab-pane" id="4">
 							@php $no = 0; @endphp
-							<h4><i class="fa fa-angle-right"></i> HPP FORMULA</h4>
 							@if ($ada > 0)
 							<div class="row">
 								<div class="col-md-5">
@@ -1958,12 +1956,12 @@
 												<td>{{ ++$no }}</td>
 												<td>{{ $fortail['kode_komputer'] }}</td>
 												<td>{{ $fortail['nama_sederhana'] }}</td>
-												<td>Rp.{{ $fortail['hpg'] }}</td>
+												<td><?php echo"Rp. ". number_format($fortail['hpg'], 2, ",", ".")  ?></td>
 											</tr>
 											@endforeach
 											<tr style="font-weight: bold;color:black;background-color: #ddd;">
 												<td colspan="3">Jumlah</td>
-												<td>Rp.{{ $total_harga['total_harga_per_gram'] }}</td>
+												<td><?php echo"Rp. ". number_format($total_harga['total_harga_per_gram'], 2, ",", ".")  ?></td>
 											</tr>
 										</tbody>
 									</table>
@@ -1983,13 +1981,13 @@
 											<tr>
 												<td>{{ $fortail['per_serving'] }}</td>
 												<td>{{ $fortail['persen'] }}</td>
-												<td>Rp.{{ $fortail['harga_per_serving'] }}</td>
+												<td><?php echo"Rp. ". number_format($fortail['harga_per_serving'], 2, ",", ".")  ?></td>
 											</tr>
 											@endforeach
 											<tr style="font-weight: bold;color:black;background-color: #ddd;">
 												<td>{{ $total_harga['total_berat_per_serving'] }}</td>
 												<td>{{ $total_harga['total_persen'] }}</td>
-												<td>Rp.{{ $total_harga['total_harga_per_serving'] }}</td>
+												<td><?php echo"Rp. ". number_format($total_harga['total_harga_per_serving'], 2, ",", ".")  ?></td>
 											</tr>                                                        
 										</tbody>
 									</table>
@@ -2007,12 +2005,12 @@
 											@foreach ($detail_harga->sortByDesc('harga_per_serving') as $fortail)
 											<tr>
 												<td>{{ $fortail['per_batch'] }}</td>
-												<td>Rp.{{ $fortail['harga_per_batch'] }}</td>
+												<td><?php echo"Rp. ". number_format($fortail['harga_per_batch'], 2, ",", ".")  ?></td>
 											</tr>
 											@endforeach
 											<tr style="font-weight: bold;color:black;background-color: #ddd;">
 												<td>{{ $total_harga['total_berat_per_batch'] }}</td>
-												<td>Rp.{{ $total_harga['total_harga_per_batch'] }}</td>                                                        
+												<td><?php echo"Rp. ". number_format($total_harga['total_harga_per_batch'], 2, ",", ".")  ?></td>                                                        
 											</tr> 
 										</tbody>
 									</table>
@@ -2020,23 +2018,19 @@
 								<div class="col-md-2">
 									<table class="table table-bordered" style="font-size:12px">
 										<thead>
-											<th colspan="2" style="font-weight: bold;color:white;background-color: #2a3f54;"><center>Per Kg</center></th>
+											<th colspan="1" style="font-weight: bold;color:white;background-color: #2a3f54;"><center>Per Kg</center></th>
 										</thead>
 										<thead>
-											<th>Berat</th>
 											<th>Harga</th>
 										</thead>
 										<tbody>
 											@foreach ($detail_harga->sortByDesc('harga_per_serving') as $fortail)
 											<tr>
-												<td>{{ $fortail['per_kg'] }}</td>
-												<td>Rp.{{ $fortail['harga_per_kg'] }}</td>
+												<td><?php echo"Rp. ". number_format($fortail['harga_per_kg'], 2, ",", ".")  ?></td>
 											</tr>
 											@endforeach
 											<tr style="font-weight: bold;color:black;background-color: #ddd;">
-												{{-- <td>{{ $total_harga['total_berat_per_kg'] }}</td> --}}
-												<td>1000</td>
-												<td>Rp.{{ $total_harga['total_harga_per_kg'] }}</td>
+												<td><?php echo"Rp. ". number_format($total_harga['total_harga_per_kg'], 2, ",", ".")  ?></td>
 											</tr> 
 										</tbody>
 									</table>
