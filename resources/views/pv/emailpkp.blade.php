@@ -126,8 +126,8 @@
                         </tr>
                         <tr>
                           <td>Sales Forecast</td>
-                          <td colspan="2"><?php $seles = []; foreach ($for as $key => $data) If (!$seles || !in_array($data->forecast, $seles)) { $seles += array( $key => $data->forecast ); 
-                          if($data->turunan!=$pkp->turunan){ echo" <s><font color='#6594c5'>$data->satuan = $data->forecast<br></font></s>"; } if($data->turunan==$pkp->turunan){ echo" $data->satuan = $data->forecast <br>";  } } ?></td>
+                          <td colspan="2">
+                          @foreach($for as $data) {{$data->satuan}} = <?php $angka_format = number_format($data->forecast,2,",","."); echo "Rp. ".$angka_format;?> <br> @endforeach</td>
                         </tr>
                         <tr>
                           <td>NF Selling Price (Before ppn)</td>
@@ -184,50 +184,51 @@
                         <td>Product Packaging</td>
                           <td colspan="2">
                             <table>
-                              <tr>
                               @if($pkp->kemas_eksis!=NULL)
-                              <?php $eksis = []; foreach ($pkp1 as $key => $data) If (!$eksis || !in_array($data->kemas->nama, $eksis)) { $eksis += array( $key => $data->kemas->nama ); 
-                              if($data->turunan!=$pkp->turunan){ echo" <s><font color='#6594c5'>".$data->kemas->nama." <br></font></s>"; } if($data->turunan==$pkp->turunan){ echo $data->kemas->nama." <br>"; } }  ?>
-                              (
-                              @if($pkp->kemas->primer!=NULL)
-                              {{ $pkp->kemas->primer }}{{ $pkp->kemas->s_primer }}
-                              @elseif($pkp->kemas->primer==NULL)
-                              @endif
-
-                              @if($pkp->kemas->sekunder1!=NULL)
-                              X {{ $pkp->kemas->sekunder1 }}{{ $pkp->kemas->s_sekunder1}}
-                              @elseif($pkp->kemas->sekunder1==NULL)
-                              @endif
-
-                              @if($pkp->kemas->sekunder2!=NULL)
-                              X {{ $pkp->kemas->sekunder2 }}{{ $pkp->kemas->s_sekunder2 }}
-                              @elseif($pkp->sekunder2==NULL)
-                              @endif
-
-                              @if($pkp->kemas->tersier!=NULL)
-                              X {{ $pkp->kemas->tersier }}{{ $pkp->kemas->s_tersier }}
-                              @elseif($pkp->tersier==NULL)
-                              @endif
-                              )
-                              @elseif($pkp->primer==NULL)
-                                @if($pkp->kemas_eksis==NULL)
+                                (
+                                @if($pkp->kemas->primer!=NULL)
+                                {{ $pkp->kemas->primer }}{{ $pkp->kemas->s_primer }}
+                                @elseif($pkp->kemas->primer==NULL)
                                 @endif
+
+                                @if($pkp->kemas->sekunder1!=NULL)
+                                X {{ $pkp->kemas->sekunder1 }}{{ $pkp->kemas->s_sekunder1}}
+                                @elseif($pkp->kemas->sekunder1==NULL)
+                                @endif
+
+                                @if($pkp->kemas->sekunder2!=NULL)
+                                X {{ $pkp->kemas->sekunder2 }}{{ $pkp->kemas->s_sekunder2 }}
+                                @elseif($pkp->sekunder2==NULL)
+                                @endif
+
+                                @if($pkp->kemas->tersier!=NULL)
+                                X {{ $pkp->kemas->tersier }}{{ $pkp->kemas->s_tersier }}
+                                @elseif($pkp->tersier==NULL)
+                                @endif
+                                )
                               @endif
-                            </tr>
                               <br>
-                              <?php $primery = []; foreach ($pkp1 as $key => $data) If (!$primery || !in_array($data->primery, $primery)) { $primery += array( $key => $data->primery ); } ?>
-                              <?php $secondary = []; foreach ($pkp1 as $key => $data) If (!$secondary || !in_array($data->secondary, $secondary)) { $secondary += array( $key => $data->secondary ); } ?>
-                              <?php $tertiary = []; foreach ($pkp1 as $key => $data) If (!$tertiary || !in_array($data->tertiary, $tertiary)) { $tertiary += array( $key => $data->tertiary ); } ?>
-                              <tr><td style="border:none;">Primary information</td><td style="border:none;">@foreach($primery as $primery) : {{ $primery }} <br>@endforeach</td></tr>
-                              <tr><td style="border:none;">Secondary information</td><td style="border:none;">@foreach($secondary as $secondary) : {{ $secondary }} <br>@endforeach</td></tr>
-                              <tr><td style="border:none;">Teriery information</td><td style="border:none;">@foreach($tertiary as $tertiary) : {{ $pkp->tertiary }} <br>@endforeach</td></tr>
+                              @if($pkp->primery!=NULL)
+                              <tr><th width="35%">Primary information</th><th>:</th><td style="border:none;"><?php $primery = []; foreach ($pkp1 as $key => $data) If (!$primery || !in_array($data->primery, $primery)) { $primery += array( $key => $data->primery ); 
+                                if($data->revisi!=$pkp->revisi){  echo" <s><font color='#6594c5'>$data->primery<br></font></s>";  } if($data->revisi==$pkp->revisi){ echo" $data->primery<br>"; } }  ?></td></tr>
+                              @endif
+                              @if($pkp->secondary!=NULL)
+                              <tr><th width="35%">Secondary information</th><th>:</th><td style="border:none;"><?php $secondary = []; foreach ($pkp1 as $key => $data) If (!$secondary || !in_array($data->secondary, $secondary)) { $secondary += array( $key => $data->secondary ); 
+                                if($data->revisi!=$pkp->revisi){  echo" <s><font color='#6594c5'>$data->secondary<br></font></s>";  } if($data->revisi==$pkp->revisi){ echo" $data->secondary<br>"; } }  ?></td></tr>
+                              @endif
+                              @if($pkp->tertiary!=NULL)
+                              <tr><th width="35%">Teriery information</th><th>:</th><td style="border:none;"><?php $tertiary = []; foreach ($pkp1 as $key => $data) If (!$tertiary || !in_array($data->tertiary, $tertiary)) { $tertiary += array( $key => $data->tertiary ); 
+                                if($data->revisi!=$pkp->revisi){  echo" <s><font color='#6594c5'>$data->tertiary<br></font></s>";  } if($data->revisi==$pkp->revisi){ echo" $data->tertiary<br>"; } }  ?></td></tr>
+                              @endif
                             </table>
                           </td>
                         </tr>
                         <tr>
                           <td>Food Category (BPOM)</td>
-                          <td colspan="2"><?php $pangan = []; foreach ($pkp1 as $key => $data) If (!$pangan || !in_array($data->katpangan->kategori, $pangan)) { $pangan += array( $key => $data->katpangan->kategori );  
-                          if($data->turunan!=$pkp->turunan){ echo" <s><font color='#6594c5'>".$data->katpangan->kategori." <br></font></s>"; } if($data->turunan==$pkp->turunan){ echo $data->katpangan->kategori." <br>"; } }  ?> </td>
+                          @if($pkp->bpom!=NULL && $pkp->kategori_bpom!=NULL)
+                          <td colspan="2"><?php $pangan = []; foreach ($pkp1 as $key => $data) If (!$pangan || !in_array($data->katpangan, $pangan)) { $pangan += array( $key => $data->katpangan );  
+                          if($data->turunan==$pkp->turunan){ echo "(".$data->katpangan->no_kategori .") ". $data->katpangan->pangan ." <br>"; } }  ?>  
+                          </td>@endif
                         </tr>
                         <tr class="table-highlight">
                           <td>AKG</td>

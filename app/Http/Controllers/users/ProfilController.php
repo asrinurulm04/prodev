@@ -27,8 +27,8 @@ class ProfilController extends Controller
         $user = User::find($id);
         
         $this->validate(request(), [
-            'username' => 'unique:users,username,'.$user->id,
-            'email' => 'unique:users,email,'.$user->id,
+            'username' => 'unique:tr_users,username,'.$user->id,
+            'email' => 'unique:tr_users,email,'.$user->id,
             'email' => 'regex:"@nutrifood.co.id"',
             'password' => 'confirmed'
         ]);

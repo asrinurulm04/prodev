@@ -386,8 +386,8 @@ class ScaleController extends Controller
         for($i=1;$i<=$jFortail;$i++){
             // Collect Needed Value
             $id        = $request->ftid[$i];            
-            $Serving   = $request->Serving[$i];
-            $Batch     = $Serving * $base; 
+            $Serving   = $request->Serving[$i];     
+            $Batch     = $request->Batch[$i];
 
             // Start Updating
             $myFortail  = Fortail::where('id',$id)->first();

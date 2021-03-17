@@ -148,7 +148,7 @@ class FormulaController extends Controller
         $jumlah_premix= 0; $biasa= 0;
         foreach($fortails as $fortail){
 			// Get Persen
-			$one_persen = $fortail->per_batch / $formula->batch  ;
+			$one_persen = $fortail->per_serving / $satu_persen;
 			$persen = $one_persen * 100;
 			$persen = round($persen, 2);
             $detail_formula->push([
@@ -324,7 +324,13 @@ class FormulaController extends Controller
 			}
 
             // Harga Pergram
-            $hpg = ($bahan->harga_satuan * $curren->harga) / ($bahan->berat * 1000); $hpg = round($hpg,2);
+			if($bahan->satuan=='Kg'){
+				$hpg = ($bahan->harga_satuan * $curren->harga)/1000; $hpg = round($hpg,2); 
+			}elseif($bahan->satuan=='Mg'){
+				$hpg = ($bahan->harga_satuan * $curren->harga)/0.001; $hpg = round($hpg,2); 
+			}elseif($bahan->satuan=='G'){
+				$hpg = ($bahan->harga_satuan * $curren->harga); $hpg = round($hpg,2); 
+			}
             // PerServing
             $berat_per_serving = $fortail->per_serving; $berat_per_serving = round($berat_per_serving,5);
             $persen = $fortail->per_serving / $satu_persen; $persen = round($persen,2);
@@ -334,7 +340,7 @@ class FormulaController extends Controller
             $harga_per_batch = $berat_per_batch * $hpg; $harga_per_batch = round($harga_per_batch,2);
             // Per Kg
             $berat_per_kg = (1000 * $berat_per_serving) / $formula->serving; $berat_per_kg = round($berat_per_kg,5);
-            $harga_per_kg = $berat_per_kg * $hpg; $harga_per_kg = round($harga_per_kg,2);       
+            $harga_per_kg = $bahan->harga_satuan; $harga_per_kg = round($harga_per_kg,2);         
             $detail_harga->push([
 				// data
 				'no' => ++$no,  

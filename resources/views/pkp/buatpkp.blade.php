@@ -225,8 +225,9 @@
         				<tbody>
                   @foreach($for as $for)
         				  <tr id='addrow0'>
-                    <td width="10%" class="text-center">
+                    <td width="13%" class="text-center">
                       <button class="btn btn-info btn-sm pull-left add_data" type="button"><li class="fa fa-plus"></li></button>
+                      <a hreaf='' class='btn btn-danger btn-sm'><li class='fa fa-trash'></li></a>
                     </td>
                     <td><input type="number" value="{{$for->forecast}}" name="forecast[]" class="form-control" required></td>
                     <td>

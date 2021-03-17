@@ -177,7 +177,6 @@ class UpVersionController extends Controller
 
     public function upversion2(Request $request,$id,$wb){ 
         $lastf=Formula::where('id',$id)->first();
-        dd($lastf);
         
         if($lastf->workbook_id!=NULL){
             $pkp_hitung = pkp_project::where('id_project',$lastf->workbook_id)->max('workbook')+1;

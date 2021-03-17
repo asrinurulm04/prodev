@@ -398,17 +398,17 @@
         <div class="col-md-8">
           @if($formula->workbook_id!=NULL)
             @if($ada==0)                                    
-            <a type="hidden" class="btn btn-warning btn-sm" href="{{ route('getTemplate',[$idfor,$idf]) }}"><i class="fa fa-download"></i> Import Formula Template</a>        
+            <a type="hidden" class="btn btn-success btn-sm" href="{{ route('getTemplate',[$idfor,$idf]) }}"><i class="fa fa-download"></i> Import Formula Template</a>        
             @else
-            <a class="btn btn-success btn-sm" href="{{ route('getTemplate',[$idfor,$idf]) }}" type="button" id="buttonformcheckscale"><i class="fa fa-eye"></i> Import Granulasi/Premix</a>
-            <a class="btn btn-primary btn-sm" type="button" id="buttonformsavechanges"><i class="fa fa-save"></i> Save Serving Changes</a>                            
+            <a class="btn btn-success btn-sm" href="{{ route('getTemplate',[$idfor,$idf]) }}" type="button" id="buttonformcheckscale"><i class="fa fa-download"></i> Import Granulasi/Premix</a>
+            <a class="btn btn-info btn-sm" type="button" id="buttonformsavechanges"><i class="fa fa-save"></i> Save Changes</a>                            
             @endif
           @elseif($formula->workbook_pdf_id!=NULL)
             @if($ada==0)                                    
-            <a type="button" class="btn btn-warning btn-sm" href="{{ route('getTemplate',[$idfor_pdf,$idf]) }}"><i class="fa fa-download"></i> Import Formula Template</a>        
+            <a type="button" class="btn btn-success btn-sm" href="{{ route('getTemplate',[$idfor_pdf,$idf]) }}"><i class="fa fa-download"></i> Import Formula Template</a>        
             @else
-            <a class="btn btn-success btn-sm" href="{{ route('getTemplate',[$idfor_pdf,$idf]) }}" type="button" id="buttonformcheckscale"><i class="fa fa-eye"></i> Import Granulasi/Premix</a>
-            <a class="btn btn-primary btn-sm" type="button" id="buttonformsavechanges"><i class="fa fa-save"></i> Save Serving Changes</a>                            
+            <a class="btn btn-success btn-sm" href="{{ route('getTemplate',[$idfor_pdf,$idf]) }}" type="button" id="buttonformcheckscale"><i class="fa fa-download"></i> Import Granulasi/Premix</a>
+            <a class="btn btn-info btn-sm" type="button" id="buttonformsavechanges"><i class="fa fa-save"></i> Save Changes</a>                            
             @endif
           @endif
         </div>
@@ -520,7 +520,8 @@
           <tr>
 						<td>{{ $fortail['nama_sederhana'] }}</td>
 						<input type="hidden" name="ftid[{{ $fortail['no'] }}]" value="{{$fortail['id']}}">                               
-						<td><input type="number" placeholder="0" id="Serving2{{ $fortail['no'] }}"  value="{{ $fortail['per_serving'] }}"   name="Serving[{{ $fortail['no'] }}]"></td>                              
+						<td><input type="number" placeholder="0" id="Serving2{{ $fortail['no'] }}"  value="{{ $fortail['per_serving'] }}"   name="Serving[{{ $fortail['no'] }}]"></td>      
+						<td><input type="number" placeholder="0" id="Batch2{{ $fortail['no'] }}"  value="{{ $fortail['per_batch'] }}"   name="Batch[{{ $fortail['no'] }}]"></td>                                 
           </tr>                                                       
           @endforeach  
           <tr>
@@ -628,6 +629,7 @@
     $('#jBatch').val(total);
     x = $('#Batch'+urutan).val();
     y = $('#rBatch'+urutan).val();
+    $('#Batch2'+urutan).val(x);
     if(x != y ){
       $('#'+myId).css("border", "1px solid cyan");                
     }else{

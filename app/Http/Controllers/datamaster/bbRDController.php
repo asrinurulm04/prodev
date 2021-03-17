@@ -73,7 +73,7 @@ class bbRDController extends Controller
         $bahan->created_date = $request->last;
         $bahan->last_update = $request->last;
         $bahan->status = 'active';
-        $bahan->status_bb = 'baru';
+        $bahan->status_bb = $request->status;
         $bahan->save();
         // registrasi makro bb
         $makro = new tr_makro_bb;
@@ -450,6 +450,7 @@ class bbRDController extends Controller
         $bahan->updated_by = Auth::user()->id;
         $bahan->created_date = $request->last;
         $bahan->last_update = $request->last;
+        $bahan->status_bb = $request->status;
         $bahan->save();
 
         // Edit makro bb

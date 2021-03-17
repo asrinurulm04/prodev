@@ -20,18 +20,25 @@
           <input id="last" value="{{ $last }}" class="form-control col-md-12 col-xs-12" name="last" type="hidden" readonly>
           <div class="form-group">
             <label  class="control-label col-md-2 col-sm-2 col-xs-12">Nama Sederhana*</label>
-            <div class="col-md-3 col-sm-3 col-xs-12">
+            <div class="col-md-2 col-sm-2 col-xs-12">
               <input type="text" class="form-control" required name="sederhana" id="sederhana">
             </div>
-            <label  class="control-label col-md-2 col-sm-2 col-xs-12">Kode Komputer</label>
-            <div class="col-md-3 col-sm-3 col-xs-12">
-              <input type="text" class="form-control" name="komputer" id="komputer">
+            <label  class="control-label col-md-1 col-sm-1 col-xs-12">Nama Bahan*</label>
+            <div class="col-md-2 col-sm-2 col-xs-12">
+              <input type="text" required class="form-control" name="nama" id="nama">
+            </div>
+            <label  class="control-label col-md-1 col-sm-1 col-xs-12">Status</label>
+            <div class="col-md-2 col-sm-2 col-xs-12">
+              <select name="status" class="form-control" id="status">
+                <option value="Baru">Baru</option>
+                <option value="Eksis">Eksis</option>
+              </select>
             </div>
           </div>
           <div class="form-group">
-            <label  class="control-label col-md-2 col-sm-2 col-xs-12">Nama Bahan*</label>
+            <label  class="control-label col-md-2 col-sm-2 col-xs-12">Kode Komputer</label>
             <div class="col-md-3 col-sm-3 col-xs-12">
-              <input type="text" required class="form-control" name="nama" id="nama">
+              <input type="text" class="form-control" name="komputer" id="komputer">
             </div>
             <label  class="control-label col-md-2 col-sm-2 col-xs-12">Kode Oracle</label>
             <div class="col-md-3 col-sm-3 col-xs-12">
@@ -113,11 +120,7 @@
 
 <div class="x_panel">
   <div class="x_title">
-    <h3><li class="fa fa-flask"></li> Registrasi Nutrition</h3>
-    <label for="" style="color:red">* Gunakan (.) sebagai pengganti (,)</label>
-    <ul class="nav navbar-right panel_toolbox">
-      <li><a class="collapse-link" hidden><i class="fa fa-chevron-up"></i></a></li>
-    </ul>
+    <h3><li class="fa fa-flask"></li> Registrasi Nutrition <small for="" style="color:red">* Gunakan (.) sebagai pengganti (,)</small></h3>
     <div class="clearfix"></div>
   </div>
   <div class="x_content">
@@ -127,105 +130,105 @@
       <label  style="font-size:14px" class="control-label col-md-1 col-sm-1 col-xs-12">Karbohidrat</label>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Karbohidrat</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="karbohidrat" id="karbohidrat">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="karbohidrat" id="karbohidrat">
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Glukosa</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="glukosa" id="glukosa">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="glukosa" id="glukosa">
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Serat Pangan</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="serat_pangan" id="serat_pangan">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="serat_pangan" id="serat_pangan">
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Beta glucan</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="beta_glucan" id="beta_glucan">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="beta_glucan" id="beta_glucan">
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Sorbitol</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="sorbitol" id="sorbitol">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="sorbitol" id="sorbitol">
       </div>
     </div>
     <div class="form-group">
       <label  class="control-label col-md-1 col-sm-1 col-xs-12"></label>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Martitol</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="maltitol" id="maltitol">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="maltitol" id="maltitol">
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Laktosa</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="laktosa" id="laktosa">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="laktosa" id="laktosa">
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Sukrosa</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="sukrosa" id="sukrosa">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="sukrosa" id="sukrosa">
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Gula</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="gula" id="gula">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="gula" id="gula">
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Erythritol </label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="erythritol" id="erythritol">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="erythritol" id="erythritol">
       </div>
     </div><br>
     <div class="form-group">
       <label  style="font-size:14px" class="control-label col-md-1 col-sm-1 col-xs-12">Lemak</label>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Lemak</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="lemak" id="lemak">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="lemak" id="lemak">
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">DHA</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="dha" id="dha">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="dha" id="dha">
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">EPA</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="epa" id="epa">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="epa" id="epa">
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Omega3</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="omega3" id="omega3">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="omega3" id="omega3">
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">MUFA</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="mufa" id="mufa">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="mufa" id="mufa">
       </div>
     </div>
     <div class="form-group">
       <label  class="control-label col-md-1 col-sm-1 col-xs-12"></label>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Lemak Trans</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="lemak_trans" id="lemak_trans">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="lemak_trans" id="lemak_trans">
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Lemak Jenuh</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="lemak_jenuh" id="lemak_jenuh">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="lemak_jenuh" id="lemak_jenuh">
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Omega6</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="omega6" id="omega6">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="omega6" id="omega6">
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Kolesterol</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="kolesterol" id="kolesterol">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="kolesterol" id="kolesterol">
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Linoleat</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="linoleat" id="linoleat">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="linoleat" id="linoleat">
       </div>
     </div>
     <div class="form-group">
       <label  class="control-label col-md-1 col-sm-1 col-xs-12"></label>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Omega9</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="omega9" id="omega9">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="omega9" id="omega9">
       </div>
     </div><br>
     <div class="form-group">
       <label  style="font-size:14px" class="control-label col-md-1 col-sm-1 col-xs-12">Protein</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="protein" id="protein">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="protein" id="protein">
       </div>
     </div><hr>
     <!-- Mikro -->
@@ -234,7 +237,7 @@
       <label  style="font-size:14px" class="control-label col-md-1 col-sm-1 col-xs-12">Vitamin</label>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Vitamin A</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="vitA" id="vitA">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="vitA" id="vitA">
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="id_satuan_vitA" id="id_satuan_vitA" class="form-control">
@@ -244,7 +247,7 @@
 
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Vitamin B1</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="vitB1" id="vitB1">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="vitB1" id="vitB1">
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="id_satuan_vitB1" id="id_satuan_vitB1" class="form-control">
@@ -254,7 +257,7 @@
 
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Vitamin B2</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="vitB2" id="vitB2">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="vitB2" id="vitB2">
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="id_satuan_vitB2" id="id_satuan_vitB2" class="form-control">
@@ -267,7 +270,7 @@
       <label  class="control-label col-md-1 col-sm-1 col-xs-12"></label>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Vitamin B3</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="vitB3" id="vitB3">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="vitB3" id="vitB3">
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="id_satuan_vitB3" id="id_satuan_vitB3" class="form-control">
@@ -276,7 +279,7 @@
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Vitamin B5 </label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="vitB5" id="vitB5">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="vitB5" id="vitB5">
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="id_satuan_vitB5" id="id_satuan_vitB5" class="form-control">
@@ -285,7 +288,7 @@
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Vitamin B6</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="vitB6" id="vitB6">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="vitB6" id="vitB6">
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="id_satuan_vitB6" id="id_satuan_vitB6" class="form-control">
@@ -298,7 +301,7 @@
       <label  class="control-label col-md-1 col-sm-1 col-xs-12"></label>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Vitamin B12</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="vitB12" id="vitB12">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="vitB12" id="vitB12">
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="id_satuan_vitB12" id="id_satuan_vitB12" class="form-control">
@@ -307,7 +310,7 @@
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Vitamin C</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="vitC" id="vitC">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="vitC" id="vitC">
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="id_satuan_vitC" id="id_satuan_vitC" class="form-control">
@@ -316,7 +319,7 @@
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Vitamin D</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="vitD" id="vitD">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="vitD" id="vitD">
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="id_satuan_vitD" id="id_satuan_vitD" class="form-control">
@@ -329,7 +332,7 @@
       <label  class="control-label col-md-1 col-sm-1 col-xs-12"></label>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Vitamin E </label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="vitE" id="vitE">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="vitE" id="vitE">
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="id_satuan_vitE" id="id_satuan_vitE" class="form-control">
@@ -338,7 +341,7 @@
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Vitamin K</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="vitK" id="vitK">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="vitK" id="vitK">
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="id_satuan_vitK" id="id_satuan_vitK" class="form-control">
@@ -349,7 +352,7 @@
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Folat</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="folat" id="folat">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="folat" id="folat">
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="id_satuan_folat" id="id_satuan_folat" class="form-control">
@@ -362,7 +365,7 @@
       <label  class="control-label col-md-1 col-sm-1 col-xs-12"></label>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Biotin</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="biotin" id="biotin">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="biotin" id="biotin">
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="id_satuan_biotin" id="id_satuan_biotin" class="form-control">
@@ -371,7 +374,7 @@
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Kolin</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="kolin" id="kolin">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="kolin" id="kolin">
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="id_satuan_kolin" id="id_satuan_kolin" class="form-control">
@@ -385,7 +388,7 @@
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Mineral</label>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Ca</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="ca" id="ca">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="ca" id="ca">
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="satuan_ca" id="satuan_ca" class="form-control">
@@ -394,7 +397,7 @@
       </div>  
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Mg</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="mg" id="mg">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="mg" id="mg">
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="satuan_mg" id="satuan_mg" class="form-control">
@@ -403,7 +406,7 @@
       </div>  
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">K</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="k" id="k">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="k" id="k">
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="satuan_k" id="satuan_k" class="form-control">
@@ -415,7 +418,7 @@
       <label  class="control-label col-md-1 col-sm-1 col-xs-12"></label>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Zink</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="zink" id="zink">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="zink" id="zink">
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="satuan_zink" id="satuan_zink" class="form-control">
@@ -424,7 +427,7 @@
       </div>  
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Cu</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="cu" id="cu">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="cu" id="cu">
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="satuan_cu" id="satuan_cu" class="form-control">
@@ -433,7 +436,7 @@
       </div>  
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Na</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="na" id="na">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="na" id="na">
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="satuan_na" id="satuan_na" class="form-control">
@@ -445,7 +448,7 @@
       <label  class="control-label col-md-1 col-sm-1 col-xs-12"></label>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">NaCi</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="naci" id="naci">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="naci" id="naci">
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="satuan_naci" id="satuan_naci" class="form-control">
@@ -454,7 +457,7 @@
       </div>  
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Energi</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="energi" id="energi">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="energi" id="energi">
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="satuan_energi" id="satuan_energi" class="form-control">
@@ -463,7 +466,7 @@
       </div>  
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Fosfor</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="fosfor" id="fosfor">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="fosfor" id="fosfor">
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="satuan_fosfor" id="satuan_fosfor" class="form-control">
@@ -475,7 +478,7 @@
       <label  class="control-label col-md-1 col-sm-1 col-xs-12"></label>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Mn</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="mn" id="mn">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="mn" id="mn">
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="satuan_mn" id="satuan_mn" class="form-control">
@@ -484,7 +487,7 @@
       </div>  
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Cr</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="cr" id="cr">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="cr" id="cr">
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="satuan_cr" id="satuan_cr" class="form-control">
@@ -493,7 +496,7 @@
       </div>  
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Fe</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="fe" id="fe">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="fe" id="fe">
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="satuan_fe" id="satuan_fe" class="form-control">
@@ -505,7 +508,7 @@
       <label  class="control-label col-md-1 col-sm-1 col-xs-12"></label>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Yodium</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="yodium" id="yodium">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="yodium" id="yodium">
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="satuan_yodium" id="satuan_yodium" class="form-control">
@@ -514,7 +517,7 @@
       </div>  
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Selenium</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="selenium" id="selenium">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="selenium" id="selenium">
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="satuan_selenium" id="satuan_selenium" class="form-control">
@@ -523,7 +526,7 @@
       </div>  
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Fluor</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="fluor" id="fluor">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="fluor" id="fluor">
       </div>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <select name="satuan_fluor" id="satuan_fluor" class="form-control">
@@ -551,7 +554,7 @@
               @endforeach
             </select>
           </td>
-          <td><input type="number" step="0.0001" class="form-control" name="zat[]" id="zat"></td>
+          <td><input type="number" step="0.0001" value="0" min="0" class="form-control" name="zat[]" id="zat"></td>
           <td class="text-center">
             <select name="satuan_zat[]" id="satuan_zat" class="form-control select">
               <option disabled selected>-->Select One<--</option>
@@ -585,7 +588,7 @@
               @endforeach
             </select>
           </td>
-          <td><input type="number" step="0.0001" class="form-control" name="btp[]" id="btp"></td>
+          <td><input type="number" step="0.0001" value="0" min="0" class="form-control" name="btp[]" id="btp"></td>
           <td class="text-center">
             <select name="satuan_btp[]" id="satuan_btp" class="form-control select">
               <option disabled selected>-->Select One<--</option>
@@ -604,85 +607,85 @@
     <div class="form-group">
       <label  class="control-label col-md-2 col-sm-2 col-xs-12">L-Glutamin</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="l_glutamin" id="l_glutamin">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="l_glutamin" id="l_glutamin">
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Threonin</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="threonin" id="threonin">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="threonin" id="threonin">
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Methionin</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="methionin" id="methionin">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="methionin" id="methionin">
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Phenilalanin</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="phenilalanin" id="phenilalanin">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="phenilalanin" id="phenilalanin">
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Histidin</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="histidin" id="histidin">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="histidin" id="histidin">
       </div>
     </div>
     <div class="form-group">
       <label  class="control-label col-md-2 col-sm-2 col-xs-12">Lisin</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="lisin" id="lisin">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="lisin" id="lisin">
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">BCAA</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="bcaa" id="bcaa">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="bcaa" id="bcaa">
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Valin</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="valin" id="valin">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="valin" id="valin">
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Isoleusin </label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="Isoleusin" id="Isoleusin">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="Isoleusin" id="Isoleusin">
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Leusin</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="leusin" id="leusin">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="leusin" id="leusin">
       </div>
     </div>
     <div class="form-group">
       <label  class="control-label col-md-2 col-sm-2 col-xs-12">Alanin</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="alanin" id="alanin">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="alanin" id="alanin">
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Aspartat</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="aspartat" id="aspartat">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="aspartat" id="aspartat">
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Glutamat</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="glutamat" id="glutamat">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="glutamat" id="glutamat">
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Sistein</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="sistein" id="sistein">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="sistein" id="sistein">
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Serin</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="serin" id="serin">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="serin" id="serin">
       </div>
     </div>
     <div class="form-group">
       <label  class="control-label col-md-2 col-sm-2 col-xs-12">Glisin</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="glisin" id="glisin">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="glisin" id="glisin">
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Tyrosin</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="tyrosin" id="tyrosin">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="tyrosin" id="tyrosin">
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Arginine</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="arginine" id="arginine">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="arginine" id="arginine">
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Proline </label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="proline" id="proline">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="proline" id="proline">
       </div>
     </div><hr>
     <!-- Logam Berat -->
@@ -690,23 +693,23 @@
       <label  style="font-size:13px" class="control-label col-md-1 col-sm-1 col-xs-12">Logam Berat (ppm)</label>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">As</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="as" id="as">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="as" id="as">
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Pb</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="pb" id="pb">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="pb" id="pb">
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Hg</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="hg" id="hg">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="hg" id="hg">
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Cd</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="cd" id="cd">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="cd" id="cd">
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Sn</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="sn" id="sn">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="sn" id="sn">
       </div>
     </div><hr>
     <!-- Mikro -->
@@ -714,38 +717,38 @@
       <label  style="font-size:13px" class="control-label col-md-1 col-sm-1 col-xs-12">Mikro(CFU/g)</label>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Enterobacter</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="Enterobacter" id="Enterobacter">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="Enterobacter" id="Enterobacter">
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Salmonella</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="Salmonella" id="Salmonella">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="Salmonella" id="Salmonella">
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">S.aureus</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="aureus" id="aureus">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="aureus" id="aureus">
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">TPC</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="TPC" id="TPC">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="TPC" id="TPC">
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Yeast/Mold</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="Yeast" id="Yeast">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="Yeast" id="Yeast">
       </div>
     </div>
     <div class="form-group">
       <label  style="font-size:13px" class="control-label col-md-1 col-sm-1 col-xs-12"></label>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Coliform</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="Coliform" id="Coliform">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="Coliform" id="Coliform">
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">E.Coli</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="Coli" id="Coli">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="Coli" id="Coli">
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Bacilluscereus</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
-        <input type="number" step="0.0001" class="form-control" name="Bacilluscereus" id="Bacilluscereus">
+        <input type="number" step="0.0001" value="0" min="0" class="form-control" name="Bacilluscereus" id="Bacilluscereus">
       </div>
     </div>
   </div>
