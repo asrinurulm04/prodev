@@ -116,10 +116,10 @@
         <div class="col-md-2 col-sm-2 col-xs-12" >
           @if($formula->satuan=='Gram')
           <center><input type="radio" name="satuan" oninput="satuan_gram()" checked id="id_gram" value="Gram"> Gram
-          <input type="radio" name="satuan" oninput="satuan_ml()" id="id_ml" value="Ml"> Ml
+          <input type="radio" name="satuan" oninput="satuan_ml()" id="id_ml" value="Ml"> Add BJ
           @elseif($formula->satuan=='Ml')
           <center><input type="radio" name="satuan" oninput="satuan_gram()" id="id_gram" value="gram"> Gram
-          <input type="radio" name="satuan" checked oninput="satuan_ml()" id="id_ml" value="Ml"> Ml
+          <input type="radio" name="satuan" checked oninput="satuan_ml()" id="id_ml" value="Ml"> Add BJ
           @endif
       	</div>
       	<label for="middle-name" class="control-label col-md-1 col-sm-1 col-xs-12"> Berat Jenis </label>

@@ -148,7 +148,7 @@ class FormulaController extends Controller
         $jumlah_premix= 0; $biasa= 0;
         foreach($fortails as $fortail){
 			// Get Persen
-			$one_persen = $fortail->per_serving / $satu_persen;
+			$one_persen = $fortail->per_serving / $formula->serving ;
 			$persen = $one_persen * 100;
 			$persen = round($persen, 2);
             $detail_formula->push([

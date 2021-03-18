@@ -1919,13 +1919,12 @@
 						@php $no = 0; @endphp
 						@if ($ada > 0)
 						<div class="row">
-							<div class="col-md-5">
+							<div class="col-md-4">
 								<table class="table table-bordered" style="font-size:12px">
 									<thead>
 										<th colspan="4" style="font-weight: bold;color:white;background-color: #2a3f54;"><center>Bahan Baku</center></th>
 									</thead>
 									<thead>
-										<th>No</th>
 										<th>Kode Item</th>
 										<th>Nama Bahan</th>
 										<th>Harga PerGram</th>
@@ -1933,20 +1932,19 @@
 									<tbody>
 										@foreach ($detail_harga->sortByDesc('harga_per_serving') as $fortail)
 										<tr>
-											<td>{{ ++$no }}</td>
 											<td>{{ $fortail['kode_komputer'] }}</td>
 											<td>{{ $fortail['nama_sederhana'] }}</td>
 											<td><?php echo"Rp. ". number_format($fortail['hpg'], 2, ",", ".")  ?></td>
 										</tr>
 										@endforeach
 										<tr style="font-weight: bold;color:black;background-color: #ddd;">
-											<td colspan="3">Jumlah</td>
+											<td colspan="2">Jumlah</td>
 											<td><?php echo"Rp. ". number_format($total_harga['total_harga_per_gram'], 2, ",", ".")  ?></td>
 										</tr>
 									</tbody>
 								</table>
 							</div>
-							<div class="col-md-2">
+							<div class="col-md-3">
 								<table class="table table-bordered" style="font-size:12px">
 									<thead>
 										<th colspan="3" style="font-weight: bold;color:white;background-color: #2a3f54;"><center>Per Serving</center></th>                                                                                                                

@@ -81,7 +81,7 @@
 <div class="row">
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h4><i class="fa fa-plus"></i> Add Materials</h4>
+      <h4><i class="fa fa-plus"></i> Add Materials <small style="color:red">* gunakan (.) untuk pengganti (,)</small></h4>
     </div>
     <div class="panel-body">
       <form id="submitbahan" method="POST" action="{{ route('step2insert',$idf) }}">
@@ -570,7 +570,9 @@
       }
                                                 
       total   = total + batch;
+      hbatch = (total.toFixed(3));
       total2  = total2 + serving;
+      Hserving = (total2.toFixed(3));
       tsb     = tsb + sBatch;
       tss     = tss + sServing;                                           
 
@@ -589,11 +591,11 @@
     }
     if(tsb != 0){
       tsb     = parseFloat(tsb.toFixed(5));
-      tss     = parseFloat(tss.toFixed(5));
+      tss     = parseFloat(tss.toFixed(3));
     }     
             
-    $('#jBatch').val(total);
-    $('#jServing').val(total2);
+    $('#jBatch').val(hbatch);
+    $('#jServing').val(Hserving);
     $('#jsBatch').val(tsb);
     $('#jsServing').val(tss);
             

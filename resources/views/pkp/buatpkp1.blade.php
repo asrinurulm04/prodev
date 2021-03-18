@@ -238,7 +238,7 @@
           <div class="form-group">
             <label class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#cf3721">No category BPOM^</label>
             <div class="col-md-2 col-sm-2 col-xs-12">
-              <select class="form-control"  id="bpom" name="bpom" required>
+              <select class="form-control"  id="bpom" name="bpom">
                 <option value=""></option>
                 @foreach($pangan as $dp)
                 <option value="{{ $dp->id_pangan }}">{{ $dp->no_kategori }}</option>
