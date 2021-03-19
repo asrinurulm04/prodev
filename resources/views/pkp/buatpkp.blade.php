@@ -349,6 +349,8 @@
               <select name="katbpom"  id="katbpom" class="form-control">
                 @if($pkp->kategori_bpom!=null)
                 <option selected value="{{$pkp->kategori_bpom}}">{{$pkp->kategori->pangan}}</option>
+                @else
+                <option value=""></option>
                 @endif
                 @foreach($pangan as $kat)
                 <option value="{{$kat->id_pangan}}">{{$kat->pangan}}</option>

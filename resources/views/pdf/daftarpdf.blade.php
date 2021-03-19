@@ -98,13 +98,13 @@
                        </div>
                      </div>
                      <div class="form-group">
-                       <label class="col-lg-3 control-label">Target Serving</label>
+                       <label class="col-lg-3 control-label">Target Serving (g)</label>
                        <div class="col-lg-8">
                          <div class="row">
                            <div class="col-md-6"><input class="form-control " id="target_serving" name="target_serving" type="text" required/></div>
                            <div class="col-md-6">
                              <input type="radio" checked name="satuan" oninput="satuan_gram()" id="id_gram" value="Gram"> Gram
-                             <input type="radio" name="satuan" oninput="satuan_ml()" id="id_ml" value="Ml"> Ml
+                             <input type="radio" name="satuan" oninput="satuan_ml()" id="id_ml" value="Ml"> Add BJ
                            </div>
                          </div>
                        </div>

@@ -33,7 +33,7 @@ class Step2Controller extends Controller
 
         // checkbase !
         if($formula->batch != null){
-            $mybase = $formula->batch / $formula->serving;
+            $mybase = $formula->batch / $formula->serving; $mybase = round($mybase , 3);
         }else{
             $mybase = 0;
         }
@@ -125,7 +125,7 @@ class Step2Controller extends Controller
         $formula = Formula::where('id',$vf)->first();
         // checkbase !
         if($formula->batch != null){
-            $mybase = $formula->batch / $formula->serving;
+            $mybase = $formula->batch / $formula->serving; $mybase = round($mybase , 3);
         }
         else{
             $mybase = 0;
