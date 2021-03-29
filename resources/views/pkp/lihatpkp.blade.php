@@ -179,7 +179,7 @@
                           <?php $last = Date('j-F-Y'); ?>
                           <input id="date" value="{{ $last }}" class="form-control col-md-12 col-xs-12" name="date" required="required" type="hidden" readonly>
                           <input type="hidden" value="{{$pkp->project_name}}" name="name" id="name">
-                          <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center">Dept Product</label>
+                          <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center">Dept Kemas</label>
                           <div class="col-md-4 col-sm-9 col-xs-12">
                             <select name="rka" class="form-control form-control-line" id="rka">
                               <option value="1">RKA</option>

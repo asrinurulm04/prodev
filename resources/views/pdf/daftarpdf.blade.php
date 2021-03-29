@@ -141,7 +141,7 @@
                 <tr><th>PDF Number</th><td> : {{$data->pdf_number}}{{$data->ket_no}}</td></tr>
                 <tr><th>Created</th><td> : {{$data->created_date}}</td></tr>
                 @foreach($data1 as $data1)
-                <tr><th>PV</th><td> : {{$data1->perevisi2->name}}</td></tr>
+                <tr><th>PV/Global</th><td> : {{$data1->perevisi2->name}}</td></tr>
                 <tr><th>Configuration</th><td>: 
                   @if($data1->kemas_eksis!=NULL)
                     (
@@ -253,7 +253,7 @@
                     </div>
                     @if($sample->status!='proses')
                     <a class="btn btn-primary btn-sm" href="{{ route('step1_pdf',[$sample->workbook_pdf_id,$sample->id]) }}"><i style="font-size:12px;" class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a>
-                    <a class="btn btn-dark btn-sm" href="{{ route('ajukanvp',[$sample->workbook_pdf_id,$sample->id]) }}" onclick="return confirm('Ajukan Formula Kepada PV?')" data-toggle="tooltip" title="Ajukan PV"><li class="fa fa-paper-plane"></li></a>
+                    <a class="btn btn-dark btn-sm" href="{{ route('ajukanvp',[$sample->workbook_pdf_id,$sample->id]) }}" onclick="return confirm('Ajukan Formula Kepada PV?')" data-toggle="tooltip" title="Ajukan Global"><li class="fa fa-paper-plane"></li></a>
                     @elseif($sample->vv == 'approve' || $sample->vv == 'proses')
                       <a class="btn btn-primary btn-sm" href="{{ route('panel',[$sample->workbook_pdf_id,$sample->id]) }}" data-toggle="tooltip" title="Lanjutkan Panel"><li class="fa fa-glass"></li></a>
                       <a class="btn btn-warning btn-sm" href="{{ route('st',[$sample->workbook_pdf_id,$sample->id]) }}" data-toggle="tooltip" title="Lanjutkan Storage"><li class="fa fa-flask"></li></a>
@@ -284,7 +284,7 @@
                   <th class="text-center">Formula</th>
                   <th class="text-center">Status Sample</th>
                   <th class="text-center">Note RD</th>
-                  <th class="text-center">Note PV</th>
+                  <th class="text-center">Note PV/Global</th>
                   <th class="text-center" width="16%">Action</th>
                 </tr>
               </thead> 

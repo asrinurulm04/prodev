@@ -6,6 +6,7 @@ use App\Http\Requests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\User;
+use DB;
 
 class LoginController extends Controller
 {
@@ -18,7 +19,7 @@ class LoginController extends Controller
     }
 
     public function reset($id_user){
-        $user = user::where('id',$id_user)->get();
+        $user = DB::table('tr_users')->where('id',$id_user)->get();
         return view('resetpass')->with([
             'user' => $user
         ]);

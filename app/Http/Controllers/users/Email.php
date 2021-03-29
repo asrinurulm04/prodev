@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\users;
-
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -9,8 +8,6 @@ use Illuminate\Support\Facades\Mail;
 
 use App\model\pkp\pkp_project;
 use App\model\pkp\project_pdf;
-use App\model\pkp\uom;
-use App\model\pkp\data_uom;
 use App\model\pkp\data_ses;
 use App\model\pkp\ses;
 use App\model\pkp\promo_idea;
@@ -21,7 +18,6 @@ use App\model\pkp\coba;
 use App\model\pkp\kemaspdf;
 use App\model\pkp\klaim;
 use App\model\pkp\detail_klaim;
-use App\model\pkp\komponen;
 use App\model\pkp\data_klaim;
 use App\model\pkp\data_detail_klaim;
 use App\model\pkp\tipp;
@@ -42,7 +38,6 @@ class Email extends Controller
             Mail::send('email', ['nama'=>$request->nama,'role'=>$request->role,'pesan'=>$request->pesan,'email'=>$request->email,'username'=>$request->username,'dept'=>$request->dept,],function($message)use($request)
             {
                 $message->subject($request->judul);
-                //$message->from( 'Admin PRODEV');
                 $message->to($request->email);
             });
             return back()->with('status','Berhasil Kirim Email');
@@ -60,7 +55,6 @@ class Email extends Controller
             Mail::send('email', ['nama'=>$request->nama,'role'=>$request->role,'pesan'=>$request->pesan,'email'=>$request->email,'username'=>$request->username,'dept'=>$request->dept,],function($message)use($request)
             {
                 $message->subject($request->judul);
-                //$message->from('app.prodev@nutrifood.co.id', 'Admin PRODEV');
                 $message->to($request->email);
             });
             return back()->with('status','Berhasil Kirim Email');
@@ -95,9 +89,8 @@ class Email extends Controller
                 'hitungkemaspdf' => $hitungkemaspdf,
                 'picture' => $picture,], function ($message) use ($request)
                 {
-                    $data = [$request->pengirim,$request->pengirim1,$request->pengirim2,'asrimarifah0402@gmail.com'];
+                    $data = [$request->pengirim,$request->pengirim1,$request->pengirim2];
                     $message->subject($request->judul);
-                    //$message->from('app.prodev@nutrifood.co.id', 'User PV');
                     $message->to($request->email);
                     $message->cc($data);
 
@@ -141,9 +134,8 @@ class Email extends Controller
                 'allocation' => $allocation,
                 'jumlahpromo' => $jumlahpromo,], function ($message) use ($request)
             {
-                $data = [$request->pengirim,$request->pengirim1,$request->pengirim2,'asrimarifah0402@gmail.com'];
+                $data = [$request->pengirim,$request->pengirim1,$request->pengirim2];
                 $message->subject($request->judul);
-                //$message->from('app.prodev@nutrifood.co.id', 'User PV');
                 $message->to($request->email);
                 $message->cc($data);
 
@@ -190,9 +182,8 @@ class Email extends Controller
             'datapkp' => $datapkp,
             'picture' => $picture,], function ($message) use ($request)
             {
-                $data = [$request->pengirim,$request->pengirim1,$request->pengirim2,'asrimarifah0402@gmail.com'];
+                $data = [$request->pengirim,$request->pengirim1,$request->pengirim2];
                 $message->subject($request->judul);
-                //$message->from('app.prodev@nutrifood.co.id', 'User PV');
                 $message->to($request->email);
                 $message->cc($data);
 
@@ -234,7 +225,6 @@ class Email extends Controller
             ],function($message)use($request,$id_project)
             {
                 $message->subject('INFO');
-                //$message->from('app.prodev@nutrifood.co.id', 'Admin PRODEV');
                 $pkp = tipp::where('id_pkp',$id_project)->where('status_data','=','active')->get();
                 foreach($pkp as $pkp){
                     $user = DB::table('tr_users')->where('id',$pkp->perevisi)->get();
@@ -272,7 +262,6 @@ class Email extends Controller
             ],function($message)use($request,$id_project)
             {
                 $message->subject('INFO');
-                //$message->from('app.prodev@nutrifood.co.id', 'Admin PRODEV');
                 $pkp = tipp::where('id_pkp',$id_project)->where('status_data','=','active')->get();
                 foreach($pkp as $pkp){
                     $user = DB::table('tr_users')->where('id',$pkp->perevisi)->get();
@@ -303,7 +292,6 @@ class Email extends Controller
             ],function($message)use($request,$id_project_pdf)
             {
                 $message->subject('INFO');
-                //$message->from('app.prodev@nutrifood.co.id', 'Admin PRODEV');
                 $pdf = coba::where('pdf_id',$id_project_pdf)->where('status_pdf','=','active')->get();
                 foreach($pdf as $pdf){
                     $user = DB::table('tr_users')->where('id',$pdf->perevisi)->get();
@@ -341,7 +329,6 @@ class Email extends Controller
             ],function($message)use($request,$id_project_pdf)
             {
                 $message->subject('INFO');
-                //$message->from('app.prodev@nutrifood.co.id', 'Admin PRODEV');
                 $pdf = coba::where('pdf_id',$id_project_pdf)->where('status_pdf','=','active')->get();
                 foreach($pdf as $pdf){
                     $user = DB::table('tr_users')->where('id',$pdf->perevisi)->get();
@@ -371,7 +358,6 @@ class Email extends Controller
             ],function($message)use($request,$id_pkp_promo)
             {
                 $message->subject('INFO');
-                //$message->from('app.prodev@nutrifood.co.id', 'Admin PRODEV');
                 $promo = data_promo::where('id_pkp_promoo',$id_pkp_promo)->where('status_data','=','active')->get();
                 foreach($promo as $promo){
                     $user = DB::table('tr_users')->where('id',$promo->perevisi)->get();

@@ -46,9 +46,7 @@
                           <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center">Destination</label>
                           <div class="col-md-9 col-sm-9 col-xs-12">
                             <select name="penerima" class="form-control form-control-line" id="penerima">
-                              <option disabled selected>--> Select One <--</option>
-                              <option value="5">PV</option>
-                              <option value="1">Marketing</option>
+                              <option value="5">Global</option>
                             </select>
                           </div>
                         </div>

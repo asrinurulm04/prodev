@@ -1092,8 +1092,6 @@ class pdfController extends Controller
         
         $project = project_pdf::where('id_project_pdf',$id_project_pdf)->first();
         $project->status_project='revisi';
-        // $project->status_terima='proses';
-        // $project->status_terima2='proses';
         $project->save();
 
         $datapdf = coba::where('pdf_id',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->first();

@@ -41,28 +41,26 @@
                                               <tr><td>Brand</td><td>: {{$pkp->datapkpp->id_brand}}</td></tr>
                                               <tr><td>Idea</td><td>: {{$pkp->idea}}</td></tr>
                                               <tr><td>PV</td><td>: {{$pkp->perevisi2->name}}</td></tr>
-                                              <tr><td>Forecast</td><td>: {{$pkp->for1->satuan}} = <?php $angka_format = number_format($pkp->for1->forecast,2,",","."); echo "Rp. ".$angka_format;?></td></tr>
+                                              <tr><td>Forecast</td><td>: @foreach($for as $data) {{$data->satuan}} = <?php $angka_format = number_format($data->forecast,2,",","."); echo "Rp. ".$angka_format;?> <br> @endforeach</td></tr>
                                               <tr><td>NF Selling Price</td><td>: {{$pkp->selling_price}}</td></tr>
                                               <tr><td>Packaging Concept</td><td>:
-                                                @if($pkp->kemas->tersier!=NULL)
-                                                  {{ $pkp->kemas->tersier }}{{ $pkp->kemas->s_tersier }}
-                                                  @elseif($pkp->tersier==NULL)
-                                                  @endif  
-                          
-                                                  @if($pkp->kemas->sekunder1!=NULL)
-                                                  X {{ $pkp->kemas->sekunder1 }}{{ $pkp->kemas->s_sekunder1}}
-                                                  @elseif($pkp->kemas->sekunder1==NULL)
-                                                  @endif
-                          
-                                                  @if($pkp->kemas->sekunder2!=NULL)
-                                                  X {{ $pkp->kemas->sekunder2 }}{{ $pkp->kemas->s_sekunder2 }}
-                                                  @elseif($pkp->sekunder2==NULL)
-                                                  @endif
-                          
-                                                  @if($pkp->kemas->primer!=NULL)
-                                                  X{{ $pkp->kemas->primer }}{{ $pkp->kemas->s_primer }}
-                                                @elseif($pkp->kemas->primer==NULL)
+                                              @if($pkp->kemas_eksis!=NULL)(
+                                                @if($pkp->kemas->primer!=NULL)
+                                                {{ $pkp->kemas->primer }}{{ $pkp->kemas->s_primer }}
                                                 @endif
+
+                                                @if($pkp->kemas->sekunder1!=NULL)
+                                                X {{ $pkp->kemas->sekunder1 }}{{ $pkp->kemas->s_sekunder1}}
+                                                @endif
+
+                                                @if($pkp->kemas->sekunder2!=NULL)
+                                                X {{ $pkp->kemas->sekunder2 }}{{ $pkp->kemas->s_sekunder2 }}
+                                                @endif
+
+                                                @if($pkp->kemas->tersier!=NULL)
+                                                X {{ $pkp->kemas->tersier }}{{ $pkp->kemas->s_tersier }}
+                                                @endif )
+                                              @endif
                                               </td></tr>
                                               <tr><td>Deadline for sending Sample</td><td>: {{$pkp->datapkpp->jangka}} To {{$pkp->datapkpp->waktu}}</td></tr>
                                               <tr><td>Launch Deadline</td><td>: {{$pkp->launch}} {{$pkp->years}} {{$pkp->tgl_launch}}</td></tr>

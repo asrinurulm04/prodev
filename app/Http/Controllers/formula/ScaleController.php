@@ -4,9 +4,12 @@ namespace App\Http\Controllers\formula;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 use App\model\dev\Bahan;
 use App\model\dev\Formula;
 use App\model\dev\Fortail;
+use App\model\pkp\pkp_project;
+use App\model\pkp\project_pdf;
 
 use Redirect;
 use DB;
@@ -364,7 +367,7 @@ class ScaleController extends Controller
         $formula = Formula::where('id',$for)->first();
         $formula->batch   = $total_batch;
         $formula->serving = $total_serving;
-        $formula->save();        
+        $formula->save();      
         
         if($formula->workbook_id!=NULL){
             $wb = $formula->workbook_id;
@@ -403,6 +406,36 @@ class ScaleController extends Controller
         $formula->batch   = $total_batch;
         $formula->serving = $total_serving;
         $formula->save();
+        
+        if(auth()->user()->role->namaRule == 'manager'){
+            try{
+                Mail::send('formula.info', [
+                    'info' => 'Manager Anda Telah Merubah Serving/Batch Pada Formula "'.$formula->formula.'"' ,
+                ],function($message)use($request,$idf)
+                {
+                    $message->subject('INFO PRODEV');
+                    $for = Formula::where('id', $idf)->first();
+                    if($for->workbook_id!=NULL){
+                        $project = pkp_project::where('id_project',$for->workbook_id)->first();
+                        $user = DB::table('tr_users')->where('id', $project->userpenerima)->get();
+                        foreach($user as $user){
+                            $data = $user->email;
+                            $message->to($data);
+                        }
+                    }elseif($for->workbook_pdf_id!=NULL){
+                        $project = project_pdf::where('id_project_pdf',$for->workbook_pdf_id)->first();
+                        $user = DB::table('tr_users')->where('id', $project->userpenerima)->get();
+                        foreach($user as $user){
+                            $data = $user->email;
+                            $message->to($data);
+                        }
+                    }
+                });
+            }
+            catch (Exception $e){
+            return response (['status' => false,'errors' => $e->getMessage()]);
+            }
+        }
 
         return redirect::back()->with('status','Serving Berhasil Tersimpan');
     }   

@@ -128,10 +128,10 @@
                            <input type="text" class="form-control" name="pengirim2" id="pengirim2" required>
                           </div>
                           <div class="col-md-3 col-sm-10 col-xs-12">
-                            <input type="text" class="form-control" readonly value="{{auth()->user()->email}}" name="pengirim" id="pengirim">
+                            <input type="text" class="form-control" required value="{{auth()->user()->email}}" name="pengirim" id="pengirim">
                           </div>
                           <div class="col-md-3 col-sm-10 col-xs-12">
-                            <input type="text" class="form-control" readonly value="{{$pdf->datapdf->author1->email}}" name="pengirim1" id="pengirim1">
+                            <input type="text" class="form-control" required value="{{$pdf->datapdf->author1->email}}" name="pengirim1" id="pengirim1">
                           </div>
                         </div>
                         <div class="modal-footer">

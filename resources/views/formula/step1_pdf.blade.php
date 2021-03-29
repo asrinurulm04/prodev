@@ -150,7 +150,7 @@
       	</div>
     	</div>
       <div class="form-group row">
-      	<label for="middle-name" class="control-label col-md-2 col-sm-2 col-xs-12"> Note Formula </label>
+      	<label for="middle-name" class="control-label col-md-2 col-sm-2 col-xs-12"> Note Formula* </label>
       	<div class="col-md-8 col-sm-8 col-xs-12">
           <textarea class="form-control edit" style="min-width: 100%" name="formula" id="formula">{{ old('keterangan',$formula->note_formula) }}</textarea>
       	</div>
