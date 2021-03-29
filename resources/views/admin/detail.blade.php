@@ -15,7 +15,7 @@
 
 <div class="x_panel">
   <div class="x_title">
-    <h3><li class="fa fa-user"> Edit Data User</li></h3>
+    <h3><li class="fa fa-user"> Edit Data</li></h3>
   </div>
   <div class="card-block">
     <div id="overview" class="tab-pane active">
@@ -90,7 +90,7 @@
               <div class="form-group row">
                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name" ></label>
                 <div class="col-md-8 col-sm-9 col-xs-12">
-                  <button class="btn btn-info btn-block" type="submit"><i class="fa fa-edit"></i> Simpan Perubahan</button>
+                  <button class="btn btn-info btn-block" type="submit"><i class="fa fa-edit"></i> Save</button>
                   {{ csrf_field() }}
                   {{ method_field('PATCH') }}
                 </div><br>

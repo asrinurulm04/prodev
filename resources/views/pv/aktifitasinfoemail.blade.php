@@ -36,7 +36,7 @@
                                             <tr><td>PKP</td><td>: PKP {{$pkp->datapkpp->jenis}}</td></tr>
                                             <tr><td>Project Name</td><td>: {{$pkp->datapkpp->project_name}}</td></tr>
                                             <tr><td>Brand</td><td>: {{$pkp->datapkpp->id_brand}}</td></tr>
-                                            <tr><td>Forecast</td><td>: {{$pkp->for1->satuan}} = {{$pkp->for1->forecast}}</td></tr>
+                                            <tr><td>Forecast</td><td>: @foreach($for as $data) {{$data->satuan}} = <?php $angka_format = number_format($data->forecast,2,",","."); echo "Rp. ".$angka_format;?> <br> @endforeach</td></tr>
                                             <tr><td>NF Selling Price</td><td>: {{$pkp->selling_price}}</td></tr>
                                             @endforeach
                                             </table>

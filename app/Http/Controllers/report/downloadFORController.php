@@ -81,50 +81,27 @@ class downloadFORController extends Controller
             $objPHPExcel->setActiveSheetIndex(0)
                 ->setCellValue('B5', 'Product Name :')
                 ->setCellValue('C5', $data['project_name'])
-                ->setCellValue('E5', 'Created Date :')
-                ->setCellValue('F5', $data['created_at'])
-                ->setCellValue('E6', 'jumlah/batch :')
-                ->setCellValue('F6', $data['batch'])
-                ->setCellValue('G6', 'gr');
+                ->setCellValue('F5', 'Created Date :')
+                ->setCellValue('G5', $data['created_at'])
+                ->setCellValue('F6', 'jumlah/batch :')
+                ->setCellValue('G6', $data['batch'])
+                ->setCellValue('H6', 'gr');
 
             $objPHPExcel->setActiveSheetIndex(0)
                 ->setCellValue('A7', 'No')
-                ->setCellValue('B7', 'Nama Sederhana')
-                ->setCellValue('C7', 'Nama Bahan')
-                ->setCellValue('D7', 'Principal')
-                ->setCellValue('E7', 'PerServing (gr)')
-                ->setCellValue('F7', 'PerBatch (gr)')
-                ->setCellValue('G7', 'Persen');
+                ->setCellValue('B7', 'Kode Oracle')
+                ->setCellValue('C7', 'Nama Sederhana')
+                ->setCellValue('D7', 'Nama Bahan')
+                ->setCellValue('E7', 'Principal')
+                ->setCellValue('F7', 'PerServing (gr)')
+                ->setCellValue('G7', 'PerBatch (gr)')
+                ->setCellValue('H7', 'Persen');
 
                 
-            $objPHPExcel->getActiveSheet()->getStyle("A7")->getFill()
+            $objPHPExcel->getActiveSheet()->getStyle("A7:H7")->getFill()
                         ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
                         ->getStartColor()->setARGB('13DFE4');
-            $objPHPExcel->getActiveSheet()->getStyle("A7")->getAlignment()->setHorizontal('center');
-            $objPHPExcel->getActiveSheet()->getStyle("B7")->getFill()
-                        ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                        ->getStartColor()->setARGB('13DFE4');
-            $objPHPExcel->getActiveSheet()->getStyle("B7")->getAlignment()->setHorizontal('center');
-            $objPHPExcel->getActiveSheet()->getStyle("C7")->getFill()
-                        ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                        ->getStartColor()->setARGB('13DFE4');
-            $objPHPExcel->getActiveSheet()->getStyle("C7")->getAlignment()->setHorizontal('center');
-            $objPHPExcel->getActiveSheet()->getStyle("D7")->getFill()
-                        ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                        ->getStartColor()->setARGB('13DFE4');
-            $objPHPExcel->getActiveSheet()->getStyle("D7")->getAlignment()->setHorizontal('center');
-            $objPHPExcel->getActiveSheet()->getStyle("E7")->getFill()
-                        ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                        ->getStartColor()->setARGB('13DFE4');
-            $objPHPExcel->getActiveSheet()->getStyle("E7")->getAlignment()->setHorizontal('center');
-            $objPHPExcel->getActiveSheet()->getStyle("F7")->getFill()
-                        ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                        ->getStartColor()->setARGB('13DFE4');
-            $objPHPExcel->getActiveSheet()->getStyle("F7")->getAlignment()->setHorizontal('center');
-            $objPHPExcel->getActiveSheet()->getStyle("G7")->getFill()
-                        ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("G7")->getAlignment()->setHorizontal('center');
+            $objPHPExcel->getActiveSheet()->getStyle("A7:H7")->getAlignment()->setHorizontal('center');
 
             $number = 1;
 
@@ -136,12 +113,13 @@ class downloadFORController extends Controller
             $line=$pertama;
             $objPHPExcel->setActiveSheetIndex(0)
                 ->setCellValue('A'.$pertama, $number)
-                ->setCellValue('B'.$pertama, $_data['nama_sederhana'])
-                ->setCellValue('C'.$pertama, $_data['nama_bahan'])
-                ->setCellValue('D'.$pertama, $_data['principle'])
-                ->setCellValue('E'.$pertama, $_data['per_serving'])
-                ->setCellValue('F'.$pertama, $_data['per_batch'])
-                ->setCellValue('G'.$pertama, $persen);
+                ->setCellValue('B'.$pertama, $_data['kode_oracle'])
+                ->setCellValue('C'.$pertama, $_data['nama_sederhana'])
+                ->setCellValue('D'.$pertama, $_data['nama_bahan'])
+                ->setCellValue('E'.$pertama, $_data['principle'])
+                ->setCellValue('F'.$pertama, $_data['per_serving'])
+                ->setCellValue('G'.$pertama, $_data['per_batch'])
+                ->setCellValue('H'.$pertama, $persen);
 
             $count_bahan = 8;
             for($i = 2;$i<=8;$i++){
@@ -171,47 +149,14 @@ class downloadFORController extends Controller
                 $akhir = $pertama;
                 $objPHPExcel->setActiveSheetIndex(0)
                     ->setCellValue('A'.$akhir, 'Jumlah')
-                    ->setCellValue('E'.$akhir, $data['serving'])
-                    ->setCellValue('F'.$akhir, $data['batch'])
-                    ->setCellValue('G'.$akhir, '100 %');
-
+                    ->setCellValue('F'.$akhir, $data['serving'])
+                    ->setCellValue('G'.$akhir, $data['batch'])
+                    ->setCellValue('H'.$akhir, '100 %');
                 
-                $objPHPExcel->getActiveSheet()->getStyle("A".$akhir)->getFill()
+                $objPHPExcel->getActiveSheet()->getStyle("A".$akhir.":H".$akhir)->getFill()
                             ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
                             ->getStartColor()->setARGB('aca6a6');
-                $objPHPExcel->getActiveSheet()->getStyle("A".$akhir)->getAlignment()->setHorizontal('center');
-
-                $objPHPExcel->getActiveSheet()->getStyle("B".$akhir)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('aca6a6');
-                $objPHPExcel->getActiveSheet()->getStyle("B".$akhir)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("C".$akhir)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('aca6a6');
-                $objPHPExcel->getActiveSheet()->getStyle("C".$akhir)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("D".$akhir)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('aca6a6');
-                $objPHPExcel->getActiveSheet()->getStyle("D".$akhir)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("E".$akhir)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('aca6a6');
-                $objPHPExcel->getActiveSheet()->getStyle("E".$akhir)->getAlignment()->setHorizontal('center');
-
-                
-                $objPHPExcel->getActiveSheet()->getStyle("F".$akhir)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('aca6a6');
-                $objPHPExcel->getActiveSheet()->getStyle("F".$akhir)->getAlignment()->setHorizontal('center');
-
-                
-                $objPHPExcel->getActiveSheet()->getStyle("G".$akhir)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('aca6a6');
-                $objPHPExcel->getActiveSheet()->getStyle("G".$akhir)->getAlignment()->setHorizontal('center');
+                $objPHPExcel->getActiveSheet()->getStyle("A".$akhir.":H".$akhir)->getAlignment()->setHorizontal('center');
                 
                 $note = $akhir+1;
                 $contain = $note+1;

@@ -119,11 +119,13 @@ class managerController extends Controller
         $revisi =tipp::where('id_pkp',$request->pkp)->max('revisi');
 
         $isipkp = tipp::where('id_pkp',$request->pkp)->where('status_data','=','active')->get();
+        $for = data_forecast::where([ ['id_pkp',$request->pkp], ['revisi',$revisi], ['turunan',$turunan] ])->get();
         try{
             Mail::send('manager.infoemailpkp', [
                 'app'=>$isipkp,
                 'info' => 'Manager RD mengajukan revisi pada project PKP',
                 'jangka' => $request->jangka,
+                'for' => $for,
                 'waktu' => $request->waktu,],function($message)use($request)
                 {
                     $message->subject('Revision Request PROJECT PKP');

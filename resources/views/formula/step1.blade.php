@@ -59,7 +59,7 @@
     	</div>
 
 			<div class="form-group row">
-        <label class="control-label col-md-2 col-sm-2 col-xs-12">PV </label>
+        <label class="control-label col-md-2 col-sm-2 col-xs-12">Author </label>
 				<div class="col-md-2 col-sm-2 col-xs-12">
           <input class="form-control edit" id="pv" name="pv" minlength="2" type="text" value="{{ $formula->workbook->perevisi2->name }}" readonly />
       	</div>
@@ -160,7 +160,7 @@
       	</div>
     	</div>
       <div class="form-group row">
-      	<label for="middle-name" class="control-label col-md-2 col-sm-2 col-xs-12"> Note Formula </label>
+      	<label for="middle-name" class="control-label col-md-2 col-sm-2 col-xs-12"> Note Formula* </label>
       	<div class="col-md-8 col-sm-8 col-xs-12">
           <textarea class="form-control edit" style="min-width: 100%" name="formula" id="formula">{{ old('keterangan',$formula->note_formula) }}</textarea>
       	</div>

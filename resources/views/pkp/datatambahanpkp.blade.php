@@ -62,7 +62,7 @@
 		<div class="card-body">
       <form class="form-horizontal form-label-left" method="POST" action="{{route('infogambar')}}" novalidate>
       <input name="informasi[{{$loop->index}}][pic]" value="{{$pkpp->id_pictures}}" type="hidden">
-      <textarea name="informasi[{{$loop->index}}][info]" class="col-md-10" rows="4">{{$pkpp->informasi}}</textarea><br>
+      <textarea placeholder="Note" name="informasi[{{$loop->index}}][info]" class="col-md-10" rows="4">{{$pkpp->informasi}}</textarea><br>
       <input type="hidden" value="{{$pkpp->pkp_id}}" name="pkp">&nbsp
 		  <a href="{{ Route('destroydata',$pkpp->id_pictures) }}" type="button" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Delete"><li class="fa fa-trash-o"></li></a>
       <br>&nbsp&nbsp<a href="{{asset('data_file/'.$pkpp->filename)}}" class="btn btn-warning btn-sm" download="{{$pkpp->filename}}" title="Download file"><li class="fa fa-download"></li></a>

@@ -493,9 +493,11 @@ class pkpController extends Controller
 		}
 
         $isipkp = tipp::where('id_pkp',$id_project)->where('status_data','=','active')->get();
+        $for = data_forecast::where([ ['id_pkp',$id_project], ['revisi',$revisi], ['turunan',$turunan] ])->get();
         try{
             Mail::send('pv.aktifitasinfoemail', [
                 'app'=>$isipkp,
+                'for'=>$for,
                 'info' => 'Saat ini terdapat perubahan data PKP',
             ],function($message)use($request)
             {
@@ -675,9 +677,11 @@ class pkpController extends Controller
         }
 
         $isipkp = tipp::where('id_pkp',$id_pkp)->where('status_data','=','active')->get();
+        $for = data_forecast::where([ ['id_pkp',$id_pkp], ['revisi',$revisi], ['turunan',$turunan] ])->get();
         try{
             Mail::send('pv.aktifitasinfoemail', [
                 'app'=>$isipkp,
+                'for'=>$for,
                 'info' => 'Saat ini terdapat perubahan data PKP',],function($message)use($request)
             {
                 $tujuan = array(); 
@@ -704,16 +708,12 @@ class pkpController extends Controller
     public function tipp(Request $request){
         $data = tipp::where('id_pkp',$request->id)->count();
         if($data>=1){
-            $pp = 'data1';
-            // dd($pp);
             $turunan = tipp::where('id_pkp',$request->id)->max('turunan');
             $revisi = tipp::where('id_pkp',$request->id)->max('revisi');
 
             return redirect()->route('datatambahanpkp',['id_pkp' => $request->id,'revisi' => $revisi, 'turunan' => $turunan])->with('status', 'Data has been added up ');
         }
         elseif($data==0){
-            $pp = 'data0';
-            // dd($pp);
             $tip = new tipp;
             $tip->id_pkp=$request->id;
             $tip->idea=$request->idea;
@@ -853,9 +853,11 @@ class pkpController extends Controller
             }
 
             $isipkp = tipp::where('id_pkp',$request->id)->where('status_data','=','active')->get();
+            $for = data_forecast::where([ ['id_pkp',$request->id], ['revisi',$tip->revisi], ['turunan',$tip->turunan] ])->get();
             try{
                 Mail::send('pv.aktifitasinfoemail', [
                     'app'=>$isipkp,
+                    'for'=>$for,
                     'info' => 'Terdapat Data PKP Baru',
                 ],function($message)use($request)
                 {
@@ -1057,10 +1059,12 @@ class pkpController extends Controller
         ]);
 
         $isipkp = tipp::where('id_pkp',$id_project)->where('status_data','=','active')->get();
+        $for = data_forecast::where([ ['id_pkp',$id_project], ['revisi',$revisi], ['turunan',$turunan] ])->get();
         try{
             Mail::send('manager.infoemailpkp', [
                 'nama'=>$request->email,
                 'app'=>$isipkp,
+                'for' => $for,
                 'info' => 'Anda Memiliki Project PKP Baru :)',
                 'jangka' => $request->jangka,
                 'waktu' => $request->waktu,],function($message)use($request)
@@ -1072,7 +1076,7 @@ class pkpController extends Controller
                         $user = DB::table('tr_users')->where('id',$dept->manager_id)->get();
                         foreach($user as $user){
                             $data = $user->email;
-                            $cc = [Auth::user()->email,'asrinurul4238@gmail.com'];
+                            $cc = [Auth::user()->email];
                             $message->to($data);
                             $message->cc($cc);
                         }
@@ -1137,10 +1141,12 @@ class pkpController extends Controller
         }
         
         $isipkp = tipp::where('id_pkp',$id_project)->where('status_data','=','active')->get();
+        $for = data_forecast::where([ ['id_pkp',$id_project], ['revisi',$revisi], ['turunan',$turunan] ])->get();
         try{
             Mail::send('manager.infoemailpkp', [
                 'nama'=>$request->email,
                 'app'=>$isipkp,
+                'for' => $for,
                 'info' => 'Project Telah Selesai Di Revisi , dengan alasan revisi "'.$request->alasan.'"',
                 'jangka' => $request->jangka,
                 'waktu' => $request->waktu,],function($message)use($request){
@@ -1156,11 +1162,11 @@ class pkpController extends Controller
                             $emailpenerima1 = DB::table('tr_users')->where('id',$request->userpenerima)->first();
                             $emailpenerima2 = DB::table('tr_users')->where('id',$request->userpenerima2)->first();
                             if($penerima1==NULL && $penerima2==NULL){
-                                $cc = [Auth::user()->email,'asrinurul4238@gmail.com'];
+                                $cc = [Auth::user()->email,];
                             }if($penerima1!=NULL && $penerima2==NULL){
-                                $cc = [Auth::user()->email,'asrinurul4238@gmail.com',$emailpenerima1->email];
+                                $cc = [Auth::user()->email,$emailpenerima1->email];
                             }if($penerima1!=NULL && $penerima2!=NULL){
-                                $cc = [Auth::user()->email,'asrinurul4238@gmail.com',$emailpenerima1->email,$emailpenerima2->email];
+                                $cc = [Auth::user()->email,$emailpenerima1->email,$emailpenerima2->email];
                             }
                             $message->to($data);
                             $message->cc($cc);
@@ -1210,10 +1216,12 @@ class pkpController extends Controller
         $edit->save();
 
         $isipkp = tipp::where('id_pkp',$id_project)->where('status_data','=','active')->get();
+        $for = data_forecast::where([ ['id_pkp',$id_project], ['revisi',$revisi], ['turunan',$turunan] ])->get();
         try{
             Mail::send('manager.infoemailpkp', [
                 'nama'=>$request->email,
                 'app'=>$isipkp,
+                'for' => $for,
                 'info' => 'Anda memiliki project PKP baru',
                 'jangka' => $request->jangka,
                 'waktu' => $request->waktu,

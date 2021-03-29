@@ -43,9 +43,8 @@
 					<td class="text-center">
     				{{csrf_field()}}
     				<a class="btn-sm btn-success btn-sm" href="{{ route('showuser',$user->id) }}" data-toggle="tooltip" title="Edit"><i class="fa fa-edit"></i></a>
-    				<a class="btn-sm btn-info btn-sm" href="{{ route('showuser',$user->id) }}" data-toggle="tooltip" title="Show"><i class="fa fa-eye"></i></a>
     				@if($user->status == 'active')
-    				<a class="btn-sm btn-danger btn-sm" href="{{ route('userblok',$user->id) }}" data-toggle="tooltip" title="Block"><i class="fa fa-trash-o"></i></a>
+    				<a class="btn-sm btn-danger btn-sm" href="{{ route('userblok',$user->id) }}" data-toggle="tooltip" title="Block"><i class="fa fa-ban"></i></a>
     				@elseif($user->status == 'nonactive')
     				<a class="btn-sm btn-primary btn-sm" href="{{ route('openblok',$user->id) }}">Buka Blokir</a>
     				@endif

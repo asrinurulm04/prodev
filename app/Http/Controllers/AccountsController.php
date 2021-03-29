@@ -40,8 +40,8 @@ class AccountsController extends Controller
     public function update(Request $request){
         $user = User::find($request->id);
         $this->validate(request(), [
-            'username' => 'unique:users,username,'.$user->id,
-            'email' => 'unique:users,email,'.$user->id,
+            'username' => 'unique:tr_users,username,'.$user->id,
+            'email' => 'unique:tr_users,email,'.$user->id,
             'password' => 'confirmed'
         ]);
         

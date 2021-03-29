@@ -105,7 +105,7 @@
             </div>
             <label  class="control-label col-md-2 col-sm-2 col-xs-12">Principle</label>
             <div class="col-md-3 col-sm-3 col-xs-12">
-              <select class="form-control" name="principle" id="principle">
+              <select class="form-control select" name="principle" id="principle">
                 @foreach($principal as $pc)
                 <option value="{{$pc->nama_cp}}">{{$pc->nama_cp}}</option>
                 @endforeach
