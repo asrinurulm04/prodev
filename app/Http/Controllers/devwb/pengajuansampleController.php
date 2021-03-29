@@ -259,7 +259,7 @@ class pengajuansampleController extends Controller
                     'for' => $for,
                     'app'=>$isipkp,],function($message)use($data)
                 {
-                    $message->subject('Reject PKP sample');
+                    $message->subject('pengajuan sample PKP');
                     $datapkp = pkp_project::where('id_project',$data)->get();
                     foreach($datapkp as $data){
                         $dept = DB::table('ms_departements')->where('id',$data->tujuankirim)->get();
