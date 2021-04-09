@@ -86,6 +86,8 @@
                       <li><a href="{{ route('datapangan') }}">Microbiology</a></li>
                       <li><a href="{{ route('sku') }}">Active SKU</a></li>
                       <li><a href="{{ route('klaim') }}">Claim Regulation</a></li>
+                      <li><a href="{{ route('supplier') }}">Supplier</a></li>
+                      <li><a href="{{ route('principal') }}">Principle</a></li>
                     </ul>
                   </li>
                   @elseif(auth()->user()->role->namaRule == 'pv_global')
@@ -121,6 +123,8 @@
                       <li><a href="{{ route('datapangan') }}">Microbiology</a></li>
                       <li><a href="{{ route('sku') }}">Active SKU</a></li>
                       <li><a href="{{ route('klaim') }}">Claim Regulation</a></li>
+                      <li><a href="{{ route('supplier') }}">Supplier</a></li>
+                      <li><a href="{{ route('principal') }}">Principle</a></li>
                     </ul>
                   </li>
                   @elseif(auth()->user()->role->namaRule == 'marketing' || auth()->user()->role->namaRule == 'NR')
@@ -154,6 +158,8 @@
                       <li><a href="{{ route('datapangan') }}">Microbiology</a></li>
                       <li><a href="{{ route('sku') }}">Active SKU</a></li>
                       <li><a href="{{ route('klaim') }}">Claim Regulation</a></li>
+                      <li><a href="{{ route('supplier') }}">Supplier</a></li>
+                      <li><a href="{{ route('principal') }}">Principle</a></li>
                     </ul>
                   </li>
                   @elseif(auth()->user()->role->namaRule == 'CS')
@@ -173,6 +179,8 @@
                       <li><a href="{{ route('datapangan') }}">Microbiology</a></li>
                       <li><a href="{{ route('sku') }}">Active SKU</a></li>
                       <li><a href="{{ route('klaim') }}">Claim Regulation</a></li>
+                      <li><a href="{{ route('supplier') }}">Supplier</a></li>
+                      <li><a href="{{ route('principal') }}">Principle</a></li>
                     </ul>
                   </li>
                   @elseif(auth()->user()->role->namaRule === 'user_produk' || auth()->user()->role->namaRule === 'kemas')
@@ -203,6 +211,8 @@
                       <li><a href="{{ route('curren.index') }}">Currency</a></li>
                       <li><a href="{{ route('bahanbaku') }}">Bahan Baku Eksis</a></li>
                       <li><a href="{{ route('bahan_rd') }}">Bahan Baku RD</a></li>
+                      <li><a href="{{ route('supplier') }}">Supplier</a></li>
+                      <li><a href="{{ route('principal') }}">Principle</a></li>
                     </ul>
                   </li>
                   @elseif(auth()->user()->role->namaRule === 'CS')
@@ -256,6 +266,8 @@
                       <li><a href="{{ route('datapangan') }}">BPOM Category</a></li>
                       <li><a href="{{ route('sku') }}">Active SKU</a></li>
                       <li><a href="{{ route('klaim') }}">Claim Regulation</a></li>
+                      <li><a href="{{ route('supplier') }}">Supplier</a></li>
+                      <li><a href="{{ route('principal') }}">Principle</a></li>
                     </ul>
                   </li>
                   @elseif(auth()->user()->role->namaRule === 'admin')
@@ -297,6 +309,9 @@
                       <li><a href="{{ route('datauom')}}">UOM</a></li>
                       <li><a href="{{ route('datapangan') }}">Microbiology</a></li>
                       <li><a href="{{ route('sku') }}">Active SKU</a></li>
+                      <li><a href="{{ route('klaim') }}">Claim Regulation</a></li>
+                      <li><a href="{{ route('supplier') }}">Supplier</a></li>
+                      <li><a href="{{ route('principal') }}">Principle</a></li>
                       <li><a href="{{ route('klaim') }}">Claim Regulation</a></li>
                       <li><a href="{{ route('bahanbaku') }}">Bahan Baku Eksis</a></li>
                       <li><a href="{{ route('bahan_rd') }}">Bahan Baku RD</a></li>

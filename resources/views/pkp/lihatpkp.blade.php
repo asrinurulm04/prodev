@@ -556,7 +556,7 @@
                             <?php $ses = []; foreach ($datases as $key => $data) If (!$ses || !in_array($data->ses, $ses)) { $ses += array( $key => $data->ses ); 
                             if($data->revisi!=$pkp->revisi){ echo": <s><font color='#ffa2a2'>$data->ses<br></font></s>"; }if($data->revisi==$pkp->revisi){ echo": $data->ses <br>"; } } ?></td></tr>
                             
-                            <tr><th style="border:none;">Remarks SES </th><td style="border:none;"> 
+                            <tr><th style="border:none;">Remarks SES </th><td style="border:none;">
                             <?php $remarks_ses = []; foreach ($pkp2 as $key => $data) If (!$remarks_ses || !in_array($data->remarks_ses, $remarks_ses)) { $remarks_ses += array( $key => $data->remarks_ses ); if($data->revisi!=$pkp->revisi){
                             echo": <s><font color='#ffa2a2'>$data->remarks_ses</font></s>";} if($data->revisi==$pkp->revisi){ echo" : $data->remarks_ses ";} } ?></td></tr>
                           </table>
@@ -604,7 +604,7 @@
                           {{$fore->satuan}} = {{$fore->forecast}} <br><input type="hidden" name="satuan" value="{{$fore->satuan}}"><input type="hidden" name="sales_forecast" value="{{$fore->forecast}}">
                           @endforeach
                           <br><br>
-                          @if($pkp->remarks_forecash!='NULL')
+                          @if($pkp->remarks_forecash!='NULL')<input type="hidden" name="data_forecast" value="{{$pkp->remarks_forecash}}">
                           <?php $remarks_forecash = []; foreach ($for as $key => $data) If (!$remarks_forecash || !in_array($data->remarks_forecash, $remarks_forecash)) { $remarks_forecash += array( $key => $data->remarks_forecash ); 
                           if($data->revisi!=$pkp->revisi){ echo"Remarks forecast: <s><font color='#ffa2a2'>$data->remarks_forecash<br></font></s>"; } if($data->revisi==$pkp->revisi){ echo"Remarks forecast: $data->remarks_forecash <br>";  } } ?>
                           @endif
@@ -641,6 +641,7 @@
                         <input type="hidden" name="product_form" value="{{$pkp->product_form}}"><?php $product_form = []; foreach ($pkp2 as $key => $data) If (!$product_form || !in_array($data->product_form, $product_form)) { $product_form += array( $key => $data->product_form  ); 
                         if($data->revisi!=$pkp->revisi){ echo":<s><font color='#ffa2a2'>$data->product_form<br></font></s>"; } if($data->revisi==$pkp->revisi){ echo" $data->product_form<br>"; } }  ?>
                         <br><br>
+                        <input type="hidden" name="data_form" value="{{$pkp->remarks_product_form}}">
                         <?php $remarks_product_form = []; foreach ($pkp2 as $key => $data) If (!$remarks_product_form || !in_array($data->remarks_product_form, $remarks_product_form)) { $remarks_product_form += array( $key => $data->remarks_product_form  ); 
                         if($data->revisi!=$pkp->revisi){ echo"Remarks : <s><font color='#ffa2a2'>$data->remarks_product_form<br></font></s>"; } if($data->revisi==$pkp->revisi){ echo"Remarks: $data->remarks_product_form<br>"; } }  ?></td>
                       </tr>
@@ -769,7 +770,7 @@
                             <tr>
                               <td>{{$pic->filename}} </td>
                               <td width="40%"> &nbsp{{$pic->informasi}}</td>  
-                              <td width="10%" class="text-center"><a href="{{asset('data_file/'.$pic->filename)}}" download="{{$pic->filename}}"><button class="btn btn-warning btn-sm"><li class="fa fa-download"></li></button></a></td>
+                              <td width="10%" class="text-center"> <a href="{{asset('data_file/'.$pic->filename)}}" class="btn btn-warning btn-sm" download="{{$pic->filename}}" title="Download file"><li class="fa fa-download"></li></a></td>
                             </tr>
                             @endforeach
                           </table>
@@ -807,14 +808,12 @@
       xhr.send(formData);
       xhr.onload = () => alert(xhr.response);
     }  
-  }
-
-  if(hasil == true){
     if(proses == true){
-      let formUpdate = new formUpdate(document.forms.person);
+      let formData = new FormData(document.forms.person);
       let xhr = new XMLHttpRequest();
-    xhr.open("POST","http://baf-staging-x2:9080/api/update",true);
-      xhr.send(formUpdate);
+      xhr.open("POST","http://baf-staging-x2:9080/api/update",true);
+      console.log(xhr);
+      xhr.send(formData);
       xhr.onload = () => alert(xhr.response);
     }  
   }

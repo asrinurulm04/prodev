@@ -272,7 +272,7 @@ class managerController extends Controller
         $max2 = tipp::where('id_pkp',$id_project)->max('revisi');
         $user = user::where('status','=','active')->get();
         $cf =Formula::where('workbook_id',$id_project)->count();
-        $datapkp = tipp::where('id_pkp',$id_project)->where('status_pkp','sent')->where('turunan',$max)->where('turunan',$max)->where('revisi',$max2)->get();
+        $datapkp = tipp::where('id_pkp',$id_project)->where('status_pkp','!=','draf')->where('turunan',$max)->where('turunan',$max)->where('revisi',$max2)->get();
         $sample = Formula::where('workbook_id', $id_project)->orderBy('versi','asc')->get();
         $listpkp = tipp::where('id_project',$id_project)->join('tr_project_pkp','tr_sub_pkp.id_pkp','=','tr_project_pkp.id_project')->where('status_data','=','active')->get();
         $dept = Departement::where('Divisi','=','RND')->get();
