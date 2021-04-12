@@ -28,7 +28,7 @@ use App\model\nutfact\mikroba;
 use App\model\manager\pengajuan;
 use DB;
 use Auth;
-use redirect;
+use Redirect;
 
 class masterController extends Controller
 {
@@ -150,7 +150,7 @@ class masterController extends Controller
         $principal->is_active='inactive';
         $principal->save();
 
-        return redirect()->back();
+        return redirect::back()->with('status', 'Data nonactive');
     }
 
     public function active_principal($id){
@@ -158,7 +158,7 @@ class masterController extends Controller
         $principal->is_active='active';
         $principal->save();
 
-        return redirect()->back();
+        return redirect::back()->with('status', 'Data di aktifkan');
     }
 
     public function add_principal(Request $request){
@@ -173,7 +173,7 @@ class masterController extends Controller
         $principal->updated_by=Auth::user()->id;
         $principal->save();
 
-        return redirect()->back();
+        return redirect::back()->with('status', 'Data berhasil ditambahkan');
     }
 
     public function edit_principal(Request $request,$id){
@@ -186,7 +186,7 @@ class masterController extends Controller
         $principal->updated_by=Auth::user()->id;
         $principal->save();
 
-        return redirect()->back();
+        return redirect::back()->with('status', 'Revised data ');
     }
 
     public function add_supplier(Request $request){
@@ -202,7 +202,7 @@ class masterController extends Controller
         $supplier->is_active='active';
         $supplier->save();
 
-        return redirect()->back();
+        return redirect::back()->with('status', 'Data berhasil ditambahkan');
     }
 
     public function supplier(){
@@ -217,7 +217,7 @@ class masterController extends Controller
         $supplier->is_active='inactive';
         $supplier->save();
 
-        return redirect()->back();
+        return redirect::back()->with('status', 'Data nonactive');
     }
 
     public function active_supplier($id){
@@ -225,7 +225,7 @@ class masterController extends Controller
         $supplier->is_active='active';
         $supplier->save();
 
-        return redirect()->back();
+        return redirect::back()->with('status', 'data diaktifkan');
     }
 
     public function edit_supplier(Request $request,$id){
@@ -239,7 +239,7 @@ class masterController extends Controller
         $supplier->updated_by=Auth::user()->id;
         $supplier->save();
         
-        return redirect()->back();
+        return redirect::back()->with('status', 'Revised data ');
     }
 
     public function kemas(){

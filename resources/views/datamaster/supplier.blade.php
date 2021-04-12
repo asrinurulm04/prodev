@@ -32,44 +32,44 @@
         	<?php $last = Date('j-F-Y'); ?>
           <input id="last" value="{{ $last }}" class="form-control col-md-12 col-xs-12" name="last" required="required" type="hidden">
           <div class="form-group row">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" style="color:#258039">Nama Suplier</label>
+            <label class="control-label col-md-3 col-sm-3 col-xs-12">Nama Suplier</label>
             <div class="col-md-9 col-sm-9 col-xs-12">
           		<input id="nama" class="form-control col-md-12 col-xs-12" name="nama" required="required" type="text">
             </div>
           </div>
           <div class="form-group row">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" style="color:#258039">Kode Oracle</label>
+            <label class="control-label col-md-3 col-sm-3 col-xs-12">Kode Oracle</label>
             <div class="col-md-9 col-sm-9 col-xs-12">
-          		<input id="oracle" class="form-control col-md-12 col-xs-12" name="oracle" required="required" type="text">
+          		<input id="oracle" class="form-control col-md-12 col-xs-12" name="oracle" type="text">
             </div>
           </div>
           <div class="form-group row">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" style="color:#258039">Alamat</label>
+            <label class="control-label col-md-3 col-sm-3 col-xs-12">Alamat</label>
             <div class="col-md-9 col-sm-9 col-xs-12">
-          		<input id="alamat" class="form-control col-md-12 col-xs-12" name="alamat" required="required" type="text">
+          		<input id="alamat" class="form-control col-md-12 col-xs-12" name="alamat" type="text">
             </div>
           </div>
           <div class="form-group row">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" style="color:#258039">telp</label>
+            <label class="control-label col-md-3 col-sm-3 col-xs-12">telp</label>
             <div class="col-md-9 col-sm-9 col-xs-12">
-          		<input id="telp" class="form-control col-md-12 col-xs-12" name="telp" required="required" type="number">
+          		<input id="telp" class="form-control col-md-12 col-xs-12" name="telp" type="number">
             </div>
           </div>
           <div class="form-group row">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" style="color:#258039">No Fax</label>
+            <label class="control-label col-md-3 col-sm-3 col-xs-12">No Fax</label>
             <div class="col-md-9 col-sm-9 col-xs-12">
-          		<input id="fax" class="form-control col-md-12 col-xs-12" name="fax" required="required" type="text">
+          		<input id="fax" class="form-control col-md-12 col-xs-12" name="fax" type="text">
             </div>
           </div>
           <div class="form-group row">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" style="color:#258039">Website</label>
+            <label class="control-label col-md-3 col-sm-3 col-xs-12">Website</label>
             <div class="col-md-9 col-sm-9 col-xs-12">
-          		<input id="web" class="form-control col-md-12 col-xs-12" name="web" required="required" type="text">
+          		<input id="web" class="form-control col-md-12 col-xs-12" name="web" type="text">
             </div>
           </div><hr>
 					<div class="card-block col-md-5 col-md-offset-5">
-						<button type="reset" class="btn btn-warning btn-sm">Reset</button>
-						<button type="submit" class="btn btn-primary btn-sm">Submit</button>
+						<button type="reset" class="btn btn-warning btn-sm"><li class="fa fa-repeat"></li> Reset</button>
+						<button type="submit" class="btn btn-primary btn-sm"><li class="fa fa-check"></li> Submit</button>
 						{{ csrf_field() }}
 					</div>
         </div>
@@ -88,31 +88,27 @@
 					<thead>
 						<tr style="font-weight: bold;color:white;background-color: #2a3f54;">
 							<th>No</th>
-							<th>Nama Suplier</th>
-              <th>Oracle</th>
+							<th width="30%">Nama Suplier</th>
 							<th>Alamat</th>
-							<th>Telp</th>
 							<th>No Fax</th>
 							<th>Website</th>
-							<th>Action</th>
+							<th width="15%">Action</th>
 						</tr>
 					</thead>
 					<tbody>
 						@foreach($supplier as $supplier)
 						<tr>
-							<td>{{$supplier->id}}</td>
+							<td class="text-center">{{$supplier->id}}</td>
 							<td>{{$supplier->nama_supplier_principal}}</td>
-							<td>{{$supplier->kode_oracle_supplier_principal}}</td>
 							<td>{{$supplier->alamat_supplier_principal}}</td>
-							<td>{{$supplier->telepon_supplier_principal}}</td>
 							<td>{{$supplier->no_fax_supplier_principal}}</td>
 							<td>{{$supplier->website_supplier_principal}}</td>
-							<td>
+							<td class="text-center">
                 @if($supplier->is_active=='active')
                 <a href="{{route('inactive_supplier',$supplier->id)}}" class="btn btn-sm btn-danger" type="button" title="inactive"><li class="fa fa-ban"></li></a>
                 <button class="btn btn-warning btn-sm" type="button" data-toggle="modal" data-target="#edit{{$supplier->id}}"><i class="fa fa-edit"></i></a></button></td>
 							
-								<!-- Edit Allergen -->
+								<!-- Edit -->
 								<div class="modal fade" id="edit{{$supplier->id}}" role="dialog" aria-labelledby="EWBModalLabel" aria-hidden="true">
 									<div class="modal-dialog">
 										<div class="modal-content">
@@ -135,31 +131,31 @@
                             <div class="form-group row">
                               <label class="control-label col-md-3 col-sm-3 col-xs-12">Kode Oracle</label>
                               <div class="col-md-9 col-sm-9 col-xs-12">
-                                <input id="oracle" class="form-control col-md-12 col-xs-12" name="oracle" value="{{$supplier->kode_oracle_supplier_principal}}" required="required" type="text">
+                                <input id="oracle" class="form-control col-md-12 col-xs-12" name="oracle" value="{{$supplier->kode_oracle_supplier_principal}}" type="text">
                               </div>
                             </div>
                             <div class="form-group row">
                               <label class="control-label col-md-3 col-sm-3 col-xs-12">Alamat</label>
                               <div class="col-md-9 col-sm-9 col-xs-12">
-                                <input id="alamat" class="form-control col-md-12 col-xs-12" name="alamat" value="{{$supplier->alamat_supplier_principal}}" required="required" type="text">
+                                <input id="alamat" class="form-control col-md-12 col-xs-12" name="alamat" value="{{$supplier->alamat_supplier_principal}}" type="text">
                               </div>
                             </div>
                             <div class="form-group row">
                               <label class="control-label col-md-3 col-sm-3 col-xs-12">telp</label>
                               <div class="col-md-9 col-sm-9 col-xs-12">
-                                <input id="telp" class="form-control col-md-12 col-xs-12" name="telp" value="{{$supplier->telepon_supplier_principal}}" required="required" type="number">
+                                <input id="telp" class="form-control col-md-12 col-xs-12" name="telp" value="{{$supplier->telepon_supplier_principal}}" type="number">
                               </div>
                             </div>
                             <div class="form-group row">
                               <label class="control-label col-md-3 col-sm-3 col-xs-12">No Fax</label>
                               <div class="col-md-9 col-sm-9 col-xs-12">
-                                <input id="fax" class="form-control col-md-12 col-xs-12" name="fax" value="{{$supplier->no_fax_supplier_principal}}" required="required" type="text">
+                                <input id="fax" class="form-control col-md-12 col-xs-12" name="fax" value="{{$supplier->no_fax_supplier_principal}}" type="text">
                               </div>
                             </div>
                             <div class="form-group row">
                               <label class="control-label col-md-3 col-sm-3 col-xs-12">Website</label>
                               <div class="col-md-9 col-sm-9 col-xs-12">
-                                <input id="web" class="form-control col-md-12 col-xs-12" name="web" value="{{$supplier->website_supplier_principal}}" required="required" type="text">
+                                <input id="web" class="form-control col-md-12 col-xs-12" name="web" value="{{$supplier->website_supplier_principal}}" type="text">
                               </div>
                             </div><hr>
                             <div class="card-block col-md-5 col-md-offset-5">

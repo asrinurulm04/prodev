@@ -148,7 +148,7 @@
                 @if($listpkp->kemas_eksis!=NULL)
                   (
                   @if($listpkp->kemas->tersier!=NULL)
-                  {{ $listpkp->kemas->tersier }}{{ $pkp->kemas->s_tersier }}
+                  {{ $listpkp->kemas->tersier }}{{ $listpkp->kemas->s_tersier }}
                   @elseif($listpkp->kemas->tersier==NULL)
                   @endif
 
@@ -163,7 +163,7 @@
                   @endif
 
                   @if($listpkp->kemas->primer!=NULL)
-                  X{{ $listpkp->kemas->primer }}{{ $pkp->kemas->s_primer }}
+                  X{{ $listpkp->kemas->primer }}{{ $listpkp->kemas->s_primer }}
                   @elseif($listpkp->kemas->primer==NULL)
                   @endif
                   )

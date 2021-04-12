@@ -30,17 +30,17 @@
       <div class="card-block">
         <div class="x_content">
         	<?php $last = Date('j-F-Y'); ?>
-          <input id="last" value="{{ $last }}" class="form-control col-md-12 col-xs-12" name="last" required="required" type="hidden">
+          <input id="last" value="{{ $last }}" class="form-control col-md-12 col-xs-12" name="last" type="hidden">
           <div class="form-group row">
             <label class="control-label col-md-2 col-sm-3 col-xs-12">Name</label>
             <div class="col-md-9 col-sm-9 col-xs-12">
-          		<input id="name" class="form-control col-md-12 col-xs-12" name="name" required="required" type="text">
+          		<input id="name" class="form-control col-md-12 col-xs-12" name="name" type="text">
             </div>
           </div>
           <div class="form-group row">
             <label class="control-label col-md-2 col-sm-3 col-xs-12">Supplier</label>
             <div class="col-md-9 col-sm-9 col-xs-12">
-            <select required id="supplier" name="supplier" class="form-control" >
+            <select required id="supplier" name="supplier" class="form-control select" >
 							@foreach($supplier as $supplier)
 							<option value="{{$supplier->id}}">{{$supplier->nama_supplier_principal}}</option>
 							@endforeach
@@ -50,24 +50,24 @@
           <div class="form-group row">
             <label class="control-label col-md-2 col-sm-3 col-xs-12">Email</label>
             <div class="col-md-9 col-sm-9 col-xs-12">
-          		<input id="email" class="form-control col-md-12 col-xs-12" name="email" required="required" type="email">
+          		<input id="email" class="form-control col-md-12 col-xs-12" name="email" type="email">
             </div>
           </div>
           <div class="form-group row">
             <label class="control-label col-md-2 col-sm-3 col-xs-12">telp</label>
             <div class="col-md-9 col-sm-9 col-xs-12">
-          		<input id="telp" class="form-control col-md-12 col-xs-12" name="telp" required="required" type="number">
+          		<input id="telp" class="form-control col-md-12 col-xs-12" name="telp" type="number">
             </div>
           </div>
           <div class="form-group row">
             <label class="control-label col-md-2 col-sm-3 col-xs-12">jabatan</label>
             <div class="col-md-9 col-sm-9 col-xs-12">
-          		<input id="jabatan" class="form-control col-md-12 col-xs-12" name="jabatan" required="required" type="text">
+          		<input id="jabatan" class="form-control col-md-12 col-xs-12" name="jabatan" type="text">
             </div>
           </div><hr>
 					<div class="card-block col-md-5 col-md-offset-5">
-						<button type="reset" class="btn btn-warning btn-sm">Reset</button>
-						<button type="submit" class="btn btn-primary btn-sm">Submit</button>
+						<button type="reset" class="btn btn-warning btn-sm"><li class="fa fa-repeat"></li> Reset</button>
+						<button type="submit" class="btn btn-primary btn-sm"><li class="fa fa-check"></li> Submit</button>
 						{{ csrf_field() }}
 					</div>
         </div>
@@ -85,26 +85,20 @@
 				<table class="Table table-bordered">
 					<thead>
 						<tr style="font-weight: bold;color:white;background-color: #2a3f54;">
-							<th>No</th>
-							<th>Suplier</th>
-							<th>Name</th>
+							<th width="5%">No</th>
+							<th width="30%">Name</th>
 							<th>Email</th>
 							<th>Telp</th>
-							<th>Jabatan</th>
-							<th>Status</th>
-							<th>Action</th>
+							<th width="17%">Action</th>
 						</tr>
 					</thead>
 					<tbody>
 						@foreach($principal as $principal)
 						<tr>
-							<td>{{$principal->id}}</td>
-							<td>{{$principal->sp->nama_supplier_principal}}</td>
+							<td class="text-center">{{$principal->id}}</td>
 							<td>{{$principal->nama_cp}}</td>
 							<td>{{$principal->email_cp}}</td>
-							<td>{{$principal->telepon_cp}}</td>
-							<td>{{$principal->jabatan_cp}}</td>
-							<td>{{$principal->is_active}}</td>
+							<td class="text-center">{{$principal->telepon_cp}}</td>
 							<td>
               @if($principal->is_active=='active')
                 <a href="{{route('inactive_principal',$principal->id)}}" class="btn btn-sm btn-danger" type="button" title="inactive"><li class="fa fa-ban"></li></a>
@@ -123,29 +117,29 @@
                         <div class="card-block">
                           <div class="x_content">
                           <?php $last = Date('j-F-Y'); ?>
-                          <input id="last" value="{{ $last }}" class="form-control col-md-12 col-xs-12" name="last" required="required" type="hidden">
+                          <input id="last" value="{{ $last }}" class="form-control col-md-12 col-xs-12" name="last" type="hidden">
                           <div class="form-group row">
                             <label class="control-label col-md-2 col-sm-3 col-xs-12">Name</label>
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                              <input id="name" class="form-control col-md-12 col-xs-12" value="{{$principal->nama_cp}}" name="name" required="required" type="text">
+                              <input id="name" class="form-control col-md-12 col-xs-12" value="{{$principal->nama_cp}}" name="name" type="text">
                             </div>
                           </div>
                           <div class="form-group row">
                             <label class="control-label col-md-2 col-sm-3 col-xs-12">Email</label>
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                              <input id="email" class="form-control col-md-12 col-xs-12" value="{{$principal->email_cp}}" name="email" required="required" type="email">
+                              <input id="email" class="form-control col-md-12 col-xs-12" value="{{$principal->email_cp}}" name="email" type="email">
                             </div>
                           </div>
                           <div class="form-group row">
                             <label class="control-label col-md-2 col-sm-3 col-xs-12">telp</label>
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                              <input id="telp" class="form-control col-md-12 col-xs-12" value="{{$principal->telepon_cp}}" name="telp" required="required" type="number">
+                              <input id="telp" class="form-control col-md-12 col-xs-12" value="{{$principal->telepon_cp}}" name="telp" type="number">
                             </div>
                           </div>
                           <div class="form-group row">
                             <label class="control-label col-md-2 col-sm-3 col-xs-12">jabatan</label>
                             <div class="col-md-9 col-sm-9 col-xs-12">
-                              <input id="jabatan" class="form-control col-md-12 col-xs-12" value="{{$principal->jabatan_cp}}" name="jabatan" required="required" type="text">
+                              <input id="jabatan" class="form-control col-md-12 col-xs-12" value="{{$principal->jabatan_cp}}" name="jabatan" type="text">
                             </div>
                           </div><hr>
                           </div>
@@ -175,5 +169,12 @@
     </div>
   </div>
 </div>
-
+@endsection
+@section('s')
+<script>
+  $('.select').select2({
+    placeholder: '-->Select One<--',
+    allowClear: true
+  });
+</script>
 @endsection
