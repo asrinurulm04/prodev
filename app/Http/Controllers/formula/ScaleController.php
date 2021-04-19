@@ -456,7 +456,6 @@ class ScaleController extends Controller
 
             // Start Updating
             $myFortail  = Fortail::where('id',$id)->first();
-            $myFortail->per_batch   = $Batch;
             $myFortail->per_serving = $Serving;
             $myFortail->save();
             

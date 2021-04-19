@@ -69,7 +69,7 @@ class SummaryFormulaController extends Controller
             $detail_formula->push([
 
                 'id' => $fortail->id,
-                'kode_komputer' => $fortail->kode_komputer,
+                'kode_oracle' => $fortail->kode_oracle,
                 'nama_sederhana' => $fortail->nama_sederhana,
                 'alternatif1' => $fortail->alternatif1,
                 'alternatif2' => $fortail->alternatif2,
@@ -125,7 +125,7 @@ class SummaryFormulaController extends Controller
 		$total_gula = 0; $total_erythritol  = 0; $total_dha = 0; $total_epa = 0;
 		$total_omega3 = 0; $total_mufa = 0; $total_lemak_total = 0; $total_lemak_jenuh = 0;
 		$total_omega6 = 0; $total_kolestrol = 0; $total_protein = 0;
-		$total_omega9 = 0; $total_linoleat=0; $total_air = 0;
+		$total_omega9 = 0; $total_linoleat=0; $total_air = 0; $total_fat=0;
 		// total mineral
 		$total_ca = 0; $total_mg = 0; $total_k = 0; $total_zink = 0;
 		$total_p = 0; $total_na = 0; $total_naci = 0; $total_energi = 0;
@@ -192,6 +192,7 @@ class SummaryFormulaController extends Controller
 				$kolestrol = ($makro->kolesterol/100)*($fortail->per_serving);
 				$protein = ($makro->protein/100)*($fortail->per_serving);
 				$air = ($makro->kadar_air)*($persen/100);
+				$fat = ($makro->fat)*($persen/100);
 				// mineral
 				$caa = ($mineral->ca/100)*($fortail->per_serving);
 				$mg = ($mineral->mg/100)*($fortail->per_serving);
@@ -259,7 +260,7 @@ class SummaryFormulaController extends Controller
 				// data
 				'no' => ++$no,  
                 'id' => $fortail->id,
-                'kode_komputer' => $bahan->kode_komputer,
+                'kode_oracle' => $bahan->kode_oracle,
                 'nama_sederhana' => $bahan->nama_sederhana,
 				'bahan' => $bahan->id,
 				'hitung_btp' => $hitung_btp,
@@ -277,6 +278,7 @@ class SummaryFormulaController extends Controller
 				'omega6' => $omega6 ,				'air' => $air,
 				'linoleat' => $linoleat ,           'omega9' => $omega9 ,
 				'kolestrol' => $kolestrol ,    		'protein' => $protein,
+				'fat' => $fat,
 				//mineral
 				'ca' => $caa ,        				'mg' => $mg ,
 				'k' => $k ,          				'zink' => $zink,
@@ -332,6 +334,7 @@ class SummaryFormulaController extends Controller
 			$total_omega6 = $total_omega6 + $omega6; 				$total_air = $total_air + $air;
 			$total_omega9 = $total_omega9 + $omega9; 				$total_linoleat = $total_linoleat + $linoleat; 
 			$total_kolestrol = $total_kolestrol + $kolestrol; 		$total_protein = $total_protein + $protein;
+			$total_fat = $total_fat + $fat;
 			// total mineral
 			$total_ca = $total_ca + $caa; 							$total_mg = $total_mg + $mg; 
 			$total_k = $total_k + $k; 								$total_zink = $total_zink + $zink;
@@ -396,6 +399,7 @@ class SummaryFormulaController extends Controller
 			'total_air' => $total_air, 					'total_omega6' => $total_omega6,
 			'total_omega9' => $total_omega9,			'total_linoleat' => $total_linoleat,
 			'total_kolestrol' => $total_kolestrol, 		'total_protein' => $total_protein,
+			'total_fat' => $total_fat,
 			// total mineral
 			'total_ca' => $total_ca, 					'total_mg' => $total_mg, 
 			'total_k' => $total_k, 						'total_zink' => $total_zink,

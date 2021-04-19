@@ -96,6 +96,7 @@ class bbRDController extends Controller
         $makro->lemak_jenuh=$request->lemak_jenuh;
         $makro->omega6=$request->omega6;
         $makro->omega9=$request->omega9;
+        $makro->fat=$request->fat;
         $makro->linoleat=$request->linoleat;
         $makro->kolesterol=$request->kolesterol;
         $makro->protein=$request->protein;
@@ -479,6 +480,7 @@ class bbRDController extends Controller
         $makro->lemak_jenuh=$request->lemak_jenuh;
         $makro->omega6=$request->omega6;
         $makro->omega9=$request->omega9;
+        $makro->fat=$request->fat;
         $makro->linoleat=$request->linoleat;
         $makro->kolesterol=$request->kolesterol;
         $makro->protein=$request->protein;

@@ -364,7 +364,8 @@
                       </tr>
                       <tr>
                         <th>Sales Forecast</th>
-                        <td colspan="2">@foreach($for as $fore){{$fore->satuan}} = {{$fore->forecast}} <br>@endforeach <br>
+                        <td colspan="2">@foreach($for as $data){{$data->satuan}} = <?php $angka_format = number_format($data->forecast,2,",","."); echo "Rp. ".$angka_format;?><br> @endforeach
+                        <br>
                         @if($pkp->remarks_forecash!='NULL')
                         <?php $remarks_forecash = []; foreach ($for as $key => $data) If (!$remarks_forecash || !in_array($data->remarks_forecash, $remarks_forecash)) { $remarks_forecash += array( $key => $data->remarks_forecash ); 
                         if($data->turunan!=$pkp->turunan){ echo"Remarks forecast: <s><font color='#6594c5'>$data->remarks_forecash<br></font></s>"; } if($data->turunan==$pkp->turunan){ echo"Remarks forecast: $data->remarks_forecash <br>";  } } ?></td>
@@ -600,10 +601,8 @@
                       </tr>
                       <tr>
                         <th>Sales Forecast </th>
-                        <td colspan="2">@foreach($for as $fore)
-                          {{$fore->satuan}} = {{$fore->forecast}} <br><input type="hidden" name="satuan" value="{{$fore->satuan}}"><input type="hidden" name="sales_forecast" value="{{$fore->forecast}}">
-                          @endforeach
-                          <br><br>
+                        <td colspan="2">@foreach($for as $data){{$data->satuan}} = <?php $angka_format = number_format($data->forecast,2,",","."); echo "Rp. ".$angka_format;?><br> @endforeach
+                        <br>
                           @if($pkp->remarks_forecash!='NULL')<input type="hidden" name="data_forecast" value="{{$pkp->remarks_forecash}}">
                           <?php $remarks_forecash = []; foreach ($for as $key => $data) If (!$remarks_forecash || !in_array($data->remarks_forecash, $remarks_forecash)) { $remarks_forecash += array( $key => $data->remarks_forecash ); 
                           if($data->revisi!=$pkp->revisi){ echo"Remarks forecast: <s><font color='#ffa2a2'>$data->remarks_forecash<br></font></s>"; } if($data->revisi==$pkp->revisi){ echo"Remarks forecast: $data->remarks_forecash <br>";  } } ?>
@@ -725,6 +724,7 @@
                                 <td class="text-center">Detail</td>
                                 <td class="text-center">Information</td>
                               </tr>
+                              @foreach($dataklaim as $data)
                               <tr>
                                 <td>
                                   <?php $komponen = []; foreach ($dataklaim as $key => $data) If (!$komponen || !in_array($data->datakp->komponen, $komponen)) { $komponen += array( $key => $data->datakp->komponen ); 
@@ -743,6 +743,7 @@
                                   if($data->revisi!=$pkp->revisi){ echo" <s><font color='#ffa2a2'>".$data->note."<br></font></s>"; } if($data->revisi==$pkp->revisi){ echo"". $data->note."<br>"; } }  ?>
                                 </td>
                               </tr>
+                              @endforeach
                             </tbody>
       					          </table>
 												</td>
@@ -811,8 +812,7 @@
     if(proses == true){
       let formData = new FormData(document.forms.person);
       let xhr = new XMLHttpRequest();
-      xhr.open("POST","http://baf-staging-x2:9080/api/update",true);
-      console.log(xhr);
+      xhr.open("POST","http://baf-staging-x2:9080/api/update");
       xhr.send(formData);
       xhr.onload = () => alert(xhr.response);
     }  
