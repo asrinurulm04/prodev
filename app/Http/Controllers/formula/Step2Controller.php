@@ -43,7 +43,7 @@ class Step2Controller extends Controller
         $idfor_pdf = $formula->workbook_pdf_id;
         $fortails = Fortail::where('formula_id',$id)->get();
         $ada= Fortail::where('formula_id',$id)->count();
-        $bahans = Bahan::all();
+        $bahans = Bahan::orderBy('nama_sederhana','asc')->get();
         $no = 0;
 
         $scalecollect = collect();
@@ -66,7 +66,7 @@ class Step2Controller extends Controller
                 'alternatif6' => $fortail->alternatif6,
                 'alternatif7' => $fortail->alternatif7,
                 'nama_bahan' => $fortail->nama_bahan,
-                'per_batch' => $fortail->per_batch,
+                'per_batch' => round($fortail->per_batch , 3),
                 'per_serving' => $fortail->per_serving,
                 'scale_batch' => '',
                 'scale_serving' => '',
@@ -112,8 +112,8 @@ class Step2Controller extends Controller
 
     public function update($formula,$id,Request $request){
         $formula = Formula::where('id',$formula)->first();
-        $formula->catatan_rd = $request->formula;
-        $formula->note_formula = $request->keterangan;
+        $formula->catatan_rd = $request->keterangan;
+        $formula->note_formula = $request->formula;
         $formula->catatan_manager = $request->manager;
         $formula->save();
         

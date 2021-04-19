@@ -41,7 +41,7 @@ class downloadFORController extends Controller
 
         $data = Formula::where('id',$formula)->join('tr_project_pkp','tr_project_pkp.id_project','=','tr_formulas.workbook_id')->first();
         $allergen_bb = allergen_formula::join('tr_bb_allergen','id_bb','tr_allergen_formula.id_bahan')->where('id_formula',$formula)->where('allergen_countain','!=','')->select(['allergen_countain'])->distinct()->get();
-		$fortails = Fortail::where('formula_id',$formula)->get();
+		$fortails = Fortail::where('formula_id',$formula)->orderBy('per_serving','dsc')->get();
         
         $no=1;
         $pertama=8;

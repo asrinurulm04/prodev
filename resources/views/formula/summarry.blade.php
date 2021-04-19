@@ -379,7 +379,7 @@
 																			<tr>@if($data->form21=='yes')<th><input type="checkbox" class="data1 makro" checked name="form21" value="yes"> @elseif($data->form21!='yes')<th><input type="checkbox" class="data1 makro" name="form21" value="yes">@endif	Omega6</th>
 																					@if($data->form22=='yes')<th><input type="checkbox" class="data1 makro" checked name="form22" value="yes"> @elseif($data->form22!='yes')<th><input type="checkbox" class="data1 makro" name="form22" value="yes">@endif	Kolestrol</th>    
 																					@if($data->form23=='yes')<th><input type="checkbox" class="data1 makro" checked name="form23" value="yes"> @elseif($data->form23!='yes')<th><input type="checkbox" class="data1 makro" name="form23" value="yes">@endif	Protein</th>
-																					@if($data->form24=='yes')<th><input type="checkbox" class="data1 makro" checked name="form24" value="yes"> @elseif($data->form24!='yes')<th><input type="checkbox" class="data1 makro" name="form24" value="yes">@endif	Kadar Air</th></tr>
+																					@if($data->form70=='yes')<th><input type="checkbox" class="data1 makro" checked name="form70" value="yes"> @elseif($data->form70!='yes')<th><input type="checkbox" class="data1 makro" name="form70" value="yes">@endif	FAT</th></tr>
 																			<!-- Mineral -->
 																			<tr>@if($data->form25=='yes')<th><input type="checkbox" class="data1 mineral" checked name="form25" value="yes"> @elseif($data->form25!='yes')<th><input type="checkbox" class="data1 mineral" name="form25" value="yes">@endif	Ca </th>   
 																					@if($data->form26=='yes')<th><input type="checkbox" class="data1 mineral" checked name="form26" value="yes"> @elseif($data->form26!='yes')<th><input type="checkbox" class="data1 mineral" name="form26" value="yes">@endif	Fe</th>   
@@ -460,7 +460,7 @@
 																@if($header->form14=='yes')<th class="text-center">DHA</th>@endif         @if($header->form15=='yes')<th class="text-center">EPA</th>@endif
 																@if($header->form16=='yes')<th class="text-center">Omega3</th>@endif      @if($header->form18=='yes')<th class="text-center">MUFA</th>@endif
 																@if($header->form17=='yes')<th class="text-center">Lemak Trans</th>@endif @if($header->form19=='yes')<th class="text-center">Lemak Jenuh</th>@endif
-																@if($header->form21=='yes')<th class="text-center">Omega6</th>@endif
+																@if($header->form21=='yes')<th class="text-center">Omega6</th>@endif			@if($header->form70=='yes')<th class="text-center">FAT</th>@endif
 																@if($header->form57=='yes')<th class="text-center">Omega9</th>@endif 			@if($header->form22=='yes')<th class="text-center">Kolestrol</th>@endif   
 																@if($header->form23=='yes')<th class="text-center">Protein</th>@endif 		@if($header->form24=='yes')<th class="text-center">Kadar Air</th>@endif
 																<!-- Mineral -->
@@ -517,6 +517,7 @@
 																@if($header->form17=='yes')<td>{{ $fortail['lemak_trans'] }}</td>@endif
 																@if($header->form19=='yes')<td>{{ $fortail['lemak_jenuh'] }}</td>@endif
 																@if($header->form21=='yes')<td>{{ $fortail['omega6'] }}</td>@endif
+																@if($header->form21=='yes')<td>{{ $fortail['fat'] }}</td>@endif
 																@if($header->form57=='yes')<td>{{ $fortail['omega9'] }}</td>@endif
 																@if($header->form22=='yes')<td>{{ $fortail['kolestrol'] }}</td>@endif
 																@if($header->form23=='yes')<td>{{ $fortail['protein'] }}</td>@endif
@@ -593,6 +594,7 @@
 																@if($header->form17=='yes')<td>{{ $total_harga['total_lemak_total'] }}</td>@endif
 																@if($header->form19=='yes')<td>{{ $total_harga['total_lemak_jenuh'] }}</td>@endif
 																@if($header->form21=='yes')<td>{{ $total_harga['total_omega6'] }}</td>@endif
+																@if($header->form70=='yes')<td>{{ $total_harga['total_fat'] }}</td>@endif
 																@if($header->form57=='yes')<td>{{ $total_harga['total_omega9'] }}</td>@endif
 																@if($header->form22=='yes')<td>{{ $total_harga['total_kolestrol'] }}</td>@endif
 																@if($header->form23=='yes')<td>{{ $total_harga['total_protein'] }}</td>@endif
@@ -1925,14 +1927,14 @@
 										<th colspan="4" style="font-weight: bold;color:white;background-color: #2a3f54;"><center>Bahan Baku</center></th>
 									</thead>
 									<thead>
-										<th>Kode Item</th>
+										<th>Kode Oracle</th>
 										<th>Nama Bahan</th>
 										<th>Harga PerGram</th>
 									</thead>
 									<tbody>
 										@foreach ($detail_harga->sortByDesc('harga_per_serving') as $fortail)
 										<tr>
-											<td>{{ $fortail['kode_komputer'] }}</td>
+											<td>{{ $fortail['kode_oracle'] }}</td>
 											<td>{{ $fortail['nama_sederhana'] }}</td>
 											<td><?php echo"Rp. ". number_format($fortail['hpg'], 2, ",", ".")  ?></td>
 										</tr>

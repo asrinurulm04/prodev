@@ -156,9 +156,8 @@
                       </tr>
                       <tr>
                         <th>Sales Forecast</th>
-                        <td colspan="2"><?php $seles = []; foreach ($for as $key => $data) If (!$seles || !in_array($data->forecast, $seles)) { $seles += array( $key => $data->forecast ); 
-                        if($data->forecast!=null){ echo"Rp. ". number_format($data->forecast, 0, ".", "."). " ($data->satuan)  <br>"; } } ?>
-                      <br>
+                        <td colspan="2">@foreach($for as $data){{$data->satuan}} = <?php $angka_format = number_format($data->forecast,2,",","."); echo "Rp. ".$angka_format;?><br> @endforeach
+                        <br>
                         <?php $remarks_forecash = []; foreach ($for as $key => $data) If (!$remarks_forecash || !in_array($data->remarks_forecash, $remarks_forecash)) { $remarks_forecash += array( $key => $data->remarks_forecash ); 
                         if($data->revisi!=$pkp->revisi){ echo"Remarks forecast: <s><font color='#6594c5'>$data->remarks_forecash<br></font></s>"; } if($data->revisi==$pkp->revisi){ echo"Remarks forecast: $data->remarks_forecash <br>";  } } ?></td>
                       </tr>
