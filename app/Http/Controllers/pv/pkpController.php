@@ -1209,7 +1209,7 @@ class pkpController extends Controller
                 'jangka' => $request->jangka,
                 'waktu' => $request->waktu,
             ],function($message)use($request){
-                $message->subject('PROJECT PKP');
+                $message->subject('PRODEV|PKP');
                 //sent email to User
                 if(Auth::user()->departement_id!=1){
                     $user = DB::table('tr_users')->where('id',$request->user)->get();

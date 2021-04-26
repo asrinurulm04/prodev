@@ -210,7 +210,7 @@ class Email extends Controller
                 'app'=>$isipkp,
             ],function($message)use($request,$id_project)
             {
-                $message->subject('INFO');
+                $message->subject('INFO PRODEV');
                 $pkp = tipp::where('id_pkp',$id_project)->where('status_data','=','active')->get();
                 foreach($pkp as $pkp){
                     $user = DB::table('tr_users')->where('id',$pkp->perevisi)->get();
@@ -247,7 +247,7 @@ class Email extends Controller
                 'app'=>$isipkp,
             ],function($message)use($request,$id_project)
             {
-                $message->subject('INFO');
+                $message->subject('INFO PRODEV');
                 $pkp = tipp::where('id_pkp',$id_project)->where('status_data','=','active')->get();
                 foreach($pkp as $pkp){
                     $user = DB::table('tr_users')->where('id',$pkp->perevisi)->get();
@@ -277,7 +277,7 @@ class Email extends Controller
                 'app'=>$isipdf,
             ],function($message)use($request,$id_project_pdf)
             {
-                $message->subject('INFO');
+                $message->subject('INFO PRODEV');
                 $pdf = coba::where('pdf_id',$id_project_pdf)->where('status_pdf','=','active')->get();
                 foreach($pdf as $pdf){
                     $user = DB::table('tr_users')->where('id',$pdf->perevisi)->get();
@@ -314,7 +314,7 @@ class Email extends Controller
                 'app'=>$isipdf,
             ],function($message)use($request,$id_project_pdf)
             {
-                $message->subject('INFO');
+                $message->subject('INFO PRODEV');
                 $pdf = coba::where('pdf_id',$id_project_pdf)->where('status_pdf','=','active')->get();
                 foreach($pdf as $pdf){
                     $user = DB::table('tr_users')->where('id',$pdf->perevisi)->get();
@@ -343,7 +343,7 @@ class Email extends Controller
                 'app'=>$isipromo,
             ],function($message)use($request,$id_pkp_promo)
             {
-                $message->subject('INFO');
+                $message->subject('INFO PRODEV');
                 $promo = data_promo::where('id_pkp_promoo',$id_pkp_promo)->where('status_data','=','active')->get();
                 foreach($promo as $promo){
                     $user = DB::table('tr_users')->where('id',$promo->perevisi)->get();
