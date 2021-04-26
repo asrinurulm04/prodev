@@ -23,14 +23,8 @@ class BahanBakuController extends Controller
 
     public function bahan(){
         $bahans = Bahan::where('status_bb','eksis')->get();
-        $satuans = Satuan::all();
-        $subkategoris = Subkategori::all();
-        $currens = Curren::all();
         return view('datamaster.bahanbaku')->with([
-            'bahans' => $bahans,
-            'satuans' =>$satuans,
-            'subkategoris' => $subkategoris,
-            'currens' => $currens
+            'bahans' => $bahans
         ]);
     }
 

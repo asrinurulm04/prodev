@@ -45,7 +45,7 @@ class pengajuansampleController extends Controller
                     'for' => $for,
                     'app'=>$isipkp,],function($message)use($data)
                 {
-                    $message->subject('Reject PKP sample');
+                    $message->subject('Approve PKP sample');
                     $datapkp = pkp_project::where('id_project',$data)->get();
                     foreach($datapkp as $data){
                         $dept = DB::table('ms_departements')->where('id',$data->tujuankirim)->get();
@@ -81,7 +81,7 @@ class pengajuansampleController extends Controller
                     'for' => $for,
                     'app'=>$isipdf,],function($message)use($data)
                 {
-                    $message->subject('Reject PDF sample');
+                    $message->subject('Approve PDF sample');
                     $datapdf = project_pdf::where('id_project_pdf',$data)->get();
                     foreach($datapdf as $data){
                         $dept = DB::table('ms_departements')->where('id',$data->tujuankirim)->get();
@@ -295,7 +295,7 @@ class pengajuansampleController extends Controller
                     'for' => $for,
                     'app'=>$isipdf,],function($message)use($data)
                 {
-                    $message->subject('Reject PDF sample');
+                    $message->subject('Pengajuan PDF sample');
                     $datapdf = project_pdf::where('id_project_pdf',$data)->get();
                     foreach($datapdf as $data){
                         $dept = DB::table('ms_departements')->where('id',$data->tujuankirim)->get();

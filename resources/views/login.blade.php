@@ -4,7 +4,6 @@
 	<title>LOGIN</title>
 	<link href="{{ asset('img/prod.png') }}" rel="icon">
   <link href="{{ asset('vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
-  <link href="{{ asset('vendors/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
   <link href="{{ asset('build/css/custom.min.css') }}" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="css/mainn.css">
 <!--===============================================================================================-->

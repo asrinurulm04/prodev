@@ -114,25 +114,18 @@ class Email extends Controller
     }
 
     public function emailpromo(Request $request,$id_pkp_promo,$revisi, $turunan){
-        $promoo = data_promo::join('tr_project_promo','tr_promo.id_pkp_promoo','=','tr_project_promo.id_pkp_promo')->where([ ['id_pkp_promo',$id_pkp_promo], ['revisi',$revisi], ['turunan',$turunan]])->get();
-        
-        $promo1 = data_promo::where('id_pkp_promoo',$id_pkp_promo)->where('revisi',$revisi)->where('turunan',$turunan)->get();
+        $promo1 = data_promo::where('id_pkp_promoo',$id_pkp_promo)->where('revisi',$revisi)->where('turunan',$turunan)->first();
         $app = product_allocation::where('id_pkp_promo',$id_pkp_promo)->where('revisi',$revisi)->where('turunan',$turunan)->get();
         $idea = promo_idea::where('id_promo',$id_pkp_promo)->where('turunan',$turunan)->where('revisi',$revisi)->get();
-        $jumlahpromo = data_promo::where('id_pkp_promoo',$id_pkp_promo)->count();
-        $promo = promo::where('id_pkp_promo',$id_pkp_promo)->get();
         $allocation = product_allocation::where([ ['id_pkp_promo',$id_pkp_promo], ['revisi',$revisi], ['turunan',$turunan]])->get();
         $picture = picture::where('promo',$id_pkp_promo)->where('revisi',$revisi)->where('turunan',$turunan)->get();
         try{
             Mail::send('pv.promoemail', [
-                'promo' => $promo,
-                'promo1' => $promo1,
-                'promoo' => $promoo,
+                'promo' => $promo1,
                 'app' => $app,
                 'idea' => $idea,
                 'picture' => $picture,
-                'allocation' => $allocation,
-                'jumlahpromo' => $jumlahpromo,], function ($message) use ($request)
+                'allocation' => $allocation,], function ($message) use ($request)
             {
                 $data = [$request->pengirim,$request->pengirim1,$request->pengirim2];
                 $message->subject($request->judul);
@@ -159,27 +152,20 @@ class Email extends Controller
     }
 
     public function emailpkp(Request $request,$id_project,$revisi, $turunan){
-        $datapkp = tipp::where('id_pkp',$id_project)->count();
-        $pkp = pkp_project::where('id_project',$id_project)->get();
         $id_pkp = tipp::where([ ['id_pkp',$id_project], ['revisi',$revisi], ['turunan',$turunan] ])->first();
         $for = data_forecast::where([ ['id_pkp',$id_project], ['revisi',$revisi], ['turunan',$turunan] ])->get();
         $dataklaim = data_klaim::where('id_pkp',$id_project)->join('ms_klaim','ms_klaim.id','=','id_klaim')->where('revisi',$revisi)->where('turunan',$turunan)->get();
-        $pkpp = tipp::join('tr_project_pkp','tr_sub_pkp.id_pkp','=','tr_project_pkp.id_project')->where([ ['id_pkp',$id_project], ['revisi',$revisi], ['turunan',$turunan] ])->get();
+        $pkpp = tipp::join('tr_project_pkp','tr_sub_pkp.id_pkp','=','tr_project_pkp.id_project')->where([ ['id_pkp',$id_project], ['revisi',$revisi], ['turunan',$turunan] ])->first();
         $ses= data_ses::where([ ['id_pkp',$id_project], ['revisi','<=',$revisi], ['turunan','<=',$turunan] ])->orderBy('revisi','desc')->orderBy('turunan','desc')->get();
-        $max = tipp::where('id_pkp',$id_project)->max('turunan');
-        $pkp1 = tipp::where('id_pkp',$id_project)->where('revisi',$revisi)->where('turunan',$turunan)->orderBy('turunan','desc')->orderBy('revisi','desc')->get();
         $datadetail = data_detail_klaim::where('id_pkp',$id_project)->where('revisi',$revisi)->where('turunan',$turunan)->get();
         $picture = picture::where('pkp_id',$id_project)->where('revisi','<=',$revisi)->where('turunan','<=',$turunan)->get();
         try{
             Mail::send('pv.emailpkp', [
-            'pkpp' => $pkpp,
-            'pkp' => $pkp,
+            'pkp' => $pkpp,
             'datases' => $ses,
             'for' => $for,
             'datadetail' => $datadetail,
             'dataklaim' => $dataklaim,
-            'pkp1' => $pkp1,
-            'datapkp' => $datapkp,
             'picture' => $picture,], function ($message) use ($request)
             {
                 $data = [$request->pengirim,$request->pengirim1,$request->pengirim2];
@@ -224,7 +210,7 @@ class Email extends Controller
                 'app'=>$isipkp,
             ],function($message)use($request,$id_project)
             {
-                $message->subject('INFO');
+                $message->subject('INFO PRODEV');
                 $pkp = tipp::where('id_pkp',$id_project)->where('status_data','=','active')->get();
                 foreach($pkp as $pkp){
                     $user = DB::table('tr_users')->where('id',$pkp->perevisi)->get();
@@ -261,7 +247,7 @@ class Email extends Controller
                 'app'=>$isipkp,
             ],function($message)use($request,$id_project)
             {
-                $message->subject('INFO');
+                $message->subject('INFO PRODEV');
                 $pkp = tipp::where('id_pkp',$id_project)->where('status_data','=','active')->get();
                 foreach($pkp as $pkp){
                     $user = DB::table('tr_users')->where('id',$pkp->perevisi)->get();
@@ -291,7 +277,7 @@ class Email extends Controller
                 'app'=>$isipdf,
             ],function($message)use($request,$id_project_pdf)
             {
-                $message->subject('INFO');
+                $message->subject('INFO PRODEV');
                 $pdf = coba::where('pdf_id',$id_project_pdf)->where('status_pdf','=','active')->get();
                 foreach($pdf as $pdf){
                     $user = DB::table('tr_users')->where('id',$pdf->perevisi)->get();
@@ -328,7 +314,7 @@ class Email extends Controller
                 'app'=>$isipdf,
             ],function($message)use($request,$id_project_pdf)
             {
-                $message->subject('INFO');
+                $message->subject('INFO PRODEV');
                 $pdf = coba::where('pdf_id',$id_project_pdf)->where('status_pdf','=','active')->get();
                 foreach($pdf as $pdf){
                     $user = DB::table('tr_users')->where('id',$pdf->perevisi)->get();
@@ -357,7 +343,7 @@ class Email extends Controller
                 'app'=>$isipromo,
             ],function($message)use($request,$id_pkp_promo)
             {
-                $message->subject('INFO');
+                $message->subject('INFO PRODEV');
                 $promo = data_promo::where('id_pkp_promoo',$id_pkp_promo)->where('status_data','=','active')->get();
                 foreach($promo as $promo){
                     $user = DB::table('tr_users')->where('id',$promo->perevisi)->get();

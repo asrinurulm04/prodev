@@ -377,9 +377,9 @@
             <td colspan="2">Jumlah</td>
             <input type="hidden" id="rjsBatch" value="">
             <td><input type="number" placeholder="0" id="jServing" disabled></td>
-            <td><input type="number" placeholder="0" id="jBatch" disabled></td>
-            <td ><input onkeyup="cjsServing(this.id)" type="number" placeholder="0" id="jsServing" name="jsServing"></td>
-            <td ><input onkeyup="cjsBatch(this.id)" type="number" placeholder="0" id="jsBatch" name="jsBatch"></td>
+            <td><input onkeyup="ctBatch(this.id)" type="number" placeholder="0" class="tbatch" name="tbatch" id="jBatch"></td>
+            <td><input onkeyup="cjsServing(this.id)" type="number" placeholder="0" id="jsServing" name="jsServing"></td>
+            <td><input onkeyup="cjsBatch(this.id)" type="number" placeholder="0" id="jsBatch" name="jsBatch"></td>
             <td>
             <input type="hidden" id="rBase" id="rBase" value="{{ $mybase }}">
                 X <input type="number" id="base" name="base" onkeyup="BASE(this.id)"  value="{{ $mybase }}">
@@ -523,7 +523,12 @@
 						<td><input type="number" placeholder="0" id="Serving2{{ $fortail['no'] }}"  value="{{ $fortail['per_serving'] }}"   name="Serving[{{ $fortail['no'] }}]"></td>      
 						<td><input type="number" placeholder="0" id="Batch2{{ $fortail['no'] }}"  value="{{ $fortail['per_batch'] }}"   name="Batch[{{ $fortail['no'] }}]"></td>                                 
           </tr>                                                       
-          @endforeach  
+          @endforeach                                                             
+          <tr>
+						<td>Total Batch</td>                          
+						<td><input type="number" placeholder="0" id="total_svg" name="total_svg"></td>      
+						<td><input type="number" placeholder="0" id="total_btc" name="total_btc"></td>                                 
+          </tr> 
           <tr>
             <td colspan="3">
 							<br><label>Jumlah Fortail</label><br>
@@ -759,6 +764,14 @@
       $('#target_scale').val('');
       $('#target_number').val('');
     }
+  }
+
+  function ctBatch(myId){
+    x = $('.tbatch').val();
+    y = $('#jServing').val();
+    console.log(y);
+    $('#total_btc').val(x);
+    $('#total_svg').val(y);
   }
 
   // KEYUP JUMLAH SCALE SERVING

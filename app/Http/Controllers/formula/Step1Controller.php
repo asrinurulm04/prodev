@@ -22,28 +22,22 @@ class Step1Controller extends Controller
     }
     
     public function create($formula,$id){
-        $depts = Departement::all();
-        $subbrands = Subbrand::all();
-        $produksis = Produksi::all();
         $formula = Formula::where('id',$id)->first();
+        $subbrands = Subbrand::all();
         $idfor = $formula->workbook_id;
         $idf = $id;
         $data = tr_data_formula::where('id_formula',$id)->get();
         return view('formula/step1')->with([
             'idf' => $idf,
-            'formula' => $formula,
-            'depts' => $depts,
             'subbrands' => $subbrands,
+            'formula' => $formula,
             'data' => $data,
-            'idfor' => $idfor,
-            'produksis' => $produksis
+            'idfor' => $idfor
         ]);
     }
 
     public function step1_pdf($formula,$id){
-        $depts = Departement::all();
         $subbrands = Subbrand::all();
-        $produksis = Produksi::all();
         $formula = Formula::where('id',$id)->first();
         $idfor_pdf = $formula->workbook_pdf_id;
         $idf = $id;
@@ -52,10 +46,8 @@ class Step1Controller extends Controller
             'idf' => $idf,
             'data' => $data,
             'formula' => $formula,
-            'depts' => $depts,
             'subbrands' => $subbrands,
-            'idfor_pdf' => $idfor_pdf,
-            'produksis' => $produksis
+            'idfor_pdf' => $idfor_pdf
         ]);
     }
 

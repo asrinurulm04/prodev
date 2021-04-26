@@ -18,63 +18,6 @@
 </div>
 @endif
 
-<div class="col-md-12 col-sm-12 col-xs-12">
-  <div class="row">
-    <!-- filter data -->
-    <div class="panel panel-default">
-	    <div class="panel-heading">
-        <h2><li class="fa fa-filter"></li> Filter Project PDF</h2>
-      </div>
-      <div>
-        <div>
-          <form id="clear">
-          <div class="col-md-4 pl-1">
-            <div class="form-group" id="filter_col" data-column="5">
-              <label>Priority</label>
-              <select name="name" class="form-control column_filter" id="col5_filter">
-                <option disabled selected>-->Select One<--</option>
-                <option>Prioritas 1</option>
-                <option>Prioritas 2</option>
-                <option>Prioritas 3</option>
-              </select>
-            </div>
-          </div>      
-          <div class="col-md-4 pl-1">
-            <div class="form-group" id="filter_col1" data-column="3">
-              <label>Brand</label>
-              <select name="brand" class="form-control column_filter" id="col3_filter" >
-                <option disabled selected>-->Select One<--</option>
-                @foreach($brand as $br)
-                <option>{{$br->brand}}</option>
-                @endforeach
-              </select>
-            </div>
-          </div>
-          <div class="col-md-3 pl-1">
-            <div class="form-group" id="filter_col1" data-column="6">
-              <label>Status</label>
-              <select name="status" class="form-control column_filter" id="col6_filter" >
-                <option disabled selected>-->Select One<--</option>
-                <option>sending sample</option>
-                <option>sent to PV</option>
-                <option>approved by PV</option>
-              </select>
-            </div>
-          </div>
-          <div class="col-md-1 pl-1">
-            <div class="form-group" id="filter_col1" data-column="5">
-              <label class="text-center">refresh</label>    <br>
-              <a href="" class="btn btn-info btn-sm"><li class="fa fa-refresh"></li></a>
-            </div>
-          </div>
-          </form>
-        </div>
-      </div>
-    </div>
-    <!-- filter data selesai -->
-  </div>
-</div>
-
 <div class="x_panel">
   <div class="x_title">
     <h3><li class="fa fa-wpforms"></li> List PDF</h3>

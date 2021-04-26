@@ -380,8 +380,6 @@
     <script src="{{ asset('js/vendor/jquery-2.2.4.min.js') }}"></script>
     <!-- Bootstrap -->
     <script src="{{ asset('vendors/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('lib/advanced-datatable/js/jquery.dataTables.js')}}"></script>
-    <script src="{{ asset('lib/advanced-datatable/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{ asset('js/datatables.min.js')}}"></script>
     <script src="{{ asset('js/select2/select2.min.js') }}"></script>
     <script src="{{ asset('build/js/custom.min.js') }}"></script>

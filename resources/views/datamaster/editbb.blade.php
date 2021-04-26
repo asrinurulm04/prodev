@@ -624,7 +624,7 @@
           <td class="text-center">
             <select name="btp_carry_over[]" id="btp_carry_over" class="form-control select">
 							<option value="{{$hasil->btp}}" selected>{{$hasil->btp}}</option>
-              @foreach($btp as $btp1)
+              @foreach($btp2 as $btp1)
               <option value="{{$btp1->btp}}">{{$btp1->btp}}</option>
               @endforeach
             </select>
@@ -649,7 +649,7 @@
           <td class="text-center">
             <select name="btp_carry_over[]" id="btp_carry_over" class="form-control select">
               <option disabled selected>-->Select One<--</option>
-              @foreach($btp as $btp)
+              @foreach($btp2 as $btp)
               <option value="{{$btp->btp}}">{{$btp->btp}}</option>
               @endforeach
             </select>
