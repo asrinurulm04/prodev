@@ -137,8 +137,8 @@ class masterController extends Controller
     }
 
     public function principal(){
-        $supplier = ms_supplier_principals::all();
-        $principal = ms_supplier_principal_cps::all();
+        $supplier = ms_supplier_principals::orderBy('nama_supplier_principal','asc')->get();
+        $principal = ms_supplier_principal_cps::orderBy('nama_cp','asc')->get();
         return view('datamaster.principal')->with([
             'principal' => $principal,
             'supplier' => $supplier
@@ -206,7 +206,7 @@ class masterController extends Controller
     }
 
     public function supplier(){
-        $supplier = ms_supplier_principals::all();
+        $supplier = ms_supplier_principals::orderBy('nama_supplier_principal','asc')->get();
         return view('datamaster.supplier')->with([
             'supplier' => $supplier
         ]);

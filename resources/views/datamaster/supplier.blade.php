@@ -38,12 +38,6 @@
             </div>
           </div>
           <div class="form-group row">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12">Kode Oracle</label>
-            <div class="col-md-9 col-sm-9 col-xs-12">
-          		<input id="oracle" class="form-control col-md-12 col-xs-12" name="oracle" type="text">
-            </div>
-          </div>
-          <div class="form-group row">
             <label class="control-label col-md-3 col-sm-3 col-xs-12">Alamat</label>
             <div class="col-md-9 col-sm-9 col-xs-12">
           		<input id="alamat" class="form-control col-md-12 col-xs-12" name="alamat" type="text">
@@ -53,18 +47,6 @@
             <label class="control-label col-md-3 col-sm-3 col-xs-12">telp</label>
             <div class="col-md-9 col-sm-9 col-xs-12">
           		<input id="telp" class="form-control col-md-12 col-xs-12" name="telp" type="number">
-            </div>
-          </div>
-          <div class="form-group row">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12">No Fax</label>
-            <div class="col-md-9 col-sm-9 col-xs-12">
-          		<input id="fax" class="form-control col-md-12 col-xs-12" name="fax" type="text">
-            </div>
-          </div>
-          <div class="form-group row">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12">Website</label>
-            <div class="col-md-9 col-sm-9 col-xs-12">
-          		<input id="web" class="form-control col-md-12 col-xs-12" name="web" type="text">
             </div>
           </div><hr>
 					<div class="card-block col-md-5 col-md-offset-5">
@@ -87,12 +69,9 @@
 				<table class="Table table-bordered">
 					<thead>
 						<tr style="font-weight: bold;color:white;background-color: #2a3f54;">
-							<th>No</th>
-							<th width="30%">Nama Suplier</th>
-							<th>Alamat</th>
-							<th>No Fax</th>
-							<th>Website</th>
-							<th width="15%">Action</th>
+							<th class="text-center" width="5%">No</th>
+							<th class="text-center" width="30%">Nama Suplier</th>
+							<th class="text-center" width="15%">Action</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -100,9 +79,6 @@
 						<tr>
 							<td class="text-center">{{$supplier->id}}</td>
 							<td>{{$supplier->nama_supplier_principal}}</td>
-							<td>{{$supplier->alamat_supplier_principal}}</td>
-							<td>{{$supplier->no_fax_supplier_principal}}</td>
-							<td>{{$supplier->website_supplier_principal}}</td>
 							<td class="text-center">
                 @if($supplier->is_active=='active')
                 <a href="{{route('inactive_supplier',$supplier->id)}}" class="btn btn-sm btn-danger" type="button" title="inactive"><li class="fa fa-ban"></li></a>
@@ -144,18 +120,6 @@
                               <label class="control-label col-md-3 col-sm-3 col-xs-12">telp</label>
                               <div class="col-md-9 col-sm-9 col-xs-12">
                                 <input id="telp" class="form-control col-md-12 col-xs-12" name="telp" value="{{$supplier->telepon_supplier_principal}}" type="number">
-                              </div>
-                            </div>
-                            <div class="form-group row">
-                              <label class="control-label col-md-3 col-sm-3 col-xs-12">No Fax</label>
-                              <div class="col-md-9 col-sm-9 col-xs-12">
-                                <input id="fax" class="form-control col-md-12 col-xs-12" name="fax" value="{{$supplier->no_fax_supplier_principal}}" type="text">
-                              </div>
-                            </div>
-                            <div class="form-group row">
-                              <label class="control-label col-md-3 col-sm-3 col-xs-12">Website</label>
-                              <div class="col-md-9 col-sm-9 col-xs-12">
-                                <input id="web" class="form-control col-md-12 col-xs-12" name="web" value="{{$supplier->website_supplier_principal}}" type="text">
                               </div>
                             </div><hr>
                             <div class="card-block col-md-5 col-md-offset-5">

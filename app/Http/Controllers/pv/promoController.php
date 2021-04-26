@@ -57,7 +57,6 @@ class promoController extends Controller
 
     public function buatpromo1($id_pkp_promo,$revisi,$turunan){
         $pkp= promo::where('id_pkp_promo',$id_pkp_promo)->get();
-        $promo = data_promo::where('id_pkp_promoo',$id_pkp_promo)->count();
         $data = data_promo::where('id_pkp_promoo',$id_pkp_promo)->where('revisi',$revisi)->where('turunan',$turunan)->get();
         $ide = promo_idea::where('id_promo',$id_pkp_promo)->where('revisi',$revisi)->where('turunan',$turunan)->get();
         $users = user::where('status','=','active')->where('role_id','14')->get();
@@ -65,7 +64,6 @@ class promoController extends Controller
             'pkp' => $pkp,
             'ide' => $ide,
             'users' => $users,
-            'promo' => $promo,
             'data' => $data
         ]);
     }

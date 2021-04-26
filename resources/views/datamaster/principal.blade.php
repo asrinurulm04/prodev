@@ -52,18 +52,6 @@
             <div class="col-md-9 col-sm-9 col-xs-12">
           		<input id="email" class="form-control col-md-12 col-xs-12" name="email" type="email">
             </div>
-          </div>
-          <div class="form-group row">
-            <label class="control-label col-md-2 col-sm-3 col-xs-12">telp</label>
-            <div class="col-md-9 col-sm-9 col-xs-12">
-          		<input id="telp" class="form-control col-md-12 col-xs-12" name="telp" type="number">
-            </div>
-          </div>
-          <div class="form-group row">
-            <label class="control-label col-md-2 col-sm-3 col-xs-12">jabatan</label>
-            <div class="col-md-9 col-sm-9 col-xs-12">
-          		<input id="jabatan" class="form-control col-md-12 col-xs-12" name="jabatan" type="text">
-            </div>
           </div><hr>
 					<div class="card-block col-md-5 col-md-offset-5">
 						<button type="reset" class="btn btn-warning btn-sm"><li class="fa fa-repeat"></li> Reset</button>
@@ -85,21 +73,18 @@
 				<table class="Table table-bordered">
 					<thead>
 						<tr style="font-weight: bold;color:white;background-color: #2a3f54;">
-							<th width="5%">No</th>
-							<th width="30%">Name</th>
-							<th>Email</th>
-							<th>Telp</th>
-							<th width="17%">Action</th>
+							<th class="text-center" width="5%">No</th>
+							<th class="text-center" width="30%">Name</th>
+							<th class="text-center" width="17%">Action</th>
 						</tr>
 					</thead>
 					<tbody>
+            @php $no = 0; @endphp
 						@foreach($principal as $principal)
 						<tr>
-							<td class="text-center">{{$principal->id}}</td>
+							<td class="text-center">{{++$no}}</td>
 							<td>{{$principal->nama_cp}}</td>
-							<td>{{$principal->email_cp}}</td>
-							<td class="text-center">{{$principal->telepon_cp}}</td>
-							<td>
+							<td class="text-center">
               @if($principal->is_active=='active')
                 <a href="{{route('inactive_principal',$principal->id)}}" class="btn btn-sm btn-danger" type="button" title="inactive"><li class="fa fa-ban"></li></a>
                 <button class="btn btn-warning btn-sm" type="button" data-toggle="modal" data-target="#edit{{$principal->id}}"><i class="fa fa-edit"></i></a></button></td>
@@ -129,19 +114,7 @@
                             <div class="col-md-9 col-sm-9 col-xs-12">
                               <input id="email" class="form-control col-md-12 col-xs-12" value="{{$principal->email_cp}}" name="email" type="email">
                             </div>
-                          </div>
-                          <div class="form-group row">
-                            <label class="control-label col-md-2 col-sm-3 col-xs-12">telp</label>
-                            <div class="col-md-9 col-sm-9 col-xs-12">
-                              <input id="telp" class="form-control col-md-12 col-xs-12" value="{{$principal->telepon_cp}}" name="telp" type="number">
-                            </div>
-                          </div>
-                          <div class="form-group row">
-                            <label class="control-label col-md-2 col-sm-3 col-xs-12">jabatan</label>
-                            <div class="col-md-9 col-sm-9 col-xs-12">
-                              <input id="jabatan" class="form-control col-md-12 col-xs-12" value="{{$principal->jabatan_cp}}" name="jabatan" type="text">
-                            </div>
-                          </div><hr>
+                          </div>><hr>
                           </div>
                         </div>
 											</div>

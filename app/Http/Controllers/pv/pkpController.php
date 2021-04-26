@@ -106,11 +106,8 @@ class pkpController extends Controller
         $id_pkp = tipp::where([ ['id_pkp',$id_project], ['revisi',$revisi], ['turunan',$turunan] ])->first();
         $for = data_forecast::where('id_pkp',$id_project)->where('revisi',$revisi)->where('turunan',$turunan)->get();
         $pkpp = tipp::join('tr_project_pkp','tr_sub_pkp.id_pkp','=','tr_project_pkp.id_project')->where([ ['id_pkp',$id_project], ['revisi',$revisi], ['turunan',$turunan] ])->get();
-        $data1 = tipp::join('tr_project_pkp','tr_sub_pkp.id_pkp','=','tr_project_pkp.id_project')->where([ ['id_pkp',$id_project], ['revisi',$revisi], ['turunan',$turunan] ])->first();
-        $type = $data1->type;
         $ses= data_ses::where([ ['id_pkp',$id_project], ['revisi','<=',$revisi], ['turunan','<=',$turunan] ])->orderBy('revisi','desc')->orderBy('turunan','desc')->get();
-        $max = tipp::where('id_pkp',$id_project)->max('turunan');
-        $pkp2 = tipp::where('id_pkp',$id_project)->where('revisi','<=',$revisi)->where('turunan',$max)->orderBy('turunan','desc')->orderBy('revisi','desc')->get();
+        $pkp2 = tipp::where('id_pkp',$id_project)->where('revisi','<=',$revisi)->where('turunan',$turunan)->orderBy('turunan','desc')->orderBy('revisi','desc')->get();
         $pkp1 = tipp::where('id_pkp',$id_project)->where('revisi','<=',$revisi)->where('turunan','<=',$turunan)->orderBy('turunan','desc')->orderBy('revisi','desc')->get();
         $dataklaim = data_klaim::where('id_pkp',$id_project)->join('ms_klaim','ms_klaim.id','=','id_klaim')->where('revisi',$revisi)->where('turunan',$turunan)->get();
         $datadetail = data_detail_klaim::where('id_pkp',$id_project)->where('revisi',$revisi)->where('turunan',$turunan)->get();
@@ -120,7 +117,6 @@ class pkpController extends Controller
             'pkpp' => $pkpp,
             'datases' => $ses,
             'for' => $for,
-            'type' => $type,
             'datadetail' => $datadetail,
             'dataklaim' => $dataklaim,
             'pkp2' => $pkp2,
@@ -134,11 +130,8 @@ class pkpController extends Controller
     public function downloadpkp($id_project,$revisi,$turunan){
         $pkpp = tipp::join('tr_project_pkp','tr_sub_pkp.id_pkp','=','tr_project_pkp.id_project')->where([ ['id_project',$id_project], ['revisi',$revisi], ['turunan',$turunan] ])->get();
         $picture = picture::where('pkp_id',$id_project)->get();
-        $id_pkp = tipp::where([ ['id_pkp',$id_project], ['revisi',$revisi], ['turunan',$turunan] ])->first();
         $for = data_forecast::where('id_pkp',$id_project)->where('revisi',$revisi)->where('turunan',$turunan)->get();
-        $max = tipp::where('id_pkp',$id_project)->max('turunan');
-        $max2 = tipp::where('id_pkp',$id_project)->max('revisi');
-        $pkp1 = tipp::where('id_pkp',$id_project)->where('revisi',$max2)->where('turunan',$turunan)->get();
+        $pkp1 = tipp::where('id_pkp',$id_project)->where('revisi',$revisi)->where('turunan',$turunan)->get();
         $dataklaim = data_klaim::where('id_pkp',$id_project)->join('ms_klaim','ms_klaim.id','=','id_klaim')->where('revisi',$revisi)->where('turunan',$turunan)->get();
         $ses= data_ses::where([ ['id_pkp',$id_project], ['revisi',$revisi], ['turunan',$turunan] ])->get();
         $datadetail = data_detail_klaim::where('id_pkp',$id_project)->where('turunan',$turunan)->get();
@@ -207,7 +200,7 @@ class pkpController extends Controller
 
     public function buatpkp($id_project,$revisi,$turunan){
         $pkpdata = tipp::where([ ['id_pkp',$id_project], ['revisi',$revisi], ['turunan',$turunan] ])->get();
-        $project = tipp::where('status_pkp','!=','draf')->where('status_data','=','active') ->join('tr_project_pkp','tr_project_pkp.id_project','=','tr_sub_pkp.id_pkp')->get();
+        $project = pkp_project::where('status_project','!=','draf')->get();
         $brand = brand::all();
         $ses = ses::all();
         $user = user::where('status','=','active')->get();
@@ -217,16 +210,13 @@ class pkpController extends Controller
         $Ddetail = data_detail_klaim::max('id')+1;
         $tarkon = Tarkon::all();
         $eksis=datakemas::count();
-        $id_pkp = tipp::where([ ['id_pkp',$id_project], ['revisi',$revisi], ['turunan',$turunan] ])->first();
         $for = data_forecast::where('id_pkp',$id_project)->where('revisi',$revisi)->where('turunan',$turunan)->get();
         $for2 = data_forecast::where('id_pkp',$id_project)->where('revisi',$revisi)->where('turunan',$turunan)->count();
         $datadetail = data_detail_klaim::where('id_pkp',$id_project)->where('turunan',$turunan)->where('revisi',$revisi)->get();
         $pangan = pkp_datapangan::all();
-        $idea = pkp_uniq_idea::all();
         $dataklaim = data_klaim::where('id_pkp',$id_project)->where('turunan',$turunan)->where('revisi',$revisi)->get();
         $ide = pkp_uniq_idea::all();
         $kemas = datakemas::all();
-        $market = pkp_estimasi_market::all();
         $mar = pkp_estimasi_market::all();
         $detail = detail_klaim::all();
         $klaim = klaim::all();
@@ -247,15 +237,13 @@ class pkpController extends Controller
             'dataklaim' => $dataklaim,
             'Ddetail' => $Ddetail,
             'pangan' => $pangan,
-            'idea' => $idea,
             'kemas' => $kemas,
             'ide' => $ide,
             'komponen' => $komponen,
             'klaim' => $klaim,
             'detail' => $detail,
             'mar' => $mar,
-            'pkpdata' => $pkpdata,
-            'market' => $market
+            'pkpdata' => $pkpdata
         ]);
     }
 
@@ -278,9 +266,7 @@ class pkpController extends Controller
         $id_pkp = pkp_project::find($id_project);
         $idea = pkp_uniq_idea::all();
         $project = tipp::where('status_pkp','!=','draf')->where('status_data','=','active') ->join('tr_project_pkp','tr_project_pkp.id_project','=','tr_sub_pkp.id_pkp')->get();
-        $ide = pkp_uniq_idea::all();
         $market = pkp_estimasi_market::all();
-        $mar = pkp_estimasi_market::all();
         return view('pkp.buatpkp1')->with([
             'brand' => $brand,
             'project' => $project,
@@ -299,15 +285,12 @@ class pkpController extends Controller
             'data_uom' => $data_uom,
             'uom_primer' => $uom_primer,
             'kemas' => $kemas,
-            'ide' => $ide,
-            'mar' => $mar,
             'market' => $market
         ]);
     }
 
     public function konfigurasi($id_project,$revisi,$turunan){
         $konfig = tipp::where([ ['id_pkp',$id_project], ['revisi',$revisi], ['turunan',$turunan] ])->first();
-        //dd($konfig->secondary);
         $konfig->kemas_eksis=null;
         if($konfig->primery!=null){
         $konfig->primery=null;}
@@ -1383,8 +1366,6 @@ class pkpController extends Controller
 
         $project = pkp_project::where('id_project',$id_project)->first();
         $project->status_project='revisi';
-        // $project->status_terima='proses';
-        // $project->status_terima2='proses';
         $project->save();
 
         $data = tipp::where('id_pkp',$id_project)->where('revisi',$revisi)->where('turunan',$turunan)->first();
@@ -1513,11 +1494,9 @@ class pkpController extends Controller
         $pengajuanpdf = pengajuan::where('id_pdf','!=','')->get();
         $pengajuanpkp = pengajuan::where('id_pkp','!=','')->get();
         $pengajuanpromo = pengajuan::where('id_promo','!=','')->get();
-        $pengajuan = pengajuan::count();
         return view('pv.datapengajuan')->with([
             'pengajuanpdf' => $pengajuanpdf,
             'pengajuanpkp' => $pengajuanpkp,
-            'pengajuan' => $pengajuan,
             'pengajuanpromo' => $pengajuanpromo
         ]);
     }

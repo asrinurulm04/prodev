@@ -42,7 +42,7 @@
         </button>
       </div>
       <div class="modal-body">
-				<table class="table table-bordered">
+				<table id="Table" class="table table-bordered">
 					<thead>
 						<tr style="font-weight: bold;color:white;background-color: #2a3f54;">
 							<td>Project Name</td>

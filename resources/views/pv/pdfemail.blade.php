@@ -148,27 +148,6 @@
                                 <table>
                                 @foreach($pdf1 as $pdf)
                                 @if($pdf->primer!=NULL)
-                                  {{ $pdf->primer }}{{ $pdf->s_primer }} 
-                                  @elseif($pdf->primer==NULL)
-                                  @endif
-  
-                                  @if($pdf->sekunder1!=NULL)
-                                  X {{ $pdf->sekunder1 }}{{ $pdf->s_sekunder1}} 
-                                  @elseif($pdf->sekunder1==NULL)
-                                  @endif
-  
-                                  @if($pdf->sekunder2!=NULL)
-                                  X {{ $pdf->sekunder2 }}{{ $pdf->s_sekunder2 }}
-                                  @elseif($pdf->sekunder2==NULL)
-                                  @endif
-  
-                                  @if($pdf->tersier!=NULL)
-                                  X {{ $pdf->tersier }}{{ $pdf->s_tersier }}
-                                  @elseif($pdf->tersier==NULL)
-                                  @endif
-  
-                                  @if($pdf->primer==NULL)
-                                  {{$pdf->kemas->nama}}
                                   (
                                   @if($pdf->kemas->primer!=NULL)
                                   {{ $pdf->kemas->primer }}{{ $pdf->kemas->s_primer }}

@@ -390,7 +390,12 @@ class ScaleController extends Controller
             // Collect Needed Value
             $id        = $request->ftid[$i];            
             $Serving   = $request->Serving[$i];     
-            $Batch     = $request->Batch[$i];
+            if($request->Batch[$i]!=0){
+                $Batch     = $request->Batch[$i];
+            }elseif($request->Batch[$i]==0 && $request->total_btc!=NULL){
+                $total = ($request->total_btc/$request->total_svg)*$request->Serving[$i];
+                $Batch = $total;
+            }
 
             // Start Updating
             $myFortail  = Fortail::where('id',$id)->first();
@@ -399,6 +404,7 @@ class ScaleController extends Controller
             $myFortail->save();
             
             $total_batch    = $total_batch + $Batch;
+            $total_batch    = $request->total_btc;
             $total_serving  = $total_serving + $Serving;
         }
         

@@ -338,16 +338,14 @@ class bbRDController extends Controller
     public function registrasi(){
         $currens = Curren::all();
         $allergen = ms_allergen::all();
-        $allergen2 = ms_allergen::all();
         $satuans = Satuan::all();
         $pangan = bpom_mikrobiologi::all();
         $satuan_bpom = satuan_bpom::all();
         $zat = ms_zat_aktif::all();
-        $btp = ms_btp::all();
-        $supplier = ms_supplier_principals::all();
-        $principal = ms_supplier_principal_cps::all();
+        $supplier = ms_supplier_principals::orderBy('nama_supplier_principal','asc')->get();
+        $principal = ms_supplier_principal_cps::orderBy('nama_cp','asc')->get();
         $btp2 = ms_btp::all();
-        $kategori = Kategori::all();
+        $kategori = Kategori::orderBy('kategori','asc')->get();
         $jenis = tb_jenis_mikroba::all();
         $satuan_vit = tb_satuan_vit::all();
         return view('datamaster.registrasiBB')->with([
@@ -356,14 +354,12 @@ class bbRDController extends Controller
             'pangan' => $pangan,
             'jenis' => $jenis,
             'satuan_bpom' => $satuan_bpom,
-            'btp' => $btp,
             'zat' => $zat,
             'zat1' => $zat,
             'supplier' => $supplier,
             'principal' => $principal,
             'btp2' => $btp2,
             'kategori' => $kategori,
-            'allergen2' =>$allergen,
             'satuan_vit' =>$satuan_vit,
             'curren' => $currens
         ]);
@@ -394,7 +390,6 @@ class bbRDController extends Controller
         $satuans = Satuan::all();
         $data_pangan = pkp_datapangan::all();
         $pangan = pkp_datapangan::all();
-        $btp = ms_btp::all();
         $btp2 = ms_btp::all();
         $kategori = Kategori::all();
         $jenis = tb_jenis_mikroba::all();
@@ -423,7 +418,6 @@ class bbRDController extends Controller
             'zat' => $zat,
             'hasil_btp' => $hasil_btp,
             'jenis' => $jenis,
-            'btp' => $btp,
             'btp2' => $btp2,
             'kategori' => $kategori,
             'allergen2' =>$allergen2,

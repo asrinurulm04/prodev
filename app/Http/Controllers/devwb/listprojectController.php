@@ -5,21 +5,10 @@ namespace App\Http\Controllers\devwb;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-use App\model\pkp\pkp_type;
 use App\model\pkp\pkp_project;
 use App\model\pkp\project_pdf;
-use App\model\pkp\data_forecast;
 use App\model\master\Brand;
-use App\model\pkp\klaim;
-use App\model\pkp\kemaspdf;
-use App\model\pkp\detail_klaim;
-use App\model\pkp\komponen;
-use App\model\pkp\data_klaim;
-use App\model\pkp\data_detail_klaim;
-use App\model\pkp\data_ses;
 use App\model\pkp\promo;
-use App\model\pkp\data_promo;
-use App\model\pkp\coba;
 use App\model\pkp\tipp;
 
 use Auth;
@@ -35,39 +24,19 @@ class listprojectController extends Controller
 
     public function listpkp(){
         $pkp = tipp::where('status_data','=','active')->join('tr_project_pkp','tr_project_pkp.id_project','=','tr_sub_pkp.id_pkp')->where('status_project','!=','draf')->where('status_project','!=','sent')->orderBy('pkp_number','desc')->get();
-        $type = pkp_type::all();
         $brand = brand::all();
-        $hitungpkp = tipp::where('status_pkp','=','draf')->count();
-        $hitungpromo = data_promo::where('status_promo','=','draf')->count();
-        $hitungpdf = coba::where('status_data','=','draf')->count();
-        $jumlah = $hitungpkp+$hitungpromo+$hitungpdf;
         return view('devwb.listprojectpkp')->with([
-            'type' => $type,
             'brand' => $brand,
-            'pkp' => $pkp,
-            'hitungpkp' => $hitungpkp,
-            'hitungpromo' => $hitungpromo,
-            'hitungpdf' => $hitungpdf,
-            'jumlah' => $jumlah
+            'pkp' => $pkp
         ]);
     }
 
     public function listpdf(){
         $pdf = project_pdf::all();
-        $type = pkp_type::all();
         $brand = brand::all();
-        $hitungpkp = tipp::where('status_pkp','=','draf')->count();
-        $hitungpromo = data_promo::where('status_promo','=','draf')->count();
-        $hitungpdf = coba::where('status_data','=','draf')->count();
-        $jumlah = $hitungpkp+$hitungpromo+$hitungpdf;
         return view('devwb.listpdfproject')->with([
-            'type' => $type,
             'pdf' => $pdf,
-            'brand' => $brand,
-            'hitungpkp' => $hitungpkp,
-            'hitungpromo' => $hitungpromo,
-            'hitungpdf' => $hitungpdf,
-            'jumlah' => $jumlah
+            'brand' => $brand
         ]);
     }
 

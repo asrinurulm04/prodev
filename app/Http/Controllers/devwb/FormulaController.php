@@ -83,16 +83,12 @@ class FormulaController extends Controller
     public function deleteformula($id){
 		$formula = Formula::where('id',$id)->first();
 		$allergen = allergen_formula::where('id_formula',$id)->delete();
-        $fortails = Fortail::where('formula_id',$id)->get();
-        foreach($fortails as $fortail){
-        	$fortail->delete();
-        }
+        $fortails = Fortail::where('formula_id',$id)->delete();
         $formula->delete();
 		
 		$panel = hasilpanel::where('id_formula',$id)->count();
 		if($panel>='1'){
-			$panel1 = hasilpanel::where('id_formula',$id)->first();
-			$panel1->delete();
+			$panel1 = hasilpanel::where('id_formula',$id)->delete();
 		}
 
 		$storage = storage::where('id_formula',$id)->count();
@@ -130,15 +126,13 @@ class FormulaController extends Controller
         $idfor = $formula->workbook_id;
         $idfor_pdf = $formula->workbook_pdf_id;
         $fortails = Fortail::where('formula_id',$id)->get();
-        $ingredient = DB::table('tr_fortails')->where('tr_fortails.formula_id',$id)->get();
+        $ingredient = DB::table('tr_fortails')->where('tr_fortails.formula_id',$id)->orderBy('per_batch','desc')->get();
 		$ada = Fortail::where('formula_id',$id)->count();
 		$btp = tr_btp_bb::all();
 		$allergen_bb = allergen_formula::join('tr_bb_allergen','id_bb','tr_allergen_formula.id_bahan')->where('id_formula',$id)->where('allergen_countain','!=','')->select(['allergen_countain'])->distinct()->get();
 		$bb_allergen = allergen_formula::join('tr_bb_allergen','id_bb','tr_allergen_formula.id_bahan')->where('id_formula',$id)->where('allergen_countain','!=','')->get();
         if($ada < 1){
             return Redirect::back()->with('error','Data Bahan Formula Versi '.$formula->versi.' Masih Kosong');
-        }elseif($formula->batch < 1){
-            return Redirect::back()->with('error','Data Bahan Formula Versi '.$formula->versi.'.'.$formula->turunan.' Belum Memliki Batch');
         }elseif($formula->note_formula == Null){
             return Redirect::back()->with('error','Note Formula untuk versi '.$formula->versi.'.'.$formula->turunan.' Masih Kosong');
 		}
@@ -154,7 +148,7 @@ class FormulaController extends Controller
             $detail_formula->push([
 
                 'id' => $fortail->id,
-                'kode_komputer' => $fortail->kode_komputer,
+                'kode_oracle' => $fortail->kode_oracle,
                 'nama_sederhana' => $fortail->nama_sederhana,
                 'alternatif1' => $fortail->alternatif1,
                 'alternatif2' => $fortail->alternatif2,
@@ -210,7 +204,7 @@ class FormulaController extends Controller
 		$total_gula = 0; $total_erythritol  = 0; $total_dha = 0; $total_epa = 0;
 		$total_omega3 = 0; $total_mufa = 0; $total_lemak_total = 0; $total_lemak_jenuh = 0;
 		$total_sfa = 0; $total_omega6 = 0; $total_kolestrol = 0; $total_protein = 0;
-		$total_omega9 = 0; $total_linoleat=0; $total_air = 0;
+		$total_omega9 = 0; $total_linoleat=0; $total_fat = 0; $total_air = 0;
 		// total mineral
 		$total_ca = 0; $total_mg = 0; $total_k = 0; $total_zink = 0;
 		$total_p = 0; $total_na = 0; $total_naci = 0; $total_energi = 0;
@@ -277,7 +271,8 @@ class FormulaController extends Controller
 				$linoleat = ($makro->linoleat/100)*($fortail->per_serving);
 				$kolestrol = ($makro->kolesterol/100)*($fortail->per_serving);
 				$protein = ($makro->protein/100)*($fortail->per_serving);
-				$air = ($makro->kadar_air)*($persen/100);
+				$fat = ($makro->fat)*($persen/100);
+				$air = ($makro->air)*($persen/100);
 				// mineral
 				$ca = ($mineral->ca/100)*($fortail->per_serving);
 				$mg = ($mineral->mg/100)*($fortail->per_serving);
@@ -345,7 +340,7 @@ class FormulaController extends Controller
 				// data
 				'no' => ++$no,  
                 'id' => $fortail->id,
-                'kode_komputer' => $bahan->kode_komputer,
+                'kode_oracle' => $bahan->kode_oracle,
                 'nama_sederhana' => $bahan->nama_sederhana,
 				'bahan' => $bahan->id,
 				'hitung_btp' => $hitung_btp,
@@ -363,7 +358,7 @@ class FormulaController extends Controller
 				'sfa' => $sfa ,                		'omega6' => $omega6 ,
 				'linoleat' => $linoleat ,           'omega9' => $omega9 ,
 				'kolestrol' => $kolestrol ,    		'protein' => $protein,
-				'air' => $air,
+				'fat' => $fat,						'air' => $air,
 				//mineral
 				'ca' => $ca ,        				'mg' => $mg ,
 				'k' => $k ,          				'zink' => $zink,
@@ -419,7 +414,7 @@ class FormulaController extends Controller
 			$total_sfa = $total_sfa + $sfa; 						$total_omega6 = $total_omega6 + $omega6; 
 			$total_omega9 = $total_omega9 + $omega9; 				$total_linoleat = $total_linoleat + $linoleat; 
 			$total_kolestrol = $total_kolestrol + $kolestrol; 		$total_protein = $total_protein + $protein;
-			$total_air = $total_air + $air;
+			$total_fat = $total_fat + $fat;							$total_air = $total_air + $air;
 			// total mineral
 			$total_ca = $total_ca + $ca; 							$total_mg = $total_mg + $mg; 
 			$total_k = $total_k + $k; 								$total_zink = $total_zink + $zink;
@@ -484,7 +479,7 @@ class FormulaController extends Controller
 			'total_sfa' => $total_sfa, 					'total_omega6' => $total_omega6,
 			'total_omega9' => $total_omega9,			'total_linoleat' => $total_linoleat,
 			'total_kolestrol' => $total_kolestrol, 		'total_protein' => $total_protein,
-			'total_air' => $total_air,
+			'total_air' => $total_air,					'total_fat' => $total_fat,
 			// total mineral
 			'total_ca' => $total_ca, 					'total_mg' => $total_mg, 
 			'total_k' => $total_k, 						'total_zink' => $total_zink,
@@ -544,6 +539,7 @@ class FormulaController extends Controller
 			'panel' => $panel,
 			'storage' => $storage,
 			'file' => $file,
+			'fortails' => $fortails,
             'detail_formula' =>  $detail_formula,
             'granulasi' => $granulasi,
 			'premix' => $premix,

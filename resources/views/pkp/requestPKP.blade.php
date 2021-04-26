@@ -140,7 +140,6 @@
               <td width="5%">No</td>
               <td>No_pkp</td>
               <td>Brand</td>
-              <td>Nama Project</td>
               <td>Author</td>
               <td></td>
             </tr>
@@ -151,7 +150,6 @@
               <th class="text-center">{{ ++$nol }}</th>
               <th>{{ $pkp->pkp_number }}{{ $pkp->ket_no }}</th>
               <th>{{ $pkp->id_brand }}</th>
-              <th>{{ $pkp->project_name }}</th>
               <th>{{ $pkp->author1->name }}</th>
               <th class="text-center">
                 <a class="btn btn-warning btn-sm" onclick="return confirm('Are you sure you want to use this template?')" href="{{Route('temppkp',$pkp->id_project)}}"><i class="fa fa-check"></i></a>

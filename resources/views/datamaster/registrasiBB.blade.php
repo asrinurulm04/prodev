@@ -587,7 +587,7 @@
           <td class="text-center">
             <select name="btp_carry_over[]" id="btp_carry_over" class="form-control select">
               <option disabled selected>-->Select One<--</option>
-              @foreach($btp as $btp)
+              @foreach($btp2 as $btp)
               <option value="{{$btp->btp}}">{{$btp->btp}}</option>
               @endforeach
             </select>
@@ -771,8 +771,8 @@
       <label  class="control-label col-md-2 col-sm-2 col-xs-12">Allergen (Contain)</label>
       <div class="col-md-9 col-sm-9 col-xs-12">
         <select name="contain[]" id="contain" multiple="multiple" class="form-control select">
-          @foreach($allergen as $allergen)
-          <option value="{{$allergen->allergen}}">{{$allergen->allergen}}</option>
+          @foreach($allergen as $Contain)
+          <option value="{{$Contain->allergen}}">{{$Contain->allergen}}</option>
           @endforeach
         </select>
       </div>
@@ -781,8 +781,8 @@
       <label  class="control-label col-md-2 col-sm-2 col-xs-12">Allergen (May Contain)</label>
       <div class="col-md-9 col-sm-9 col-xs-12">
         <select name="may_contain[]" id="may_contain" multiple="multiple" class="form-control select">
-          @foreach($allergen2 as $allergen)
-          <option value="{{$allergen->allergen}}">{{$allergen->allergen}}</option>
+          @foreach($allergen as $MayContain)
+          <option value="{{$MayContain->allergen}}">{{$MayContain->allergen}}</option>
           @endforeach
         </select>
       </div>

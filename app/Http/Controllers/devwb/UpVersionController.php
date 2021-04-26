@@ -70,6 +70,14 @@ class UpVersionController extends Controller
         $formulas->catatan_rd = $lastf->keterangan;
         $formulas->save();
 
+        $overage = new tb_overage;
+        $overage->id_formula=$formulas->id;
+        $overage->save();
+
+        $overage = new tr_header_formula;
+        $overage->id_formula=$formulas->id;
+		$overage->save();
+        
         $clf=Fortail::where('formula_id',$lastf->id)->count();
         if($clf>0){
             $lfortail=Fortail::where('formula_id',$lastf->id)->get();
@@ -129,14 +137,6 @@ class UpVersionController extends Controller
                 
             }
         } 
-
-        $overage = new tb_overage;
-        $overage->id_formula=$formulas->id;
-        $overage->save();
-
-        $overage = new tr_header_formula;
-        $overage->id_formula=$formulas->id;
-		$overage->save();
 
         if(auth()->user()->role->namaRule == 'manager'){
             try{

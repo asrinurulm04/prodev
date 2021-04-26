@@ -598,7 +598,7 @@
 																@if($header->form57=='yes')<td>{{ $total_harga['total_omega9'] }}</td>@endif
 																@if($header->form22=='yes')<td>{{ $total_harga['total_kolestrol'] }}</td>@endif
 																@if($header->form23=='yes')<td>{{ $total_harga['total_protein'] }}</td>@endif
-																@if($header->form24=='yes')<td>{{ $total_harga['total_air'] }}</td>@endif
+																@if($header->form70=='yes')<td>{{ $total_harga['total_fat'] }}</td>@endif
 
 																@if($header->form25=='yes')<td>{{ $total_harga['total_ca'] }}</td>@endif
 																@if($header->form27=='yes')<td>{{ $total_harga['total_mg'] }}</td>@endif
@@ -2051,14 +2051,11 @@
 @endsection
 @section('s')
 <script>
-	$(function() { //keep tab
-	// for bootstrap 3 use 'shown.bs.tab', for bootstrap 2 use 'shown' in the next line
+	$(function() {
 	$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-	// save the latest tab; use cookies if you like 'em better:
 	localStorage.setItem('lastTab', $(this).attr('href'));
 	});
 	
-	// go to the latest tab, if it exists:
 	var lastTab = localStorage.getItem('lastTab');
 	if (lastTab) {
 	$('[href="' + lastTab + '"]').tab('show');
