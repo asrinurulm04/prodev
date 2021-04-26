@@ -40,19 +40,14 @@ class managerController extends Controller
     }
 
     public function listpkp(){
-        $hitungpkpselesai2 = pkp_project::where('status_terima2','=','proses')->where('status_project','=','sent')->where('tujuankirim2',Auth::user()->Departement->id)->count();
-        $hitungpkpselesai = pkp_project::where('status_terima','=','proses')->where('status_project','=','sent')->where('tujuankirim',Auth::user()->Departement->id)->count();
+        $hitungpkpselesai2 = pkp_project::where('status_terima2','=','proses')->where('status_project','=','sent')->where('tujuankirim2',Auth::user()->Departement->id)->count();$hitungpkpselesai = pkp_project::where('status_terima','=','proses')->where('status_project','=','sent')->where('tujuankirim',Auth::user()->Departement->id)->count();
         $hitungpdfselesai2= project_pdf::where('status_terima2','=','proses')->where('status_project','=','sent')->where('tujuankirim2',Auth::user()->Departement->id)->count();$hitungpdfselesai= project_pdf::where('status_terima','=','proses')->where('status_project','=','sent')->where('tujuankirim',Auth::user()->Departement->id)->count();
         $hitungpromoselesai2 = promo::where('status_terima2','=','proses')->where('status_project','=','sent')->where('tujuankirim2',Auth::user()->Departement->id)->count();$hitungpromoselesai = promo::where('status_terima','=','proses')->where('status_project','=','sent')->where('tujuankirim',Auth::user()->Departement->id)->count();
         $hitungnotif2 = $hitungpkpselesai2 + $hitungpdfselesai2 + $hitungpromoselesai2 ;$hitungnotif = $hitungpkpselesai + $hitungpdfselesai + $hitungpromoselesai;
         $pkp = tipp::join('tr_project_pkp','tr_sub_pkp.id_pkp','=','tr_project_pkp.id_project')->where('status_data','active')->where('status_project','!=','draf')->orderBy('pkp_number','desc')->get();
-        $pkpname = pkp_project::where('status_project','!=','draf')->get();
-        $type = pkp_type::all();
         $brand = brand::all();
         return view('manager.listpkp')->with([
-            'type' => $type,
             'brand' => $brand,
-            'pkpname' => $pkpname,
             'pkp' => $pkp,
             'hitungnotif' => $hitungnotif,'hitungnotif2' => $hitungnotif2,
             'hitungpkpselesai' =>$hitungpkpselesai,'hitungpkpselesai2' => $hitungpkpselesai2,
@@ -63,14 +58,12 @@ class managerController extends Controller
 
     public function listpdf(){
         $pdf = project_pdf::where('status_project','!=','draf')->join('tr_sub_pdf','tr_sub_pdf.pdf_id','tr_pdf_project.id_project_pdf')->where('status_pdf','=','active')->where('status_data','!=','draf')->orderBy('pdf_number','desc')->get();
-        $type = pkp_type::all();
         $brand = brand::all();
         $hitungpkpselesai2 = pkp_project::where('status_terima2','=','proses')->where('status_project','=','sent')->where('tujuankirim2',Auth::user()->Departement->id)->count();$hitungpkpselesai = pkp_project::where('status_terima','=','proses')->where('status_project','=','sent')->where('tujuankirim',Auth::user()->Departement->id)->count();
         $hitungpdfselesai2= project_pdf::where('status_terima2','=','proses')->where('status_project','=','sent')->where('tujuankirim2',Auth::user()->Departement->id)->count();$hitungpdfselesai= project_pdf::where('status_terima','=','proses')->where('status_project','=','sent')->where('tujuankirim',Auth::user()->Departement->id)->count();
         $hitungpromoselesai2 = promo::where('status_terima2','=','proses')->where('status_project','=','sent')->where('tujuankirim2',Auth::user()->Departement->id)->count();$hitungpromoselesai = promo::where('status_terima','=','proses')->where('status_project','=','sent')->where('tujuankirim',Auth::user()->Departement->id)->count();
         $hitungnotif2 = $hitungpkpselesai2 + $hitungpdfselesai2 + $hitungpromoselesai2 ;$hitungnotif = $hitungpkpselesai + $hitungpdfselesai + $hitungpromoselesai;
         return view('manager.listpdf')->with([
-            'type' => $type,
             'pdf' => $pdf,
             'brand' => $brand,
             'hitungnotif' => $hitungnotif,'hitungnotif2' => $hitungnotif2,
@@ -267,10 +260,8 @@ class managerController extends Controller
     }
 
     public function daftarpkp($id_project){
-        $pkp = pkp_project::where('id_project',$id_project)->get();
         $max = tipp::where('id_pkp',$id_project)->max('turunan');
         $max2 = tipp::where('id_pkp',$id_project)->max('revisi');
-        $user = user::where('status','=','active')->get();
         $cf =Formula::where('workbook_id',$id_project)->count();
         $datapkp = tipp::where('id_pkp',$id_project)->where('status_pkp','!=','draf')->where('turunan',$max)->where('turunan',$max)->where('revisi',$max2)->get();
         $sample = Formula::where('workbook_id', $id_project)->orderBy('versi','asc')->get();
@@ -281,8 +272,6 @@ class managerController extends Controller
         $hitungpromoselesai2 = promo::where('status_terima2','=','proses')->where('status_project','=','sent')->where('tujuankirim2',Auth::user()->Departement->id)->count();$hitungpromoselesai = promo::where('status_terima','=','proses')->where('status_project','=','sent')->where('tujuankirim',Auth::user()->Departement->id)->count();
         $hitungnotif2 = $hitungpkpselesai2 + $hitungpdfselesai2 + $hitungpromoselesai2 ;$hitungnotif = $hitungpkpselesai + $hitungpdfselesai + $hitungpromoselesai;
         return view('manager.daftarpkp')->with([
-            'pkp' => $pkp,
-            'user' => $user,
             'cf' => $cf,
             'sample' => $sample,
             'dept' => $dept,
@@ -376,14 +365,12 @@ class managerController extends Controller
     }
 
     public function lihatpkp($id_project,$revisi,$turunan){
-        $pkp = pkp_project::where('id_project',$id_project)->get();
         $id_pkp = tipp::where([ ['id_pkp',$id_project], ['revisi',$revisi], ['turunan',$turunan] ])->first();
         $for = data_forecast::where('id_pkp',$id_project)->where('revisi',$revisi)->where('turunan',$turunan)->get();
         $dataklaim = data_klaim::where('id_pkp',$id_project)->join('ms_klaim','ms_klaim.id','=','id_klaim')->where('revisi',$revisi)->where('turunan',$turunan)->get();
         $pkpp = tipp::join('tr_project_pkp','tr_sub_pkp.id_pkp','=','tr_project_pkp.id_project')->where([ ['id_project',$id_project], ['revisi',$revisi], ['turunan',$turunan] ])->get();
         $ses= data_ses::where([ ['id_pkp',$id_project], ['turunan',$turunan] ])->get();
-        $max = tipp::where('id_pkp',$id_project)->max('turunan');
-        $pkp1 = tipp::where('id_pkp',$id_project)->where('revisi','<=',$revisi)->where('turunan',$max)->orderBy('revisi','desc')->get();
+        $pkp1 = tipp::where('id_pkp',$id_project)->where('revisi','<=',$revisi)->where('turunan',$turunan)->orderBy('revisi','desc')->get();
         $pengajuan = pengajuan::where('id_pkp',$id_project)->where('turunan',$turunan)->count();
         $datadetail = data_detail_klaim::where('id_pkp',$id_project)->where('turunan',$turunan)->get();
         $user = DB::table('tr_users')->where('departement_id',Auth::user()->departement->id)->get();
@@ -396,7 +383,6 @@ class managerController extends Controller
         return view('manager.lihatpkp')->with([
             'pkpp' => $pkpp,
             'pengajuan' => $pengajuan,
-            'pkp' => $pkp,
             'datases' => $ses,
             'for' => $for,
             'datadetail' => $datadetail,
