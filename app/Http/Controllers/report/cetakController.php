@@ -9,15 +9,14 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Illuminate\Support\Facades\Validator;
-use App\model\pkp\tipp;
-use App\model\pkp\coba;
-use App\model\pkp\pdf_project;
-use App\model\pkp\pkp_project;
-use App\model\pkp\data_forecast;
+use App\model\pkp\SubPKP;
+use App\model\pkp\SubPDF;
+use App\model\pkp\ProjectPDF;
+use App\model\pkp\PkpProject;
 use DB;
 use Auth;
 
-class cetakController extends Controller
+class CetakController extends Controller
 {
     public function download_project(){
 
@@ -71,7 +70,7 @@ class cetakController extends Controller
         $awal=1;
         $pertama=2;
 
-        $data=tipp::join('tr_project_pkp','tr_project_pkp.id_project','tr_sub_pkp.id_pkp')
+        $data=SubPKP::join('tr_project_pkp','tr_project_pkp.id_project','tr_sub_pkp.id_pkp')
             ->join('ms_tarkons','ms_tarkons.id_tarkon','tr_sub_pkp.akg')
             ->join('tr_users','tr_users.id','tr_sub_pkp.perevisi')
             ->join('tr_kemas','tr_kemas.id_kemas','tr_sub_pkp.kemas_eksis')->where('status_data','=','active')
@@ -402,7 +401,7 @@ class cetakController extends Controller
         $pertama=2;
 
         if(Auth::user()->departement_id!='1'){
-        $data=pkp_project::join('tr_sub_pkp','tr_project_pkp.id_project','tr_sub_pkp.id_pkp')
+        $data=PkpProject::join('tr_sub_pkp','tr_project_pkp.id_project','tr_sub_pkp.id_pkp')
             ->join('ms_tarkons','ms_tarkons.id_tarkon','tr_sub_pkp.akg')
             ->join('tr_users','tr_users.id','tr_sub_pkp.perevisi')
             ->join('tr_kemas','tr_kemas.id_kemas','tr_sub_pkp.kemas_eksis')
@@ -412,7 +411,7 @@ class cetakController extends Controller
             ->where('status_project','!=','draf')->orderBy('pkp_number','asc')->get();
         $no=1;
         }elseif(Auth::user()->departement_id=='1'){
-            $data=pkp_project::join('tr_sub_pkp','tr_project_pkp.id_project','tr_sub_pkp.id_pkp')
+            $data=PkpProject::join('tr_sub_pkp','tr_project_pkp.id_project','tr_sub_pkp.id_pkp')
             ->join('ms_tarkons','ms_tarkons.id_tarkon','tr_sub_pkp.akg')
             ->join('tr_users','tr_users.id','tr_sub_pkp.perevisi')
             ->join('tr_kemas','tr_kemas.id_kemas','tr_sub_pkp.kemas_eksis')
@@ -735,7 +734,7 @@ class cetakController extends Controller
         $awal=1;
         $pertama=2;
 
-        $data=coba::join('tr_pdf_project','tr_pdf_project.id_project_pdf','tr_sub_pdf.pdf_id')
+        $data=SubPDF::join('tr_pdf_project','tr_pdf_project.id_project_pdf','tr_sub_pdf.pdf_id')
             ->join('tr_users','tr_users.id','tr_sub_pdf.perevisi')
             ->join('tr_kemas','tr_kemas.id_kemas','tr_sub_pdf.kemas_eksis')
             ->join('ms_type','ms_type.id','tr_pdf_project.id_type')->where('status_pdf','=','active')
@@ -1019,7 +1018,7 @@ class cetakController extends Controller
         $pertama=2;
 
         if(Auth::user()->departement_id!='1'){
-            $data=coba::join('tr_pdf_project','tr_pdf_project.id_project_pdf','tr_sub_pdf.pdf_id')
+            $data=SubPDF::join('tr_pdf_project','tr_pdf_project.id_project_pdf','tr_sub_pdf.pdf_id')
             ->join('tr_users','tr_users.id','tr_sub_pdf.perevisi')
             ->join('tr_kemas','tr_kemas.id_kemas','tr_sub_pdf.kemas_eksis')
             ->join('ms_type','ms_type.id','tr_pdf_project.id_type')->where('status_pdf','=','active')
@@ -1028,7 +1027,7 @@ class cetakController extends Controller
             ->where('status_project','!=','draf')->orderBy('pdf_number','asc')->get();
             $no=1;
         }elseif(Auth::user()->departement_id=='1'){
-            $data=coba::join('tr_pdf_project','tr_pdf_project.id_project_pdf','tr_sub_pdf.pdf_id')
+            $data=SubPDF::join('tr_pdf_project','tr_pdf_project.id_project_pdf','tr_sub_pdf.pdf_id')
             ->join('tr_users','tr_users.id','tr_sub_pdf.perevisi')
             ->join('tr_kemas','tr_kemas.id_kemas','tr_sub_pdf.kemas_eksis')
             ->join('ms_type','ms_type.id','tr_pdf_project.id_type')->where('status_pdf','=','active')

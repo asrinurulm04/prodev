@@ -70,7 +70,7 @@
         <h3><li class="fa fa-folder-open"> </li> List principal</h3>
       </div>
       <div class="card-block">
-				<table class="Table table-bordered">
+				<table id="datatable" class="Table table-bordered">
 					<thead>
 						<tr style="font-weight: bold;color:white;background-color: #2a3f54;">
 							<th class="text-center" width="5%">No</th>
@@ -114,7 +114,7 @@
                             <div class="col-md-9 col-sm-9 col-xs-12">
                               <input id="email" class="form-control col-md-12 col-xs-12" value="{{$principal->email_cp}}" name="email" type="email">
                             </div>
-                          </div>><hr>
+                          </div><hr>
                           </div>
                         </div>
 											</div>
@@ -144,6 +144,8 @@
 </div>
 @endsection
 @section('s')
+<link href="{{ asset('lib/advanced-datatable/css/jquery.dataTables.css') }}" rel="stylesheet" />
+<script src="{{ asset('js/datatables.min.js')}}"></script>
 <script>
   $('.select').select2({
     placeholder: '-->Select One<--',

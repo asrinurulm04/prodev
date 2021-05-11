@@ -10,13 +10,6 @@
       {{ session('status') }}
     </div>
   </div>
-  @elseif(session('error'))
-  <div class="col-lg-12 col-md-12 col-sm-12">
-    <div class="alert alert-danger">
-      <button type="button" class="close" data-dismiss="alert">×</button>
-      {{ session('error') }}
-    </div>
-  </div>
   @endif
 </div>
 
@@ -93,4 +86,8 @@
     </div>
   </div>
 </div>
+@endsection
+@section('s')
+    <link href="{{ asset('lib/advanced-datatable/css/jquery.dataTables.css') }}" rel="stylesheet" />
+    <script src="{{ asset('js/datatables.min.js')}}"></script>
 @endsection

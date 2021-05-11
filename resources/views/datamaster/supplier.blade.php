@@ -24,7 +24,7 @@
   <div class="col-md-5 col-xs-12">
     <div class="x_panel" style="min-height:240px">
       <div class="x_title">
-        <h3><li class="fa fa-edit"></li> Registrasi user principal</h3>
+        <h3><li class="fa fa-edit"></li> Registrasi Supplier</h3>
       </div>
   		<form class="form-horizontal form-label-left" method="POST" action="{{ route('add_supplier') }}">
       <div class="card-block">
@@ -66,7 +66,7 @@
         <h3><li class="fa fa-folder-open"> </li> List Suplier</h3>
       </div>
       <div class="card-block">
-				<table class="Table table-bordered">
+				<table id="datatable" class="Table table-bordered">
 					<thead>
 						<tr style="font-weight: bold;color:white;background-color: #2a3f54;">
 							<th class="text-center" width="5%">No</th>
@@ -102,12 +102,6 @@
                               <label class="control-label col-md-3 col-sm-3 col-xs-12">Nama Suplier</label>
                               <div class="col-md-9 col-sm-9 col-xs-12">
                                 <input id="nama" class="form-control col-md-12 col-xs-12" name="nama" value="{{$supplier->nama_supplier_principal}}" required="required" type="text">
-                              </div>
-                            </div>
-                            <div class="form-group row">
-                              <label class="control-label col-md-3 col-sm-3 col-xs-12">Kode Oracle</label>
-                              <div class="col-md-9 col-sm-9 col-xs-12">
-                                <input id="oracle" class="form-control col-md-12 col-xs-12" name="oracle" value="{{$supplier->kode_oracle_supplier_principal}}" type="text">
                               </div>
                             </div>
                             <div class="form-group row">
@@ -152,5 +146,8 @@
     </div>
   </div>
 </div>
-
+@endsection
+@section('s')
+<link href="{{ asset('lib/advanced-datatable/css/jquery.dataTables.css') }}" rel="stylesheet" />
+<script src="{{ asset('js/datatables.min.js')}}"></script>
 @endsection

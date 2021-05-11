@@ -1,33 +1,19 @@
 @extends('pv.tempvv')
 @section('title', 'Request PKP')
-@section('judulhalaman','Request PKP')
 @section('content')
 
-<div class="x_panel">
-  <div class="col-md-3 col-sm-3 col-xs-12"></div>
-  <div class="col-md-8 col-sm-5 col-xs-12">
-    <div class="tabbable">
-      <ul class="nav nav-tabs wizard">
-        <li class="active"><a href="" ><span class="nmbr">1</span>Information</a></li>
-        <li class="completed"><a href=""><span class="nmbr">2</span>PKP</a></li>
-        <li class="active"><a href=""><span class="nmbr">3</span>File</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="col-md-12 col-xs-12">
-    <table class="table table-bordered">
-      <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
-        <td>Mandatory Information</td>
-        <td>* : Filled by Marketing</td>
-        <td>^ : Filled By PV</td>
-        <td>** : Filled by Marketing Or PV</td>
-      </tr>
-    </table>
-  </div>
+<div class="col-md-12 col-xs-12">
+  <table class="table table-bordered">
+    <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
+      <td>Mandatory Information</td>
+      <td>* : Filled by Marketing</td>
+      <td>^ : Filled By PV</td>
+      <td>** : Filled by Marketing Or PV</td>
+    </tr>
+  </table>
 </div>
   
 <form class="form-horizontal form-label-left" method="POST" action="{{ route('tippp') }}">
-<div class="row">
   <div class="col-md-12 col-xs-12">
     <div class="x_panel">
       <div class="x_title">
@@ -116,9 +102,6 @@
       </div>
     </div>
   </div>
-</div>
-
-<div class="row">
   <div class="col-md-12 col-xs-12">
     <div class="x_panel">
       <div class="x_title">
@@ -198,8 +181,6 @@
       </div>
     </div>
   </div>
-</div>
-<div class="row">
   <div class="col-md-12 col-xs-12">
     <div class="x_panel">
       <div class="x_title">
@@ -343,14 +324,14 @@
       </div>
     </div>
   </div>
-</div>
 </form>
-
 @endsection
+
 @section('s')
+<link href="{{ asset('css/select2.min.css') }}" rel="stylesheet">
+<script src="{{ asset('js/select2/select2.min.js') }}"></script>
 <script>
   $(document).ready(function() {
-
     var idkomponen = []
     <?php foreach($komponen as $key => $value) { ?>
       if(!idkomponen){
@@ -400,7 +381,6 @@
               $('#loader').css("visibility","hidden");
             }
           });
-
         }
         else{
           $('#detaill' + b).empty();
@@ -447,7 +427,6 @@
           beforeSend: function(){
             $('#loader').css("visibility", "visible");
           },
-
           success:function(data){
             console.log(data)
             $('#klaimm').empty();
@@ -475,7 +454,6 @@
           beforeSend: function(){
             $('#loader').css("visibility", "visible");
           },
-
           success:function(data){
             console.log(data)
             $('#detaill').empty();
@@ -492,17 +470,13 @@
         $('#katbpom').empty();
       }
     });
-
   });
 </script>
 
 <script>
   function plus(){
     var plus = document.getElementById('radio_plus')
-
-    if(plus.checked != true){
-      document.getElementById('umur').innerHTML = "";
-    }else{
+    if(plus.checked == true){
       document.getElementById('umur').innerHTML =
         "<input type='text' readonly class='form-control' value='+' name='sampaiumur' id='sampaiumur'>"
     }
@@ -510,10 +484,7 @@
 
   function minus(){
     var minus = document.getElementById('radio_minus')
-
-    if(minus.checked != true){
-      document.getElementById('umur').innerHTML = "";
-    }else{
+    if(minus.checked == true){
       document.getElementById('umur').innerHTML =
         "<input type='text' readonly class='form-control' value='-' name='sampaiumur' id='sampaiumur'>"
     }
@@ -521,10 +492,7 @@
 
   function to(){
     var to = document.getElementById('radio_to')
-
-    if(to.checked != true){
-      document.getElementById('umur').innerHTML = "";
-    }else{
+    if(to.checked == true){
       document.getElementById('umur').innerHTML =
         '<input type="number" name="sampaiumur" id="sampaiumur" class="form-control col-md-12 col-xs-12">'
     }
@@ -556,10 +524,7 @@
   
   function baru(){
     var baru = document.getElementById('radio_baru')
-
-    if(baru.checked != true){
-      document.getElementById('lihat').innerHTML = "";
-    }else{
+    if(baru.checked == true){
       document.getElementById('lihat').innerHTML =
       "<hr>"+
         "<div class='form-group'>"+
@@ -568,10 +533,8 @@
        		"<input type='radio' name='gramasi' oninput='tiga()' id='radio_tiga'> 3 Dimensi &nbsp"+
       		"<input type='radio' name='gramasi' oninput='empat()' id='radio_empat'> 4 Dimensi &nbsp"+
 					"<div id='tampil'></div>"+
-				"</div>"+
-        "<hr>"+
-        "<h4><b><lable class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>*Information</lable></b></h4>"+
-        "<br><br>"+
+				"</div><hr>"+
+        "<h4><b><lable class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>*Information</lable></b></h4><br><br>"+
         "<div class='form-group'>"+
           "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>Primary</label>"+
           "<div class='col-md-10 col-sm-10 col-xs-12'>"+
@@ -596,9 +559,7 @@
 
   function dua(){
     var dua = document.getElementById('radio_dua');
-    if(dua.checked != true){
-      document.getElementById('tampil').innerHTML = "";
-    }else{
+    if(dua.checked == true){
       document.getElementById('tampil').innerHTML = "<br><div class='panel panel-default'>"+
 	      "<div class='panel-heading'><h5>Configuration</h5></div>"+
 	        "<div class='panel-body'>"+
@@ -626,9 +587,7 @@
 
   function tiga(){
     var tiga = document.getElementById('radio_tiga');
-    if(tiga.checked != true){
-      document.getElementById('tampil').innerHTML = "";
-    }else{
+    if(tiga.checked == true){
       document.getElementById('tampil').innerHTML = "<br><div class='panel panel-default'>"+
 	      "<div class='panel-heading'><h5>Configuration</h5></div>"+
 	        "<div class='panel-body'>"+
@@ -662,9 +621,7 @@
 
   function empat(){
     var empat = document.getElementById('radio_empat');
-    if(empat.checked != true){
-      document.getElementById('tampil').innerHTML = "";
-    }else{
+    if(empat.checked == true){
       document.getElementById('tampil').innerHTML =
       "<br><div class='panel panel-default'>"+
 	    "<div class='panel-heading'><h5>Configuration</h5></div>"+
@@ -787,9 +744,7 @@
 
   function pilih(){
     var eksis = document.getElementById('radio_project')
-    if(eksis.checked != true){
-      document.getElementById('lihat').innerHTML = "";
-    }else{
+    if(eksis.checked == true){
       document.getElementById('lihat').innerHTML =
       "<hr>"+
       "<div class='form-group'>"+
@@ -799,30 +754,23 @@
             '<select name="data_eksis" class="form-control" id="txtOccupation" >'+
             '<option value="" readonly selected>-->Select One<--</option>'+pilihan+'</select>'+
           "</div>"+
-        "</div>"+"<div class='form-group'>"+
-        "<hr>"+
+        "</div>"+"<div class='form-group'><hr>"+
       "</di>"
     }
   }
 
   function eksis(){
     var eksis = document.getElementById('radio_eksis')
-    if(eksis.checked != true){
-      document.getElementById('lihat').innerHTML = "";
-    }else{
+    if(eksis.checked == true){
       document.getElementById('lihat').innerHTML =
       "<hr>"+
       "<div class='form-group'>"+
         "<div class='form-group'>"+
           "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>Configuration</label>"+
           "<div class='col-md-9 col-sm-10 col-xs-12'>"+
-            '<select name="data_eksis" class="form-control" id="eksis" >'+
-              '<option value="" readonly selected>-->Select One<--</option>'+
-              kemaseksis+
-            '</select>'+
+            '<select name="data_eksis" class="form-control" id="eksis"><option value="" readonly selected>-->Select One<--</option>'+kemaseksis+'</select>'+
           "</div>"+
-        "</div>"+"<div class='form-group'>"+
-        "<hr>"+
+        "</div>"+"<div class='form-group'><hr>"+
       "</div>"
     }
   }
@@ -846,7 +794,6 @@
           beforeSend: function(){
             $('#loader').css("visibility", "visible");
           },
-
           success:function(data){
             console.log(data)
             $('#katbpom').empty();
@@ -874,7 +821,6 @@
             beforeSend: function(){
               $('#loader').css("visibility", "visible");
             },
-
             success:function(data){
               console.log(data)
               $('#bpom').empty();
@@ -903,7 +849,6 @@
           beforeSend: function(){
             $('#loader').css("visibility", "visible");
           },
-
           success:function(data){
             $('#olahan').empty();
             $.each(data, function(key, value){
@@ -969,7 +914,6 @@
 
 <script>
   $(document).ready(function() {
-    // delete baris proses
     $('#tabledata').on('click', 'tr a', function(e) {
       e.preventDefault();
       $(this).parents('tr').remove();
@@ -982,22 +926,9 @@
         "<option value='2nd Month'>2nd Month</option>"+
         "<option value='3rd Month'>3rd Month</option>"+
       "</select></td><td><a hreaf='' class='btn btn-danger'><li class='fa fa-trash'></li> Delete</a></td>");
-
       $('#tabledata').append('<tr id="addrow' + (i + 1) + '"></tr>');
       i++;
     });
   });
-
-  $('.input').keyup(function(event) {
-    // skip for arrow keys
-    if(event.which >= 37 && event.which <= 40) return;
-
-    // format number
-    $(this).val(function(index, value) {
-      return value.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    });
-  });
 </script>
-
-<script src="{{ asset('js/asrul.js') }}"></script>
 @endsection

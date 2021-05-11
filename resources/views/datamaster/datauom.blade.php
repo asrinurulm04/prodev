@@ -9,17 +9,18 @@
     		<h3><li class="fa fa-file"> Data UOM</li></h3>
   		</div>
   		<div class="card-block">
-    		<table class="Table table-bordered">
+    		<table id="datatable" class="Table table-bordered">
 					<thead>
 						<tr style="font-weight: bold;color:white;background-color: #2a3f54;">
-							<td width="15%px">No</td>
-							<td>UOM</td>
+							<td class="text-center" width="15%px">No</td>
+							<td class="text-center">UOM</td>
 						</tr>
 					</thead>
 					<tbody>
+          @php $no = 0; @endphp 
 						@foreach($uom as $data)
 						<tr>
-							<td>{{$data->id}}</td>
+              <td class="text-center">{{ ++$no }}</td>
 							<td>{{$data->primary_uom}}</td>
 						</tr>
 						@endforeach
@@ -48,4 +49,8 @@
 		</form>
 	</div>
 </div>		
+@endsection
+@section('s')
+    <link href="{{ asset('lib/advanced-datatable/css/jquery.dataTables.css') }}" rel="stylesheet" />
+    <script src="{{ asset('js/datatables.min.js')}}"></script>
 @endsection

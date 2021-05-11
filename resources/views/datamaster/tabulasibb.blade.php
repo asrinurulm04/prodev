@@ -269,4 +269,6 @@
     $(".cekbox1").prop('checked', $(this).prop("checked"));
   });
 </script>
+    <link href="{{ asset('lib/advanced-datatable/css/jquery.dataTables.css') }}" rel="stylesheet" />
+    <script src="{{ asset('js/datatables.min.js')}}"></script>
 @endsection

@@ -7,23 +7,20 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Collection;
 use App\model\dev\Formula;
 use App\model\dev\Fortail;
-use App\model\dev\bb_allergen;
 use App\model\dev\Bahan;
-use App\model\dev\tr_makro_bb;
-use App\model\dev\tr_btp_bb;
-use App\model\dev\tr_mikro_bb;
-use App\model\dev\tr_mineral_bb;
-use App\model\dev\tr_vitamin_bb;
-use App\model\dev\tr_asam_amino_bb;
-use App\model\dev\tr_zataktif_bb;
-use App\model\dev\tr_logamberat_bb;
-use App\model\dev\tr_mikro_biologi_bb;
-use App\model\dev\ms_cemaran_ceklis;
-use App\model\devnf\allergen_formula;
-use App\model\devnf\tb_akg;
-use App\model\devnf\tb_overage;
+use App\model\dev\MakroBB;
+use App\model\dev\BtpBB;
+use App\model\dev\MikroBB;
+use App\model\dev\MineralBB;
+use App\model\dev\VitaminBB;
+use App\model\dev\AsamAminoBB;
+use App\model\dev\LogamBB;
+use App\model\dev\CemaranCeklis;
+use App\model\devnf\AllergenFormula;
+use App\model\devnf\Akg;
+use App\model\devnf\Overage;
 use App\model\master\Curren;
-use App\model\master\tr_header_formula;
+use App\model\master\HeaderFormula;
 use Auth;
 use DB;
 use Redirect;
@@ -36,10 +33,10 @@ class SummaryFormulaController extends Controller
     }
 
     public function summarry($formula,$id){
-		$form = tr_header_formula::where('id_formula',$id)->get();
+		$form = HeaderFormula::where('id_formula',$id)->get();
 		$data = Formula::with('Workbook')->where('id',$id)->get();
-		$ceklis = ms_cemaran_ceklis::all();
-		$akg = tb_akg::join('tr_formulas','tr_formulas.akg','ms_akg.id_tarkon')->join('tr_overage_inngradient','tr_overage_inngradient.id_formula','tr_formulas.id')->where('id',$id)->get();
+		$ceklis = CemaranCeklis::select('id_cemaran_ceklis','no_katpang')->get();
+		$akg = Akg::join('tr_formulas','tr_formulas.akg','ms_akg.id_tarkon')->join('tr_overage_inngradient','tr_overage_inngradient.id_formula','tr_formulas.id')->where('id',$id)->get();
         $idf = $id;
 		$formula = Formula::where('id',$id)->join('tr_overage_inngradient','tr_overage_inngradient.id_formula','tr_formulas.id')->first();
         $idfor = $formula->workbook_id;
@@ -47,9 +44,9 @@ class SummaryFormulaController extends Controller
         $fortails = Fortail::where('formula_id',$id)->get();
         $ingredient = DB::table('tr_fortails')->where('tr_fortails.formula_id',$id)->get();
 		$ada = Fortail::where('formula_id',$id)->count();
-		$btp = tr_btp_bb::all();
-		$allergen_bb = allergen_formula::join('tr_bb_allergen','id_bb','tr_allergen_formula.id_bahan')->where('id_formula',$id)->where('allergen_countain','!=','')->select(['allergen_countain'])->distinct()->get();
-		$bb_allergen = allergen_formula::join('tr_bb_allergen','id_bb','tr_allergen_formula.id_bahan')->where('id_formula',$id)->where('allergen_countain','!=','')->get();
+		$btp = BtpBB::all();
+		$allergen_bb = AllergenFormula::join('tr_bb_allergen','id_bb','tr_allergen_formula.id_bahan')->where('id_formula',$id)->where('allergen_countain','!=','')->select(['allergen_countain'])->distinct()->get();
+		$bb_allergen = AllergenFormula::join('tr_bb_allergen','id_bb','tr_allergen_formula.id_bahan')->where('id_formula',$id)->where('allergen_countain','!=','')->get();
         if($ada < 1){
             return Redirect::back()->with('error','Data Bahan Formula Versi '.$formula->versi.' Masih Kosong');
         }elseif($formula->batch < 1){
@@ -157,14 +154,14 @@ class SummaryFormulaController extends Controller
         $no = 0;
         foreach($fortails as $fortail){
 			//Get Needed
-			$mineral =tr_mineral_bb::where('id_bahan',$fortail->bahan_id)->first();
-			$makro = tr_makro_bb::where('id_bahan',$fortail->bahan_id)->first();
-			$asam = tr_asam_amino_bb::where('id_bahan',$fortail->bahan_id)->first();
-			$vitamin = tr_vitamin_bb::where('id_bahan',$fortail->bahan_id)->first();
-			$mikro = tr_mikro_bb::where('id_bahan',$fortail->bahan_id)->first();
-			$logam = tr_logamberat_bb::where('id_bahan',$fortail->bahan_id)->first();
+			$mineral =MineralBB::where('id_bahan',$fortail->bahan_id)->first();
+			$makro = MakroBB::where('id_bahan',$fortail->bahan_id)->first();
+			$asam = AsamAminoBB::where('id_bahan',$fortail->bahan_id)->first();
+			$vitamin = VitaminBB::where('id_bahan',$fortail->bahan_id)->first();
+			$mikro = MikroBB::where('id_bahan',$fortail->bahan_id)->first();
+			$logam = LogamBB::where('id_bahan',$fortail->bahan_id)->first();
             $bahan  = Bahan::where('id',$fortail->bahan_id)->first();
-			$hitung_btp = tr_btp_bb::where('id_bahan',$fortail->bahan_id)->count();
+			$hitung_btp = BtpBB::where('id_bahan',$fortail->bahan_id)->count();
 			$curren = Curren::where('id',$bahan->curren_id)->first();
             $persen = $fortail->per_serving / $satu_persen; $persen = round($persen,2);
             //perhitungan nutfact bayangan
@@ -371,11 +368,11 @@ class SummaryFormulaController extends Controller
 			$total_aureus = $total_aureus + $aureus;					$total_Coli = $total_Coli + $Coli;
 			$total_TPC = $total_TPC + $TPC;								$total_Bacilluscereus = $total_Bacilluscereus + $Bacilluscereus;
 			// RPC
-			$total_rpc_as = $total_as * ($formula->serving_size/1000) / ($formula->serving_size + $formula->saran_saji / 1000);
-			$total_rpc_hg = $total_hg * ($formula->serving_size/1000) / ($formula->serving_size + $formula->saran_saji / 1000);
-			$total_rpc_pb = $total_pb * ($formula->serving_size/1000) / ($formula->serving_size + $formula->saran_saji / 1000);							
-			$total_rpc_sn = $total_sn * ($formula->serving_size/1000) / ($formula->serving_size + $formula->saran_saji / 1000);
-			$total_rpc_cd = $total_cd * ($formula->serving_size/1000) / ($formula->serving_size + $formula->saran_saji / 1000);
+			$total_rpc_as = $total_as * ($formula->serving_size/1000) / ($formula->serving_size + $formula->saran_saji / 1000);$total_rpc_as = round($total_rpc_as,4);
+			$total_rpc_hg = $total_hg * ($formula->serving_size/1000) / ($formula->serving_size + $formula->saran_saji / 1000);$total_rpc_hg = round($total_rpc_hg,4);
+			$total_rpc_pb = $total_pb * ($formula->serving_size/1000) / ($formula->serving_size + $formula->saran_saji / 1000);$total_rpc_pb = round($total_rpc_pb,4);							
+			$total_rpc_sn = $total_sn * ($formula->serving_size/1000) / ($formula->serving_size + $formula->saran_saji / 1000);$total_rpc_sn = round($total_rpc_sn,4);
+			$total_rpc_cd = $total_cd * ($formula->serving_size/1000) / ($formula->serving_size + $formula->saran_saji / 1000);$total_rpc_cd = round($total_rpc_cd,4);
 			// total harga
             $total_harga_per_gram = $total_harga_per_gram + $hpg;
             $total_harga_per_serving = $total_harga_per_serving + $harga_per_serving;
@@ -477,7 +474,7 @@ class SummaryFormulaController extends Controller
 		$formula->overage=$request->overage;
 		$formula->save();
 
-		$overage = tb_overage::where('id_formula',$id)->first();
+		$overage = Overage::where('id_formula',$id)->first();
 		$overage->overage_energi_total=$request->energi_total;                            $overage->overage_energi_lemak=$request->energi_lemak;
 		$overage->overage_energi_lemak_jenuh=$request->energi_lemak_jenuh;                $overage->overage_karbohidrat=$request->karbohidrat;
 		$overage->overage_protein1=$request->protein1;                                    $overage->overage_lemak_total=$request->lemak_total;
@@ -519,7 +516,7 @@ class SummaryFormulaController extends Controller
 	}
 
     public function header(Request $request,$formula){
-        $header= tr_header_formula::where('id_formula',$formula)->first();
+        $header= HeaderFormula::where('id_formula',$formula)->first();
         $header->id_formula=$formula;
         $header->form1=$request->form1;		$header->form2=$request->form2;
         $header->form3=$request->form3;		$header->form4=$request->form4;

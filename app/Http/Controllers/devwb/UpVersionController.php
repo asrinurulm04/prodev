@@ -5,14 +5,14 @@ use Illuminate\Support\Facades\Mail;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\model\devnf\allergen_formula;
-use App\model\devnf\tb_overage;
-use App\model\pkp\pkp_project;
-use App\model\pkp\project_pdf;
+use App\model\devnf\AllergenFormula;
+use App\model\devnf\Overage;
+use App\model\pkp\PkpProject;
+use App\model\pkp\ProjectPDF;
 use App\model\dev\Formula;
 use App\model\dev\Fortail;
 use App\model\dev\Bahan;
-use App\model\master\tr_header_formula;
+use App\model\master\HeaderFormula;
 use Redirect;
 use DB;
 use Auth;
@@ -27,8 +27,8 @@ class UpVersionController extends Controller
     public function upversion(Request $request,$id,$wb){  
         $lastf=Formula::where('id', $id)->first();
         if($lastf->workbook_id!=NULL){
-            $pkp_hitung = pkp_project::where('id_project',$wb)->max('workbook')+1;
-            $pkp = pkp_project::where('id_project',$wb)->first();
+            $pkp_hitung = PkpProject::where('id_project',$wb)->max('workbook')+1;
+            $pkp = PkpProject::where('id_project',$wb)->first();
             $pkp->workbook=$pkp_hitung;
             $pkp->save();
             
@@ -38,8 +38,8 @@ class UpVersionController extends Controller
             $cf = $lastversion + 1;   
         }
         if($lastf->workbook_pdf_id!=NULL){
-            $pdf_hitung = project_pdf::where('id_project_pdf',$wb)->max('workbook')+1;
-            $pdf = project_pdf::where('id_project_pdf',$wb)->first();
+            $pdf_hitung = ProjectPDF::where('id_project_pdf',$wb)->max('workbook')+1;
+            $pdf = ProjectPDF::where('id_project_pdf',$wb)->first();
             $pdf->workbook=$pdf_hitung;
             $pdf->save();
             
@@ -70,11 +70,11 @@ class UpVersionController extends Controller
         $formulas->catatan_rd = $lastf->keterangan;
         $formulas->save();
 
-        $overage = new tb_overage;
+        $overage = new Overage;
         $overage->id_formula=$formulas->id;
         $overage->save();
 
-        $overage = new tr_header_formula;
+        $overage = new HeaderFormula;
         $overage->id_formula=$formulas->id;
 		$overage->save();
         
@@ -122,12 +122,12 @@ class UpVersionController extends Controller
                 $fortails->premix = $lastft->premix;
                 $fortails->save();
    
-                $allergen= allergen_formula::where('id_formula',$lastf->id)->count();
+                $allergen= AllergenFormula::where('id_formula',$lastf->id)->count();
                 if($allergen>0){
-                    $allergen_for= allergen_formula::where('id_formula',$lastf->id)->get();
+                    $allergen_for= AllergenFormula::where('id_formula',$lastf->id)->get();
                     foreach ($allergen_for as $allergen_for)
                     {
-                        $allergen_formula = new allergen_formula;
+                        $allergen_formula = new AllergenFormula;
                         $allergen_formula->id_bahan=$allergen_for->id_bahan;
                         $allergen_formula->id_formula=$formulas->id;
                         $allergen_formula->id_fortails=$fortails->id;
@@ -147,14 +147,14 @@ class UpVersionController extends Controller
                     $message->subject('INFO PRODEV');
                     $for = Formula::where('id', $id)->first();
                     if($for->workbook_id!=NULL){
-                        $project = pkp_project::where('id_project',$for->workbook_id)->first();
+                        $project = PkpProject::where('id_project',$for->workbook_id)->first();
                         $user = DB::table('tr_users')->where('id', $project->userpenerima)->get();
                         foreach($user as $user){
                             $data = $user->email;
                             $message->to($data);
                         }
                     }elseif($for->workbook_pdf_id!=NULL){
-                        $project = project_pdf::where('id_project_pdf',$for->workbook_pdf_id)->first();
+                        $project = ProjectPDF::where('id_project_pdf',$for->workbook_pdf_id)->first();
                         $user = DB::table('tr_users')->where('id', $project->userpenerima)->get();
                         foreach($user as $user){
                             $data = $user->email;
@@ -179,8 +179,8 @@ class UpVersionController extends Controller
         $lastf=Formula::where('id',$id)->first();
         
         if($lastf->workbook_id!=NULL){
-            $pkp_hitung = pkp_project::where('id_project',$lastf->workbook_id)->max('workbook')+1;
-            $pkp = pkp_project::where('id_project',$lastf->workbook_id)->first();
+            $pkp_hitung = PkpProject::where('id_project',$lastf->workbook_id)->max('workbook')+1;
+            $pkp = PkpProject::where('id_project',$lastf->workbook_id)->first();
             $pkp->workbook=$pkp_hitung;
             $pkp->save();
             
@@ -189,8 +189,8 @@ class UpVersionController extends Controller
             $lastturunan = Formula::where('workbook_id',$lastf->workbook_id)->where('versi',$lastf->versi)->max('turunan')+1;
         }
         if($lastf->workbook_pdf_id!=NULL){
-            $pdf_hitung = project_pdf::where('id_project_pdf',$lastf->workbook_pdf_id)->max('workbook')+1;
-            $pdf = project_pdf::where('id_project_pdf',$lastf->workbook_pdf_id)->first();
+            $pdf_hitung = ProjectPDF::where('id_project_pdf',$lastf->workbook_pdf_id)->max('workbook')+1;
+            $pdf = ProjectPDF::where('id_project_pdf',$lastf->workbook_pdf_id)->first();
             $pdf->workbook=$pdf_hitung;
             $pdf->save();
             
@@ -265,12 +265,12 @@ class UpVersionController extends Controller
                 $fortails->premix = $lastft->premix;
                 $fortails->save();
 
-                $allergen= allergen_formula::where('id_formula',$lastf->id)->count();
+                $allergen= AllergenFormula::where('id_formula',$lastf->id)->count();
                 if($allergen>0){
-                    $allergen_for= allergen_formula::where('id_formula',$lastf->id)->get();
+                    $allergen_for= AllergenFormula::where('id_formula',$lastf->id)->get();
                     foreach ($allergen_for as $allergen_for)
                     {
-                        $allergen_formula = new allergen_formula;
+                        $allergen_formula = new AllergenFormula;
                         $allergen_formula->id_bahan=$allergen_for->id_bahan;
                         $allergen_formula->id_formula=$formulas->id;
                         $allergen_formula->id_fortails=$fortails->id;
@@ -281,13 +281,13 @@ class UpVersionController extends Controller
             }
         } 
 
-        $overage = new tb_overage;
+        $overage = new Overage;
         $overage->id_formula=$formulas->id;
         $overage->save();
 
-        $overage = new tr_header_formula;
-        $overage->id_formula=$formulas->id;
-        $overage->save();
+        $header = new HeaderFormula;
+        $header->id_formula=$formulas->id;
+        $header->save();
         
         if(auth()->user()->role->namaRule == 'manager'){
             try{
@@ -298,14 +298,14 @@ class UpVersionController extends Controller
                     $message->subject('INFO PRODEV');
                     $for = Formula::where('id', $id)->first();
                     if($for->workbook_id!=NULL){
-                        $project = pkp_project::where('id_project',$for->workbook_id)->first();
+                        $project = PkpProject::where('id_project',$for->workbook_id)->first();
                         $user = DB::table('tr_users')->where('id', $project->userpenerima)->get();
                         foreach($user as $user){
                             $data = $user->email;
                             $message->to($data);
                         }
                     }elseif($for->workbook_pdf_id!=NULL){
-                        $project = project_pdf::where('id_project_pdf',$for->workbook_pdf_id)->first();
+                        $project = ProjectPDF::where('id_project_pdf',$for->workbook_pdf_id)->first();
                         $user = DB::table('tr_users')->where('id', $project->userpenerima)->get();
                         foreach($user as $user){
                             $data = $user->email;

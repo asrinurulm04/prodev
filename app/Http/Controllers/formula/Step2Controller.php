@@ -7,14 +7,12 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Collection;
 use App\model\users\User;
-use App\model\devnf\allergen_formula;
+use App\model\devnf\AllergenFormula;
 use App\model\dev\Formula;
 use App\model\dev\Fortail;
 use App\model\dev\Bahan;
-use App\model\dev\bb_allergen;
-use App\model\pkp\tipp;
-use App\model\pkp\pkp_project;
-use App\model\pkp\project_pdf;
+use App\model\pkp\PkpProject;
+use App\model\pkp\ProjectPDF;
 use Auth;
 use DB;
 use Redirect;
@@ -28,7 +26,7 @@ class Step2Controller extends Controller
     
     public function create($formula,$id){
         $formula = Formula::where('id',$id)->first();
-        $wb = tipp::where('id_pkp',$id)->first();
+        $wb = PkpProject::where('id_project',$id)->first();
         $target_serving = $formula->serving_size;
 
         // checkbase !
@@ -43,11 +41,10 @@ class Step2Controller extends Controller
         $idfor_pdf = $formula->workbook_pdf_id;
         $fortails = Fortail::where('formula_id',$id)->get();
         $ada= Fortail::where('formula_id',$id)->count();
-        $bahans = Bahan::orderBy('nama_sederhana','asc')->get();
+        $bahans = Bahan::orderBy('nama_sederhana','asc')->select('id','nama_bahan','nama_sederhana')->get();
         $no = 0;
 
         $scalecollect = collect();
-        
         $rjBatch    = 0;   $rjServing  = 0;
         $rjsBatch   = 0;   $rjsServing = 0;
         $granulasi  = 0;   $premix     = 0;
@@ -121,9 +118,7 @@ class Step2Controller extends Controller
     }
 
     public function insert($vf,Request $request){
-        // Check and Recheck
         $formula = Formula::where('id',$vf)->first();
-        // checkbase !
         if($formula->batch != null){
             $mybase = $formula->batch / $formula->serving; $mybase = round($mybase , 3);
         }
@@ -166,7 +161,7 @@ class Step2Controller extends Controller
             }
         }
         
-        $all = new allergen_formula;
+        $all =  new AllergenFormula;
         $all->id_bahan=$bp->id;
         $all->id_formula=$vf;
         $all->id_fortails=$fortails->id;
@@ -177,7 +172,7 @@ class Step2Controller extends Controller
             $fortails->nama_bahan1= $ba[1]->nama_bahan;
             $fortails->principle1= $ba[1]->principle;
                     
-            $all1 = new allergen_formula;
+            $all1 =  new AllergenFormula;
             $all1->id_bahan=$ba[1]->id;
             $all1->id_formula=$vf;
             $all1->id_fortails=$fortails->id;
@@ -187,7 +182,7 @@ class Step2Controller extends Controller
                 $fortails->nama_bahan2= $ba[2]->nama_bahan;
                 $fortails->principle2= $ba[2]->principle;
                 
-                $all2 = new allergen_formula;
+                $all2 =  new AllergenFormula;
                 $all2->id_bahan=$ba[2]->id;
                 $all2->id_formula=$vf;
                 $all2->id_fortails=$fortails->id;
@@ -198,7 +193,7 @@ class Step2Controller extends Controller
                 $fortails->nama_bahan3= $ba[3]->nama_bahan;
                 $fortails->principle3= $ba[3]->principle;
                 
-                $all3 = new allergen_formula;
+                $all3 =  new AllergenFormula;
                 $all3->id_bahan=$ba[3]->id;
                 $all3->id_formula=$vf;
                 $all3->id_fortails=$fortails->id;
@@ -209,7 +204,7 @@ class Step2Controller extends Controller
                 $fortails->nama_bahan4= $ba[4]->nama_bahan;
                 $fortails->principle4= $ba[4]->principle;
 
-                $all4 = new allergen_formula;
+                $all4 =  new AllergenFormula;
                 $all4->id_bahan=$ba[4]->id;
                 $all4->id_formula=$vf;
                 $all4->id_fortails=$fortails->id;
@@ -220,7 +215,7 @@ class Step2Controller extends Controller
                 $fortails->nama_bahan5= $ba[5]->nama_bahan;
                 $fortails->principle5= $ba[5]->principle;
                 
-                $all5 = new allergen_formula;
+                $all5 =  new AllergenFormula;
                 $all5->id_bahan=$ba[5]->id;
                 $all5->id_formula=$vf;
                 $all5->id_fortails=$fortails->id;
@@ -231,7 +226,7 @@ class Step2Controller extends Controller
                 $fortails->nama_bahan6= $ba[6]->nama_bahan;
                 $fortails->principle6= $ba[6]->principle;
                 
-                $all6 = new allergen_formula;
+                $all6 =  new AllergenFormula;
                 $all6->id_bahan=$ba[6]->id;
                 $all6->id_formula=$vf;
                 $all6->id_fortails=$fortails->id;
@@ -242,7 +237,7 @@ class Step2Controller extends Controller
                 $fortails->nama_bahan7= $ba[7]->nama_bahan;
                 $fortails->principle7= $ba[7]->principle;
                 
-                $all7 = new allergen_formula;
+                $all7 =  new AllergenFormula;
                 $all7->id_bahan=$ba[7]->id;
                 $all7->id_formula=$vf;
                 $all7->id_fortails=$fortails->id;
@@ -309,20 +304,20 @@ class Step2Controller extends Controller
         if(auth()->user()->role->namaRule == 'manager'){
             try{
                 Mail::send('formula.info', [
-                    'info' => 'Manager Anda Telah Merubah Data Formula "'.$formula->formula.'"' ,
+                    'info' => 'Manager Anda Telah Merubah Data Untuk Formula "'.$formula->formula.'"' ,
                 ],function($message)use($request,$vf)
                 {
                     $message->subject('INFO PRODEV');
                     $for = Formula::where('id',$vf)->first();
                     if($for->workbook_id!=NULL){
-                        $project = pkp_project::where('id_project',$for->workbook_id)->first();
+                        $project = PkpProject::where('id_project',$for->workbook_id)->first();
                         $user = DB::table('tr_users')->where('id', $project->userpenerima)->get();
                         foreach($user as $user){
                             $data = $user->email;
                             $message->to($data);
                         }
                     }elseif($for->workbook_pdf_id!=NULL){
-                        $project = project_pdf::where('id_project_pdf',$for->workbook_pdf_id)->first();
+                        $project = ProjectPDF::where('id_project_pdf',$for->workbook_pdf_id)->first();
                         $user = DB::table('tr_users')->where('id', $project->userpenerima)->get();
                         foreach($user as $user){
                             $data = $user->email;
@@ -340,7 +335,7 @@ class Step2Controller extends Controller
 
     public function hapusall($formula){
         $fortails = Fortail::where('formula_id',$formula)->delete();
-        $allergen = allergen_formula::where('id_formula',$formula)->delete();
+        $allergen = AllergenFormula::where('id_formula',$formula)->delete();
 
         return redirect::back();
     }
@@ -350,7 +345,7 @@ class Step2Controller extends Controller
         $idfor = $formula->workbook_id;
         $idfor_pdf = $formula->workbook_pdf_id;
         $fortail = Fortail::where([['id',$id],['formula_id',$vf]])->first();
-        $allergen = allergen_formula::where('id_fortails',$id)->delete();
+        $allergen = AllergenFormula::where('id_fortails',$id)->delete();
         if($formula->batch != null){
             $totalb = $formula->batch - $fortail->per_batch;
             $formula->batch = $totalb;

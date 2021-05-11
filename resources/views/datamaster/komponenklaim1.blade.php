@@ -4,7 +4,6 @@
 
 <div class="row">
 	<div class="x_panel">
-		<a href="{{route('exportklaim')}}" class="btn btn-info btn-sm"><li class="fa fa-download"></li> Export Data Klaim</a>
 		@if(auth()->user()->role->namaRule == 'admin')
 		<button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#komponen"><i class="fa fa-plus"></i> Add Data Komponen</button>
 		<!-- modal -->
@@ -27,7 +26,7 @@
 										<input value="" required="required" class="form-control col-md-12 col-xs-12" type="text" name="komponen">
 									</div>
 								</div>
-								<table id="datatable" class="table table-striped table-bordered" style="width:100%">
+								<table class="table table-striped table-bordered" style="width:100%">
 									<thead>
 										<tr style="font-weight: bold;color:white;background-color: #2a3f54;">
 											<td class="text-center">Klaim</td>
@@ -186,6 +185,8 @@
 @endsection
 
 @section('s')
+<link href="{{ asset('lib/advanced-datatable/css/jquery.dataTables.css') }}" rel="stylesheet" />
+<script src="{{ asset('js/datatables.min.js')}}"></script>
 <script type="text/javascript">
   $('select').select2({
     placeholder: '-->Select One<--',

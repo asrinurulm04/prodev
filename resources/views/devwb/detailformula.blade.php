@@ -522,7 +522,7 @@
 																@foreach ($detail_harga->sortByDesc('per_batch') as $fortail)
 																<tr >
 																	<td class="sticky-col first-col">{{ $fortail['nama_sederhana'] }}</td>
-																	<td class="sticky-col second-col"><input type="number" placeholder="0" onkeyup="jServing(this.id)" class="form-control" id="Serving{{ $fortail['no'] }}"  value="{{ $fortail['per_serving'] }}"   name="Serving[{{ $fortail['no'] }}]"></td>
+																	<td class="sticky-col second-col"><input type="number" placeholder="0" onkeyup="jServing(this.id)" class="form-control" readonly id="Serving{{ $fortail['no'] }}"  value="{{ $fortail['per_serving'] }}"   name="Serving[{{ $fortail['no'] }}]"></td>
 																	<td class="sticky-col third-col">{{ $fortail['persen'] }}</td>
 																	<td><?php echo"Rp. ". number_format($fortail['harga_per_serving'], 2, ",", ".")  ?></td>
 																	@if($header->form4=='yes')<td>{{ $fortail['karbohidrat'] }}</td>@endif
@@ -1673,7 +1673,6 @@
 											<div class="panel panel-info">
 												<div aria-labelledby="headingOne" data-parent="#accordionExample"><br> 
 													<form class="form-horizontal form-label-left" method="POST" action="{{route('savedosis',$idf)}}">
-													<button type="submit" class="btn btn-primary btn-sm"><li class="fa fa-save"></li> Save Update</button>
 													{{ csrf_field() }}
 													<div style="overflow-x: scroll;">
 														@foreach($form as $header)
@@ -1748,7 +1747,7 @@
 															<tbody>
 																<tr>
 																	<th class="text-center sticky-col first-col">Saran penyajian</th>
-																	<th class="text-center sticky-col second-col"><input type="number" class="form-control" value="{{$formula->saran_saji}}" name="saran" id="saran"></th>
+																	<th class="text-center sticky-col second-col">{{$formula->saran_saji}}</th>
 																	<th class="text-center sticky-col third-col">ML</th>
 																	<th class="text-center sticky-col fourth-col"></th><th></th><th colspan="7"></th>
 																	<th class="text-right" style="font-size: 12px;font-weight: bold; color:white;background-color: #157c16;">RTC</th>
@@ -1763,15 +1762,7 @@
 																</tr>
 																<tr>
 																	<th class="text-center sticky-col first-col" style="font-size: 12px;font-weight: bold; color:white;background-color: #4f4d4d;" rowspan="2">Number Kategori Pangan</th>
-																	<td class="text-center sticky-col second-col" rowspan="2">
-																		<select name="katpang" id="katpang" class="form-control">
-																		@if($formula->pangan!=NULL)<option value="{{$formula->pangan}}">{{$formula->katpang->no_katpang}}</option>
-																		@else<option value=""></option>@endif
-																		@foreach($ceklis as $ceklis)
-																		<option value="{{$ceklis->id_cemaran_ceklis }}">{{$ceklis->no_katpang}}</option>
-																		@endforeach
-																		</select>
-																	</td>
+																	<td class="text-center sticky-col second-col" rowspan="2">@if($formula->pangan!=NULL){{$formula->katpang->no_katpang}}@endif</td>
 																	<th class="text-center sticky-col third-col" rowspan="2">Batas % Air</th>
 																	<th class="text-center sticky-col fourth-col" rowspan="2">
 																	@if($formula->pangan!=NULL)<input type="number" readonly class="form-control" value="{{$formula->katpang->batas_air}}" name="batas" id="batas">
@@ -2145,18 +2136,14 @@
 @endsection
 @section('s')
 <script>
-	$(function() { //keep tab
-	// for bootstrap 3 use 'shown.bs.tab', for bootstrap 2 use 'shown' in the next line
-	$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-	// save the latest tab; use cookies if you like 'em better:
-	localStorage.setItem('lastTab', $(this).attr('href'));
-	});
-	
-	// go to the latest tab, if it exists:
-	var lastTab = localStorage.getItem('lastTab');
-	if (lastTab) {
-	$('[href="' + lastTab + '"]').tab('show');
-	}
+	$(function() {
+		$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+			localStorage.setItem('lastTab', $(this).attr('href'));
+		});
+		var lastTab = localStorage.getItem('lastTab');
+		if (lastTab) {
+			$('[href="' + lastTab + '"]').tab('show');
+		}
 	});
 </script>
 

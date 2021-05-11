@@ -62,7 +62,7 @@
                         </div>
                       </div>
                       @foreach($picture as $pic)
-                        <input type="text" value="{{$pic->lokasi}}" name="pic[]" id="pic">
+                        <input type="hidden" value="{{$pic->lokasi}}" name="pic[]" id="pic">
                       @endforeach
                       <input type="hidden" value="{{$nopromo}}" name="nopromo" id="nopromo">
                       <?php
@@ -116,7 +116,7 @@
                       </button>
                     </div>
                     <div class="modal-body">
-                      <form class="form-horizontal form-label-left" method="POST" action="{{ url('emailpromo',['id_pkp_promo' => $promo->id_pkp_promo, 'revisi' => $promo->revisi, 'turunan' => $promo->turunan]) }}" novalidate>
+                      <form class="form-horizontal form-label-left" method="POST" action="{{ url('emailpromo',['id_pkp_promo' => $promo->id_pkp_promo, 'revisi' => $promo->revisi, 'turunan' => $promo->turunan]) }}">
                       <div class="form-group row">
                         <label class="control-label text-bold col-md-1 col-sm-3 col-xs-12 text-center">Email</label>
                         <label class="control-label text-bold col-md-1 col-sm-3 col-xs-12 text-center">To</label>
@@ -124,7 +124,7 @@
                           <input id="email" class="form-control " type="email" name="email" required>
                           <input type="hidden" value="Pengajuan Promo-{{$promo->datapromoo->project_name}}" name="judul" id="judul">
                           @foreach($picture as $pic)
-                          <input type="text" value="{{$pic->lokasi}}" name="pic[]" id="pic">
+                          <input type="hidden" value="{{$pic->lokasi}}" name="pic[]" id="pic">
                           @endforeach
                           <label style="color:red;">* Only allowed one E-mail</label>
                         </div>
@@ -133,14 +133,14 @@
                         <label class="control-label text-bold col-md-1 col-sm-3 col-xs-12 text-center"></label>
                         <label class="control-label text-bold col-md-1 col-sm-3 col-xs-12 text-center">Cc</label>
                         <div class="col-md-3 col-sm-10 col-xs-12">
-                          <input type="text" class="form-control" readonly value="{{auth()->user()->email}}" name="pengirim" id="pengirim">
+                          <input type="text" class="form-control" required value="{{auth()->user()->email}}" name="pengirim" id="pengirim">
                         </div>
                         <div class="col-md-3 col-sm-10 col-xs-12">
-                          <input type="text" class="form-control" readonly value="{{$promo->datapromoo->author1->email}}" name="pengirim1" id="pengirim1">
+                          <input type="text" class="form-control" required value="{{$promo->datapromoo->author1->email}}" name="pengirim1" id="pengirim1">
                         </div>
                         <div class="col-md-3 col-sm-10 col-xs-12">
                           @if($promo->perevisi!=null)
-                            <input type="text" class="form-control" readonly value="{{$promo->perevisi2->email}}" name="pengirim2" id="pengirim2">
+                            <input type="text" class="form-control" required value="{{$promo->perevisi2->email}}" name="pengirim2" id="pengirim2">
                           @endif
                         </div>
                       </div>
@@ -177,9 +177,9 @@
                         <div class="col-md-4 col-sm-9 col-xs-12">
                           <select name="kirim" class="form-control form-control-line" id="kirim">
                             <option value="{{$promo->tujuankirim}}">{{$promo->departement->dept}}</option>
-                            @foreach($dept1 as $dept)
-                            @if($dept->Divisi=='RND')
-                            <option value="{{$dept->id}}">{{ $dept->dept }} ({{ $dept->nama_dept }})</option>
+                            @foreach($dept as $departement)
+                            @if($departement->Divisi=='RND')
+                            <option value="{{$departement->id}}">{{ $departement->dept }} ({{ $departement->nama_dept }})</option>
                             @endif
                             @endforeach
                           </select>

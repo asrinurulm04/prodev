@@ -28,7 +28,7 @@
   <div class="card-block">
     <a type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#add_subbrand" id="tambah"><i class="fa fa-plus"></i> Add Subbrand</a>
 	  <div class="dt-responsive table-responsive">
-      <table class="Table table-striped table-bordered nowrap">
+      <table id="datatable" class="Table table-striped table-bordered nowrap">
         <thead>
           <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
             <th>ID</th>
@@ -112,4 +112,8 @@
     </div>
   </div>
 </div>
+@endsection
+@section('s')
+    <link href="{{ asset('lib/advanced-datatable/css/jquery.dataTables.css') }}" rel="stylesheet" />
+    <script src="{{ asset('js/datatables.min.js')}}"></script>
 @endsection

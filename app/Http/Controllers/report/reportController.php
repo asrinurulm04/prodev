@@ -8,29 +8,28 @@ use Illuminate\Support\Facades\Validator;
 
 use App\model\master\Tarkon;
 use App\model\master\Brand;
-use App\model\pkp\pkp_type;
-use App\model\pkp\pkp_project;
-use App\model\pkp\project_pdf;
-use App\model\pkp\notulen;
-use App\model\pkp\data_klaim;
-use App\model\pkp\data_detail_klaim;
-use App\model\pkp\uom;
-use App\model\pkp\tb_edit;
-use App\model\pkp\promo;
-use App\model\pkp\data_forecast;
-use App\model\pkp\product_allocation;
-use App\model\pkp\data_ses;
-use App\model\pkp\data_promo;
-use App\model\pkp\parameter_form;
-use App\model\pkp\coba;
-use App\model\pkp\tipp;
-use App\model\pkp\picture;
+use App\model\pkp\Type;
+use App\model\pkp\PkpProject;
+use App\model\pkp\ProjectPDF;
+use App\model\pkp\Notulen;
+use App\model\pkp\DataKlaim;
+use App\model\pkp\UOM;
+use App\model\pkp\EditProject;
+use App\model\pkp\Promo;
+use App\model\pkp\Forecast;
+use App\model\pkp\Allocation;
+use App\model\pkp\DataSES;
+use App\model\pkp\DataPromo;
+use App\model\pkp\ParameterForm;
+use App\model\pkp\SubPDF;
+use App\model\pkp\SubPKP;
+use App\model\pkp\FileProject;
 use Auth;
 use Redirect;
 use DB;
 use Carbon\Carbon;
 
-class reportController extends Controller
+class ReportController extends Controller
 {
     public function __construct(){
         $this->middleware('auth');
@@ -38,34 +37,22 @@ class reportController extends Controller
     }
 
     public function tabulasi(){
-        $pic = picture::all();
-        $pkp = tipp::max('turunan');
-        $pdf = coba::max('turunan');
-        $notpkp = notulen::where('note','!=',null)->get();
-        $notpdf = notulen::where('note','!=',null)->get();
-        $notpromo = notulen::where('note','!=',null)->get();
-        $promo = data_promo::max('turunan');
-        $datapkp = tipp::where('status_project','!=','draf') ->join('tr_project_pkp','tr_project_pkp.id_project','=','tr_sub_pkp.id_pkp')->where('status_data','=','active')->orderBy('pkp_number','desc')->get();
-        $datapdf = coba::where('status_project','!=','draf') ->join('tr_pdf_project','tr_pdf_project.id_project_pdf','=','tr_sub_pdf.pdf_id')->where('status_pdf','=','active')->get();
-        $datapromo = promo::where('status_project','!=','draf') ->join('tr_promo','tr_project_promo.id_pkp_promo','=','tr_promo.id_pkp_promoo')->where('status_data','=','active')->get();
+        $datapkp = SubPKP::where('status_project','!=','draf') ->join('tr_project_pkp','tr_project_pkp.id_project','=','tr_sub_pkp.id_pkp')->where('status_data','=','active')->orderBy('pkp_number','desc')->get();
+        $datapdf = SubPDF::where('status_project','!=','draf') ->join('tr_pdf_project','tr_pdf_project.id_project_pdf','=','tr_sub_pdf.pdf_id')->where('status_pdf','=','active')->get();
+        $datapromo = Promo::where('status_project','!=','draf') ->join('tr_promo','tr_project_promo.id_pkp_promo','=','tr_promo.id_pkp_promoo')->where('status_data','=','active')->get();
         return view('pv.tabulasi')->with([
             'datapkp' => $datapkp,
             'datapdf' => $datapdf,
-            'not' => $notpkp,
-            'notpdf' => $notpdf,
-            'notpkp' => $notpkp,
-            'notpromo' => $notpromo,
-            'pic' => $pic,
             'datapromo' => $datapromo
         ]);
     }
 
     public function editpkpall(){
         $brand = brand::all();
-        $uom = uom::all();
-        $par2 = parameter_form::where('user',Auth::user()->id)->limit('1')->get();
+        $uom = UOM::all();
+        $par2 = ParameterForm::where('user',Auth::user()->id)->limit('1')->get();
         $tarkon = Tarkon::all();
-        $datapkp = pkp_project::where('status_project','!=','draf') ->join('tr_sub_pkp','tr_project_pkp.id_project','=','tr_sub_pkp.id_pkp')
+        $datapkp = PkpProject::where('status_project','!=','draf') ->join('tr_sub_pkp','tr_project_pkp.id_project','=','tr_sub_pkp.id_pkp')
             ->join('tr_edit','tr_edit.id_pkp','=','tr_project_pkp.id_project')
             ->join('tr_parameter_form','tr_parameter_form.id_pkp','tr_project_pkp.id_project')->where('id_user',Auth::user()->id)->where('status_data','=','active')->get();
         return view('pv.editpkpall')->with([
@@ -78,12 +65,12 @@ class reportController extends Controller
     }
 
     public function reportnotulen(){
-        $Npkp = notulen::where('id_pkp','!=',NULL)->where('note','!=',NULL)->orderBy('created_at','desc')->get();
-        $DNpkp = notulen::join('tr_project_pkp','tr_notulen.id_pkp','tr_project_pkp.id_project')->orderBy('prioritas','asc')->select(['id_pkp'])->distinct()->get();
-        $Npdf = notulen::where('id_pdf','!=',NULL)->where('note','!=',NULL)->get();
-        $DNpdf = notulen::join('tr_pdf_project','tr_notulen.id_pdf','tr_pdf_project.id_project_pdf')->orderBy('prioritas','asc')->select(['id_pdf'])->distinct()->get();
-        $Npromo = notulen::where('id_promo','!=',NULL)->where('note','!=',NULL)->get();
-        $DNpromo = notulen::join('tr_project_promo','tr_notulen.id_promo','tr_project_promo.id_pkp_promo')->orderBy('prioritas','asc')->select(['id_promo'])->distinct()->get();
+        $Npkp = Notulen::where('id_pkp','!=',NULL)->where('note','!=',NULL)->orderBy('created_at','desc')->get();
+        $DNpkp = Notulen::join('tr_project_pkp','tr_notulen.id_pkp','tr_project_pkp.id_project')->orderBy('prioritas','asc')->select(['id_pkp'])->distinct()->get();
+        $Npdf = Notulen::where('id_pdf','!=',NULL)->where('note','!=',NULL)->get();
+        $DNpdf = Notulen::join('tr_pdf_project','tr_notulen.id_pdf','tr_pdf_project.id_project_pdf')->orderBy('prioritas','asc')->select(['id_pdf'])->distinct()->get();
+        $Npromo = Notulen::where('id_promo','!=',NULL)->where('note','!=',NULL)->get();
+        $DNpromo = Notulen::join('tr_project_promo','tr_notulen.id_promo','tr_project_promo.id_pkp_promo')->orderBy('prioritas','asc')->select(['id_promo'])->distinct()->get();
         return view('pkp.reportnotulen')->with([
             'DNpdf' => $DNpdf,
             'Npdf' => $Npdf,
@@ -95,31 +82,31 @@ class reportController extends Controller
     }
 
     public function hapuscheck(){
-        $check = tb_edit::where('id_pkp','!=','NULL')->where('id_user',Auth::user()->id)->delete();
-        $check = parameter_form::where('user',Auth::user()->id)->delete();
+        $check = EditProject::where('id_pkp','!=','NULL')->where('id_user',Auth::user()->id)->delete();
+        $check = ParameterForm::where('user',Auth::user()->id)->delete();
         return redirect::route('tabulasi');
     }
 
     public function hapuscheckpdf(){
-        $check = tb_edit::where('id_pdf','!=','NULL')->where('id_user',Auth::user()->id)->delete();
-        $check = parameter_form::where('user',Auth::user()->id)->delete();
+        $check = EditProject::where('id_pdf','!=','NULL')->where('id_user',Auth::user()->id)->delete();
+        $check = ParameterForm::where('user',Auth::user()->id)->delete();
         return redirect::route('tabulasi');
     }
 
     public function hapuscheckpromo(){
-        $check = tb_edit::where('id_promo','!=','NULL')->where('id_user',Auth::user()->id)->delete();
-        $check = parameter_form::where('user',Auth::user()->id)->delete();
+        $check = EditProject::where('id_promo','!=','NULL')->where('id_user',Auth::user()->id)->delete();
+        $check = ParameterForm::where('user',Auth::user()->id)->delete();
         return redirect::route('tabulasi');
     }
 
     public function editpdfall(){
-        $type= pkp_type::all();
+        $type= Type::all();
         $brand = brand::all();
-        $par = parameter_form::where('user',Auth::user()->id)->limit('1')->get();
-        $datapdf = project_pdf::where('status_project','!=','draf') ->join('tr_sub_pdf','tr_pdf_project.id_project_pdf','=','tr_sub_pdf.pdf_id')
+        $par = ParameterForm::where('user',Auth::user()->id)->limit('1')->get();
+        $datapdf = ProjectPDF::where('status_project','!=','draf') ->join('tr_sub_pdf','tr_pdf_project.id_project_pdf','=','tr_sub_pdf.pdf_id')
             ->join('tr_edit','tr_edit.id_pdf','=','tr_pdf_project.id_project_pdf')
             ->join('tr_parameter_form','tr_parameter_form.id_pdf','tr_pdf_project.id_project_pdf')->where('id_user',Auth::user()->id)->where('status_pdf','=','active')->get();
-        $datapdf1 = project_pdf::where('status_project','!=','draf') ->join('tr_sub_pdf','tr_pdf_project.id_project_pdf','=','tr_sub_pdf.pdf_id')
+        $datapdf1 = ProjectPDF::where('status_project','!=','draf') ->join('tr_sub_pdf','tr_pdf_project.id_project_pdf','=','tr_sub_pdf.pdf_id')
             ->join('tr_edit','tr_edit.id_pdf','=','tr_pdf_project.id_project_pdf')
             ->join('tr_parameter_form','tr_parameter_form.id_pdf','tr_pdf_project.id_project_pdf')->where('id_user',Auth::user()->id)->where('status_pdf','=','active')->get();
         return view('pv.editpdfall')->with([
@@ -133,8 +120,8 @@ class reportController extends Controller
 
     public function editpromoall(){
         $brand = brand::all();
-        $par = parameter_form::where('user',Auth::user()->id)->limit('1')->get();
-        $datapromo = promo::where('status_project','!=','draf') ->join('tr_promo','tr_project_promo.id_pkp_promo','=','tr_promo.id_pkp_promoo')
+        $par = ParameterForm::where('user',Auth::user()->id)->limit('1')->get();
+        $datapromo = Promo::where('status_project','!=','draf') ->join('tr_promo','tr_project_promo.id_pkp_promo','=','tr_promo.id_pkp_promoo')
             ->join('tr_edit','tr_edit.id_promo','=','tr_project_promo.id_pkp_promo')->where('id_user',Auth::user()->id)
             ->join('tr_parameter_form','tr_parameter_form.id_promo','tr_project_promo.tr_project_promo')->where('status_data','=','active')->get();
         return view('pv.editpromo')->with([
@@ -147,7 +134,7 @@ class reportController extends Controller
     public function update_pkp(Request $request) {
         $scores = $request->input('scores');
         foreach($scores as $row){
-            $tambah = new tipp;
+            $tambah = new SubPKP;
             $tambah->id_pkp=$row['id_pkp'];
             $tambah->turunan=$row['turun'];
             $tambah->revisi=$row['revisi'];
@@ -179,12 +166,12 @@ class reportController extends Controller
             $tambah->status_pkp=$row['data'];
             $tambah->save();
 
-            $turunan = tipp::where('id_pkp',$row['id_pkp'])->where('turunan',$row['turun'])->where('revisi',$row['rev'])->update([
+            $turunan = SubPKP::where('id_pkp',$row['id_pkp'])->where('turunan',$row['turun'])->where('revisi',$row['rev'])->update([
                 "status_data" => $row['status']
             ]);
 
             foreach($scores as $row){
-                $pkp = pkp_project::where('id_project',$row['id_pkp'])->update([
+                $pkp = PkpProject::where('id_project',$row['id_pkp'])->update([
                     "project_name" => $row['name'],
                     "id_brand" => $row['brand'],
                     "ket_no" => $row['ket'],
@@ -192,11 +179,11 @@ class reportController extends Controller
                     "type" => $row['type']
                 ]);
 
-                $data=data_ses::where('id_pkp',$row['id_pkp'])->where('turunan',$row['turun'])->where('revisi',$row['rev'])->count();
+                $data=DataSES::where('id_pkp',$row['id_pkp'])->where('turunan',$row['turun'])->where('revisi',$row['rev'])->count();
                 if($data>0){
-                    $data=data_ses::where('id_pkp',$row['id_pkp'])->where('turunan',$row['turun'])->where('revisi',$row['rev'])->get();
+                    $data=DataSES::where('id_pkp',$row['id_pkp'])->where('turunan',$row['turun'])->where('revisi',$row['rev'])->get();
                     foreach ($data as $data){
-                        $ses= new data_ses;
+                        $ses= new DataSES;
                         $ses->id_pkp=$data->id_pkp;
                         $ses->revisi=$tambah->revisi;
                         $ses->turunan=$data->turunan;
@@ -205,11 +192,11 @@ class reportController extends Controller
                     }
                 }
 
-                $for=data_forecast::where('id_pkp',$row['id_pkp'])->where('turunan',$row['turun'])->where('revisi',$row['rev'])->count();
+                $for=Forecast::where('id_pkp',$row['id_pkp'])->where('turunan',$row['turun'])->where('revisi',$row['rev'])->count();
                 if($for>0){
-                    $data=data_forecast::where('id_pkp',$row['id_pkp'])->where('turunan',$row['turun'])->where('revisi',$row['rev'])->get();
+                    $data=Forecast::where('id_pkp',$row['id_pkp'])->where('turunan',$row['turun'])->where('revisi',$row['rev'])->get();
                     foreach ($data as $data){
-                        $forecast= new data_forecast;
+                        $forecast= new Forecast;
                         $forecast->id_pkp=$data->id_pkp;
                         $forecast->revisi=$tambah->revisi;
                         $forecast->turunan=$data->turunan;
@@ -219,11 +206,11 @@ class reportController extends Controller
                     }
                 }
 
-                $kl=data_klaim::where('id_pkp',$row['id_pkp'])->where('turunan',$row['turun'])->where('revisi',$row['rev'])->count();
+                $kl=DataKlaim::where('id_pkp',$row['id_pkp'])->where('turunan',$row['turun'])->where('revisi',$row['rev'])->count();
                 if($kl>0){
-                    $data=data_klaim::where('id_pkp',$row['id_pkp'])->where('turunan',$row['turun'])->where('revisi',$row['rev'])->get();
+                    $data=DataKlaim::where('id_pkp',$row['id_pkp'])->where('turunan',$row['turun'])->where('revisi',$row['rev'])->get();
                     foreach ($data as $data){
-                        $klaim= new data_klaim;
+                        $klaim= new DataKlaim;
                         $klaim->id_pkp=$data->id_pkp;
                         $klaim->revisi=$tambah->revisi;
                         $klaim->turunan=$data->turunan;
@@ -235,11 +222,11 @@ class reportController extends Controller
                     }
                 }
 
-                $ddk=data_detail_klaim::where('id_pkp',$row['id_pkp'])->where('turunan',$row['turun'])->where('revisi',$row['rev'])->count();
+                $ddk=DetailKlaim::where('id_pkp',$row['id_pkp'])->where('turunan',$row['turun'])->where('revisi',$row['rev'])->count();
                 if($ddk>0){
-                    $data=data_detail_klaim::where('id_pkp',$row['id_pkp'])->where('turunan',$row['turun'])->where('revisi',$row['rev'])->get();
+                    $data=DetailKlaim::where('id_pkp',$row['id_pkp'])->where('turunan',$row['turun'])->where('revisi',$row['rev'])->get();
                     foreach ($data as $data){
-                        $detail= new data_detail_klaim;
+                        $detail= new DetailKlaim;
                         $detail->id_pkp=$data->id_pkp;
                         $detail->revisi=$tambah->revisi;
                         $detail->turunan=$data->turunan;
@@ -256,7 +243,7 @@ class reportController extends Controller
     public function update_pdf(Request $request){
         $data1 = $request->input('datapdf');
         foreach($data1 as $row){
-            $tambah = new coba;
+            $tambah = new SubPDF;
             $tambah->pdf_id = $row['id_pdf'];
             $tambah->primer=$row['primer'];
             $tambah->primery=$row['primary'];
@@ -283,12 +270,12 @@ class reportController extends Controller
             $tambah->status_data='sent';
             $tambah->save();
 
-            $turunan = coba::where('pdf_id',$row['id_pdf'])->where('turunan',$row['turun'])->where('revisi',$row['revisi'])->update([
+            $turunan = SubPDF::where('pdf_id',$row['id_pdf'])->where('turunan',$row['turun'])->where('revisi',$row['revisi'])->update([
                 "status_pdf" => $row['status']
             ]);
 
             foreach($data1 as $row){
-                $pdf = project_pdf::where('id_project_pdf',$row['id_pdf'])->update([
+                $pdf = ProjectPDF::where('id_project_pdf',$row['id_pdf'])->update([
                     "project_name" => $row['name'],
                     "id_brand" => $row['brand'],
                     "country" => $row['country'],
@@ -297,11 +284,11 @@ class reportController extends Controller
                     "id_type" => $row['type']
                 ]);
 
-                $data=data_ses::where('id_pdf',$row['id_pdf'])->where('turunan',$row['turun'])->where('revisi',$row['rev'])->count();
+                $data=DataSES::where('id_pdf',$row['id_pdf'])->where('turunan',$row['turun'])->where('revisi',$row['rev'])->count();
                 if($data>0){
-                    $data=data_ses::where('id_pdf',$row['id_pdf'])->where('turunan',$row['turun'])->where('revisi',$row['rev'])->get();
+                    $data=DataSES::where('id_pdf',$row['id_pdf'])->where('turunan',$row['turun'])->where('revisi',$row['rev'])->get();
                     foreach ($data as $data){
-                        $ses= new data_ses;
+                        $ses= new DataSES;
                         $ses->id_pdf=$data->id_pdf;
                         $ses->revisi=$tambah->revisi;
                         $ses->turunan=$data->turunan;
@@ -310,11 +297,11 @@ class reportController extends Controller
                     }
                 }
 
-                $for=data_forecast::where('id_pdf',$row['id_pdf'])->where('turunan',$row['turun'])->where('revisi',$row['rev'])->count();
+                $for=Forecast::where('id_pdf',$row['id_pdf'])->where('turunan',$row['turun'])->where('revisi',$row['rev'])->count();
                 if($for>0){
-                    $data=data_forecast::where('id_pdf',$row['id_pdf'])->where('turunan',$row['turun'])->where('revisi',$row['rev'])->get();
+                    $data=Forecast::where('id_pdf',$row['id_pdf'])->where('turunan',$row['turun'])->where('revisi',$row['rev'])->get();
                     foreach ($data as $data){
-                        $forecast= new data_forecast;
+                        $forecast= new Forecast;
                         $forecast->id_pdf=$data->id_pdf;
                         $forecast->revisi=$tambah->revisi;
                         $forecast->turunan=$data->turunan;
@@ -331,7 +318,7 @@ class reportController extends Controller
     public function update_promo(Request $request){
         $data1 = $request->input('datapromo');
         foreach($data1 as $row){
-            $tambah = new data_promo;
+            $tambah = new DataPromo;
             $tambah->id_pkp_promoo = $row['id_promo'];
             $tambah->promo_idea = $row['idea'];
             $tambah->dimension = $row['dimension'];
@@ -343,12 +330,12 @@ class reportController extends Controller
             $tambah->gambaran_proses = $row['gambaran_proses'];
             $tambah->save();
 
-            $turunan = data_promo::where('id_pkp_promoo',$row['id_promo'])->where('turunan',$row['turun'])->where('revisi',$row['revisi'])->update([
+            $turunan = DataPromo::where('id_pkp_promoo',$row['id_promo'])->where('turunan',$row['turun'])->where('revisi',$row['revisi'])->update([
                 "status_data" => 'inactive'
             ]);
 
             foreach($data1 as $row){
-                $pdf = promo::where('id_pkp_promo',$row['id_promo'])->update([
+                $pdf = Promo::where('id_pkp_promo',$row['id_promo'])->update([
                     "project_name" => $row['name'],
                     "brand" => $row['brand'],
                     "ket_no" => $row['ket'],
@@ -357,11 +344,11 @@ class reportController extends Controller
                     "type" => $row['type']
                 ]);
 
-                $for=product_allocation::where('id_pkp_promo',$row['id_promo'])->where('turunan',$row['turun'])->where('revisi',$row['revisi'])->count();
+                $for=Allocation::where('id_pkp_promo',$row['id_promo'])->where('turunan',$row['turun'])->where('revisi',$row['revisi'])->count();
                 if($for>0){
-                    $data=product_allocation::where('id_pkp_promo',$row['id_promo'])->where('turunan',$row['turun'])->where('revisi',$row['revisi'])->get();
+                    $data=Allocation::where('id_pkp_promo',$row['id_promo'])->where('turunan',$row['turun'])->where('revisi',$row['revisi'])->get();
                     foreach ($data as $data){
-                        $all= new product_allocation;
+                        $all= new Allocation;
                         $all->id_pkp_promo=$data->id_pkp_promo;
                         $all->product_sku=$data->product_sku;
                         $all->allocation=$data->allocation;
@@ -388,7 +375,7 @@ class reportController extends Controller
                 $idz = implode(",", $request->input('datapkpp'));
                 $ids = explode(",", $idz);
                 for ($i = 0; $i < count($ids); $i++){
-                    $pipeline = new tb_edit;
+                    $pipeline = new EditProject;
                     $pipeline->id_user=Auth::user()->id;
                     $pipeline->id_pkp = $ids[$i];
                     $pipeline->save();
@@ -397,11 +384,11 @@ class reportController extends Controller
                 }
             }
 
-            $form=tb_edit::where('id_user',$pipeline->id_user)->count();
+            $form=EditProject::where('id_user',$pipeline->id_user)->count();
             if($form>0){
-                $data=tb_edit::where('id_user',$pipeline->id_user)->get();
+                $data=EditProject::where('id_user',$pipeline->id_user)->get();
                 foreach ($data as $data){
-                    $par= new parameter_form;
+                    $par= new ParameterForm;
                     $par->id_pkp=$data->id_pkp;
                     $par->user=$request->user;
                     $par->form1=$request->par1;
@@ -439,7 +426,7 @@ class reportController extends Controller
                 $idz = implode(",", $request->input('datapdf'));
                 $ids = explode(",", $idz);
                 for ($i = 0; $i < count($ids); $i++){
-                    $pipeline = new tb_edit;
+                    $pipeline = new EditProject;
                     $pipeline->id_user=Auth::user()->id;
                     $pipeline->id_pdf = $ids[$i];
                     $pipeline->save();
@@ -447,11 +434,11 @@ class reportController extends Controller
                 }
             }
 
-            $form=tb_edit::where('id_user',$pipeline->id_user)->count();
+            $form=EditProject::where('id_user',$pipeline->id_user)->count();
             if($form>0){
-                $data=tb_edit::where('id_user',$pipeline->id_user)->get();
+                $data=EditProject::where('id_user',$pipeline->id_user)->get();
                 foreach ($data as $data){
-                    $par= new parameter_form;
+                    $par= new ParameterForm;
                     $par->id_pdf=$data->id_pdf;
                     $par->user=$request->user;
                     $par->form1=$request->par1;
@@ -489,7 +476,7 @@ class reportController extends Controller
                 $idz = implode(",", $request->input('datapromo'));
                 $ids = explode(",", $idz);
                 for ($i = 0; $i < count($ids); $i++){
-                    $pipeline = new tb_edit;
+                    $pipeline = new EditProject;
                     $pipeline->id_user=Auth::user()->id;
                     $pipeline->id_promo = $ids[$i];
                     $pipeline->save();
@@ -498,11 +485,11 @@ class reportController extends Controller
                 }
             }
 
-            $form=tb_edit::where('id_user',$pipeline->id_user)->count();
+            $form=EditProject::where('id_user',$pipeline->id_user)->count();
             if($form>0){
-                $data=tb_edit::where('id_user',$pipeline->id_user)->get();
+                $data=EditProject::where('id_user',$pipeline->id_user)->get();
                 foreach ($data as $data){
-                    $par= new parameter_form;
+                    $par= new ParameterForm;
                     $par->id_promo=$data->id_promo;
                     $par->user=$request->user;
                     $par->form1=$request->par1;
@@ -523,27 +510,27 @@ class reportController extends Controller
     }
 
     public function deletepdf1($id_project_pdf){
-        $pdf = tb_edit::where('id_pdf',$id_project_pdf)->first();
+        $pdf = EditProject::where('id_pdf',$id_project_pdf)->first();
         $pdf->delete();
         return redirect::back();
     }
 
     public function deletepkp1($id_project){
-        $promo = tb_edit::where('id_pkp',$id_project)->first();
+        $promo = EditProject::where('id_pkp',$id_project)->first();
         $promo->delete();
         return redirect::back();
     }
 
     public function deletepromo1($id_pkp_promo){
-        $promo = tb_edit::where('id_promo',$id_pkp_promo)->first();
+        $promo = EditProject::where('id_promo',$id_pkp_promo)->first();
         $promo->delete();
         return redirect::back();
     }
 
     public function notulenpdf(){
-        $type= pkp_type::all();
+        $type= Type::all();
         $brand = brand::all();
-        $datapdf = project_pdf::where('status_project','!=','draf') ->join('tr_sub_pdf','tr_pdf_project.id_project_pdf','=','tr_sub_pdf.pdf_id')->where('status_pdf','=','active')->get();
+        $datapdf = ProjectPDF::where('status_project','!=','draf') ->join('tr_sub_pdf','tr_pdf_project.id_project_pdf','=','tr_sub_pdf.pdf_id')->where('status_pdf','=','active')->get();
         return view('pdf.notulenpdf')->with([
             'datapdf' => $datapdf,
             'brand' => $brand,
@@ -553,7 +540,7 @@ class reportController extends Controller
 
     public function notulenpkp(){
         $brand = brand::all();
-        $datapkp = tipp::where('status_project','!=','draf') ->join('tr_project_pkp','tr_project_pkp.id_project','=','tr_sub_pkp.id_pkp')->where('status_data','=','active')->get();
+        $datapkp = SubPKP::where('status_project','!=','draf') ->join('tr_project_pkp','tr_project_pkp.id_project','=','tr_sub_pkp.id_pkp')->where('status_data','=','active')->get();
         return view('pkp.notulen')->with([
             'datapkp' => $datapkp,
             'brand' => $brand
@@ -564,14 +551,14 @@ class reportController extends Controller
         $note = $request->input('note');
         foreach($note as $note){
             if($note!='null'){
-                $not = new notulen;
+                $not = new Notulen;
                 $not->id_pkp=$note['pkp'];
                 $not->note=$note['note'];
                 $not->created_date=$note['date'];
                 $not->user=Auth::user()->id;
                 $not->save();
 
-                $pkp = pkp_project::where('id_project',$note['pkp'])->update([
+                $pkp = PkpProject::where('id_project',$note['pkp'])->update([
                     "prioritas" => $note['prioritas']
                 ]);
             }
@@ -581,7 +568,7 @@ class reportController extends Controller
 
     public function indexnotulenpromo(){
         $brand = brand::all();
-        $par = parameter_form::where('user',Auth::user()->id)->limit('1')->get();
+        $par = ParameterForm::where('user',Auth::user()->id)->limit('1')->get();
         $datapromo = promo::where('status_project','!=','draf') ->join('tr_promo','tr_project_promo.id_pkp_promo','=','tr_promo.id_pkp_promoo')->where('status_data','=','active')->get();
         return view('promo.notulenpromo')->with([
             'datapromo' => $datapromo,
@@ -594,7 +581,7 @@ class reportController extends Controller
         $note = $request->input('note');
         foreach($note as $note){
             if($note!='null'){
-                $not = new notulen;
+                $not = new Notulen;
                 $not->id_pdf=$note['pdf'];
                 $not->note=$note['note'];
                 $not->created_date=$note['date'];
@@ -602,7 +589,7 @@ class reportController extends Controller
                 $not->save();
             }
 
-            $pdf = project_pdf::where('id_project_pdf',$note['pdf'])->update([
+            $pdf = ProjectPDF::where('id_project_pdf',$note['pdf'])->update([
                 "prioritas" => $note['prioritas']
             ]);
         }
@@ -613,7 +600,7 @@ class reportController extends Controller
         $note = $request->input('note');
         foreach($note as $note){
             if($note!='null'){
-                $not = new notulen;
+                $not = new Notulen;
                 $not->id_promo=$note['promo'];
                 $not->note=$note['note'];
                 $not->created_date=$note['date'];
@@ -621,7 +608,7 @@ class reportController extends Controller
                 $not->save();
             }
 
-            $promo = promo::where('id_pkp_promo',$note['promo'])->update([
+            $promo = Promo::where('id_pkp_promo',$note['promo'])->update([
                 "prioritas" => $note['prioritas']
             ]);
         }
@@ -631,7 +618,7 @@ class reportController extends Controller
     public function editnote(Request $request){
         $note = $request->input('pkp');
         foreach($note as $pkp){
-            $npkp = notulen::where('id_notulen',$pkp['id_pkp'])->update([
+            $npkp = Notulen::where('id_notulen',$pkp['id_pkp'])->update([
                 "note" => $pkp['note'],
                 "user" => Auth::user()->id
             ]);
@@ -640,31 +627,19 @@ class reportController extends Controller
     }
 
     public function data(){
-        $hilo1 = pkp_project::where('id_brand','=','Hilo')->count();$hilo2 = project_pdf::where('id_brand','=','Hilo')->count();$hhilo = $hilo1 + $hilo2;
-        $lmen1 = pkp_project::where('id_brand','=','L-Men')->count();$lmen2 = project_pdf::where('id_brand','=','L-Men')->count();$hlmen = $lmen1 + $lmen2;
-        $nr1 = pkp_project::where('id_brand','=','Nutrisari')->count();$nr2 = project_pdf::where('id_brand','=','Nutrisari')->count();$hnr = $nr1 + $nr2;
-        $ts1 = pkp_project::where('id_brand','=','Tropicana Slim')->count();$ts2 = project_pdf::where('id_brand','=','Tropicana Slim')->count();$hts = $ts1 + $ts2;
-        $ekspor1 = pkp_project::where('id_brand','=','Ekspor')->count();$ekspor2 = project_pdf::where('id_brand','=','Ekspor')->count();$hekspor = $ekspor1 + $ekspor2;
-        $draf = pkp_project::where('status_project','=','draf')->count();$draf1 = project_pdf::where('status_project','=','draf')->count();$hdraf = $draf + $draf1;
-        $revisi = pkp_project::where('status_project','=','revisi')->count();$revisi1 = project_pdf::where('status_project','=','revisi')->count();$hrevisi = $revisi + $revisi1;
-        $proses = pkp_project::where('status_project','=','proses')->count();$proses1 = project_pdf::where('status_project','=','proses')->count();$hproses = $proses + $proses1;
-        $sent= pkp_project::where('status_project','=','sent')->count();$sent1 = project_pdf::where('status_project','=','sent')->count();$hsent = $sent + $sent1;
-        $close = pkp_project::where('status_project','=','close')->count();$close1 = project_pdf::where('status_project','=','close')->count();$hclose = $close + $close1;
-
-        $dhilo1 = pkp_project::where('id_brand','=','Hilo')->join('tr_sub_pkp','tr_sub_pkp.id_pkp','=','tr_project_pkp.id_project')->where('status_data','=','active')->get();$dhilo2 = project_pdf::where('id_brand','=','Hilo')->join('tr_sub_pdf','tr_sub_pdf.pdf_id','=','tr_pdf_project.id_project_pdf')->where('status_pdf','=','active')->get();
-        $dlmen1 = pkp_project::where('id_brand','=','L-Men')->join('tr_sub_pkp','tr_sub_pkp.id_pkp','=','tr_project_pkp.id_project')->where('status_data','=','active')->get();$dlmen2 = project_pdf::where('id_brand','=','L-Men')->join('tr_sub_pdf','tr_sub_pdf.pdf_id','=','tr_pdf_project.id_project_pdf')->where('status_pdf','=','active')->get();
-        $dnr1 = pkp_project::where('id_brand','=','Nutrisari')->join('tr_sub_pkp','tr_sub_pkp.id_pkp','=','tr_project_pkp.id_project')->where('status_data','=','active')->get();$dnr2 = project_pdf::where('id_brand','=','Nutrisari')->join('tr_sub_pdf','tr_sub_pdf.pdf_id','=','tr_pdf_project.id_project_pdf')->where('status_pdf','=','active')->get();
-        $dts1 = pkp_project::where('id_brand','=','Tropicana Slim')->join('tr_sub_pkp','tr_sub_pkp.id_pkp','=','tr_project_pkp.id_project')->where('status_data','=','active')->get();$dts2 = project_pdf::where('id_brand','=','Tropicana Slim')->join('tr_sub_pdf','tr_sub_pdf.pdf_id','=','tr_pdf_project.id_project_pdf')->where('status_pdf','=','active')->get();
-        $dekspor1 = pkp_project::where('id_brand','=','Ekspor')->join('tr_sub_pkp','tr_sub_pkp.id_pkp','=','tr_project_pkp.id_project')->where('status_data','=','active')->get();$dekspor2 = project_pdf::where('id_brand','=','Ekspor')->join('tr_sub_pdf','tr_sub_pdf.pdf_id','=','tr_pdf_project.id_project_pdf')->where('status_pdf','=','active')->get();
-        $ddraf = pkp_project::where('status_project','=','draf')->join('tr_sub_pkp','tr_sub_pkp.id_pkp','=','tr_project_pkp.id_project')->where('status_data','=','active')->get();$ddraf1 = project_pdf::where('status_project','=','draf')->join('tr_sub_pdf','tr_sub_pdf.pdf_id','=','tr_pdf_project.id_project_pdf')->where('status_pdf','=','active')->get();
-        $drevisi = pkp_project::where('status_project','=','revisi')->join('tr_sub_pkp','tr_sub_pkp.id_pkp','=','tr_project_pkp.id_project')->where('status_data','=','active')->get();$drevisi1 = project_pdf::where('status_project','=','revisi')->join('tr_sub_pdf','tr_sub_pdf.pdf_id','=','tr_pdf_project.id_project_pdf')->where('status_pdf','=','active')->get();
-        $dproses = pkp_project::where('status_project','=','proses')->join('tr_sub_pkp','tr_sub_pkp.id_pkp','=','tr_project_pkp.id_project')->where('status_data','=','active')->get();$dproses1 = project_pdf::where('status_project','=','proses')->join('tr_sub_pdf','tr_sub_pdf.pdf_id','=','tr_pdf_project.id_project_pdf')->where('status_pdf','=','active')->get();
-        $dsent= pkp_project::where('status_project','=','sent')->join('tr_sub_pkp','tr_sub_pkp.id_pkp','=','tr_project_pkp.id_project')->where('status_data','=','active')->get();$dsent1 = project_pdf::where('status_project','=','sent')->join('tr_sub_pdf','tr_sub_pdf.pdf_id','=','tr_pdf_project.id_project_pdf')->where('status_pdf','=','active')->get();
-        $dclose = pkp_project::where('status_project','=','close')->join('tr_sub_pkp','tr_sub_pkp.id_pkp','=','tr_project_pkp.id_project')->where('status_data','=','active')->get();$dclose1 = project_pdf::where('status_project','=','close')->join('tr_sub_pdf','tr_sub_pdf.pdf_id','=','tr_pdf_project.id_project_pdf')->where('status_pdf','=','active')->get();
+        $hilo1 = PkpProject::where('id_brand','=','Hilo')->count();$hilo2 = ProjectPDF::where('id_brand','=','Hilo')->count();$hhilo = $hilo1 + $hilo2;
+        $lmen1 = PkpProject::where('id_brand','=','L-Men')->count();$lmen2 = ProjectPDF::where('id_brand','=','L-Men')->count();$hlmen = $lmen1 + $lmen2;
+        $nr1 = PkpProject::where('id_brand','=','Nutrisari')->count();$nr2 = ProjectPDF::where('id_brand','=','Nutrisari')->count();$hnr = $nr1 + $nr2;
+        $ts1 = PkpProject::where('id_brand','=','Tropicana Slim')->count();$ts2 = ProjectPDF::where('id_brand','=','Tropicana Slim')->count();$hts = $ts1 + $ts2;
+        $ekspor1 = PkpProject::where('id_brand','=','Ekspor')->count();$ekspor2 = ProjectPDF::where('id_brand','=','Ekspor')->count();$hekspor = $ekspor1 + $ekspor2;
+        
+        $dhilo1 = PkpProject::where('id_brand','=','Hilo')->join('tr_sub_pkp','tr_sub_pkp.id_pkp','=','tr_project_pkp.id_project')->where('status_data','=','active')->get();$dhilo2 = ProjectPDF::where('id_brand','=','Hilo')->join('tr_sub_pdf','tr_sub_pdf.pdf_id','=','tr_pdf_project.id_project_pdf')->where('status_pdf','=','active')->get();
+        $dlmen1 = PkpProject::where('id_brand','=','L-Men')->join('tr_sub_pkp','tr_sub_pkp.id_pkp','=','tr_project_pkp.id_project')->where('status_data','=','active')->get();$dlmen2 = ProjectPDF::where('id_brand','=','L-Men')->join('tr_sub_pdf','tr_sub_pdf.pdf_id','=','tr_pdf_project.id_project_pdf')->where('status_pdf','=','active')->get();
+        $dnr1 = PkpProject::where('id_brand','=','Nutrisari')->join('tr_sub_pkp','tr_sub_pkp.id_pkp','=','tr_project_pkp.id_project')->where('status_data','=','active')->get();$dnr2 = ProjectPDF::where('id_brand','=','Nutrisari')->join('tr_sub_pdf','tr_sub_pdf.pdf_id','=','tr_pdf_project.id_project_pdf')->where('status_pdf','=','active')->get();
+        $dts1 = PkpProject::where('id_brand','=','Tropicana Slim')->join('tr_sub_pkp','tr_sub_pkp.id_pkp','=','tr_project_pkp.id_project')->where('status_data','=','active')->get();$dts2 = ProjectPDF::where('id_brand','=','Tropicana Slim')->join('tr_sub_pdf','tr_sub_pdf.pdf_id','=','tr_pdf_project.id_project_pdf')->where('status_pdf','=','active')->get();
+        $dekspor1 = PkpProject::where('id_brand','=','Ekspor')->join('tr_sub_pkp','tr_sub_pkp.id_pkp','=','tr_project_pkp.id_project')->where('status_data','=','active')->get();$dekspor2 = ProjectPDF::where('id_brand','=','Ekspor')->join('tr_sub_pdf','tr_sub_pdf.pdf_id','=','tr_pdf_project.id_project_pdf')->where('status_pdf','=','active')->get();
         return view('pv.data')->with([
-            'hdraf' => $hdraf,'hrevisi' => $hrevisi,
-            'hproses' => $proses,'hsent' => $hsent,
-            'hclose' => $hclose,'hhilo' => $hhilo,
+            'hhilo' => $hhilo,
             'hlmen' => $hlmen,'hnr' => $hnr,
             'hts' => $hts,'hekspor' => $hekspor,
             'dhilo1' => $dhilo1,'dhilo2' => $dhilo2,
@@ -672,11 +647,6 @@ class reportController extends Controller
             'dnr1' => $dnr1,'dnr2' => $dnr2,
             'dts1' => $dts1,'dts2' =>$dts2,
             'dekspor1' => $dekspor1,'dekspor2' => $dekspor2,
-            'ddraf1' =>$ddraf1,'ddraf' => $ddraf,
-            'drevisi1' => $drevisi1,'drevisi'=>$drevisi,
-            'dproses1' => $dproses1,'dproses' => $dproses,
-            'dsent1' => $dsent1,'dsent' => $dsent,
-            'dclose1' => $dclose1,'dclose' => $dclose
         ]);
     }
 

@@ -1,23 +1,8 @@
 @extends('pv.tempvv')
 @section('title', 'Data Tambahan PKP')
-@section('judulhalaman','Data Tambahan PKP')
 @section('content')
 
-<div class="row">
-  <div class="col-md-3"></div>
-  <div class="col-md-8">
-    <div class="tabbable">
-      <ul class="nav nav-tabs wizard">
-        <li class="active"><a href="" ><span class="nmbr">1</span>Information</a></li>
-        <li class="active"><a href=""><span class="nmbr">2</span>PKP</a></li>
-        <li class="completed"><a href=""><span class="nmbr">3</span>Upload File</a></li>
-      </ul>
-    </div>
-  </div>
-</div>
-<br>
-
-@if (count($errors) > 0)
+@if(count($errors) > 0)
 <div class="alert alert-danger">
   <strong>Whoops!</strong> There were some problems with your input.<br><br>
   <ul>
@@ -71,22 +56,17 @@
 </div>
 @endforeach
 
-@if($coba1>=1)
 <div class="col-md-12">
   <div class="x_panel">
+  @if($coba1>=1)
     <button class="btn btn-primary col-md-12 btn-sm" type="submit"><li class="fa fa-check"></li> Save And Finish</button>
     {{ csrf_field() }}
-  </form>
-  </div>
-</div>
-@else
-<div class="col-md-12">
-  <div class="x_panel">
+    </form>
+  @else
     @foreach ($pkp as $pkp)
     <a href="{{route('rekappkp',$pkp->id_project)}}" class="btn btn-primary col-md-12 btn-sm"><li class="fa fa-check"></li> Save And Finish</a>
     @endforeach
-  </form>
+  @endif
   </div>
 </div>
-@endif
 @endsection

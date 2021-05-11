@@ -9,13 +9,6 @@
     {{ session('status') }}
   </div>
 </div>
-@elseif(session('error'))
-<div class="col-lg-12 col-md-12 col-sm-12">
-  <div class="alert alert-danger">
-    <button type="button" class="close" data-dismiss="alert">×</button>
-    {{ session('error') }}
-  </div>
-</div>
 @endif
 
 <div class="row">
@@ -42,30 +35,20 @@
             </thead>
             <tbody>
               <tr>
-                @php
-                  $no = 0;
-                @endphp
                 @foreach($promo as $pkp)
-                @if($pkp->status_project!="draf")
                 <td>{{ $pkp->promo_number}}{{$pkp->ket_no}}</td>
                 <td>{{ $pkp->brand }}</td>
                 <td>{{ $pkp->author1->name }}</td>
                 <td>
-                  @if($pkp->status_project=='sent')
-                  The project has been sent to the manager
-                  @elseif($pkp->status_project=='revisi')
-                  The Project in the revised proses
-                  @elseif($pkp->status_project=='proses')
-                  The project has been sent to the manager and user
-                  @elseif($pkp->status_project=='close')
-                  Project has finished
+                  @if($pkp->status_project=='sent')       The project has been sent to the manager
+                  @elseif($pkp->status_project=='revisi') The Project in the revised proses
+                  @elseif($pkp->status_project=='proses') The project has been sent to the manager and user
+                  @elseif($pkp->status_project=='close')  Project has finished
                   @endif
                 </td>
                 <td>
-                  @if($pkp->tujuankirim2=='0')
-                  Manager {{$pkp->departement->dept}}
-                  @elseif($pkp->tujuankirim2=='1')
-                  Manager {{$pkp->departement->dept}} and Manager {{$pkp->departement2->dept}}
+                  @if($pkp->tujuankirim2=='0')     Manager {{$pkp->departement->dept}}
+                  @elseif($pkp->tujuankirim2=='1') Manager {{$pkp->departement->dept}} and Manager {{$pkp->departement2->dept}}
                   @endif
                 </td>
                 <td class="text-center">
@@ -78,34 +61,34 @@
                 <td class="text-center">
                   <a class="btn btn-info btn-sm" href="{{ Route('rekappromo',$pkp->id_pkp_promo)}}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
                   @if($pkp->status_freeze=='inactive')
-                  @if(auth()->user()->role->namaRule === 'pv_lokal')
-                  <button title="Freeze" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#freezedata{{ $pkp->id_pkp_promo  }}" data-toggle="tooltip"><li class="fa fa-exclamation-triangle"></i></a></button>
-                  @endif
-                    <!-- Modal -->
-                  <div class="modal" id="freezedata{{ $pkp->id_pkp_promo }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h3 class="modal-title" id="exampleModalLabel">{{$pkp->project_name}}
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                          </button></h3>
-                        </div>
-                        <div class="modal-body">
-                          <form class="form-horizontal form-label-left" method="POST" action="{{route('freezepromo',$pkp->id_pkp_promo)}}" novalidate>
-                          <div class="row x_panel">
-                            <label for="" style="color:red;">*required</label><textarea name="notefreeze" required class="col-md-12 col-sm-12 col-xs-12"></textarea>
+                    @if(auth()->user()->role->namaRule === 'pv_lokal')
+                    <button title="Freeze" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#freezedata{{ $pkp->id_pkp_promo  }}" data-toggle="tooltip"><li class="fa fa-exclamation-triangle"></i></a></button>
+                    @endif
+                      <!-- Modal -->
+                    <div class="modal" id="freezedata{{ $pkp->id_pkp_promo }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h3 class="modal-title" id="exampleModalLabel">{{$pkp->project_name}}
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button></h3>
                           </div>
-                          <div class="modal-footer">
-                            <button type="submit" class="btn btn-dark btn-sm" onclick="return confirm('Are you sure you deactivated this project ?')"><i class="fa fa-cubes"></i> Freeze</button>
-                            {{ csrf_field() }}
+                          <div class="modal-body">
+                            <form class="form-horizontal form-label-left" method="POST" action="{{route('freezepromo',$pkp->id_pkp_promo)}}" novalidate>
+                            <div class="row x_panel">
+                              <label for="" style="color:red;">*required</label><textarea name="notefreeze" required class="col-md-12 col-sm-12 col-xs-12"></textarea>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="submit" class="btn btn-dark btn-sm" onclick="return confirm('Are you sure you deactivated this project ?')"><i class="fa fa-cubes"></i> Freeze</button>
+                              {{ csrf_field() }}
+                            </div>
+                            </form>
                           </div>
-                          </form>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <!-- Modal Selesai --> 
+                    <!-- Modal Selesai --> 
                   @elseif($pkp->status_freeze=='active')
                     @if($pkp->freeze==Auth::user()->id)
                       <button data-toggle="tooltip" title="note" class="btn btn-default btn-sm" data-toggle="modal" data-target="#freeze{{ $pkp->id_pkp_promo  }}"><i class="fa fa-dropbox"></i></a></button>
@@ -182,8 +165,8 @@
                         echo ' Your Time Is Up ';
                       }
                     ?>
-                    @elseif($pkp->pengajuan_sample=='sent')<span class="label label-primary" style="color:white">RD send a sample</span>
-                    @elseif($pkp->pengajuan_sample=='reject')<span class="label label-danger" style="color:white">Sample rejected</span>
+                    @elseif($pkp->pengajuan_sample=='sent')   <span class="label label-primary" style="color:white">RD send a sample</span>
+                    @elseif($pkp->pengajuan_sample=='reject') <span class="label label-danger" style="color:white">Sample rejected</span>
                     @elseif($pkp->pengajuan_sample=='approve')<span class="label label-info" style="color:white">Sample have been approved</span>
                     @endif
                   @elseif($pkp->status_freeze=='active')
@@ -291,7 +274,6 @@
                 </td>
                 <td>Project Finish</td>
                 @endif
-                @endif
               </tr>
               @endforeach
             </tbody>
@@ -301,4 +283,8 @@
     </div>
   </div>
 </div>
+@endsection
+@section('s')
+    <link href="{{ asset('lib/advanced-datatable/css/jquery.dataTables.css') }}" rel="stylesheet" />
+    <script src="{{ asset('js/datatables.min.js')}}"></script>
 @endsection

@@ -546,10 +546,13 @@
 @endsection    
 @section('s')
 
+<link href="{{ asset('css/select2.min.css') }}" rel="stylesheet">
+  <script src="{{ asset('js/select2/select2.min.js') }}"></script>
 <link href="{{ asset('css/asrul.css') }}" rel="stylesheet">
 <script type="text/javascript">
   $(document).ready(function(){        
     var i = {{ $no }};
+    console.log(i);
     var total  = 0;
     var total2 = 0;
     var tsb = 0;
@@ -581,6 +584,9 @@
       tsb     = tsb + sBatch;
       tss     = tss + sServing;                                           
 
+      $('#jBatch').val(hbatch);
+      $('#jServing').val(Hserving);
+
       if(cpremix == 'ya'){
         total_premix = total_premix + serving;
       } 
@@ -599,8 +605,6 @@
       tss     = parseFloat(tss.toFixed(3));
     }     
             
-    $('#jBatch').val(hbatch);
-    $('#jServing').val(Hserving);
     $('#jsBatch').val(tsb);
     $('#jsServing').val(tss);
             

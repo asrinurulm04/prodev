@@ -75,7 +75,7 @@
                       <tbody>
                         @foreach($idea as $data)
                         <tr>
-                          <td>{{$data->idea }}</td>
+                          <td>{{$data->promo_idea }}</td>
                           <td>{{$data->dimension }}</td>
                         </tr>
                         @endforeach
@@ -90,10 +90,6 @@
                 <tr class="table-highlight">
                   <td width="25%"><b>Item Promo Readiness</td>
                   <td width="25%">{{$promo->promo_readiness}}</td>
-                </tr>
-                <tr>
-                  <td width="25%"><b>Related Picture</td>
-                  <td colspan="2">@foreach($picture as $pic)<embed src="{{asset('data_file/'.$pic->filename)}}" width="150px" height="170" type="">@endforeach</td>
                 </tr>
               </table><br><br>
               <label for="">Product And Allocation :</label>

@@ -61,3 +61,7 @@
   </div>
 </div>
 @endsection
+@section('s')
+<link href="{{ asset('lib/advanced-datatable/css/jquery.dataTables.css') }}" rel="stylesheet" />
+<script src="{{ asset('js/datatables.min.js')}}"></script>
+@endsection

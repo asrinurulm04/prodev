@@ -91,7 +91,7 @@
               </tr>
               <tr>
                 <td width="25%"><b>Related Picture</td>
-                <td colspan="2">@foreach($picture as $pic)<embed src="{{asset('data_file/'.$promo->filename)}}" width="150px" height="170" type="">@endforeach</td>
+                <td colspan="2">@foreach($picture as $pic)<embed src="{{asset('data_file/'.$pic->filename)}}" width="150px" height="170" type="">@endforeach</td>
               </tr>
             </table>
             @endforeach

@@ -4,7 +4,7 @@ namespace App\model\pkp;
 
 use Illuminate\Database\Eloquent\Model;
 
-class promo extends Model
+class Promo extends Model
 {
     protected $table = 'tr_project_promo';
     protected $primaryKey ='id_pkp_promo';
@@ -26,7 +26,7 @@ class promo extends Model
     }
 
     public function not(){
-        return $this->hasOne('App\model\pkp\notulen','id_promo','id_pkp_promo');
+        return $this->hasOne('App\model\pkp\Notulen','id_promo','id_pkp_promo');
     }
 
     public function users2(){
@@ -34,6 +34,6 @@ class promo extends Model
     }
 
     public function datapromo(){
-        return $this->hasOne('App\model\pkp\data_promo','id_pkp_promoo','id_pkp_promo');
+        return $this->hasOne('App\model\pkp\DataPromo','id_pkp_promoo','id_pkp_promo');
     }
 }

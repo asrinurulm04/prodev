@@ -54,7 +54,7 @@
         <div class="x_content">
           <div class="col-md-12 col-xs-12">
 						<div class="form-group">
-							<div class="col-md-12 col-sm-12 col-xs-12">
+							<div class="col-md-12 col-sm-12 col-xs-12" style="overflow-x: scroll;">
   							<form class="form-horizontal form-label-left" method="POST" action="{{Route('allocation')}}"> 
 								<br>
 								@foreach($promo as $promo)
@@ -62,25 +62,25 @@
 								<input type="hidden" value="{{ $promo->turunan }}" name="turunan" id="turunan">
 								<input type="hidden" value="{{ $promo->revisi }}" name="revisi" id="revisi">
 								@endforeach
-          			<table class="Table table-bordered table-hover" id="tabledata">
+          			<table class="table table-bordered table-hover" id="tabledata">
       						<thead>
         						<tr style="font-weight: bold;color:white;background-color: #2a3f54;">
         					    <th class="text-center" max-width="10%">Product SKU Name**</th>
-        					    <th class="text-center" width="15%">Allocation**</th>
-											<th class="text-center">Satuan**</th>
-        					    <th class="text-center" width="25%">Remarks**</th>
+        					    <th class="text-center" style="min-width:200px">Allocation**</th>
+											<th class="text-center" style="min-width:200px">Satuan**</th>
+        					    <th class="text-center" style="min-width:200px">Remarks**</th>
         					    <th class="text-center">Start**</th>
 											<th class="text-center">End**</th>
 											<th class="text-center">RTO**</th>
-											<th width="9%"></th>
+											<th style="min-width:100px"></th>
       						  </tr>
       						</thead>
       						<tbody>
         						<tr>
         					    <td>
 												<select name='sku[]' required style="width:280px;" class="form-control items">
-													@foreach($sku as $sku)
-													<option class="col-md-12 col-xs-12" value="{{$sku->id}}">{{$sku->nama_sku}}</option>
+													@foreach($sku as $sku1)
+													<option class="col-md-12 col-xs-12" value="{{$sku1->id}}">{{$sku1->nama_sku}}</option>
 													@endforeach
 												</select>
 											</td>
@@ -93,17 +93,15 @@
         						  <td><input type="date" required name='start[]' placeholder='Start' title="start" class="form-control" /></td>
 											<td><input type="date" required name='end[]' placeholder='End' title="End" class="form-control" /></td>
 											<td><input type="date" required name='rto[]' placeholder='rto' class="form-control" /></td>
-											<td>
-											<button id="add_data" type="button" class="btn btn-info btn-sm pull-left tr_clone_add"><li class="fa fa-plus"></li> </button>
+											<td class="text-center">
+												<button id="add_data" type="button" class="btn btn-info btn-sm pull-left tr_clone_add"><li class="fa fa-plus"></li> </button>
 												<a href="" class="btn btn-danger btn-sm"><li class="fa fa-trash"></li></a>
 											</td>
 										</tr>
         					</tbody>
       					</table>
             	</div>
-							<center>
-							<button type="submit" class="btn btn-primary btn-sm"><li class="fa fa-check"></li> Submit</button>
-							</center>
+							<center><button type="submit" class="btn btn-primary btn-sm"><li class="fa fa-check"></li> Submit</button></center>
       				{{ csrf_field() }}				
   						</form>
           	</div>		
@@ -114,8 +112,7 @@
 	</div>  
 </div>
 
-@if($hitung==0)
-@elseif($hitung!=0)
+@if($hitung!=0)
 <div class="">     
   <div class="row">
     <div class="col-md-12 col-xs-12">
@@ -182,8 +179,8 @@
 																		<tr>
 																			<td><select required name="product" id="product" class="form-control">
 																				<option value="{{$all->product_sku}}">{{$all->sku->nama_sku}}</option>
-																				@foreach($sku2 as $sku)
-																				<option class="col-md-12 col-xs-12" value="{{$sku->id}}">{{$sku->nama_sku}}</option>
+																				@foreach($sku as $sku2)
+																				<option class="col-md-12 col-xs-12" value="{{$sku2->id}}">{{$sku2->nama_sku}}</option>
 																				@endforeach
 																			</select></td>
 																			<td><input required type="text" class="form-control col-md-12 col-xs-12" name="allocation" id="allocation" value="{{$all->allocation}}">
@@ -227,6 +224,8 @@
 @endsection
 
 @section('s')
+<link href="{{ asset('css/select2.min.css') }}" rel="stylesheet">
+<script src="{{ asset('js/select2/select2.min.js') }}"></script>
 <script>
 	$('.items').select2({
     placeholder: '-->Select One<--',
@@ -255,14 +254,14 @@
     });
 
 		var idsku = []
-		<?php foreach($sku2 as $key => $value) { ?>
+		<?php foreach($sku as $key => $value) { ?>
 			if(!idsku){
 				idsku += [ { '<?php echo $key; ?>' : '<?php echo $value->id; ?>', } ];
 			} else { idsku.push({ '<?php echo $key; ?>' : '<?php echo $value->id; ?>', }) }
 		<?php } ?>
 
 		var namasku = []
-		<?php foreach($sku2 as $key => $value) { ?>
+		<?php foreach($sku as $key => $value) { ?>
 			if(!namasku){
 				namasku += [ { '<?php echo $key; ?>' : '<?php echo $value->nama_sku; ?>', } ];
 			} else { namasku.push({ '<?php echo $key; ?>' : '<?php echo $value->nama_sku; ?>', }) }
@@ -276,8 +275,7 @@
 		var i = 1;
 		$("#add_data").click(function() {
 			$('#addrow' + i).html( "<td>"+
-				"<select name='sku[]' style='width:280px;' class='form-control items'>"+sku1+
-				"</select>"+
+				"<select name='sku[]' style='width:280px;' class='form-control items'>"+sku1+"</select>"+
 				"</td>"+
 				"<td><input type='text' name='pcs[]' placeholder='Allocation ' class='form-control data' /></td>"+
 				"<td><select require name='opsi[]' id='opsi' class='form-control'>"+
@@ -296,5 +294,4 @@
 		});
   });
 </script>
-<script src="{{ asset('js/asrul.js') }}"></script>
 @endsection

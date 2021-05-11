@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
 	<title>LOGIN</title>
-	<link href="{{ asset('img/prod.png') }}" rel="icon">
   <link href="{{ asset('vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
   <link href="{{ asset('build/css/custom.min.css') }}" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="css/mainn.css">
@@ -90,7 +89,6 @@
   <script src="{{ asset('js/vendor/jquery-2.2.4.min.js') }}"></script>
   <!-- Bootstrap -->
   <script src="{{ asset('vendors/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-  <script src="{{ asset('build/js/custom.min.js') }}"></script>
   <script>
     function myFunction() {
       var x = document.getElementById("myInput");

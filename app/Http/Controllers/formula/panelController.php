@@ -5,18 +5,17 @@ use Illuminate\Support\Facades\Mail;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\model\devnf\panel;
-use App\model\devnf\hasilpanel;
+use App\model\devnf\Panel;
+use App\model\devnf\HasilPanel;
 use App\model\dev\Formula;
-use App\model\master\tb_teams_brand;
-use App\model\pkp\pkp_project;
-use App\model\pkp\project_pdf;
-use App\model\pkp\tipp;
+use App\model\master\Teams;
+use App\model\pkp\PkpProject;
+use App\model\pkp\ProjectPDF;
 use Auth;
 use Redirect;
 use DB;
 
-class panelController extends Controller
+class PanelController extends Controller
 {
     public function __construct(){
         $this->middleware('auth');
@@ -24,7 +23,7 @@ class panelController extends Controller
     }
 
     public function hasil(Request $request){
-        $add_panel = new hasilpanel;
+        $add_panel = new HasilPanel;
         $add_panel->id_formula=$request->idf;
         $add_panel->id_wb=$request->wb;
         $add_panel->id_wb_pdf=$request->wb_pdf;
@@ -42,10 +41,10 @@ class panelController extends Controller
         $myFormula = Formula::where('id',$id)->first();
         $idfor = $myFormula->workbook_id;
         $fo= Formula::where('id',$id)->first();
-        $panel =panel::all();
-        $pn = hasilpanel::where('id_formula',$id)->get();
+        $panel =Panel::all();
+        $pn = HasilPanel::where('id_formula',$id)->get();
         $idf = $myFormula->id;
-        $cek_panel =hasilpanel::where('id_formula',$id)->count();
+        $cek_panel =HasilPanel::where('id_formula',$id)->count();
         return view('formula.panel')->with([
             'fo' => $fo,
             'myFormula' => $myFormula,
@@ -60,7 +59,7 @@ class panelController extends Controller
     }
 
     public function hapuspanel($id){
-        $panel = hasilpanel::where('id',$id)->delete();
+        $panel = HasilPanel::where('id',$id)->delete();
         return redirect::back()->with('status', 'panel '.' Telah Dihapus!');
     }
 
@@ -80,11 +79,11 @@ class panelController extends Controller
         $formula->status_panel='sent';
         $formula->save();
         
-        $panel = hasilpanel::where('id',$id_panel)->first();
+        $panel = HasilPanel::where('id',$id_panel)->first();
         $panel->status='done';
         $panel->save();
 
-        $isipanel = hasilpanel::where('id',$id_panel)->first();
+        $isipanel = HasilPanel::where('id',$id_panel)->first();
         try{
             Mail::send('formula.emailpanel', [
                 'app'=>$isipanel,
@@ -95,9 +94,8 @@ class panelController extends Controller
                 $message->subject('INFO PANEL PRODEV');
                 $for = Formula::where('id',$id_formula)->first();
                 if($for->id_wb!=NULL){
-                    $project = pkp_project::where('id_project',$for->workbook_id)->first();
-                    $teams = tb_teams_brand::where('brand',$project->id_brand)->get();
-                    // To
+                    $project = PkpProject::where('id_project',$for->workbook_id)->first();
+                    $teams = Teams::where('brand',$project->id_brand)->get();
                     foreach($teams as $teams){
                         $user = DB::table('tr_users')->where('id',$teams->id_user)->get();
                         foreach($user as $user){
@@ -113,7 +111,6 @@ class panelController extends Controller
                         $message->to($data);
                     }
                 }
-                // CC
                 if($for->id_wb!=NULL){
                     $dept = DB::table('ms_departements')->where('id',$project->tujuankirim)->get();
                     foreach($dept as $dept){
@@ -125,7 +122,7 @@ class panelController extends Controller
                         }
                     }
                 }elseif($for->id_wb_pdf!=NULL){
-                    $project = project_pdf::where('id_project_pdf',$for->workbook_pdf_id)->first();
+                    $project = ProjectPDF::where('id_project_pdf',$for->workbook_pdf_id)->first();
                     $dept = DB::table('ms_departements')->where('id',$project->tujuankirim)->get();
                     foreach($dept as $dept){
                         $user = DB::table('tr_users')->where('id',$dept->manager_id)->get();

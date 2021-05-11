@@ -5,7 +5,6 @@ namespace App\Http\Controllers\admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-use App\model\pkp\jenis;
 use App\model\users\Departement;
 use App\model\users\User;
 use App\model\users\Role;
@@ -45,23 +44,6 @@ class UserListController extends Controller
             'depts' =>$depts,
             'roles' =>$roles]);
     }
-
-    public function isijenis(Request $request, $id_jenis){   
-        $data = [$id_jenis]; 
-        $datajenis = jenis::whereIn('id_jenis', $data)->first();
-        foreach ($datajenis as $jenis){
-            $jenis = $request->input('pjenis');
-            foreach($jenis as $key => $jenis2) {
-                if($jenis2 == 'active'){
-                    $datajenis->status= 'active';
-                }elseif($jenis2 == 'inactive'){
-                    $datajenis->status = 'inactive';
-                }
-            }
-        }
-        $datajenis->save();
-        return redirect()->back();
-    }  
 
     public function update($id,Request $request){
         $user = User::find($id);

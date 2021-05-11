@@ -16,7 +16,7 @@ class BrandController extends Controller
     }
 
     public function index(){
-        $brands = Brand::all();
+        $brands = Brand::select('brand','id')->get();
         return view('datamaster.brand')->with([
             'brands' => $brands
         ]);

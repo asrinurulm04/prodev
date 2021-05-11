@@ -293,7 +293,7 @@
 										@endforeach
 										@endif
 										
-										<tr style="font-size: 12px;font-weight: bold; color:black;background-color: rgb(78, 205, 196, 0.5);">
+										<tr style="font-weight: bold;color:black;background-color: #ddd;">
 											<td colspan="4">Total</td>
 											<td>{{ $formula->serving }}</td>
 											<td>{{ $formula->batch }}</td>
@@ -574,7 +574,7 @@
 															@endforeach
 															<tr style="font-size: 12px;font-weight: bold; color:black;background-color: #ddd;">
 																<td class="text-center sticky-col first-col" style="font-size: 12px;font-weight: bold; color:black;background-color: #ddd;">Total : </td>
-																<td class="text-center sticky-col second-col" style="font-size: 12px;font-weight: bold; color:black;background-color: #ddd;"><input type="number" class="form-control" placeholder="0" id="jServing" disabled></td>
+																<td class="text-center sticky-col second-col" style="font-size: 12px;font-weight: bold; color:black;background-color: #ddd;"><input type="number" class="form-control" placeholder="0" value="{{ $formula->serving_size }}" disabled></td>
 																<td class="text-center sticky-col third-col" style="font-size: 12px;font-weight: bold; color:black;background-color: #ddd;"> 100 </td>
 																<td><?php echo"Rp. ". number_format($total_harga['total_harga_per_serving'], 2, ",", ".")  ?></td>
 																@if($header->form4=='yes')<td>{{ $total_harga['total_karbohidrat'] }}</td>@endif
@@ -1765,7 +1765,7 @@
 																<th class="text-center">@if($formula->pangan!=NULL){{$formula->katpang->mk_TPC}}@endif</th>
 																<th class="text-center">@if($formula->pangan!=NULL){{$formula->katpang->mk_Yeast}}@endif</th>
 																<th class="text-center">@if($formula->pangan!=NULL){{$formula->katpang->mk_Coliform}}@endif</th>
-																<th class="text-center">@if($formula->pangan!=NULL){{$formula->katpang->mk_Coli}}@endif</th>
+																<th class="text-center">@if($formula->pangan!=NULL){{$formula->katpang->mk_Coli}} @endif</th>
 																<th class="text-center">@if($formula->pangan!=NULL){{$formula->katpang->mk_Bacilluscereus}}@endif</th>
 																<th class="text-center" rowspan="2">@if($formula->pangan!=NULL){{$formula->katpang->as}}@endif</th>
 																<th class="text-center" rowspan="2">@if($formula->pangan!=NULL){{$formula->katpang->hg}}@endif</th>
@@ -1781,7 +1781,7 @@
 																<th class="text-center">@if($formula->pangan!=NULL){{$formula->katpang->mb_TPC}}@endif</th>
 																<th class="text-center">@if($formula->pangan!=NULL){{$formula->katpang->mb_Yeast}}@endif</th>
 																<th class="text-center">@if($formula->pangan!=NULL){{$formula->katpang->mb_Coliform}}@endif</th>
-																<th class="text-center">@if($formula->pangan!=NULL){{$formula->katpang->mb_Coli}}@endif</th>
+																<th class="text-center">@if($formula->pangan!=NULL){{$formula->katpang->mb_Coli}} @endif</th>
 																<th class="text-center">@if($formula->pangan!=NULL){{$formula->katpang->mb_Bacilluscereus}}@endif</th>
 															</tr>
 															<tr>
@@ -2141,6 +2141,7 @@
       total = total + serving;
             console.log(total);
       }
+			console.log(total);
     $('#jServing').val(total);
 
     var x = parseFloat($('#Serving'+urutan).val());

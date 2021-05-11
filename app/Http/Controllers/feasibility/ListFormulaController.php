@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\model\dev\Formula;
 use App\model\pkp\tipp;
-use App\model\pkp\pkp_project;
+use App\model\pkp\PkpProject;
 use App\model\Modelfn\feasibility;
 use Redirect;
 

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\model\Modelmesin\Dmesin;
 use App\model\pkp\jenis;
 use App\model\pkp\tipp;
-use App\model\pkp\pkp_project;
+use App\model\pkp\PkpProject;
 use App\model\pkp\data_forecast;
 
 class DataController extends Controller

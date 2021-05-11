@@ -6,12 +6,11 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\model\master\Subbrand;
 use App\model\master\Produksi;
-use App\model\pkp\tipp;
-use App\model\pkp\pkp_project;
+use App\model\pkp\PkpProject;
 use App\model\users\User;
 use App\model\users\Departement;
 use App\model\dev\Formula;
-use App\model\dev\tr_data_formula;
+use App\model\dev\DataFormula;
 use Redirect;
 
 class Step1Controller extends Controller
@@ -26,7 +25,7 @@ class Step1Controller extends Controller
         $subbrands = Subbrand::all();
         $idfor = $formula->workbook_id;
         $idf = $id;
-        $data = tr_data_formula::where('id_formula',$id)->get();
+        $data = DataFormula::where('id_formula',$id)->get();
         return view('formula/step1')->with([
             'idf' => $idf,
             'subbrands' => $subbrands,
@@ -41,7 +40,7 @@ class Step1Controller extends Controller
         $formula = Formula::where('id',$id)->first();
         $idfor_pdf = $formula->workbook_pdf_id;
         $idf = $id;
-        $data = tr_data_formula::where('id_formula',$id)->get();
+        $data = DataFormula::where('id_formula',$id)->get();
         return view('formula/step1_pdf')->with([
             'idf' => $idf,
             'data' => $data,
@@ -82,7 +81,7 @@ class Step1Controller extends Controller
                 ];
                 }
             }
-            tr_data_formula::insert($files);
+            DataFormula::insert($files);
         }
 
         if($formula->workbook_id!=NULL){
@@ -94,7 +93,7 @@ class Step1Controller extends Controller
     }
     
     public function hapus_file($id){
-        $file = tr_data_formula::where('id_data',$id)->delete();
+        $file = DataFormula::where('id_data',$id)->delete();
         return redirect::back();
     }
 }

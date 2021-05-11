@@ -10,7 +10,7 @@ use App\model\users\User;
 use Redirect;
 use Auth;
 
-class subbrandController extends Controller
+class SubBrandController extends Controller
 {
     public function __construct(){
         $this->middleware('auth');
@@ -19,11 +19,9 @@ class subbrandController extends Controller
     
     public function index(){
         $subbrands = Subbrand::all();
-        $users = User::all();
         $brands = Brand::all();
         return view('datamaster.subbrand')->with([
             'subbrands' => $subbrands,
-            'users' => $users,
             'brands' => $brands
         ]);
     }

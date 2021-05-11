@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\Mail;
 use App\model\dev\Bahan;
 use App\model\dev\Formula;
 use App\model\dev\Fortail;
-use App\model\pkp\pkp_project;
-use App\model\pkp\project_pdf;
+use App\model\pkp\PkpProject;
+use App\model\pkp\ProjectPDF;
 
 use Redirect;
 use DB;
@@ -422,14 +422,14 @@ class ScaleController extends Controller
                     $message->subject('INFO PRODEV');
                     $for = Formula::where('id', $idf)->first();
                     if($for->workbook_id!=NULL){
-                        $project = pkp_project::where('id_project',$for->workbook_id)->first();
+                        $project = PkpProject::where('id_project',$for->workbook_id)->first();
                         $user = DB::table('tr_users')->where('id', $project->userpenerima)->get();
                         foreach($user as $user){
                             $data = $user->email;
                             $message->to($data);
                         }
                     }elseif($for->workbook_pdf_id!=NULL){
-                        $project = project_pdf::where('id_project_pdf',$for->workbook_pdf_id)->first();
+                        $project = ProjectPDF::where('id_project_pdf',$for->workbook_pdf_id)->first();
                         $user = DB::table('tr_users')->where('id', $project->userpenerima)->get();
                         foreach($user as $user){
                             $data = $user->email;

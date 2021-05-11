@@ -9,9 +9,6 @@
     <link href="{{ asset('vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('vendors/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
     <link href="{{ asset('build/css/custom.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('lib/advanced-datatable/css/jquery.dataTables.css') }}" rel="stylesheet" />
-    <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/sheila.css') }}" rel="stylesheet">
   </head>
 
   <body class="nav-md ">
@@ -32,9 +29,7 @@
                 <h2 style="color:white;">{{ Auth::user()->name }}</h2>
                 @endif</center>
               <div class="clearfix"></div>
-            </div>
-
-            <br>
+            </div><br>
             <!-- menu profile quick info end -->
             <!-- sidebar menu -->
             <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
@@ -376,29 +371,9 @@
       </div>
     </div>
 
-    <!-- jQuery -->
     <script src="{{ asset('js/vendor/jquery-2.2.4.min.js') }}"></script>
-    <!-- Bootstrap -->
     <script src="{{ asset('vendors/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('js/datatables.min.js')}}"></script>
-    <script src="{{ asset('js/select2/select2.min.js') }}"></script>
     <script src="{{ asset('build/js/custom.min.js') }}"></script>
-    <script type="text/javascript">$('.Table').DataTable({
-      "language": {
-        "search": "Cari :",
-        "lengthMenu": "Tampilkan _MENU_ data",
-        "zeroRecords": "Tidak ada data",
-        "emptyTable": "Tidak ada data",
-        "info": "Menampilkan data _START_  - _END_  dari _TOTAL_ data",
-        "infoEmpty": "Tidak ada data",
-        "paginate": {
-          "first": "Awal",
-          "last": "Akhir",
-          "next": ">",
-          "previous": "<"
-        }
-      }
-    });</script>
     @yield('s')
   </body>
 </html>

@@ -1,31 +1,16 @@
 @extends('pv.tempvv')
 @section('title', 'Request PKP')
-@section('judulhalaman','Request PKP')
 @section('content')
 
-<div class="row">
-  <div class="x_panel">
-  <div class="col-md-3 col-sm-3 col-xs-12"></div>
-  <div class="col-md-8 col-sm-5 col-xs-12">
-    <div class="tabbable">
-      <ul class="nav nav-tabs wizard">
-        <li class="active"><a href="" ><span class="nmbr">1</span>Information</a></li>
-        <li class="completed"><a href=""><span class="nmbr">2</span>PKP</a></li>
-        <li class="active"><a href=""><span class="nmbr">3</span>File</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="col-md-12 col-xs-12">
-    <table class="table table-bordered">
-      <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
-        <td>Mandatory Information</td>
-        <td>* : Filled by Marketing</td>
-        <td>^ : Filled By PV</td>
-        <td>** : Filled by Marketing Or PV</td>
-      </tr>
-    </table>
-  </div>
-  </div>
+<div class="col-md-12 col-xs-12">
+  <table class="table table-bordered">
+    <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
+      <td>Mandatory Information</td>
+      <td>* : Filled by Marketing</td>
+      <td>^ : Filled By PV</td>
+      <td>** : Filled by Marketing Or PV</td>
+    </tr>
+  </table>
 </div>
 
 @foreach($pkpdata as $pkp)
@@ -34,9 +19,8 @@
 @else
 <form class="form-horizontal form-label-left" method="POST" action="{{ route('updatetipp2',['id_project' => $pkp->id_pkp, 'revisi' => $pkp->revisi, 'turunan' => $pkp->turunan]) }}">
 @endif
-<?php $last = Date('j-F-Y'); ?>
-<input id="last_up" value="{{ $last }}" class="form-control col-md-12 col-xs-12" type="hidden" name="last_up">
-<div class="row">
+  <?php $last = Date('j-F-Y'); ?>
+  <input id="last_up" value="{{ $last }}" class="form-control col-md-12 col-xs-12" type="hidden" name="last_up">
   <div class="col-md-12 col-xs-12">
     <div class="x_panel">
       <div class="x_title">
@@ -66,9 +50,6 @@
       </div>
     </div>
   </div>
-</div>
-
-<div class="row">
   <div class="col-md-12 col-xs-12">
     <div class="x_panel">
       <div class="x_title">
@@ -158,9 +139,6 @@
       </div>
     </div>
   </div>
-</div>
-
-<div class="row">
   <div class="col-md-12 col-xs-12">
     <div class="x_panel">
       <div class="x_title">
@@ -288,9 +266,6 @@
       </div>
     </div>
   </div>
-</div>
-
-<div class="row">
   <div class="col-md-12 col-xs-12">
     <div class="x_panel">
       <div class="x_title">
@@ -314,8 +289,6 @@
               <select name="akg" required  id="akg" class="form-control">
                 @if($pkp->akg!=NULL)
                 <option value="{{$pkp->tarkon->id_tarkon}}" readonly>{{$pkp->tarkon->tarkon}}</option>
-                @elseif($pkp->akg==NULL)
-                <option value=""></option>
                 @endif
                 @foreach($tarkon as $tr)
                 <option value="{{ $tr->id_tarkon}}">{{$tr->tarkon}}</option>
@@ -336,8 +309,6 @@
                 <option value=""></option>
                 @if($pkp->bpom!=null)
                 <option selected value="{{$pkp->bpom}}">{{$pkp->katpangan->no_kategori}}</option>
-                @elseif($pkp->bpom==null)
-                <option value=""></option>
                 @endif
                 @foreach($pangan as $dp)
                 <option value="{{ $dp->id_pangan }}">{{ $dp->no_kategori }}</option>
@@ -349,8 +320,6 @@
               <select name="katbpom"  id="katbpom" class="form-control">
                 @if($pkp->kategori_bpom!=null)
                 <option selected value="{{$pkp->kategori_bpom}}">{{$pkp->kategori->pangan}}</option>
-                @else
-                <option value=""></option>
                 @endif
                 @foreach($pangan as $kat)
                 <option value="{{$kat->id_pangan}}">{{$kat->pangan}}</option>
@@ -362,8 +331,6 @@
               <select name="olahan"  id="olahan" class="form-control">
                 @if($pkp->olahan!=NULL)
                 <option value="{{$pkp->olahan}}">{{$pkp->panganolahan->pangan_olahan	}}</option>
-                @elseif($pkp->olahan==NULL)
-                <option value=""></option>
                 @endif
               </select>
             </div>
@@ -377,23 +344,19 @@
                 <option value="{{$pkp->kemas_eksis}}" readonly>
                 (
                 @if($pkp->kemas->primer!=NULL)
-							  {{ $pkp->kemas->primer }}{{ $pkp->kemas->s_primer }} </tr>
-								@elseif($pkp->kemas->primer==NULL)
+							  {{ $pkp->kemas->primer }}{{ $pkp->kemas->s_primer }} X </tr>
 							  @endif
 
 								@if($pkp->kemas->sekunder1!=NULL)
-							  X {{ $pkp->kemas->sekunder1 }}{{ $pkp->kemas->s_sekunder1}} </tr>
-							  @elseif($pkp->kemas->sekunder1==NULL)
+							  {{ $pkp->kemas->sekunder1 }}{{ $pkp->kemas->s_sekunder1}} X </tr>
 							  @endif
 
 								@if($pkp->kemas->sekunder2!=NULL)
-							  X {{ $pkp->kemas->sekunder2 }}{{ $pkp->kemas->s_sekunder2 }} </tr>
-							  @elseif($pkp->sekunder2==NULL)
+							  {{ $pkp->kemas->sekunder2 }}{{ $pkp->kemas->s_sekunder2 }} X </tr>
 							  @endif
 
 							  @if($pkp->kemas->tersier!=NULL)
-								X {{ $pkp->kemas->tersier }}{{ $pkp->kemas->s_tersier }} </tr>
-							  @elseif($pkp->tersier==NULL)
+								{{ $pkp->kemas->tersier }}{{ $pkp->kemas->s_tersier }} </tr>
 							  @endif
                 )
                 </option>
@@ -405,10 +368,9 @@
              <input type="radio" name="data" oninput="baru()" id="radio_baru"> New Configuration  &nbsp &nbsp
              <input type="radio" name="data" oninput="eksis()" id="radio_eksis"> Configuration exists &nbsp &nbsp
              <input type="radio" name="data" oninput="pilih()" id="radio_project"> Previous Project Configuration  &nbsp &nbsp
+            @endif
           </div>
-          
         </div>
-        @endif
       </div>
       <div class="form-group">
         @if($pkp->primery!=null)
@@ -457,7 +419,7 @@
       </div>
       <div class="form-group">
         <div class="col-md-12 col-sm-12 col-xs-12">
-          <table class="table table-bordered table-hover" id="table">
+          <table class="table table-bordered table-hover" id="tab_logic">
         		<thead>
         		  <tr>
         				<th class="text-center" >Komponen</th>
@@ -506,12 +468,8 @@
                     @endforeach
                   </select>
                 </td>
-                <td>
-                  <select name="klaim[]" class="form-control items" id="klaimm"> </select>
-                </td>
-                <td>
-                  <select name="detail[]"  id="detaill" multiple="multiple" class="form-control items"> </select>
-                </td>
+                <td><select name="klaim[]" class="form-control items" id="klaimm"> </select></td>
+                <td><select name="detail[]"  id="detaill" multiple="multiple" class="form-control items"> </select></td>
                 <td><textarea type="text" class="form-control" name="ket[]" id="ket"></textarea></td>
         			  <td><button class="tr_clone_add btn btn-info btn-sm" id="add_row" type="button"><li class="fa fa-plus"></li></button></td>
         			</tr>
@@ -535,15 +493,15 @@
       </div>
     </div>
   </div>
-</div>
 </form>
 @endforeach
 
 @endsection
 @section('s')
+<link href="{{ asset('css/select2.min.css') }}" rel="stylesheet">
+<script src="{{ asset('js/select2/select2.min.js') }}"></script>
 <script>
   $(document).ready(function() {
-
     var idkomponen = []
     <?php foreach($komponen as $key => $value) { ?>
       if(!idkomponen){
@@ -572,7 +530,6 @@
         "</select></td><td><textarea type='text' class='form-control' name='ket[]' id='ket'></textarea></td><td></td>");
 
         var b = a+i;
-        console.log(b);
         $('#komponen' + b).on('change', function(){
           var myId = $(this).val();
             if(myId){
@@ -583,20 +540,16 @@
                 beforeSend: function(){
                 $('#loader').css("visibility", "visible");
             },
-
             success:function(data){
-              console.log(data)
                 $('#detaill' + b).empty();
                 $.each(data, function(key, value){
                   $('#detaill' + b).append('<option value="'+ key +'">' + value + '</option>');
                 });
-              console.log(data)
               },
               complete: function(){
                 $('#loader').css("visibility","hidden");
             }
           });
-
           }
           else{
             $('#detaill' + b).empty();
@@ -604,108 +557,93 @@
         });
 
         $('#komponen'+b).on('change', function(){
-      var myId = $(this).val();
-        if(myId){
-          $.ajax({
-          url: '{{URL::to('getkomponen')}}/'+myId,
-          type: "GET",
-          dataType: "json",
-          beforeSend: function(){
-              $('#loader').css("visibility", "visible");
-          },
-
-          success:function(data){
-            console.log(data)
-              $('#klaimm'+b).empty();
-              $.each(data, function(key, value){
-                  $('#klaimm'+b).append('<option value="'+ key +'">' + value + '</option>');
-              });
-          console.log(data)
-          },
-          complete: function(){
+        var myId = $(this).val();
+          if(myId){
+            $.ajax({
+              url: '{{URL::to('getkomponen')}}/'+myId,
+              type: "GET",
+              dataType: "json",
+              beforeSend: function(){
+                  $('#loader').css("visibility", "visible");
+              },
+              success:function(data){
+                  $('#klaimm'+b).empty();
+                  $.each(data, function(key, value){
+                      $('#klaimm'+b).append('<option value="'+ key +'">' + value + '</option>');
+                  });
+              },
+              complete: function(){
                 $('#loader').css("visibility","hidden");
-            }
-        });
-
-        }
-        else{
+              }
+            });
+          }
+          else{
             $('#klaimm'+b).empty();
-        }
-    });
-      $('#tab_logic').append('<tr id="addr' + (i + 1) + '"></tr>');
-      i++;
-    });
-
-    $('#komponen').on('change', function(){
-      var myId = $(this).val();
-        if(myId){
-          $.ajax({
-          url: '{{URL::to('getkomponen')}}/'+myId,
-          type: "GET",
-          dataType: "json",
-          beforeSend: function(){
-              $('#loader').css("visibility", "visible");
-          },
-
-          success:function(data){
-            console.log(data)
-              $('#klaimm').empty();
-              $.each(data, function(key, value){
-                  $('#klaimm').append('<option value="'+ key +'">' + value + '</option>');
-              });
-          console.log(data)
-          },
-          complete: function(){
-                $('#loader').css("visibility","hidden");
-            }
+          }
         });
 
-        }
-        else{
+        $('#tab_logic').append('<tr id="addr' + (i + 1) + '"></tr>');
+        i++;
+      });
+
+      $('#komponen').on('change', function(){
+        var myId = $(this).val();
+          if(myId){
+            $.ajax({
+              url: '{{URL::to('getkomponen')}}/'+myId,
+              type: "GET",
+              dataType: "json",
+              beforeSend: function(){
+                $('#loader').css("visibility", "visible");
+              },
+              success:function(data){
+                  $('#klaimm').empty();
+                  $.each(data, function(key, value){
+                    $('#klaimm').append('<option value="'+ key +'">' + value + '</option>');
+                  });
+              },
+              complete: function(){
+                $('#loader').css("visibility","hidden");
+              }
+            });
+          }
+          else{
             $('#klaimm').empty();
-        }
-    });
+          }
+      });
 
-    $('#komponen').on('change', function(){
-      var myId = $(this).val();
-        if(myId){
-          $.ajax({
-          url: '{{URL::to('getdetail')}}/'+myId,
-          type: "GET",
-          dataType: "json",
-          beforeSend: function(){
-              $('#loader').css("visibility", "visible");
-          },
-
-          success:function(data){
-            console.log(data)
-              $('#detaill').empty();
-              $.each(data, function(key, value){
+      $('#komponen').on('change', function(){
+        var myId = $(this).val();
+          if(myId){
+            $.ajax({
+              url: '{{URL::to('getdetail')}}/'+myId,
+              type: "GET",
+              dataType: "json",
+              beforeSend: function(){
+                $('#loader').css("visibility", "visible");
+              },
+              success:function(data){
+                $('#detaill').empty();
+                $.each(data, function(key, value){
                   $('#detaill').append('<option value="'+ key +'">' + value + '</option>');
-              });
-          console.log(data)
-          },
-          complete: function(){
+                });
+              },
+              complete: function(){
                 $('#loader').css("visibility","hidden");
-            }
-        });
-
-        }
-        else{
+              }
+            });
+          }
+          else{
             $('#katbpom').empty();
-        }
-    });
-
+          }
+      });
   });
 </script>
 
 <script>
   function plus(){
     var plus = document.getElementById('radio_plus')
-
-    if(plus.checked != true){
-      document.getElementById('umur').innerHTML = "";
-    }else{
+    if(plus.checked == true){
       document.getElementById('umur').innerHTML =
         "<input type='text' readonly class='form-control' value='+' name='sampaiumur' id='sampaiumur'>"
     }
@@ -713,10 +651,7 @@
 
   function minus(){
     var minus = document.getElementById('radio_minus')
-
-    if(minus.checked != true){
-      document.getElementById('umur').innerHTML = "";
-    }else{
+    if(minus.checked == true){
       document.getElementById('umur').innerHTML =
         "<input type='text' readonly class='form-control' value='-' name='sampaiumur' id='sampaiumur'>"
     }
@@ -724,10 +659,7 @@
 
   function to(){
     var to = document.getElementById('radio_to')
-
-    if(to.checked != true){
-      document.getElementById('umur').innerHTML = "";
-    }else{
+    if(to.checked == true){
       document.getElementById('umur').innerHTML =
         '<input type="number" name="sampaiumur" id="sampaiumur" class="form-control col-md-12 col-xs-12">'
     }
@@ -759,10 +691,7 @@
 
   function baru(){
     var baru = document.getElementById('radio_baru')
-
-    if(baru.checked != true){
-      document.getElementById('lihat').innerHTML = "";
-    }else{
+    if(baru.checked == true){
       document.getElementById('lihat').innerHTML =
       "<hr>"+
         "<div class='form-group'>"+
@@ -771,10 +700,8 @@
        		"<input type='radio' name='gramasi' oninput='tiga()' id='radio_tiga'> 3 Dimensi &nbsp"+
       		"<input type='radio' name='gramasi' oninput='empat()' id='radio_empat'> 4 Dimensi &nbsp"+
 					"<div id='tampil'></div>"+
-				"</div>"+
-        "<hr>"+
-        "<h4><b><lable class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>*Information</lable></b></h4>"+
-        "<br><br>"+
+				"</div><hr>"+
+        "<h4><b><lable class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>*Information</lable></b></h4><br><br>"+
         "<div class='form-group'>"+
           "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>Primary</label>"+
           "<div class='col-md-10 col-sm-10 col-xs-12'>"+
@@ -799,9 +726,7 @@
 
   function dua(){
     var dua = document.getElementById('radio_dua');
-    if(dua.checked != true){
-      document.getElementById('tampil').innerHTML = "";
-    }else{
+    if(dua.checked == true){]
       document.getElementById('tampil').innerHTML = "<br><div class='panel panel-default'>"+
 	      "<div class='panel-heading'><h5>Configuration</h5></div>"+
 	        "<div class='panel-body'>"+
@@ -990,9 +915,7 @@
 
   function pilih(){
     var eksis = document.getElementById('radio_project')
-    if(eksis.checked != true){
-      document.getElementById('lihat').innerHTML = "";
-    }else{
+    if(eksis.checked == true){
       document.getElementById('lihat').innerHTML =
       "<hr>"+
       "<div class='form-group'>"+
@@ -1002,27 +925,21 @@
             '<select name="data_eksis" class="form-control" id="txtOccupation" >'+
             '<option value="" readonly selected>-->Select One<--</option>'+pilihan+'</select>'+
           "</div>"+
-        "</div>"+"<div class='form-group'>"+
-        "<hr>"+
+        "</div>"+"<div class='form-group'><hr>"+
       "</di>"
     }
   }
 
   function eksis(){
     var eksis = document.getElementById('radio_eksis')
-    if(eksis.checked != true){
-      document.getElementById('lihat').innerHTML = "";
-    }else{
+    if(eksis.checked == true){
       document.getElementById('lihat').innerHTML =
       "<hr>"+
       "<div class='form-group'>"+
         "<div class='form-group'>"+
           "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>Configuration</label>"+
           "<div class='col-md-9 col-sm-10 col-xs-12'>"+
-            '<select name="data_eksis" class="form-control" id="eksis" >'+
-              '<option value="" readonly selected>-->Select One<--</option>'+
-              kemaseksis+
-            '</select>'+
+            '<select name="data_eksis" class="form-control" id="eksis" ><option value="" readonly selected>-->Select One<--</option>'+kemaseksis+'</select>'+
           "</div>"+
         "</div>"+"<div class='form-group'>"+
         "<hr>"+
@@ -1052,7 +969,6 @@
               beforeSend: function(){ 
                   $('#loader').css("visibility", "visible");
               },
-
               success:function(data){
                 $('#katbpom').empty();
                 $.each(data, function(key, value){
@@ -1079,7 +995,6 @@
               beforeSend: function(){
                 $('#loader').css("visibility", "visible");
               },
-
               success:function(data){
                 $('#bpom').empty();
                 $.each(data, function(key, value){
@@ -1090,7 +1005,6 @@
                 $('#loader').css("visibility","hidden");
               }
             });
-
           }
           else{
             $('#bpom').empty();
@@ -1108,7 +1022,6 @@
             beforeSend: function(){
               $('#loader').css("visibility", "visible");
             },
-
             success:function(data){
               $('#olahan').empty();
               $.each(data, function(key, value){
@@ -1119,77 +1032,24 @@
               $('#loader').css("visibility","hidden");
             }
           });
-
         }
         else{
           $('#katbpom').empty();
         }
       });
   });
-
-  function template(){
-    var template = document.getElementById('radio_temp')
-
-    if(template.checked != true){
-      document.getElementById('tampilkan').innerHTML = "";
-    }else{
-
-      document.getElementById('tampilkan').innerHTML =
-      "<hr>"+
-            "<div class='form-group row'>"+
-            "  <label class='control-label col-md-2 col-sm-3 col-xs-12'>Launch</label>"+
-            "  <div class='col-md-4 col-sm-9 col-xs-12'>"+
-            "    <select class='form-control form-control-line' name='launch'>"+
-            "      <option disabled='' selected=''>-- Launch Deadline --</option>"+
-            "      <option>Q1</option>"+
-            "      <option>Q2</option>"+
-            "      <option>Q3</option>"+
-            "      <option>Q4</option>"+
-            "      <option>S1</option>"+
-            "      <option>S2</option>"+
-            "    </select>"+
-            "  </div>"+
-            "  <div class='col-md-4 col-sm-9 col-xs-12'>"+
-            "    <input type='number' placeholder='Years' name='tahun' id='tahun' class='form-control col-md-12 col-xs-12'>"+
-            "  </div>"+
-            "</div>"+
-          "<div class='ln_solid'></div>"
-    }
-  }
-
-  function kalender(){
-    var baru = document.getElementById('radio_cal')
-
-    if(baru.checked != true){
-      document.getElementById('tampilkan').innerHTML = "";
-    }else{
-
-      document.getElementById('tampilkan').innerHTML =
-      "<hr>"+
-      "<div class='form-group row'>"+
-      "  <label class='control-label col-md-2 col-sm-3 col-xs-12'>Launch</label>"+
-      "  <div class='col-md-9 col-sm-12 col-xs-12'>"+
-      "    <input type='date' name='tanggal' id='tanggal' class='form-control col-md-12 col-xs-12'>"+
-      "  </div>"+
-      "</div>"+
-      "<div class='ln_solid'></div>"
-    }
-  }
 </script>
 <script>
   $(document).ready(function() {
-
-  var i = 1;
-  $(".add_data").click(function() {
-    $('#addrow' + i).html( "</td><td><a hreaf='' class='btn btn-danger btn-sm'><li class='fa fa-trash'></li></a></td><td><input type='number' value='0' name='forecast[]' class='form-control'></td><td><select name='satuan[]'  class='form-control'>"+
-      "<option value='1st Month'>1st Month</option>"+
-      "<option value='2nd Month'>2nd Month</option>"+
-      "<option value='3rd Month'>3rd Month</option>"+
-    "</select>");
-
-    $('#tabledata').append('<tr id="addrow' + (i + 1) + '"></tr>');
-    i++;
-  });
+    var i = 1;
+    $(".add_data").click(function() {
+      $('#addrow' + i).html( "</td><td><a hreaf='' class='btn btn-danger btn-sm'><li class='fa fa-trash'></li></a></td><td><input type='number' value='0' name='forecast[]' class='form-control'></td><td><select name='satuan[]'  class='form-control items''>"+
+        "<option value='2nd Month'>2nd Month</option>"+
+        "<option value='3rd Month'>3rd Month</option>"+
+      "</select>");
+      $('#tabledata').append('<tr id="addrow' + (i + 1) + '"></tr>');
+      i++;
+    });
   });
 </script>
 <script src="{{ asset('js/asrul.js') }}"></script>

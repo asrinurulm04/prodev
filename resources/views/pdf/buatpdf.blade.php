@@ -1,38 +1,20 @@
 @extends('pv.tempvv')
 @section('title', 'Request PDF')
-@section('judulhalaman','Form PDF')
 @section('content')
 
-@include('formerrors')
-<div class="row">
-  <div class="col-md-3"></div>
-  <div class="col-md-8">
-    <div class="tabbable">
-      <ul class="nav nav-tabs wizard">
-        <li class="active"><a href="" ><span class="nmbr">1</span>Information</a></li>
-        <li class="completed"><a href=""><span class="nmbr">2</span>PDF</a></li>
-        <li class="active"><a href=""><span class="nmbr">3</span>File & Image</a></li>
-      </ul>
-    </div>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-md-12 col-xs-12">
-    <table class="table table-bordered">
-      <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
-        <td>Mandatory Information</td>
-        <td>* : Filled by Marketing</td>
-        <td>^ : Filled By PV</td>
-        <td>** : Filled by Marketing Or PV</td>
-      </tr>
-    </table>
-  </div>
+<div class="col-md-12 col-xs-12">
+  <table class="table table-bordered">
+    <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
+      <td>Mandatory Information</td>
+      <td>* : Filled by Marketing</td>
+      <td>^ : Filled By PV</td>
+      <td>** : Filled by Marketing Or PV</td>
+    </tr>
+  </table>
 </div>
 
 <div class="">
   <form class="form-horizontal form-label-left" method="POST" action="{{ route('pos') }}" novalidate>
-	<div class="row">
     <div class="col-sm-12">
       <div class="x_panel">
         <div class="x_title">
@@ -52,9 +34,6 @@
         </div>
       </div>
     </div>
-  </div>
-
-  <div class="row">
     <div class="col-md-12 col-xs-12">
       <div class="x_panel">
         <div class="x_title">
@@ -101,9 +80,6 @@
         </div>
       </div>
     </div>
-  </div>
-
-  <div class="row">
     <div class="col-md-12">
       <div class="x_panel">
         <div class="x_title">
@@ -178,9 +154,6 @@
         </div>
       </div>
     </div>
-  </div> 
-
-  <div class="row">
     <div class="col-md-12 col-xs-12">
       <div class="x_panel">
         <div class="x_title">
@@ -235,11 +208,9 @@
         </div>
       </div>
     </div>
-	</div>
 
-  <?php $date = Date('j-F-Y'); ?>
-  <input id="last_up" value="{{ $date }}" class="form-control col-md-12 col-xs-12" type="hidden" name="last_up">
-  <div class="row">
+    <?php $date = Date('j-F-Y'); ?>
+    <input id="last_up" value="{{ $date }}" class="form-control col-md-12 col-xs-12" type="hidden" name="last_up">
     <div class="col-md-12 col-xs-12">
       <div class="x_panel">
         <div class="x_title">
@@ -272,20 +243,18 @@
           </div>
         </div>
 			</div>
-		</div>
-	</div>				
+		</div>				
   </form>
 </div>
 
 @endsection
 @section('s')
-  
+<link href="{{ asset('css/select2.min.css') }}" rel="stylesheet">
+<script src="{{ asset('js/select2/select2.min.js') }}"></script>
 <script>
   function plus(){
     var plus = document.getElementById('radio_plus')
-    if(plus.checked != true){
-      document.getElementById('umur').innerHTML = "";
-    }else{
+    if(plus.checked == true){
       document.getElementById('umur').innerHTML =
         "<input type='text' readonly class='form-control' value='+' name='sampaiumur' id='sampaiumur'>"
     }
@@ -293,9 +262,7 @@
 
   function minus(){
     var minus = document.getElementById('radio_minus')
-    if(minus.checked != true){
-      document.getElementById('umur').innerHTML = "";
-    }else{
+    if(minus.checked == true){
       document.getElementById('umur').innerHTML =
         "<input type='text' readonly class='form-control' value='-' name='sampaiumur' id='sampaiumur'>"
     }
@@ -303,9 +270,7 @@
 
   function to(){
     var to = document.getElementById('radio_to')
-    if(to.checked != true){
-      document.getElementById('umur').innerHTML = "";
-    }else{
+    if(to.checked == true){
       document.getElementById('umur').innerHTML =
         '<input type="number" name="sampaiumur" id="sampaiumur" class="form-control col-md-12 col-xs-12">'
     }
@@ -314,7 +279,6 @@
 
 <script>
   $(document).ready(function() {
-    // delete baris proses
     $('#tableklaim').on('click', 'tr a', function(e) {
       e.preventDefault();
       $(this).parents('tr').remove();
@@ -363,10 +327,7 @@
 
   function baru(){
     var baru = document.getElementById('radio_baru')
-
-    if(baru.checked != true){
-      document.getElementById('lihat').innerHTML = "";
-    }else{
+    if(baru.checked == true){
       document.getElementById('lihat').innerHTML =
         "<div class='form-group'>"+
           "<label class='control-label col-md-2 col-sm-2 col-xs-12'>Configuration</label>&nbsp  &nbsp"+
@@ -374,10 +335,8 @@
        		"<input type='radio' name='gramasi' oninput='tiga()' id='radio_tiga'> 3 Dimensi &nbsp"+
       		"<input type='radio' name='gramasi' oninput='empat()' id='radio_empat'> 4 Dimensi &nbsp"+
 					"<div id='tampil'></div>"+
-				"</div>"+
-        "<hr>"+
-        "<h4><b><lable class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>*Information</lable></b></h4>"+
-        "<br><br>"+
+				"</div><hr>"+
+        "<h4><b><lable class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>*Information</lable></b></h4><br><br>"+
         "<div class='form-group'>"+
           "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>Primary</label>"+
           "<div class='col-md-10 col-sm-10 col-xs-12'>"+
@@ -422,33 +381,29 @@
         "</div>"+
         "<div class='ln_solid'></div>"
 
-      $(document).ready(function() {
-        // delete baris proses
-        $('#tablekemas').on('click', 'tr a', function(e) {
-          e.preventDefault();
-          $(this).parents('tr').remove();
-        });
+        $(document).ready(function() {
+          $('#tablekemas').on('click', 'tr a', function(e) {
+            e.preventDefault();
+            $(this).parents('tr').remove();
+          });
 
-        var i = 1;
-        $("#add_kemas").click(function() {
-          $('#addrow' + i).html( "<td><input type='text' name='oracle[]' id='oracle' class='form-control'>"+
-          "<td><input type='text' name='kk[]' id='kk' class='form-control'></td>"+
-          "<td><input type='text' name='information[]' id='information' class='form-control'></td>"+
-          "<td><a hreaf='' class='btn btn-danger btn-sm' title='Delete'><li class='fa fa-trash'></li></a></td>");
+          var i = 1;
+          $("#add_kemas").click(function() {
+            $('#addrow' + i).html( "<td><input type='text' name='oracle[]' id='oracle' class='form-control'>"+
+            "<td><input type='text' name='kk[]' id='kk' class='form-control'></td>"+
+            "<td><input type='text' name='information[]' id='information' class='form-control'></td>"+
+            "<td><a hreaf='' class='btn btn-danger btn-sm' title='Delete'><li class='fa fa-trash'></li></a></td>");
 
-          $('#tablekemas').append('<tr id="addrow' + (i + 1) + '"></tr>');
-          i++;
-        });
+            $('#tablekemas').append('<tr id="addrow' + (i + 1) + '"></tr>');
+            i++;
+          });
       });
     }
   }
 
   function dua(){
     var dua = document.getElementById('radio_dua');
-
-    if(dua.checked != true){
-      document.getElementById('tampil').innerHTML = "";
-    }else{
+    if(dua.checked == true){
       document.getElementById('tampil').innerHTML = "<br><div class='panel panel-default'>"+
 	      "<div class='panel-heading'><h5>Configuration</h5></div>"+
 	        "<div class='panel-body'>"+
@@ -476,10 +431,7 @@
 
   function tiga(){
     var tiga = document.getElementById('radio_tiga');
-
-    if(tiga.checked != true){
-      document.getElementById('tampil').innerHTML = "";
-    }else{
+    if(tiga.checked == true){
       document.getElementById('tampil').innerHTML = "<br><div class='panel panel-default'>"+
 	      "<div class='panel-heading'><h5>Configuration</h5></div>"+
 	        "<div class='panel-body'>"+
@@ -513,10 +465,7 @@
 
   function empat(){
     var empat = document.getElementById('radio_empat');
-
-    if(empat.checked != true){
-      document.getElementById('tampil').innerHTML = "";
-    }else{
+    if(empat.checked == true){
       document.getElementById('tampil').innerHTML =
       "<br><div class='panel panel-default'>"+
 	    "<div class='panel-heading'><h5>Configuration</h5></div>"+
@@ -632,10 +581,7 @@
 
   function pilih(){
     var eksis = document.getElementById('radio_project')
-
-    if(eksis.checked != true){
-      document.getElementById('lihat').innerHTML = "";
-    }else{
+    if(eksis.checked == true){
       document.getElementById('lihat').innerHTML =
       "<div class='form-group'>"+
         "<div class='form-group'>"+
@@ -652,10 +598,7 @@
 
   function eksis(){
     var eksis = document.getElementById('radio_eksis')
-
-    if(eksis.checked != true){
-      document.getElementById('lihat').innerHTML = "";
-    }else{
+    if(eksis.checked == true){
       document.getElementById('lihat').innerHTML =
       "<div class='form-group'>"+
         "<div class='form-group'>"+
@@ -672,8 +615,6 @@
     }
   }
 </script>
-
-<script src="{{ asset('js/select2.min.js') }}"></script>
 <script type="text/javascript">
   $('select').select2({
     placeholder: '-->Select One<--',
@@ -683,8 +624,6 @@
 
 <script>
   $(document).ready(function() {
-
-    // delete baris proses
     $('#tab_logic').on('click', 'tr a', function(e) {
       e.preventDefault();
       $(this).parents('tr').remove();
@@ -718,7 +657,6 @@
         "</select></td><td><textarea type='text' class='form-control' name='ket[]' id='ket'></textarea></td><td class='text-center'><a hreaf='' class='btn btn-danger btn-sm' title='Delete'><li class='fa fa-trash'></li></a></td>");
 
         var b = a+i;
-        console.log(b);
         $('#komponen' + b).on('change', function(){
           var myId = $(this).val();
             if(myId){
@@ -729,20 +667,16 @@
                 beforeSend: function(){
                 $('#loader').css("visibility", "visible");
             },
-
             success:function(data){
-              console.log(data)
                 $('#detaill' + b).empty();
                 $.each(data, function(key, value){
                   $('#detaill' + b).append('<option value="'+ key +'">' + value + '</option>');
                 });
-              console.log(data)
               },
               complete: function(){
                 $('#loader').css("visibility","hidden");
             }
           });
-
           }
           else{
             $('#detaill' + b).empty();
@@ -750,40 +684,36 @@
         });
 
         $('#komponen'+b).on('change', function(){
-      var myId = $(this).val();
-        if(myId){
-          $.ajax({
-          url: '{{URL::to('getkomponen')}}/'+myId,
-          type: "GET",
-          dataType: "json",
-          beforeSend: function(){
-              $('#loader').css("visibility", "visible");
-          },
-
+          var myId = $(this).val();
+          if(myId){
+            $.ajax({
+            url: '{{URL::to('getkomponen')}}/'+myId,
+            type: "GET",
+            dataType: "json",
+            beforeSend: function(){
+                $('#loader').css("visibility", "visible");
+            },
           success:function(data){
-            console.log(data)
               $('#klaimm'+b).empty();
               $.each(data, function(key, value){
                   $('#klaimm'+b).append('<option value="'+ key +'">' + value + '</option>');
               });
-          console.log(data)
           },
           complete: function(){
                 $('#loader').css("visibility","hidden");
             }
         });
-
         }
         else{
             $('#klaimm'+b).empty();
         }
-    });
-      $('#tab_logic').append('<tr id="addr' + (i + 1) + '"></tr>');
-      i++;
-    });
+      });
+        $('#tab_logic').append('<tr id="addr' + (i + 1) + '"></tr>');
+        i++;
+      });
 
-    $('#komponen').on('change', function(){
-      var myId = $(this).val();
+      $('#komponen').on('change', function(){
+        var myId = $(this).val();
         if(myId){
           $.ajax({
           url: '{{URL::to('getkomponen')}}/'+myId,
@@ -792,20 +722,16 @@
           beforeSend: function(){
               $('#loader').css("visibility", "visible");
           },
-
           success:function(data){
-            console.log(data)
               $('#klaimm').empty();
               $.each(data, function(key, value){
                   $('#klaimm').append('<option value="'+ key +'">' + value + '</option>');
               });
-          console.log(data)
           },
           complete: function(){
                 $('#loader').css("visibility","hidden");
             }
         });
-
         }
         else{
             $('#klaimm').empty();
@@ -822,20 +748,16 @@
           beforeSend: function(){
               $('#loader').css("visibility", "visible");
           },
-
           success:function(data){
-            console.log(data)
               $('#detaill').empty();
               $.each(data, function(key, value){
                   $('#detaill').append('<option value="'+ key +'">' + value + '</option>');
               });
-          console.log(data)
           },
           complete: function(){
                 $('#loader').css("visibility","hidden");
             }
         });
-
         }
         else{
             $('#katbpom').empty();

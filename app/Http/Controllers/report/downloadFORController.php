@@ -7,21 +7,19 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Illuminate\Support\Facades\Validator;
-use App\model\pkp\tipp;
-use App\model\pkp\pkp_project;
+use App\model\pkp\PkpProject;
 use App\model\dev\Formula;
 use App\model\dev\Fortail;
 use App\model\dev\Bahan;
-use App\model\dev\tr_makro_bb;
-use App\model\dev\tr_mineral_bb;
-use App\model\dev\tr_vitamin_bb;
-use App\model\dev\tr_asam_amino_bb;
-use App\model\devnf\allergen_formula;
-use App\model\devnf\tb_akg;
-use App\model\devnf\tb_overage;
+use App\model\dev\MakroBB;
+use App\model\dev\MineralBB;
+use App\model\dev\VitaminBB;
+use App\model\dev\AsamAminoBB;
+use App\model\devnf\AllergenFormula;
+use App\model\devnf\Akg;
 use DB;
 
-class downloadFORController extends Controller
+class DownloadFORController extends Controller
 {
     public function FOR_pkp($formula){
         $objPHPExcel = new Spreadsheet();
@@ -40,7 +38,7 @@ class downloadFORController extends Controller
         $pertama=2;
 
         $data = Formula::where('id',$formula)->join('tr_project_pkp','tr_project_pkp.id_project','=','tr_formulas.workbook_id')->first();
-        $allergen_bb = allergen_formula::join('tr_bb_allergen','id_bb','tr_allergen_formula.id_bahan')->where('id_formula',$formula)->where('allergen_countain','!=','')->select(['allergen_countain'])->distinct()->get();
+        $allergen_bb = AllergenFormula::join('tr_bb_allergen','id_bb','tr_allergen_formula.id_bahan')->where('id_formula',$formula)->where('allergen_countain','!=','')->select(['allergen_countain'])->distinct()->get();
 		$fortails = Fortail::where('formula_id',$formula)->orderBy('per_serving','dsc')->get();
         
         $no=1;
@@ -206,7 +204,7 @@ class downloadFORController extends Controller
 
 
         $data = Formula::where('id',$formula)->join('tr_pdf_project','tr_pdf_project.id_project_pdf','=','tr_formulas.workbook_pdf_id')->first();
-        $allergen_bb = allergen_formula::join('tr_bb_allergen','id_bb','tr_allergen_formula.id_bahan')->where('id_formula',$formula)->where('allergen_countain','!=','')->select(['allergen_countain'])->distinct()->get();
+        $allergen_bb = AllergenFormula::join('tr_bb_allergen','id_bb','tr_allergen_formula.id_bahan')->where('id_formula',$formula)->where('allergen_countain','!=','')->select(['allergen_countain'])->distinct()->get();
 		$fortails = Fortail::where('formula_id',$formula)->get();
         
         $no=1;
@@ -424,8 +422,8 @@ class downloadFORController extends Controller
 
 		$ada = Fortail::where('formula_id',$formulas)->count();
 		$formula = Formula::where('id',$formulas)->join('tr_overage_inngradient','tr_overage_inngradient.id_formula','tr_formulas.id')->first();
-        $akg = tb_akg::join('tr_formulas','tr_formulas.akg','ms_akg.id_tarkon')->join('tr_overage_inngradient','tr_overage_inngradient.id_formula','tr_formulas.id')->where('id',$formulas)->get();
-        $allergen_bb = allergen_formula::join('tr_bb_allergen','id_bb','tr_allergen_formula.id_bahan')->where('id_formula',$formulas)->where('allergen_countain','!=','')->select(['allergen_countain'])->distinct()->get();
+        $akg = Akg::join('tr_formulas','tr_formulas.akg','ms_akg.id_tarkon')->join('tr_overage_inngradient','tr_overage_inngradient.id_formula','tr_formulas.id')->where('id',$formulas)->get();
+        $allergen_bb = AllergenFormula::join('tr_bb_allergen','id_bb','tr_allergen_formula.id_bahan')->where('id_formula',$formulas)->where('allergen_countain','!=','')->select(['allergen_countain'])->distinct()->get();
 		$fortails = Fortail::where('formula_id',$formulas)->get();
         
         $detail_formula     = collect();  
@@ -473,10 +471,10 @@ class downloadFORController extends Controller
         $no = 0;
         foreach($fortails as $fortail){
 			//Get Needed
-			$mineral =tr_mineral_bb::where('id_bahan',$fortail->bahan_id)->first();
-			$makro = tr_makro_bb::where('id_bahan',$fortail->bahan_id)->first();
-			$asam = tr_asam_amino_bb::where('id_bahan',$fortail->bahan_id)->first();
-			$vitamin = tr_vitamin_bb::where('id_bahan',$fortail->bahan_id)->first();
+			$mineral =MineralBB::where('id_bahan',$fortail->bahan_id)->first();
+			$makro = MakroBB::where('id_bahan',$fortail->bahan_id)->first();
+			$asam = AsamAminoBB::where('id_bahan',$fortail->bahan_id)->first();
+			$vitamin = VitaminBB::where('id_bahan',$fortail->bahan_id)->first();
             $bahan  = Bahan::where('id',$fortail->bahan_id)->first();
 
             //perhitungan nutfact bayangan

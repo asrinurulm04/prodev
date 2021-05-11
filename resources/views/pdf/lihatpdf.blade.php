@@ -368,26 +368,19 @@
 													    <table>
                                 @if($pdf->kemas_eksis!=NULL)
                                   @if($pdf->kemas->primer!=NULL)
-                                  {{ $pdf->kemas->primer }}{{ $pdf->kemas->s_primer }} </tr>
-                                  @elseif($pdf->kemas->primer==NULL)
+                                  {{ $pdf->kemas->primer }}{{ $pdf->kemas->s_primer }}
                                   @endif
 
                                   @if($pdf->kemas->sekunder1!=NULL)
-                                  X {{ $pdf->kemas->sekunder1 }}{{ $pdf->kemas->s_sekunder1}} </tr>
-                                  @elseif($pdf->kemas->sekunder1==NULL)
+                                  X {{ $pdf->kemas->sekunder1 }}{{ $pdf->kemas->s_sekunder1}}
                                   @endif
 
                                   @if($pdf->kemas->sekunder2!=NULL)
-                                  X {{ $pdf->kemas->sekunder2 }}{{ $pdf->kemas->s_sekunder2 }} </tr>
-                                  @elseif($pdf->sekunder2==NULL)
+                                  X {{ $pdf->kemas->sekunder2 }}{{ $pdf->kemas->s_sekunder2 }}
                                   @endif
 
                                   @if($pdf->kemas->tersier!=NULL)
-                                  X {{ $pdf->kemas->tersier }}{{ $pdf->kemas->s_tersier }} </tr>
-                                  @elseif($pdf->tersier==NULL)
-                                  @endif
-                                @elseif($pdf->primer==NULL)
-                                  @if($pdf->kemas_eksis==NULL)
+                                  X {{ $pdf->kemas->tersier }}{{ $pdf->kemas->s_tersier }}
                                   @endif
                                 @endif <br><br>
                                 @if($pdf->primery!=NULL)
@@ -435,14 +428,14 @@
                             <th>Target market</th>
                             <td colspan="2">
 													  <table>
-                              <tr><?php $dariusia = []; foreach ($pdf2 as $key => $data) If (!$dariusia || !in_array($data->dariusia, $dariusia)) { $dariusia += array( $key => $data->dariusia );
-                              if($data->revisi!=$pdf->revisi){ echo"Age: <s><font color='#ffa2a2'>$data->dariusia To $data->sampaiusia </font><br></s>"; } if($data->revisi==$pdf->revisi){ echo"Age : $data->dariusia To $data->sampaiusia<br>"; } }?></tr>
-													    <tr><?php $ses = []; foreach ($datases as $key => $data) If (!$ses || !in_array($data->ses, $ses)) { $ses += array( $key => $data->ses );if($data->revisi!=$pdf->revisi){
-                              echo"SES : <s><font color='#ffa2a2'>$data->ses </font><br></s>"; } if($data->revisi==$pdf->revisi){ echo"SES : $data->ses <br>";} } ?></tr>
-														  <tr><?php $gender = []; foreach ($pdf2 as $key => $data) If (!$gender || !in_array($data->gender, $gender)) { $gender += array( $key => $data->gender );
-                              if($data->revisi!=$pdf->revisi){ echo"<s><font color='#ffa2a2'> Gender : $data->gender </font><br></s>"; }  if($data->revisi==$pdf->revisi){  echo"Gender : $data->gender <br>";} }  ?></tr>
-													    <tr><?php $other = []; foreach ($pdf2 as $key => $data) If (!$other || !in_array($data->other, $other)) { $other += array( $key => $data->other );
-                              if($data->revisi!=$pdf->revisi){ echo"other : <s><font color='#ffa2a2'>".$data->other ."</font><br></s>"; } if($data->revisi==$pdf->revisi){ echo"other : $data->other <br>"; } }?></tr>
+                              <tr><th>Age</th><td>: <?php $dariusia = []; foreach ($pdf2 as $key => $data) If (!$dariusia || !in_array($data->dariusia, $dariusia)) { $dariusia += array( $key => $data->dariusia );
+                              if($data->revisi!=$pdf->revisi){ echo"<s><font color='#ffa2a2'>$data->dariusia To $data->sampaiusia </font><br></s>"; } if($data->revisi==$pdf->revisi){ echo"$data->dariusia To $data->sampaiusia<br>"; } }?></td></tr>
+													    <tr><th>SES</th><td>: <?php $ses = []; foreach ($datases as $key => $data) If (!$ses || !in_array($data->ses, $ses)) { $ses += array( $key => $data->ses );if($data->revisi!=$pdf->revisi){
+                              echo"<s><font color='#ffa2a2'>$data->ses </font><br></s>"; } if($data->revisi==$pdf->revisi){ echo"$data->ses <br>";} } ?></td></tr>
+														  <tr><th>Gender</th><td>: <?php $gender = []; foreach ($pdf2 as $key => $data) If (!$gender || !in_array($data->gender, $gender)) { $gender += array( $key => $data->gender );
+                              if($data->revisi!=$pdf->revisi){ echo"<s><font color='#ffa2a2'>$data->gender </font><br></s>"; }  if($data->revisi==$pdf->revisi){  echo"$data->gender <br>";} }  ?></td></tr>
+													    <tr><th>Other</th><td>: <?php $other = []; foreach ($pdf2 as $key => $data) If (!$other || !in_array($data->other, $other)) { $other += array( $key => $data->other );
+                              if($data->revisi!=$pdf->revisi){ echo"<s><font color='#ffa2a2'>".$data->other ."</font><br></s>"; } if($data->revisi==$pdf->revisi){ echo"$data->other <br>"; } }?></td></tr>
                             </table>
 												    </td>
                           </tr>
@@ -491,7 +484,7 @@
                                 if($data->revisi!=$pdf->revisi){ echo" <s><font color='#ffa2a2'>: Rp. ". number_format( $data->target_price, 0, ".", "."). "<br></font></s>"; } if($data->revisi==$pdf->revisi){ echo": Rp. ". number_format( $data->target_price, 0, ".", "."). "<br>"; } } ?></td></tr>
 														    <tr><th>Special Ingredient</th><td style="border:none;"><?php $ingredient = []; foreach ($pdf2 as $key => $data) If (!$ingredient || !in_array($data->ingredient, $ingredient)) { $ingredient += array( $key => $data->ingredient );
                                 if($data->revisi!=$pdf->revisi){ echo"<s><font color='#ffa2a2'> :$data->ingredient <br></font></s>"; } if($data->revisi==$pdf->revisi){ echo" : $data->ingredient <br>"; } } ?></td></tr>
-													    </table>
+													    </table><br>
                               <table class="table table-bordered" >
                                 <tbody>
                                   <tr style="font-weight: bold;color:white;background-color: #2a3f54;">

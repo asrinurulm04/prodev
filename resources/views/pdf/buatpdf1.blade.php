@@ -3,28 +3,15 @@
 @section('judulhalaman','Form PDF')
 @section('content')
 
-<div class="x_panel data">
-  @include('formerrors')
-  <div class="col-md-3"></div>
-  <div class="col-md-8">
-    <div class="tabbable">
-      <ul class="nav nav-tabs wizard">
-        <li class="active"><a href="" ><span class="nmbr">1</span>Information</a></li>
-        <li class="completed"><a href=""><span class="nmbr">2</span>PDF</a></li>
-        <li class="active"><a href=""><span class="nmbr">3</span>File</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="col-md-12 col-xs-12">
-    <table class="table table-bordered">
-      <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
-        <td>Mandatory Information</td>
-        <td>* : Filled by Marketing</td>
-        <td>^ : Filled By PV</td>
-        <td>** : Filled by Marketing Or PV</td>
-      </tr>
-    </table>
-  </div>
+<div class="col-md-12 col-xs-12">
+  <table class="table table-bordered">
+    <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
+      <td>Mandatory Information</td>
+      <td>* : Filled by Marketing</td>
+      <td>^ : Filled By PV</td>
+      <td>** : Filled by Marketing Or PV</td>
+    </tr>
+  </table>
 </div>
 
 <div class="main">
@@ -37,7 +24,6 @@
   <?php $date = Date('j-F-Y'); ?>
   <input id="last_up" value="{{ $date }}" class="form-control col-md-12 col-xs-12" type="hidden" name="last_up">
 
-  <div class="row">
     <div class="col-md-12 col-xs-12">
       <div class="x_panel">
         <div class="x_title">
@@ -65,9 +51,6 @@
         </div>
       </div>
     </div>
-  </div>
-
-  <div class="row">
     <div class="col-sm-12">
       <div class="x_panel">
         <div class="x_title">
@@ -142,7 +125,7 @@
           </div>
             @endif 
           <div id="lihat"></div>
-          @if($pdf->kemas_eksis!=NULL) <br><br>
+          @if($pdf->kemas_eksis!=NULL) 
           <div class="form-group row">
             <label class="control-label col-md-2 col-sm-3 col-xs-12" for="last-name">Additional data (Optional)</label>
             <div class="col-md-8 col-sm-8 col-xs-12"><br>
@@ -186,9 +169,6 @@
         </div>
       </div>
     </div>
-  </div>
-
-  <div class="row">
     <div class="col-md-12 col-xs-12">
       <div class="x_panel">
         <div class="x_title">
@@ -206,7 +186,7 @@
             </div>
             <label class="control-label col-md-1 col-sm-2 col-xs-12" style="color:#258039">SES</label>
             <div class="col-md-4 col-sm-10 col-xs-12">
-              <select class="form-control form-control-line" id="select" name="ses[]"   multiple="multiple">
+              <select class="form-control form-control-line items" id="select" name="ses[]"   multiple="multiple">
                 @foreach($datases as $ses1)
                 <option value="{{$ses1->ses}}" selected>{{$ses1->ses}}</option>
                 @endforeach
@@ -235,9 +215,6 @@
         </div>
       </div>
     </div>
-  </div>
-
-  <div class="row">
     <div class="col-md-12">
       <div class="x_panel">
         <div class="x_title">
@@ -340,9 +317,6 @@
         </div>
       </div>
     </div>
-  </div>
-
-  <div class="row">
     <div class="col-md-12 col-xs-12">
       <div class="x_panel">
         <div class="x_title">
@@ -423,9 +397,6 @@
         </div>
       </div>
     </div>
-	</div>
-
-  <div class="row">
     <div class="col-md-12 col-xs-12">
       <div class="x_panel">
         <div class="x_title">
@@ -466,15 +437,15 @@
         </div>
 			</div>
 		</div>
-	</div>
   </form>
 @endforeach
 </div>
 @endsection
 @section('s')
+<link href="{{ asset('css/select2.min.css') }}" rel="stylesheet">
+<script src="{{ asset('js/select2/select2.min.js') }}"></script>
 <script>
   $(document).ready(function() {
-  // delete baris proses
   $('#tablekemas').on('click', 'tr a', function(e) {
     e.preventDefault();
     $(this).parents('tr').remove();
@@ -494,8 +465,7 @@
 </script>
 <script>
     $(document).ready(function() {
-  
-      var idkomponen = []
+    var idkomponen = []
     <?php foreach($komponen as $key => $value) { ?>
       if(!idkomponen){
         idkomponen += [ { '<?php echo $key; ?>' : '<?php echo $value->id; ?>', } ];
@@ -523,7 +493,6 @@
         "</select></td><td><textarea type='text' class='form-control' name='ket[]' id='ket'></textarea></td><td class='text-center'><a hreaf='' class='btn btn-danger btn-sm' title='Delete'><li class='fa fa-trash'></li></a></td>");
 
         var b = a+i;
-        console.log(b);
         $('#komponen' + b).on('change', function(){
           var myId = $(this).val();
             if(myId){
@@ -534,20 +503,16 @@
                 beforeSend: function(){
                 $('#loader').css("visibility", "visible");
             },
-
             success:function(data){
-              console.log(data)
                 $('#detaill' + b).empty();
                 $.each(data, function(key, value){
                   $('#detaill' + b).append('<option value="'+ key +'">' + value + '</option>');
                 });
-              console.log(data)
               },
               complete: function(){
                 $('#loader').css("visibility","hidden");
             }
           });
-
           }
           else{
             $('#detaill' + b).empty();
@@ -555,105 +520,89 @@
         });
 
         $('#komponen'+b).on('change', function(){
-      var myId = $(this).val();
-        if(myId){
-          $.ajax({
-          url: '{{URL::to('getkomponen')}}/'+myId,
-          type: "GET",
-          dataType: "json",
-          beforeSend: function(){
-              $('#loader').css("visibility", "visible");
-          },
-
-          success:function(data){
-            console.log(data)
-              $('#klaimm'+b).empty();
-              $.each(data, function(key, value){
+          var myId = $(this).val();
+          if(myId){
+            $.ajax({
+              url: '{{URL::to('getkomponen')}}/'+myId,
+              type: "GET",
+              dataType: "json",
+              beforeSend: function(){
+                $('#loader').css("visibility", "visible");
+              },
+              success:function(data){
+                $('#klaimm'+b).empty();
+                $.each(data, function(key, value){
                   $('#klaimm'+b).append('<option value="'+ key +'">' + value + '</option>');
-              });
-          console.log(data)
-          },
-          complete: function(){
+                });
+              },
+              complete: function(){
                 $('#loader').css("visibility","hidden");
-            }
-        });
-
-        }
-        else{
+              }
+            });
+          }
+          else{
             $('#klaimm'+b).empty();
-        }
-    });
-      $('#tab_logic').append('<tr id="addr' + (i + 1) + '"></tr>');
-      i++;
-    });
+          }
+        });
+          $('#tab_logic').append('<tr id="addr' + (i + 1) + '"></tr>');
+          i++;
+      });
   
-    $('#komponen').on('change', function(){
-      var myId = $(this).val();
+      $('#komponen').on('change', function(){
+        var myId = $(this).val();
         if(myId){
           $.ajax({
-          url: '{{URL::to('getkomponen')}}/'+myId,
-          type: "GET",
-          dataType: "json",
-          beforeSend: function(){
+            url: '{{URL::to('getkomponen')}}/'+myId,
+            type: "GET",
+            dataType: "json",
+            beforeSend: function(){
               $('#loader').css("visibility", "visible");
-          },
-  
-          success:function(data){
-            console.log(data)
-              $('#klaimm').empty();
-              $.each(data, function(key, value){
+            },
+            success:function(data){
+                $('#klaimm').empty();
+                $.each(data, function(key, value){
                   $('#klaimm').append('<option value="'+ key +'">' + value + '</option>');
               });
-          console.log(data)
-          },
-          complete: function(){
-                $('#loader').css("visibility","hidden");
+            },
+            complete: function(){
+              $('#loader').css("visibility","hidden");
             }
-        });
-  
+          });
         }
         else{
-            $('#klaimm').empty();
+          $('#klaimm').empty();
         }
-    });
+      });
   
-    $('#komponen').on('change', function(){
-      var myId = $(this).val();
+      $('#komponen').on('change', function(){
+        var myId = $(this).val();
         if(myId){
           $.ajax({
-          url: '{{URL::to('getdetail')}}/'+myId,
-          type: "GET",
-          dataType: "json",
-          beforeSend: function(){
+            url: '{{URL::to('getdetail')}}/'+myId,
+            type: "GET",
+            dataType: "json",
+            beforeSend: function(){
               $('#loader').css("visibility", "visible");
-          },
-  
-          success:function(data){
-            console.log(data)
+            },
+            success:function(data){
               $('#detaill').empty();
               $.each(data, function(key, value){
                   $('#detaill').append('<option value="'+ key +'">' + value + '</option>');
               });
-          console.log(data)
-          },
-          complete: function(){
+            },
+            complete: function(){
                 $('#loader').css("visibility","hidden");
             }
-        });
-  
+          });
         }
         else{
             $('#katbpom').empty();
         }
+      });
     });
-  
-    });
-  
-  </script>
-
+</script>
 <script>
   $(document).ready(function() {
-
   var i = 1;
   $(".add_data").click(function() {
     $('#addrow' + i).html( "<td><input type='number' name='forecast[]' class='form-control'></td><td><select name='satuan[]'  class='form-control'>"+
@@ -668,38 +617,50 @@
   });
   });
 </script>
-
-<script src="{{ asset('js/select2.min.js') }}"></script>
 <script type="text/javascript">
-  $('#select').select2({
+  $('.items').select2({
     placeholder: '-->Select One<--',
     allowClear: true
   });
-
-  $(".js-example-tokenizer").select2({
-    tags: true,
-    tokenSeparators: [',', ' ']
-  })
 </script>
 <script>
+  var kode_uom = []
+  <?php foreach($uom as $key => $value) { ?>
+  if(!kode_uom){
+    kode_uom += [ { '<?php echo $key; ?>' : '<?php echo $value->kode; ?>', } ];
+  } else { kode_uom.push({ '<?php echo $key; ?>' : '<?php echo $value->kode; ?>', }) }
+  <?php } ?>
+
+  var pilihan_uom = '';
+  for(var i = 0; i < Object.keys(kode_uom).length; i++){
+    pilihan_uom += '<option value="'+kode_uom[i][i]+'">'+kode_uom[i][i]+'</option>';
+  }
+
+  var uom_primer = []
+  <?php foreach($uom_primer as $key => $value) { ?>
+  if(!uom_primer){
+    uom_primer += [ { '<?php echo $key; ?>' : '<?php echo $value->kode; ?>', } ];
+  } else { uom_primer.push({ '<?php echo $key; ?>' : '<?php echo $value->kode; ?>', }) }
+  <?php } ?>
+
+  var pilihan_uom_primer = '';
+  for(var i = 0; i < Object.keys(uom_primer).length; i++){
+    pilihan_uom_primer += '<option value="'+uom_primer[i][i]+'">'+uom_primer[i][i]+'</option>';
+  }
 
   function baru(){
     var baru = document.getElementById('radio_baru')
 
-    if(baru.checked != true){
-      document.getElementById('lihat').innerHTML = "";
-    }else{
+    if(baru.checked == true){
       document.getElementById('lihat').innerHTML =
       "<div class='form-group'>"+
         "<label class='control-label col-md-2 col-sm-2 col-xs-12'>Configuration</label>&nbsp  &nbsp"+
        	"<input type='radio' name='gramasi' oninput='dua()' id='radio_dua'> 2 Dimensi &nbsp"+
     		"<input type='radio' name='gramasi' oninput='tiga()' id='radio_tiga'> 3 Dimensi &nbsp"+
        	"<input type='radio' name='gramasi' oninput='empat()' id='radio_empat'> 4 Dimensi &nbsp"+
-				"<div id='tampil'></div>"+
+				"<div id='tampil'></div><hr>"+
 			"</div>"+
-      "<hr>"+
-      "<h4><b><lable class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>Keterangan</lable></b></h4>"+
-      "<br><br>"+
+      "<h4><b><lable class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>Keterangan</lable></b></h4><br><br>"+
       "<div class='form-group'>"+
         "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>Primary</label>"+
         "<div class='col-md-10 col-sm-10 col-xs-12'>"+
@@ -745,146 +706,90 @@
       "<div class='ln_solid'></div>"
 
       $(document).ready(function() {
-        // delete baris proses
         $('#tablekemas').on('click', 'tr a', function(e) {
           e.preventDefault();
           $(this).parents('tr').remove();
         });
 
         var i = 1;
-          $("#add_kemas").click(function() {
-            $('#addrow' + i).html( "<td><input type='text' name='oracle[]' id='oracle' class='form-control'>"+
-            "<td><input type='text' name='kk[]' id='kk' class='form-control'></td>"+
-            "<td><input type='text' name='information[]' id='information' class='form-control'></td>"+
-            "<td><a hreaf='' class='btn btn-danger btn-sm' title='Delete'><li class='fa fa-trash'></li></a></td>");
+        $("#add_kemas").click(function() {
+          $('#addrow' + i).html( "<td><input type='text' name='oracle[]' id='oracle' class='form-control'>"+
+          "<td><input type='text' name='kk[]' id='kk' class='form-control'></td>"+
+          "<td><input type='text' name='information[]' id='information' class='form-control'></td>"+
+          "<td><a hreaf='' class='btn btn-danger btn-sm' title='Delete'><li class='fa fa-trash'></li></a></td>");
 
-            $('#tablekemas').append('<tr id="addrow' + (i + 1) + '"></tr>');
-            i++;
-          });
+          $('#tablekemas').append('<tr id="addrow' + (i + 1) + '"></tr>');
+          i++;
         });
+      });
     }
  }
 
   function dua(){
     var dua = document.getElementById('radio_dua');
-
-    if(dua.checked != true){
-      document.getElementById('tampil').innerHTML = "";
-    }else{
+    if(dua.checked == true){
       document.getElementById('tampil').innerHTML = "<br><div class='panel panel-default'>"+
-	    "<div class='panel-heading'><h5>configuration</h5></div>"+
-	      "<div class='panel-body'>"+
-          "<div class='form-group'>"+
-            "<div>"+
-              "<input type='hidden' name='finance' maxlength='45' value='' class='form-control col-md-12 col-xs-12'>"+
-            "</div>"+
-            "<div class='col-md-1 col-sm-1 col-xs-12'>"+
-              "<input name='tersier' id='tersier' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='text'>"+
-            "</div>"+
-            "<div class='col-md-2 col-sm-2 col-xs-12'>"+
-              "<select class='form-control' name='s_tersier'>"+
-                "<option disabled='' selected=''>Tersier</option>"+
-                "<option value='D'>D</option>"+
-                "<option value='S'>S</option>"+
-                "<option value='G'>G</option>"+
-                "<option value='SB'>SB</option>"+
-                "<option value='O'>O</option>"+
-						  	"<option value='R'>R</option>"+
-                "<option value='P'>P</option>"+
-                "<option value='GST'>GST</option>"+
-                "<option value='BTL'>BTL</option>"+
-                "<option value='B'>B</option>"+
-              "</select>"+
-            "</div>"+
-            "<div class='col-md-1 col-sm-1 col-xs-12'>"+
-              "<input name='primer' id=primer' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='text'>"+
-            "</div>"+
-            "<div class='col-md-2 col-sm-2 col-xs-12'>"+
-              "<select class='form-control' name='s_primer'>"+
-                "<option disabled='' selected=''>Primer</option>"+
-                "<option value='G'>G</option>"+
-                "<option value='ML'>ML</option>"+
-                "<option value='Tablet'>Tablet</option>"+
-              "</select>"+
+	      "<div class='panel-heading'><h5>Configuration</h5></div>"+
+	        "<div class='panel-body'>"+
+            "<div class='form-group'>"+
+              "<div>"+
+                "<input type='hidden' name='finance' maxlength='45' value='' class='form-control col-md-12 col-xs-12'>"+
+              "</div>"+
+              "<div class='col-md-1 col-sm-1 col-xs-12'>"+
+                "<input name='tersier' id='tersier' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='text'>"+
+              "</div>"+
+              "<div class='col-md-2 col-sm-2 col-xs-12'>"+
+                "<select class='form-control' name='s_tersier'><option disabled='' selected=''>Tersier</option>"+pilihan_uom+"</select>"+
+              "</div>"+
+              "<div class='col-md-1 col-sm-1 col-xs-12'>"+
+                "<input name='primer' id=primer' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='text'>"+
+              "</div>"+
+              "<div class='col-md-2 col-sm-2 col-xs-12'>"+
+                "<select class='form-control' name='s_primer'><option disabled='' selected=''>Primer</option>"+pilihan_uom_primer+"</select>"+
+              "</div>"+
             "</div>"+
           "</div>"+
-        "</div>"+
-      "</div>"
+        "</div>"
     }
   }
 
   function tiga(){
     var tiga = document.getElementById('radio_tiga');
-
-    if(tiga.checked != true){
-      document.getElementById('tampil').innerHTML = "";
-    }else{
+    if(tiga.checked == true){
       document.getElementById('tampil').innerHTML = "<br><div class='panel panel-default'>"+
-	    "<div class='panel-heading'><h5>Configuration</h5></div>"+
-	      "<div class='panel-body'>"+
-          "<div class='form-group'>"+
-            "<div>"+
-              "<input type='hidden' name='finance' maxlength='45' value='' class='form-control col-md-12 col-xs-12'>"+
-            "</div>"+
-            "<div class='col-md-1 col-sm-1 col-xs-12'>"+
-              "<input name='tersier' id='tersier' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='text'>"+
-            "</div>"+
-            "<div class='col-md-2 col-sm-2 col-xs-12'>"+
-              "<select class='form-control' name='s_tersier'>"+
-                "<option disabled='' selected=''>Tersier</option>"+
-                "<option value='D'>D</option>"+
-                "<option value='S'>S</option>"+
-                "<option value='G'>G</option>"+
-                "<option value='SB'>SB</option>"+
-                "<option value='O'>O</option>"+
-						  	"<option value='R'>R</option>"+
-                "<option value='P'>P</option>"+
-                "<option value='GST'>GST</option>"+
-                "<option value='BTL'>BTL</option>"+
-                "<option value='B'>B</option>"+
-              "</select>"+
-            "</div>"+
-            "<div class='col-md-1 col-sm-1 col-xs-12'>"+
-              "<input name='sekunder1' id='sekunder1' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='text'>"+
-            "</div>"+
-            "<div class='col-md-2 col-sm-2 col-xs-12'>"+
-              "<select class='form-control' name='s_sekunder1'>"+
-                "<option disabled='' selected=''>Sekunder 1</option>"+
-                "<option value='D'>D</option>"+
-                "<option value='S'>S</option>"+
-                "<option value='G'>G</option>"+
-                "<option value='SB'>SB</option>"+
-                "<option value='O'>O</option>"+
-							  "<option value='R'>R</option>"+
-                "<option value='P'>P</option>"+
-                "<option value='GST'>GST</option>"+
-                "<option value='BTL'>BTL</option>"+
-                "<option value='B'>B</option>"+
-              "</select>"+
-            "</div>"+
-            "<div class='col-md-1 col-sm-1 col-xs-12'>"+
-              "<input name='primer' id='primer1' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='text'>"+
-            "</div>"+
-            "<div class='col-md-2 col-sm-2 col-xs-12'>"+
-              "<select class='form-control' name='s_primer'>"+
-                "<option disabled='' selected=''>Primer</option>"+
-                "<option value='G'>G</option>"+
-                "<option value='ML'>ML</option>"+
-                "<option value='Tablet'>Tablet</option>"+
-              "</select>"+
+	      "<div class='panel-heading'><h5>Configuration</h5></div>"+
+	        "<div class='panel-body'>"+
+            "<div class='form-group'>"+
+              "<div>"+
+                "<input type='hidden' name='finance' maxlength='45' value='' class='form-control col-md-12 col-xs-12'>"+
+              "</div>"+
+              "<div class='col-md-1 col-sm-1 col-xs-12'>"+
+                "<input name='tersier' id='tersier' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='text'>"+
+              "</div>"+
+              "<div class='col-md-2 col-sm-2 col-xs-12'>"+
+                "<select class='form-control' name='s_tersier'><option disabled='' selected=''>Tersier</option>"+pilihan_uom+"</select>"+
+              "</div>"+
+              "<div class='col-md-1 col-sm-1 col-xs-12'>"+
+                "<input name='sekunder1' id='sekunder1' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='text'>"+
+              "</div>"+
+              "<div class='col-md-2 col-sm-2 col-xs-12'>"+
+                "<select class='form-control' name='s_sekunder1'><option disabled='' selected=''>Sekunder 1</option>"+pilihan_uom+"</select>"+
+              "</div>"+
+              "<div class='col-md-1 col-sm-1 col-xs-12'>"+
+                "<input name='primer' id='primer1' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='text'>"+
+              "</div>"+
+              "<div class='col-md-2 col-sm-2 col-xs-12'>"+
+                "<select class='form-control' name='s_primer'><option disabled='' selected=''>Primer</option>"+pilihan_uom_primer+"</select>"+
+              "</div>"+
             "</div>"+
           "</div>"+
-        "</div>"+
-      "</div>"
+        "</div>"
     }
   }
 
   function empat(){
     var empat = document.getElementById('radio_empat');
-
-    if(empat.checked != true){
-      document.getElementById('tampil').innerHTML = "";
-    }else{
+    if(empat.checked == true){
       document.getElementById('tampil').innerHTML =
       "<br><div class='panel panel-default'>"+
 	    "<div class='panel-heading'><h5>Configuration</h5></div>"+
@@ -894,66 +799,24 @@
               "<input name='tersier' id='tersier' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='text'>"+
             "</div>"+
             "<div class='col-md-2 col-sm-2 col-xs-12'>"+
-              "<select class='form-control' name='s_tersier'>"+
-                "<option disabled='' selected=''>Tersier</option>"+
-                "<option value='D'>D</option>"+
-                "<option value='S'>S</option>"+
-                "<option value='G'>G</option>"+
-                "<option value='SB'>SB</option>"+
-                "<option value='O'>O</option>"+
-						  	"<option value='R'>R</option>"+
-                "<option value='P'>P</option>"+
-                "<option value='GST'>GST</option>"+
-                "<option value='BTL'>BTL</option>"+
-                "<option value='B'>B</option>"+
-              "</select>"+
+              "<select class='form-control' name='s_tersier'<option disabled='' selected=''>Tersier</option>"+pilihan_uom+"</select>"+
             "</div>"+
             "<div class='col-md-1 col-sm-1 col-xs-12'>"+
               "<input name='sekunder1' id='sekunder1' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='text'>"+
             "</div>"+
             "<div class='col-md-2 col-sm-2 col-xs-12'>"+
-              "<select class='form-control' name='s_sekunder1'>"+
-                "<option disabled='' selected=''>Sekunder 1</option>"+
-                "<option value='D'>D</option>"+
-                "<option value='S'>S</option>"+
-                "<option value='G'>G</option>"+
-                "<option value='SB'>SB</option>"+
-                "<option value='O'>O</option>"+
-							  "<option value='R'>R</option>"+
-                "<option value='P'>P</option>"+
-                "<option value='GST'>GST</option>"+
-                "<option value='BTL'>BTL</option>"+
-                "<option value='B'>B</option>"+
-              "</select>"+
-            "</div>"+ 
-            "<div class='col-md-1 col-sm-1 col-xs-12'>"+
+              "<select class='form-control' name='s_sekunder1'><option disabled='' selected=''>Sekunder 1</option>"+pilihan_uom+"</select>"+
+            "</div>"+ "<div class='col-md-1 col-sm-1 col-xs-12'>"+
               "<input name='sekunder2' id='sekunder2' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='text'>"+
             "</div>"+
             "<div class='col-md-2 col-sm-2 col-xs-12'>"+
-              "<select class='form-control' name='s_sekunder2'>"+
-                "<option disabled='' selected=''>Sekunder 2</option>"+
-                "<option value='D'>D</option>"+
-                "<option value='S'>S</option>"+
-                "<option value='G'>G</option>"+
-                "<option value='SB'>SB</option>"+
-                "<option value='O'>O</option>"+
-						  	"<option value='R'>R</option>"+
-                "<option value='P'>P</option>"+
-                "<option value='GST'>GST</option>"+
-                "<option value='BTL'>BTL</option>"+
-                "<option value='B'>B</option>"+
-              "</select>"+
+              "<select class='form-control' name='s_sekunder2'><option disabled='' selected=''>Sekunder 2</option>"+pilihan_uom+"</select>"+
             "</div>"+
             "<div class='col-md-1 col-sm-1 col-xs-12'>"+
               "<input name='primer' id='primer' class='date-picker form-control maxlength='4' col-md-12 col-xs-12' type='text'>"+
             "</div>"+
             "<div class='col-md-2 col-sm-2 col-xs-12'>"+
-              "<select class='form-control' name='s_primer'>"+
-                "<option disabled='' selected=''>Primer</option>"+
-                "<option value='G'>G</option>"+
-                "<option value='ML'>ML</option>"+
-                "<option value='Tablet'>Tablet</option>"+
-              "</select>"+
+              "<select class='form-control' name='s_primer'><option disabled='' selected=''>Primer</option>"+pilihan_uom_primer+"</select>"+
             "</div>"+
           "</div>"+
         "</div>"+
@@ -1042,10 +905,7 @@
 
   function pilih(){
     var eksis = document.getElementById('radio_project')
-
-    if(eksis.checked != true){
-      document.getElementById('lihat').innerHTML = "";
-    }else{
+    if(eksis.checked == true){
       document.getElementById('lihat').innerHTML =
       "<div class='form-group'>"+
         "<div class='form-group'>"+
@@ -1062,10 +922,7 @@
 
   function eksis(){
     var eksis = document.getElementById('radio_eksis')
-
-    if(eksis.checked != true){
-      document.getElementById('lihat').innerHTML = "";
-    }else{
+    if(eksis.checked == true){
     document.getElementById('lihat').innerHTML =
       "<div class='form-group'>"+
         "<div class='form-group'>"+
@@ -1082,5 +939,4 @@
     }
   }
 </script>
-<script src="{{ asset('js/asrul.js') }}"></script>
 @endsection

@@ -9,13 +9,6 @@
     {{ session('status') }}
   </div>
 </div>
-@elseif(session('error'))
-<div class="col-lg-12 col-md-12 col-sm-12">
-  <div class="alert alert-danger">
-    <button type="button" class="close" data-dismiss="alert">×</button>
-    {{ session('error') }}
-  </div>
-</div>
 @endif
 
 <div class="row" >
@@ -66,19 +59,11 @@
                         @foreach($picture as $pic)<input type="hidden" value="{{$pic->lokasi}}" name="pic[]" id="pic">@endforeach
                         <input type="hidden" value="{{$nopkp}}" name="nopkp" id="nopkp">
                         <?php $tanggal = Date("Y"); ?>
-                        @if($pkp->jenis!='Umum')
                           @if($pkp->type=='Maklon')
                           <input type="hidden" value="_{{$tanggal}}/PKP{{$pkp->jenis}}-M_{{ $pkp->project_name }}_{{ $pkp->revisi }}.{{ $pkp->turunan }}" name="ket_no" id="ket_no">
                           @elseif($pkp->type!='Maklon')
                           <input type="hidden" value="_{{$tanggal}}/PKP{{$pkp->jenis}}_{{ $pkp->project_name }} _{{ $pkp->revisi }}.{{ $pkp->turunan }}" name="ket_no" id="ket_no">
                           @endif
-                        @elseif($pkp->jenis=='Umum')
-                          @if($pkp->type=='Maklon')
-                          <input type="hidden" value="_{{$tanggal}}/PKP-M_{{ $pkp->project_name }}_{{ $pkp->revisi }}.{{ $pkp->turunan }}" name="ket_no" id="ket_no">
-                          @elseif($pkp->type!='Maklon')
-                          <input type="hidden" value="_{{$tanggal}}/PKP_{{ $pkp->project_name }} _{{ $pkp->revisi }}.{{ $pkp->turunan }}" name="ket_no" id="ket_no">
-                          @endif
-                        @endif
                         <div class="form-group row">
                           <label class="control-label text-bold col-md-2 col-sm-2 col-xs-12 text-center">Priority</label>
                           <div class="col-md-1 col-sm-1 col-xs-12">
@@ -651,27 +636,20 @@
                             @if($pkp->kemas_eksis!=NULL)
                               (<input type="hidden" name="configuration" value="{{ $pkp->kemas->primer }}{{ $pkp->kemas->s_primer }} X {{ $pkp->kemas->sekunder1 }}{{ $pkp->kemas->s_sekunder1}} X {{ $pkp->kemas->sekunder2 }}{{ $pkp->kemas->s_sekunder2 }} X {{ $pkp->kemas->tersier }}{{ $pkp->kemas->s_tersier }}">
                               @if($pkp->kemas->tersier!=NULL)
-                              {{ $pkp->kemas->tersier }}{{ $pkp->kemas->s_tersier }}
-                              @elseif($pkp->tersier==NULL)
+                              {{ $pkp->kemas->tersier }}{{ $pkp->kemas->s_tersier }} X
                               @endif
 
                               @if($pkp->kemas->sekunder1!=NULL)
-                              X {{ $pkp->kemas->sekunder1 }}{{ $pkp->kemas->s_sekunder1}}
-                              @elseif($pkp->kemas->sekunder1==NULL)
+                             {{ $pkp->kemas->sekunder1 }}{{ $pkp->kemas->s_sekunder1}} X
                               @endif
 
                               @if($pkp->kemas->sekunder2!=NULL)
-                              X {{ $pkp->kemas->sekunder2 }}{{ $pkp->kemas->s_sekunder2 }}
-                              @elseif($pkp->sekunder2==NULL)
+                              {{ $pkp->kemas->sekunder2 }}{{ $pkp->kemas->s_sekunder2 }} X
                               @endif
 
                               @if($pkp->kemas->primer!=NULL)
-                              X {{ $pkp->kemas->primer }}{{ $pkp->kemas->s_primer }}
-                              @elseif($pkp->kemas->primer==NULL)
+                              {{ $pkp->kemas->primer }}{{ $pkp->kemas->s_primer }}
                               @endif )
-                            @elseif($pkp->primer==NULL)
-                              @if($pkp->kemas_eksis==NULL)
-                              @endif
                             @endif
                             <br><br>
                             @if($pkp->primery!=NULL)
@@ -701,8 +679,9 @@
                       <tr>
                         <th>AKG</th>
                         <td>
+                          @if($pkp->akg!=NULL)
                           <input type="hidden" name="akg" value="{{$pkp->tarkon->tarkon}}"><?php $tarkon = []; foreach ($pkp2 as $key => $data) If (!$tarkon || !in_array($data->tarkon, $tarkon)) { $tarkon += array( $key => $data->tarkon ); 
-                          if($data->revisi==$pkp->revisi){ echo"". $data->tarkon->tarkon."<br>"; } }  ?>
+                          if($data->revisi==$pkp->revisi){ echo"". $data->tarkon->tarkon."<br>"; } }  ?>@endif
                         </td>
                       </tr>
                       <tr class="table-highlight">
@@ -793,9 +772,6 @@
 @endsection
 @section('s')
 <script>
-  var type = document.getElementById('type').value;
-  var status = document.getElementById('status').value;
-  var aisle = document.getElementById('aisle').value;
   var banding = 1;
   var hasil = type == banding;
   var sent = status == 'sent';
