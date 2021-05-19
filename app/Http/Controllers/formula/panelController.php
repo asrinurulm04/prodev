@@ -5,8 +5,8 @@ use Illuminate\Support\Facades\Mail;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\model\devnf\Panel;
-use App\model\devnf\HasilPanel;
+use App\model\devnf\panel;
+use App\model\devnf\hasilpanel;
 use App\model\dev\Formula;
 use App\model\master\Teams;
 use App\model\pkp\PkpProject;
@@ -15,7 +15,7 @@ use Auth;
 use Redirect;
 use DB;
 
-class PanelController extends Controller
+class panelController extends Controller
 {
     public function __construct(){
         $this->middleware('auth');
@@ -23,7 +23,7 @@ class PanelController extends Controller
     }
 
     public function hasil(Request $request){
-        $add_panel = new HasilPanel;
+        $add_panel = new hasilpanel;
         $add_panel->id_formula=$request->idf;
         $add_panel->id_wb=$request->wb;
         $add_panel->id_wb_pdf=$request->wb_pdf;
@@ -41,10 +41,10 @@ class PanelController extends Controller
         $myFormula = Formula::where('id',$id)->first();
         $idfor = $myFormula->workbook_id;
         $fo= Formula::where('id',$id)->first();
-        $panel =Panel::all();
-        $pn = HasilPanel::where('id_formula',$id)->get();
+        $panel =panel::all();
+        $pn = hasilpanel::where('id_formula',$id)->get();
         $idf = $myFormula->id;
-        $cek_panel =HasilPanel::where('id_formula',$id)->count();
+        $cek_panel =hasilpanel::where('id_formula',$id)->count();
         return view('formula.panel')->with([
             'fo' => $fo,
             'myFormula' => $myFormula,
@@ -59,7 +59,7 @@ class PanelController extends Controller
     }
 
     public function hapuspanel($id){
-        $panel = HasilPanel::where('id',$id)->delete();
+        $panel = hasilpanel::where('id',$id)->delete();
         return redirect::back()->with('status', 'panel '.' Telah Dihapus!');
     }
 
@@ -79,11 +79,11 @@ class PanelController extends Controller
         $formula->status_panel='sent';
         $formula->save();
         
-        $panel = HasilPanel::where('id',$id_panel)->first();
+        $panel = hasilpanel::where('id',$id_panel)->first();
         $panel->status='done';
         $panel->save();
 
-        $isipanel = HasilPanel::where('id',$id_panel)->first();
+        $isipanel = hasilpanel::where('id',$id_panel)->first();
         try{
             Mail::send('formula.emailpanel', [
                 'app'=>$isipanel,

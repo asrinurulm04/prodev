@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 use App\model\Modellab\Dlab;
 use App\model\Modellab\analisa;
-use App\model\Modelfn\Finance;
+use App\model\Modelfn\finance;
 use App\model\pkp\SubPKP;
 use App\model\pkp\PkpProject;
 use App\model\dev\Formula;
@@ -24,7 +24,7 @@ class LabController extends Controller
     public function index($id,$id_feasibility){
         $formulas = SubPKP::where('id',$id)->get();
         $analisa = analisa::all();
-        $fe=Finance::where('id_feasibility',$id_feasibility)->first();
+        $fe=finance::where('id_feasibility',$id_feasibility)->first();
         $formula_id = $fe->id_formula;
         $mikroba = DB::table('fs_jenismikroba')->select(['jenis_mikroba'])->distinct()->get();
         $dataL =Dlab::where('id_feasibility',$id_feasibility)->get();
@@ -115,7 +115,7 @@ class LabController extends Controller
             $add_lab->save();
 		}
 		
-        $change_status  = Finance::where('id_feasibility',$request->finance)->first();
+        $change_status  = finance::where('id_feasibility',$request->finance)->first();
         $change_status->status_lab='selesai';
         $change_status->save();
 
@@ -187,14 +187,14 @@ class LabController extends Controller
 				$add_lab->save();
 			}
 			
-			$change_status  = Finance::where('id_feasibility',$request->finance)->first();
+			$change_status  = finance::where('id_feasibility',$request->finance)->first();
 			$change_status->status_lab='selesai';
 			$change_status->save();
 
 			return redirect()->back();
         }
         elseif($cek_lab>=1){
-            $finances = Finance::where('id_formula',$formula_id)->get();
+            $finances = finance::where('id_formula',$formula_id)->get();
             $fid = collect();
             foreach ($finances as $finance) {
                 $idf = $finance->id_feasibility;
@@ -340,7 +340,7 @@ class LabController extends Controller
                         $add_lab->save();
 					}
 					
-                    $change_status  = Finance::where('id_feasibility',$request->finance)->first();
+                    $change_status  = finance::where('id_feasibility',$request->finance)->first();
                     $change_status->status_lab='selesai';
                     $change_status->save();
             

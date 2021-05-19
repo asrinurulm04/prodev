@@ -6,29 +6,29 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Maatwebsite\Excel\Facades\Excel;
 
-use App\model\pkp\Komponen;
-use App\model\pkp\Klaim;
-use App\model\pkp\UOM;
+use App\model\pkp\komponen;
+use App\model\pkp\klaim;
+use App\model\pkp\uom;
 use App\model\pkp\SKU;
-use App\model\pkp\SES;
+use App\model\pkp\ses;
 use App\model\dev\Allergen;
 use App\model\dev\Supplier;
 use App\model\dev\Principal;
 use App\model\kemas\datakemas;
 use App\model\nutfact\BPOM;
-use App\model\nutfact\Mikroba;
+use App\model\nutfact\mikroba;
 use DB;
 use Auth;
 use Redirect;
 
-class MasterController extends Controller
+class masterController extends Controller
 {
     public function __construct(){
         $this->middleware('auth');
     }
 
     public function datauom(){
-        $uom = UOM::all();
+        $uom = uom::all();
         return view('datamaster.datauom')->with([
             'uom' => $uom
         ]);
@@ -43,7 +43,7 @@ class MasterController extends Controller
     }
 
     public function index(){
-        $mikroba = Mikroba::select('jenis_mikroba','no','n','c','mk','Mb','metode_analisa')->get();
+        $mikroba = mikroba::select('jenis_mikroba','no','n','c','mk','Mb','metode_analisa')->get();
         $Kjenispangan = BPOM::select('no_kategori','kategori','no_kategori')->get();
         return view('datamaster.datapangan1')->with([
             'mikroba' => $mikroba,
@@ -89,7 +89,7 @@ class MasterController extends Controller
     }
 
     public function editklaim(Request $request, $id){
-        $klaim = Klaim::where('id',$id)->first();
+        $klaim = klaim::where('id',$id)->first();
         $klaim->klaim=$request->klaim;
         $klaim->persyaratan=$request->persyaratan;
         $klaim->save();
@@ -239,8 +239,8 @@ class MasterController extends Controller
     }
 
     public function klaim(){
-        $klaim =Klaim::all();
-        $komponen = Komponen::all();;
+        $klaim =klaim::all();
+        $komponen = komponen::all();;
         return view('datamaster.komponenklaim1')->with([
             'klaim' => $klaim,
             'komponen' => $komponen
@@ -255,14 +255,14 @@ class MasterController extends Controller
     }
 
     public function datases(){
-        $ses= SES::select('ses')->get();
+        $ses= ses::select('ses')->get();
         return view('admin.ses')->with([
             'ses' => $ses
         ]);
     }
 
     public function ses(Request $request){
-        $ses = new SES;
+        $ses = new ses;
         $ses->ses=$request->ses;
         $ses->save();
 

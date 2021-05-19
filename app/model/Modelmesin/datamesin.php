@@ -2,12 +2,10 @@
 
 namespace App\model\Modelmesin;
 
-
 use Illuminate\Database\Eloquent\Model;
 
-class DataMesin extends Model
+class datamesin extends Model
 {
-    
     protected $table ='ms_mesin';
     protected $primaryKey='id_mesin';
  

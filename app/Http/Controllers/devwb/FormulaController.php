@@ -5,9 +5,9 @@ namespace App\Http\Controllers\devwb;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-use App\model\devnf\HasilPanel;
+use App\model\devnf\hasilpanel;
 use App\model\devnf\Overage;
-use App\model\devnf\Storage;
+use App\model\devnf\storage;
 use App\model\devnf\AllergenFormula;
 use App\model\devnf\Akg;
 use App\model\dev\MakroBB;
@@ -84,14 +84,14 @@ class FormulaController extends Controller
         $fortails = Fortail::where('formula_id',$id)->delete();
         $formula->delete();
 		
-		$panel = HasilPanel::where('id_formula',$id)->count();
+		$panel = hasilpanel::where('id_formula',$id)->count();
 		if($panel>='1'){
-			$panel1 = HasilPanel::where('id_formula',$id)->delete();
+			$panel1 = hasilpanel::where('id_formula',$id)->delete();
 		}
 
-		$storage = Storage::where('id_formula',$id)->count();
+		$storage = storage::where('id_formula',$id)->count();
 		if($storage>='1'){
-			$storage1 = Storage::where('id_formula',$id)->delete();
+			$storage1 = storage::where('id_formula',$id)->delete();
 		}
 		
 		if($formula->workbook_id!=NULL){
@@ -118,8 +118,8 @@ class FormulaController extends Controller
 		$ceklis = CemaranCeklis::all();
 		$akg = Akg::join('tr_formulas','tr_formulas.akg','ms_akg.id_tarkon')->join('tr_overage_inngradient','tr_overage_inngradient.id_formula','tr_formulas.id')->where('id',$id)->get();
         $idf = $id;
-		$panel = HasilPanel::where('id_formula',$id)->get();
-		$storage = Storage::where('id_formula',$id)->get();
+		$panel = hasilpanel::where('id_formula',$id)->get();
+		$storage = storage::where('id_formula',$id)->get();
 		$formula = Formula::where('id',$id)->join('tr_overage_inngradient','tr_overage_inngradient.id_formula','tr_formulas.id')->first();
         $idfor = $formula->workbook_id;
         $idfor_pdf = $formula->workbook_pdf_id;

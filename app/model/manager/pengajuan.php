@@ -4,7 +4,7 @@ namespace App\model\manager;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Pengajuan extends Model
+class pengajuan extends Model
 {
     protected $table = 'tr_pengajuan';
     protected $primaryKey ='id_pengajuan';

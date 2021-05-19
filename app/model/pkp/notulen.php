@@ -4,7 +4,7 @@ namespace App\model\pkp;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Notulen extends Model
+class notulen extends Model
 {
     protected $table = 'tr_notulen';
 
@@ -23,5 +23,4 @@ class Notulen extends Model
     public function users(){
         return $this->hasOne('App\model\User','id','user');
     }
-
 }
