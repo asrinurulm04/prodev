@@ -20,13 +20,12 @@
   @endif
 </div>
 
+
 <div class="row">
   <div class="col-md-12 col-xs-12">
 		@foreach($data as $data)
     <div class="x_panel">
-      <div class="col-md-6">
-        <h4><li class="fa fa-star"></li> Project Name : {{ $data->project_name}}</h4>
-      </div>
+      <div class="col-md-6"><h4><li class="fa fa-star"></li> Project Name : {{ $data->project_name}}</h4></div>
       <div class="col-md-6" align="right">
         @foreach($datapkp as $pkp)
         <a class="btn btn-info btn-sm" href="{{ Route('lihatpkp',['id_pkp' => $pkp->id_pkp,'revisi' => $pkp->revisi, 'turunan' => $pkp->turunan]) }}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i> Show</a>
@@ -77,7 +76,6 @@
             <a href="{{ route('drafpkp')}}" class="btn btn-danger btn-sm" type="button"><li class="fa fa-share"></li> Back</a>
           @elseif($data->status_project=="sent" || $data->status_project=="close" || $data->status_project=="proses")
             <button class="btn btn-success btn-sm"  data-toggle="modal" data-target="#edit"><li class="fa fa-edit"></li> Edit Type PKP</button>
-            <button class="btn btn-warning btn-sm" title="note" data-toggle="modal" data-target="#data1{{ $data->id_project  }}"><i class="fa fa-edit"></i> Edit Timeline</a></button>
             <a href="{{ route('listpkp')}}" class="btn btn-danger btn-sm" type="button"><li class="fa fa-share"></li> Back</a>
           @endif
         @elseif(auth()->user()->role->namaRule === 'kemas')
@@ -163,12 +161,9 @@
             <thead>
               <tr><th>Brand</th><td> : {{$data->id_brand}}</td></tr>
               <tr><th>Type PKP</th><td> :
-                @if($data->type==1)
-                Maklon
-                @elseif($data->type==2)
-                Internal
-                @elseif($data->type==3)
-                Maklon/Internal
+                @if($data->type==1)Maklon
+                @elseif($data->type==2)Internal
+                @elseif($data->type==3)Maklon/Internal
                 @endif
               </td></tr>
               <tr><th width="25%">PKP Number</th><td> : {{$data->pkp_number}}{{$data->ket_no}}</td></tr>
@@ -187,23 +182,19 @@
                 @if($data->kemas_eksis!=NULL)
                 (
                 @if($data->kemas->tersier!=NULL)
-                {{ $data->kemas->tersier }}{{ $data->kemas->s_tersier }}
-                @elseif($data->kemas->tersier==NULL)
+                {{ $data->kemas->tersier }}{{ $data->kemas->s_tersier }} X 
                 @endif
 
 								@if($data->kemas->sekunder1!=NULL)
-								X {{ $data->kemas->sekunder1 }}{{ $data->kemas->s_sekunder1}}
-								@elseif($data->kemas->sekunder1==NULL)
+								{{ $data->kemas->sekunder1 }}{{ $data->kemas->s_sekunder1}} X 
 								@endif
 
 								@if($data->kemas->sekunder2!=NULL)
-								X {{ $data->kemas->sekunder2 }}{{ $data->kemas->s_sekunder2 }}
-								@elseif($data->kemas->sekunder2==NULL)
+								{{ $data->kemas->sekunder2 }}{{ $data->kemas->s_sekunder2 }} X
 								@endif
 
                 @if($data->kemas->primer!=NULL)
-								X{{ $data->kemas->primer }}{{ $data->kemas->s_primer }}
-								@elseif($data->kemas->primer==NULL)
+								{{ $data->kemas->primer }}{{ $data->kemas->s_primer }}
 								@endif
                 )
                 @endif
@@ -259,10 +250,8 @@
                 </td> 
                 <td>{{ $pkp->versi }}.{{ $pkp->turunan }}</td>
                 <td>
-                  @if($pkp->kategori!='fg')
-                  {{$pkp->kategori}}
-                  @elseif($pkp->kategori=='fg')
-                  Finished Good
+                  @if($pkp->kategori!='fg'){{$pkp->kategori}}
+                  @elseif($pkp->kategori=='fg')Finished Good
                   @endif
                 </td>
                 <td>{{ $pkp->formula}}</td>
@@ -289,7 +278,7 @@
                         <div class="modal-body">
                           <a class="btn btn-primary btn-sm" href="{{ route('upversion',[$pkp->id,$pkp->workbook_id]) }}" onclick="return confirm('Up Version ?')"><i style="font-size:12px;" class="fa fa-arrow-circle-up"></i> Up Version</a><br><br>
                           <a class="btn btn-warning btn-sm" href="{{ route('upversion2',[$pkp->id,$pkp->versi]) }}" onclick="return confirm('Up Sub Version ?')"><i style="font-size:12px;" class="fa fa-arrow-circle-up"></i> Up Sub Version</a>
-                        </div
+                        </div>
                         <div class="modal-footer">
                         </div>
                       </div>
@@ -300,8 +289,8 @@
                   <a class="btn btn-primary btn-sm" href="{{ route('step1',[$pkp->workbook_id,$pkp->id]) }}"><i style="font-size:12px;" class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a>
                   <a class="btn btn-dark btn-sm" href="{{ route('ajukanvp',[$pkp->workbook_id,$pkp->id]) }}" onclick="return confirm('Ajukan Formula Kepada PV?')" data-toggle="tooltip" title="Ajukan PV"><li class="fa fa-paper-plane"></li></a>
                   @elseif($pkp->vv == 'approve' || $pkp->vv == 'proses' || $pkp->vv == 'final')
-                    <a class="btn btn-primary btn-sm" href="{{ route('panel',[$pkp->workbook_id,$pkp->id]) }}" data-toggle="tooltip" title="Panel"><li class="fa fa-glass"></li></a>
-                    <a class="btn btn-warning btn-sm" href="{{ route('st',[$pkp->workbook_id,$pkp->id]) }}" data-toggle="tooltip" title="Storage"><li class="fa fa-flask"></li></a>
+                  <a class="btn btn-primary btn-sm" href="{{ route('panel',[$pkp->workbook_id,$pkp->id]) }}" data-toggle="tooltip" title="Panel"><li class="fa fa-glass"></li></a>
+                  <a class="btn btn-warning btn-sm" href="{{ route('st',[$pkp->workbook_id,$pkp->id]) }}" data-toggle="tooltip" title="Storage"><li class="fa fa-flask"></li></a>
                   @endif
                 </td>
               </tr>
@@ -334,7 +323,6 @@
             </thead>
             <tbody>
               @foreach($formula as $for)
-              @if($for!='proses')
               @if($for->vv=='final')
               <tr style="background-color:springgreen">
               @elseif($for->vv=='reject')
@@ -348,14 +336,10 @@
                 <td width="25%">{{$for->catatan_rd}}</td>
                 <td width="25%">{{$for->catatan_pv}}</td>
                 <td class="text-center">
-                  @if($for->vv=='proses')
-                  <span class="label label-primary" style="color:white">New Sample</span>
-                  @elseif($for->vv=='approve')
-                  <span class="label label-info" style="color:white">Approved</span>
-                  @elseif($for->vv=='reject')
-                    <span class="label label-danger" style="color:white">Project rejected</span>
-                  @elseif($for->vv=='final')
-                  <span class="label label-info" style="color:white">Final data Data</span>
+                  @if($for->vv=='proses')<span class="label label-primary" style="color:white">New Sample</span>
+                  @elseif($for->vv=='approve')<span class="label label-info" style="color:white">Approved</span>
+                  @elseif($for->vv=='reject')<span class="label label-danger" style="color:white">Project rejected</span>
+                  @elseif($for->vv=='final')<span class="label label-info" style="color:white">Final data Data</span>
                   @endif
                 </td>
                 <td class="text-center"> 
@@ -414,22 +398,15 @@
                     @elseif($for->vv=='approve')
                       <a href="" disabled class="btn btn-primary btn-sm" title="Ajukan FS"><li class="fa fa-paper-plane"></li></a>
                         <a href="{{route('finalsample',$for->id)}}" class="btn btn-success btn-sm" title="Final Approval"><li class="fa fa-tag"></li></a>
-                      @if($for->status_fisibility=='not_approved')
                         @if($hasilpanel>=1)
                         <a href="{{route('finalsample',$for->id)}}" class="btn btn-success btn-sm" title="Final Approva"><li class="fa fa-tag"></li></a>
                         @endif
-                      @elseif($for->status_fisibility=='selesai')
-                        @if($hasilpanel>=1)
-                        <a href="{{route('finalsample',$for->id)}}" class="btn btn-success btn-sm" title="Final Approval"><li class="fa fa-tag"></li></a>
-                        @endif
-                      @endif
                     @elseif($for->vv=='final')
                       <a href="{{route('unfinalsample',$for->id)}}" class="btn btn-warning btn-sm" title="Unfinal Approve"><li class="fa fa-times"></li> Unfinal</a>
                     @endif
                   @endif
                 </td>
               </tr>
-              @endif
               @endforeach
             </tbody>
           </table>
@@ -456,18 +433,15 @@
           <label class="control-label text-bold col-md-1 col-sm-3 col-xs-12 text-center">Type</label>
           <div class="col-md-11 col-sm-9 col-xs-12">
             <select name="type" class="form-control form-control-line" id="type">
-            <option disabled selected value="{{$data->type}}">
-              @if($data->type==1)
-              Maklon
-              @elseif($data->type==2)
-              Internal
-              @elseif($data->type==3)
-              Maklon/Internal
-              @endif
-            </option>
-            <option value="1">Maklon</option>
-            <option value="2">Internal</option>
-            <option value="3">Maklon & Internal</option>
+              <option disabled selected value="{{$data->type}}">
+                @if($data->type==1)Maklon
+                @elseif($data->type==2)Internal
+                @elseif($data->type==3)Maklon/Internal
+                @endif
+              </option>
+              <option value="1">Maklon</option>
+              <option value="2">Internal</option>
+              <option value="3">Maklon & Internal</option>
             </select>
           </div>
         </div>
@@ -488,54 +462,12 @@
 </div>
 <!-- modal selesai -->
 
-<!-- Modal -->
-<div class="modal" id="data1{{ $data->id_project  }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 class="modal-title" id="exampleModalLabel">Timeline Project : {{$data->project_name}}
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button></h3>
-      </div>
-      <div class="modal-body">
-        <div class="row x_panel">
-          <form class="form-horizontal form-label-left" method="POST" action="{{ Route('TMubahpkp',$data->id_project)}}" novalidate>
-          <label class="control-label col-md-2 col-sm-2 col-xs-12 text-center">Deadline Sample</label>
-          <div class="col-md-3 col-sm-9 col-xs-12">
-            <input type="date" class="form-control" value="{{$data->jangka}}" name="jangka" id="jangka" placeholder="start date">
-          </div>
-          <div class="col-md-3 col-sm-9 col-xs-12">
-            <input type="date" class="form-control" value="{{$data->waktu}}" name="waktu" id="waktu" placeholder="end date">
-          </div>
-          <label class="control-label col-md-1 col-sm-1 col-xs-12 text-center">Prioritas</label>
-          <div class="col-md-2 col-sm-9 col-xs-12">
-            <select name="prioritas" class="form-control form-control-line" id="prioritas">
-              <option value="{{$data->prioritas}}" style="color:white;backgroud:#ddd" selected>prioritas {{$data->prioritas}}</option>
-              <option value="1">prioritas 1</option>
-              <option value="2">prioritas 2</option>
-              <option value="3">prioritas 3</option>
-            </select>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> Edit</button>
-        {{ csrf_field() }}
-      </div>
-      </form>
-    </div>
-  </div>
-</div>
-
 @endsection
 @section('s')
 <script type="text/javascript">
   function satuan_ml(){
     var satuan_ml = document.getElementById('id_ml')
-    if(satuan_ml.checked != true){
-      document.getElementById('tampilkan').innerHTML = "";
-    }else{
+    if(satuan_ml.checked == true){
       document.getElementById('tampilkan').innerHTML =
         "<div class='form-group row'>"+
         "  <label class='control-label col-md-3 col-sm-3 col-xs-12'>Berat Jenis</label>"+
@@ -548,9 +480,7 @@
 
   function satuan_gram(){
     var satuan_gram = document.getElementById('id_gram')
-    if(satuan_gram.checked != true){
-      document.getElementById('tampilkan').innerHTML = "";
-    }else{
+    if(satuan_gram.checked == true){
       document.getElementById('tampilkan').innerHTML =
         "<div class='form-group row'>"+
         "  <label class='control-label col-md-3 col-sm-3 col-xs-12'>Berat Jenis</label>"+
@@ -563,9 +493,7 @@
 
   function finis_good(){
     var finis_good = document.getElementById('id_finis')
-    if(finis_good.checked != true){
-      document.getElementById('ditampilkan').innerHTML = "";
-    }else{
+    if(finis_good.checked == true){
       document.getElementById('ditampilkan').innerHTML =
         "<select name='' disabled id='' class='form-control'>"+
         "  <option disabled selected>--> Select One <--</option>"+
@@ -577,9 +505,7 @@
 
   function wip(){
     var wip = document.getElementById('id_wip')
-    if(wip.checked != true){
-      document.getElementById('ditampilkan').innerHTML = "";
-    }else{
+    if(wip.checked == true){
       document.getElementById('ditampilkan').innerHTML =
         "<select name='kategori_formula' id='' class='form-control' required>"+
         "  <option disabled selected>--> Select One <--</option>"+

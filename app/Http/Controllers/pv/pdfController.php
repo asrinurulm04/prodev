@@ -6,33 +6,32 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
 
-use App\model\manager\pengajuan;
+use App\model\manager\Pengajuan;
 use App\model\users\User;
 use App\model\users\Departement;
-use App\model\kemas\datakemas;
+use App\model\kemas\Datakemas;
 use App\model\master\Brand;
 use App\model\dev\Formula;
-use App\model\pkp\pkp_type;
-use App\model\pkp\uom;
-use App\model\pkp\data_detail_klaim;
-use App\model\pkp\data_ses;
-use App\model\pkp\klaim;
-use App\model\pkp\detail_klaim;
-use App\model\pkp\komponen;
-use App\model\pkp\data_klaim; 
-use App\model\pkp\project_pdf;
-use App\model\pkp\ses;
-use App\model\pkp\coba;
-use App\model\pkp\kemaspdf;
-use App\model\pkp\data_forecast;
-use App\model\pkp\picture;
+use App\model\pkp\Type;
+use App\model\pkp\UOM;
+use App\model\pkp\DetailKlaim;
+use App\model\pkp\DataSES;
+use App\model\pkp\Klaim;
+use App\model\pkp\KlaimDetail;
+use App\model\pkp\Komponen;
+use App\model\pkp\DataKlaim; 
+use App\model\pkp\ProjectPDF;
+use App\model\pkp\SES;
+use App\model\pkp\SubPDF;
+use App\model\pkp\KemasPDF;
+use App\model\pkp\Forecast;
+use App\model\pkp\FileProject;
 use Carbon\Carbon;
 use Auth;
 use DB;
 use Redirect;
 
-
-class pdfController extends Controller
+class PDFController extends Controller
 {
     public function __construct(){
         $this->middleware('auth');
@@ -40,7 +39,7 @@ class pdfController extends Controller
     }
 
     public function datapdf(Request $request){
-        $pdf = new project_pdf;
+        $pdf = new ProjectPDF;
         $pdf->reference=$request->reference;
         $pdf->product_type=$request->product_type;
         $pdf->project_name=$request->project_name;
@@ -56,7 +55,7 @@ class pdfController extends Controller
     }
 
     public function klaim(Request $request,$id_project_pdf){
-        $pdf = project_pdf::where('id_project_pdf',$id_project_pdf)->first();
+        $pdf = ProjectPDF::where('id_project_pdf',$id_project_pdf)->first();
         $pdf->author=Auth::user()->id;
         $pdf->save();
 
@@ -64,21 +63,21 @@ class pdfController extends Controller
     }
 
     public function lihatpdf($id_project_pdf,$revisi,$turunan){
-        $max = coba::where('pdf_id',$id_project_pdf)->max('turunan');
-        $pdf1 = coba::where('pdf_id',$id_project_pdf)->where('revisi','<=',$revisi)->where('turunan','<=',$turunan)->orderBy('turunan','desc')->get();
-        $pdf2 = coba::where('pdf_id',$id_project_pdf)->where('revisi','<=',$revisi)->where('turunan',$max)->orderBy('revisi','desc')->get();
-        $pdf = coba::join('tr_pdf_project','tr_sub_pdf.pdf_id','=','tr_pdf_project.id_project_pdf')->where('id_project_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->get();
-        $id_pdf = coba::where([ ['pdf_id',$id_project_pdf], ['revisi',$revisi], ['turunan',$turunan] ])->first();
-        $for = data_forecast::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('revisi','=',$revisi)->where('turunan','=',$turunan)->get();
-        $ses = data_ses::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan','<=',$turunan)->orderBy('turunan','desc')->get();
+        $max = SubPDF::where('pdf_id',$id_project_pdf)->max('turunan');
+        $pdf1 = SubPDF::where('pdf_id',$id_project_pdf)->where('revisi','<=',$revisi)->where('turunan','<=',$turunan)->orderBy('turunan','desc')->get();
+        $pdf2 = SubPDF::where('pdf_id',$id_project_pdf)->where('revisi','<=',$revisi)->where('turunan',$max)->orderBy('revisi','desc')->get();
+        $pdf = SubPDF::join('tr_pdf_project','tr_sub_pdf.pdf_id','=','tr_pdf_project.id_project_pdf')->where('id_project_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->get();
+        $id_pdf = SubPDF::where([ ['pdf_id',$id_project_pdf], ['revisi',$revisi], ['turunan',$turunan] ])->first();
+        $for = Forecast::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('revisi','=',$revisi)->where('turunan','=',$turunan)->get();
+        $ses = DataSES::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan','<=',$turunan)->orderBy('turunan','desc')->get();
         $nopdf = DB::table('tr_pdf_project')->max('pdf_number')+1;
         $data =sprintf("%03s", abs($nopdf));
-        $kemaspdf = kemaspdf::where('id_pdf',$id_project_pdf)->where('revisi','=',$revisi)->where('turunan','=',$turunan)->get();
-        $hitungkemaspdf = kemaspdf::where('id_pdf',$id_project_pdf)->where('revisi','=',$revisi)->where('turunan','=',$turunan)->count();
+        $kemaspdf = KemasPDF::where('id_pdf',$id_project_pdf)->where('revisi','=',$revisi)->where('turunan','=',$turunan)->get();
+        $hitungkemaspdf = KemasPDF::where('id_pdf',$id_project_pdf)->where('revisi','=',$revisi)->where('turunan','=',$turunan)->count();
         $dept = Departement::all();
-        $dataklaim = data_klaim::where('id_pdf',$id_project_pdf)->join('ms_klaim','ms_klaim.id','=','id_klaim')->where('revisi',$revisi)->where('turunan',$turunan)->get();
-        $datadetail = data_detail_klaim::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->get();
-        $picture = picture::where('pdf_id',$id_project_pdf)->where('turunan','<=',$turunan)->orderBy('turunan','desc')->get();
+        $dataklaim = DataKlaim::where('id_pdf',$id_project_pdf)->join('ms_klaim','ms_klaim.id','=','id_klaim')->where('revisi',$revisi)->where('turunan',$turunan)->get();
+        $datadetail = DetailKlaim::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->get();
+        $picture = FileProject::where('pdf_id',$id_project_pdf)->where('turunan','<=',$turunan)->orderBy('turunan','desc')->get();
         return view('pdf.lihatpdf')->with([
             'pdf' => $pdf,
             'pdf1' => $pdf1,
@@ -96,19 +95,19 @@ class pdfController extends Controller
     }
 
     public function downloadpdf($id_project_pdf,$revisi,$turunan){
-        $datapdf = coba::where('pdf_id',$id_project_pdf)->count();
-        $pdf1 = coba::where('pdf_id',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->orderBy('turunan','desc')->get();
-        $pdf = coba::join('tr_pdf_project','tr_sub_pdf.pdf_id','=','tr_pdf_project.id_project_pdf')->where('id_project_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->get();
-        $id_pdf = coba::where([ ['pdf_id',$id_project_pdf], ['revisi',$revisi], ['turunan',$turunan] ])->first();
-        $dataklaim = data_klaim::where('id_pdf',$id_project_pdf)->join('ms_klaim','ms_klaim.id','=','id_klaim')->where('revisi',$revisi)->where('turunan',$turunan)->get();
-        $datadetail = data_detail_klaim::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->get();
-        $for = data_forecast::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan','<=',$turunan)->orderBy('turunan','desc')->get();
-        $ses = data_ses::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->orderBy('turunan','desc')->get();
-        $kemaspdf = kemaspdf::where('id_pdf',$id_project_pdf)->where('revisi','=',$revisi)->where('turunan',$turunan)->get();
-        $hitungkemaspdf = kemaspdf::where('id_pdf',$id_project_pdf)->where('revisi','=',$revisi)->where('turunan',$turunan)->count();
-        $dataklaim = data_klaim::where('id_pdf',$id_project_pdf)->join('ms_klaim','ms_klaim.id','=','id_klaim')->where('revisi',$revisi)->where('turunan',$turunan)->get();
-        $datadetail = data_detail_klaim::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->get();
-        $picture = picture::where('pdf_id',$id_project_pdf)->where('turunan','<=',$turunan)->orderBy('turunan','desc')->get();
+        $datapdf = SubPDF::where('pdf_id',$id_project_pdf)->count();
+        $pdf1 = SubPDF::where('pdf_id',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->orderBy('turunan','desc')->get();
+        $pdf = SubPDF::join('tr_pdf_project','tr_sub_pdf.pdf_id','=','tr_pdf_project.id_project_pdf')->where('id_project_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->get();
+        $id_pdf = SubPDF::where([ ['pdf_id',$id_project_pdf], ['revisi',$revisi], ['turunan',$turunan] ])->first();
+        $dataklaim = DataKlaim::where('id_pdf',$id_project_pdf)->join('ms_klaim','ms_klaim.id','=','id_klaim')->where('revisi',$revisi)->where('turunan',$turunan)->get();
+        $datadetail = DetailKlaim::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->get();
+        $for = Forecast::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan','<=',$turunan)->orderBy('turunan','desc')->get();
+        $ses = DataSES::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->orderBy('turunan','desc')->get();
+        $kemaspdf = KemasPDF::where('id_pdf',$id_project_pdf)->where('revisi','=',$revisi)->where('turunan',$turunan)->get();
+        $hitungkemaspdf = KemasPDF::where('id_pdf',$id_project_pdf)->where('revisi','=',$revisi)->where('turunan',$turunan)->count();
+        $dataklaim = DataKlaim::where('id_pdf',$id_project_pdf)->join('ms_klaim','ms_klaim.id','=','id_klaim')->where('revisi',$revisi)->where('turunan',$turunan)->get();
+        $datadetail = DetailKlaim::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->get();
+        $picture = FileProject::where('pdf_id',$id_project_pdf)->where('turunan','<=',$turunan)->orderBy('turunan','desc')->get();
         return view('pdf.pdfdownload')->with([
             'pdf' => $pdf,
             'datadetail' => $datadetail,
@@ -126,10 +125,8 @@ class pdfController extends Controller
     }
 
     public function hapuspdf($id_project_pdf){
-        $pdf= project_pdf::where('id_project_pdf',$id_project_pdf)->first();
-        $pdf->delete();
-
-        $Dpdf= coba::where('pdf_id',$id_project_pdf)->first();
+        $pdf= ProjectPDF::where('id_project_pdf',$id_project_pdf)->delete();
+        $Dpdf= SubPDF::where('pdf_id',$id_project_pdf)->first();
         if($Dpdf!=NULL){
             $Dpdf->delete();
         }
@@ -138,7 +135,7 @@ class pdfController extends Controller
     }
 
     public function approve2(Request $request,$id_project_pdf){
-        $pdf = project_pdf::where('id_project_pdf',$id_project_pdf)->first();
+        $pdf = ProjectPDF::where('id_project_pdf',$id_project_pdf)->first();
         $pdf->status_terima2='terima';
         $pdf->save();
 
@@ -146,7 +143,7 @@ class pdfController extends Controller
     }
     
     public function approve1(Request $request,$id_project_pdf){
-        $pdf = project_pdf::where('id_project_pdf',$id_project_pdf)->first();
+        $pdf = ProjectPDF::where('id_project_pdf',$id_project_pdf)->first();
         $pdf->status_terima='terima';
         $pdf->save();
 
@@ -154,7 +151,7 @@ class pdfController extends Controller
     }
 
     public function freeze(Request $request,$id_project_pdf){
-        $data= project_pdf::where('id_project_pdf',$id_project_pdf)->first();
+        $data= ProjectPDF::where('id_project_pdf',$id_project_pdf)->first();
         $data->status_freeze='active';
         $data->freeze=Auth::user()->id;
         $data->waktu_freeze=Carbon::now();
@@ -165,11 +162,11 @@ class pdfController extends Controller
     }
 
     public function ubahTMpdf(Request $request,$id_project_pdf){
-        $data= project_pdf::where('id_project_pdf',$id_project_pdf)->first();
+        $data= ProjectPDF::where('id_project_pdf',$id_project_pdf)->first();
         $data->status_project='revisi';
         $data->save();
 
-        $pengajuan= new pengajuan;
+        $pengajuan= new Pengajuan;
         $pengajuan->prioritas_pengajuan=1;
         $pengajuan->id_pdf=$request->pdf;
         $pengajuan->penerima='5';
@@ -180,7 +177,7 @@ class pdfController extends Controller
     }
 
     public function activepdf($id_project_pdf){
-        $data= project_pdf::where('id_project_pdf',$id_project_pdf)->first();
+        $data= ProjectPDF::where('id_project_pdf',$id_project_pdf)->first();
         $data->status_freeze='inactive';
         $data->save();
 
@@ -188,7 +185,7 @@ class pdfController extends Controller
     }
 
     public function TMubah(Request $request,$id_project_pdf){
-        $data= project_pdf::where('id_project_pdf',$id_project_pdf)->first();
+        $data= ProjectPDF::where('id_project_pdf',$id_project_pdf)->first();
         $data->status_project='sent';
         $data->jangka=$request->jangka;
         $data->waktu=$request->waktu;
@@ -200,9 +197,9 @@ class pdfController extends Controller
     } 
 
     public function formpdf(){
-        $type = pkp_type::all();
-        $pdf1 = project_pdf::where('status_project','!=','draf')->get();
-        $brand = brand::all();
+        $type = Type::all();
+        $pdf1 = ProjectPDF::where('status_project','!=','draf')->get();
+        $brand = Brand::all();
         return view('pdf.requestpdf')->with([
             'type' => $type,
             'brand' => $brand,
@@ -210,32 +207,32 @@ class pdfController extends Controller
         ]);
     }
 
-    public function drafpkp(){
-        $pdf = project_pdf::all()->sortByDesc('cretaed_date');
+    public function drafpdf(){
+        $pdf = ProjectPDF::all()->sortByDesc('cretaed_date');
         return view('pdf.pdfdraf')->with([
             'pdf' => $pdf
         ]);
     }
 
     public function listpdf(){
-        $pdf = project_pdf::where('status_project','!=','draf')->orderBy('prioritas','asc')->get();
+        $pdf = ProjectPDF::where('status_project','proses')->get();
         return view('pdf.listpdf')->with([
             'pdf' => $pdf
         ]);
     }
 
     public function buatpdf($id_project_pdf){
-        $ses = ses::all();
-        $Ddetail = data_detail_klaim::max('id')+1;
-        $detail = detail_klaim::all();
-        $uom = uom::where('note',NULL)->get();
-        $kemas= datakemas::all();
-        $uom_primer = uom::where('note','!=',NULL)->get();
-        $klaim = klaim::all();
-        $eksis=datakemas::count();
-        $komponen = komponen::all();
-        $project = coba::where('status_data','!=','draf')->where('status_pdf','=','active')->join('tr_pdf_project','tr_pdf_project.id_project_pdf','=','tr_sub_pdf.pdf_id')->get();
-        $id_pdf = project_pdf::find($id_project_pdf);
+        $ses = SES::all();
+        $Ddetail = DetailKlaim::max('id')+1;
+        $detail = KlaimDetail::all();
+        $uom = UOM::where('note',NULL)->get();
+        $kemas= Datakemas::all();
+        $uom_primer = UOM::where('note','!=',NULL)->get();
+        $klaim = Klaim::all();
+        $eksis=Datakemas::count();
+        $komponen = Komponen::all();
+        $project = SubPDF::where('status_data','!=','draf')->where('status_pdf','=','active')->join('tr_pdf_project','tr_pdf_project.id_project_pdf','=','tr_sub_pdf.pdf_id')->get();
+        $id_pdf = ProjectPDF::find($id_project_pdf);
         return view('pdf.buatpdf')->with([
             'ses' => $ses,
             'Ddetail' => $Ddetail,
@@ -252,7 +249,7 @@ class pdfController extends Controller
     }
 
     public function konfigurasi($pdf){
-        $konfig = coba::where('id',$pdf)->first();
+        $konfig = SubPDF::where('id',$pdf)->first();
         $konfig->kemas_eksis=null;
         $konfig->primery=null;
         $konfig->secondery=null;
@@ -262,27 +259,27 @@ class pdfController extends Controller
     }
 
     public function buatpdf1($id_project_pdf,$revisi,$turunan){
-        $pdf = coba::where([ ['pdf_id',$id_project_pdf], ['revisi',$revisi], ['turunan',$turunan] ])->join('tr_pdf_project','tr_pdf_project.id_project_pdf','tr_sub_pdf.pdf_id')->get();
-        $datases = data_ses::where([ ['id_pdf',$id_project_pdf], ['revisi',$revisi], ['turunan',$turunan] ])->get();
-        $project = coba::where('status_data','!=','draf')->where('status_pdf','=','active')->join('tr_pdf_project','tr_pdf_project.id_project_pdf','=','tr_sub_pdf.pdf_id')->get();
-        $ses = ses::all();
-        $brand = brand::all();
-        $kemas= datakemas::all();
-        $kemaspdf = kemaspdf::where('id_pdf',$id_project_pdf)->where('turunan',$turunan)->where('revisi',$revisi)->get();
-        $hitungkemaspdf = kemaspdf::where('id_pdf',$id_project_pdf)->where('turunan',$turunan)->where('revisi',$revisi)->count();
-        $dataklaim = data_klaim::where('id_pdf',$id_project_pdf)->where('turunan',$turunan)->where('revisi',$revisi)->get();
-        $datadetail = data_detail_klaim::where('id_pdf',$id_project_pdf)->where('turunan',$turunan)->where('revisi',$revisi)->get();
-        $detail = detail_klaim::all();
-        $klaim = klaim::all();
-        $eksis=datakemas::count();
-        $uom = uom::where('note',NULL)->get();
-        $uom_primer = uom::where('note','!=',NULL)->get();
-        $Ddetail = data_detail_klaim::max('id')+1;
-        $komponen = komponen::all();
-        $id_pdf = coba::where([ ['pdf_id',$id_project_pdf], ['revisi',$revisi], ['turunan',$turunan] ])->first();
-        $for = data_forecast::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->get();
-        $for2 = data_forecast::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->count();
-        $user = user::where('status','=','active')->get();
+        $pdf = SubPDF::where([ ['pdf_id',$id_project_pdf], ['revisi',$revisi], ['turunan',$turunan] ])->join('tr_pdf_project','tr_pdf_project.id_project_pdf','tr_sub_pdf.pdf_id')->get();
+        $datases = DataSES::where([ ['id_pdf',$id_project_pdf], ['revisi',$revisi], ['turunan',$turunan] ])->get();
+        $project = SubPDF::where('status_data','!=','draf')->where('status_pdf','=','active')->join('tr_pdf_project','tr_pdf_project.id_project_pdf','=','tr_sub_pdf.pdf_id')->get();
+        $ses = SES::all();
+        $brand = Brand::all();
+        $kemas= Datakemas::all();
+        $kemaspdf = KemasPDF::where('id_pdf',$id_project_pdf)->where('turunan',$turunan)->where('revisi',$revisi)->get();
+        $hitungkemaspdf = KemasPDF::where('id_pdf',$id_project_pdf)->where('turunan',$turunan)->where('revisi',$revisi)->count();
+        $dataklaim = DataKlaim::where('id_pdf',$id_project_pdf)->where('turunan',$turunan)->where('revisi',$revisi)->get();
+        $datadetail = DetailKlaim::where('id_pdf',$id_project_pdf)->where('turunan',$turunan)->where('revisi',$revisi)->get();
+        $detail = KlaimDetail::all();
+        $klaim = Klaim::all();
+        $eksis=Datakemas::count();
+        $uom = UOM::where('note',NULL)->get();
+        $uom_primer = UOM::where('note','!=',NULL)->get();
+        $Ddetail = DetailKlaim::max('id')+1;
+        $komponen = Komponen::all();
+        $id_pdf = SubPDF::where([ ['pdf_id',$id_project_pdf], ['revisi',$revisi], ['turunan',$turunan] ])->first();
+        $for = Forecast::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->get();
+        $for2 = Forecast::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->count();
+        $user = User::where('status','=','active')->get();
         return view('pdf.buatpdf1')->with([
             'ses' => $ses,
             'project' => $project,
@@ -308,26 +305,22 @@ class pdfController extends Controller
     }
 
     public function coba(Request $request){
-        $data = coba::where('pdf_id',$request->id)->count();
+        $data = SubPDF::where('pdf_id',$request->id)->count();
         if($data>=1){
-            $pp = 'data1';
-
-            $turunan = coba::where('pdf_id',$request->id)->max('turunan');
-            $revisi = coba::where('pdf_id',$request->id)->max('revisi');
+            $turunan = SubPDF::where('pdf_id',$request->id)->max('turunan');
+            $revisi = SubPDF::where('pdf_id',$request->id)->max('revisi');
 
             return redirect()->Route('datatambahanpdf',['pdf_id' => $request->id, 'revisi' => $revisi, 'turunan' => $turunan])->with('status', 'Data has been added up ');
         }
         elseif($data==0){
-            $pp = 'data0';
-
-            $coba = new coba;
+            $coba = new SubPDF;
             $coba ->pdf_id=$request->id;
             if($request->primer==''){
                 $coba->kemas_eksis=$request->data_eksis;
                 }elseif($request->primer!='NULL'){
                     $coba->kemas_eksis=$request->kemas;
 
-                    $kemas = new datakemas;
+                    $kemas = new Datakemas;
                     $kemas->tersier=$request->tersier;
                     $kemas->s_tersier=$request->s_tersier;
                     $kemas->primer=$request->primer;
@@ -368,9 +361,8 @@ class pdfController extends Controller
                 if ($validator->passes()) {
                     $idz = implode(',', $request->input('ses'));
                     $ids = explode(',', $idz);
-                    for ($i = 0; $i < count($ids); $i++)
-                    {
-                        $pipeline = new data_ses;
+                    for ($i = 0; $i < count($ids); $i++){
+                        $pipeline = new DataSES;
                         $pipeline->id_pdf=$request->id;
                         $pipeline->turunan='0';
                         $pipeline->ses = $ids[$i];
@@ -391,9 +383,8 @@ class pdfController extends Controller
                     $idb = explode(',', $ida);
                     $note = implode(',', $request->input('ket'));
                     $data = explode(',', $note);
-                    for ($i = 0; $i < count($ids); $i++)
-                    {
-                        $pipeline = new data_klaim;
+                    for ($i = 0; $i < count($ids); $i++) {
+                        $pipeline = new DataKlaim;
                         $pipeline->id_pdf=$request->id;
                         $pipeline->turunan='0';
                         $pipeline->revisi='0';
@@ -412,9 +403,8 @@ class pdfController extends Controller
                 if ($validator->passes()) {
                     $idz = implode(',', $request->input('detail'));
                     $ids = explode(',', $idz);
-                    for ($i = 0; $i < count($ids); $i++)
-                    {
-                        $detail = new data_detail_klaim;
+                    for ($i = 0; $i < count($ids); $i++){
+                        $detail = new DetailKlaim;
                         $detail->id_pdf=$request->id;
                         $detail->turunan='0';
                         $detail->revisi='0';
@@ -436,9 +426,8 @@ class pdfController extends Controller
                     $idb = explode(',', $ida);
                     $idc = implode(',', $request->input('keterangan'));
                     $idd = explode(',', $idc);
-                    for ($i = 0; $i < count($ids); $i++)
-                    {
-                        $pipeline = new data_forecast;
+                    for ($i = 0; $i < count($ids); $i++){
+                        $pipeline = new Forecast;
                         $pipeline->id_pdf=$request->id;
                         $pipeline->turunan='0';
                         $pipeline->forecast = $ids[$i];
@@ -460,9 +449,8 @@ class pdfController extends Controller
                     $idb = explode(',', $ida);
                     $idc = implode(',', $request->input('information'));
                     $idd = explode(',', $idc);
-                    for ($i = 0; $i < count($ids); $i++)
-                    {
-                        $pipeline = new kemaspdf;
+                    for ($i = 0; $i < count($ids); $i++){
+                        $pipeline = new KemasPDF;
                         $pipeline->id_pdf=$request->id;
                         $pipeline->turunan='0';
                         $pipeline->revisi='0';
@@ -475,25 +463,23 @@ class pdfController extends Controller
                 }
             }
             return redirect()->Route('datatambahanpdf',['pdf_id' => $coba->pdf_id, 'revisi' => $coba->revisi, 'turunan' => $coba->turunan])->with('status', 'Data has been added up ');
-
         }
     }
 
     public function updatecoba2(Request $request,$pdf_id,$revisi,$turunan){
-
-        $project = project_pdf::where('id_project_pdf',$pdf_id)->first();
+        $project = ProjectPDF::where('id_project_pdf',$pdf_id)->first();
         $project->project_name=$request->name;
         $project->id_brand=$request->brand;
         $project->save();
 
-        $coba = coba::where([ ['pdf_id',$pdf_id], ['revisi',$revisi], ['turunan',$turunan] ])->first();
+        $coba = SubPDF::where([ ['pdf_id',$pdf_id], ['revisi',$revisi], ['turunan',$turunan] ])->first();
         $coba ->pdf_id=$request->id;
         if($request->primer==''){
             $coba->kemas_eksis=$request->data_eksis;
-            }elseif($request->primer!='NULL'){
+        }elseif($request->primer!='NULL'){
             $coba->kemas_eksis=$request->kemas;
 
-                $kemas = new datakemas;
+                $kemas = new Datakemas;
                 $kemas->tersier=$request->tersier;
                 $kemas->s_tersier=$request->s_tersier;
                 $kemas->primer=$request->primer;
@@ -503,7 +489,7 @@ class pdfController extends Controller
                 $kemas->sekunder2=$request->sekunder2;
                 $kemas->s_sekunder2=$request->s_sekunder2;
                 $kemas->save();
-            }
+        }
         $coba ->primery=$request->primary;
         $coba ->secondery=$request->secondary;
         $coba ->Tertiary=$request->tertiary;
@@ -530,14 +516,13 @@ class pdfController extends Controller
 
         if($request->ses!=''){
             $rule = array(); 
-            $uom = data_ses::where([ ['id_pdf',$pdf_id], ['revisi',$revisi], ['turunan',$turunan] ])->delete();
+            $ses = DataSES::where([ ['id_pdf',$pdf_id], ['revisi',$revisi], ['turunan',$turunan] ])->delete();
             $validator = Validator::make($request->all(), $rule);  
             if ($validator->passes()) {
                 $idz = implode(',', $request->input('ses'));
                 $ids = explode(',', $idz);
-                for ($i = 0; $i < count($ids); $i++)
-                {
-                    $pipeline = new data_ses;
+                for ($i = 0; $i < count($ids); $i++){
+                    $pipeline = new DataSES;
                     $pipeline->id_pdf=$request->id;
                     $pipeline->turunan=$turunan;
                     $pipeline->revisi=$revisi;
@@ -549,7 +534,7 @@ class pdfController extends Controller
         }
         if($request->oracle!=''){
             $data = array(); 
-            $oracle = kemaspdf::where([ ['id_pdf',$pdf_id], ['revisi',$revisi], ['turunan',$turunan] ])->delete();
+            $oracle = KemasPDF::where([ ['id_pdf',$pdf_id], ['revisi',$revisi], ['turunan',$turunan] ])->delete();
             $validator = Validator::make($request->all(), $data);  
             if ($validator->passes()) {
                 $idz = implode(',', $request->input('oracle'));
@@ -558,9 +543,8 @@ class pdfController extends Controller
                 $idb = explode(',', $ida);
                 $idc = implode(',', $request->input('information'));
                 $idd = explode(',', $idc);
-                for ($i = 0; $i < count($ids); $i++)
-                {
-                    $pipeline = new kemaspdf;
+                for ($i = 0; $i < count($ids); $i++) {
+                    $pipeline = new KemasPDF;
                     $pipeline->id_pdf=$request->id;
                     $pipeline->turunan=$turunan;
                     $pipeline->revisi=$revisi;
@@ -575,7 +559,7 @@ class pdfController extends Controller
 
         if($request->forecast!=''){
             $data = array(); 
-            $for = data_forecast::where('id_pdf',$pdf_id)->where('revisi',$revisi)->where('turunan',$turunan)->delete();
+            $for = Forecast::where('id_pdf',$pdf_id)->where('revisi',$revisi)->where('turunan',$turunan)->delete();
             $validator = Validator::make($request->all(), $data);  
             if ($validator->passes()) {
                 $idz = implode(',', $request->input('forecast'));
@@ -584,9 +568,8 @@ class pdfController extends Controller
                 $idb = explode(',', $ida);
                 $idc = implode(',', $request->input('keterangan'));
                 $idd = explode(',', $idc);
-                for ($i = 0; $i < count($ids); $i++)
-                {
-                    $pipeline = new data_forecast;
+                for ($i = 0; $i < count($ids); $i++){
+                    $pipeline = new Forecast;
                     $pipeline->id_pdf=$request->id;
                     $pipeline->turunan=$turunan;
                     $pipeline->revisi=$revisi;
@@ -601,7 +584,7 @@ class pdfController extends Controller
 
         if($request->klaim!=''){
             $dataklaim = array(); 
-            $klaim = data_klaim::where('id_pdf',$pdf_id)->where('revisi',$revisi)->where('turunan',$turunan)->delete();
+            $klaim = DataKlaim::where('id_pdf',$pdf_id)->where('revisi',$revisi)->where('turunan',$turunan)->delete();
             $validator = Validator::make($request->all(), $dataklaim);  
             if ($validator->passes()) {
                 $idz = implode(',', $request->input('klaim'));
@@ -610,9 +593,8 @@ class pdfController extends Controller
                 $idb = explode(',', $ida);
                 $note = implode(',', $request->input('ket'));
                 $data = explode(',', $note);
-                for ($i = 0; $i < count($ids); $i++)
-                {
-                    $pipeline = new data_klaim;
+                for ($i = 0; $i < count($ids); $i++){
+                    $pipeline = new DataKlaim;
                     $pipeline->id_pdf=$request->id;
                     $pipeline->turunan=$turunan;
                     $pipeline->revisi=$revisi;
@@ -627,76 +609,50 @@ class pdfController extends Controller
 
         if($request->detail!=''){
             $detailklaim = array(); 
-            $detail = data_detail_klaim::where('id_pdf',$pdf_id)->where('revisi',$revisi)->where('turunan',$turunan)->delete();
+            $detail = DetailKlaim::where('id_pdf',$pdf_id)->where('revisi',$revisi)->where('turunan',$turunan)->delete();
             $validator = Validator::make($request->all(), $detailklaim);  
             if ($validator->passes()) {
                 $idz = implode(',', $request->input('detail'));
                 $ids = explode(',', $idz);
-                for ($i = 0; $i < count($ids); $i++)
-                {
-                    $detail = new data_detail_klaim;
+                for ($i = 0; $i < count($ids); $i++){
+                    $detail = new DetailKlaim;
                     $detail->id_pdf=$request->id;
                     $detail->turunan=$turunan;
                     $detail->revisi=$revisi;
                     $detail->id_detail = $ids[$i];
                     $detail->save();
                     $i = $i++;
-
                 }
             }
         }
-
-        // try{
-        //     Mail::send('pv.aktifitasemail', ['type'=>'PDF',],function($message)use($request)
-        //     {
-        //         $tujuan = array(); 
-        //         $validator = Validator::make($request->all(), $tujuan);  
-        //         if ($validator->passes()) {
-        //         $email = implode(',', $request->input('emailtujuan'));
-        //         $data = explode(',', $email);
-        //         for ($i = 0; $i < count($data); $i++)
-        //         {
-        //             $message->subject('Update Data PDF');
-        //             $message->to($request->pengirim1);
-        //             $message->cc($data[$i]);
-
-        //         }
-        //     }
-        //     });
-        // }
-        // catch (Exception $e){
-        // return response (['status' => false,'errors' => $e->getMessage()]);
-        // }
-
         return redirect()->Route('datatambahanpdf',['pdf_id' => $coba->pdf_id, 'revisi' => $coba->revisi, 'turunan' => $coba->turunan])->with('status', 'Revised Data ');
     }
 
     public function updatecoba(Request $request,$id_project_pdf,$revisi,$turunan){
-        $pdf = coba::where('pdf_id',$id_project_pdf)->max('turunan');
+        $pdf = SubPDF::where('pdf_id',$id_project_pdf)->max('turunan');
         $naikversi = $pdf + 1;
 
-        $project = project_pdf::where('id_project_pdf',$id_project_pdf)->first();
+        $project = ProjectPDF::where('id_project_pdf',$id_project_pdf)->first();
         $project->project_name=$request->name;
         $project->id_brand=$request->brand;
         $project->save();
 
-        $datapdf = coba::where('pdf_id',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->first();
+        $datapdf = SubPDF::where('pdf_id',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->first();
         $datapdf->status_pdf='inactive';
         $datapdf->save();
 
-            $clf=coba::where('pdf_id',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->count();
+            $clf=SubPDF::where('pdf_id',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->count();
             if($clf>0){
-                $isipdf=coba::where('pdf_id',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->get();
-                foreach ($isipdf as $pdfp)
-                {
-                $coba= new coba;
+                $isipdf=SubPDF::where('pdf_id',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->get();
+                foreach ($isipdf as $pdfp){
+                $coba= new SubPDF;
                 $coba ->pdf_id=$request->id;
                 if($request->primer==''){
                     $coba->kemas_eksis=$request->data_eksis;
-                    }elseif($request->primer!='NULL'){
+                }elseif($request->primer!='NULL'){
                     $coba->kemas_eksis=$request->kemas;
 
-                        $kemas = new datakemas;
+                        $kemas = new Datakemas;
                         $kemas->tersier=$request->tersier;
                         $kemas->s_tersier=$request->s_tersier;
                         $kemas->primer=$request->primer;
@@ -706,7 +662,7 @@ class pdfController extends Controller
                         $kemas->sekunder2=$request->sekunder2;
                         $kemas->s_sekunder2=$request->s_sekunder2;
                         $kemas->save();
-                    }
+                }
                 $coba ->primery=$request->primary;
                 $coba ->secondery=$request->secondary;
                 $coba ->Tertiary=$request->tertiary;
@@ -731,9 +687,7 @@ class pdfController extends Controller
                 $coba ->retailer_price=$request->retailer_price;
                 $coba ->special=$request->special;
                 $coba ->save();
-
                 }
-                
             }
             
             if($request->ses!=''){
@@ -742,16 +696,14 @@ class pdfController extends Controller
                 if ($validator->passes()) {
                     $idz = implode(',', $request->input('ses'));
                     $ids = explode(',', $idz);
-                    for ($i = 0; $i < count($ids); $i++)
-                    {
-                        $pipeline = new data_ses;
+                    for ($i = 0; $i < count($ids); $i++){
+                        $pipeline = new DataSES;
                         $pipeline->id_pdf=$request->id;
                         $pipeline->turunan=$naikversi;
                         $pipeline->revisi='0';
                         $pipeline->ses = $ids[$i];
                         $pipeline->save();
                         $i = $i++;
-                
                     }
                 }
             } 
@@ -766,9 +718,8 @@ class pdfController extends Controller
                     $idb = explode(',', $ida);
                     $idc = implode(',', $request->input('keterangan'));
                     $idd = explode(',', $idc);
-                    for ($i = 0; $i < count($ids); $i++)
-                    {
-                        $pipeline = new data_forecast;
+                    for ($i = 0; $i < count($ids); $i++){
+                        $pipeline = new Forecast;
                         $pipeline->id_pdf=$request->id;
                         $pipeline->turunan=$naikversi;
                         $pipeline->revisi='0';
@@ -791,9 +742,8 @@ class pdfController extends Controller
                     $idb = explode(',', $ida);
                     $note = implode(',', $request->input('ket'));
                     $data = explode(',', $note);
-                    for ($i = 0; $i < count($ids); $i++)
-                    {
-                        $pipeline = new data_klaim;
+                    for ($i = 0; $i < count($ids); $i++){
+                        $pipeline = new DataKlaim;
                         $pipeline->id_pdf=$request->id;
                         $pipeline->turunan=$naikversi;
                         $pipeline->revisi='0';
@@ -812,16 +762,14 @@ class pdfController extends Controller
                 if ($validator->passes()) {
                     $idz = implode(',', $request->input('detail'));
                     $ids = explode(',', $idz);
-                    for ($i = 0; $i < count($ids); $i++)
-                    {
-                        $detail = new data_detail_klaim;
+                    for ($i = 0; $i < count($ids); $i++){
+                        $detail = new DetailKlaim;
                         $detail->id_pdf=$request->id;
                         $detail->turunan=$naikversi;
                         $detail->revisi='0';
                         $detail->id_detail = $ids[$i];
                         $detail->save();
                         $i = $i++;
-            
                     }
                 }
             }
@@ -836,9 +784,8 @@ class pdfController extends Controller
                     $idb = explode(',', $ida);
                     $idc = implode(',', $request->input('information'));
                     $idd = explode(',', $idc);
-                    for ($i = 0; $i < count($ids); $i++)
-                    {
-                        $pipeline = new kemaspdf;
+                    for ($i = 0; $i < count($ids); $i++){
+                        $pipeline = new KemasPDF;
                         $pipeline->id_pdf=$request->id;
                         $pipeline->turunan=$naikversi;
                         $pipeline->revisi='0';
@@ -855,10 +802,10 @@ class pdfController extends Controller
     }
 
     public function uploadpdf($id_project_pdf,$revisi,$turunan){
-        $coba = picture::where('pdf_id',$id_project_pdf)->where('revisi','<=',$revisi)->where('turunan','<=',$turunan)->get();
-        $coba1 = picture::where('pdf_id',$id_project_pdf)->where('turunan','<=',$turunan)->count();
-        $turunan = coba::where([ ['pdf_id',$id_project_pdf], ['revisi',$revisi], ['turunan',$turunan] ])->get();
-        $id_pdf= project_pdf::find($id_project_pdf);
+        $coba = FileProject::where('pdf_id',$id_project_pdf)->where('revisi','<=',$revisi)->where('turunan','<=',$turunan)->get();
+        $coba1 = FileProject::where('pdf_id',$id_project_pdf)->where('turunan','<=',$turunan)->count();
+        $turunan = SubPDF::where([ ['pdf_id',$id_project_pdf], ['revisi',$revisi], ['turunan',$turunan] ])->get();
+        $id_pdf= ProjectPDF::find($id_project_pdf);
         return view('pdf.datatambahanpdf')->with([
             'coba' => $coba,
             'turunan' => $turunan,
@@ -871,7 +818,7 @@ class pdfController extends Controller
         $info = $request->input('informasi');
         foreach($info as $row){
             foreach($info as $row){
-                $pkp = picture::where('id_pictures',$row['pic'])->update([
+                $file = FileProject::where('id_pictures',$row['pic'])->update([
                     "informasi" => $row['info']
                 ]);
             }
@@ -902,18 +849,18 @@ class pdfController extends Controller
                 ];
             }
         }
-        picture::insert($files);
+        FileProject::insert($files);
         return redirect()->back()->withSuccess(sprintf('%s file uploaded successfully.', count($files)));
     }
 
     public function destroydata($id_pictures){
-        $data = picture::find($id_pictures);
+        $data = FileProject::find($id_pictures);
         $data->delete();
         return redirect()->back()->with('status', 'Data berhasil dihapus!');
     }
 
     public function edit(Request $request, $id_project_pdf,$revisi,$turunan){
-        $edit = project_pdf::where('id_project_pdf',$id_project_pdf)->first();
+        $edit = ProjectPDF::where('id_project_pdf',$id_project_pdf)->first();
         $edit->tujuankirim=$request->kirim;
         $edit->status_project='sent';
         $edit->pdf_number=$request->nopdf;
@@ -926,11 +873,11 @@ class pdfController extends Controller
         $edit->status='active';
         $edit->save();
 
-        $data = coba::where([ ['pdf_id',$id_project_pdf], ['revisi',$revisi], ['turunan',$turunan] ])->first();
+        $data = SubPDF::where([ ['pdf_id',$id_project_pdf], ['revisi',$revisi], ['turunan',$turunan] ])->first();
         $data->status_data='sent';
         $data->save();
 
-        $isipdf = coba::where('pdf_id',$id_project_pdf)->where('status_pdf','=','active')->get();
+        $isipdf = SubPDF::where('pdf_id',$id_project_pdf)->where('status_pdf','=','active')->get();
         try{
             Mail::send('manager.infoemailpdf', [
                 'nama'=>$request->email,
@@ -983,7 +930,7 @@ class pdfController extends Controller
     }
 
     public function sentpdf(Request $request, $id_project_pdf,$revisi,$turunan){
-        $edit = project_pdf::where('id_project_pdf',$id_project_pdf)->first();
+        $edit = ProjectPDF::where('id_project_pdf',$id_project_pdf)->first();
         $edit->tujuankirim=$request->kirim;
         $edit->status_project='sent';
         $edit->pdf_number=$request->nopdf;
@@ -994,26 +941,26 @@ class pdfController extends Controller
         $edit->status='active';
         $edit->save();
 
-        $data = coba::where([ ['pdf_id',$id_project_pdf], ['revisi',$revisi], ['turunan',$turunan] ])->first();
+        $data = SubPDF::where([ ['pdf_id',$id_project_pdf], ['revisi',$revisi], ['turunan',$turunan] ])->first();
         $data->status_data='proses';
         $data->save();
 
-        $pdf = pengajuan::where('id_pdf',$id_project_pdf)->count();
+        $pdf = Pengajuan::where('id_pdf',$id_project_pdf)->count();
         if($pdf>=1){
-            $pengajuan = pengajuan::where('id_pdf',$id_project_pdf)->first();
+            $pengajuan = Pengajuan::where('id_pdf',$id_project_pdf)->first();
             $pengajuan->delete();
         }
         return redirect::Route('listpdf');
     }
 
     public function edituser(Request $request, $id_project_pdf){
-        $edit = project_pdf::where('id_project_pdf',$id_project_pdf)->first();
+        $edit = ProjectPDF::where('id_project_pdf',$id_project_pdf)->first();
         $edit->userpenerima=$request->user;
         $edit->userpenerima2=$request->user2;
         $edit->status_project='proses';
         $edit->save();
 
-        $isipdf = coba::where('pdf_id',$id_project_pdf)->where('status_pdf','=','active')->get();
+        $isipdf = SubPDF::where('pdf_id',$id_project_pdf)->where('status_pdf','=','active')->get();
         try{
             Mail::send('manager.infoemailpdf', [
                 'nama'=>$request->email,
@@ -1058,23 +1005,23 @@ class pdfController extends Controller
     }
 
     public function prioritas(Request $request,$id_project_pdf){
-        $pkp = project_pdf::where('id_project_pdf',$id_project_pdf)->first();
-        $pkp->prioritas=$request->prioritas;
-        $pkp->save();
+        $pdf = ProjectPDF::where('id_project_pdf',$id_project_pdf)->first();
+        $pdf->prioritas=$request->prioritas;
+        $pdf->save();
 
         return redirect::back();
     }
 
     public function daftarpdf($id_project_pdf){
-        $data1 = coba::where('status_pdf','active')->join('tr_pdf_project','tr_pdf_project.id_project_pdf','tr_sub_pdf.pdf_id')->where('id_project_pdf',$id_project_pdf)->get();
-        $data = project_pdf::where('id_project_pdf',$id_project_pdf)->get();
-        $hitung = coba::where('pdf_id',$id_project_pdf)->count();
+        $data1 = SubPDF::where('status_pdf','active')->join('tr_pdf_project','tr_pdf_project.id_project_pdf','tr_sub_pdf.pdf_id')->where('id_project_pdf',$id_project_pdf)->get();
+        $data = ProjectPDF::where('id_project_pdf',$id_project_pdf)->get();
+        $hitung = SubPDF::where('pdf_id',$id_project_pdf)->count();
         $cf =Formula::where('workbook_pdf_id',$id_project_pdf)->count();
         $sample_project = Formula::where('workbook_pdf_id', $id_project_pdf)->orderBy('versi','asc')->orderBy('turunan','asc')->get();
         $sample_project_PV = Formula::where('workbook_pdf_id', $id_project_pdf)->where('vv','!=',NULL)->orderBy('versi','asc')->orderBy('turunan','asc')->get();
-        $max2 = coba::where('pdf_id',$id_project_pdf)->max('revisi');
-        $max = coba::where('pdf_id',$id_project_pdf)->max('turunan');
-        $pdf = coba::where('pdf_id',$id_project_pdf)->where('turunan',$max)->where('revisi',$max2)->where('status_pdf','active')->get();
+        $max2 = SubPDF::where('pdf_id',$id_project_pdf)->max('revisi');
+        $max = SubPDF::where('pdf_id',$id_project_pdf)->max('turunan');
+        $pdf = SubPDF::where('pdf_id',$id_project_pdf)->where('turunan',$max)->where('revisi',$max2)->where('status_pdf','active')->get();
         return view('pdf.daftarpdf')->with([
             'data' => $data,
             'data1' => $data1,
@@ -1087,23 +1034,22 @@ class pdfController extends Controller
     }
 
     public function upversionpdf($id_project_pdf,$revisi,$turunan){
-        $pdf = coba::where('pdf_id',$id_project_pdf)->max('revisi');
+        $pdf = SubPDF::where('pdf_id',$id_project_pdf)->max('revisi');
         $naikversi = $pdf + 1;
         
-        $project = project_pdf::where('id_project_pdf',$id_project_pdf)->first();
+        $project = ProjectPDF::where('id_project_pdf',$id_project_pdf)->first();
         $project->status_project='revisi';
         $project->save();
 
-        $datapdf = coba::where('pdf_id',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->first();
+        $datapdf = SubPDF::where('pdf_id',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->first();
         $datapdf->status_pdf='inactive';
         $datapdf->save();
 
-            $clf=coba::where('pdf_id',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->count();
-            if($clf>0){
-                $isipdf=coba::where('pdf_id',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->get();
-                foreach ($isipdf as $pdfp)
-                {
-                $coba= new coba;
+        $clf=SubPDF::where('pdf_id',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->count();
+        if($clf>0){
+            $isipdf=SubPDF::where('pdf_id',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->get();
+            foreach ($isipdf as $pdfp){
+                $coba= new SubPDF;
                 $coba ->pdf_id=$pdfp->pdf_id;
                 $coba ->primer=$pdfp->primer;
                 $coba ->primery=$pdfp->primery;
@@ -1130,15 +1076,14 @@ class pdfController extends Controller
                 $coba->turunan=$pdfp->turunan;
                 $coba->revisi=$naikversi;
                 $coba->save();
-                }
             }
+        }
             
-            $datases=data_ses::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->count();
+            $datases=DataSES::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->count();
             if($datases>0){
-                $isises=data_ses::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->get();
-                foreach ($isises as $isises)
-                {
-                    $data1= new data_ses;
+                $isises=DataSES::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->get();
+                foreach ($isises as $isises){
+                    $data1= new DataSES;
                     $data1->id_pdf=$isises->id_pdf;
                     $data1->revisi=$naikversi;
                     $data1->turunan=$isises->turunan;
@@ -1147,12 +1092,11 @@ class pdfController extends Controller
                 }
             }
 
-            $datafor=data_forecast::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->count();
+            $datafor=Forecast::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->count();
             if($datafor>0){
-                $isifor=data_forecast::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->get();
-                foreach ($isifor as $isifor)
-                {
-                    $for= new data_forecast;
+                $isifor=Forecast::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->get();
+                foreach ($isifor as $isifor){
+                    $for= new Forecast;
                     $for->id_pdf=$isifor->id_pdf;
                     $for->revisi=$naikversi;
                     $for->turunan=$isifor->turunan;
@@ -1163,12 +1107,11 @@ class pdfController extends Controller
                 }
             }
 
-            $dataklaim=data_klaim::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->count();
+            $dataklaim=DataKlaim::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->count();
             if($dataklaim>0){
-                $isiklaim=data_klaim::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->get();
-                foreach ($isiklaim as $isiklaim)
-                {
-                    $klaim= new data_klaim;
+                $isiklaim=DataKlaim::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->get();
+                foreach ($isiklaim as $isiklaim){
+                    $klaim= new DataKlaim;
                     $klaim->id_pdf=$isiklaim->id_pdf;
                     $klaim->revisi=$naikversi;
                     $klaim->turunan=$isiklaim->turunan;
@@ -1178,12 +1121,11 @@ class pdfController extends Controller
                     $klaim->save();
                 }
             }
-            $detailklaim=data_detail_klaim::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->count();
+            $detailklaim=DetailKlaim::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->count();
             if($detailklaim>0){
-                $isidetail=data_detail_klaim::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->get();
-                foreach ($isidetail as $isidetail)
-                {
-                    $detail= new data_detail_klaim;
+                $isidetail=DetailKlaim::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->get();
+                foreach ($isidetail as $isidetail){
+                    $detail= new DetailKlaim;
                     $detail->id_pdf=$isidetail->id_pdf;
                     $detail->revisi=$naikversi;
                     $detail->turunan=$isidetail->turunan;
@@ -1192,12 +1134,11 @@ class pdfController extends Controller
                 }
             }
             
-            $detailkemaspdf=kemaspdf::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->count();
+            $detailkemaspdf=KemasPDF::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->count();
             if($detailkemaspdf>0){
-                $isikemaspdf=kemaspdf::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->get();
-                foreach ($isikemaspdf as $isikemaspdf)
-                {
-                    $detail= new kemaspdf;
+                $isikemaspdf=KemasPDF::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->get();
+                foreach ($isikemaspdf as $isikemaspdf){
+                    $detail= new KemasPDF;
                     $detail->id_pdf=$isikemaspdf->id_pdf;
                     $detail->revisi=$naikversi;
                     $detail->turunan=$isikemaspdf->turunan;

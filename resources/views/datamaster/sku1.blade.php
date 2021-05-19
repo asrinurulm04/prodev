@@ -4,7 +4,6 @@
 
 <div class="row">
 	<div class="x_panel">
-		<a href="{{route('exportsku')}}" class="btn btn-info btn-sm"><li class="fa fa-download"></li> Export Data SKU</a>
 		@if(auth()->user()->role->namaRule == 'admin')
 		<button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#sku"><i class="fa fa-plus"></i> Add Data SKU</button>
 		<!-- modal -->
@@ -68,7 +67,6 @@
 					<td width="10px">No</td>
 					<td>No Formula</td>
           <td>Nama Produk</td>
-          <td>no</td>
           <td>Nama SKU</td>
 					<td>Kode Item</td>
 					@if(auth()->user()->role->namaRule == 'admin')
@@ -77,15 +75,12 @@
 				</tr>
 			</thead>
 			<tbody>
-				@php
-					$no = 0;
-				@endphp
+				@php $no = 0; @endphp
 				@foreach($sku as $sku)
 				<tr>
 					<td>{{++$no}}</td>
 					<td>{{$sku->no_formula}}</td>
           <td>{{$sku->nama_produk}}</td>
-          <td>{{$sku->no}}</td>
           <td>{{$sku->nama_sku}}</td>
 					<td>{{$sku->kode_items}}</td>
 					@if(auth()->user()->role->namaRule == 'admin')
@@ -151,4 +146,8 @@
 		</table>
 	</div>
 </div>
+@endsection
+@section('s')
+    <link href="{{ asset('lib/advanced-datatable/css/jquery.dataTables.css') }}" rel="stylesheet" />
+    <script src="{{ asset('js/datatables.min.js')}}"></script>
 @endsection

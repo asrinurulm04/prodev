@@ -7,23 +7,20 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Collection;
 use App\model\dev\Formula;
 use App\model\dev\Fortail;
-use App\model\dev\bb_allergen;
 use App\model\dev\Bahan;
-use App\model\dev\tr_makro_bb;
-use App\model\dev\tr_btp_bb;
-use App\model\dev\tr_mikro_bb;
-use App\model\dev\tr_mineral_bb;
-use App\model\dev\tr_vitamin_bb;
-use App\model\dev\tr_asam_amino_bb;
-use App\model\dev\tr_zataktif_bb;
-use App\model\dev\tr_logamberat_bb;
-use App\model\dev\tr_mikro_biologi_bb;
-use App\model\dev\ms_cemaran_ceklis;
-use App\model\devnf\allergen_formula;
-use App\model\devnf\tb_akg;
-use App\model\devnf\tb_overage;
+use App\model\dev\MakroBB;
+use App\model\dev\BtpBB;
+use App\model\dev\MikroBB;
+use App\model\dev\MineralBB;
+use App\model\dev\VitaminBB;
+use App\model\dev\AsamAminoBB;
+use App\model\dev\LogamBB;
+use App\model\dev\CemaranCeklis;
+use App\model\devnf\AllergenFormula;
+use App\model\devnf\Akg;
+use App\model\devnf\Overage;
 use App\model\master\Curren;
-use App\model\master\tr_header_formula;
+use App\model\master\HeaderFormula;
 use Auth;
 use DB;
 use Redirect;
@@ -36,10 +33,10 @@ class SummaryFormulaController extends Controller
     }
 
     public function summarry($formula,$id){
-		$form = tr_header_formula::where('id_formula',$id)->get();
+		$form = HeaderFormula::where('id_formula',$id)->get();
 		$data = Formula::with('Workbook')->where('id',$id)->get();
-		$ceklis = ms_cemaran_ceklis::all();
-		$akg = tb_akg::join('tr_formulas','tr_formulas.akg','ms_akg.id_tarkon')->join('tr_overage_inngradient','tr_overage_inngradient.id_formula','tr_formulas.id')->where('id',$id)->get();
+		$ceklis = CemaranCeklis::select('id_cemaran_ceklis','no_katpang')->get();
+		$akg = Akg::join('tr_formulas','tr_formulas.akg','ms_akg.id_tarkon')->join('tr_overage_inngradient','tr_overage_inngradient.id_formula','tr_formulas.id')->where('id',$id)->get();
         $idf = $id;
 		$formula = Formula::where('id',$id)->join('tr_overage_inngradient','tr_overage_inngradient.id_formula','tr_formulas.id')->first();
         $idfor = $formula->workbook_id;
@@ -47,9 +44,9 @@ class SummaryFormulaController extends Controller
         $fortails = Fortail::where('formula_id',$id)->get();
         $ingredient = DB::table('tr_fortails')->where('tr_fortails.formula_id',$id)->get();
 		$ada = Fortail::where('formula_id',$id)->count();
-		$btp = tr_btp_bb::all();
-		$allergen_bb = allergen_formula::join('tr_bb_allergen','id_bb','tr_allergen_formula.id_bahan')->where('id_formula',$id)->where('allergen_countain','!=','')->select(['allergen_countain'])->distinct()->get();
-		$bb_allergen = allergen_formula::join('tr_bb_allergen','id_bb','tr_allergen_formula.id_bahan')->where('id_formula',$id)->where('allergen_countain','!=','')->get();
+		$btp = BtpBB::all();
+		$allergen_bb = AllergenFormula::join('tr_bb_allergen','id_bb','tr_allergen_formula.id_bahan')->where('id_formula',$id)->where('allergen_countain','!=','')->select(['allergen_countain'])->distinct()->get();
+		$bb_allergen = AllergenFormula::join('tr_bb_allergen','id_bb','tr_allergen_formula.id_bahan')->where('id_formula',$id)->where('allergen_countain','!=','')->get();
         if($ada < 1){
             return Redirect::back()->with('error','Data Bahan Formula Versi '.$formula->versi.' Masih Kosong');
         }elseif($formula->batch < 1){
@@ -153,18 +150,17 @@ class SummaryFormulaController extends Controller
         $total_berat_per_serving = 0; $total_berat_per_batch = 0; $total_berat_per_kg = 0;
 		// harga
         $total_harga_per_batch = 0; $total_harga_per_serving = 0; $total_harga_per_kg = 0; $total_harga_per_gram = 0;
-
         $no = 0;
         foreach($fortails as $fortail){
 			//Get Needed
-			$mineral =tr_mineral_bb::where('id_bahan',$fortail->bahan_id)->first();
-			$makro = tr_makro_bb::where('id_bahan',$fortail->bahan_id)->first();
-			$asam = tr_asam_amino_bb::where('id_bahan',$fortail->bahan_id)->first();
-			$vitamin = tr_vitamin_bb::where('id_bahan',$fortail->bahan_id)->first();
-			$mikro = tr_mikro_bb::where('id_bahan',$fortail->bahan_id)->first();
-			$logam = tr_logamberat_bb::where('id_bahan',$fortail->bahan_id)->first();
+			$mineral =MineralBB::where('id_bahan',$fortail->bahan_id)->first();
+			$makro = MakroBB::where('id_bahan',$fortail->bahan_id)->first();
+			$asam = AsamAminoBB::where('id_bahan',$fortail->bahan_id)->first();
+			$vitamin = VitaminBB::where('id_bahan',$fortail->bahan_id)->first();
+			$mikro = MikroBB::where('id_bahan',$fortail->bahan_id)->first();
+			$logam = LogamBB::where('id_bahan',$fortail->bahan_id)->first();
             $bahan  = Bahan::where('id',$fortail->bahan_id)->first();
-			$hitung_btp = tr_btp_bb::where('id_bahan',$fortail->bahan_id)->count();
+			$hitung_btp = BtpBB::where('id_bahan',$fortail->bahan_id)->count();
 			$curren = Curren::where('id',$bahan->curren_id)->first();
             $persen = $fortail->per_serving / $satu_persen; $persen = round($persen,2);
             //perhitungan nutfact bayangan
@@ -194,18 +190,12 @@ class SummaryFormulaController extends Controller
 				$air = ($makro->kadar_air)*($persen/100);
 				$fat = ($makro->fat)*($persen/100);
 				// mineral
-				$caa = ($mineral->ca/100)*($fortail->per_serving);
-				$mg = ($mineral->mg/100)*($fortail->per_serving);
-				$k = ($mineral->k/100)*($fortail->per_serving);
-				$zink = ($mineral->zink/100)*($fortail->per_serving);
-				$p = ($mineral->p/100)*($fortail->per_serving);
-				$na = ($mineral->na/100)*($fortail->per_serving);
-				$naci = ($mineral->naci/100)*($fortail->per_serving);
-				$energi = ($mineral->energi/100)*($fortail->per_serving);
-				$fosfor = ($mineral->fosfor/100)*($fortail->per_serving);
-				$mn = ($mineral->mn/100)*($fortail->per_serving);
-				$cr = ($mineral->cr/100)*($fortail->per_serving);
-				$fe = ($mineral->fe/100)*($fortail->per_serving);
+				$caa = ($mineral->ca/100)*($fortail->per_serving);					$mg = ($mineral->mg/100)*($fortail->per_serving);
+				$k = ($mineral->k/100)*($fortail->per_serving);						$zink = ($mineral->zink/100)*($fortail->per_serving);
+				$p = ($mineral->p/100)*($fortail->per_serving);						$na = ($mineral->na/100)*($fortail->per_serving);
+				$naci = ($mineral->naci/100)*($fortail->per_serving);				$energi = ($mineral->energi/100)*($fortail->per_serving);
+				$fosfor = ($mineral->fosfor/100)*($fortail->per_serving);			$mn = ($mineral->mn/100)*($fortail->per_serving);
+				$cr = ($mineral->cr/100)*($fortail->per_serving);					$fe = ($mineral->fe/100)*($fortail->per_serving);
 				// vitamin
 				$vitA = ($vitamin->vitA/100)*($fortail->per_serving);  				$vitB1 = ($vitamin->vitB1/100)*($fortail->per_serving);
 				$vitB2 = ($vitamin->vitB2/100)*($fortail->per_serving); 			$vitB3 = ($vitamin->vitB3/100)*($fortail->per_serving);
@@ -234,8 +224,6 @@ class SummaryFormulaController extends Controller
 				$aureus = ($mikro->aureus)*($persen/100);					 		$TPC = ($mikro->TPC)*($persen/100); 
 				$Yeast = ($mikro->Yeast)*($persen/100);					  			$Coliform = ($mikro->Coliform)*($persen/100); 
 				$Coli = ($mikro->Coli)*($persen/100);					  			$Bacilluscereus = ($mikro->Bacilluscereus)*($persen/100); 
-
-				       
 			}
 
             // Harga Pergram
@@ -314,7 +302,6 @@ class SummaryFormulaController extends Controller
 				'Salmonella' => $Salmonella,		'Coliform' => $Coliform,
 				'aureus' => $aureus,				'Coli' => $Coli,
 				'TPC' => $TPC,						'Bacilluscereus' => $Bacilluscereus,
-
 				// data
                 'persen' => $persen,               'per_serving' =>  $berat_per_serving,
                 'per_batch' => $berat_per_batch,   'harga_per_serving' => $harga_per_serving,
@@ -371,11 +358,11 @@ class SummaryFormulaController extends Controller
 			$total_aureus = $total_aureus + $aureus;					$total_Coli = $total_Coli + $Coli;
 			$total_TPC = $total_TPC + $TPC;								$total_Bacilluscereus = $total_Bacilluscereus + $Bacilluscereus;
 			// RPC
-			$total_rpc_as = $total_as * ($formula->serving_size/1000) / ($formula->serving_size + $formula->saran_saji / 1000);
-			$total_rpc_hg = $total_hg * ($formula->serving_size/1000) / ($formula->serving_size + $formula->saran_saji / 1000);
-			$total_rpc_pb = $total_pb * ($formula->serving_size/1000) / ($formula->serving_size + $formula->saran_saji / 1000);							
-			$total_rpc_sn = $total_sn * ($formula->serving_size/1000) / ($formula->serving_size + $formula->saran_saji / 1000);
-			$total_rpc_cd = $total_cd * ($formula->serving_size/1000) / ($formula->serving_size + $formula->saran_saji / 1000);
+			$total_rpc_as = $total_as * ($formula->serving_size/1000) / ($formula->serving_size + $formula->saran_saji / 1000);$total_rpc_as = round($total_rpc_as,4);
+			$total_rpc_hg = $total_hg * ($formula->serving_size/1000) / ($formula->serving_size + $formula->saran_saji / 1000);$total_rpc_hg = round($total_rpc_hg,4);
+			$total_rpc_pb = $total_pb * ($formula->serving_size/1000) / ($formula->serving_size + $formula->saran_saji / 1000);$total_rpc_pb = round($total_rpc_pb,4);							
+			$total_rpc_sn = $total_sn * ($formula->serving_size/1000) / ($formula->serving_size + $formula->saran_saji / 1000);$total_rpc_sn = round($total_rpc_sn,4);
+			$total_rpc_cd = $total_cd * ($formula->serving_size/1000) / ($formula->serving_size + $formula->saran_saji / 1000);$total_rpc_cd = round($total_rpc_cd,4);
 			// total harga
             $total_harga_per_gram = $total_harga_per_gram + $hpg;
             $total_harga_per_serving = $total_harga_per_serving + $harga_per_serving;
@@ -386,7 +373,6 @@ class SummaryFormulaController extends Controller
             $total_berat_per_batch = $total_berat_per_batch + $berat_per_batch;
             $total_berat_per_kg = $total_berat_per_kg + $berat_per_kg;
         }
-
         $total_harga = collect([
 			'total_karbohidrat' => $total_karbohidrat,	'total_glukosa' => $total_glukosa, 
 			'total_serat' => $total_serat,				'total_beta' => $total_beta,
@@ -431,8 +417,8 @@ class SummaryFormulaController extends Controller
 			'total_pb' => $total_pb,					'total_sn' => $total_sn,
 			'total_cd' => $total_cd,
 			// RPC
-			'total_rpc_as' => $total_rpc_as,					'total_rpc_hg' => $total_rpc_hg,
-			'total_rpc_pb' => $total_rpc_pb,					'total_rpc_sn' => $total_rpc_sn,
+			'total_rpc_as' => $total_rpc_as,			'total_rpc_hg' => $total_rpc_hg,
+			'total_rpc_pb' => $total_rpc_pb,			'total_rpc_sn' => $total_rpc_sn,
 			'total_rpc_cd' => $total_rpc_cd,
 			// Mikro
 			'total_Enterobacter' => $total_Enterobacter,'total_Yeast' => $total_Yeast,
@@ -477,7 +463,7 @@ class SummaryFormulaController extends Controller
 		$formula->overage=$request->overage;
 		$formula->save();
 
-		$overage = tb_overage::where('id_formula',$id)->first();
+		$overage = Overage::where('id_formula',$id)->first();
 		$overage->overage_energi_total=$request->energi_total;                            $overage->overage_energi_lemak=$request->energi_lemak;
 		$overage->overage_energi_lemak_jenuh=$request->energi_lemak_jenuh;                $overage->overage_karbohidrat=$request->karbohidrat;
 		$overage->overage_protein1=$request->protein1;                                    $overage->overage_lemak_total=$request->lemak_total;
@@ -496,30 +482,37 @@ class SummaryFormulaController extends Controller
 		$overage->overage_vitA=$request->vitA;                                            $overage->overage_vitB1=$request->vitB1;
 		$overage->overage_vitB2=$request->vitB2;                                          $overage->overage_vitB3=$request->vitB3;
 		$overage->overage_vitB5=$request->vitB5;                                          $overage->overage_vitB6=$request->vitB6;
-		$overage->overage_vitB12=$request->vitB12;
-		$overage->overage_vitC=$request->vitC;$overage->overage_vitD3=$request->vitD3;$overage->overage_vitE=$request->vitE;$overage->overage_vitB3=$request->vitB3;
-		$overage->overage_asam_folat=$request->asam_folat;$overage->overage_magnesium_aspartat=$request->magnesium_aspartat;
-		$overage->overage_kolin=$request->kolin;$overage->overage_biotin=$request->biotin;$overage->overage_Inositol=$request->Inositol;
-		$overage->overage_Molibdenum=$request->Molibdenum;$overage->overage_Kromium=$request->Kromium;$overage->overage_EPA=$request->EPA;
-		$overage->overage_DHA=$request->DHA;$overage->overage_Glukosamin=$request->Glukosamin;$overage->overage_Kondroitin=$request->Kondroitin;
-		$overage->overage_Kolagen=$request->Kolagen;$overage->overage_EGCG=$request->EGCG;$overage->overage_Kreatina=$request->Kreatina;
-		$overage->overage_MCT=$request->MCT;$overage->overage_CLA=$request->CLA;$overage->overage_omega3=$request->omega3;
-		$overage->overage_omega6=$request->omega6;$overage->overage_omega9=$request->omega9;$overage->overage_Klorida=$request->Klorida;
-		$overage->overage_asam_linoleat=$request->asam_linoleat;$overage->overage_energi_asam_linoleat=$request->energi_asam_linoleat;
-		$overage->overage_energi_protein=$request->energi_protein;$overage->overage_l_karnitin=$request->l_karnitin;$overage->overage_l_glutamin=$request->l_glutamin;
-		$overage->overage_Thereonin=$request->Thereonin;$overage->overage_Methionin=$request->Methionin;$overage->overage_Phenilalanin=$request->Phenilalanin;
-		$overage->overage_Histidin=$request->Histidin;$overage->overage_Lisin=$request->Lisin;$overage->overage_BCAA=$request->BCAA;
-		$overage->overage_Valin=$request->Valin;$overage->overage_Isoleusin=$request->Isoleusin;$overage->overage_Leusin=$request->Leusin;
-		$overage->overage_Alanin=$request->Alanin;$overage->overage_asam_aspartat=$request->asam_aspartat;$overage->overage_asam_glutamat=$request->asam_glutamat;
-		$overage->overage_sistein=$request->sistein;$overage->overage_serin=$request->serin;$overage->overage_glisin=$request->glisin;
-		$overage->overage_tyrosin=$request->tyrosin;$overage->overage_proline=$request->proline;$overage->overage_arginine=$request->arginine;
+		$overage->overage_vitB12=$request->vitB12;										  $overage->overage_tyrosin=$request->tyrosin;
+		$overage->overage_vitC=$request->vitC;								  	  	  	  $overage->overage_vitD3=$request->vitD3;
+		$overage->overage_vitE=$request->vitE;											  $overage->overage_vitB3=$request->vitB3;
+		$overage->overage_asam_folat=$request->asam_folat;								  $overage->overage_magnesium_aspartat=$request->magnesium_aspartat;
+		$overage->overage_kolin=$request->kolin;								  	  	  $overage->overage_biotin=$request->biotin;
+		$overage->overage_Inositol=$request->Inositol;									  $overage->overage_EPA=$request->EPA;
+		$overage->overage_Molibdenum=$request->Molibdenum;								  $overage->overage_Kromium=$request->Kromium;
+		$overage->overage_DHA=$request->DHA;								  	  	  	  $overage->overage_Glukosamin=$request->Glukosamin;
+		$overage->overage_Kondroitin=$request->Kondroitin;								  $overage->overage_Kreatina=$request->Kreatina;
+		$overage->overage_Kolagen=$request->Kolagen;								  	  $overage->overage_EGCG=$request->EGCG;
+		$overage->overage_MCT=$request->MCT;								  	  	  	  $overage->overage_CLA=$request->CLA;
+		$overage->overage_omega3=$request->omega3;										  $overage->overage_Klorida=$request->Klorida;
+		$overage->overage_omega6=$request->omega6;								  	  	  $overage->overage_omega9=$request->omega9;
+		$overage->overage_asam_linoleat=$request->asam_linoleat;						  $overage->overage_energi_asam_linoleat=$request->energi_asam_linoleat;
+		$overage->overage_energi_protein=$request->energi_protein;						  $overage->overage_l_karnitin=$request->l_karnitin;
+		$overage->overage_l_glutamin=$request->l_glutamin;								  $overage->overage_Phenilalanin=$request->Phenilalanin;
+		$overage->overage_Thereonin=$request->Thereonin;								  $overage->overage_Methionin=$request->Methionin;
+		$overage->overage_Histidin=$request->Histidin;								  	  $overage->overage_Lisin=$request->Lisin;
+		$overage->overage_BCAA=$request->BCAA;											  $overage->overage_Leusin=$request->Leusin;
+		$overage->overage_Valin=$request->Valin;								  	  	  $overage->overage_Isoleusin=$request->Isoleusin;
+		$overage->overage_Alanin=$request->Alanin;								  	  	  $overage->overage_asam_aspartat=$request->asam_aspartat;
+		$overage->overage_asam_glutamat=$request->asam_glutamat; 						  $overage->overage_arginine=$request->arginine;
+		$overage->overage_sistein=$request->sistein;								  	  $overage->overage_serin=$request->serin;
+		$overage->overage_glisin=$request->glisin;										  $overage->overage_proline=$request->proline;
 		$overage->save();
 
 		return redirect::back();
 	}
 
     public function header(Request $request,$formula){
-        $header= tr_header_formula::where('id_formula',$formula)->first();
+        $header= HeaderFormula::where('id_formula',$formula)->first();
         $header->id_formula=$formula;
         $header->form1=$request->form1;		$header->form2=$request->form2;
         $header->form3=$request->form3;		$header->form4=$request->form4;

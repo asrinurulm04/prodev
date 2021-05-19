@@ -19,8 +19,7 @@ class SubkategoriController extends Controller
         ]);
     }
 
-    public function store(Request $request)
-    {
+    public function store(Request $request){
         $subkategori = new Subkategori;
         $subkategori->subkategori = $request->subkategori;
         $subkategori->kategori_id = $request->kategori;
@@ -49,6 +48,5 @@ class SubkategoriController extends Controller
     public function destroy(Subkategori $subkategori){
         $subkategori->delete();
         return Redirect::back()->with('error','Subkategori '.$subkategori->subkategori.' Berhasil Dihapus !');
-
     }
 }

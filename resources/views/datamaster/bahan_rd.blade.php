@@ -28,9 +28,8 @@
           <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
             <th width="5%">ID</th>
             <th>Nama_Bahan </th>
-            <th>Berat</th>
             <th>Harga Satuan</th>
-            <th>Currency</th>
+            <th>Supplier</th>
             <th>PIC</th>
             <th width="10%"></th>
           </tr>
@@ -41,9 +40,8 @@
             <tr>
               <td>{{ ++$no }}</td>
               <td>{{ $bahan->nama_bahan }}</td>
-              <td>{{ $bahan->berat }} {{ $bahan->satuan }}</td>
-              <td>{{ $bahan->harga_satuan }}</td>
-              <td>{{ $bahan->curren->currency  }}</td>
+              <td>{{ $bahan->harga_satuan }} {{ $bahan->curren->currency  }}</td>
+              <td>{{ $bahan->supplier }}</td>
               <td>{{ $bahan->PIC }}</td>
               <td class="text-center">
                 <a href="{{route('edit_bahan',$bahan->id)}}" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Edit"><li class="fa fa-edit"></li></a>
@@ -60,4 +58,8 @@
     </div>
   </div>
 </div>
+@endsection
+@section('s')
+<link href="{{ asset('lib/advanced-datatable/css/jquery.dataTables.css') }}" rel="stylesheet" />
+<script src="{{ asset('js/datatables.min.js')}}"></script>
 @endsection

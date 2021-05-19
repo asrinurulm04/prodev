@@ -28,23 +28,20 @@
   <a type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#add_brand" id="tambah"><i class="fa fa-plus"></i> Add Brand</a>
   <div class="card-block">
     <div class="dt-responsive table-responsive">
-      <table class="Table table-striped table-bordered nowrap">
+      <table id="datatable" class="Table table-striped table-bordered nowrap">
         <thead>
           <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
-            <th>ID</th>
+            <th width="5%">ID</th>
             <th>Brand</th>
-            <th>Created</th>
-            <th>Updated</th>
-            <th class="text-center">Action</th>
+            <th width="15%" class="text-center">Action</th>
           </tr>
         </thead>
         <tbody>
+				  @php $no = 0; @endphp
           @foreach($brands as $brand)
           <tr>
-            <td>{{ $brand->id }}</td>
+					  <td>{{++$no}}</td>
             <td>{{ $brand->brand }}</td>
-            <td>{{ $brand->created_at }}</td>
-            <td>{{ $brand->updated_at }}</td>
             <td class="text-center">
               <a class="btn-sm btn-primary" type="button" data-toggle="modal" data-target="#edit_brand{{ $brand->id}}"><i class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a> &nbsp
               <a class="btn-sm btn-danger" onclick="return confirm('Hapus Bahan Baku ?')" data-toggle="tooltip" title="Delete" href="{{ route('brand.destroy',$brand->id) }}"><i class="fa fa-trash-o"></i></a>
@@ -101,4 +98,8 @@
   </div>
 </div>
 <!-- selesai -->
+@endsection
+@section('s')
+    <link href="{{ asset('lib/advanced-datatable/css/jquery.dataTables.css') }}" rel="stylesheet" />
+    <script src="{{ asset('js/datatables.min.js')}}"></script>
 @endsection

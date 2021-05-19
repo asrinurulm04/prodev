@@ -2,32 +2,11 @@
 @section('title', 'PRODEV|Data Tambahan PKP')
 @section('content')
 
-<div class="row">
-  <div class="col-md-3"></div>
-  <div class="col-md-9">
-    <div class="tabbable">
-      <ul class="nav nav-tabs wizard">
-        <li class="active"><a href=""><span class="nmbr">1</span>Data</a></li>
-        <li class="active"><a href=""><span class="nmbr">2</span>Products</a></li>
-        <li class="completed"><a href=""><span class="nmbr">3</span>File & Image</a></li>
-      </ul>
-    </div>
-  </div>
-</div>
-<br>
-
 @if (session('status'))
 <div class="col-lg-12 col-md-12 col-sm-12">
   <div class="alert alert-success">
     <button type="button" class="close" data-dismiss="alert">×</button>
     {{ session('status') }}
-  </div>
-</div>
-@elseif(session('error'))
-<div class="col-lg-12 col-md-12 col-sm-12">
-  <div class="alert alert-danger">
-    <button type="button" class="close" data-dismiss="alert">×</button>
-    {{ session('error') }}
   </div>
 </div>
 @endif
@@ -69,22 +48,18 @@
 </div>
 @endforeach
 
-@if($coba1>=1)
 <div class="col-md-12">
   <div class="x_panel">
+    @if($coba1>=1)
     <button class="btn btn-primary col-md-12 btn-sm" type="submit"><li class="fa fa-check"></li> Save And Finish</button>
     {{ csrf_field() }}
     </form>
-  </div>
-</div>
-@else
-<div class="col-md-12">
-  <div class="x_panel">
+    @else
     @foreach ($id as $pkp)
     <a href="{{route('rekappromo',$pkp->id_pkp_promo)}}" class="btn btn-primary col-md-12 btn-sm"><li class="fa fa-check"></li> Save And Finish</a>
     @endforeach
-  </form>
+    </form>
+    @endif
   </div>
 </div>
-@endif
 @endsection

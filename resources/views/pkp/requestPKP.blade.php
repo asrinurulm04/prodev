@@ -140,7 +140,6 @@
               <td width="5%">No</td>
               <td>No_pkp</td>
               <td>Brand</td>
-              <td>Author</td>
               <td></td>
             </tr>
           </thead>
@@ -150,7 +149,6 @@
               <th class="text-center">{{ ++$nol }}</th>
               <th>{{ $pkp->pkp_number }}{{ $pkp->ket_no }}</th>
               <th>{{ $pkp->id_brand }}</th>
-              <th>{{ $pkp->author1->name }}</th>
               <th class="text-center">
                 <a class="btn btn-warning btn-sm" onclick="return confirm('Are you sure you want to use this template?')" href="{{Route('temppkp',$pkp->id_project)}}"><i class="fa fa-check"></i></a>
               </th>
@@ -162,4 +160,8 @@
   </div>
 </div>
 <!-- Selesai -->
+@endsection
+@section('s')
+    <link href="{{ asset('lib/advanced-datatable/css/jquery.dataTables.css') }}" rel="stylesheet" />
+    <script src="{{ asset('js/datatables.min.js')}}"></script>
 @endsection

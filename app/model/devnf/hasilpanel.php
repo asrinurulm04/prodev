@@ -4,7 +4,7 @@ namespace App\model\devnf;
 
 use Illuminate\Database\Eloquent\Model;
 
-class hasilpanel extends Model
+class HasilPanel extends Model
 {
     protected $table = "tr_hasil_panel";
     protected $primaryKey ='id';

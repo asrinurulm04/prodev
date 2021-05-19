@@ -2,6 +2,15 @@
 @section('title', 'PRODEV|Draf PKP')
 @section('content')
 
+@if (session('status'))
+<div class="col-lg-12 col-md-12 col-sm-12">
+  <div class="alert alert-success">
+    <button type="button" class="close" data-dismiss="alert">×</button>
+    {{ session('status') }}
+  </div>
+</div>
+@endif
+
 <div class="">
   <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
@@ -46,5 +55,8 @@
     </div>
   </div>
 </div>
-
+@endsection
+@section('s')
+    <link href="{{ asset('lib/advanced-datatable/css/jquery.dataTables.css') }}" rel="stylesheet" />
+    <script src="{{ asset('js/datatables.min.js')}}"></script>
 @endsection

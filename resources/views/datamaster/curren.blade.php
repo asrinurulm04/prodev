@@ -10,13 +10,6 @@
       {{ session('status') }}
     </div>
   </div>
-  @elseif(session('error'))
-  <div class="col-lg-12 col-md-12 col-sm-12">
-    <div class="alert alert-danger">
-      <button type="button" class="close" data-dismiss="alert">×</button>
-      {{ session('error') }}
-    </div>
-  </div>
   @endif
 </div>
 
@@ -28,7 +21,7 @@
   <div class="card-block">
     <a type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#add_curren"><i class="fa fa-plus"></i> Add Currency </a>
 	  <div class="dt-responsive table-responsive">
-      <table class="table table-striped table-bordered ">
+      <table id="datatable" class="table table-striped table-bordered ">
         <thead>
           <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
             <th>ID</th>
@@ -116,5 +109,7 @@
 @endsection
 
 @section('s')
+<link href="{{ asset('lib/advanced-datatable/css/jquery.dataTables.css') }}" rel="stylesheet" />
+<script src="{{ asset('js/datatables.min.js')}}"></script>
 <script type="text/javascript"></script>
 @endsection

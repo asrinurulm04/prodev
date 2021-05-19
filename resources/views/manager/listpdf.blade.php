@@ -9,13 +9,6 @@
     {{ session('status') }}
   </div>
 </div>
-@elseif(session('error'))
-<div class="col-lg-12 col-md-12 col-sm-12">
-  <div class="alert alert-danger">
-    <button type="button" class="close" data-dismiss="alert">×</button>
-    {{ session('error') }}
-  </div>
-</div>
 @endif
 
 <div class="col-md-12 col-sm-12 col-xs-12">
@@ -105,7 +98,7 @@
             <td>no</td>
             <td>PDF Number</td>
             <td>Brand</td>
-            <td>PV</td>
+            <td width="10%">Global</td>
             <td class="text-center">Status RD Kemas</td>
             <td class="text-center">Status RD Produk</td>
             <td class="text-center">Priority</td>
@@ -418,6 +411,8 @@
 @endsection
 
 @section('s')
+<link href="{{ asset('lib/advanced-datatable/css/jquery.dataTables.css') }}" rel="stylesheet" />
+<script src="{{ asset('js/datatables.min.js')}}"></script>
 <script>
  function filterGlobal () {
     $('.ex').DataTable().search(

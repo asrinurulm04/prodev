@@ -10,13 +10,12 @@ use Redirect;
 class BrandController extends Controller
 {
     public function __construct(){
-
         $this->middleware('auth');
         $this->middleware('rule:admin');
     }
 
     public function index(){
-        $brands = Brand::all();
+        $brands = Brand::select('brand','id')->get();
         return view('datamaster.brand')->with([
             'brands' => $brands
         ]);

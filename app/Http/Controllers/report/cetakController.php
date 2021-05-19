@@ -6,23 +6,19 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\IOFactory;
-
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Illuminate\Support\Facades\Validator;
-use App\model\pkp\tipp;
-use App\model\pkp\coba;
-use App\model\pkp\pdf_project;
-use App\model\pkp\pkp_project;
-use App\model\pkp\data_forecast;
+use App\model\pkp\SubPKP;
+use App\model\pkp\SubPDF;
+use App\model\pkp\ProjectPDF;
+use App\model\pkp\PkpProject;
 use DB;
 use Auth;
 
-class cetakController extends Controller
+class CetakController extends Controller
 {
     public function download_project(){
-
         $objPHPExcel = new Spreadsheet();
-
         $objPHPExcel->setActiveSheetIndex(0); 
 
         $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(5.00);
@@ -67,31 +63,23 @@ class cetakController extends Controller
         $objPHPExcel->getActiveSheet()->getColumnDimension('AI')->setWidth(18.57);
         $objPHPExcel->getActiveSheet()->getColumnDimension('AJ')->setWidth(30.57);
 
-
         $awal=1;
         $pertama=2;
 
-        $data=tipp::join('tr_project_pkp','tr_project_pkp.id_project','tr_sub_pkp.id_pkp')
+        $data=SubPKP::join('tr_project_pkp','tr_project_pkp.id_project','tr_sub_pkp.id_pkp')
             ->join('ms_tarkons','ms_tarkons.id_tarkon','tr_sub_pkp.akg')
             ->join('tr_users','tr_users.id','tr_sub_pkp.perevisi')
             ->join('tr_kemas','tr_kemas.id_kemas','tr_sub_pkp.kemas_eksis')->where('status_data','=','active')
             ->where('status_freeze','inactive')->where('status_project','!=','revisi')
             ->where('status_project','!=','draf')->orderBy('pkp_number','asc')->get();
-        $no=1;
         
+         $styleArray = array(
+            'background'  => array(
+            'color' => array('rgb' => 'FF0000'),
+        ));
         
-            //Inisialisasi tanggal kosong
-        
-            $styleArray = array(
-                'background'  => array(
-                    'color' => array('rgb' => 'FF0000'),
-                ));
-
-
-                //Bagian Isi
-        
-                $baris=$awal;
-                $objPHPExcel->setActiveSheetIndex(0)
+        $baris=1;
+        $objPHPExcel->setActiveSheetIndex(0)
                     ->setCellValue('A'.$baris, 'PKP Number')
                     ->setCellValue('C'.$baris, 'Project Name')
                     ->setCellValue('D'.$baris, 'Created Date')
@@ -121,180 +109,39 @@ class cetakController extends Controller
                     ->setCellValue('AI'.$baris, 'UOM')
                     ->setCellValue('AJ'.$baris, 'Serving Suggestion');
                             
-                $objPHPExcel->getActiveSheet()->mergeCells('A'.$baris.':B'.$baris);
-                $objPHPExcel->setActiveSheetIndex(0)
-                            ->setCellValue('A'.$baris, 'PKP Number');
+        $objPHPExcel->getActiveSheet()->mergeCells('A'.$baris.':B'.$baris);
+        $objPHPExcel->setActiveSheetIndex(0)
+                    ->setCellValue('A'.$baris, 'PKP Number');
 
-                $objPHPExcel->getActiveSheet()->getStyle("A".$baris)->getFill()
-                ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                ->getStartColor()->setARGB('13DFE4');
+        $objPHPExcel->getActiveSheet()->getStyle('A'.$baris.':AJ'.$baris)->getFill()
+                    ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('13DFE4');
+        $objPHPExcel->getActiveSheet()->getStyle('A'.$baris.':AJ'.$baris)->getAlignment()->setHorizontal('center');
 
-                $objPHPExcel->getActiveSheet()->getStyle("A".$baris)->getAlignment()->setHorizontal('center');
+        $objPHPExcel->getActiveSheet()->mergeCells('X'.$baris.':AE'.$baris);
+        $objPHPExcel->setActiveSheetIndex(0)
+                    ->setCellValue('AE'.$baris, 'Kemas');
                 
-                $objPHPExcel->getActiveSheet()->getStyle("C".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("C".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("D".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("D".$baris)->getAlignment()->setHorizontal('center');
+        foreach($data as $_data){
+            $Ty = $_data['type'];
+            if($Ty=='1'){
+             $type= 'maklon';               
+            }elseif($Ty=='2'){
+                $type= 'internal';
+            }else{
+                $type='Maklon & Internal';
+            }
 
-                $objPHPExcel->getActiveSheet()->getStyle("E".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("E".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("F".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("F".$baris)->getAlignment()->setHorizontal('center');
-
-                $objPHPExcel->getActiveSheet()->getStyle("G".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("G".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("H".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("H".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("I".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("I".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("J".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("J".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("K".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("K".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("L".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("L".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("M".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("M".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("N".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("N".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("O".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("O".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("P".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("P".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("Q".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("Q".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("R".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("R".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("S".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("S".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("T".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("T".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("U".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("U".$baris)->getAlignment()->setHorizontal('center');
-                
-                
-                
-                $objPHPExcel->getActiveSheet()->getStyle("V".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("V".$baris)->getAlignment()->setHorizontal('center');
-
-                $objPHPExcel->getActiveSheet()->getStyle("W".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("W".$baris)->getAlignment()->setHorizontal('center');
-
-                $objPHPExcel->getActiveSheet()->mergeCells('X'.$baris.':AE'.$baris);
-                $objPHPExcel->setActiveSheetIndex(0)
-                            ->setCellValue('AE'.$baris, 'Kemas');
-
-                $objPHPExcel->getActiveSheet()->getStyle("X".$baris)->getFill()
-                ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                ->getStartColor()->setARGB('13DFE4');
-
-                $objPHPExcel->getActiveSheet()->getStyle("X".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("AF".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("AF".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("AG".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("AG".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("AH".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("AH".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("AI".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("AI".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("AJ".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("AJ".$baris)->getAlignment()->setHorizontal('center');
-                
-        
-                foreach($data as $_data){
-
-                $Ty = $_data['type'];
-                if($Ty=='1'){
-                 $type= 'maklon';               
-                }elseif($Ty=='2'){
-                    $type= 'internal';
-                }else{
-                    $type='Maklon & Internal';
-                }
-
-                $launch = $_data['tgl_launch'];
-                if($launch==NULL){
-                    $ld = $_data->launch;
-                    $ld2 = $_data->years;
-                }elseif($launch!=NULL){
-                    $ld=$_data['tgl_launch'];
-                }
-                
-                $line=$pertama;
-                $objPHPExcel->setActiveSheetIndex(0)
+            $launch = $_data['tgl_launch'];
+            if($launch==NULL){
+                $ld = $_data->launch;
+                $ld2 = $_data->years;
+            }elseif($launch!=NULL){
+                $ld=$_data['tgl_launch'];
+            }
+            
+            $line=$pertama;
+            $objPHPExcel->setActiveSheetIndex(0)
                     ->setCellValue('A'.$pertama, $_data['pkp_number'])
                     ->setCellValue('B'.$pertama, $_data['ket_no'])
                     ->setCellValue('C'.$pertama, $_data['project_name'])
@@ -332,17 +179,13 @@ class cetakController extends Controller
                     ->setCellValue('AI'.$pertama, $_data['UOM'])
                     ->setCellValue('AJ'.$pertama, $_data['serving_suggestion']);
                 $pertama++;
-            }
-        
-            $no++;
+        }
+        $no++;
 
         $objPHPExcel->getActiveSheet()->setTitle('Tabulasi PKP');
-
         $skrg=date('d m Y');
-
         header('Content-Type: application/vnd.ms-excel'); 
         header('Content-Disposition: attachment;filename="Tabulasi_PKP '.$skrg.'.xls"'); 
-
         header('Cache-Control: max-age=0'); 
         $objWriter = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($objPHPExcel, "Xlsx");
         ob_end_clean();
@@ -350,9 +193,7 @@ class cetakController extends Controller
     }
 
     public function download_my_project(){
-
         $objPHPExcel = new Spreadsheet();
-
         $objPHPExcel->setActiveSheetIndex(0); 
 
         $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(5.00);
@@ -397,12 +238,10 @@ class cetakController extends Controller
         $objPHPExcel->getActiveSheet()->getColumnDimension('AI')->setWidth(18.57);
         $objPHPExcel->getActiveSheet()->getColumnDimension('AJ')->setWidth(30.57);
 
-
-        $awal=1;
         $pertama=2;
 
         if(Auth::user()->departement_id!='1'){
-        $data=pkp_project::join('tr_sub_pkp','tr_project_pkp.id_project','tr_sub_pkp.id_pkp')
+        $data=PkpProject::join('tr_sub_pkp','tr_project_pkp.id_project','tr_sub_pkp.id_pkp')
             ->join('ms_tarkons','ms_tarkons.id_tarkon','tr_sub_pkp.akg')
             ->join('tr_users','tr_users.id','tr_sub_pkp.perevisi')
             ->join('tr_kemas','tr_kemas.id_kemas','tr_sub_pkp.kemas_eksis')
@@ -412,7 +251,7 @@ class cetakController extends Controller
             ->where('status_project','!=','draf')->orderBy('pkp_number','asc')->get();
         $no=1;
         }elseif(Auth::user()->departement_id=='1'){
-            $data=pkp_project::join('tr_sub_pkp','tr_project_pkp.id_project','tr_sub_pkp.id_pkp')
+            $data=PkpProject::join('tr_sub_pkp','tr_project_pkp.id_project','tr_sub_pkp.id_pkp')
             ->join('ms_tarkons','ms_tarkons.id_tarkon','tr_sub_pkp.akg')
             ->join('tr_users','tr_users.id','tr_sub_pkp.perevisi')
             ->join('tr_kemas','tr_kemas.id_kemas','tr_sub_pkp.kemas_eksis')
@@ -423,13 +262,13 @@ class cetakController extends Controller
         $no=1;   
         }
 
-            $styleArray = array(
-                'background'  => array(
-                    'color' => array('rgb' => 'FF0000'),
-                ));
+        $styleArray = array(
+            'background'  => array(
+            'color' => array('rgb' => 'FF0000'),
+        ));
 
-                $baris=$awal;
-                $objPHPExcel->setActiveSheetIndex(0)
+        $baris=1;
+        $objPHPExcel->setActiveSheetIndex(0)
                     ->setCellValue('A'.$baris, 'PKP Number')
                     ->setCellValue('C'.$baris, 'Project Name')
                     ->setCellValue('D'.$baris, 'Created Date')
@@ -459,180 +298,38 @@ class cetakController extends Controller
                     ->setCellValue('AI'.$baris, 'UOM')
                     ->setCellValue('AJ'.$baris, 'Serving Suggestion');
                             
-                $objPHPExcel->getActiveSheet()->mergeCells('A'.$baris.':B'.$baris);
-                $objPHPExcel->setActiveSheetIndex(0)
-                            ->setCellValue('A'.$baris, 'PKP Number');
+        $objPHPExcel->getActiveSheet()->mergeCells('A'.$baris.':B'.$baris);
+        $objPHPExcel->setActiveSheetIndex(0)
+                    ->setCellValue('A'.$baris, 'PKP Number');
 
-                $objPHPExcel->getActiveSheet()->getStyle("A".$baris)->getFill()
-                ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                ->getStartColor()->setARGB('13DFE4');
+        $objPHPExcel->getActiveSheet()->getStyle('A'.$baris.':AJ'.$baris)->getFill()
+                    ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('13DFE4');
+        $objPHPExcel->getActiveSheet()->getStyle('A'.$baris.':AJ'.$baris)->getAlignment()->setHorizontal('center');
 
-                $objPHPExcel->getActiveSheet()->getStyle("A".$baris)->getAlignment()->setHorizontal('center');
+        $objPHPExcel->getActiveSheet()->mergeCells('X'.$baris.':AE'.$baris);
+        $objPHPExcel->setActiveSheetIndex(0)
+                    ->setCellValue('AE'.$baris, 'Kemas');
                 
-                $objPHPExcel->getActiveSheet()->getStyle("C".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("C".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("D".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("D".$baris)->getAlignment()->setHorizontal('center');
+        foreach($data as $_data){
+            $Ty = $_data['type'];
+            if($Ty=='1'){
+             $type= 'maklon';               
+            }elseif($Ty=='2'){
+                $type= 'internal';
+            }else{
+                $type='Maklon & Internal';
+            }
 
-                $objPHPExcel->getActiveSheet()->getStyle("E".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("E".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("F".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("F".$baris)->getAlignment()->setHorizontal('center');
-
-                $objPHPExcel->getActiveSheet()->getStyle("G".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("G".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("H".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("H".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("I".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("I".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("J".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("J".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("K".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("K".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("L".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("L".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("M".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("M".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("N".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("N".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("O".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("O".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("P".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("P".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("Q".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("Q".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("R".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("R".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("S".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("S".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("T".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("T".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("U".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("U".$baris)->getAlignment()->setHorizontal('center');
-                
-                
-                
-                $objPHPExcel->getActiveSheet()->getStyle("V".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("V".$baris)->getAlignment()->setHorizontal('center');
-
-                $objPHPExcel->getActiveSheet()->getStyle("W".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("W".$baris)->getAlignment()->setHorizontal('center');
-
-                $objPHPExcel->getActiveSheet()->mergeCells('X'.$baris.':AE'.$baris);
-                $objPHPExcel->setActiveSheetIndex(0)
-                            ->setCellValue('AE'.$baris, 'Kemas');
-
-                $objPHPExcel->getActiveSheet()->getStyle("X".$baris)->getFill()
-                ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                ->getStartColor()->setARGB('13DFE4');
-
-                $objPHPExcel->getActiveSheet()->getStyle("X".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("AF".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("AF".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("AG".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("AG".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("AH".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("AH".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("AI".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("AI".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("AJ".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("AJ".$baris)->getAlignment()->setHorizontal('center');
-                
-        
-                foreach($data as $_data){
-
-                $Ty = $_data['type'];
-                if($Ty=='1'){
-                 $type= 'maklon';               
-                }elseif($Ty=='2'){
-                    $type= 'internal';
-                }else{
-                    $type='Maklon & Internal';
-                }
-
-                $launch = $_data['tgl_launch'];
-                if($launch==NULL){
-                    $ld = $_data->launch;
-                    $ld2 = $_data->years;
-                }elseif($launch!=NULL){
-                    $ld=$_data['tgl_launch'];
-                }
-                
-                $line=$pertama;
-                $objPHPExcel->setActiveSheetIndex(0)
+            $launch = $_data['tgl_launch'];
+            if($launch==NULL){
+                $ld=' '.$_data->launch.' '.$_data->years;
+            }elseif($launch!=NULL){
+                $ld=$_data['tgl_launch'];
+            }
+            
+            $line=$pertama;
+            $objPHPExcel->setActiveSheetIndex(0)
                     ->setCellValue('A'.$pertama, $_data['pkp_number'])
                     ->setCellValue('B'.$pertama, $_data['ket_no'])
                     ->setCellValue('C'.$pertama, $_data['project_name'])
@@ -671,16 +368,12 @@ class cetakController extends Controller
                     ->setCellValue('AJ'.$pertama, $_data['serving_suggestion']);
                 $pertama++;
             }
-        
             $no++;
 
         $objPHPExcel->getActiveSheet()->setTitle('Tabulasi PKP');
-
         $skrg=date('d m Y');
-
         header('Content-Type: application/vnd.ms-excel'); 
         header('Content-Disposition: attachment;filename="Tabulasi_My_Project_PKP '.$skrg.'.xls"'); 
-
         header('Cache-Control: max-age=0'); 
         $objWriter = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($objPHPExcel, "Xlsx");
         ob_end_clean();
@@ -688,9 +381,7 @@ class cetakController extends Controller
     }
 
     public function download_project_pdf(){
-
         $objPHPExcel = new Spreadsheet();
-
         $objPHPExcel->setActiveSheetIndex(0); 
 
         $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(5.00);
@@ -731,11 +422,10 @@ class cetakController extends Controller
         $objPHPExcel->getActiveSheet()->getColumnDimension('AE')->setWidth(12.5);
         $objPHPExcel->getActiveSheet()->getColumnDimension('AF')->setWidth(18.57);
 
-
         $awal=1;
         $pertama=2;
 
-        $data=coba::join('tr_pdf_project','tr_pdf_project.id_project_pdf','tr_sub_pdf.pdf_id')
+        $data=SubPDF::join('tr_pdf_project','tr_pdf_project.id_project_pdf','tr_sub_pdf.pdf_id')
             ->join('tr_users','tr_users.id','tr_sub_pdf.perevisi')
             ->join('tr_kemas','tr_kemas.id_kemas','tr_sub_pdf.kemas_eksis')
             ->join('ms_type','ms_type.id','tr_pdf_project.id_type')->where('status_pdf','=','active')
@@ -743,19 +433,13 @@ class cetakController extends Controller
             ->where('status_project','!=','draf')->orderBy('pdf_number','asc')->get();
         $no=1;
         
-        
-            //Inisialisasi tanggal kosong
-        
-            $styleArray = array(
-                'background'  => array(
-                    'color' => array('rgb' => 'FF0000'),
-                ));
-
-
-                //Bagian Isi
-        
-                $baris=$awal;
-                $objPHPExcel->setActiveSheetIndex(0)
+        $styleArray = array(
+            'background'  => array(
+            'color' => array('rgb' => 'FF0000'),
+        ));
+                
+        $baris=$awal;
+        $objPHPExcel->setActiveSheetIndex(0)
                     ->setCellValue('A'.$baris, 'PDF Number')
                     ->setCellValue('C'.$baris, 'Project Name')
                     ->setCellValue('D'.$baris, 'Created Date')
@@ -781,145 +465,22 @@ class cetakController extends Controller
                     ->setCellValue('AE'.$baris, 'Retailer Price ')
                     ->setCellValue('AF'.$baris, 'Whats Special');
                             
-                $objPHPExcel->getActiveSheet()->mergeCells('A'.$baris.':B'.$baris);
-                $objPHPExcel->setActiveSheetIndex(0)
-                            ->setCellValue('A'.$baris, 'PKP Number');
+        $objPHPExcel->getActiveSheet()->mergeCells('A'.$baris.':B'.$baris);
+        $objPHPExcel->setActiveSheetIndex(0)
+                    ->setCellValue('A'.$baris, 'PKP Number');
 
-                $objPHPExcel->getActiveSheet()->getStyle("A".$baris)->getFill()
-                ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                ->getStartColor()->setARGB('13DFE4');
+        $objPHPExcel->getActiveSheet()->getStyle('A'.$baris.':AJ'.$baris)->getFill()
+                    ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('13DFE4');
+        $objPHPExcel->getActiveSheet()->getStyle('A'.$baris.':AJ'.$baris)->getAlignment()->setHorizontal('center');
 
-                $objPHPExcel->getActiveSheet()->getStyle("A".$baris)->getAlignment()->setHorizontal('center');
+        $objPHPExcel->getActiveSheet()->mergeCells('M'.$baris.':T'.$baris);
+        $objPHPExcel->setActiveSheetIndex(0)
+                    ->setCellValue('T'.$baris, 'Kemas');
                 
-                $objPHPExcel->getActiveSheet()->getStyle("C".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("C".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("D".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("D".$baris)->getAlignment()->setHorizontal('center');
-
-                $objPHPExcel->getActiveSheet()->getStyle("E".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("E".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("F".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("F".$baris)->getAlignment()->setHorizontal('center');
-
-                $objPHPExcel->getActiveSheet()->getStyle("G".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("G".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("H".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("H".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("I".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("I".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("J".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("J".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("K".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("K".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("L".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("L".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("M".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("M".$baris)->getAlignment()->setHorizontal('center');
-
-                $objPHPExcel->getActiveSheet()->mergeCells('M'.$baris.':T'.$baris);
-                $objPHPExcel->setActiveSheetIndex(0)
-                            ->setCellValue('T'.$baris, 'Kemas');
-
-                $objPHPExcel->getActiveSheet()->getStyle("M".$baris)->getFill()
-                ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                ->getStartColor()->setARGB('13DFE4');
-
-                $objPHPExcel->getActiveSheet()->getStyle("M".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("U".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("U".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("V".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("V".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("W".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("W".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("X".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("X".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("Y".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("Y".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("Z".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("Z".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("AA".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("AA".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("AB".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("AB".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("AC".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("AC".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("AD".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("AD".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("AE".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("AE".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("AF".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("AF".$baris)->getAlignment()->setHorizontal('center');
-                
-                foreach($data as $_data){
-                
-                $line=$pertama;
-                $objPHPExcel->setActiveSheetIndex(0)
+        foreach($data as $_data){
+            $line=$pertama;
+            $objPHPExcel->setActiveSheetIndex(0)
                     ->setCellValue('A'.$pertama, $_data['pdf_number'])
                     ->setCellValue('B'.$pertama, $_data['ket_no'])
                     ->setCellValue('C'.$pertama, $_data['project_name'])
@@ -955,15 +516,11 @@ class cetakController extends Controller
                 $pertama++;
             }
         
-            $no++;
-
+        $no++;
         $objPHPExcel->getActiveSheet()->setTitle('Tabulasi PDF');
-
         $skrg=date('d m Y');
-
         header('Content-Type: application/vnd.ms-excel'); 
         header('Content-Disposition: attachment;filename="Tabulasi_PDF '.$skrg.'.xls"'); 
-
         header('Cache-Control: max-age=0'); 
         $objWriter = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($objPHPExcel, "Xlsx");
         ob_end_clean();
@@ -971,9 +528,7 @@ class cetakController extends Controller
     }
 
     public function download_my_project_pdf(){
-
         $objPHPExcel = new Spreadsheet();
-
         $objPHPExcel->setActiveSheetIndex(0); 
 
         $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(5.00);
@@ -1014,12 +569,11 @@ class cetakController extends Controller
         $objPHPExcel->getActiveSheet()->getColumnDimension('AE')->setWidth(12.5);
         $objPHPExcel->getActiveSheet()->getColumnDimension('AF')->setWidth(18.57);
 
-
         $awal=1;
         $pertama=2;
 
         if(Auth::user()->departement_id!='1'){
-            $data=coba::join('tr_pdf_project','tr_pdf_project.id_project_pdf','tr_sub_pdf.pdf_id')
+            $data=SubPDF::join('tr_pdf_project','tr_pdf_project.id_project_pdf','tr_sub_pdf.pdf_id')
             ->join('tr_users','tr_users.id','tr_sub_pdf.perevisi')
             ->join('tr_kemas','tr_kemas.id_kemas','tr_sub_pdf.kemas_eksis')
             ->join('ms_type','ms_type.id','tr_pdf_project.id_type')->where('status_pdf','=','active')
@@ -1028,7 +582,7 @@ class cetakController extends Controller
             ->where('status_project','!=','draf')->orderBy('pdf_number','asc')->get();
             $no=1;
         }elseif(Auth::user()->departement_id=='1'){
-            $data=coba::join('tr_pdf_project','tr_pdf_project.id_project_pdf','tr_sub_pdf.pdf_id')
+            $data=SubPDF::join('tr_pdf_project','tr_pdf_project.id_project_pdf','tr_sub_pdf.pdf_id')
             ->join('tr_users','tr_users.id','tr_sub_pdf.perevisi')
             ->join('tr_kemas','tr_kemas.id_kemas','tr_sub_pdf.kemas_eksis')
             ->join('ms_type','ms_type.id','tr_pdf_project.id_type')->where('status_pdf','=','active')
@@ -1038,16 +592,13 @@ class cetakController extends Controller
             $no=1;  
         }
         
-            $styleArray = array(
-                'background'  => array(
-                    'color' => array('rgb' => 'FF0000'),
-                ));
-
-
-                //Bagian Isi
+        $styleArray = array(
+            'background'  => array(
+            'color' => array('rgb' => 'FF0000'),
+        ));
         
-                $baris=$awal;
-                $objPHPExcel->setActiveSheetIndex(0)
+        $baris=$awal;
+        $objPHPExcel->setActiveSheetIndex(0)
                     ->setCellValue('A'.$baris, 'PDF Number')
                     ->setCellValue('C'.$baris, 'Project Name')
                     ->setCellValue('D'.$baris, 'Created Date')
@@ -1073,145 +624,22 @@ class cetakController extends Controller
                     ->setCellValue('AE'.$baris, 'Retailer Price ')
                     ->setCellValue('AF'.$baris, 'Whats Special');
                             
-                $objPHPExcel->getActiveSheet()->mergeCells('A'.$baris.':B'.$baris);
-                $objPHPExcel->setActiveSheetIndex(0)
-                            ->setCellValue('A'.$baris, 'PKP Number');
+        $objPHPExcel->getActiveSheet()->mergeCells('A'.$baris.':B'.$baris);
+        $objPHPExcel->setActiveSheetIndex(0)
+                    ->setCellValue('A'.$baris, 'PKP Number');
 
-                $objPHPExcel->getActiveSheet()->getStyle("A".$baris)->getFill()
+        $objPHPExcel->getActiveSheet()->getStyle('A'.$baris.':AJ'.$baris)->getFill()
                 ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
                 ->getStartColor()->setARGB('13DFE4');
+        $objPHPExcel->getActiveSheet()->getStyle('A'.$baris.':AJ'.$baris)->getAlignment()->setHorizontal('center');
 
-                $objPHPExcel->getActiveSheet()->getStyle("A".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("C".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("C".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("D".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("D".$baris)->getAlignment()->setHorizontal('center');
+        $objPHPExcel->getActiveSheet()->mergeCells('M'.$baris.':T'.$baris);
+        $objPHPExcel->setActiveSheetIndex(0)
+                    ->setCellValue('T'.$baris, 'Kemas');
 
-                $objPHPExcel->getActiveSheet()->getStyle("E".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("E".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("F".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("F".$baris)->getAlignment()->setHorizontal('center');
-
-                $objPHPExcel->getActiveSheet()->getStyle("G".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("G".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("H".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("H".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("I".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("I".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("J".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("J".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("K".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("K".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("L".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("L".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("M".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("M".$baris)->getAlignment()->setHorizontal('center');
-
-                $objPHPExcel->getActiveSheet()->mergeCells('M'.$baris.':T'.$baris);
-                $objPHPExcel->setActiveSheetIndex(0)
-                            ->setCellValue('T'.$baris, 'Kemas');
-
-                $objPHPExcel->getActiveSheet()->getStyle("M".$baris)->getFill()
-                ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                ->getStartColor()->setARGB('13DFE4');
-
-                $objPHPExcel->getActiveSheet()->getStyle("M".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("U".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("U".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("V".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("V".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("W".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("W".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("X".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("X".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("Y".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("Y".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("Z".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("Z".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("AA".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("AA".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("AB".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("AB".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("AC".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("AC".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("AD".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("AD".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("AE".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("AE".$baris)->getAlignment()->setHorizontal('center');
-                
-                $objPHPExcel->getActiveSheet()->getStyle("AF".$baris)->getFill()
-                            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                            ->getStartColor()->setARGB('13DFE4');
-                $objPHPExcel->getActiveSheet()->getStyle("AF".$baris)->getAlignment()->setHorizontal('center');
-                
-                foreach($data as $_data){
-                
-                $line=$pertama;
-                $objPHPExcel->setActiveSheetIndex(0)
+        foreach($data as $_data){        
+            $line=$pertama;
+            $objPHPExcel->setActiveSheetIndex(0)
                     ->setCellValue('A'.$pertama, $_data['pdf_number'])
                     ->setCellValue('B'.$pertama, $_data['ket_no'])
                     ->setCellValue('C'.$pertama, $_data['project_name'])
@@ -1247,15 +675,11 @@ class cetakController extends Controller
                 $pertama++;
             }
         
-            $no++;
-
+        $no++;
         $objPHPExcel->getActiveSheet()->setTitle('Tabulasi My PDF');
-
         $skrg=date('d m Y');
-
         header('Content-Type: application/vnd.ms-excel'); 
         header('Content-Disposition: attachment;filename="Tabulasi_My_PDF '.$skrg.'.xls"'); 
-
         header('Cache-Control: max-age=0'); 
         $objWriter = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($objPHPExcel, "Xlsx");
         ob_end_clean();

@@ -8,10 +8,9 @@ use Illuminate\Support\Facades\DB;
 
 use App\model\Modellab\Dlab;
 use App\model\Modellab\analisa;
-use App\model\Modelfn\finance;
-use App\model\Modelfn\pesan;
-use App\model\pkp\tipp;
-use App\model\pkp\pkp_project;
+use App\model\Modelfn\Finance;
+use App\model\pkp\SubPKP;
+use App\model\pkp\PkpProject;
 use App\model\dev\Formula;
 use redirect;
 
@@ -22,28 +21,10 @@ class LabController extends Controller
         $this->middleware('rule:lab');
     }
 
-    public function inbox($id_feasibility){
-        $inboxs = pesan::all()->sortByDesc('created_at')->where('user','lab');
-        $jumlah = pesan::where('user','lab')->count();
-        $dataF = finance::with('formula')->get()->where('id_feasibility', $id_feasibility)->first();
-        return view('lab.inboxlab')->with([
-            'inboxs' => $inboxs,
-            'dataF' => $dataF,
-            'jumlah' =>$jumlah,
-            'id_feasibility' => $id_feasibility
-        ]);
-    }
-
-    public function destroylab($id){
-        $mail = pesan::find($id);
-        $mail->delete();
-        return redirect()->back();
-    }
-
     public function index($id,$id_feasibility){
-        $formulas = tipp::where('id',$id)->get();
+        $formulas = SubPKP::where('id',$id)->get();
         $analisa = analisa::all();
-        $fe=finance::where('id_feasibility',$id_feasibility)->first();
+        $fe=Finance::where('id_feasibility',$id_feasibility)->first();
         $formula_id = $fe->id_formula;
         $mikroba = DB::table('fs_jenismikroba')->select(['jenis_mikroba'])->distinct()->get();
         $dataL =Dlab::where('id_feasibility',$id_feasibility)->get();
@@ -134,7 +115,7 @@ class LabController extends Controller
             $add_lab->save();
 		}
 		
-        $change_status  = finance::where('id_feasibility',$request->finance)->first();
+        $change_status  = Finance::where('id_feasibility',$request->finance)->first();
         $change_status->status_lab='selesai';
         $change_status->save();
 
@@ -206,14 +187,14 @@ class LabController extends Controller
 				$add_lab->save();
 			}
 			
-			$change_status  = finance::where('id_feasibility',$request->finance)->first();
+			$change_status  = Finance::where('id_feasibility',$request->finance)->first();
 			$change_status->status_lab='selesai';
 			$change_status->save();
 
 			return redirect()->back();
         }
         elseif($cek_lab>=1){
-            $finances = finance::where('id_formula',$formula_id)->get();
+            $finances = Finance::where('id_formula',$formula_id)->get();
             $fid = collect();
             foreach ($finances as $finance) {
                 $idf = $finance->id_feasibility;
@@ -288,7 +269,7 @@ class LabController extends Controller
                         $add_lab->save();
 					}
 					
-                    $change_status  = finance::where('id_feasibility',$request->finance)->first();
+                    $change_status  = Finance::where('id_feasibility',$request->finance)->first();
                     $change_status->status_lab='selesai';
                     $change_status->save();
             
@@ -359,7 +340,7 @@ class LabController extends Controller
                         $add_lab->save();
 					}
 					
-                    $change_status  = finance::where('id_feasibility',$request->finance)->first();
+                    $change_status  = Finance::where('id_feasibility',$request->finance)->first();
                     $change_status->status_lab='selesai';
                     $change_status->save();
             

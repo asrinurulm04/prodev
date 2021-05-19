@@ -8,7 +8,7 @@
       <div class="x_title">
         <h4><li class="fa fa-clone"> FORMULA Yang Dapat Dijadikan Template</h4>
       </div> 
-      <table class="Table table-striped table-advance table-hover" id="Table">
+      <table class="Table table-striped table-advance table-hover" id="datatable">
         <thead>
           <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
             <th>Nama Produk</th>
@@ -138,4 +138,8 @@
     </div>
   </div>
 </div>
+@endsection
+@section('s')
+    <link href="{{ asset('lib/advanced-datatable/css/jquery.dataTables.css') }}" rel="stylesheet" />
+    <script src="{{ asset('js/datatables.min.js')}}"></script>
 @endsection

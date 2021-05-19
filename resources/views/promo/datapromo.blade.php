@@ -2,30 +2,15 @@
 @section('title', 'PRODEV|Request PKP Promo')
 @section('content')
 
-<div class="row">
-  <div class="col-md-3"></div>
-  <div class="col-md-9">
-    <div class="tabbable">
-      <ul class="nav nav-tabs wizard">
-        <li class="completed"><a href=""><span class="nmbr">1</span>Data</a></li>
-        <li class="active"><a href=""><span class="nmbr">2</span>Products</a></li>
-        <li class="active"><a href=""><span class="nmbr">3</span>File & Image</a></li>
-      </ul>
-    </div>
-  </div>
-</div><br>
-
-<div class="row">
-  <div class="col-md-12 col-xs-12">
-    <table class="table table-bordered">
-      <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
-        <td>Mandatory Information</td>
-        <td>* : Filled by Marketing</td>
-        <td>^ : Filled By PV</td>
-        <td>** : Filled by Marketing Or PV</td>
-      </tr>
-    </table>
-  </div>
+<div class="col-md-12 col-xs-12">
+  <table class="table table-bordered">
+    <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
+      <td>Mandatory Information</td>
+      <td>* : Filled by Marketing</td>
+      <td>^ : Filled By PV</td>
+      <td>** : Filled by Marketing Or PV</td>
+    </tr>
+  </table>
 </div>
 
 <div class="">
@@ -33,7 +18,6 @@
 <form class="form-horizontal form-label-left" method="POST" action="{{ route('datapromo1') }}" novalidate>
   <input type="hidden" value="{{ $pkp->id_pkp_promo}}" name="id_promo" id="id_promo">
   @endforeach
-  <div class="row">
     <div class="col-md-12">
       <div class="x_panel">
         <div class="x_title">
@@ -89,8 +73,7 @@
           {{ csrf_field() }}
         </div>
       </div>
-    </div>
-  </div>	
+    </div>	
 </form>
 </div>
 @endsection

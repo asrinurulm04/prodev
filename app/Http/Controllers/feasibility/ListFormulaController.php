@@ -5,9 +5,7 @@ namespace App\Http\Controllers\feasibility;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\model\dev\Formula;
-use App\model\pkp\tipp;
-use App\model\pkp\pkp_project;
-use App\model\Modelfn\feasibility;
+use App\model\pkp\SubPKP;
 use Redirect;
 
 class ListFormulaController extends Controller
@@ -17,7 +15,7 @@ class ListFormulaController extends Controller
     }
 
     public function index(){
-        $formulas = tipp::where('status_data','active')->join('tr_feasibility','tr_feasibility.id_formula','=','tr_sub_pkp.id_pkp')->get();
+        $formulas = SubPKP::where('status_data','active')->join('tr_feasibility','tr_feasibility.id_formula','=','tr_sub_pkp.id_pkp')->get();
         return view('feasibility.formula')->with([
             'formulas' => $formulas
         ]);

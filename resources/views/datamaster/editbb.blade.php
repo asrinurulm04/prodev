@@ -98,11 +98,21 @@
     <div class="form-group">
       <label  class="control-label col-md-2 col-sm-2 col-xs-12">Supplier</label>
       <div class="col-md-3 col-sm-3 col-xs-12">
-        <input type="text" class="form-control" value="{{$bahan->supplier}}" name="supplier" id="supplier">
+        <select name="supplier" id="supplier" class="form-control select">
+          <option value="{{$bahan->supplier}}">{{$bahan->supplier}}</option>
+          @foreach($supplier as $sp)
+          <option value="{{$sp->nama_supplier_principal}}">{{$sp->nama_supplier_principal}}</option>
+          @endforeach
+        </select>
       </div>
       <label  class="control-label col-md-2 col-sm-2 col-xs-12">Principle</label>
       <div class="col-md-3 col-sm-3 col-xs-12">
-        <input type="text" class="form-control" value="{{$bahan->principle}}" name="principle" id="principle">
+        <select class="form-control select" name="principle" id="principle">
+          <option value="{{$bahan->principle}}">{{$bahan->principle}}</option>
+          @foreach($principal as $pc)
+          <option value="{{$pc->nama_cp}}">{{$pc->nama_cp}}</option>
+          @endforeach
+        </select>
       </div>
     </div>
   </div>
@@ -969,6 +979,8 @@
 </form>
 @endsection
 @section('s')
+<link href="{{ asset('css/select2.min.css') }}" rel="stylesheet">
+<script src="{{ asset('js/select2/select2.min.js') }}"></script>
 <script>
   $('.select').select2({
     placeholder: '-->Select One<--',
@@ -1142,14 +1154,14 @@
 	});
 	
 	var pangan = []
-  <?php foreach($pangan as $key => $value) { ?>
+  <?php foreach($data_pangan as $key => $value) { ?>
   if(!pangan){
     pangan += [ { '<?php echo $key; ?>' : '<?php echo $value->no_kategori; ?>', } ];
   } else { pangan.push({ '<?php echo $key; ?>' : '<?php echo $value->no_kategori; ?>', }) }
   <?php } ?>
 
   var id_pangan = []
-  <?php foreach($pangan as $key => $value) { ?>
+  <?php foreach($data_pangan as $key => $value) { ?>
   if(!id_pangan){
     id_pangan += [ { '<?php echo $key; ?>' : '<?php echo $value->id_pangan; ?>', } ];
   } else { id_pangan.push({ '<?php echo $key; ?>' : '<?php echo $value->id_pangan; ?>', }) }

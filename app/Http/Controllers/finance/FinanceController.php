@@ -5,13 +5,11 @@ namespace App\Http\Controllers\finance;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-use App\model\Modelmesin\Dmesin;
-use App\model\Modelmesin\datamesin;
-use App\model\Modelfn\finance;
-use App\model\Modelfn\pesan;
-use App\model\Modellab\Dlab;
-use App\model\modelkemas\konsep;
-use App\model\Modelkemas\userkemas;
+use App\model\Modelmesin\DataMesin;
+use App\model\Modelmesin\Mesin;
+use App\model\Modellab\DataLab;
+use App\model\modelkemas\KonsepKemas;
+use App\model\Modelkemas\FormulaKemas;
 use App\model\dev\Bahan;
 use App\model\dev\Formula;
 use App\model\dev\Fortail;
@@ -19,8 +17,6 @@ use App\model\master\Curren;
 use Auth;
 use DB;
 use Redirect;
-use Input;
-use Validator;
 
 class FinanceController extends Controller
 {
@@ -30,17 +26,17 @@ class FinanceController extends Controller
     }
 
     public function indexx($id,$id_feasibility){
-        $Mdata = Dmesin::with('meesin')->get()->where('id_feasibility', $id_feasibility);
+        $Mdata = DataMesin::with('meesin')->get()->where('id_feasibility', $id_feasibility);
         $dataO = oh::with('dataoh')->get()->where('id_feasibility', $id_feasibility);
-        $fe=finance::find($id_feasibility);
+        $fe= Finance::find($id_feasibility);
         $formula = Formula::where('id',$id)->first();
-        $Jlab = Dlab::where('id_feasibility',$id_feasibility)->sum('rate');
-        $Jmesin = Dmesin::where('id_feasibility',$id_feasibility)->sum('hasil');
+        $Jlab = DataLab::where('id_feasibility',$id_feasibility)->sum('rate');
+        $Jmesin = DataMesin::where('id_feasibility',$id_feasibility)->sum('hasil');
         $Joh = oh::where('id_feasibility',$id_feasibility)->sum('hasil');
         $total = $Jmesin+$Joh;
-        $dataL =Dlab::where('id_feasibility',$id_feasibility)->get();
-        $kemas =userkemas::where('id_feasibility', $id_feasibility)->get();
-        $dataF = finance::where('id_feasibility', $id_feasibility)->get();
+        $dataL =DataLab::where('id_feasibility',$id_feasibility)->get();
+        $kemas =FormulaKemas::where('id_feasibility', $id_feasibility)->get();
+        $dataF = Finance::where('id_feasibility', $id_feasibility)->get();
         return view('finance.finance')->with([
             'id_feasibility' => $id_feasibility,
             'fe' => $fe,
@@ -57,19 +53,19 @@ class FinanceController extends Controller
     }
 
     public function summary($id,$id_feasibility){
-        $ko= konsep::where('id_feasibility',$id_feasibility)->first();
-        $u= Dmesin::where('id_feasibility',$id_feasibility)->first();
-        $Mdata = Dmesin::with('meesin')->get()->where('id_feasibility', $id_feasibility);
+        $ko= KonsepKemas::where('id_feasibility',$id_feasibility)->first();
+        $u= DataMesin::where('id_feasibility',$id_feasibility)->first();
+        $Mdata = DataMesin::with('meesin')->get()->where('id_feasibility', $id_feasibility);
         $dataO = oh::with('dataoh')->get()->where('id_feasibility', $id_feasibility);
-        $fe=finance::find($id_feasibility);
-        $Jlab = Dlab::where('id_feasibility',$id_feasibility)->sum('rate');
-        $Jmesin = Dmesin::where('id_feasibility',$id_feasibility)->sum('hasil');
+        $fe=Finance::find($id_feasibility);
+        $Jlab = DataLab::where('id_feasibility',$id_feasibility)->sum('rate');
+        $Jmesin = DataMesin::where('id_feasibility',$id_feasibility)->sum('hasil');
         $Joh = oh::where('id_feasibility',$id_feasibility)->sum('hasil');
-        $konsep = konsep::where('id_feasibility',$id_feasibility)->get();
+        $konsep = KonsepKemas::where('id_feasibility',$id_feasibility)->get();
         $total = $Jmesin+$Joh;
-        $dataL =Dlab::where('id_feasibility',$id_feasibility)->get();
-        $kemas =userkemas::where('id_feasibility', $id_feasibility)->get();
-        $dataF = finance::where('id_feasibility', $id_feasibility)->get();
+        $dataL =DataLab::where('id_feasibility',$id_feasibility)->get();
+        $kemas =FormulaKemas::where('id_feasibility', $id_feasibility)->get();
+        $dataF = Finance::where('id_feasibility', $id_feasibility)->get();
         $formula = Formula::where('workbook_id',$id)->first();
         $fortails = Fortail::where('formula_id',$id)->get();
         $ada = Fortail::where('formula_id',$id)->count();
@@ -90,7 +86,6 @@ class FinanceController extends Controller
             // Get Persen
             $persen = $fortail->per_batch / $one_persen; $persen = round($persen, 2);
             $detail_formula->push([
-
                 'id' => $fortail->id,
                 'kode_komputer' => $fortail->kode_komputer,
                 'nama_sederhana' => $fortail->nama_sederhana,
@@ -100,7 +95,6 @@ class FinanceController extends Controller
                 'granulasi' => $fortail->granulasi,
                 'persen' => $persen,
             ]);            
-
             if($fortail->granulasi == 'ya'){
                 $granulasi = $granulasi + 1;
                 $jumlah_granulasi = $jumlah_granulasi + $fortail->per_batch;
@@ -199,20 +193,9 @@ class FinanceController extends Controller
         ]);
     }
 
-    public function inboxfn($id,$id_feasibility){
-        $inboxs = pesan::all()->sortByDesc('created_at');
-        $dataF = finance::where('id_feasibility', $id_feasibility)->get();
-        return view('finance.inboxfn')->with([
-            'id_feasibility' => $id_feasibility,
-            'inboxs' => $inboxs,
-            'id' => $id,
-            'dataF' => $dataF
-        ]);
-    }
-
     public function komentar(Request $request,$id,$id_feasibility){
-        $dataF = finance::where('id_feasibility', $id_feasibility)->get();
-        $fe=finance::find($id_feasibility);
+        $dataF = Finance::where('id_feasibility', $id_feasibility)->get();
+        $fe=Finance::find($id_feasibility);
         $id = $request->session()->get('id_feasibility');
         return view('finance.komentar')->with([
             'id_feasibility' => $id_feasibility,
@@ -222,80 +205,8 @@ class FinanceController extends Controller
         ]);
     }
 
-    public function pesan(Request $request,$id,$id_feasibility){
-        $dataF = finance::where('id_feasibility', $id_feasibility)->get();
-        $fe=finance::find($id_feasibility);
-        $id = $request->session()->get('id_feasibility');
-        return view('finance.pesan')->with([
-            'id_feasibility' => $id_feasibility,
-            'fe' => $fe,
-            'id' => $id,
-            'dataF' => $dataF
-        ]);
-    }
-
-    public function pesankemas(Request $request,$id,$id_feasibility){
-        $dataF = finance::where('id_feasibility', $id_feasibility)->get();
-        $fe=finance::find($id_feasibility);
-        $id = $request->session()->get('id_feasibility');
-        return view('finance.Pkemas')->with([
-            'id_feasibility' => $id_feasibility,
-            'fe' => $fe,
-            'id' => $id,
-            'dataF' => $dataF
-        ]);
-    }
-
-    public function store(Request $request,$id){
-        $fnn= new pesan;
-        $fnn->id_feasibility=$request->finance;
-        $fnn->pengirim=Auth::user()->name;
-        $fnn->user='inputor';
-        $fnn->subject=$request->sub;
-        $fnn->message=$request->get('mail');
-        $fnn->save();
-
-        $change_status  = finance::where('id_feasibility',$request->finance)->first();
-        $change_status->status_mesin='belum selesai';
-        $change_status->save();
-
-    	return redirect()->back();
-    }
-
-    public function Pkemas(Request $request,$id){
-        $fnn= new pesan;
-        $fnn->id_feasibility=$request->finance;
-        $fnn->pengirim=Auth::user()->name;
-        $fnn->user='kemas';
-        $fnn->subject=$request->sub;
-        $fnn->message=$request->get('mail');
-        $fnn->save();
-
-        $change_status  = finance::where('id_feasibility',$request->finance)->first();
-        $change_status->status_kemas='belum selesai';
-        $change_status->save();
-
-    	return redirect()->back();
-    }
-
-    public function kirim(Request $request,$id){
-        $fnn= new pesan;
-        $fnn->id_feasibility=$request->finance;
-        $fnn->pengirim=Auth::user()->name;
-        $fnn->user='produksi';
-        $fnn->subject=$request->sub;
-        $fnn->message=$request->get('mail');
-        $fnn->save();
-
-        $change_status  = finance::where('id_feasibility',$request->finance)->first();
-        $change_status->status_sdm='belum selesai';
-        $change_status->save();
-
-    	return redirect()->back();
-    }
-
     public function kemasselesai($id){
-        $change_status  = finance::where('id_feasibility',$id)->first();
+        $change_status  = Finance::where('id_feasibility',$id)->first();
         $change_status->status_kemas='selesai';
         $change_status->save();
 
@@ -303,7 +214,7 @@ class FinanceController extends Controller
     }
 
     public function mesinselesai($id){
-        $change_status  = finance::where('id_feasibility',$id)->first();
+        $change_status  = Finance::where('id_feasibility',$id)->first();
         $change_status->status_mesin='selesai';
         $change_status->status_sdm='selesai';
         $change_status->save();
@@ -313,12 +224,12 @@ class FinanceController extends Controller
 
     public function DMmesin($id,$id_feasibility){
         $formulas = Formula::where('id',$id)->get();
-        $konsep= konsep::where('id_feasibility', $id_feasibility)->get();
-        $mesins = datamesin::all();
+        $konsep= KonsepKemas::where('id_feasibility', $id_feasibility)->get();
+        $mesins = Mesin::all();
         $messin = DB::table('fs_datamesin')->select(['workcenter'])->distinct()->get();
-        $Mdata = Dmesin::with('meesin')->get()->where('id_feasibility', $id_feasibility);
-        $dataF = finance::where('id_feasibility', $id_feasibility)->get();
-        $fe=finance::find($id_feasibility);
+        $Mdata = DataMesin::with('meesin')->get()->where('id_feasibility', $id_feasibility);
+        $dataF = Finance::where('id_feasibility', $id_feasibility)->get();
+        $fe=Finance::find($id_feasibility);
         return view('finance.DMmesin')->with([
             'id_feasibility' => $id_feasibility,
             'fe' => $fe,
@@ -334,8 +245,8 @@ class FinanceController extends Controller
 
     public function DMoh($id,$id_feasibility){
         $aktifitas = aktifitasOH::all();
-        $dataF = finance::where('id_feasibility', $id_feasibility)->get();
-        $fe=finance::find($id_feasibility);
+        $dataF = Finance::where('id_feasibility', $id_feasibility)->get();
+        $fe=Finance::find($id_feasibility);
         $dataO = oh::with('dataoh')->get()->where('id_feasibility', $id_feasibility);
         return view('finance.DMoh')->with([
             'dataF' => $dataF,
@@ -348,9 +259,9 @@ class FinanceController extends Controller
     }
 
     public function createDMmesin(Request $request){
-        $ms= new Dmesin;
+        $ms= new DataMesin;
         foreach ($request->input("pmesin") as $pmesin){
-            $add_mesin = new Dmesin;
+            $add_mesin = new DataMesin;
             $add_mesin->id_feasibility=$request->finance;
             $add_mesin->rate_mesin=$request->rate;
             $add_mesin->id_data_mesin= $pmesin;
@@ -378,7 +289,7 @@ class FinanceController extends Controller
         );
 
         if(!empty($check[0])){
-            $data_mesin = Dmesin::where('id_mesin', $id_mesin)->first();
+            $data_mesin = DataMesin::where('id_mesin', $id_mesin)->first();
             $data_mesin->runtime;
             $data_mesin->jlh_sdm;
             $data_mesin->standar_sdm=$request->std_sdm;
@@ -394,7 +305,7 @@ class FinanceController extends Controller
             $data_mesin->save();
         }
         if(!empty($check[1])){
-            $data = datamesin::where('id_data_mesin', $id_data_mesin)->first();
+            $data = Mesin::where('id_data_mesin', $id_data_mesin)->first();
             $data->standar_sdm=$request->std_sdm;
             $data->rate_mesin=$request->hargaM;
             $data->save();
@@ -403,7 +314,7 @@ class FinanceController extends Controller
     }
 
     public function destroy($id){
-        $mesin = Dmesin::find($id);
+        $mesin = DataMesin::find($id);
         $mesin->delete();
         return redirect::back()->with('message', 'Data berhasil dihapus!');
     }
@@ -415,14 +326,14 @@ class FinanceController extends Controller
     }
 
     public function status(Request $request,$id, $id_feasibility){
-        $statuss=finance::where('id_feasibility',$id_feasibility)->first();
+        $statuss=Finance::where('id_feasibility',$id_feasibility)->first();
         $statuss->status_finance=$request->statusF;
         $statuss->save();
         return redirect()->route('myFeasibility',$id);
     }
 
     public function akhirfs($id_feasibility,$id){
-        $statuss=finance::where('id_feasibility',$id_feasibility)->first();
+        $statuss=Finance::where('id_feasibility',$id_feasibility)->first();
         $statuss->status_feasibility='selesai';
         $statuss->save();
 
@@ -434,10 +345,10 @@ class FinanceController extends Controller
     }
 
     public function akhir($id_feasibility){
-        $Mdata = Dmesin::with('meesin')->get()->where('id_feasibility', $id_feasibility);
+        $Mdata = DataMesin::with('meesin')->get()->where('id_feasibility', $id_feasibility);
         $dataO = oh::with('dataoh')->get()->where('id_feasibility', $id_feasibility);
-        $fe=finance::find($id_feasibility);
-        $dataF = finance::with('formula')->get()->where('id_feasibility', $id_feasibility)->first();
+        $fe=Finance::find($id_feasibility);
+        $dataF = Finance::with('formula')->get()->where('id_feasibility', $id_feasibility)->first();
         return view('finance.akhir')->with([
             'id_feasibility' => $id_feasibility,
             'fe' => $fe,
@@ -448,9 +359,9 @@ class FinanceController extends Controller
     }
 
     public function kemasan($id, $id_feasibility){
-        $fe=finance::find($id_feasibility);
-		$kemas =userkemas::where('id_feasibility', $id_feasibility)->get();
-        $dataF = finance::where('id_feasibility', $id_feasibility)->get();
+        $fe=Finance::find($id_feasibility);
+		$kemas =FormulaKemas::where('id_feasibility', $id_feasibility)->get();
+        $dataF = Finance::where('id_feasibility', $id_feasibility)->get();
         return view('finance.kemas',['fe'=>$fe], compact('toImport'))
 			->with(['dataF' => $dataF])
             ->with(['kemas' => $kemas])
@@ -459,19 +370,19 @@ class FinanceController extends Controller
     }
 
     public function index($id,$id_feasibility){
-        $ko= konsep::where('id_feasibility',$id_feasibility)->first();
-        $u= Dmesin::where('id_feasibility',$id_feasibility)->first();
-        $Mdata = Dmesin::with('meesin')->get()->where('id_feasibility', $id_feasibility);
+        $ko= KonsepKemas::where('id_feasibility',$id_feasibility)->first();
+        $u= DataMesin::where('id_feasibility',$id_feasibility)->first();
+        $Mdata = DataMesin::with('meesin')->get()->where('id_feasibility', $id_feasibility);
         $dataO = oh::with('dataoh')->get()->where('id_feasibility', $id_feasibility);
-        $fe=finance::find($id_feasibility);
-        $Jlab = Dlab::where('id_feasibility',$id_feasibility)->sum('rate');
-        $Jmesin = Dmesin::where('id_feasibility',$id_feasibility)->sum('hasil');
+        $fe=Finance::find($id_feasibility);
+        $Jlab = DataLab::where('id_feasibility',$id_feasibility)->sum('rate');
+        $Jmesin = DataMesin::where('id_feasibility',$id_feasibility)->sum('hasil');
         $Joh = oh::where('id_feasibility',$id_feasibility)->sum('hasil');
-        $konsep = konsep::where('id_feasibility',$id_feasibility)->get();
+        $konsep = KonsepKemas::where('id_feasibility',$id_feasibility)->get();
         $total = $Jmesin+$Joh;
-        $dataL =Dlab::where('id_feasibility',$id_feasibility)->get();
-        $kemas =userkemas::where('id_feasibility', $id_feasibility)->get();
-        $dataF = finance::where('id_feasibility', $id_feasibility)->get();
+        $dataL =DataLab::where('id_feasibility',$id_feasibility)->get();
+        $kemas =FormulaKemas::where('id_feasibility', $id_feasibility)->get();
+        $dataF = Finance::where('id_feasibility', $id_feasibility)->get();
         $formula = Formula::where('workbook_id',$id)->first();
         $fortails = Fortail::where('formula_id',$id)->get();
         $ada = Fortail::where('formula_id',$id)->count();

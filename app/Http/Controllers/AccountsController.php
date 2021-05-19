@@ -55,9 +55,7 @@ class AccountsController extends Controller
     }
 
     private function sendResetEmail($email, $token){
-        //Retrieve the user from the database
         $user = DB::table('tr_users')->where('email', $email)->select('username', 'email')->first();
-        //Generate, the password reset link. The token generated is embedded in the link
         $link = config('base_url') . 'password/reset/' . $token . '?email=' . urlencode($user->email);
         return view('resetpass')->with([
             'user' => $user,

@@ -8,11 +8,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use App\model\Imports\Import;
 use App\model\Imports\KemasImport;
-use App\model\Modelkemas\userkemas;
-use App\model\Modelkemas\konsep;
-use App\model\Modelfn\finance;
+use App\model\Modelkemas\FormulaKemas;
+use App\model\Modelkemas\KonsepKemas;
+use App\model\Modelfn\Finance;
 use App\model\dev\Formula;
-use App\model\pkp\tipp;
+use App\model\pkp\SubPKP;
 use Excel;
 
 class KemasController extends Controller
@@ -23,13 +23,13 @@ class KemasController extends Controller
 	}
 
 	public function index(Request $request,$id, $id_feasibility){
-		$formulas = tipp::where('id_pkp',$id)->where('status_data','=','active')->get();
+		$formulas = SubPKP::where('id_pkp',$id)->where('status_data','=','active')->get();
 		$request->session()->get('id_feasibility');
 		$request->session()->put('id_feasibility', $id_feasibility);
-		$fe=finance::find($id_feasibility);
-		$kemas =userkemas::where('id_feasibility', $id_feasibility)->get();
-		$konsep = konsep::where('id_feasibility', $id_feasibility)->get();
-		$dataF = finance::where('id_feasibility', $id_feasibility)->get();
+		$fe=Finance::find($id_feasibility);
+		$kemas =FormulaKemas::where('id_feasibility', $id_feasibility)->get();
+		$konsep = KonsepKemas::where('id_feasibility', $id_feasibility)->get();
+		$dataF = Finance::where('id_feasibility', $id_feasibility)->get();
 		return view('kemas.uploadkemas', compact('toImport'))->with([
 				'formulas' => $formulas,
 				'dataF' => $dataF,
@@ -50,15 +50,15 @@ class KemasController extends Controller
 
 		if ($request->hasFile('file')) {
 			$file = $request->file('file');
-			$data = new userkemas;
+			$data = new FormulaKemas;
             $data->id_feasibility=$request->finance;
              //GET FILE
             Excel::import(new KemasImport, $file, $data);
             $lastkemas = DB::table('fs_formula_kemas')->max('id_fk');
-            $hapus = userkemas::where('id_feasibility',$id)->delete();
-            $changekemas = userkemas::where('id_feasibility', '0')->update(['id_feasibility'=>$id]);
+            $hapus = FormulaKemas::where('id_feasibility',$id)->delete();
+            $changekemas = FormulaKemas::where('id_feasibility', '0')->update(['id_feasibility'=>$id]);
             // $changekemas->save();
-			$change_status  = finance::where('id_feasibility',$id_feasibility)->first();
+			$change_status  = Finance::where('id_feasibility',$id_feasibility)->first();
 			$change_status->status_kemas='sending';
 			$change_status->save();
 

@@ -280,9 +280,8 @@
                 <tr style="font-weight: bold;color:white;background-color: #2a3f54;">     
                   <th class="text-center" width="3%">#</th>                                  
                   <th class="text-center" width="5%">Versi</th>
-                  <th class="text-center" width="10%">Category Formula</th>  
+                  <th class="text-center" width="10%">Category</th>  
                   <th class="text-center">Formula</th>
-                  <th class="text-center">Status Sample</th>
                   <th class="text-center">Note RD</th>
                   <th class="text-center">Note PV/Global</th>
                   <th class="text-center" width="16%">Action</th>
@@ -307,13 +306,6 @@
                     @endif
                   </td>
                   <td>{{ $sample1->formula}}</td>
-                  <td class="text-center" width="10%">
-                    @if ($sample1->vv == 'proses')<span class="label label-warning">Proses</span>@endif
-                    @if ($sample1->vv == 'reject')<span class="label label-danger">Rejected</span>@endif 
-                    @if ($sample1->vv == 'approve')<span class="label label-success">Approved</span>@endif 
-                    @if ($sample1->vv == 'final')<span class="label label-info">Final Approved</span>@endif 
-                    @if ($sample1->vv == '')<span class="label label-primary">Belum Diajukan</span>@endif    
-                  </td>
                   <td class="text-center">{{$sample1->catatan_rd}}</td>
                   <td class="text-center">{{$sample1->catatan_pv}}</td>
                   <td class="text-center"> 

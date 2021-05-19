@@ -19,7 +19,7 @@
   </div>
 	<div class="card-block">
     <div class="dt-responsive table-responsive">
-      <table class="Table table-striped table-bordered nowrap">
+      <table id="datatable" class="Table table-striped table-bordered nowrap">
         <thead>
         	<tr style="font-weight: bold;color:white;background-color: #2a3f54;">
             <th>Nama</th>
@@ -134,4 +134,8 @@
 		</div>
 	</div>
 </div>
+@endsection
+@section('s')
+    <link href="{{ asset('lib/advanced-datatable/css/jquery.dataTables.css') }}" rel="stylesheet" />
+    <script src="{{ asset('js/datatables.min.js')}}"></script>
 @endsection

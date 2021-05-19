@@ -5,46 +5,37 @@ namespace App\Http\Controllers\datamaster;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Maatwebsite\Excel\Facades\Excel;
-use App\model\Exports\KemasExport;
-use App\model\Exports\klaimexport;
-use App\model\Exports\SKUExport;
 
-use App\model\pkp\komponen_klaim;
-use App\model\pkp\logam_berat;
-use App\model\pkp\komponen;
-use App\model\devnf\tb_akg;
-use App\model\pkp\klaim;
-use App\model\pkp\uom;
+use App\model\pkp\Komponen;
+use App\model\pkp\Klaim;
+use App\model\pkp\UOM;
+use App\model\pkp\SKU;
+use App\model\pkp\SES;
+use App\model\dev\Allergen;
+use App\model\dev\Supplier;
+use App\model\dev\Principal;
 use App\model\kemas\datakemas;
-use App\model\pkp\data_sku;
-use App\model\pkp\ses;
-use App\model\pkp\data_ses;
-use App\model\dev\ms_allergen;
-use App\model\dev\ms_supplier_principals;
-use App\model\dev\ms_supplier_principal_cps;
-use App\model\pkp\pkp_datapangan;
-use App\model\nutfact\bpom_mikrobiologi;
-use App\model\nutfact\mikroba;
-use App\model\manager\pengajuan;
+use App\model\nutfact\BPOM;
+use App\model\nutfact\Mikroba;
 use DB;
 use Auth;
 use Redirect;
 
-class masterController extends Controller
+class MasterController extends Controller
 {
     public function __construct(){
         $this->middleware('auth');
     }
 
     public function datauom(){
-        $uom = uom::all();
+        $uom = UOM::all();
         return view('datamaster.datauom')->with([
             'uom' => $uom
         ]);
     }
 
     public function uom(Request $request){
-        $uom = new uom;
+        $uom = new UOM;
         $uom->primary_uom=$request->uom;
         $uom->save();
 
@@ -52,18 +43,16 @@ class masterController extends Controller
     }
 
     public function index(){
-        $mikroba = mikroba::get();
-        $Kjenispangan = bpom_mikrobiologi::all();
-        $pengajuan = pengajuan::count();
+        $mikroba = Mikroba::select('jenis_mikroba','no','n','c','mk','Mb','metode_analisa')->get();
+        $Kjenispangan = BPOM::select('no_kategori','kategori','no_kategori')->get();
         return view('datamaster.datapangan1')->with([
             'mikroba' => $mikroba,
-            'Kjenispangan' => $Kjenispangan,
-            'pengajuan' => $pengajuan
+            'Kjenispangan' => $Kjenispangan
         ]);
     }
 
     public function editsku(Request $request,$id){
-        $sku = data_sku::where('id',$id)->first();
+        $sku = SKU::where('id',$id)->first();
         $sku->nama_produk=$request->name;
         $sku->nama_sku=$request->sku;
         $sku->kode_items=$request->kode;
@@ -74,7 +63,7 @@ class masterController extends Controller
     }
 
     public function tambahsku(Request $request){
-        $sku = new data_sku;
+        $sku = new SKU;
         $sku->no_formula=$request->formula;
         $sku->nama_produk=$request->produk;
         $sku->no=$request->no;
@@ -86,7 +75,7 @@ class masterController extends Controller
     }
 
     public function editbpom(Request $request,$id_bpom){
-        $pangan = bpom::where('id_bpom',$id_bpom)->first();
+        $pangan = BPOM::where('id_bpom',$id_bpom)->first();
         $pangan->kategori_pangan=$request->kategori;
         $pangan->jenis_mikroba=$request->mikro;
         $pangan->n=$request->n;
@@ -100,7 +89,7 @@ class masterController extends Controller
     }
 
     public function editklaim(Request $request, $id){
-        $klaim = klaim::where('id',$id)->first();
+        $klaim = Klaim::where('id',$id)->first();
         $klaim->klaim=$request->klaim;
         $klaim->persyaratan=$request->persyaratan;
         $klaim->save();
@@ -109,14 +98,14 @@ class masterController extends Controller
     }
 
     public function allergen(){
-        $allergen = ms_allergen::all();
+        $allergen = Allergen::all();
         return view('datamaster.allergen')->with([
             'allergen' => $allergen
         ]);
     }
 
     public function add_allergen(Request $request){
-        $all = new ms_allergen;
+        $all = new Allergen;
         $all->allergen=$request->allergen;
         $all->tgl_update=$request->last;
         $all->tgl_dibuat=$request->last;
@@ -127,7 +116,7 @@ class masterController extends Controller
     }
 
     public function edit_allergen(Request $request,$id_allergen){
-        $all = ms_allergen::where('id','=',$id_allergen)->first();
+        $all = Allergen::where('id','=',$id_allergen)->first();
         $all->allergen=$request->allergen;
         $all->tgl_update=$request->last;
         $all->id_user=Auth::user()->id;
@@ -137,8 +126,8 @@ class masterController extends Controller
     }
 
     public function principal(){
-        $supplier = ms_supplier_principals::orderBy('nama_supplier_principal','asc')->get();
-        $principal = ms_supplier_principal_cps::orderBy('nama_cp','asc')->get();
+        $supplier = Supplier::orderBy('nama_supplier_principal','asc')->get();
+        $principal = Principal::orderBy('nama_cp','asc')->select('nama_cp','is_active','email_cp')->get();
         return view('datamaster.principal')->with([
             'principal' => $principal,
             'supplier' => $supplier
@@ -146,7 +135,7 @@ class masterController extends Controller
     }
 
     public function inactive_principal($id){
-        $principal = ms_supplier_principal_cps::where('id',$id)->first();
+        $principal = Principal::where('id',$id)->first();
         $principal->is_active='inactive';
         $principal->save();
 
@@ -154,7 +143,7 @@ class masterController extends Controller
     }
 
     public function active_principal($id){
-        $principal = ms_supplier_principal_cps::where('id',$id)->first();
+        $principal = Principal::where('id',$id)->first();
         $principal->is_active='active';
         $principal->save();
 
@@ -162,7 +151,7 @@ class masterController extends Controller
     }
 
     public function add_principal(Request $request){
-        $principal = new ms_supplier_principal_cps;
+        $principal = new Principal;
         $principal->ms_supplier_principal_id=$request->supplier;
         $principal->nama_cp=$request->name;
         $principal->email_cp=$request->email;
@@ -177,7 +166,7 @@ class masterController extends Controller
     }
 
     public function edit_principal(Request $request,$id){
-        $principal = ms_supplier_principal_cps::where('id',$id)->first();
+        $principal = Principal::where('id',$id)->first();
         $principal->nama_cp=$request->name;
         $principal->email_cp=$request->email;
         $principal->telepon_cp=$request->telp;
@@ -190,7 +179,7 @@ class masterController extends Controller
     }
 
     public function add_supplier(Request $request){
-        $supplier = new ms_supplier_principals;
+        $supplier = new Supplier;
         $supplier->nama_supplier_principal=$request->nama;
         $supplier->kode_oracle_supplier_principal=$request->oracle;
         $supplier->alamat_supplier_principal=$request->alamat;
@@ -206,14 +195,14 @@ class masterController extends Controller
     }
 
     public function supplier(){
-        $supplier = ms_supplier_principals::orderBy('nama_supplier_principal','asc')->get();
+        $supplier = Supplier::orderBy('nama_supplier_principal','asc')->select('id','nama_supplier_principal','alamat_supplier_principal','telepon_supplier_principal','is_active')->get();
         return view('datamaster.supplier')->with([
             'supplier' => $supplier
         ]);
     }
 
     public function inactive_supplier($id){
-        $supplier = ms_supplier_principals::where('id',$id)->first();
+        $supplier = Supplier::where('id',$id)->first();
         $supplier->is_active='inactive';
         $supplier->save();
 
@@ -221,7 +210,7 @@ class masterController extends Controller
     }
 
     public function active_supplier($id){
-        $supplier = ms_supplier_principals::where('id',$id)->first();
+        $supplier = Supplier::where('id',$id)->first();
         $supplier->is_active='active';
         $supplier->save();
 
@@ -229,7 +218,7 @@ class masterController extends Controller
     }
 
     public function edit_supplier(Request $request,$id){
-        $supplier = ms_supplier_principals::where('id',$id)->first();
+        $supplier = Supplier::where('id',$id)->first();
         $supplier->nama_supplier_principal=$request->nama;
         $supplier->kode_oracle_supplier_principal=$request->oracle;
         $supplier->alamat_supplier_principal=$request->alamat;
@@ -244,61 +233,39 @@ class masterController extends Controller
 
     public function kemas(){
         $kemas = datakemas::all();
-        $pengajuan = pengajuan::count();
         return view('datamaster.datakemas')->with([
-            'kemas' => $kemas,
-            'pengajuan' => $pengajuan
+            'kemas' => $kemas
         ]);
     }
 
     public function klaim(){
-        $klaim =klaim::all();
-        $komponen = komponen::all();
-        $pengajuan = pengajuan::count();
+        $klaim =Klaim::all();
+        $komponen = Komponen::all();;
         return view('datamaster.komponenklaim1')->with([
             'klaim' => $klaim,
-            'komponen' => $komponen,
-            'pengajuan' => $pengajuan
+            'komponen' => $komponen
         ]);
     }
 
     public function sku(){
-        $sku = data_sku::all();
-        $pengajuan = pengajuan::count();
+        $sku = SKU::select('nama_produk','no_formula','nama_sku','kode_items','no')->get();
         return view('datamaster.sku1')->with([
-            'sku' => $sku,
-            'pengajuan' => $pengajuan
+            'sku' => $sku
         ]);
     }
 
     public function datases(){
-        $ses= ses::all();
+        $ses= SES::select('ses')->get();
         return view('admin.ses')->with([
             'ses' => $ses
         ]);
     }
 
     public function ses(Request $request){
-        $ses = new ses;
+        $ses = new SES;
         $ses->ses=$request->ses;
         $ses->save();
 
         return redirect::back();
-    }
-
-    public function exportsku(){
-		return Excel::download(new SKUExport, 'SKU.xlsx');
-    }
-
-    public function export_excel(){
-		return Excel::download(new KemasExport, 'kemas.xlsx');
-    }
-
-    public function export_klaim(){
-		return Excel::download(new klaimexport, 'klaim.xlsx');
-    }
-    
-    public function exportAkg(){
-		return Excel::download(new AkgExport, 'Akg.xlsx');
     }
 }

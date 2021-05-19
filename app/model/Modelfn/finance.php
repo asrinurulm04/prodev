@@ -4,7 +4,7 @@ namespace App\model\Modelfn;
 
 use Illuminate\Database\Eloquent\Model;
 
-class finance extends Model
+class Finance extends Model
 {
     protected $table ='tr_feasibility';
     protected $primaryKey='id_feasibility';
@@ -18,37 +18,22 @@ class finance extends Model
 
     public function mesin()
     {
-        return $this->hasMany('App\model\Modelmesin\Dmesin','id_feasibility','id_mesin');
-    }
-
-    public function oh()
-    {
-        return $this->hasMany('App\model\Modelmesin\oh','id_feasibility','id_oh');
-    }
-
-    public function std()
-    {
-        return $this->hasOne('App\model\Modelmesin\std','id_feasibility','id_SYP');
-    }
-
-    public function sdm()
-    {
-        return $this->hasMany('App\model\Modelsdm\sdm','id_feasibility','id_sdm');
+        return $this->hasMany('App\model\Modelmesin\DataMesin','id_feasibility','id_mesin');
     }
 
     public function lab()
     {
-        return $this->hasOne('App\model\Modellab\Dlab','id_feasibility','id_lab');
+        return $this->hasOne('App\model\Modellab\DataLab','id_feasibility','id_lab');
     }
 
     public function idlab()
     {
-        return $this->hasOne('App\model\Modellab\Dlab','id_feasibility','id_lab');
+        return $this->hasOne('App\model\Modellab\DataLab','id_feasibility','id_lab');
     }
 
     public function chat()
     {
-        return $this->hasOne('App\model\Modellab\Dlab','id_feasibility','id_chat');
+        return $this->hasOne('App\model\Modellab\DataLab','id_feasibility','id_chat');
     }
 
     public function getCreatedAtAttribute($date)

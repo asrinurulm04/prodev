@@ -5,16 +5,16 @@ use Illuminate\Support\Facades\Mail;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\model\devnf\storage;
+use App\model\devnf\Storage;
 use App\model\dev\Formula;
-use App\model\master\tb_teams_brand;
-use App\model\pkp\pkp_project;
-use App\model\pkp\tipp;
+use App\model\master\Teams;
+use App\model\pkp\PkpProject;
+use App\model\pkp\ProjectPDF;
 use Auth;
 use DB;
 use redirect;
 
-class storageController extends Controller
+class StorageController extends Controller
 {
     public function __construct(){
         $this->middleware('auth');
@@ -26,8 +26,8 @@ class storageController extends Controller
         $fo=formula::where('id',$id)->first();
         $idfor = $formula->workbook_id;
         $idf = $formula->id;
-        $storage = storage::where('id_formula',$id)->get();
-        $cek_storage =storage::where('id_formula',$id)->count();
+        $storage = Storage::where('id_formula',$id)->get();
+        $cek_storage =Storage::where('id_formula',$id)->count();
         return view('formula.storage')->with([
             'fo' => $fo,
             'idf' => $idf,
@@ -39,12 +39,11 @@ class storageController extends Controller
         ]);
     }
 
-    public function hasilnya(Request $request)
-    {
+    public function hasilnya(Request $request){
         $data = $request->file('filename');
         if($data!=NULL){ $nama = $data->getClientOriginalName();}
         
-        $add_st = new storage;
+        $add_st = new Storage;
         $add_st->id_formula=$request->idf;
         $add_st->id_wb=$request->wb;
         $add_st->id_wb_pdf=$request->wb_pdf;
@@ -68,9 +67,8 @@ class storageController extends Controller
         return redirect()->back();
     }
 
-    public function editdata(request $request, $id)
-    {
-        $data_storage= storage::where('id',$id)->first();
+    public function editdata(request $request, $id){
+        $data_storage= Storage::where('id',$id)->first();
         $data_storage->no_HSA=$request->hsa;
         $data_storage->keterangan=$request->kesimpulan;
         $data_storage->selesai=$request->selesai;
@@ -89,11 +87,11 @@ class storageController extends Controller
         $formula->status_storage='sent';
         $formula->save();
 
-        $storage = storage::where('id',$id_storage)->first();
+        $storage = Storage::where('id',$id_storage)->first();
         $storage->status='done';
         $storage->save();
 
-        $isistorage = storage::where('id',$id_storage)->first();
+        $isistorage = Storage::where('id',$id_storage)->first();
         try{
             Mail::send('formula.emailstorage', [
                 'app'=>$isistorage,
@@ -104,8 +102,8 @@ class storageController extends Controller
                 $message->subject('INFO STORAGE PRODEV');
                 $for = Formula::where('id',$id_formula)->first();
                 if($for->id_wb!=NULL){
-                    $project = pkp_project::where('id_project',$for->workbook_id)->first();
-                    $teams = tb_teams_brand::where('brand',$project->id_brand)->get();
+                    $project = PkpProject::where('id_project',$for->workbook_id)->first();
+                    $teams = Teams::where('brand',$project->id_brand)->get();
                     // To
                     foreach($teams as $teams){
                         $user = DB::table('tr_users')->where('id',$teams->id_user)->get();
@@ -134,7 +132,7 @@ class storageController extends Controller
                         }
                     }
                 }elseif($for->id_wb_pdf!=NULL){
-                    $project = project_pdf::where('id_project_pdf',$for->workbook_pdf_id)->first();
+                    $project = ProjectPDF::where('id_project_pdf',$for->workbook_pdf_id)->first();
                     $dept = DB::table('ms_departements')->where('id',$project->tujuankirim)->get();
                     foreach($dept as $dept){
                         $user = DB::table('tr_users')->where('id',$dept->manager_id)->get();

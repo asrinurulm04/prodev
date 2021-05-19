@@ -4,7 +4,7 @@ namespace App\model\pkp;
 
 use Illuminate\Database\Eloquent\Model;
 
-class komponen extends Model
+class Komponen extends Model
 {
     protected $table = 'ms_komponen';
     protected $primaryKey ='id';

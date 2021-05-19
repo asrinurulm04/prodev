@@ -4,7 +4,7 @@ namespace App\model\kemas;
 
 use Illuminate\Database\Eloquent\Model;
 
-class datakemas extends Model
+class DataKemas extends Model
 {
     protected $table = 'tr_kemas';
     protected $primaryKey ='id_kemas';
@@ -14,10 +14,10 @@ class datakemas extends Model
     ];
 
     public function eksiskemas(){
-        return $this->hasOne('App\model\pv\tipp','kemas_eksis','id_kemas');
+        return $this->hasOne('App\model\pv\SubPKP','kemas_eksis','id_kemas');
     }
 
     public function eksiskemas2(){
-        return $this->hasOne('App\model\pkp\data_forecash','kemas_eksis','id_kemas');
+        return $this->hasOne('App\model\pkp\Forecast','kemas_eksis','id_kemas');
     }
 }

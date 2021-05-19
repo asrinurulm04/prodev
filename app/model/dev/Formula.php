@@ -9,11 +9,11 @@ class Formula extends Model
     protected $table = 'tr_formulas';
 
     public function Workbook(){
-        return $this->belongsTo('App\model\pkp\tipp','workbook_id','id_pkp');
+        return $this->belongsTo('App\model\pkp\SubPKP','workbook_id','id_pkp');
     }
     
     public function Workbook_pdf(){
-        return $this->belongsTo('App\model\pkp\coba','workbook_pdf_id','pdf_id');
+        return $this->belongsTo('App\model\pkp\SubPDF','workbook_pdf_id','pdf_id');
     }
 
     public function Fortail(){
@@ -21,7 +21,7 @@ class Formula extends Model
     }
 
     public function katpang(){
-        return $this->hasOne('App\model\dev\ms_cemaran_ceklis','id_cemaran_ceklis','pangan');
+        return $this->hasOne('App\model\dev\CemaranCeklis','id_cemaran_ceklis','pangan');
     }
     
     public function Brand(){
@@ -34,10 +34,6 @@ class Formula extends Model
 
     public function Maklon(){
         return $this->belongsTo('App\model\master\Maklon');
-    }
-
-    public function Gudang(){
-        return $this->belongsTo('App\model\master\Gudang');
     }
 
     public function finance(){

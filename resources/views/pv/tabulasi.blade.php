@@ -33,7 +33,7 @@
             <div class="row"  >
               <div class="col-md-12">
                 <form class="form-horizontal form-label-left" method="POST" action="{{route('check')}}" novalidate>
-                <a href="{{route('notulenpkp')}}" class="btn btn-info btn-sm btn-sm"><li class="fa fa-book"></li> create Notulen PKP</a>
+                <!-- <a href="{{route('notulenpkp')}}" class="btn btn-info btn-sm btn-sm"><li class="fa fa-book"></li> create Notulen PKP</a> -->
                 <button class="btn btn-primary btn-sm" type="button" data-toggle="modal" data-target="#parampkp"><i class="fa fa-hand-o-right"></i> Custom Tabular</a></button>
                 <a href="{{route('cetak')}}" class="btn btn-sm btn-warning"><li class="fa fa-cloud-download"></li> Download</a>
                 <!-- modal -->
@@ -90,24 +90,24 @@
                     <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
                       <td></td>
                       <td class="text-center">No</td>
-                      <td class="text-center">Sent to RND</td>
+                      <td class="text-center" style="min-width:110px">Sent to RND</td>
                       <th class="text-center">Brand</th>
-                      <th class="text-center">Idea</th>
-                      <th class="text-center">Target Launch</th>
+                      <th class="text-center" style="min-width:230px">Idea</th>
+                      <th class="text-center" style="min-width:110px">Target Launch</th>
                       <th class="text-center">Age</th>
-                      <th class="text-center">Gender</th>
+                      <th class="text-center" style="min-width:110px">Gender</th>
                       <th class="text-center">Uniquenes of idea</th>
                       <th class="text-center">Potential market</th>
-                      <th class="text-center">Reason</th>
-                      <th class="text-center">Aisle placement</th>
+                      <th class="text-center" style="min-width:230px">Reason</th>
+                      <th class="text-center" style="min-width:230px">Aisle placement</th>
                       <th class="text-center">selling price</th>
                       <th class="text-center">Consumer price</th>
-                      <th class="text-center">Main Competitor</th>
-                      <th class="text-center">Competitive</th>
+                      <th class="text-center" style="min-width:170px">Main Competitor</th>
+                      <th class="text-center" style="min-width:230px">Competitive</th>
                       <th class="text-center">Product Form</th>
-                      <th class="text-center">prefered flavour</th>
-                      <th class="text-center">product benefits</th>
-                      <th class="text-center">mandatory ingredient</th>
+                      <th class="text-center" style="min-width:130px">prefered flavour</th>
+                      <th class="text-center" style="min-width:230px">product benefits</th>
+                      <th class="text-center" style="min-width:130px">mandatory ingredient</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -427,4 +427,6 @@
     $(".cekboxpromo1").prop('checked', $(this).prop("checked"));
   });
 </script>
+    <link href="{{ asset('lib/advanced-datatable/css/jquery.dataTables.css') }}" rel="stylesheet" />
+    <script src="{{ asset('js/datatables.min.js')}}"></script>
 @endsection

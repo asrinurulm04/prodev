@@ -4,29 +4,28 @@ namespace App\Http\Controllers\devwb;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\model\Modelfn\finance;
-use App\model\devnf\hasilpanel;
-use App\model\devnf\tb_overage;
-use App\model\devnf\storage;
-use App\model\devnf\allergen_formula;
-use App\model\devnf\tb_akg;
-use App\model\dev\tr_makro_bb;
-use App\model\dev\tr_btp_bb;
-use App\model\dev\tr_mineral_bb;
-use App\model\dev\tr_vitamin_bb;
-use App\model\dev\tr_asam_amino_bb;
-use App\model\dev\tr_zataktif_bb;
-use App\model\dev\tr_logamberat_bb;
-use App\model\dev\tr_data_formula;
+
+use App\model\devnf\HasilPanel;
+use App\model\devnf\Overage;
+use App\model\devnf\Storage;
+use App\model\devnf\AllergenFormula;
+use App\model\devnf\Akg;
+use App\model\dev\MakroBB;
+use App\model\dev\BtpBB;
+use App\model\dev\MineralBB;
+use App\model\dev\VitaminBB;
+use App\model\dev\AsamAminoBB;
+use App\model\dev\LogamBB;
+use App\model\dev\DataFormula;
 use App\model\dev\Fortail;
 use App\model\dev\Bahan;
-use App\model\dev\tr_mikro_bb;
+use App\model\dev\MikroBB;
 use App\model\dev\Formula;
-use App\model\dev\ms_cemaran_ceklis;
-use App\model\pkp\project_pdf;
-use App\model\pkp\pkp_project;
+use App\model\dev\CemaranCeklis;
+use App\model\pkp\ProjectPDF;
+use App\model\pkp\PkpProject;
 use App\model\master\Curren;
-use App\model\master\tr_header_formula;
+use App\model\master\HeaderFormula;
 use Auth;
 use DB;
 use Redirect;
@@ -38,8 +37,7 @@ class FormulaController extends Controller
         $this->middleware('rule:user_rd_proses' || 'rule:user_produk' || 'rule:kemas');
     }
     
-    public function new(Request $request)
-    {     
+    public function new(Request $request){     
         $formulas = new Formula;
         $formulas->workbook_id = $request->workbook_id;
         $formulas->workbook_pdf_id = $request->workbook_pdf_id;
@@ -51,28 +49,28 @@ class FormulaController extends Controller
 		$formulas->overage='100';
 		$formulas->berat_jenis=$request->berat_jenis;
 		if($request->kategori_formula!=NULL){
-		$formulas->kategori=$request->kategori_formula;
+			$formulas->kategori=$request->kategori_formula;
 		}else{
 			$formulas->kategori='fg';
 		}
         $formulas->versi = 1;   
 		$formulas->save();
 		
-        $overage = new tr_header_formula;
+        $overage = new HeaderFormula;
         $overage->id_formula=$formulas->id;
 		$overage->save();
 		
-        $header = new tb_overage;
+        $header = new Overage;
         $header->id_formula=$formulas->id;
 		$header->save();
 		
 		if($request->workbook_id!=NULL){
-			$pkp = pkp_project::where('id_project',$request->workbook_id)->first();
+			$pkp = PkpProject::where('id_project',$request->workbook_id)->first();
 			$pkp->workbook='1';
 			$pkp->save();
 			return redirect()->route('step1',['id_workbook' => $request->workbook_id, 'id_formula' => $formulas->id])->with('status', 'Formula '.$formulas->nama_produk.' Telah Ditambahkan!');
 		}else{
-			$pdf = project_pdf::where('id_project_pdf',$request->workbook_pdf_id)->first();
+			$pdf = ProjectPDF::where('id_project_pdf',$request->workbook_pdf_id)->first();
 			$pdf->workbook='1';
 			$pdf->save();
 			return redirect()->route('step1_pdf',['id_pdf_workbook' => $request->workbook_pdf_id, 'id_formula' => $formulas->id])->with('status', 'Formula '.$formulas->nama_produk.' Telah Ditambahkan!');
@@ -82,29 +80,29 @@ class FormulaController extends Controller
 
     public function deleteformula($id){
 		$formula = Formula::where('id',$id)->first();
-		$allergen = allergen_formula::where('id_formula',$id)->delete();
+		$allergen = AllergenFormula::where('id_formula',$id)->delete();
         $fortails = Fortail::where('formula_id',$id)->delete();
         $formula->delete();
 		
-		$panel = hasilpanel::where('id_formula',$id)->count();
+		$panel = HasilPanel::where('id_formula',$id)->count();
 		if($panel>='1'){
-			$panel1 = hasilpanel::where('id_formula',$id)->delete();
+			$panel1 = HasilPanel::where('id_formula',$id)->delete();
 		}
 
-		$storage = storage::where('id_formula',$id)->count();
+		$storage = Storage::where('id_formula',$id)->count();
 		if($storage>='1'){
-			$storage1 = storage::where('id_formula',$id)->delete();
+			$storage1 = Storage::where('id_formula',$id)->delete();
 		}
 		
 		if($formula->workbook_id!=NULL){
-			$pkp_hitung = pkp_project::where('id_project',$formula->workbook_id)->max('workbook')-1;
-			$pkp = pkp_project::where('id_project',$formula->workbook_id)->first();
+			$pkp_hitung = PkpProject::where('id_project',$formula->workbook_id)->max('workbook')-1;
+			$pkp = PkpProject::where('id_project',$formula->workbook_id)->first();
 			$pkp->workbook=$pkp_hitung;
 			$pkp->save();
 		}
 		if($formula->workbook_pdf_id!=NULL){
-			$pdf_hitung = project_pdf::where('id_project_pdf',$formula->workbook_pdf_id)->max('workbook')-1;
-			$pdf = project_pdf::where('id_project_pdf',$formula->workbook_pdf_id)->first();
+			$pdf_hitung = ProjectPDF::where('id_project_pdf',$formula->workbook_pdf_id)->max('workbook')-1;
+			$pdf = ProjectPDF::where('id_project_pdf',$formula->workbook_pdf_id)->first();
 			$pdf->workbook=$pdf_hitung;
 			$pdf->save();
 		}
@@ -113,24 +111,24 @@ class FormulaController extends Controller
     }
 
     public function detail($formula,$id){
-		$file = tr_data_formula::where('id_formula',$id)->get();
-		$form = tr_header_formula::where('id_formula',$id)->get();
+		$file = DataFormula::where('id_formula',$id)->get();
+		$form = HeaderFormula::where('id_formula',$id)->get();
 		$data = Formula::with('Workbook')->where('id',$id)->get();
-		$hfile = tr_data_formula::where('id_formula',$id)->count();
-		$ceklis = ms_cemaran_ceklis::all();
-		$akg = tb_akg::join('tr_formulas','tr_formulas.akg','ms_akg.id_tarkon')->join('tr_overage_inngradient','tr_overage_inngradient.id_formula','tr_formulas.id')->where('id',$id)->get();
+		$hfile = DataFormula::where('id_formula',$id)->count();
+		$ceklis = CemaranCeklis::all();
+		$akg = Akg::join('tr_formulas','tr_formulas.akg','ms_akg.id_tarkon')->join('tr_overage_inngradient','tr_overage_inngradient.id_formula','tr_formulas.id')->where('id',$id)->get();
         $idf = $id;
-		$panel = hasilpanel::where('id_formula',$id)->get();
-		$storage = storage::where('id_formula',$id)->get();
+		$panel = HasilPanel::where('id_formula',$id)->get();
+		$storage = Storage::where('id_formula',$id)->get();
 		$formula = Formula::where('id',$id)->join('tr_overage_inngradient','tr_overage_inngradient.id_formula','tr_formulas.id')->first();
         $idfor = $formula->workbook_id;
         $idfor_pdf = $formula->workbook_pdf_id;
         $fortails = Fortail::where('formula_id',$id)->get();
         $ingredient = DB::table('tr_fortails')->where('tr_fortails.formula_id',$id)->orderBy('per_batch','desc')->get();
 		$ada = Fortail::where('formula_id',$id)->count();
-		$btp = tr_btp_bb::all();
-		$allergen_bb = allergen_formula::join('tr_bb_allergen','id_bb','tr_allergen_formula.id_bahan')->where('id_formula',$id)->where('allergen_countain','!=','')->select(['allergen_countain'])->distinct()->get();
-		$bb_allergen = allergen_formula::join('tr_bb_allergen','id_bb','tr_allergen_formula.id_bahan')->where('id_formula',$id)->where('allergen_countain','!=','')->get();
+		$btp = BtpBB::all();
+		$allergen_bb = AllergenFormula::join('tr_bb_allergen','id_bb','tr_allergen_formula.id_bahan')->where('id_formula',$id)->where('allergen_countain','!=','')->select(['allergen_countain'])->distinct()->get();
+		$bb_allergen = AllergenFormula::join('tr_bb_allergen','id_bb','tr_allergen_formula.id_bahan')->where('id_formula',$id)->where('allergen_countain','!=','')->get();
         if($ada < 1){
             return Redirect::back()->with('error','Data Bahan Formula Versi '.$formula->versi.' Masih Kosong');
         }elseif($formula->note_formula == Null){
@@ -236,56 +234,38 @@ class FormulaController extends Controller
         $no = 0;
         foreach($fortails as $fortail){
 			//Get Needed
-			$mineral =tr_mineral_bb::where('id_bahan',$fortail->bahan_id)->first();
-			$makro = tr_makro_bb::where('id_bahan',$fortail->bahan_id)->first();
-			$asam = tr_asam_amino_bb::where('id_bahan',$fortail->bahan_id)->first();
-			$vitamin = tr_vitamin_bb::where('id_bahan',$fortail->bahan_id)->first();
-			$mikro = tr_mikro_bb::where('id_bahan',$fortail->bahan_id)->first();
-			$logam = tr_logamberat_bb::where('id_bahan',$fortail->bahan_id)->first();
+			$mineral =MineralBB::where('id_bahan',$fortail->bahan_id)->first();
+			$makro = MakroBB::where('id_bahan',$fortail->bahan_id)->first();
+			$asam = AsamAminoBB::where('id_bahan',$fortail->bahan_id)->first();
+			$vitamin = VitaminBB::where('id_bahan',$fortail->bahan_id)->first();
+			$mikro = MikroBB::where('id_bahan',$fortail->bahan_id)->first();
+			$logam = LogamBB::where('id_bahan',$fortail->bahan_id)->first();
             $bahan  = Bahan::where('id',$fortail->bahan_id)->first();
-			$hitung_btp = tr_btp_bb::where('id_bahan',$fortail->bahan_id)->count();
+			$hitung_btp = BtpBB::where('id_bahan',$fortail->bahan_id)->count();
 			$curren = Curren::where('id',$bahan->curren_id)->first();
             $persen = $fortail->per_serving / $satu_persen; $persen = round($persen,2);
             //perhitungan nutfact bayangan
 			if($fortail->nama_sederhana != 'NULL'){
 				// makro
-				$karbohidrat =($makro->karbohidrat/100)*($fortail->per_serving);
-				$glukosa = ($makro->glukosa/100)*($fortail->per_serving);
-				$serat = ($makro->serat_pangan/100)*($fortail->per_serving);
-				$beta = ($makro->beta_glucan/100)*($fortail->per_serving);
-				$sorbitol = ($makro->sorbitol/100)*($fortail->per_serving);
-				$maltitol = ($makro->maltitol/100)*($fortail->per_serving);
-				$laktosa = ($makro->laktosa/100)*($fortail->per_serving);
-				$sukrosa = ($makro->sukrosa/100)*($fortail->per_serving);
-				$gula = ($makro->gula/100)*($fortail->per_serving);
-				$erythritol  = ($makro->erythritol /100)*($fortail->per_serving);
-				$dha = ($makro->DHA/100)*($fortail->per_serving);
-				$epa = ($makro->EPA/100)*($fortail->per_serving);
-				$omega3 = ($makro->Omega3/100)*($fortail->per_serving);
-				$mufa = ($makro->MUFA/100)*($fortail->per_serving);
-				$lemak_trans = ($makro->lemak_trans/100)*($fortail->per_serving);
-				$lemak_jenuh = ($makro->lemak_jenuh/100)*($fortail->per_serving);
-				$sfa = ($makro->SFA/100)*($fortail->per_serving);
-				$omega6 = ($makro->omega6/100)*($fortail->per_serving);
-				$omega9 = ($makro->omega9/100)*($fortail->per_serving);
-				$linoleat = ($makro->linoleat/100)*($fortail->per_serving);
-				$kolestrol = ($makro->kolesterol/100)*($fortail->per_serving);
-				$protein = ($makro->protein/100)*($fortail->per_serving);
-				$fat = ($makro->fat)*($persen/100);
-				$air = ($makro->air)*($persen/100);
+				$karbohidrat =($makro->karbohidrat/100)*($fortail->per_serving);	$glukosa = ($makro->glukosa/100)*($fortail->per_serving);
+				$serat = ($makro->serat_pangan/100)*($fortail->per_serving);		$beta = ($makro->beta_glucan/100)*($fortail->per_serving);
+				$sorbitol = ($makro->sorbitol/100)*($fortail->per_serving);			$maltitol = ($makro->maltitol/100)*($fortail->per_serving);
+				$laktosa = ($makro->laktosa/100)*($fortail->per_serving);			$sukrosa = ($makro->sukrosa/100)*($fortail->per_serving);
+				$gula = ($makro->gula/100)*($fortail->per_serving);					$erythritol  = ($makro->erythritol /100)*($fortail->per_serving);
+				$dha = ($makro->DHA/100)*($fortail->per_serving);					$epa = ($makro->EPA/100)*($fortail->per_serving);
+				$omega3 = ($makro->Omega3/100)*($fortail->per_serving);				$mufa = ($makro->MUFA/100)*($fortail->per_serving);
+				$lemak_trans = ($makro->lemak_trans/100)*($fortail->per_serving);	$lemak_jenuh = ($makro->lemak_jenuh/100)*($fortail->per_serving);
+				$sfa = ($makro->SFA/100)*($fortail->per_serving);					$omega6 = ($makro->omega6/100)*($fortail->per_serving);
+				$omega9 = ($makro->omega9/100)*($fortail->per_serving);				$linoleat = ($makro->linoleat/100)*($fortail->per_serving);
+				$kolestrol = ($makro->kolesterol/100)*($fortail->per_serving);		$protein = ($makro->protein/100)*($fortail->per_serving);
+				$fat = ($makro->fat)*($persen/100);									$air = ($makro->air)*($persen/100);
 				// mineral
-				$ca = ($mineral->ca/100)*($fortail->per_serving);
-				$mg = ($mineral->mg/100)*($fortail->per_serving);
-				$k = ($mineral->k/100)*($fortail->per_serving);
-				$zink = ($mineral->zink/100)*($fortail->per_serving);
-				$p = ($mineral->p/100)*($fortail->per_serving);
-				$na = ($mineral->na/100)*($fortail->per_serving);
-				$naci = ($mineral->naci/100)*($fortail->per_serving);
-				$energi = ($mineral->energi/100)*($fortail->per_serving);
-				$fosfor = ($mineral->fosfor/100)*($fortail->per_serving);
-				$mn = ($mineral->mn/100)*($fortail->per_serving);
-				$cr = ($mineral->cr/100)*($fortail->per_serving);
-				$fe = ($mineral->fe/100)*($fortail->per_serving);
+				$ca = ($mineral->ca/100)*($fortail->per_serving);					$mg = ($mineral->mg/100)*($fortail->per_serving);
+				$k = ($mineral->k/100)*($fortail->per_serving);						$zink = ($mineral->zink/100)*($fortail->per_serving);
+				$p = ($mineral->p/100)*($fortail->per_serving);						$na = ($mineral->na/100)*($fortail->per_serving);
+				$naci = ($mineral->naci/100)*($fortail->per_serving);				$energi = ($mineral->energi/100)*($fortail->per_serving);
+				$fosfor = ($mineral->fosfor/100)*($fortail->per_serving);			$mn = ($mineral->mn/100)*($fortail->per_serving);
+				$cr = ($mineral->cr/100)*($fortail->per_serving);					$fe = ($mineral->fe/100)*($fortail->per_serving);
 				// vitamin
 				$vitA = ($vitamin->vitA/100)*($fortail->per_serving);  				$vitB1 = ($vitamin->vitB1/100)*($fortail->per_serving);
 				$vitB2 = ($vitamin->vitB2/100)*($fortail->per_serving); 			$vitB3 = ($vitamin->vitB3/100)*($fortail->per_serving);
@@ -314,8 +294,6 @@ class FormulaController extends Controller
 				$aureus = ($mikro->aureus)*($persen/100);					 		$TPC = ($mikro->TPC)*($persen/100); 
 				$Yeast = ($mikro->Yeast)*($persen/100);					  			$Coliform = ($mikro->Coliform)*($persen/100); 
 				$Coli = ($mikro->Coli)*($persen/100);					  			$Bacilluscereus = ($mikro->Bacilluscereus)*($persen/100); 
-
-				       
 			}
 
             // Harga Pergram
@@ -338,14 +316,10 @@ class FormulaController extends Controller
             $harga_per_kg = $bahan->harga_satuan; $harga_per_kg = round($harga_per_kg,2);         
             $detail_harga->push([
 				// data
-				'no' => ++$no,  
-                'id' => $fortail->id,
-                'kode_oracle' => $bahan->kode_oracle,
-                'nama_sederhana' => $bahan->nama_sederhana,
-				'bahan' => $bahan->id,
-				'hitung_btp' => $hitung_btp,
-				'id_ingeradient' => $bahan->id_ingeradient,
-				'hpg' => $hpg,
+				'no' => ++$no,  					'kode_oracle' => $bahan->kode_oracle,
+                'id' => $fortail->id,				'nama_sederhana' => $bahan->nama_sederhana,
+				'bahan' => $bahan->id,				'hitung_btp' => $hitung_btp,
+				'hpg' => $hpg,						'id_ingeradient' => $bahan->id_ingeradient,
 				//makro
 				'karbohidrat' => $karbohidrat, 		'glukosa' => $glukosa ,
 				'serat' => $serat ,            		'beta' => $beta,
@@ -394,7 +368,6 @@ class FormulaController extends Controller
 				'Salmonella' => $Salmonella,		'Coliform' => $Coliform,
 				'aureus' => $aureus,				'Coli' => $Coli,
 				'TPC' => $TPC,						'Bacilluscereus' => $Bacilluscereus,
-
 				// data
                 'persen' => $persen,               'per_serving' =>  $berat_per_serving,
                 'per_batch' => $berat_per_batch,   'harga_per_serving' => $harga_per_serving,
@@ -511,8 +484,8 @@ class FormulaController extends Controller
 			'total_pb' => $total_pb,					'total_sn' => $total_sn,
 			'total_cd' => $total_cd,
 			// RPC
-			'total_rpc_as' => $total_rpc_as,					'total_rpc_hg' => $total_rpc_hg,
-			'total_rpc_pb' => $total_rpc_pb,					'total_rpc_sn' => $total_rpc_sn,
+			'total_rpc_as' => $total_rpc_as,			'total_rpc_hg' => $total_rpc_hg,
+			'total_rpc_pb' => $total_rpc_pb,			'total_rpc_sn' => $total_rpc_sn,
 			'total_rpc_cd' => $total_rpc_cd,
 			// Mikro
 			'total_Enterobacter' => $total_Enterobacter,'total_Yeast' => $total_Yeast,
@@ -561,7 +534,7 @@ class FormulaController extends Controller
 		$data = $request->file('filename');
 		$nama = $data->getClientOriginalName();
 	
-		$project = pkp_project::where('id_project',$id)->first();
+		$project = PkpProject::where('id_project',$id)->first();
 		$project->file=$nama;
 		$project->save();
 
@@ -572,7 +545,7 @@ class FormulaController extends Controller
 	}
 
 	public function hapus_upload($id){
-		$project = pkp_project::where('id_project',$id)->first();
+		$project = PkpProject::where('id_project',$id)->first();
 		$project->file=NULL;
 		$project->save();
 		return redirect::back();
@@ -582,7 +555,7 @@ class FormulaController extends Controller
 		$data = $request->file('filename');
 		$nama = $data->getClientOriginalName();
 	
-		$project = project_pdf::where('id_project_pdf',$id)->first();
+		$project = ProjectPDF::where('id_project_pdf',$id)->first();
 		$project->file=$nama;
 		$project->save();
 
@@ -593,7 +566,7 @@ class FormulaController extends Controller
 	}
 
 	public function hapus_upload_pdf($id){
-		$project = project_pdf::where('id_project_pdf',$id)->first();
+		$project = ProjectPDF::where('id_project_pdf',$id)->first();
 		$project->file=NULL;
 		$project->save();
 		return redirect::back();

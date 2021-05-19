@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\Mail;
 use App\model\dev\Bahan;
 use App\model\dev\Formula;
 use App\model\dev\Fortail;
-use App\model\pkp\pkp_project;
-use App\model\pkp\project_pdf;
+use App\model\pkp\PkpProject;
+use App\model\pkp\ProjectPDF;
 
 use Redirect;
 use DB;
@@ -45,7 +45,6 @@ class ScaleController extends Controller
 
         $wb = $formula->workbook_id;
         return redirect::back()->with('status','Base Telah Diubah menjadi '.$base);
-
     }
 
     public function cekscale(Request $request, $for,$idf){
@@ -89,13 +88,9 @@ class ScaleController extends Controller
             }            
         }        
 
-        // Start Check Scale
         $scalecollect = collect();
-        // Hitung Granulasi
         $granulasi = 0;
-        // Hitung premix
         $premix = 0;
-        // Get Fortails;
         $fortails  = Fortail::where('formula_id',$idf)->get();
 
         // Target Scale Jserving
@@ -103,14 +98,10 @@ class ScaleController extends Controller
             $jServing = $formula->serving;
             $i = 0;   
             foreach($fortails as $fortail){
-                // Urutan
-                ++$i;
-                // Get Scale Serving                
+                ++$i;          
                 $Serving = $fortail->per_serving;                                
                 $c_scale_serving = ($target_value * $Serving) / $jServing;
-                // Get Scale Batch
                 $c_scale_batch = $c_scale_serving * $base;
-                // Pembulatan
                 $c_scale_serving = round($c_scale_serving,5);
                 $c_scale_batch = round($c_scale_batch,5);
                 // Get Other Component
@@ -121,7 +112,6 @@ class ScaleController extends Controller
                 $c_premix = $fortail->premix;
                 $c_per_batch = $fortail->per_batch;
                 $c_per_serving = $fortail->per_serving;
-                // Insert To Collect
                 $scalecollect->push([        
                     'no' => $c_no,                
                     'id' => $c_id,
@@ -155,14 +145,10 @@ class ScaleController extends Controller
             $i = 0;   
             $Serving_target = $target_fortail->per_serving;
             foreach($fortails as $fortail){
-                // Urutan
                 ++$i;
-                // Get Scale Serving
                 $Serving = $fortail->per_serving;                
                 $c_scale_serving = ($Serving * $target_value) / $Serving_target;
-                // Get Scale Batch
                 $c_scale_batch = $c_scale_serving * $base;
-                // Pembulatan
                 $c_scale_serving = round($c_scale_serving,5);
                 $c_scale_batch = round($c_scale_batch,5);
                 // Get Other Component
@@ -173,7 +159,6 @@ class ScaleController extends Controller
                 $c_premix = $fortail->premix;
                 $c_per_batch = $fortail->per_batch;
                 $c_per_serving = $fortail->per_serving;
-                // Insert To Collect
                 $scalecollect->push([        
                     'no' => $c_no,                
                     'id' => $c_id,
@@ -210,15 +195,10 @@ class ScaleController extends Controller
             
             $i = 0;   
             foreach($fortails as $fortail){
-                // Urutan
                 ++$i;
-                // Serving
                 $sServing = $fortail->per_serving;
-                // Get Scale Batch
                 $c_scale_batch = $sServing * $c_newbase;
-                // Get Scale Serving
                 $c_scale_serving = $sServing;
-                // Pembulatan
                 $c_scale_serving = round($c_scale_serving,5);
                 $c_scale_batch = round($c_scale_batch,5);
                 // Get Other Component
@@ -229,7 +209,6 @@ class ScaleController extends Controller
                 $c_premix = $fortail->premix;
                 $c_per_batch = $fortail->per_batch;
                 $c_per_serving = $fortail->per_serving;
-                // Insert To Collect
                 $scalecollect->push([        
                     'no' => $c_no,                
                     'id' => $c_id,
@@ -265,14 +244,10 @@ class ScaleController extends Controller
             $c_newbase = $target_value / $jsServing_target;
             $i = 0;   
             foreach($fortails as $fortail){
-                // Urutan
                 ++$i;
                 $sServing = $fortail->per_serving;
-                // Get Scale Batch
                 $c_scale_batch = $sServing * $c_newbase;
-                // Get Scale Serving
                 $c_scale_serving = $sServing;
-                // Pembulatan
                 $c_scale_serving = round($c_scale_serving,5);
                 $c_scale_batch = round($c_scale_batch,5);
                 // Get Other Component
@@ -283,7 +258,6 @@ class ScaleController extends Controller
                 $c_premix = $fortail->premix;
                 $c_per_batch = $fortail->per_batch;
                 $c_per_serving = $fortail->per_serving;
-                // Insert To Collect
                 $scalecollect->push([        
                     'no' => $c_no,                
                     'id' => $c_id,
@@ -392,8 +366,10 @@ class ScaleController extends Controller
             $Serving   = $request->Serving[$i];     
             if($request->Batch[$i]!=0){
                 $Batch     = $request->Batch[$i];
+                $total_batch    = $total_batch + $Batch;
             }elseif($request->Batch[$i]==0 && $request->total_btc!=NULL){
                 $total = ($request->total_btc/$request->total_svg)*$request->Serving[$i];
+                $total_batch    = $request->total_btc;
                 $Batch = $total;
             }
 
@@ -403,8 +379,6 @@ class ScaleController extends Controller
             $myFortail->per_serving = $Serving;
             $myFortail->save();
             
-            $total_batch    = $total_batch + $Batch;
-            $total_batch    = $request->total_btc;
             $total_serving  = $total_serving + $Serving;
         }
         
@@ -422,14 +396,14 @@ class ScaleController extends Controller
                     $message->subject('INFO PRODEV');
                     $for = Formula::where('id', $idf)->first();
                     if($for->workbook_id!=NULL){
-                        $project = pkp_project::where('id_project',$for->workbook_id)->first();
+                        $project = PkpProject::where('id_project',$for->workbook_id)->first();
                         $user = DB::table('tr_users')->where('id', $project->userpenerima)->get();
                         foreach($user as $user){
                             $data = $user->email;
                             $message->to($data);
                         }
                     }elseif($for->workbook_pdf_id!=NULL){
-                        $project = project_pdf::where('id_project_pdf',$for->workbook_pdf_id)->first();
+                        $project = ProjectPDF::where('id_project_pdf',$for->workbook_pdf_id)->first();
                         $user = DB::table('tr_users')->where('id', $project->userpenerima)->get();
                         foreach($user as $user){
                             $data = $user->email;

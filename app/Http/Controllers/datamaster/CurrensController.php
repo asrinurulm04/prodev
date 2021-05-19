@@ -10,7 +10,7 @@ use Redirect;
 class CurrensController extends Controller
 {
     public function index(){
-        $currens = Curren::all();
+        $currens = Curren::select('id','currency','keterangan')->get();
         return view('datamaster.curren')->with([
             'currens' => $currens
         ]);
@@ -25,7 +25,6 @@ class CurrensController extends Controller
 
         return Redirect::back()->with('status','Currency '.$curren->currency.' Berhasil Dibuat');
     }
-
 
     public function update(Request $request, Curren $curren){
         $curren->currency = $request->currency;

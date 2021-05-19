@@ -1,33 +1,19 @@
 @extends('pv.tempvv')
 @section('title', 'Request PKP')
-@section('judulhalaman','Request PKP')
 @section('content')
 
-<div class="x_panel">
-  <div class="col-md-3 col-sm-3 col-xs-12"></div>
-  <div class="col-md-8 col-sm-5 col-xs-12">
-    <div class="tabbable">
-      <ul class="nav nav-tabs wizard">
-        <li class="active"><a href="" ><span class="nmbr">1</span>Information</a></li>
-        <li class="completed"><a href=""><span class="nmbr">2</span>PKP</a></li>
-        <li class="active"><a href=""><span class="nmbr">3</span>File</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="col-md-12 col-xs-12">
-    <table class="table table-bordered">
-      <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
-        <td>Mandatory Information</td>
-        <td>* : Filled by Marketing</td>
-        <td>^ : Filled By PV</td>
-        <td>** : Filled by Marketing Or PV</td>
-      </tr>
-    </table>
-  </div>
+<div class="col-md-12 col-xs-12">
+  <table class="table table-bordered">
+    <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
+      <td>Mandatory Information</td>
+      <td>* : Filled by Marketing</td>
+      <td>^ : Filled By PV</td>
+      <td>** : Filled by Marketing Or PV</td>
+    </tr>
+  </table>
 </div>
   
 <form class="form-horizontal form-label-left" method="POST" action="{{ route('tippp') }}">
-<div class="row">
   <div class="col-md-12 col-xs-12">
     <div class="x_panel">
       <div class="x_title">
@@ -46,7 +32,7 @@
             <label class="control-label col-md-2 col-sm-2 col-xs-12" for="last-name" style="color:#31a9b8">Target Market</label>
             <label class="control-label col-md-1 col-sm-1 col-xs-12" for="last-name" style="color:#31a9b8">Gender*:</label>
             <div class="col-md-4 col-sm-3 col-xs-12">
-              <select id="gender"  name="gender" class="form-control" >
+              <select id="gender"  name="gender" class="form-control items" >
                 <option disabled selected>-- Select Gender --</option>
                 <option value="male">Male</option>
                 <option value="female">Female</option>
@@ -88,7 +74,7 @@
           <div class="form-group row">
             <label for="middle-name" class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#31a9b8">Uniqueness of Idea* </label>
             <div class="col-md-4 col-sm-4 col-xs-12">
-              <select class="form-control form-control-line" name="uniq_idea" >
+              <select class="form-control form-control-line items" name="uniq_idea" >
                 <option disabled="" selected="">-- Select One --</option>
                 @foreach($idea as $idea)
                 <option value="{{ $idea->uniqueness_of_idea }}">{{ $idea->uniqueness_of_idea }}</option>
@@ -97,7 +83,7 @@
             </div>
             <label class="control-label col-md-1 col-sm-1 col-xs-12" style="color:#31a9b8">Estimated*</label>
             <div class="col-md-4 col-sm-4 col-xs-12">
-              <select class="form-control form-control-line" name="estimated" >
+              <select class="form-control form-control-line items" name="estimated" >
                 <option disabled="" selected="">-- Select Estimated potential market --</option>
                 @foreach($market as $market)
                 <option value="{{ $market->estimasi_market }}">{{ $market->estimasi_market }}</option>
@@ -116,9 +102,6 @@
       </div>
     </div>
   </div>
-</div>
-
-<div class="row">
   <div class="col-md-12 col-xs-12">
     <div class="x_panel">
       <div class="x_title">
@@ -198,8 +181,6 @@
       </div>
     </div>
   </div>
-</div>
-<div class="row">
   <div class="col-md-12 col-xs-12">
     <div class="x_panel">
       <div class="x_title">
@@ -210,7 +191,7 @@
           <div class="form-group">
             <label class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#31a9b8">Product Form*</label>
             <div class="col-md-9 col-sm-9 col-xs-12">
-              <select  id="product" name="product" class="form-control" >
+              <select  id="product" name="product" class="form-control items" >
                 <option disabled selected>-- Select one --</option>
                 <option value="powder">Powder</option>
                 <option value="solid">Solid</option>
@@ -238,7 +219,7 @@
           <div class="form-group">
             <label class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#cf3721">No category BPOM^</label>
             <div class="col-md-2 col-sm-2 col-xs-12">
-              <select class="form-control"  id="bpom" name="bpom">
+              <select class="form-control items"  id="bpom" name="bpom">
                 <option value=""></option>
                 @foreach($pangan as $dp)
                 <option value="{{ $dp->id_pangan }}">{{ $dp->no_kategori }}</option>
@@ -247,7 +228,7 @@
             </div>
             <label class="control-label col-md-1 col-sm-1 col-xs-12" style="color:#cf3721">category</label>
             <div class="col-md-3 col-sm-3 col-xs-12">
-              <select name="katbpom"  id="katbpom" class="form-control">
+              <select name="katbpom"  id="katbpom" class="form-control items">
                 <option value=""></option>
                 @foreach($pangan as $kat)
                 <option value="{{$kat->id_pangan}}">{{$kat->kategori}}</option>
@@ -255,7 +236,7 @@
               </select>
             </div>
             <div class="col-md-3 col-sm-3 col-xs-12">
-              <select name="olahan"  id="olahan" class="form-control">
+              <select name="olahan"  id="olahan" class="form-control items">
               </select>
             </div>
           </div>
@@ -343,14 +324,14 @@
       </div>
     </div>
   </div>
-</div>
 </form>
-
 @endsection
+
 @section('s')
+<link href="{{ asset('css/select2.min.css') }}" rel="stylesheet">
+<script src="{{ asset('js/select2/select2.min.js') }}"></script>
 <script>
   $(document).ready(function() {
-
     var idkomponen = []
     <?php foreach($komponen as $key => $value) { ?>
       if(!idkomponen){
@@ -378,131 +359,121 @@
         "</select></td><td><select name='detail[]' multiple='multiple' class='form-control items' id='detaill"+(a+i)+"'>"+
         "</select></td><td><textarea type='text' class='form-control' name='ket[]' id='ket'></textarea></td><td></td>");
 
-      var b = a+i;
-      $('#komponen' + b).on('change', function(){
-        var myId = $(this).val();
-        if(myId){
-          $.ajax({
-            url: '{{URL::to('getdetail')}}/'+myId,
-            type: "GET",
-            dataType: "json",
-            beforeSend: function(){
-              $('#loader').css("visibility", "visible");
+        var b = a+i;
+        $('#komponen' + b).on('change', function(){
+          var myId = $(this).val();
+            if(myId){
+              $.ajax({
+                url: '{{URL::to('getdetail')}}/'+myId,
+                type: "GET",
+                dataType: "json",
+                beforeSend: function(){
+                $('#loader').css("visibility", "visible");
             },
-
             success:function(data){
-              $('#detaill' + b).empty();
-              $.each(data, function(key, value){
-                $('#detaill' + b).append('<option value="'+ key +'">' + value + '</option>');
-              });
-            },
-            complete: function(){
-              $('#loader').css("visibility","hidden");
+                $('#detaill' + b).empty();
+                $.each(data, function(key, value){
+                  $('#detaill' + b).append('<option value="'+ key +'">' + value + '</option>');
+                });
+              },
+              complete: function(){
+                $('#loader').css("visibility","hidden");
             }
           });
+          }
+          else{
+            $('#detaill' + b).empty();
+          }
+        });
 
-        }
-        else{
-          $('#detaill' + b).empty();
-        }
-      });
-
-      $('#komponen'+b).on('change', function(){
+        $('#komponen'+b).on('change', function(){
         var myId = $(this).val();
-        if(myId){
-          $.ajax({
-            url: '{{URL::to('getkomponen')}}/'+myId,
-            type: "GET",
-            dataType: "json",
-            beforeSend: function(){
-              $('#loader').css("visibility", "visible");
-            },
+          if(myId){
+            $.ajax({
+              url: '{{URL::to('getkomponen')}}/'+myId,
+              type: "GET",
+              dataType: "json",
+              beforeSend: function(){
+                  $('#loader').css("visibility", "visible");
+              },
+              success:function(data){
+                  $('#klaimm'+b).empty();
+                  $.each(data, function(key, value){
+                      $('#klaimm'+b).append('<option value="'+ key +'">' + value + '</option>');
+                  });
+              },
+              complete: function(){
+                $('#loader').css("visibility","hidden");
+              }
+            });
+          }
+          else{
+            $('#klaimm'+b).empty();
+          }
+        });
 
-            success:function(data){
-              $('#klaimm'+b).empty();
-              $.each(data, function(key, value){
-                $('#klaimm'+b).append('<option value="'+ key +'">' + value + '</option>');
-              });
-            },
-            complete: function(){
-              $('#loader').css("visibility","hidden");
-            }
-          });
-        }
-        else{
-          $('#klaimm'+b).empty();
-        }
+        $('#tab_logic').append('<tr id="addr' + (i + 1) + '"></tr>');
+        i++;
       });
-      $('#tab_logic').append('<tr id="addr' + (i + 1) + '"></tr>');
-      i++;
-    });
 
-    $('#komponen').on('change', function(){
-      var myId = $(this).val();
-      if(myId){
-        $.ajax({
-          url: '{{URL::to('getkomponen')}}/'+myId,
-          type: "GET",
-          dataType: "json",
-          beforeSend: function(){
-            $('#loader').css("visibility", "visible");
-          },
-
-          success:function(data){
-            console.log(data)
+      $('#komponen').on('change', function(){
+        var myId = $(this).val();
+          if(myId){
+            $.ajax({
+              url: '{{URL::to('getkomponen')}}/'+myId,
+              type: "GET",
+              dataType: "json",
+              beforeSend: function(){
+                $('#loader').css("visibility", "visible");
+              },
+              success:function(data){
+                  $('#klaimm').empty();
+                  $.each(data, function(key, value){
+                    $('#klaimm').append('<option value="'+ key +'">' + value + '</option>');
+                  });
+              },
+              complete: function(){
+                $('#loader').css("visibility","hidden");
+              }
+            });
+          }
+          else{
             $('#klaimm').empty();
-            $.each(data, function(key, value){
-                $('#klaimm').append('<option value="'+ key +'">' + value + '</option>');
-            });
-          },
-          complete: function(){
-            $('#loader').css("visibility","hidden");
           }
-        });
-      }
-      else{
-        $('#klaimm').empty();
-      }
-    });
+      });
 
-    $('#komponen').on('change', function(){
-      var myId = $(this).val();
-      if(myId){
-        $.ajax({
-          url: '{{URL::to('getdetail')}}/'+myId,
-          type: "GET",
-          dataType: "json",
-          beforeSend: function(){
-            $('#loader').css("visibility", "visible");
-          },
-
-          success:function(data){
-            console.log(data)
-            $('#detaill').empty();
-            $.each(data, function(key, value){
-              $('#detaill').append('<option value="'+ key +'">' + value + '</option>');
+      $('#komponen').on('change', function(){
+        var myId = $(this).val();
+          if(myId){
+            $.ajax({
+              url: '{{URL::to('getdetail')}}/'+myId,
+              type: "GET",
+              dataType: "json",
+              beforeSend: function(){
+                $('#loader').css("visibility", "visible");
+              },
+              success:function(data){
+                $('#detaill').empty();
+                $.each(data, function(key, value){
+                  $('#detaill').append('<option value="'+ key +'">' + value + '</option>');
+                });
+              },
+              complete: function(){
+                $('#loader').css("visibility","hidden");
+              }
             });
-          },
-          complete: function(){
-              $('#loader').css("visibility","hidden");
           }
-        });
-      }
-      else{
-        $('#katbpom').empty();
-      }
-    });
-
+          else{
+            $('#katbpom').empty();
+          }
+      });
   });
 </script>
 
 <script>
   function plus(){
     var plus = document.getElementById('radio_plus')
-
-    if(plus.checked != true){
-      document.getElementById('umur').innerHTML = "";
-    }else{
+    if(plus.checked == true){
       document.getElementById('umur').innerHTML =
         "<input type='text' readonly class='form-control' value='+' name='sampaiumur' id='sampaiumur'>"
     }
@@ -510,10 +481,7 @@
 
   function minus(){
     var minus = document.getElementById('radio_minus')
-
-    if(minus.checked != true){
-      document.getElementById('umur').innerHTML = "";
-    }else{
+    if(minus.checked == true){
       document.getElementById('umur').innerHTML =
         "<input type='text' readonly class='form-control' value='-' name='sampaiumur' id='sampaiumur'>"
     }
@@ -521,10 +489,7 @@
 
   function to(){
     var to = document.getElementById('radio_to')
-
-    if(to.checked != true){
-      document.getElementById('umur').innerHTML = "";
-    }else{
+    if(to.checked == true){
       document.getElementById('umur').innerHTML =
         '<input type="number" name="sampaiumur" id="sampaiumur" class="form-control col-md-12 col-xs-12">'
     }
@@ -553,13 +518,10 @@
   for(var i = 0; i < Object.keys(uom_primer).length; i++){
     pilihan_uom_primer += '<option value="'+uom_primer[i][i]+'">'+uom_primer[i][i]+'</option>';
   }
-  
+
   function baru(){
     var baru = document.getElementById('radio_baru')
-
-    if(baru.checked != true){
-      document.getElementById('lihat').innerHTML = "";
-    }else{
+    if(baru.checked == true){
       document.getElementById('lihat').innerHTML =
       "<hr>"+
         "<div class='form-group'>"+
@@ -568,10 +530,8 @@
        		"<input type='radio' name='gramasi' oninput='tiga()' id='radio_tiga'> 3 Dimensi &nbsp"+
       		"<input type='radio' name='gramasi' oninput='empat()' id='radio_empat'> 4 Dimensi &nbsp"+
 					"<div id='tampil'></div>"+
-				"</div>"+
-        "<hr>"+
-        "<h4><b><lable class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>*Information</lable></b></h4>"+
-        "<br><br>"+
+				"</div><hr>"+
+        "<h4><b><lable class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>*Information</lable></b></h4><br><br>"+
         "<div class='form-group'>"+
           "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>Primary</label>"+
           "<div class='col-md-10 col-sm-10 col-xs-12'>"+
@@ -596,9 +556,7 @@
 
   function dua(){
     var dua = document.getElementById('radio_dua');
-    if(dua.checked != true){
-      document.getElementById('tampil').innerHTML = "";
-    }else{
+    if(dua.checked == true){
       document.getElementById('tampil').innerHTML = "<br><div class='panel panel-default'>"+
 	      "<div class='panel-heading'><h5>Configuration</h5></div>"+
 	        "<div class='panel-body'>"+
@@ -782,14 +740,12 @@
 
   var kemaseksis = '';
   for(var i = 0; i < Object.keys(kemas).length; i++){
-  kemaseksis += '<option value="'+idkemas[i][i]+'">'+' ('+kemas6[i][i]+''+kemas7[i][i]+' '+kemas4[i][i]+''+kemas5[i][i]+' '+kemas2[i][i]+''+kemas3[i][i]+' '+kemas[i][i]+''+kemas1[i][i]+')</option>';
+  kemaseksis += '<option value="'+idkemas[i][i]+'">'+' ('+kemas6[i][i]+''+kemas7[i][i]+' '+kemas4[i][i]+''+kemas4[i][i]+' '+kemas2[i][i]+''+kemas3[i][i]+' '+kemas[i][i]+''+kemas1[i][i]+')</option>';
   }
 
   function pilih(){
     var eksis = document.getElementById('radio_project')
-    if(eksis.checked != true){
-      document.getElementById('lihat').innerHTML = "";
-    }else{
+    if(eksis.checked == true){
       document.getElementById('lihat').innerHTML =
       "<hr>"+
       "<div class='form-group'>"+
@@ -799,127 +755,27 @@
             '<select name="data_eksis" class="form-control" id="txtOccupation" >'+
             '<option value="" readonly selected>-->Select One<--</option>'+pilihan+'</select>'+
           "</div>"+
-        "</div>"+"<div class='form-group'>"+
-        "<hr>"+
+        "</div>"+"<div class='form-group'><hr>"+
       "</di>"
     }
   }
 
   function eksis(){
     var eksis = document.getElementById('radio_eksis')
-    if(eksis.checked != true){
-      document.getElementById('lihat').innerHTML = "";
-    }else{
+    if(eksis.checked == true){
       document.getElementById('lihat').innerHTML =
       "<hr>"+
       "<div class='form-group'>"+
         "<div class='form-group'>"+
           "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>Configuration</label>"+
           "<div class='col-md-9 col-sm-10 col-xs-12'>"+
-            '<select name="data_eksis" class="form-control" id="eksis" >'+
-              '<option value="" readonly selected>-->Select One<--</option>'+
-              kemaseksis+
-            '</select>'+
+            '<select name="data_eksis" class="form-control items" id="eksis" ><option value="" readonly selected>-->Select One<--</option>'+kemaseksis+'</select>'+
           "</div>"+
         "</div>"+"<div class='form-group'>"+
         "<hr>"+
       "</div>"
     }
   }
-</script>
-
-<script type="text/javascript">
-  $('.items').select2({
-    placeholder: '-->Select One<--',
-    allowClear: true
-  });
-
-  $(document).ready(function(){
-    // Get Pangan
-    $('#bpom').on('change', function(){
-      var myId = $(this).val();
-      if(myId){
-        $.ajax({
-          url: '{{URL::to('getpangan')}}/'+myId,
-          type: "GET",
-          dataType: "json",
-          beforeSend: function(){
-            $('#loader').css("visibility", "visible");
-          },
-
-          success:function(data){
-            console.log(data)
-            $('#katbpom').empty();
-            $.each(data, function(key, value){
-              $('#katbpom').append('<option value="'+ key +'">' + value + '</option>');
-            });
-          },
-          complete: function(){
-            $('#loader').css("visibility","hidden");
-          }
-        });
-      }
-      else{
-        $('#katbpom').empty();
-      }
-    });
-    // kategori bpom
-    $('#katbpom').on('change', function(){
-      var myId = $(this).val();
-        if(myId){
-          $.ajax({
-            url: '{{URL::to('getkatpangan')}}/'+myId,
-            type: "GET",
-            dataType: "json",
-            beforeSend: function(){
-              $('#loader').css("visibility", "visible");
-            },
-
-            success:function(data){
-              console.log(data)
-              $('#bpom').empty();
-              $.each(data, function(key, value){
-                $('#bpom').append('<option value="'+ key +'">' + value + '</option>');
-              });
-            },
-            complete: function(){
-              $('#loader').css("visibility","hidden");
-            }
-        });
-      }
-      else{
-        $('#bpom').empty();
-      }
-    });
-
-    // get Olahan
-    $('#bpom').on('change', function(){
-      var myId = $(this).val();
-      if(myId){
-        $.ajax({
-          url: '{{URL::to('getolahan')}}/'+myId,
-          type: "GET",
-          dataType: "json",
-          beforeSend: function(){
-            $('#loader').css("visibility", "visible");
-          },
-
-          success:function(data){
-            $('#olahan').empty();
-            $.each(data, function(key, value){
-              $('#olahan').append('<option value="'+ key +'">' + value + '</option>');
-            });
-          },
-          complete: function(){
-            $('#loader').css("visibility","hidden");
-          }
-        });
-      }
-      else{
-        $('#katbpom').empty();
-      }
-    });
-  });
 
   function template(){
     var template = document.getElementById('radio_temp')
@@ -967,9 +823,99 @@
   }
 </script>
 
+<script type="text/javascript">
+  $('select').select2({
+    placeholder: '-->Select One<--',
+    allowClear: true
+  });
+
+  $(document).ready(function(){
+    $('#bpom').select2();
+    $('#olahan').select2();
+    $('#katbpom').select2();
+      // Get Pangan
+      $('#bpom').on('change', function(){
+        var myId = $(this).val();
+          if(myId){
+            $.ajax({
+              url: '{{URL::to('getpangan')}}/'+myId,
+              type: "GET",
+              dataType: "json",
+              beforeSend: function(){ 
+                  $('#loader').css("visibility", "visible");
+              },
+              success:function(data){
+                $('#katbpom').empty();
+                $.each(data, function(key, value){
+                  $('#katbpom').append('<option value="'+ key +'">' + value + '</option>');
+                });
+              },
+              complete: function(){
+                $('#loader').css("visibility","hidden");
+              }
+            });
+          }
+          else{
+            $('#katbpom').empty();
+          }
+      });
+      // get BPOM
+      $('#katbpom').on('change', function(){
+        var myId = $(this).val();
+          if(myId){
+            $.ajax({
+              url: '{{URL::to('getkatpangan')}}/'+myId,
+              type: "GET",
+              dataType: "json",
+              beforeSend: function(){
+                $('#loader').css("visibility", "visible");
+              },
+              success:function(data){
+                $('#bpom').empty();
+                $.each(data, function(key, value){
+                  $('#bpom').append('<option value="'+ key +'">' + value + '</option>');
+                });
+              },
+              complete: function(){
+                $('#loader').css("visibility","hidden");
+              }
+            });
+          }
+          else{
+            $('#bpom').empty();
+          }
+      });
+
+      // get Olahan
+      $('#bpom').on('change', function(){
+        var myId = $(this).val();
+        if(myId){
+          $.ajax({
+            url: '{{URL::to('getolahan')}}/'+myId,
+            type: "GET",
+            dataType: "json",
+            beforeSend: function(){
+              $('#loader').css("visibility", "visible");
+            },
+            success:function(data){
+              $('#olahan').empty();
+              $.each(data, function(key, value){
+                $('#olahan').append('<option value="'+ key +'">' + value + '</option>');
+              });
+            },
+            complete: function(){
+              $('#loader').css("visibility","hidden");
+            }
+          });
+        }
+        else{
+          $('#katbpom').empty();
+        }
+      });
+  });
+</script>
 <script>
   $(document).ready(function() {
-    // delete baris proses
     $('#tabledata').on('click', 'tr a', function(e) {
       e.preventDefault();
       $(this).parents('tr').remove();
@@ -982,22 +928,10 @@
         "<option value='2nd Month'>2nd Month</option>"+
         "<option value='3rd Month'>3rd Month</option>"+
       "</select></td><td><a hreaf='' class='btn btn-danger'><li class='fa fa-trash'></li> Delete</a></td>");
-
       $('#tabledata').append('<tr id="addrow' + (i + 1) + '"></tr>');
       i++;
     });
   });
-
-  $('.input').keyup(function(event) {
-    // skip for arrow keys
-    if(event.which >= 37 && event.which <= 40) return;
-
-    // format number
-    $(this).val(function(index, value) {
-      return value.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    });
-  });
 </script>
-
 <script src="{{ asset('js/asrul.js') }}"></script>
 @endsection

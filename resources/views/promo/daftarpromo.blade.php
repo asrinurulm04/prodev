@@ -13,9 +13,9 @@
           <a href="{{ route('datapromo',$pkp->id_pkp_promo)}}" class="btn btn-primary btn-sm" type="button"><li class="fa fa-plus"></li> Add Data</a>
         @else
           <a class="btn btn-info btn-sm" href="{{ Route('lihatpromo',['id_pkp_promo' => $data->id_pkp_promoo, 'revisi' => $data->revisi, 'turunan' => $data->turunan]) }}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i> Show</a>
-        @if($data->status_promo=='draf' || $data->status_promo=='revisi')
-        <a class="btn btn-warning btn-sm" href="{{ route('datapromo11', ['id_pkp_promo' => $data->id_pkp_promoo, 'revisi' => $data->revisi, 'turunan' => $data->turunan]) }}" data-toggle="tooltip" title="Edit"><i class="fa fa-edit"></i> Edit</a>
-        @endif
+          @if($data->status_promo=='draf' || $data->status_promo=='revisi')
+          <a class="btn btn-warning btn-sm" href="{{ route('datapromo11', ['id_pkp_promo' => $data->id_pkp_promoo, 'revisi' => $data->revisi, 'turunan' => $data->turunan]) }}" data-toggle="tooltip" title="Edit"><i class="fa fa-edit"></i> Edit</a>
+          @endif
         @endif
         @if(auth()->user()->role->namaRule == 'pv_lokal')
           @if($pkp->status_project=="revisi")

@@ -6,7 +6,6 @@
 <link href="{{ asset('img/prod.png') }}" rel="icon">
 <link href="{{ asset('vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
 <link href="{{ asset('vendors/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
-<link href="{{ asset('vendors/nprogress/nprogress.css') }}" rel="stylesheet">
 <link href="{{ asset('build/css/custom.min.css') }}" rel="stylesheet">
 </head>
 <body class="nav-md">
@@ -145,8 +144,6 @@
 <!-- jQuery -->
 <script src="../vendors/jquery/dist/jquery.min.js"></script>
 <script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
-<script src="../vendors/fastclick/lib/fastclick.js"></script>
-<script src="../vendors/nprogress/nprogress.js"></script>
 <script>
 function myFunction() {
   var x = document.getElementById("myInput");
