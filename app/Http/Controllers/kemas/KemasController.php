@@ -10,7 +10,7 @@ use App\model\Imports\Import;
 use App\model\Imports\KemasImport;
 use App\model\Modelkemas\FormulaKemas;
 use App\model\Modelkemas\KonsepKemas;
-use App\model\Modelfn\Finance;
+use App\model\Modelfn\finance;
 use App\model\dev\Formula;
 use App\model\pkp\SubPKP;
 use Excel;
@@ -26,10 +26,10 @@ class KemasController extends Controller
 		$formulas = SubPKP::where('id_pkp',$id)->where('status_data','=','active')->get();
 		$request->session()->get('id_feasibility');
 		$request->session()->put('id_feasibility', $id_feasibility);
-		$fe=Finance::find($id_feasibility);
+		$fe=finance::find($id_feasibility);
 		$kemas =FormulaKemas::where('id_feasibility', $id_feasibility)->get();
 		$konsep = KonsepKemas::where('id_feasibility', $id_feasibility)->get();
-		$dataF = Finance::where('id_feasibility', $id_feasibility)->get();
+		$dataF = finance::where('id_feasibility', $id_feasibility)->get();
 		return view('kemas.uploadkemas', compact('toImport'))->with([
 				'formulas' => $formulas,
 				'dataF' => $dataF,
@@ -58,7 +58,7 @@ class KemasController extends Controller
             $hapus = FormulaKemas::where('id_feasibility',$id)->delete();
             $changekemas = FormulaKemas::where('id_feasibility', '0')->update(['id_feasibility'=>$id]);
             // $changekemas->save();
-			$change_status  = Finance::where('id_feasibility',$id_feasibility)->first();
+			$change_status  = finance::where('id_feasibility',$id_feasibility)->first();
 			$change_status->status_kemas='sending';
 			$change_status->save();
 

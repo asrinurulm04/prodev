@@ -9,7 +9,7 @@ use App\model\master\Brand;
 use Redirect;
 use Auth;
 
-class SubBrandController extends Controller
+class subbrandController extends Controller
 {
     public function __construct(){
         $this->middleware('auth');

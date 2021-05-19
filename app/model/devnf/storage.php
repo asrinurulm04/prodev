@@ -4,7 +4,7 @@ namespace App\model\devnf;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Storage extends Model
+class storage extends Model
 {
     protected $table = "tr_storage";
     protected $primaryKey ='id';

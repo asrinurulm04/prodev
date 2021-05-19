@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\model\dev\Formula;
-use App\model\Modelfn\Finance;
+use App\model\Modelfn\finance;
 use App\model\Modelkemas\KonsepKemas;
 use App\model\Modelkemas\FormulaKemas;
 use App\model\pkp\SubPKP;
@@ -22,10 +22,10 @@ class KonsepController extends Controller
 
     public function index($id,$id_feasibility){
         $formulas = SubPKP::where('id_pkp',$id)->where('status_data','=','active')->get();
-        $fe=Finance::find($id_feasibility);
+        $fe=finance::find($id_feasibility);
         $myFormula = Formula::where('id',$id)->get();
         $konsep = KonsepKemas::where('id_feasibility',$id_feasibility)->get();
-        $dataF = Finance::where('id_feasibility', $id_feasibility)->get();
+        $dataF = finance::where('id_feasibility', $id_feasibility)->get();
         $count_konsep = KonsepKemas::where('id_feasibility',$id_feasibility)->count();
         return view('kemas/konsep', compact('gramasi'))->with([
             'fe' => $fe,
@@ -46,10 +46,10 @@ class KonsepController extends Controller
         $id = $request->session()->get('id_feasibility');
         $myFormula = Formula::where('id',$id)->first();
         $konsep = KonsepKemas::where('id_feasibility',$id_feasibility)->get();
-        $data = Finance::where('id_feasibility', $id)->pluck('id_formula')->first();
-        $fe=Finance::find($id_feasibility);
+        $data = finance::where('id_feasibility', $id)->pluck('id_formula')->first();
+        $fe=finance::find($id_feasibility);
 		$kemas =FormulaKemas::where('id_feasibility', $id_feasibility)->get();
-        $dataF = Finance::where('id_feasibility', $id_feasibility)->get();
+        $dataF = finance::where('id_feasibility', $id_feasibility)->get();
         return view('kemas.has', compact('toImport'))->with([
             'fe'=>$fe,
             'dataF' => $dataF,
@@ -84,7 +84,7 @@ class KonsepController extends Controller
         $kemass->renceng=$request->ren;
         $kemass->save();
 
-        $change_status  = Finance::where('id_feasibility',$request->finance)->first();
+        $change_status  = finance::where('id_feasibility',$request->finance)->first();
 		$change_status->status_kemas='sending';
 		$change_status->save();
 

@@ -4,12 +4,11 @@ namespace App\Http\Controllers\pv;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
 use App\model\pkp\PkpProject;
 use App\model\pkp\ProjectPDF;
 use App\model\pkp\Forecast;
-use App\model\pkp\Klaim;
-use App\model\pkp\KemasPDF;
+use App\model\pkp\klaim;
+use App\model\pkp\kemaspdf;
 use App\model\pkp\DataKlaim;
 use App\model\pkp\DetailKlaim;
 use App\model\pkp\DataSES;
@@ -21,7 +20,7 @@ use DB;
 use Redirect;
 use Carbon\Carbon;
 
-class TemplateController extends Controller
+class templateController extends Controller
 {
     public function template(Request $request,$id_project_pdf){
         $pdf = SubPDF::where('pdf_id',$id_project_pdf)->max('turunan');
@@ -128,11 +127,11 @@ class TemplateController extends Controller
                 }
             }
 
-            $detailkemaspdf=KemasPDF::where('id_pdf',$id_project_pdf)->where('revisi',$max)->where('turunan',$pdf)->count();
+            $detailkemaspdf=kemaspdf::where('id_pdf',$id_project_pdf)->where('revisi',$max)->where('turunan',$pdf)->count();
             if($detailkemaspdf>0){
-                $isikemaspdf=KemasPDF::where('id_pdf',$id_project_pdf)->where('revisi',$max)->where('turunan',$pdf)->get();
+                $isikemaspdf=kemaspdf::where('id_pdf',$id_project_pdf)->where('revisi',$max)->where('turunan',$pdf)->get();
                 foreach ($isikemaspdf as $isikemaspdf){
-                    $detail= new KemasPDF;
+                    $detail= new kemaspdf;
                     $detail->id_pdf=$project->id_project_pdf;
                     $detail->revisi='0';
                     $detail->turunan='0';

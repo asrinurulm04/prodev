@@ -9,14 +9,14 @@ use Illuminate\Support\Facades\Mail;
 use App\model\pkp\PkpProject;
 use App\model\pkp\ProjectPDF;
 use App\model\pkp\DataSES;
-use App\model\pkp\SES;
+use App\model\pkp\ses;
 use App\model\pkp\PromoIdea;
-use App\model\pkp\Promo;
+use App\model\pkp\promo;
 use App\model\pkp\Allocation;
 use App\model\pkp\DataPromo;
 use App\model\pkp\SubPDF;
-use App\model\pkp\KemasPDF;
-use App\model\pkp\Klaim;
+use App\model\pkp\kemaspdf;
+use App\model\pkp\klaim;
 use App\model\pkp\DataKlaim;
 use App\model\pkp\DetailKlaim;
 use App\model\pkp\SubPKP;
@@ -67,10 +67,10 @@ class EmailController extends Controller
         $for = Forecast::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->get();
         $ses = DataSES::where([ ['id_pdf',$id_project_pdf], ['revisi',$revisi], ['turunan',$turunan] ])->get();
         $picture = FileProject::where('pdf_id',$id_project_pdf)->where('revisi','<=',$revisi)->where('turunan','<=',$turunan)->get();
-        $kemaspdf = KemasPDF::where('id_pdf',$id_project_pdf)->where('revisi','=',$revisi)->where('turunan','=',$turunan)->get();
+        $kemaspdf = kemaspdf::where('id_pdf',$id_project_pdf)->where('revisi','=',$revisi)->where('turunan','=',$turunan)->get();
         $dataklaim = DataKlaim::where('id_pdf',$id_project_pdf)->join('ms_klaim','ms_klaim.id','=','id_klaim')->where('revisi',$revisi)->where('turunan',$turunan)->get();
         $datadetail = DetailKlaim::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->get();
-        $hitungkemaspdf = KemasPDF::where('id_pdf',$id_project_pdf)->where('revisi','=',$revisi)->where('turunan','=',$turunan)->count();
+        $hitungkemaspdf = kemaspdf::where('id_pdf',$id_project_pdf)->where('revisi','=',$revisi)->where('turunan','=',$turunan)->count();
         try{
             Mail::send('pv.pdfemail', [
                 'pdf' => $pdf,
@@ -310,7 +310,7 @@ class EmailController extends Controller
     }
 
     public function approveemailpromo(Request $request,$id_pkp_promo){
-        $app = Promo::where('id_pkp_promo',$id_pkp_promo)->first();
+        $app = promo::where('id_pkp_promo',$id_pkp_promo)->first();
         $app->approval='approve';
         $app->save();
 
@@ -339,7 +339,7 @@ class EmailController extends Controller
     }
 
     public function rejectemailpromo($id_pkp_promo){
-        $app = Promo::where('id_pkp_promo',$id_pkp_promo)->first();
+        $app = promo::where('id_pkp_promo',$id_pkp_promo)->first();
         $app->approval='reject';
         $app->save();
     }

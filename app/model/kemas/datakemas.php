@@ -4,7 +4,7 @@ namespace App\model\kemas;
 
 use Illuminate\Database\Eloquent\Model;
 
-class DataKemas extends Model
+class datakemas extends Model
 {
     protected $table = 'tr_kemas';
     protected $primaryKey ='id_kemas';

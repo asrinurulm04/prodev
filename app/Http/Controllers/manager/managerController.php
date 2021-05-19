@@ -7,15 +7,15 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
 
-use App\model\manager\Pengajuan;
+use App\model\manager\pengajuan;
 use App\model\master\Brand;
 use App\model\pkp\PkpProject;
 use App\model\pkp\ProjectPDF;
 use App\model\pkp\DataSES;
 use App\model\dev\Formula;
 use App\model\pkp\PromoIdea;
-use App\model\pkp\Promo;
-use App\model\pkp\KemasPDF;
+use App\model\pkp\promo;
+use App\model\pkp\kemaspdf;
 use App\model\pkp\FileProject;
 use App\model\pkp\SubPKP;
 use App\model\pkp\DetailKlaim;
@@ -31,7 +31,7 @@ use DB;
 use Charts;
 use Auth;
 
-class ManagerController extends Controller
+class managerController extends Controller
 {
     public function __construct(){
         $this->middleware('auth');
@@ -43,8 +43,8 @@ class ManagerController extends Controller
         $hitungpkpselesai = PkpProject::where([['status_terima','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim',Auth::user()->Departement->id]])->count();
         $hitungpdfselesai2= ProjectPDF::where([['status_terima2','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim2',Auth::user()->Departement->id]])->count();
         $hitungpdfselesai= ProjectPDF::where([['status_terima','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim',Auth::user()->Departement->id]])->count();
-        $hitungpromoselesai2 = Promo::where([['status_terima2','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim2',Auth::user()->Departement->id]])->count();
-        $hitungpromoselesai = Promo::where([['status_terima','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim',Auth::user()->Departement->id]])->count();
+        $hitungpromoselesai2 = promo::where([['status_terima2','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim2',Auth::user()->Departement->id]])->count();
+        $hitungpromoselesai = promo::where([['status_terima','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim',Auth::user()->Departement->id]])->count();
         $hitungnotif2 = $hitungpkpselesai2 + $hitungpdfselesai2 + $hitungpromoselesai2 ;$hitungnotif = $hitungpkpselesai + $hitungpdfselesai + $hitungpromoselesai;
         $pkp = SubPKP::join('tr_project_pkp','tr_sub_pkp.id_pkp','=','tr_project_pkp.id_project')->where('status_data','active')->where('status_project','!=','draf')->orderBy('pkp_number','desc')->get();
         $brand = Brand::all();
@@ -65,8 +65,8 @@ class ManagerController extends Controller
         $hitungpkpselesai = PkpProject::where([['status_terima','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim',Auth::user()->Departement->id]])->count();
         $hitungpdfselesai2= ProjectPDF::where([['status_terima2','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim2',Auth::user()->Departement->id]])->count();
         $hitungpdfselesai= ProjectPDF::where([['status_terima','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim',Auth::user()->Departement->id]])->count();
-        $hitungpromoselesai2 = Promo::where([['status_terima2','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim2',Auth::user()->Departement->id]])->count();
-        $hitungpromoselesai = Promo::where([['status_terima','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim',Auth::user()->Departement->id]])->count();
+        $hitungpromoselesai2 = promo::where([['status_terima2','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim2',Auth::user()->Departement->id]])->count();
+        $hitungpromoselesai = promo::where([['status_terima','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim',Auth::user()->Departement->id]])->count();
         $hitungnotif2 = $hitungpkpselesai2 + $hitungpdfselesai2 + $hitungpromoselesai2 ;$hitungnotif = $hitungpkpselesai + $hitungpdfselesai + $hitungpromoselesai;
         return view('manager.listpdf')->with([
             'pdf' => $pdf,
@@ -86,8 +86,8 @@ class ManagerController extends Controller
         $hitungpkpselesai = PkpProject::where([['status_terima','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim',Auth::user()->Departement->id]])->count();
         $hitungpdfselesai2= ProjectPDF::where([['status_terima2','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim2',Auth::user()->Departement->id]])->count();
         $hitungpdfselesai= ProjectPDF::where([['status_terima','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim',Auth::user()->Departement->id]])->count();
-        $hitungpromoselesai2 = Promo::where([['status_terima2','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim2',Auth::user()->Departement->id]])->count();
-        $hitungpromoselesai = Promo::where([['status_terima','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim',Auth::user()->Departement->id]])->count();
+        $hitungpromoselesai2 = promo::where([['status_terima2','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim2',Auth::user()->Departement->id]])->count();
+        $hitungpromoselesai = promo::where([['status_terima','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim',Auth::user()->Departement->id]])->count();
         $hitungnotif2 = $hitungpkpselesai2 + $hitungpdfselesai2 + $hitungpromoselesai2 ;$hitungnotif = $hitungpkpselesai + $hitungpdfselesai + $hitungpromoselesai;
         return view('manager.listpromo')->with([
             'pkp' => $pkp,
@@ -101,7 +101,7 @@ class ManagerController extends Controller
     }
     
     public function pengajuan(Request $request){
-        $pengajuan = new Pengajuan;
+        $pengajuan = new pengajuan;
         $pengajuan->prioritas_pengajuan=$request->prioritas;
         $pengajuan->penerima='14';
         $pengajuan->id_pkp=$request->pkp;
@@ -151,7 +151,7 @@ class ManagerController extends Controller
     }
 
     public function pengajuanpdf(Request $request){
-        $pengajuan = new Pengajuan;
+        $pengajuan = new pengajuan;
         $pengajuan->prioritas_pengajuan=$request->prioritas;
         $pengajuan->penerima=$request->penerima;
         $pengajuan->id_pdf=$request->pdf;
@@ -194,7 +194,7 @@ class ManagerController extends Controller
     }
 
     public function pengajuanpromo(Request $request){
-        $pengajuan = new Pengajuan;
+        $pengajuan = new pengajuan;
         $pengajuan->prioritas_pengajuan=$request->prioritas;
         $pengajuan->penerima='14';
         $pengajuan->id_promo=$request->promo;
@@ -205,7 +205,7 @@ class ManagerController extends Controller
         $pengajuan->turunan=$request->turunan;
         $pengajuan->save();
 
-        $pkp = Promo::where('id_pkp_promo',$request->promo)->first();
+        $pkp = promo::where('id_pkp_promo',$request->promo)->first();
         $pkp->status_project='revisi';
         $pkp->save();
 
@@ -217,8 +217,8 @@ class ManagerController extends Controller
         $hitungpkpselesai = PkpProject::where([['status_terima','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim',Auth::user()->Departement->id]])->count();
         $hitungpdfselesai2= ProjectPDF::where([['status_terima2','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim2',Auth::user()->Departement->id]])->count();
         $hitungpdfselesai= ProjectPDF::where([['status_terima','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim',Auth::user()->Departement->id]])->count();
-        $hitungpromoselesai2 = Promo::where([['status_terima2','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim2',Auth::user()->Departement->id]])->count();
-        $hitungpromoselesai = Promo::where([['status_terima','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim',Auth::user()->Departement->id]])->count();
+        $hitungpromoselesai2 = promo::where([['status_terima2','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim2',Auth::user()->Departement->id]])->count();
+        $hitungpromoselesai = promo::where([['status_terima','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim',Auth::user()->Departement->id]])->count();
         $hitungnotif2 = $hitungpkpselesai2 + $hitungpdfselesai2 + $hitungpromoselesai2 ;$hitungnotif = $hitungpkpselesai + $hitungpdfselesai + $hitungpromoselesai;
         // chart PKP
         $revisi = PkpProject::where('status_project','=','revisi')->where('tujuankirim',Auth::user()->Departement->id)->count();
@@ -233,10 +233,10 @@ class ManagerController extends Controller
         $closepdf = ProjectPDF::where('status_project','=','close')->where('tujuankirim',Auth::user()->Departement->id)->count();
         $pie2  =	 Charts::create('pie', 'highcharts')->title('Data PDF')->elementlabel("Data PDF")->colors(['#ff9000', '#1384fb', '#2afb13', '#d5fb13'])->labels(['sent', 'revisi', 'proses', 'close'])->values([$sentpdf,$revisipdf,$prosespdf,$closepdf])->responsive(false);
         // chart promo
-        $revisipromo = Promo::where('status_project','=','revisi')->where('tujuankirim',Auth::user()->Departement->id)->count();
-        $prosespromo = Promo::where('status_project','=','proses')->where('tujuankirim',Auth::user()->Departement->id)->count();
-        $sentpromo = Promo::where('status_project','=','sent')->where('tujuankirim',Auth::user()->Departement->id)->count();
-        $closepromo = Promo::where('status_project','=','close')->where('tujuankirim',Auth::user()->Departement->id)->count();
+        $revisipromo = promo::where('status_project','=','revisi')->where('tujuankirim',Auth::user()->Departement->id)->count();
+        $prosespromo = promo::where('status_project','=','proses')->where('tujuankirim',Auth::user()->Departement->id)->count();
+        $sentpromo = promo::where('status_project','=','sent')->where('tujuankirim',Auth::user()->Departement->id)->count();
+        $closepromo = promo::where('status_project','=','close')->where('tujuankirim',Auth::user()->Departement->id)->count();
         $pie3  =	 Charts::create('area', 'highcharts')->title('Data PKP Promo')->elementlabel("Data PROMO")->labels(['sent', 'revisi', 'proses', 'close'])->values([$sentpromo,$revisipromo,$prosespromo,$closepromo])->responsive(false);
         // chart PKP
         $revisi2 = PkpProject::where('status_project','=','revisi')->where('tujuankirim2',Auth::user()->Departement->id)->count();
@@ -251,10 +251,10 @@ class ManagerController extends Controller
         $closepdf2 = ProjectPDF::where('status_project','=','close')->where('tujuankirim2',Auth::user()->Departement->id)->count();
         $chart2  =	 Charts::create('pie', 'highcharts')->title('Data PDF')->elementlabel("Data PDF")->colors(['#ff9000', '#1384fb', '#2afb13', '#d5fb13'])->labels(['sent', 'revisi', 'proses', 'close'])->values([$sentpdf2,$revisipdf2,$prosespdf2,$closepdf2])->responsive(false);
         // chart promo
-        $revisipromo2 = Promo::where('status_project','=','revisi')->where('tujuankirim2',Auth::user()->Departement->id)->count();
-        $prosespromo2 = Promo::where('status_project','=','proses')->where('tujuankirim2',Auth::user()->Departement->id)->count();
-        $sentpromo2 = Promo::where('status_project','=','sent')->where('tujuankirim2',Auth::user()->Departement->id)->count();
-        $closepromo2 = Promo::where('status_project','=','close')->where('tujuankirim2',Auth::user()->Departement->id)->count();
+        $revisipromo2 = promo::where('status_project','=','revisi')->where('tujuankirim2',Auth::user()->Departement->id)->count();
+        $prosespromo2 = promo::where('status_project','=','proses')->where('tujuankirim2',Auth::user()->Departement->id)->count();
+        $sentpromo2 = promo::where('status_project','=','sent')->where('tujuankirim2',Auth::user()->Departement->id)->count();
+        $closepromo2 = promo::where('status_project','=','close')->where('tujuankirim2',Auth::user()->Departement->id)->count();
         $chart3  =	 Charts::create('area', 'highcharts')->title('Data PKP Promo')->elementlabel("Data PROMO")->labels(['sent', 'revisi', 'proses', 'close'])->values([$sentpromo2,$revisipromo2,$prosespromo2,$closepromo2])->responsive(false);
         return view('manager.dasboard')->with([
             'chart1' => $chart1,
@@ -280,8 +280,8 @@ class ManagerController extends Controller
         $hitungpkpselesai = PkpProject::where([['status_terima','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim',Auth::user()->Departement->id]])->count();
         $hitungpdfselesai2= ProjectPDF::where([['status_terima2','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim2',Auth::user()->Departement->id]])->count();
         $hitungpdfselesai= ProjectPDF::where([['status_terima','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim',Auth::user()->Departement->id]])->count();
-        $hitungpromoselesai2 = Promo::where([['status_terima2','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim2',Auth::user()->Departement->id]])->count();
-        $hitungpromoselesai = Promo::where([['status_terima','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim',Auth::user()->Departement->id]])->count();
+        $hitungpromoselesai2 = promo::where([['status_terima2','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim2',Auth::user()->Departement->id]])->count();
+        $hitungpromoselesai = promo::where([['status_terima','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim',Auth::user()->Departement->id]])->count();
         $hitungnotif2 = $hitungpkpselesai2 + $hitungpdfselesai2 + $hitungpromoselesai2 ;$hitungnotif = $hitungpkpselesai + $hitungpdfselesai + $hitungpromoselesai;
         return view('manager.daftarpkp')->with([
             'cf' => $cf,
@@ -308,8 +308,8 @@ class ManagerController extends Controller
         $hitungpkpselesai = PkpProject::where([['status_terima','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim',Auth::user()->Departement->id]])->count();
         $hitungpdfselesai2= ProjectPDF::where([['status_terima2','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim2',Auth::user()->Departement->id]])->count();
         $hitungpdfselesai= ProjectPDF::where([['status_terima','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim',Auth::user()->Departement->id]])->count();
-        $hitungpromoselesai2 = Promo::where([['status_terima2','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim2',Auth::user()->Departement->id]])->count();
-        $hitungpromoselesai = Promo::where([['status_terima','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim',Auth::user()->Departement->id]])->count();
+        $hitungpromoselesai2 = promo::where([['status_terima2','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim2',Auth::user()->Departement->id]])->count();
+        $hitungpromoselesai = promo::where([['status_terima','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim',Auth::user()->Departement->id]])->count();
         $hitungnotif2 = $hitungpkpselesai2 + $hitungpdfselesai2 + $hitungpromoselesai2 ;$hitungnotif = $hitungpkpselesai + $hitungpdfselesai + $hitungpromoselesai;
         return view('manager.daftarpdf')->with([
             'data' => $data,
@@ -325,7 +325,7 @@ class ManagerController extends Controller
     }
 
     public function daftarpromo($id_pkp_promo){
-        $data = Promo::where('id_pkp_promo',$id_pkp_promo)->get();
+        $data = promo::where('id_pkp_promo',$id_pkp_promo)->get();
         $dept = Departement::all();
         $max = DataPromo::where('id_pkp_promoo',$id_pkp_promo)->max('turunan');
         $max2 = DataPromo::where('id_pkp_promoo',$id_pkp_promo)->max('revisi');
@@ -334,8 +334,8 @@ class ManagerController extends Controller
         $hitungpkpselesai = PkpProject::where([['status_terima','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim',Auth::user()->Departement->id]])->count();
         $hitungpdfselesai2= ProjectPDF::where([['status_terima2','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim2',Auth::user()->Departement->id]])->count();
         $hitungpdfselesai= ProjectPDF::where([['status_terima','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim',Auth::user()->Departement->id]])->count();
-        $hitungpromoselesai2 = Promo::where([['status_terima2','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim2',Auth::user()->Departement->id]])->count();
-        $hitungpromoselesai = Promo::where([['status_terima','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim',Auth::user()->Departement->id]])->count();
+        $hitungpromoselesai2 = promo::where([['status_terima2','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim2',Auth::user()->Departement->id]])->count();
+        $hitungpromoselesai = promo::where([['status_terima','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim',Auth::user()->Departement->id]])->count();
         $hitungnotif2 = $hitungpkpselesai2 + $hitungpdfselesai2 + $hitungpromoselesai2 ;$hitungnotif = $hitungpkpselesai + $hitungpdfselesai + $hitungpromoselesai;
         return view ('manager.daftarpromo')->with([
             'data' => $data,
@@ -349,14 +349,14 @@ class ManagerController extends Controller
     }
 
     public function lihatpdf($id_project_pdf,$revisi,$turunan){
-        $hitung = Pengajuan::where([ ['id_pdf',$id_project_pdf],['revisi',$revisi], ['turunan',$turunan] ])->count();
+        $hitung = pengajuan::where([ ['id_pdf',$id_project_pdf],['revisi',$revisi], ['turunan',$turunan] ])->count();
         $ses = DataSES::where([ ['id_pdf',$id_project_pdf], ['revisi',$revisi], ['turunan',$turunan] ])->get();
         $pdf1 = SubPDF::where('pdf_id',$id_project_pdf)->where('revisi','<=',$revisi)->where('turunan','<=',$turunan)->orderBy('revisi','desc')->get();
         $pdf = SubPDF::join('tr_pdf_project','tr_sub_pdf.pdf_id','=','tr_pdf_project.id_project_pdf')->where('id_project_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->get();
         $id_pdf = SubPDF::where([ ['pdf_id',$id_project_pdf], ['revisi',$revisi], ['turunan',$turunan] ])->first();
         $for = Forecast::where('id_pdf',$id_project_pdf)->where('revisi','=',$revisi)->where('turunan','=',$turunan)->get();
-        $hitungkemaspdf = KemasPDF::where('id_pdf',$id_project_pdf)->where('revisi','=',$revisi)->where('turunan','=',$turunan)->count();
-        $kemaspdf = KemasPDF::where('id_pdf',$id_project_pdf)->where('revisi','=',$revisi)->where('turunan','=',$turunan)->get();
+        $hitungkemaspdf = kemaspdf::where('id_pdf',$id_project_pdf)->where('revisi','=',$revisi)->where('turunan','=',$turunan)->count();
+        $kemaspdf = kemaspdf::where('id_pdf',$id_project_pdf)->where('revisi','=',$revisi)->where('turunan','=',$turunan)->get();
         $dept = Departement::all();
         $user = DB::table('tr_users') ->where('departement_id',Auth::user()->departement->id)->get();
         $picture = FileProject::where('pdf_id',$id_project_pdf)->get();
@@ -364,8 +364,8 @@ class ManagerController extends Controller
         $hitungpkpselesai = PkpProject::where([['status_terima','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim',Auth::user()->Departement->id]])->count();
         $hitungpdfselesai2= ProjectPDF::where([['status_terima2','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim2',Auth::user()->Departement->id]])->count();
         $hitungpdfselesai= ProjectPDF::where([['status_terima','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim',Auth::user()->Departement->id]])->count();
-        $hitungpromoselesai2 = Promo::where([['status_terima2','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim2',Auth::user()->Departement->id]])->count();
-        $hitungpromoselesai = Promo::where([['status_terima','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim',Auth::user()->Departement->id]])->count();
+        $hitungpromoselesai2 = promo::where([['status_terima2','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim2',Auth::user()->Departement->id]])->count();
+        $hitungpromoselesai = promo::where([['status_terima','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim',Auth::user()->Departement->id]])->count();
         $hitungnotif2 = $hitungpkpselesai2 + $hitungpdfselesai2 + $hitungpromoselesai2 ;$hitungnotif = $hitungpkpselesai + $hitungpdfselesai + $hitungpromoselesai;
         return view('manager.lihatpdf')->with([
             'pdf' => $pdf,
@@ -392,7 +392,7 @@ class ManagerController extends Controller
         $pkpp = SubPKP::join('tr_project_pkp','tr_sub_pkp.id_pkp','=','tr_project_pkp.id_project')->where([ ['id_project',$id_project], ['revisi',$revisi], ['turunan',$turunan] ])->get();
         $ses= DataSES::where([ ['id_pkp',$id_project], ['turunan',$turunan] ])->get();
         $pkp1 = SubPKP::where('id_pkp',$id_project)->where('revisi','<=',$revisi)->where('turunan',$turunan)->orderBy('revisi','desc')->get();
-        $pengajuan = Pengajuan::where('id_pkp',$id_project)->where('turunan',$turunan)->count();
+        $pengajuan = pengajuan::where('id_pkp',$id_project)->where('turunan',$turunan)->count();
         $datadetail = DetailKlaim::where('id_pkp',$id_project)->where('turunan',$turunan)->get();
         $user = DB::table('tr_users')->where('departement_id',Auth::user()->departement->id)->get();
         $user2 = DB::table('tr_users')->where('departement_id','!=',Auth::user()->departement->id)->get();
@@ -401,8 +401,8 @@ class ManagerController extends Controller
         $hitungpkpselesai = PkpProject::where([['status_terima','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim',Auth::user()->Departement->id]])->count();
         $hitungpdfselesai2= ProjectPDF::where([['status_terima2','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim2',Auth::user()->Departement->id]])->count();
         $hitungpdfselesai= ProjectPDF::where([['status_terima','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim',Auth::user()->Departement->id]])->count();
-        $hitungpromoselesai2 = Promo::where([['status_terima2','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim2',Auth::user()->Departement->id]])->count();
-        $hitungpromoselesai = Promo::where([['status_terima','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim',Auth::user()->Departement->id]])->count();
+        $hitungpromoselesai2 = promo::where([['status_terima2','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim2',Auth::user()->Departement->id]])->count();
+        $hitungpromoselesai = promo::where([['status_terima','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim',Auth::user()->Departement->id]])->count();
         $hitungnotif2 = $hitungpkpselesai2 + $hitungpdfselesai2 + $hitungpromoselesai2 ;$hitungnotif = $hitungpkpselesai + $hitungpdfselesai + $hitungpromoselesai;
         return view('manager.lihatpkp')->with([
             'pkpp' => $pkpp,
@@ -424,7 +424,7 @@ class ManagerController extends Controller
 
     public function lihatpromo($id_pkp_promo,$revisi,$turunan){
         $promoo = DataPromo::join('tr_project_promo','tr_promo.id_pkp_promoo','=','tr_project_promo.id_pkp_promo')->where([ ['id_pkp_promo',$id_pkp_promo], ['revisi',$revisi], ['turunan',$turunan] ])->get();
-        $hitung = Pengajuan::where([ ['id_promo',$id_pkp_promo], ['turunan',$turunan] ])->count();
+        $hitung = pengajuan::where([ ['id_promo',$id_pkp_promo], ['turunan',$turunan] ])->count();
         $max2 = DataPromo::where('id_pkp_promoo',$id_pkp_promo)->max('revisi');
         $max = DataPromo::where('id_pkp_promoo',$id_pkp_promo)->max('turunan');
         $promo1 = DataPromo::where('id_pkp_promoo',$id_pkp_promo)->where('revisi',$max2)->where('turunan',$max)->get();
@@ -438,8 +438,8 @@ class ManagerController extends Controller
         $hitungpkpselesai = PkpProject::where([['status_terima','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim',Auth::user()->Departement->id]])->count();
         $hitungpdfselesai2= ProjectPDF::where([['status_terima2','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim2',Auth::user()->Departement->id]])->count();
         $hitungpdfselesai= ProjectPDF::where([['status_terima','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim',Auth::user()->Departement->id]])->count();
-        $hitungpromoselesai2 = Promo::where([['status_terima2','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim2',Auth::user()->Departement->id]])->count();
-        $hitungpromoselesai = Promo::where([['status_terima','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim',Auth::user()->Departement->id]])->count();
+        $hitungpromoselesai2 = promo::where([['status_terima2','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim2',Auth::user()->Departement->id]])->count();
+        $hitungpromoselesai = promo::where([['status_terima','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim',Auth::user()->Departement->id]])->count();
         $hitungnotif2 = $hitungpkpselesai2 + $hitungpdfselesai2 + $hitungpromoselesai2 ;$hitungnotif = $hitungpkpselesai + $hitungpdfselesai + $hitungpromoselesai;
         return view('manager.lihatpromo')->with([
             'promo' => $promo,
@@ -489,7 +489,7 @@ class ManagerController extends Controller
     }
 
     public function alihkanpromo(Request $request,$id_pkp_promo){
-        $pkp = Promo::where('id_pkp_promo',$id_pkp_promo)->first();
+        $pkp = promo::where('id_pkp_promo',$id_pkp_promo)->first();
         $pkp->tujuankirim=$request->tujuankirim;
         $pkp->userpenerima2=null;
         $pkp->userpenerima=null;

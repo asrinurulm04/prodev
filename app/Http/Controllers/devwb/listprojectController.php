@@ -7,14 +7,14 @@ use App\Http\Controllers\Controller;
 
 use App\model\pkp\PkpProject;
 use App\model\pkp\ProjectPDF;
-use App\model\pkp\Promo;
+use App\model\pkp\promo;
 use App\model\pkp\SubPKP;
 use App\model\master\Brand;
 use Auth;
 use DB;
 use Redirect;
 
-class ListProjectController extends Controller
+class listprojectController extends Controller
 {
     public function __construct(){
         $this->middleware('auth');
@@ -40,7 +40,7 @@ class ListProjectController extends Controller
     }
 
     public function listpromo(){
-        $promo = Promo::all();
+        $promo = promo::all();
         $brand = Brand::all();
         return view('devwb.listprojectpromo')->with([
             'promo' => $promo,
@@ -55,8 +55,8 @@ class ListProjectController extends Controller
         $pdf = ProjectPDF::where('userpenerima',Auth::user()->id)->where('status_project','=','proses')->count();
         $pdf1 = ProjectPDF::where('userpenerima2',Auth::user()->id)->where('status_project','=','proses')->count();
         $datapdf = $pdf + $pdf1;
-        $promo = Promo::where('userpenerima',Auth::user()->id)->where('status_project','=','proses')->count();
-        $promo1 = Promo::where('userpenerima2',Auth::user()->id)->where('status_project','=','proses')->count();
+        $promo = promo::where('userpenerima',Auth::user()->id)->where('status_project','=','proses')->count();
+        $promo1 = promo::where('userpenerima2',Auth::user()->id)->where('status_project','=','proses')->count();
         $datapromo = $promo + $promo1;
         return view('devwb.dasboard')->with([
             'pkp' => $datapkp,

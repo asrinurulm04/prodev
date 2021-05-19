@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Mail;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\model\devnf\Storage;
+use App\model\devnf\storage;
 use App\model\dev\Formula;
 use App\model\master\Teams;
 use App\model\pkp\PkpProject;
@@ -14,7 +14,7 @@ use Auth;
 use DB;
 use redirect;
 
-class StorageController extends Controller
+class storageController extends Controller
 {
     public function __construct(){
         $this->middleware('auth');
@@ -26,8 +26,8 @@ class StorageController extends Controller
         $fo=formula::where('id',$id)->first();
         $idfor = $formula->workbook_id;
         $idf = $formula->id;
-        $storage = Storage::where('id_formula',$id)->get();
-        $cek_storage =Storage::where('id_formula',$id)->count();
+        $storage = storage::where('id_formula',$id)->get();
+        $cek_storage =storage::where('id_formula',$id)->count();
         return view('formula.storage')->with([
             'fo' => $fo,
             'idf' => $idf,
@@ -43,7 +43,7 @@ class StorageController extends Controller
         $data = $request->file('filename');
         if($data!=NULL){ $nama = $data->getClientOriginalName();}
         
-        $add_st = new Storage;
+        $add_st = new storage;
         $add_st->id_formula=$request->idf;
         $add_st->id_wb=$request->wb;
         $add_st->id_wb_pdf=$request->wb_pdf;
@@ -68,7 +68,7 @@ class StorageController extends Controller
     }
 
     public function editdata(request $request, $id){
-        $data_storage= Storage::where('id',$id)->first();
+        $data_storage= storage::where('id',$id)->first();
         $data_storage->no_HSA=$request->hsa;
         $data_storage->keterangan=$request->kesimpulan;
         $data_storage->selesai=$request->selesai;
@@ -87,11 +87,11 @@ class StorageController extends Controller
         $formula->status_storage='sent';
         $formula->save();
 
-        $storage = Storage::where('id',$id_storage)->first();
+        $storage = storage::where('id',$id_storage)->first();
         $storage->status='done';
         $storage->save();
 
-        $isistorage = Storage::where('id',$id_storage)->first();
+        $isistorage = storage::where('id',$id_storage)->first();
         try{
             Mail::send('formula.emailstorage', [
                 'app'=>$isistorage,

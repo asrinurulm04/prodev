@@ -11,11 +11,11 @@ use App\model\master\Brand;
 use App\model\pkp\Type;
 use App\model\pkp\PkpProject;
 use App\model\pkp\ProjectPDF;
-use App\model\pkp\Notulen;
+use App\model\pkp\notulen;
 use App\model\pkp\DataKlaim;
-use App\model\pkp\UOM;
+use App\model\pkp\uom;
 use App\model\pkp\EditProject;
-use App\model\pkp\Promo;
+use App\model\pkp\promo;
 use App\model\pkp\Forecast;
 use App\model\pkp\Allocation;
 use App\model\pkp\DataSES;
@@ -23,13 +23,13 @@ use App\model\pkp\DataPromo;
 use App\model\pkp\ParameterForm;
 use App\model\pkp\SubPDF;
 use App\model\pkp\SubPKP;
-use App\model\manager\Pengajuan;
+use App\model\manager\pengajuan;
 use Auth;
 use Redirect;
 use DB;
 use Carbon\Carbon;
 
-class ReportController extends Controller
+class reportController extends Controller
 {
     public function __construct(){
         $this->middleware('auth');
@@ -39,7 +39,7 @@ class ReportController extends Controller
     public function tabulasi(){
         $datapkp = SubPKP::where('status_project','!=','draf') ->join('tr_project_pkp','tr_project_pkp.id_project','=','tr_sub_pkp.id_pkp')->where('status_data','=','active')->orderBy('pkp_number','desc')->get();
         $datapdf = SubPDF::where('status_project','!=','draf') ->join('tr_pdf_project','tr_pdf_project.id_project_pdf','=','tr_sub_pdf.pdf_id')->where('status_pdf','=','active')->get();
-        $datapromo = Promo::where('status_project','!=','draf') ->join('tr_promo','tr_project_promo.id_pkp_promo','=','tr_promo.id_pkp_promoo')->where('status_data','=','active')->get();
+        $datapromo = promo::where('status_project','!=','draf') ->join('tr_promo','tr_project_promo.id_pkp_promo','=','tr_promo.id_pkp_promoo')->where('status_data','=','active')->get();
         return view('pv.tabulasi')->with([
             'datapkp' => $datapkp,
             'datapdf' => $datapdf,
@@ -49,7 +49,7 @@ class ReportController extends Controller
 
     public function editpkpall(){
         $brand = Brand::all();
-        $uom = UOM::all();
+        $uom = uom::all();
         $par2 = ParameterForm::where('user',Auth::user()->id)->limit('1')->get();
         $tarkon = Tarkon::all();
         $datapkp = PkpProject::where('status_project','!=','draf') ->join('tr_sub_pkp','tr_project_pkp.id_project','=','tr_sub_pkp.id_pkp')
@@ -65,12 +65,12 @@ class ReportController extends Controller
     }
 
     public function reportnotulen(){
-        $Npkp = Notulen::where('id_pkp','!=',NULL)->where('note','!=',NULL)->orderBy('created_at','desc')->get();
-        $DNpkp = Notulen::join('tr_project_pkp','tr_notulen.id_pkp','tr_project_pkp.id_project')->orderBy('prioritas','asc')->select(['id_pkp'])->distinct()->get();
-        $Npdf = Notulen::where('id_pdf','!=',NULL)->where('note','!=',NULL)->get();
-        $DNpdf = Notulen::join('tr_pdf_project','tr_notulen.id_pdf','tr_pdf_project.id_project_pdf')->orderBy('prioritas','asc')->select(['id_pdf'])->distinct()->get();
-        $Npromo = Notulen::where('id_promo','!=',NULL)->where('note','!=',NULL)->get();
-        $DNpromo = Notulen::join('tr_project_promo','tr_notulen.id_promo','tr_project_promo.id_pkp_promo')->orderBy('prioritas','asc')->select(['id_promo'])->distinct()->get();
+        $Npkp = notulen::where('id_pkp','!=',NULL)->where('note','!=',NULL)->orderBy('created_at','desc')->get();
+        $DNpkp = notulen::join('tr_project_pkp','tr_notulen.id_pkp','tr_project_pkp.id_project')->orderBy('prioritas','asc')->select(['id_pkp'])->distinct()->get();
+        $Npdf = notulen::where('id_pdf','!=',NULL)->where('note','!=',NULL)->get();
+        $DNpdf = notulen::join('tr_pdf_project','tr_notulen.id_pdf','tr_pdf_project.id_project_pdf')->orderBy('prioritas','asc')->select(['id_pdf'])->distinct()->get();
+        $Npromo = notulen::where('id_promo','!=',NULL)->where('note','!=',NULL)->get();
+        $DNpromo = notulen::join('tr_project_promo','tr_notulen.id_promo','tr_project_promo.id_pkp_promo')->orderBy('prioritas','asc')->select(['id_promo'])->distinct()->get();
         return view('pkp.reportnotulen')->with([
             'DNpdf' => $DNpdf,
             'Npdf' => $Npdf,
@@ -121,7 +121,7 @@ class ReportController extends Controller
     public function editpromoall(){
         $brand = Brand::all();
         $par = ParameterForm::where('user',Auth::user()->id)->limit('1')->get();
-        $datapromo = Promo::where('status_project','!=','draf') ->join('tr_promo','tr_project_promo.id_pkp_promo','=','tr_promo.id_pkp_promoo')
+        $datapromo = promo::where('status_project','!=','draf') ->join('tr_promo','tr_project_promo.id_pkp_promo','=','tr_promo.id_pkp_promoo')
             ->join('tr_edit','tr_edit.id_promo','=','tr_project_promo.id_pkp_promo')->where('id_user',Auth::user()->id)
             ->join('tr_parameter_form','tr_parameter_form.id_promo','tr_project_promo.tr_project_promo')->where('status_data','=','active')->get();
         return view('pv.editpromo')->with([
@@ -335,7 +335,7 @@ class ReportController extends Controller
             ]);
 
             foreach($data1 as $row){
-                $pdf = Promo::where('id_pkp_promo',$row['id_promo'])->update([
+                $pdf = promo::where('id_pkp_promo',$row['id_promo'])->update([
                     "project_name" => $row['name'],
                     "brand" => $row['brand'],
                     "ket_no" => $row['ket'],
@@ -551,7 +551,7 @@ class ReportController extends Controller
         $note = $request->input('note');
         foreach($note as $note){
             if($note!='null'){
-                $not = new Notulen;
+                $not = new notulen;
                 $not->id_pkp=$note['pkp'];
                 $not->note=$note['note'];
                 $not->created_date=$note['date'];
@@ -569,7 +569,7 @@ class ReportController extends Controller
     public function indexnotulenpromo(){
         $brand = Brand::all();
         $par = ParameterForm::where('user',Auth::user()->id)->limit('1')->get();
-        $datapromo = Promo::where('status_project','!=','draf') ->join('tr_promo','tr_project_promo.id_pkp_promo','=','tr_promo.id_pkp_promoo')->where('status_data','=','active')->get();
+        $datapromo = promo::where('status_project','!=','draf') ->join('tr_promo','tr_project_promo.id_pkp_promo','=','tr_promo.id_pkp_promoo')->where('status_data','=','active')->get();
         return view('promo.notulenpromo')->with([
             'datapromo' => $datapromo,
             'brand' => $brand,
@@ -581,7 +581,7 @@ class ReportController extends Controller
         $note = $request->input('note');
         foreach($note as $note){
             if($note!='null'){
-                $not = new Notulen;
+                $not = new notulen;
                 $not->id_pdf=$note['pdf'];
                 $not->note=$note['note'];
                 $not->created_date=$note['date'];
@@ -600,7 +600,7 @@ class ReportController extends Controller
         $note = $request->input('note');
         foreach($note as $note){
             if($note!='null'){
-                $not = new Notulen;
+                $not = new notulen;
                 $not->id_promo=$note['promo'];
                 $not->note=$note['note'];
                 $not->created_date=$note['date'];
@@ -608,7 +608,7 @@ class ReportController extends Controller
                 $not->save();
             }
 
-            $promo = Promo::where('id_pkp_promo',$note['promo'])->update([
+            $promo = promo::where('id_pkp_promo',$note['promo'])->update([
                 "prioritas" => $note['prioritas']
             ]);
         }
@@ -618,7 +618,7 @@ class ReportController extends Controller
     public function editnote(Request $request){
         $note = $request->input('pkp');
         foreach($note as $pkp){
-            $npkp = Notulen::where('id_notulen',$pkp['id_pkp'])->update([
+            $npkp = notulen::where('id_notulen',$pkp['id_pkp'])->update([
                 "note" => $pkp['note'],
                 "user" => Auth::user()->id
             ]);
@@ -651,10 +651,10 @@ class ReportController extends Controller
     }
 
     public function pengajuan(){
-        $pengajuanpdf = Pengajuan::where('id_pdf','!=','')->get();
-        $pengajuanpkp = Pengajuan::where('id_pkp','!=','')->get();
-        $pengajuanpromo = Pengajuan::where('id_promo','!=','')->get();
-        $pengajuan = Pengajuan::count();
+        $pengajuanpdf = pengajuan::where('id_pdf','!=','')->get();
+        $pengajuanpkp = pengajuan::where('id_pkp','!=','')->get();
+        $pengajuanpromo = pengajuan::where('id_promo','!=','')->get();
+        $pengajuan = pengajuan::count();
         return view('pv.datapengajuan')->with([
             'pengajuanpdf' => $pengajuanpdf,
             'pengajuanpkp' => $pengajuanpkp,

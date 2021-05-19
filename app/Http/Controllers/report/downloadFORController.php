@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\report;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -19,7 +20,7 @@ use App\model\devnf\AllergenFormula;
 use App\model\devnf\Akg;
 use DB;
 
-class DownloadFORController extends Controller
+class downloadFORController extends Controller
 {
     public function FOR_pkp($formula){
         $objPHPExcel = new Spreadsheet();

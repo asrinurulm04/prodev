@@ -4,7 +4,7 @@ namespace App\model\Modelfn;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Finance extends Model
+class finance extends Model
 {
     protected $table ='tr_feasibility';
     protected $primaryKey='id_feasibility';
@@ -45,5 +45,4 @@ public function getUpdatedAtAttribute($date)
 {
     return Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('Y-m-d');
 }
-
 }

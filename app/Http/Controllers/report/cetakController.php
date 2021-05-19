@@ -15,7 +15,7 @@ use App\model\pkp\PkpProject;
 use DB;
 use Auth;
 
-class CetakController extends Controller
+class cetakController extends Controller
 {
     public function download_project(){
         $objPHPExcel = new Spreadsheet();
