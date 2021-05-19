@@ -47,7 +47,7 @@ class ManagerController extends Controller
         $hitungpromoselesai = Promo::where([['status_terima','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim',Auth::user()->Departement->id]])->count();
         $hitungnotif2 = $hitungpkpselesai2 + $hitungpdfselesai2 + $hitungpromoselesai2 ;$hitungnotif = $hitungpkpselesai + $hitungpdfselesai + $hitungpromoselesai;
         $pkp = SubPKP::join('tr_project_pkp','tr_sub_pkp.id_pkp','=','tr_project_pkp.id_project')->where('status_data','active')->where('status_project','!=','draf')->orderBy('pkp_number','desc')->get();
-        $brand = brand::all();
+        $brand = Brand::all();
         return view('manager.listpkp')->with([
             'brand' => $brand,
             'pkp' => $pkp,
@@ -60,7 +60,7 @@ class ManagerController extends Controller
 
     public function listpdf(){
         $pdf = ProjectPDF::where('status_project','!=','draf')->join('tr_sub_pdf','tr_sub_pdf.pdf_id','tr_pdf_project.id_project_pdf')->where('status_pdf','=','active')->where('status_data','!=','draf')->orderBy('pdf_number','desc')->get();
-        $brand = brand::all();
+        $brand = Brand::all();
         $hitungpkpselesai2 = PkpProject::where([['status_terima2','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim2',Auth::user()->Departement->id]])->count();
         $hitungpkpselesai = PkpProject::where([['status_terima','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim',Auth::user()->Departement->id]])->count();
         $hitungpdfselesai2= ProjectPDF::where([['status_terima2','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim2',Auth::user()->Departement->id]])->count();
@@ -80,7 +80,7 @@ class ManagerController extends Controller
 
     public function listpromo(){
         $pkp = Promo::where('status_project','!=','draf')->orderBy('prioritas','asc')->get();
-        $brand = brand::all();
+        $brand = Brand::all();
         $jumlahpkp = DataPromo::where('status_promo','=','sent')->count();
         $hitungpkpselesai2 = PkpProject::where([['status_terima2','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim2',Auth::user()->Departement->id]])->count();
         $hitungpkpselesai = PkpProject::where([['status_terima','=','proses'],['status_project','!=','draf'],['status_freeze','inactive'],['tujuankirim',Auth::user()->Departement->id]])->count();
@@ -127,8 +127,7 @@ class ManagerController extends Controller
                 'info' => 'Manager RD mengajukan revisi pada project PKP',
                 'jangka' => $request->jangka,
                 'for' => $for,
-                'waktu' => $request->waktu,],function($message)use($request)
-                {
+                'waktu' => $request->waktu,],function($message)use($request){
                     $message->subject('Revision Request PROJECT PKP');
                     //sent email to PV
                     $user = DB::table('tr_users')->where('id',$request->kirim)->get();
@@ -168,7 +167,7 @@ class ManagerController extends Controller
         $pdf->save();
 
         $turunan = SubPDF::where('pdf_id',$request->pdf)->max('turunan');
-        $revisi =SubPDF::where('pdf_id',$request->pdf)->max('revisi');
+        $revisi = SubPDF::where('pdf_id',$request->pdf)->max('revisi');
 
         $isipdf = SubPDF::where('pdf_id',$request->pdf)->where('status_pdf','=','active')->get();
         try{
@@ -176,8 +175,7 @@ class ManagerController extends Controller
                 'app'=>$isipdf,
                 'info' => 'Manager RD mengajukan revisi pada project PDF berikut',
                 'jangka' => $request->jangka,
-                'waktu' => $request->waktu,],function($message)use($request)
-                {
+                'waktu' => $request->waktu,],function($message)use($request){
                     $message->subject('Revision Request PROJECT PDF');
                     //sent email to PV
                     $user = DB::table('tr_users')->where('id',$request->perevisi)->get();

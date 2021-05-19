@@ -94,7 +94,7 @@ class PromoController extends Controller
 
         $Dpromo= DataPromo::where('id_pkp_promoo',$id_pkp_promo)->first();
         if($Dpromo!=NULL){
-        $Dpromo->delete();
+            $Dpromo->delete();
         }
 
         return redirect::back();
@@ -139,8 +139,7 @@ class PromoController extends Controller
     }
 
     public function deletedatastep4($id_pkp_promo,$turunan){
-        $allocation = Allocation::where([ ['id_pkp_promo',$id_pkp_promo], ['turunan',$turunan] ])->first();
-        $allocation->delete();
+        $allocation = Allocation::where([ ['id_pkp_promo',$id_pkp_promo], ['turunan',$turunan] ])->delete();
 
         return redirect::back();
     }
@@ -321,8 +320,7 @@ class PromoController extends Controller
             $ids = explode(',', $idz);
             $ida = implode(',', $request->input('dimension'));
             $idb = explode(',', $ida);
-            for ($i = 0; $i < count($ids); $i++)
-            {
+            for ($i = 0; $i < count($ids); $i++){
                 $pipeline = new PromoIdea;
                 $pipeline->id_promo=$request->id_promo;
                 $pipeline->turunan='0';
@@ -333,7 +331,6 @@ class PromoController extends Controller
                 $i = $i++;
             }
         }
-
         return redirect::route('promo4',['id_pkp_promo'=> $promo->id_pkp_promoo,'revisi' => $promo->revisi,'turunan' => $promo->turunan])->with('status', 'Data has been added up');
     }
 
@@ -341,11 +338,11 @@ class PromoController extends Controller
         $info = $request->input('informasi');
         foreach($info as $row){
             foreach($info as $row){
-            $pkp = FileProject::where('id_pictures',$row['pic'])->update([
-                "informasi" => $row['info']
-            ]);
+                $pkp = FileProject::where('id_pictures',$row['pic'])->update([
+                    "informasi" => $row['info']
+                ]);
+            }
         }
-    }
         return redirect::route('rekappromo',$request->id);
     }
 
@@ -369,9 +366,8 @@ class PromoController extends Controller
             $ids = explode(',', $idz);
             $ida = implode(',', $request->input('dimension'));
             $idb = explode(',', $ida);
-            for ($i = 0; $i < count($ids); $i++)
-            {
-                $pipeline = new promo_idea;
+            for ($i = 0; $i < count($ids); $i++){
+                $pipeline = new PromoIdea;
                 $pipeline->id_promo=$request->id_promo;
                 $pipeline->turunan='0';
                 $pipeline->revisi='0';
@@ -389,8 +385,7 @@ class PromoController extends Controller
                 if ($validator->passes()) {
                     $email = implode(',', $request->input('emailtujuan'));
                     $data = explode(',', $email);
-                    for ($i = 0; $i < count($data); $i++)
-                    {
+                    for ($i = 0; $i < count($data); $i++){
                         $message->subject('Update Data PROMO');
                         $message->to($request->pengirim1);
                         $message->cc($data[$i]);
@@ -470,8 +465,7 @@ class PromoController extends Controller
         }
 
         try{
-            Mail::send('pv.aktifitasemail', ['type'=>'PROMO',],function($message)use($request)
-            {
+            Mail::send('pv.aktifitasemail', ['type'=>'PROMO',],function($message)use($request){
                 $tujuan = array(); 
                 $validator = Validator::make($request->all(), $tujuan);  
                 if ($validator->passes()) {
@@ -488,7 +482,6 @@ class PromoController extends Controller
         catch (Exception $e){
         return response (['status' => false,'errors' => $e->getMessage()]);
         }
-
         return redirect::route('promo4',['id_pkp_promo'=> $promo->id_pkp_promoo,'revisi' => $promo->revisi,'turunan' => $promo->turunan])->with('status', 'Revised Data ');
     }
 
@@ -497,35 +490,35 @@ class PromoController extends Controller
         
         $validator = Validator::make($request->all(), $rules);  
         if ($validator->passes()) {
-        $idz = implode(",", $request->input('sku'));
-        $ids = explode(",", $idz);
-        $tgz = implode(",", $request->input('pcs'));
-        $tgs = explode(",", $tgz);
-        $tga = implode(",", $request->input('remarks'));
-        $tgb = explode(",", $tga);
-        $sta = implode(",", $request->input('start'));
-        $stb = explode(",", $sta);
-        $enda = implode(",", $request->input('end'));
-        $endb = explode(",", $enda);
-        $rto = implode(",", $request->input('rto'));
-        $rtoo = explode(",", $rto);
-        $opsi = implode(",", $request->input('opsi'));
-        $opsi1 = explode(",", $opsi);
-        for ($i = 0; $i < count($ids); $i++){
-            $pipeline = new Allocation;
-            $pipeline->id_pkp_promo=$request->promo;
-            $pipeline->turunan=$request->turunan;
-            $pipeline->revisi=$request->revisi;
-            $pipeline->opsi=$opsi1[$i];
-            $pipeline->product_sku = $ids[$i];
-            $pipeline->allocation = $tgs[$i];
-            $pipeline->remarks = $tgb[$i];
-            $pipeline->start = $stb[$i];
-            $pipeline->end = $endb[$i];
-            $pipeline->rto = $rtoo[$i];
-            $pipeline->save();
-            $i = $i++;
-        }
+            $idz = implode(",", $request->input('sku'));
+            $ids = explode(",", $idz);
+            $tgz = implode(",", $request->input('pcs'));
+            $tgs = explode(",", $tgz);
+            $tga = implode(",", $request->input('remarks'));
+            $tgb = explode(",", $tga);
+            $sta = implode(",", $request->input('start'));
+            $stb = explode(",", $sta);
+            $enda = implode(",", $request->input('end'));
+            $endb = explode(",", $enda);
+            $rto = implode(",", $request->input('rto'));
+            $rtoo = explode(",", $rto);
+            $opsi = implode(",", $request->input('opsi'));
+            $opsi1 = explode(",", $opsi);
+            for ($i = 0; $i < count($ids); $i++){
+                $pipeline = new Allocation;
+                $pipeline->id_pkp_promo=$request->promo;
+                $pipeline->turunan=$request->turunan;
+                $pipeline->revisi=$request->revisi;
+                $pipeline->opsi=$opsi1[$i];
+                $pipeline->product_sku = $ids[$i];
+                $pipeline->allocation = $tgs[$i];
+                $pipeline->remarks = $tgb[$i];
+                $pipeline->start = $stb[$i];
+                $pipeline->end = $endb[$i];
+                $pipeline->rto = $rtoo[$i];
+                $pipeline->save();
+                $i = $i++;
+            }
         return redirect::Route('uploadpkppromo',['id_pkp_promo'=> $pipeline->id_pkp_promo,'revisi' => $pipeline->revisi,'turunan' => $pipeline->turunan]);
         }
     }
@@ -595,13 +588,13 @@ class PromoController extends Controller
             return back()->with('status','E-mail Successfully');
         }
         catch (Exception $e){
-        return response (['status' => false,'errors' => $e->getMessage()]);
+            return response (['status' => false,'errors' => $e->getMessage()]);
         }
         return redirect::Route('listpromo');
     }
 
     public function sentpromo(Request $request, $id_pkp_promo,$revisi,$turunan){
-        $data = promo::where('id_pkp_promo',$id_pkp_promo)->first();
+        $data = Promo::where('id_pkp_promo',$id_pkp_promo)->first();
         $data->tujuankirim=$request->kirim;
         $data->tujuankirim2=$request->rka;
         $data->prioritas=$request->prioritas;
@@ -673,7 +666,7 @@ class PromoController extends Controller
             return redirect::Route('listpromoo')->with('status','Data Berhasil dikirim');
         }
         catch (Exception $e){
-        return response (['status' => false,'errors' => $e->getMessage()]);
+            return response (['status' => false,'errors' => $e->getMessage()]);
         }
         return redirect::Route('listpromoo');
     }

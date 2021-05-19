@@ -766,4 +766,5 @@
 
   });
 </script>
+<script src="{{ asset('js/asrul.js') }}"></script>
 @endsection

@@ -574,7 +574,7 @@
 															@endforeach
 															<tr style="font-size: 12px;font-weight: bold; color:black;background-color: #ddd;">
 																<td class="text-center sticky-col first-col" style="font-size: 12px;font-weight: bold; color:black;background-color: #ddd;">Total : </td>
-																<td class="text-center sticky-col second-col" style="font-size: 12px;font-weight: bold; color:black;background-color: #ddd;"><input type="number" class="form-control" placeholder="0" value="{{ $formula->serving_size }}" disabled></td>
+																<td class="text-center sticky-col second-col" style="font-size: 12px;font-weight: bold; color:black;background-color: #ddd;"><input type="number" class="form-control" placeholder="0" value="{{ $formula->serving }}" disabled></td>
 																<td class="text-center sticky-col third-col" style="font-size: 12px;font-weight: bold; color:black;background-color: #ddd;"> 100 </td>
 																<td><?php echo"Rp. ". number_format($total_harga['total_harga_per_serving'], 2, ",", ".")  ?></td>
 																@if($header->form4=='yes')<td>{{ $total_harga['total_karbohidrat'] }}</td>@endif

@@ -204,7 +204,7 @@
                   @foreach($for as $for)
         				  <tr id='addrow0'>
                     <td width="13%" class="text-center">
-                      <button class="btn btn-info btn-sm pull-left add_data" type="button"><li class="fa fa-plus"></li></button>
+                      <button class="btn btn-info btn-sm pull-left add_data items" type="button"><li class="fa fa-plus"></li></button>
                       <a hreaf='' class='btn btn-danger btn-sm'><li class='fa fa-trash'></li></a>
                     </td>
                     <td><input type="number" value="{{$for->forecast}}" name="forecast[]" class="form-control" required></td>
@@ -221,7 +221,7 @@
                   @if($for2=='0')
                   <tr>
                     <td width="20%" class="text-center">
-                      <button class="btn btn-info btn-sm pull-left add_data" type="button"><li class="fa fa-plus"></li> Add</button>
+                      <button class="btn btn-info btn-sm pull-left add_data items" type="button"><li class="fa fa-plus"></li> Add</button>
                       <a href="" type="button" class="btn btn-danger btn-sm"><li class="fa fa-trash"></li> Delete</a>
                     </td>
                     <td><input type="number" name="forecast[]" width="500px" class="form-control"></td>
@@ -726,7 +726,7 @@
 
   function dua(){
     var dua = document.getElementById('radio_dua');
-    if(dua.checked == true){]
+    if(dua.checked == true){
       document.getElementById('tampil').innerHTML = "<br><div class='panel panel-default'>"+
 	      "<div class='panel-heading'><h5>Configuration</h5></div>"+
 	        "<div class='panel-body'>"+

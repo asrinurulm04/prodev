@@ -7,10 +7,9 @@ use App\Http\Controllers\Controller;
 
 use App\model\dev\Formula;
 use App\model\Modelfn\Finance;
-use App\model\Modelfn\pesan;
 use App\model\Modelkemas\KonsepKemas;
 use App\model\Modelkemas\FormulaKemas;
-use App\model\pkp\tipp;
+use App\model\pkp\SubPKP;
 use Redirect;
 use Auth;
 
@@ -22,7 +21,7 @@ class KonsepController extends Controller
     }
 
     public function index($id,$id_feasibility){
-        $formulas = tipp::where('id_pkp',$id)->where('status_data','=','active')->get();
+        $formulas = SubPKP::where('id_pkp',$id)->where('status_data','=','active')->get();
         $fe=Finance::find($id_feasibility);
         $myFormula = Formula::where('id',$id)->get();
         $konsep = KonsepKemas::where('id_feasibility',$id_feasibility)->get();
@@ -37,21 +36,6 @@ class KonsepController extends Controller
             'konsep' => $konsep,
 			'formulas' => $formulas,
             'id_feasibility' => $id_feasibility
-        ]);
-    }
-
-    public function inboxkemas($id,$id_feasibility){
-        $inboxs = pesan::all()->where('user','kemas')->sortByDesc('created_at');
-        $inbox = pesan::where('user','kemas');
-        $jumlah = pesan::where('user','kemas')->count();
-        $dataF = Finance::with('formula')->get()->where('id_feasibility', $id_feasibility)->first();
-        return view('kemas.inboxkemas')->with([
-            'id_feasibility' => $id_feasibility,
-            'id' => $id,
-            'jumlah' => $jumlah,
-            'dataF' => $dataF,
-            'inbox' => $inbox,
-            'inboxs' => $inboxs
         ]);
     }
 
@@ -105,11 +89,5 @@ class KonsepController extends Controller
 		$change_status->save();
 
         return redirect()->back();
-    }
-
-    public function destroykemas($id){
-        $mail = pesan::find($id);
-        $mail->delete();
-        return redirect::back();
     }
 }

@@ -39,7 +39,7 @@ class Step2Controller extends Controller
         $idf = $id;
         $idfor = $formula->workbook_id;
         $idfor_pdf = $formula->workbook_pdf_id;
-        $fortails = Fortail::where('formula_id',$id)->get();
+        $fortails = Fortail::where('formula_id',$id)->orderBy('per_serving','asc')->get();
         $ada= Fortail::where('formula_id',$id)->count();
         $bahans = Bahan::orderBy('nama_sederhana','asc')->select('id','nama_bahan','nama_sederhana')->get();
         $no = 0;
@@ -246,7 +246,6 @@ class Step2Controller extends Controller
         }        
 
         $fortails->per_serving = $request->per_serving;
-        //Check Batch and Base
         // Jika Base Masih Kosong
         if (isset($request->cbase)){
             $batch = $request->per_batch;
@@ -286,7 +285,7 @@ class Step2Controller extends Controller
         }    
         $fortails->save();
 
-        // Count Total Serving and Total Batch after inserting wkwkwkwk
+        // Count Total Serving and Total Batch after inserting
         $paraFortail2= Fortail::where('formula_id',$vf)->get();
         $totalb = 0;
         $totals = 0;
@@ -335,6 +334,11 @@ class Step2Controller extends Controller
 
     public function hapusall($formula){
         $fortails = Fortail::where('formula_id',$formula)->delete();
+        $formula = Formula::where('id',$formula)->first();
+        $formula->serving=NULL;
+        $formula->batch=NULL;
+        $formula->save();
+
         $allergen = AllergenFormula::where('id_formula',$formula)->delete();
 
         return redirect::back();

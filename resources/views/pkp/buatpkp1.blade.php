@@ -32,7 +32,7 @@
             <label class="control-label col-md-2 col-sm-2 col-xs-12" for="last-name" style="color:#31a9b8">Target Market</label>
             <label class="control-label col-md-1 col-sm-1 col-xs-12" for="last-name" style="color:#31a9b8">Gender*:</label>
             <div class="col-md-4 col-sm-3 col-xs-12">
-              <select id="gender"  name="gender" class="form-control" >
+              <select id="gender"  name="gender" class="form-control items" >
                 <option disabled selected>-- Select Gender --</option>
                 <option value="male">Male</option>
                 <option value="female">Female</option>
@@ -74,7 +74,7 @@
           <div class="form-group row">
             <label for="middle-name" class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#31a9b8">Uniqueness of Idea* </label>
             <div class="col-md-4 col-sm-4 col-xs-12">
-              <select class="form-control form-control-line" name="uniq_idea" >
+              <select class="form-control form-control-line items" name="uniq_idea" >
                 <option disabled="" selected="">-- Select One --</option>
                 @foreach($idea as $idea)
                 <option value="{{ $idea->uniqueness_of_idea }}">{{ $idea->uniqueness_of_idea }}</option>
@@ -83,7 +83,7 @@
             </div>
             <label class="control-label col-md-1 col-sm-1 col-xs-12" style="color:#31a9b8">Estimated*</label>
             <div class="col-md-4 col-sm-4 col-xs-12">
-              <select class="form-control form-control-line" name="estimated" >
+              <select class="form-control form-control-line items" name="estimated" >
                 <option disabled="" selected="">-- Select Estimated potential market --</option>
                 @foreach($market as $market)
                 <option value="{{ $market->estimasi_market }}">{{ $market->estimasi_market }}</option>
@@ -191,7 +191,7 @@
           <div class="form-group">
             <label class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#31a9b8">Product Form*</label>
             <div class="col-md-9 col-sm-9 col-xs-12">
-              <select  id="product" name="product" class="form-control" >
+              <select  id="product" name="product" class="form-control items" >
                 <option disabled selected>-- Select one --</option>
                 <option value="powder">Powder</option>
                 <option value="solid">Solid</option>
@@ -219,7 +219,7 @@
           <div class="form-group">
             <label class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#cf3721">No category BPOM^</label>
             <div class="col-md-2 col-sm-2 col-xs-12">
-              <select class="form-control"  id="bpom" name="bpom">
+              <select class="form-control items"  id="bpom" name="bpom">
                 <option value=""></option>
                 @foreach($pangan as $dp)
                 <option value="{{ $dp->id_pangan }}">{{ $dp->no_kategori }}</option>
@@ -228,7 +228,7 @@
             </div>
             <label class="control-label col-md-1 col-sm-1 col-xs-12" style="color:#cf3721">category</label>
             <div class="col-md-3 col-sm-3 col-xs-12">
-              <select name="katbpom"  id="katbpom" class="form-control">
+              <select name="katbpom"  id="katbpom" class="form-control items">
                 <option value=""></option>
                 @foreach($pangan as $kat)
                 <option value="{{$kat->id_pangan}}">{{$kat->kategori}}</option>
@@ -236,7 +236,7 @@
               </select>
             </div>
             <div class="col-md-3 col-sm-3 col-xs-12">
-              <select name="olahan"  id="olahan" class="form-control">
+              <select name="olahan"  id="olahan" class="form-control items">
               </select>
             </div>
           </div>
@@ -359,117 +359,114 @@
         "</select></td><td><select name='detail[]' multiple='multiple' class='form-control items' id='detaill"+(a+i)+"'>"+
         "</select></td><td><textarea type='text' class='form-control' name='ket[]' id='ket'></textarea></td><td></td>");
 
-      var b = a+i;
-      $('#komponen' + b).on('change', function(){
-        var myId = $(this).val();
-        if(myId){
-          $.ajax({
-            url: '{{URL::to('getdetail')}}/'+myId,
-            type: "GET",
-            dataType: "json",
-            beforeSend: function(){
-              $('#loader').css("visibility", "visible");
+        var b = a+i;
+        $('#komponen' + b).on('change', function(){
+          var myId = $(this).val();
+            if(myId){
+              $.ajax({
+                url: '{{URL::to('getdetail')}}/'+myId,
+                type: "GET",
+                dataType: "json",
+                beforeSend: function(){
+                $('#loader').css("visibility", "visible");
             },
-
             success:function(data){
-              $('#detaill' + b).empty();
-              $.each(data, function(key, value){
-                $('#detaill' + b).append('<option value="'+ key +'">' + value + '</option>');
-              });
-            },
-            complete: function(){
-              $('#loader').css("visibility","hidden");
+                $('#detaill' + b).empty();
+                $.each(data, function(key, value){
+                  $('#detaill' + b).append('<option value="'+ key +'">' + value + '</option>');
+                });
+              },
+              complete: function(){
+                $('#loader').css("visibility","hidden");
             }
           });
-        }
-        else{
-          $('#detaill' + b).empty();
-        }
-      });
+          }
+          else{
+            $('#detaill' + b).empty();
+          }
+        });
 
-      $('#komponen'+b).on('change', function(){
+        $('#komponen'+b).on('change', function(){
         var myId = $(this).val();
-        if(myId){
-          $.ajax({
-            url: '{{URL::to('getkomponen')}}/'+myId,
-            type: "GET",
-            dataType: "json",
-            beforeSend: function(){
-              $('#loader').css("visibility", "visible");
-            },
+          if(myId){
+            $.ajax({
+              url: '{{URL::to('getkomponen')}}/'+myId,
+              type: "GET",
+              dataType: "json",
+              beforeSend: function(){
+                  $('#loader').css("visibility", "visible");
+              },
+              success:function(data){
+                  $('#klaimm'+b).empty();
+                  $.each(data, function(key, value){
+                      $('#klaimm'+b).append('<option value="'+ key +'">' + value + '</option>');
+                  });
+              },
+              complete: function(){
+                $('#loader').css("visibility","hidden");
+              }
+            });
+          }
+          else{
+            $('#klaimm'+b).empty();
+          }
+        });
 
-            success:function(data){
-              $('#klaimm'+b).empty();
-              $.each(data, function(key, value){
-                $('#klaimm'+b).append('<option value="'+ key +'">' + value + '</option>');
-              });
-            },
-            complete: function(){
-              $('#loader').css("visibility","hidden");
-            }
-          });
-        }
-        else{
-          $('#klaimm'+b).empty();
-        }
+        $('#tab_logic').append('<tr id="addr' + (i + 1) + '"></tr>');
+        i++;
       });
-      $('#tab_logic').append('<tr id="addr' + (i + 1) + '"></tr>');
-      i++;
-    });
 
-    $('#komponen').on('change', function(){
-      var myId = $(this).val();
-      if(myId){
-        $.ajax({
-          url: '{{URL::to('getkomponen')}}/'+myId,
-          type: "GET",
-          dataType: "json",
-          beforeSend: function(){
-            $('#loader').css("visibility", "visible");
-          },
-          success:function(data){
-            console.log(data)
+      $('#komponen').on('change', function(){
+        var myId = $(this).val();
+          if(myId){
+            $.ajax({
+              url: '{{URL::to('getkomponen')}}/'+myId,
+              type: "GET",
+              dataType: "json",
+              beforeSend: function(){
+                $('#loader').css("visibility", "visible");
+              },
+              success:function(data){
+                  $('#klaimm').empty();
+                  $.each(data, function(key, value){
+                    $('#klaimm').append('<option value="'+ key +'">' + value + '</option>');
+                  });
+              },
+              complete: function(){
+                $('#loader').css("visibility","hidden");
+              }
+            });
+          }
+          else{
             $('#klaimm').empty();
-            $.each(data, function(key, value){
-                $('#klaimm').append('<option value="'+ key +'">' + value + '</option>');
-            });
-          },
-          complete: function(){
-            $('#loader').css("visibility","hidden");
           }
-        });
-      }
-      else{
-        $('#klaimm').empty();
-      }
-    });
+      });
 
-    $('#komponen').on('change', function(){
-      var myId = $(this).val();
-      if(myId){
-        $.ajax({
-          url: '{{URL::to('getdetail')}}/'+myId,
-          type: "GET",
-          dataType: "json",
-          beforeSend: function(){
-            $('#loader').css("visibility", "visible");
-          },
-          success:function(data){
-            console.log(data)
-            $('#detaill').empty();
-            $.each(data, function(key, value){
-              $('#detaill').append('<option value="'+ key +'">' + value + '</option>');
+      $('#komponen').on('change', function(){
+        var myId = $(this).val();
+          if(myId){
+            $.ajax({
+              url: '{{URL::to('getdetail')}}/'+myId,
+              type: "GET",
+              dataType: "json",
+              beforeSend: function(){
+                $('#loader').css("visibility", "visible");
+              },
+              success:function(data){
+                $('#detaill').empty();
+                $.each(data, function(key, value){
+                  $('#detaill').append('<option value="'+ key +'">' + value + '</option>');
+                });
+              },
+              complete: function(){
+                $('#loader').css("visibility","hidden");
+              }
             });
-          },
-          complete: function(){
-              $('#loader').css("visibility","hidden");
           }
-        });
-      }
-      else{
-        $('#katbpom').empty();
-      }
-    });
+          else{
+            $('#katbpom').empty();
+          }
+      });
   });
 </script>
 
@@ -521,7 +518,7 @@
   for(var i = 0; i < Object.keys(uom_primer).length; i++){
     pilihan_uom_primer += '<option value="'+uom_primer[i][i]+'">'+uom_primer[i][i]+'</option>';
   }
-  
+
   function baru(){
     var baru = document.getElementById('radio_baru')
     if(baru.checked == true){
@@ -587,7 +584,9 @@
 
   function tiga(){
     var tiga = document.getElementById('radio_tiga');
-    if(tiga.checked == true){
+    if(tiga.checked != true){
+      document.getElementById('tampil').innerHTML = "";
+    }else{
       document.getElementById('tampil').innerHTML = "<br><div class='panel panel-default'>"+
 	      "<div class='panel-heading'><h5>Configuration</h5></div>"+
 	        "<div class='panel-body'>"+
@@ -621,7 +620,9 @@
 
   function empat(){
     var empat = document.getElementById('radio_empat');
-    if(empat.checked == true){
+    if(empat.checked != true){
+      document.getElementById('tampil').innerHTML = "";
+    }else{
       document.getElementById('tampil').innerHTML =
       "<br><div class='panel panel-default'>"+
 	    "<div class='panel-heading'><h5>Configuration</h5></div>"+
@@ -739,7 +740,7 @@
 
   var kemaseksis = '';
   for(var i = 0; i < Object.keys(kemas).length; i++){
-  kemaseksis += '<option value="'+idkemas[i][i]+'">'+' ('+kemas6[i][i]+''+kemas7[i][i]+' '+kemas4[i][i]+''+kemas5[i][i]+' '+kemas2[i][i]+''+kemas3[i][i]+' '+kemas[i][i]+''+kemas1[i][i]+')</option>';
+  kemaseksis += '<option value="'+idkemas[i][i]+'">'+' ('+kemas6[i][i]+''+kemas7[i][i]+' '+kemas4[i][i]+''+kemas4[i][i]+' '+kemas2[i][i]+''+kemas3[i][i]+' '+kemas[i][i]+''+kemas1[i][i]+')</option>';
   }
 
   function pilih(){
@@ -768,103 +769,13 @@
         "<div class='form-group'>"+
           "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>Configuration</label>"+
           "<div class='col-md-9 col-sm-10 col-xs-12'>"+
-            '<select name="data_eksis" class="form-control" id="eksis"><option value="" readonly selected>-->Select One<--</option>'+kemaseksis+'</select>'+
+            '<select name="data_eksis" class="form-control items" id="eksis" ><option value="" readonly selected>-->Select One<--</option>'+kemaseksis+'</select>'+
           "</div>"+
-        "</div>"+"<div class='form-group'><hr>"+
+        "</div>"+"<div class='form-group'>"+
+        "<hr>"+
       "</div>"
     }
   }
-</script>
-
-<script type="text/javascript">
-  $('.items').select2({
-    placeholder: '-->Select One<--',
-    allowClear: true
-  });
-
-  $(document).ready(function(){
-    // Get Pangan
-    $('#bpom').on('change', function(){
-      var myId = $(this).val();
-      if(myId){
-        $.ajax({
-          url: '{{URL::to('getpangan')}}/'+myId,
-          type: "GET",
-          dataType: "json",
-          beforeSend: function(){
-            $('#loader').css("visibility", "visible");
-          },
-          success:function(data){
-            console.log(data)
-            $('#katbpom').empty();
-            $.each(data, function(key, value){
-              $('#katbpom').append('<option value="'+ key +'">' + value + '</option>');
-            });
-          },
-          complete: function(){
-            $('#loader').css("visibility","hidden");
-          }
-        });
-      }
-      else{
-        $('#katbpom').empty();
-      }
-    });
-    // kategori bpom
-    $('#katbpom').on('change', function(){
-      var myId = $(this).val();
-        if(myId){
-          $.ajax({
-            url: '{{URL::to('getkatpangan')}}/'+myId,
-            type: "GET",
-            dataType: "json",
-            beforeSend: function(){
-              $('#loader').css("visibility", "visible");
-            },
-            success:function(data){
-              console.log(data)
-              $('#bpom').empty();
-              $.each(data, function(key, value){
-                $('#bpom').append('<option value="'+ key +'">' + value + '</option>');
-              });
-            },
-            complete: function(){
-              $('#loader').css("visibility","hidden");
-            }
-        });
-      }
-      else{
-        $('#bpom').empty();
-      }
-    });
-
-    // get Olahan
-    $('#bpom').on('change', function(){
-      var myId = $(this).val();
-      if(myId){
-        $.ajax({
-          url: '{{URL::to('getolahan')}}/'+myId,
-          type: "GET",
-          dataType: "json",
-          beforeSend: function(){
-            $('#loader').css("visibility", "visible");
-          },
-          success:function(data){
-            $('#olahan').empty();
-            $.each(data, function(key, value){
-              $('#olahan').append('<option value="'+ key +'">' + value + '</option>');
-            });
-          },
-          complete: function(){
-            $('#loader').css("visibility","hidden");
-          }
-        });
-      }
-      else{
-        $('#katbpom').empty();
-      }
-    });
-  });
 
   function template(){
     var template = document.getElementById('radio_temp')
@@ -912,6 +823,97 @@
   }
 </script>
 
+<script type="text/javascript">
+  $('select').select2({
+    placeholder: '-->Select One<--',
+    allowClear: true
+  });
+
+  $(document).ready(function(){
+    $('#bpom').select2();
+    $('#olahan').select2();
+    $('#katbpom').select2();
+      // Get Pangan
+      $('#bpom').on('change', function(){
+        var myId = $(this).val();
+          if(myId){
+            $.ajax({
+              url: '{{URL::to('getpangan')}}/'+myId,
+              type: "GET",
+              dataType: "json",
+              beforeSend: function(){ 
+                  $('#loader').css("visibility", "visible");
+              },
+              success:function(data){
+                $('#katbpom').empty();
+                $.each(data, function(key, value){
+                  $('#katbpom').append('<option value="'+ key +'">' + value + '</option>');
+                });
+              },
+              complete: function(){
+                $('#loader').css("visibility","hidden");
+              }
+            });
+          }
+          else{
+            $('#katbpom').empty();
+          }
+      });
+      // get BPOM
+      $('#katbpom').on('change', function(){
+        var myId = $(this).val();
+          if(myId){
+            $.ajax({
+              url: '{{URL::to('getkatpangan')}}/'+myId,
+              type: "GET",
+              dataType: "json",
+              beforeSend: function(){
+                $('#loader').css("visibility", "visible");
+              },
+              success:function(data){
+                $('#bpom').empty();
+                $.each(data, function(key, value){
+                  $('#bpom').append('<option value="'+ key +'">' + value + '</option>');
+                });
+              },
+              complete: function(){
+                $('#loader').css("visibility","hidden");
+              }
+            });
+          }
+          else{
+            $('#bpom').empty();
+          }
+      });
+
+      // get Olahan
+      $('#bpom').on('change', function(){
+        var myId = $(this).val();
+        if(myId){
+          $.ajax({
+            url: '{{URL::to('getolahan')}}/'+myId,
+            type: "GET",
+            dataType: "json",
+            beforeSend: function(){
+              $('#loader').css("visibility", "visible");
+            },
+            success:function(data){
+              $('#olahan').empty();
+              $.each(data, function(key, value){
+                $('#olahan').append('<option value="'+ key +'">' + value + '</option>');
+              });
+            },
+            complete: function(){
+              $('#loader').css("visibility","hidden");
+            }
+          });
+        }
+        else{
+          $('#katbpom').empty();
+        }
+      });
+  });
+</script>
 <script>
   $(document).ready(function() {
     $('#tabledata').on('click', 'tr a', function(e) {
@@ -931,4 +933,5 @@
     });
   });
 </script>
+<script src="{{ asset('js/asrul.js') }}"></script>
 @endsection

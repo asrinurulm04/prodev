@@ -26,7 +26,6 @@ class CurrensController extends Controller
         return Redirect::back()->with('status','Currency '.$curren->currency.' Berhasil Dibuat');
     }
 
-
     public function update(Request $request, Curren $curren){
         $curren->currency = $request->currency;
         $curren->harga = $request->harga;

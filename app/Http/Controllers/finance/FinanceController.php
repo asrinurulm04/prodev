@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 
 use App\model\Modelmesin\DataMesin;
 use App\model\Modelmesin\Mesin;
-use App\model\Modelfn\Tabulasi;
 use App\model\Modellab\DataLab;
 use App\model\modelkemas\KonsepKemas;
 use App\model\Modelkemas\FormulaKemas;
@@ -18,8 +17,6 @@ use App\model\master\Curren;
 use Auth;
 use DB;
 use Redirect;
-use Input;
-use Validator;
 
 class FinanceController extends Controller
 {
@@ -31,7 +28,7 @@ class FinanceController extends Controller
     public function indexx($id,$id_feasibility){
         $Mdata = DataMesin::with('meesin')->get()->where('id_feasibility', $id_feasibility);
         $dataO = oh::with('dataoh')->get()->where('id_feasibility', $id_feasibility);
-        $fe=Finance::find($id_feasibility);
+        $fe= Finance::find($id_feasibility);
         $formula = Formula::where('id',$id)->first();
         $Jlab = DataLab::where('id_feasibility',$id_feasibility)->sum('rate');
         $Jmesin = DataMesin::where('id_feasibility',$id_feasibility)->sum('hasil');
@@ -89,7 +86,6 @@ class FinanceController extends Controller
             // Get Persen
             $persen = $fortail->per_batch / $one_persen; $persen = round($persen, 2);
             $detail_formula->push([
-
                 'id' => $fortail->id,
                 'kode_komputer' => $fortail->kode_komputer,
                 'nama_sederhana' => $fortail->nama_sederhana,
@@ -99,7 +95,6 @@ class FinanceController extends Controller
                 'granulasi' => $fortail->granulasi,
                 'persen' => $persen,
             ]);            
-
             if($fortail->granulasi == 'ya'){
                 $granulasi = $granulasi + 1;
                 $jumlah_granulasi = $jumlah_granulasi + $fortail->per_batch;
@@ -209,7 +204,6 @@ class FinanceController extends Controller
             'dataF' => $dataF
         ]);
     }
-
 
     public function kemasselesai($id){
         $change_status  = Finance::where('id_feasibility',$id)->first();

@@ -125,8 +125,7 @@ class UpVersionController extends Controller
                 $allergen= AllergenFormula::where('id_formula',$lastf->id)->count();
                 if($allergen>0){
                     $allergen_for= AllergenFormula::where('id_formula',$lastf->id)->get();
-                    foreach ($allergen_for as $allergen_for)
-                    {
+                    foreach ($allergen_for as $allergen_for){
                         $allergen_formula = new AllergenFormula;
                         $allergen_formula->id_bahan=$allergen_for->id_bahan;
                         $allergen_formula->id_formula=$formulas->id;
@@ -134,7 +133,6 @@ class UpVersionController extends Controller
                         $allergen_formula->save();
                     }
                 }
-                
             }
         } 
 
@@ -142,8 +140,7 @@ class UpVersionController extends Controller
             try{
                 Mail::send('formula.info', [
                     'info' => 'Manager Anda Telah Menambahkan Versi Pada Formula "'.$lastf->formula.'"' ,
-                ],function($message)use($request,$id)
-                {
+                ],function($message)use($request,$id){
                     $message->subject('INFO PRODEV');
                     $for = Formula::where('id', $id)->first();
                     if($for->workbook_id!=NULL){
@@ -177,7 +174,6 @@ class UpVersionController extends Controller
 
     public function upversion2(Request $request,$id,$wb){ 
         $lastf=Formula::where('id',$id)->first();
-        
         if($lastf->workbook_id!=NULL){
             $pkp_hitung = PkpProject::where('id_project',$lastf->workbook_id)->max('workbook')+1;
             $pkp = PkpProject::where('id_project',$lastf->workbook_id)->first();
@@ -268,8 +264,7 @@ class UpVersionController extends Controller
                 $allergen= AllergenFormula::where('id_formula',$lastf->id)->count();
                 if($allergen>0){
                     $allergen_for= AllergenFormula::where('id_formula',$lastf->id)->get();
-                    foreach ($allergen_for as $allergen_for)
-                    {
+                    foreach ($allergen_for as $allergen_for){
                         $allergen_formula = new AllergenFormula;
                         $allergen_formula->id_bahan=$allergen_for->id_bahan;
                         $allergen_formula->id_formula=$formulas->id;
@@ -293,8 +288,7 @@ class UpVersionController extends Controller
             try{
                 Mail::send('formula.info', [
                     'info' => 'Manager Anda Telah Menambahkan SubVersi Pada Formula "'.$lastf->formula.'"' ,
-                ],function($message)use($request,$id)
-                {
+                ],function($message)use($request,$id) {
                     $message->subject('INFO PRODEV');
                     $for = Formula::where('id', $id)->first();
                     if($for->workbook_id!=NULL){

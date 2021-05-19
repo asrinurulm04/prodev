@@ -5,10 +5,6 @@ namespace App\Http\Controllers\datamaster;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\model\dev\Bahan;
-use App\model\master\Satuan;
-use App\model\master\SatuanVit;
-use App\model\master\Kategori;
-use App\model\master\Curren;
 use App\model\dev\BTP;
 use App\model\dev\Allergen;
 use App\model\dev\MakroBB;
@@ -24,6 +20,10 @@ use App\model\dev\AllergenBB;
 use App\model\dev\Supplier;
 use App\model\dev\Principal;
 use App\model\pkp\DataPangan;
+use App\model\master\Satuan;
+use App\model\master\SatuanVit;
+use App\model\master\Kategori;
+use App\model\master\Curren;
 use App\model\nutfact\JenisMikroba;
 use App\model\nutfact\SatuanBpom;
 use App\model\nutfact\BPOM;
@@ -776,7 +776,6 @@ class BahanBakuController extends Controller
 				}
 			}
         }
-
         return Redirect::route('bahan_rd')->with('status', $bahan->nama_sederhana.' Telah DiUpdate!');
     }
 }

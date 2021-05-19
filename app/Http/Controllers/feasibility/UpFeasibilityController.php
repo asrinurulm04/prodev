@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use Redirect;
 
 use App\model\dev\Formula;
-use App\model\Modelfn\finance;
+use App\model\Modelfn\Finance;
 use App\model\Modelmesin\DataMesin;//banyak
 use App\model\Modellab\DataLab;//satu
 use App\model\Modelkemas\KonsepKemas;//satu
@@ -21,11 +21,11 @@ class UpFeasibilityController extends Controller
     }
 
     public function index($id){
-        $hitung_feasibility_terakhir = finance::where('id_formula',$id)->count();
-        $feasibility_terakhir = finance::where('kemungkinan',$hitung_feasibility_terakhir)->first();
+        $hitung_feasibility_terakhir = Finance::where('id_formula',$id)->count();
+        $feasibility_terakhir = Finance::where('kemungkinan',$hitung_feasibility_terakhir)->first();
         
         //upFeasibility
-        $feasibility_baru = new finance;
+        $feasibility_baru = new Finance;
         $feasibility_baru->id_formula = $id;
         $feasibility_baru->kemungkinan = $hitung_feasibility_terakhir+1;
         // $feasibility_baru->status_mesin = $feasibility_terakhir->status_mesin;

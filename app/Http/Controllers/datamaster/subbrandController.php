@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\model\master\Subbrand;
 use App\model\master\Brand;
-use App\model\users\User;
 use Redirect;
 use Auth;
 

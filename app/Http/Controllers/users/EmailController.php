@@ -15,8 +15,8 @@ use App\model\pkp\Promo;
 use App\model\pkp\Allocation;
 use App\model\pkp\DataPromo;
 use App\model\pkp\SubPDF;
-use App\model\pkp\kemaspdf;
-use App\model\pkp\klaim;
+use App\model\pkp\KemasPDF;
+use App\model\pkp\Klaim;
 use App\model\pkp\DataKlaim;
 use App\model\pkp\DetailKlaim;
 use App\model\pkp\SubPKP;
@@ -28,14 +28,12 @@ use DB;
 
 class EmailController extends Controller
 {
-    public function sendEmail(Request $request,$id)
-    {
-        $active = user::where('id',$id)->first();
+    public function sendEmail(Request $request,$id){
+        $active = User::where('id',$id)->first();
         $active->status=$request->status;
         $active->save();
         try{
-            Mail::send('email', ['nama'=>$request->nama,'role'=>$request->role,'pesan'=>$request->pesan,'email'=>$request->email,'username'=>$request->username,'dept'=>$request->dept,],function($message)use($request)
-            {
+            Mail::send('email', ['nama'=>$request->nama,'role'=>$request->role,'pesan'=>$request->pesan,'email'=>$request->email,'username'=>$request->username,'dept'=>$request->dept,],function($message)use($request){
                 $message->subject($request->judul);
                 $message->to($request->email);
             });
@@ -46,13 +44,11 @@ class EmailController extends Controller
         }
     }
 
-    public function sendEmailreject(Request $request,$id)
-    {
-        $active = user::where('id',$id)->first();
+    public function sendEmailreject(Request $request,$id){
+        $active = User::where('id',$id)->first();
         $active->delete();
         try{
-            Mail::send('email', ['nama'=>$request->nama,'role'=>$request->role,'pesan'=>$request->pesan,'email'=>$request->email,'username'=>$request->username,'dept'=>$request->dept,],function($message)use($request)
-            {
+            Mail::send('email', ['nama'=>$request->nama,'role'=>$request->role,'pesan'=>$request->pesan,'email'=>$request->email,'username'=>$request->username,'dept'=>$request->dept,],function($message)use($request){
                 $message->subject($request->judul);
                 $message->to($request->email);
             });
@@ -71,10 +67,10 @@ class EmailController extends Controller
         $for = Forecast::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->get();
         $ses = DataSES::where([ ['id_pdf',$id_project_pdf], ['revisi',$revisi], ['turunan',$turunan] ])->get();
         $picture = FileProject::where('pdf_id',$id_project_pdf)->where('revisi','<=',$revisi)->where('turunan','<=',$turunan)->get();
-        $kemaspdf = kemaspdf::where('id_pdf',$id_project_pdf)->where('revisi','=',$revisi)->where('turunan','=',$turunan)->get();
+        $kemaspdf = KemasPDF::where('id_pdf',$id_project_pdf)->where('revisi','=',$revisi)->where('turunan','=',$turunan)->get();
         $dataklaim = DataKlaim::where('id_pdf',$id_project_pdf)->join('ms_klaim','ms_klaim.id','=','id_klaim')->where('revisi',$revisi)->where('turunan',$turunan)->get();
         $datadetail = DetailKlaim::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->get();
-        $hitungkemaspdf = kemaspdf::where('id_pdf',$id_project_pdf)->where('revisi','=',$revisi)->where('turunan','=',$turunan)->count();
+        $hitungkemaspdf = KemasPDF::where('id_pdf',$id_project_pdf)->where('revisi','=',$revisi)->where('turunan','=',$turunan)->count();
         try{
             Mail::send('pv.pdfemail', [
                 'pdf' => $pdf,
@@ -86,25 +82,23 @@ class EmailController extends Controller
                 'datapdf' => $datapdf,
                 'kemaspdf' => $kemaspdf,
                 'hitungkemaspdf' => $hitungkemaspdf,
-                'picture' => $picture,], function ($message) use ($request)
-                {
+                'picture' => $picture,], function ($message) use ($request){
                     $data = [$request->pengirim,$request->pengirim1,$request->pengirim2];
                     $message->subject($request->judul);
                     $message->to($request->email);
                     $message->cc($data);
 
                     if($request->pic!=null){
-                    $tujuan = array(); 
-                    $validator = Validator::make($request->all(), $tujuan);  
-                    if ($validator->passes()) {
-                    $picture = implode(',', $request->input('pic'));
-                    $data = explode(',', $picture);
-                    for ($i = 0; $i < count($data); $i++)
-                    {
-                        $message->attach(public_path() . '/' .$data[$i]);
-                    }
-                }}
-                });
+                        $tujuan = array(); 
+                        $validator = Validator::make($request->all(), $tujuan);  
+                        if ($validator->passes()) {
+                            $picture = implode(',', $request->input('pic'));
+                            $data = explode(',', $picture);
+                            for ($i = 0; $i < count($data); $i++){
+                                $message->attach(public_path() . '/' .$data[$i]);
+                            }
+                        }}
+                    });
             return back()->with('status','E-mail Successfully');
         }
         catch (Exception $e){
@@ -120,28 +114,27 @@ class EmailController extends Controller
         $picture = FileProject::where('promo',$id_pkp_promo)->where('revisi',$revisi)->where('turunan',$turunan)->get();
         try{
             Mail::send('pv.promoemail', [
-                'promo' => $promo1,
-                'app' => $app,
-                'idea' => $idea,
-                'picture' => $picture,
-                'allocation' => $allocation,], function ($message) use ($request)
-            {
+            'promo' => $promo1,
+            'app' => $app,
+            'idea' => $idea,
+            'picture' => $picture,
+            'allocation' => $allocation,], function ($message) use ($request) {
                 $data = [$request->pengirim,$request->pengirim1,$request->pengirim2];
                 $message->subject($request->judul);
                 $message->to($request->email);
                 $message->cc($data);
 
                 if($request->pic!=null){
-                $tujuan = array(); 
+                    $tujuan = array(); 
                     $validator = Validator::make($request->all(), $tujuan);  
                     if ($validator->passes()) {
-                    $picture = implode(',', $request->input('pic'));
-                    $data = explode(',', $picture);
-                    for ($i = 0; $i < count($data); $i++)
-                    {
-                        $message->attach(public_path() . '/' .$data[$i]);
+                        $picture = implode(',', $request->input('pic'));
+                        $data = explode(',', $picture);
+                        for ($i = 0; $i < count($data); $i++) {
+                            $message->attach(public_path() . '/' .$data[$i]);
+                        }
                     }
-                 } }
+                }
             });
             return back()->with('status','E-mail Successfully');
         }
@@ -165,24 +158,23 @@ class EmailController extends Controller
             'for' => $for,
             'datadetail' => $datadetail,
             'dataklaim' => $dataklaim,
-            'picture' => $picture,], function ($message) use ($request)
-            {
+            'picture' => $picture,], function ($message) use ($request){
                 $data = [$request->pengirim,$request->pengirim1,$request->pengirim2];
                 $message->subject($request->judul);
                 $message->to($request->email);
                 $message->cc($data);
 
                 if($request->pic!=null){
-                $tujuan = array(); 
+                    $tujuan = array(); 
                     $validator = Validator::make($request->all(), $tujuan);  
                     if ($validator->passes()) {
-                    $picture = implode(',', $request->input('pic'));
-                    $data = explode(',', $picture);
-                    for ($i = 0; $i < count($data); $i++)
-                    {
-                        $message->attach(public_path() . '/' .$data[$i]);
+                        $picture = implode(',', $request->input('pic'));
+                        $data = explode(',', $picture);
+                        for ($i = 0; $i < count($data); $i++){
+                            $message->attach(public_path() . '/' .$data[$i]);
+                        }
                     }
-                }}
+                }
             });
             return back()->with('status','E-mail Successfully');
         }
@@ -207,8 +199,7 @@ class EmailController extends Controller
                 'info'=>'selamat project anda telah disetujui.',
                 'for' => $for,
                 'app'=>$isipkp,
-            ],function($message)use($request,$id_project)
-            {
+            ],function($message)use($request,$id_project){
                 $message->subject('INFO PRODEV');
                 $pkp = SubPKP::where('id_pkp',$id_project)->where('status_data','=','active')->get();
                 foreach($pkp as $pkp){
@@ -224,7 +215,6 @@ class EmailController extends Controller
         catch (Exception $e){
         return response (['status' => false,'errors' => $e->getMessage()]);
         }
-
         return redirect::route('REmail');
     }
 
@@ -244,8 +234,7 @@ class EmailController extends Controller
                 'info'=>'Project anda di tolak, silahkan hubungi pihak yang bersangkutan.',
                 'for' => $for,
                 'app'=>$isipkp,
-            ],function($message)use($request,$id_project)
-            {
+            ],function($message)use($request,$id_project){
                 $message->subject('INFO PRODEV');
                 $pkp = SubPKP::where('id_pkp',$id_project)->where('status_data','=','active')->get();
                 foreach($pkp as $pkp){
@@ -261,7 +250,6 @@ class EmailController extends Controller
         catch (Exception $e){
         return response (['status' => false,'errors' => $e->getMessage()]);
         }
-
     }
 
     public function approveemailpdf(Request $request,$id_project_pdf){
@@ -274,8 +262,7 @@ class EmailController extends Controller
             Mail::send('manager.infoemailpdf', [
                 'info'=>'selamat project anda telah disetujui.',
                 'app'=>$isipdf,
-            ],function($message)use($request,$id_project_pdf)
-            {
+            ],function($message)use($request,$id_project_pdf){
                 $message->subject('INFO PRODEV');
                 $pdf = SubPDF::where('pdf_id',$id_project_pdf)->where('status_pdf','=','active')->get();
                 foreach($pdf as $pdf){
@@ -291,7 +278,6 @@ class EmailController extends Controller
         catch (Exception $e){
         return response (['status' => false,'errors' => $e->getMessage()]);
         }
-
         return redirect::route('REmail');
     }
 
@@ -300,19 +286,12 @@ class EmailController extends Controller
         $app->approval='reject';
         $app->save();
 
-        $notif = notification::where('id_pdf',$id_project_pdf)->first();
-        $notif->id_pdf=$id_project_pdf;
-        $notif->title="The PDF Project is rejected";
-        $notif->status='active';
-        $notif->save();
-
         $isipdf = SubPDF::where('pdf_id',$id_project_pdf)->where('status_pdf','=','active')->get();
         try{
             Mail::send('manager.infoemailpdf', [
                 'info'=>'selamat project anda telah disetujui!',
                 'app'=>$isipdf,
-            ],function($message)use($request,$id_project_pdf)
-            {
+            ],function($message)use($request,$id_project_pdf){
                 $message->subject('INFO PRODEV');
                 $pdf = SubPDF::where('pdf_id',$id_project_pdf)->where('status_pdf','=','active')->get();
                 foreach($pdf as $pdf){
@@ -340,8 +319,7 @@ class EmailController extends Controller
             Mail::send('manager.infoemailpromo', [
                 'info'=>'selamat project anda telah disetujui.',
                 'app'=>$isipromo,
-            ],function($message)use($request,$id_pkp_promo)
-            {
+            ],function($message)use($request,$id_pkp_promo){
                 $message->subject('INFO PRODEV');
                 $promo = DataPromo::where('id_pkp_promoo',$id_pkp_promo)->where('status_data','=','active')->get();
                 foreach($promo as $promo){
@@ -357,7 +335,6 @@ class EmailController extends Controller
         catch (Exception $e){
         return response (['status' => false,'errors' => $e->getMessage()]);
         }
-
         return redirect::route('REmail');
     }
 
@@ -365,12 +342,6 @@ class EmailController extends Controller
         $app = Promo::where('id_pkp_promo',$id_pkp_promo)->first();
         $app->approval='reject';
         $app->save();
-
-        $notif = notification::where('id_promo',$id_pkp_promo)->first();
-        $notif->id_PROMO=$id_pkp_promo;
-        $notif->title="The PROMO Project is rejected";
-        $notif->status='active';
-        $notif->save();
     }
 
     public function REmail(){

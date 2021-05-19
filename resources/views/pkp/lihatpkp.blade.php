@@ -509,7 +509,7 @@
                             <tr>
                               <td>{{$pic->filename}} </td>
                               <td width="40%"> &nbsp{{$pic->informasi}}</td>  
-                              <td width="10%" class="text-center"><a href="{{asset('data_file/'.$pic->filename)}}" download="{{$pic->filename}}"><button class="btn btn-warning btn-sm"><li class="fa fa-download"></li></button></a></td>
+                              <td width="10%" class="text-center"><a href="{{asset('data_file/'.$pic->filename)}}" class="btn btn-warning btn-sm" download="{{$pic->filename}}" title="Download file"><li class="fa fa-download"></li></a></td>
                             </tr>
                             @endforeach
                           </table>

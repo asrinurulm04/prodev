@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use App\model\pkp\PkpProject;
 use App\model\pkp\ProjectPDF;
 use App\model\pkp\Forecast;
-use App\model\pkp\klaim;
+use App\model\pkp\Klaim;
 use App\model\pkp\KemasPDF;
 use App\model\pkp\DataKlaim;
 use App\model\pkp\DetailKlaim;
@@ -38,11 +38,10 @@ class TemplateController extends Controller
         $project->author=Auth::user()->id;
         $project->save();
 
-            $clf=SubPDF::where('pdf_id',$id_project_pdf)->count();
-            if($clf>0){
-                $isipdf=SubPDF::where('pdf_id',$id_project_pdf)->where('revisi',$max)->where('turunan',$pdf)->get();
-                foreach ($isipdf as $ipdf)
-                {
+        $clf=SubPDF::where('pdf_id',$id_project_pdf)->count();
+        if($clf>0){
+            $isipdf=SubPDF::where('pdf_id',$id_project_pdf)->where('revisi',$max)->where('turunan',$pdf)->get();
+            foreach ($isipdf as $ipdf){
                 $tip= new SubPDF;
                 $tip->pdf_id=$project->id_project_pdf;
                 $tip->primer=$ipdf->primer;
@@ -76,8 +75,7 @@ class TemplateController extends Controller
             $datases=DataSES::where('id_pdf',$id_project_pdf)->where('revisi',$max)->where('turunan',$pdf)->count();
             if($datases>0){
                 $isises=DataSES::where('id_pdf',$id_project_pdf)->where('revisi',$max)->where('turunan',$pdf)->get();
-                foreach ($isises as $isises)
-                {
+                foreach ($isises as $isises){
                     $data1= new DataSES;
                     $data1->id_pdf=$project->id_project_pdf;
                     $data1->revisi='0';
@@ -87,12 +85,11 @@ class TemplateController extends Controller
                 }
             }
 
-            $datafor=data_forecast::where('id_pdf',$id_project_pdf)->where('revisi',$max)->where('turunan',$pdf)->count();
+            $datafor=Forecast::where('id_pdf',$id_project_pdf)->where('revisi',$max)->where('turunan',$pdf)->count();
             if($datafor>0){
-                $isifor=data_forecast::where('id_pdf',$id_project_pdf)->where('revisi',$max)->where('turunan',$pdf)->get();
-                foreach ($isifor as $isifor)
-                {
-                    $for= new data_forecast;
+                $isifor=Forecast::where('id_pdf',$id_project_pdf)->where('revisi',$max)->where('turunan',$pdf)->get();
+                foreach ($isifor as $isifor){
+                    $for= new Forecast;
                     $for->id_pdf=$project->id_project_pdf;
                     $for->revisi='0';
                     $for->turunan='0';
@@ -106,8 +103,7 @@ class TemplateController extends Controller
             $dataklaim=DataKlaim::where('id_pdf',$id_project_pdf)->where('revisi',$max)->where('turunan',$pdf)->count();
             if($dataklaim>0){
                 $isiklaim=DataKlaim::where('id_pdf',$id_project_pdf)->where('revisi',$max)->where('turunan',$pdf)->get();
-                foreach ($isiklaim as $isiklaim)
-                {
+                foreach ($isiklaim as $isiklaim){
                     $klaim= new DataKlaim;
                     $klaim->id_pdf=$project->id_project_pdf;
                     $klaim->revisi='0';
@@ -118,11 +114,11 @@ class TemplateController extends Controller
                     $klaim->save();
                 }
             }
+
             $detailklaim=DetailKlaim::where('id_pdf',$id_project_pdf)->where('revisi',$max)->where('turunan',$pdf)->count();
             if($detailklaim>0){
                 $isidetail=DetailKlaim::where('id_pdf',$id_project_pdf)->where('revisi',$max)->where('turunan',$pdf)->get();
-                foreach ($isidetail as $isidetail)
-                {
+                foreach ($isidetail as $isidetail){
                     $detail= new DetailKlaim;
                     $detail->id_pdf=$project->id_project_pdf;
                     $detail->revisi='0';
@@ -135,8 +131,7 @@ class TemplateController extends Controller
             $detailkemaspdf=KemasPDF::where('id_pdf',$id_project_pdf)->where('revisi',$max)->where('turunan',$pdf)->count();
             if($detailkemaspdf>0){
                 $isikemaspdf=KemasPDF::where('id_pdf',$id_project_pdf)->where('revisi',$max)->where('turunan',$pdf)->get();
-                foreach ($isikemaspdf as $isikemaspdf)
-                {
+                foreach ($isikemaspdf as $isikemaspdf){
                     $detail= new KemasPDF;
                     $detail->id_pdf=$project->id_project_pdf;
                     $detail->revisi='0';
@@ -147,7 +142,6 @@ class TemplateController extends Controller
                     $detail->save();
                 }
             }
-
             return redirect::route('buatpdf1',['pdf_id' => $tip->pdf_id, 'revisi' => $tip->revisi, 'turunan' => $tip->turunan]);
     }
 
@@ -168,8 +162,7 @@ class TemplateController extends Controller
             $clf=SubPKP::where('id_pkp',$id_project)->count();
             if($clf>0){
                 $isipkp=SubPKP::where('id_pkp',$id_project)->where('revisi',$max)->where('turunan',$pkp)->get();
-                foreach ($isipkp as $pkpp)
-                {
+                foreach ($isipkp as $pkpp){
                     $tip= new SubPKP;
                     $tip->id_pkp=$project->id_project;
                     $tip->idea=$pkpp->idea;
@@ -217,8 +210,7 @@ class TemplateController extends Controller
             $picture=FileProject::where('pkp_id',$id_project)->where('revisi',$max)->where('turunan',$pkp)->count();
             if($picture>0){
                 $isipicturepkp=FileProject::where('pkp_id',$id_project)->where('revisi',$max)->where('turunan',$pkp)->get();
-                foreach ($isipicturepkp as $ppkp)
-                {
+                foreach ($isipicturepkp as $ppkp){
                     $gambar= new FileProject;
                     $gambar->filename=$ppkp->filename;
                     $gambar->pkp_id=$project->id_project;
@@ -232,8 +224,7 @@ class TemplateController extends Controller
             $datases=DataSES::where('id_pkp',$id_project)->where('revisi',$max)->where('turunan',$pkp)->count();
             if($datases>0){
                 $isises=DataSES::where('id_pkp',$id_project)->where('revisi',$max)->where('turunan',$pkp)->get();
-                foreach ($isises as $isises)
-                {
+                foreach ($isises as $isises){
                     $data1= new DataSES;
                     $data1->id_pkp=$project->id_project;
                     $data1->revisi='0';
@@ -243,12 +234,11 @@ class TemplateController extends Controller
                 }
             }
 
-            $datafor=data_forecast::where('id_pkp',$id_project)->where('revisi',$max)->where('turunan',$pkp)->count();
+            $datafor=Forecast::where('id_pkp',$id_project)->where('revisi',$max)->where('turunan',$pkp)->count();
             if($datafor>0){
-                $isifor=data_forecast::where('id_pkp',$id_project)->where('revisi',$max)->where('turunan',$pkp)->get();
-                foreach ($isifor as $isifor)
-                {
-                    $data1= new data_forecast;
+                $isifor=Forecast::where('id_pkp',$id_project)->where('revisi',$max)->where('turunan',$pkp)->get();
+                foreach ($isifor as $isifor){
+                    $data1= new Forecast;
                     $data1->id_pkp=$project->id_project;
                     $data1->turunan='0';
                     $data1->revisi='0';
@@ -261,8 +251,7 @@ class TemplateController extends Controller
             $datak =DataKlaim::where('id_pkp',$id_project)->where('revisi',$max)->where('turunan',$pkp)->count();
             if($datafor>0){
                 $isikl=DataKlaim::where('id_pkp',$id_project)->where('revisi',$max)->where('turunan',$pkp)->get();
-                foreach ($isikl as $isikl)
-                {
+                foreach ($isikl as $isikl) {
                     $pipeline = new DataKlaim;
                     $pipeline->id_pkp=$project->id_project;
                     $pipeline->turunan='0';
@@ -277,8 +266,7 @@ class TemplateController extends Controller
             $detailklaim=DetailKlaim::where('id_pkp',$id_project)->where('revisi',$max)->where('turunan',$pkp)->count();
             if($detailklaim>0){
                 $isidetail=DetailKlaim::where('id_pkp',$id_project)->where('revisi',$max)->where('turunan',$pkp)->get();
-                foreach ($isidetail as $isidetail)
-                {
+                foreach ($isidetail as $isidetail){
                     $detail= new DetailKlaim;
                     $detail->id_pkp=$project->id_project;
                     $detail->revisi='0';

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\devwb;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\model\Modelfn\finance;
+
 use App\model\devnf\HasilPanel;
 use App\model\devnf\Overage;
 use App\model\devnf\Storage;
@@ -37,8 +37,7 @@ class FormulaController extends Controller
         $this->middleware('rule:user_rd_proses' || 'rule:user_produk' || 'rule:kemas');
     }
     
-    public function new(Request $request)
-    {     
+    public function new(Request $request){     
         $formulas = new Formula;
         $formulas->workbook_id = $request->workbook_id;
         $formulas->workbook_pdf_id = $request->workbook_pdf_id;
@@ -50,7 +49,7 @@ class FormulaController extends Controller
 		$formulas->overage='100';
 		$formulas->berat_jenis=$request->berat_jenis;
 		if($request->kategori_formula!=NULL){
-		$formulas->kategori=$request->kategori_formula;
+			$formulas->kategori=$request->kategori_formula;
 		}else{
 			$formulas->kategori='fg';
 		}
@@ -248,43 +247,25 @@ class FormulaController extends Controller
             //perhitungan nutfact bayangan
 			if($fortail->nama_sederhana != 'NULL'){
 				// makro
-				$karbohidrat =($makro->karbohidrat/100)*($fortail->per_serving);
-				$glukosa = ($makro->glukosa/100)*($fortail->per_serving);
-				$serat = ($makro->serat_pangan/100)*($fortail->per_serving);
-				$beta = ($makro->beta_glucan/100)*($fortail->per_serving);
-				$sorbitol = ($makro->sorbitol/100)*($fortail->per_serving);
-				$maltitol = ($makro->maltitol/100)*($fortail->per_serving);
-				$laktosa = ($makro->laktosa/100)*($fortail->per_serving);
-				$sukrosa = ($makro->sukrosa/100)*($fortail->per_serving);
-				$gula = ($makro->gula/100)*($fortail->per_serving);
-				$erythritol  = ($makro->erythritol /100)*($fortail->per_serving);
-				$dha = ($makro->DHA/100)*($fortail->per_serving);
-				$epa = ($makro->EPA/100)*($fortail->per_serving);
-				$omega3 = ($makro->Omega3/100)*($fortail->per_serving);
-				$mufa = ($makro->MUFA/100)*($fortail->per_serving);
-				$lemak_trans = ($makro->lemak_trans/100)*($fortail->per_serving);
-				$lemak_jenuh = ($makro->lemak_jenuh/100)*($fortail->per_serving);
-				$sfa = ($makro->SFA/100)*($fortail->per_serving);
-				$omega6 = ($makro->omega6/100)*($fortail->per_serving);
-				$omega9 = ($makro->omega9/100)*($fortail->per_serving);
-				$linoleat = ($makro->linoleat/100)*($fortail->per_serving);
-				$kolestrol = ($makro->kolesterol/100)*($fortail->per_serving);
-				$protein = ($makro->protein/100)*($fortail->per_serving);
-				$fat = ($makro->fat)*($persen/100);
-				$air = ($makro->air)*($persen/100);
+				$karbohidrat =($makro->karbohidrat/100)*($fortail->per_serving);	$glukosa = ($makro->glukosa/100)*($fortail->per_serving);
+				$serat = ($makro->serat_pangan/100)*($fortail->per_serving);		$beta = ($makro->beta_glucan/100)*($fortail->per_serving);
+				$sorbitol = ($makro->sorbitol/100)*($fortail->per_serving);			$maltitol = ($makro->maltitol/100)*($fortail->per_serving);
+				$laktosa = ($makro->laktosa/100)*($fortail->per_serving);			$sukrosa = ($makro->sukrosa/100)*($fortail->per_serving);
+				$gula = ($makro->gula/100)*($fortail->per_serving);					$erythritol  = ($makro->erythritol /100)*($fortail->per_serving);
+				$dha = ($makro->DHA/100)*($fortail->per_serving);					$epa = ($makro->EPA/100)*($fortail->per_serving);
+				$omega3 = ($makro->Omega3/100)*($fortail->per_serving);				$mufa = ($makro->MUFA/100)*($fortail->per_serving);
+				$lemak_trans = ($makro->lemak_trans/100)*($fortail->per_serving);	$lemak_jenuh = ($makro->lemak_jenuh/100)*($fortail->per_serving);
+				$sfa = ($makro->SFA/100)*($fortail->per_serving);					$omega6 = ($makro->omega6/100)*($fortail->per_serving);
+				$omega9 = ($makro->omega9/100)*($fortail->per_serving);				$linoleat = ($makro->linoleat/100)*($fortail->per_serving);
+				$kolestrol = ($makro->kolesterol/100)*($fortail->per_serving);		$protein = ($makro->protein/100)*($fortail->per_serving);
+				$fat = ($makro->fat)*($persen/100);									$air = ($makro->air)*($persen/100);
 				// mineral
-				$ca = ($mineral->ca/100)*($fortail->per_serving);
-				$mg = ($mineral->mg/100)*($fortail->per_serving);
-				$k = ($mineral->k/100)*($fortail->per_serving);
-				$zink = ($mineral->zink/100)*($fortail->per_serving);
-				$p = ($mineral->p/100)*($fortail->per_serving);
-				$na = ($mineral->na/100)*($fortail->per_serving);
-				$naci = ($mineral->naci/100)*($fortail->per_serving);
-				$energi = ($mineral->energi/100)*($fortail->per_serving);
-				$fosfor = ($mineral->fosfor/100)*($fortail->per_serving);
-				$mn = ($mineral->mn/100)*($fortail->per_serving);
-				$cr = ($mineral->cr/100)*($fortail->per_serving);
-				$fe = ($mineral->fe/100)*($fortail->per_serving);
+				$ca = ($mineral->ca/100)*($fortail->per_serving);					$mg = ($mineral->mg/100)*($fortail->per_serving);
+				$k = ($mineral->k/100)*($fortail->per_serving);						$zink = ($mineral->zink/100)*($fortail->per_serving);
+				$p = ($mineral->p/100)*($fortail->per_serving);						$na = ($mineral->na/100)*($fortail->per_serving);
+				$naci = ($mineral->naci/100)*($fortail->per_serving);				$energi = ($mineral->energi/100)*($fortail->per_serving);
+				$fosfor = ($mineral->fosfor/100)*($fortail->per_serving);			$mn = ($mineral->mn/100)*($fortail->per_serving);
+				$cr = ($mineral->cr/100)*($fortail->per_serving);					$fe = ($mineral->fe/100)*($fortail->per_serving);
 				// vitamin
 				$vitA = ($vitamin->vitA/100)*($fortail->per_serving);  				$vitB1 = ($vitamin->vitB1/100)*($fortail->per_serving);
 				$vitB2 = ($vitamin->vitB2/100)*($fortail->per_serving); 			$vitB3 = ($vitamin->vitB3/100)*($fortail->per_serving);
@@ -313,8 +294,6 @@ class FormulaController extends Controller
 				$aureus = ($mikro->aureus)*($persen/100);					 		$TPC = ($mikro->TPC)*($persen/100); 
 				$Yeast = ($mikro->Yeast)*($persen/100);					  			$Coliform = ($mikro->Coliform)*($persen/100); 
 				$Coli = ($mikro->Coli)*($persen/100);					  			$Bacilluscereus = ($mikro->Bacilluscereus)*($persen/100); 
-
-				       
 			}
 
             // Harga Pergram
@@ -337,14 +316,10 @@ class FormulaController extends Controller
             $harga_per_kg = $bahan->harga_satuan; $harga_per_kg = round($harga_per_kg,2);         
             $detail_harga->push([
 				// data
-				'no' => ++$no,  
-                'id' => $fortail->id,
-                'kode_oracle' => $bahan->kode_oracle,
-                'nama_sederhana' => $bahan->nama_sederhana,
-				'bahan' => $bahan->id,
-				'hitung_btp' => $hitung_btp,
-				'id_ingeradient' => $bahan->id_ingeradient,
-				'hpg' => $hpg,
+				'no' => ++$no,  					'kode_oracle' => $bahan->kode_oracle,
+                'id' => $fortail->id,				'nama_sederhana' => $bahan->nama_sederhana,
+				'bahan' => $bahan->id,				'hitung_btp' => $hitung_btp,
+				'hpg' => $hpg,						'id_ingeradient' => $bahan->id_ingeradient,
 				//makro
 				'karbohidrat' => $karbohidrat, 		'glukosa' => $glukosa ,
 				'serat' => $serat ,            		'beta' => $beta,
@@ -393,7 +368,6 @@ class FormulaController extends Controller
 				'Salmonella' => $Salmonella,		'Coliform' => $Coliform,
 				'aureus' => $aureus,				'Coli' => $Coli,
 				'TPC' => $TPC,						'Bacilluscereus' => $Bacilluscereus,
-
 				// data
                 'persen' => $persen,               'per_serving' =>  $berat_per_serving,
                 'per_batch' => $berat_per_batch,   'harga_per_serving' => $harga_per_serving,
@@ -510,8 +484,8 @@ class FormulaController extends Controller
 			'total_pb' => $total_pb,					'total_sn' => $total_sn,
 			'total_cd' => $total_cd,
 			// RPC
-			'total_rpc_as' => $total_rpc_as,					'total_rpc_hg' => $total_rpc_hg,
-			'total_rpc_pb' => $total_rpc_pb,					'total_rpc_sn' => $total_rpc_sn,
+			'total_rpc_as' => $total_rpc_as,			'total_rpc_hg' => $total_rpc_hg,
+			'total_rpc_pb' => $total_rpc_pb,			'total_rpc_sn' => $total_rpc_sn,
 			'total_rpc_cd' => $total_rpc_cd,
 			// Mikro
 			'total_Enterobacter' => $total_Enterobacter,'total_Yeast' => $total_Yeast,

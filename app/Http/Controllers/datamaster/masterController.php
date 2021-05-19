@@ -5,20 +5,16 @@ namespace App\Http\Controllers\datamaster;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Maatwebsite\Excel\Facades\Excel;
-use App\model\Exports\KemasExport;
-use App\model\Exports\klaimexport;
-use App\model\Exports\SKUExport;
 
-use App\model\pkp\logam_berat;
 use App\model\pkp\Komponen;
 use App\model\pkp\Klaim;
 use App\model\pkp\UOM;
-use App\model\kemas\datakemas;
 use App\model\pkp\SKU;
 use App\model\pkp\SES;
 use App\model\dev\Allergen;
 use App\model\dev\Supplier;
 use App\model\dev\Principal;
+use App\model\kemas\datakemas;
 use App\model\nutfact\BPOM;
 use App\model\nutfact\Mikroba;
 use DB;
@@ -79,7 +75,7 @@ class MasterController extends Controller
     }
 
     public function editbpom(Request $request,$id_bpom){
-        $pangan = bpom::where('id_bpom',$id_bpom)->first();
+        $pangan = BPOM::where('id_bpom',$id_bpom)->first();
         $pangan->kategori_pangan=$request->kategori;
         $pangan->jenis_mikroba=$request->mikro;
         $pangan->n=$request->n;

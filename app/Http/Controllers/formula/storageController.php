@@ -39,8 +39,7 @@ class StorageController extends Controller
         ]);
     }
 
-    public function hasilnya(Request $request)
-    {
+    public function hasilnya(Request $request){
         $data = $request->file('filename');
         if($data!=NULL){ $nama = $data->getClientOriginalName();}
         
@@ -68,8 +67,7 @@ class StorageController extends Controller
         return redirect()->back();
     }
 
-    public function editdata(request $request, $id)
-    {
+    public function editdata(request $request, $id){
         $data_storage= Storage::where('id',$id)->first();
         $data_storage->no_HSA=$request->hsa;
         $data_storage->keterangan=$request->kesimpulan;

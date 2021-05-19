@@ -5,10 +5,7 @@ namespace App\Http\Controllers\formula;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\model\master\Subbrand;
-use App\model\master\Produksi;
-use App\model\pkp\PkpProject;
 use App\model\users\User;
-use App\model\users\Departement;
 use App\model\dev\Formula;
 use App\model\dev\DataFormula;
 use Redirect;
@@ -59,7 +56,7 @@ class Step1Controller extends Controller
         $formula->satuan = $request->satuan;
         $formula->berat_jenis = $request->berat_jenis;
 		if($request->kategori_formula!=NULL){
-		$formula->kategori=$request->kategori_formula;
+		    $formula->kategori=$request->kategori_formula;
 		}else{
 			$formula->kategori='fg';
 		}

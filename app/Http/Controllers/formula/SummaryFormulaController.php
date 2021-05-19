@@ -150,7 +150,6 @@ class SummaryFormulaController extends Controller
         $total_berat_per_serving = 0; $total_berat_per_batch = 0; $total_berat_per_kg = 0;
 		// harga
         $total_harga_per_batch = 0; $total_harga_per_serving = 0; $total_harga_per_kg = 0; $total_harga_per_gram = 0;
-
         $no = 0;
         foreach($fortails as $fortail){
 			//Get Needed
@@ -191,18 +190,12 @@ class SummaryFormulaController extends Controller
 				$air = ($makro->kadar_air)*($persen/100);
 				$fat = ($makro->fat)*($persen/100);
 				// mineral
-				$caa = ($mineral->ca/100)*($fortail->per_serving);
-				$mg = ($mineral->mg/100)*($fortail->per_serving);
-				$k = ($mineral->k/100)*($fortail->per_serving);
-				$zink = ($mineral->zink/100)*($fortail->per_serving);
-				$p = ($mineral->p/100)*($fortail->per_serving);
-				$na = ($mineral->na/100)*($fortail->per_serving);
-				$naci = ($mineral->naci/100)*($fortail->per_serving);
-				$energi = ($mineral->energi/100)*($fortail->per_serving);
-				$fosfor = ($mineral->fosfor/100)*($fortail->per_serving);
-				$mn = ($mineral->mn/100)*($fortail->per_serving);
-				$cr = ($mineral->cr/100)*($fortail->per_serving);
-				$fe = ($mineral->fe/100)*($fortail->per_serving);
+				$caa = ($mineral->ca/100)*($fortail->per_serving);					$mg = ($mineral->mg/100)*($fortail->per_serving);
+				$k = ($mineral->k/100)*($fortail->per_serving);						$zink = ($mineral->zink/100)*($fortail->per_serving);
+				$p = ($mineral->p/100)*($fortail->per_serving);						$na = ($mineral->na/100)*($fortail->per_serving);
+				$naci = ($mineral->naci/100)*($fortail->per_serving);				$energi = ($mineral->energi/100)*($fortail->per_serving);
+				$fosfor = ($mineral->fosfor/100)*($fortail->per_serving);			$mn = ($mineral->mn/100)*($fortail->per_serving);
+				$cr = ($mineral->cr/100)*($fortail->per_serving);					$fe = ($mineral->fe/100)*($fortail->per_serving);
 				// vitamin
 				$vitA = ($vitamin->vitA/100)*($fortail->per_serving);  				$vitB1 = ($vitamin->vitB1/100)*($fortail->per_serving);
 				$vitB2 = ($vitamin->vitB2/100)*($fortail->per_serving); 			$vitB3 = ($vitamin->vitB3/100)*($fortail->per_serving);
@@ -231,8 +224,6 @@ class SummaryFormulaController extends Controller
 				$aureus = ($mikro->aureus)*($persen/100);					 		$TPC = ($mikro->TPC)*($persen/100); 
 				$Yeast = ($mikro->Yeast)*($persen/100);					  			$Coliform = ($mikro->Coliform)*($persen/100); 
 				$Coli = ($mikro->Coli)*($persen/100);					  			$Bacilluscereus = ($mikro->Bacilluscereus)*($persen/100); 
-
-				       
 			}
 
             // Harga Pergram
@@ -311,7 +302,6 @@ class SummaryFormulaController extends Controller
 				'Salmonella' => $Salmonella,		'Coliform' => $Coliform,
 				'aureus' => $aureus,				'Coli' => $Coli,
 				'TPC' => $TPC,						'Bacilluscereus' => $Bacilluscereus,
-
 				// data
                 'persen' => $persen,               'per_serving' =>  $berat_per_serving,
                 'per_batch' => $berat_per_batch,   'harga_per_serving' => $harga_per_serving,
@@ -383,7 +373,6 @@ class SummaryFormulaController extends Controller
             $total_berat_per_batch = $total_berat_per_batch + $berat_per_batch;
             $total_berat_per_kg = $total_berat_per_kg + $berat_per_kg;
         }
-
         $total_harga = collect([
 			'total_karbohidrat' => $total_karbohidrat,	'total_glukosa' => $total_glukosa, 
 			'total_serat' => $total_serat,				'total_beta' => $total_beta,
@@ -428,8 +417,8 @@ class SummaryFormulaController extends Controller
 			'total_pb' => $total_pb,					'total_sn' => $total_sn,
 			'total_cd' => $total_cd,
 			// RPC
-			'total_rpc_as' => $total_rpc_as,					'total_rpc_hg' => $total_rpc_hg,
-			'total_rpc_pb' => $total_rpc_pb,					'total_rpc_sn' => $total_rpc_sn,
+			'total_rpc_as' => $total_rpc_as,			'total_rpc_hg' => $total_rpc_hg,
+			'total_rpc_pb' => $total_rpc_pb,			'total_rpc_sn' => $total_rpc_sn,
 			'total_rpc_cd' => $total_rpc_cd,
 			// Mikro
 			'total_Enterobacter' => $total_Enterobacter,'total_Yeast' => $total_Yeast,
@@ -493,23 +482,30 @@ class SummaryFormulaController extends Controller
 		$overage->overage_vitA=$request->vitA;                                            $overage->overage_vitB1=$request->vitB1;
 		$overage->overage_vitB2=$request->vitB2;                                          $overage->overage_vitB3=$request->vitB3;
 		$overage->overage_vitB5=$request->vitB5;                                          $overage->overage_vitB6=$request->vitB6;
-		$overage->overage_vitB12=$request->vitB12;
-		$overage->overage_vitC=$request->vitC;$overage->overage_vitD3=$request->vitD3;$overage->overage_vitE=$request->vitE;$overage->overage_vitB3=$request->vitB3;
-		$overage->overage_asam_folat=$request->asam_folat;$overage->overage_magnesium_aspartat=$request->magnesium_aspartat;
-		$overage->overage_kolin=$request->kolin;$overage->overage_biotin=$request->biotin;$overage->overage_Inositol=$request->Inositol;
-		$overage->overage_Molibdenum=$request->Molibdenum;$overage->overage_Kromium=$request->Kromium;$overage->overage_EPA=$request->EPA;
-		$overage->overage_DHA=$request->DHA;$overage->overage_Glukosamin=$request->Glukosamin;$overage->overage_Kondroitin=$request->Kondroitin;
-		$overage->overage_Kolagen=$request->Kolagen;$overage->overage_EGCG=$request->EGCG;$overage->overage_Kreatina=$request->Kreatina;
-		$overage->overage_MCT=$request->MCT;$overage->overage_CLA=$request->CLA;$overage->overage_omega3=$request->omega3;
-		$overage->overage_omega6=$request->omega6;$overage->overage_omega9=$request->omega9;$overage->overage_Klorida=$request->Klorida;
-		$overage->overage_asam_linoleat=$request->asam_linoleat;$overage->overage_energi_asam_linoleat=$request->energi_asam_linoleat;
-		$overage->overage_energi_protein=$request->energi_protein;$overage->overage_l_karnitin=$request->l_karnitin;$overage->overage_l_glutamin=$request->l_glutamin;
-		$overage->overage_Thereonin=$request->Thereonin;$overage->overage_Methionin=$request->Methionin;$overage->overage_Phenilalanin=$request->Phenilalanin;
-		$overage->overage_Histidin=$request->Histidin;$overage->overage_Lisin=$request->Lisin;$overage->overage_BCAA=$request->BCAA;
-		$overage->overage_Valin=$request->Valin;$overage->overage_Isoleusin=$request->Isoleusin;$overage->overage_Leusin=$request->Leusin;
-		$overage->overage_Alanin=$request->Alanin;$overage->overage_asam_aspartat=$request->asam_aspartat;$overage->overage_asam_glutamat=$request->asam_glutamat;
-		$overage->overage_sistein=$request->sistein;$overage->overage_serin=$request->serin;$overage->overage_glisin=$request->glisin;
-		$overage->overage_tyrosin=$request->tyrosin;$overage->overage_proline=$request->proline;$overage->overage_arginine=$request->arginine;
+		$overage->overage_vitB12=$request->vitB12;										  $overage->overage_tyrosin=$request->tyrosin;
+		$overage->overage_vitC=$request->vitC;								  	  	  	  $overage->overage_vitD3=$request->vitD3;
+		$overage->overage_vitE=$request->vitE;											  $overage->overage_vitB3=$request->vitB3;
+		$overage->overage_asam_folat=$request->asam_folat;								  $overage->overage_magnesium_aspartat=$request->magnesium_aspartat;
+		$overage->overage_kolin=$request->kolin;								  	  	  $overage->overage_biotin=$request->biotin;
+		$overage->overage_Inositol=$request->Inositol;									  $overage->overage_EPA=$request->EPA;
+		$overage->overage_Molibdenum=$request->Molibdenum;								  $overage->overage_Kromium=$request->Kromium;
+		$overage->overage_DHA=$request->DHA;								  	  	  	  $overage->overage_Glukosamin=$request->Glukosamin;
+		$overage->overage_Kondroitin=$request->Kondroitin;								  $overage->overage_Kreatina=$request->Kreatina;
+		$overage->overage_Kolagen=$request->Kolagen;								  	  $overage->overage_EGCG=$request->EGCG;
+		$overage->overage_MCT=$request->MCT;								  	  	  	  $overage->overage_CLA=$request->CLA;
+		$overage->overage_omega3=$request->omega3;										  $overage->overage_Klorida=$request->Klorida;
+		$overage->overage_omega6=$request->omega6;								  	  	  $overage->overage_omega9=$request->omega9;
+		$overage->overage_asam_linoleat=$request->asam_linoleat;						  $overage->overage_energi_asam_linoleat=$request->energi_asam_linoleat;
+		$overage->overage_energi_protein=$request->energi_protein;						  $overage->overage_l_karnitin=$request->l_karnitin;
+		$overage->overage_l_glutamin=$request->l_glutamin;								  $overage->overage_Phenilalanin=$request->Phenilalanin;
+		$overage->overage_Thereonin=$request->Thereonin;								  $overage->overage_Methionin=$request->Methionin;
+		$overage->overage_Histidin=$request->Histidin;								  	  $overage->overage_Lisin=$request->Lisin;
+		$overage->overage_BCAA=$request->BCAA;											  $overage->overage_Leusin=$request->Leusin;
+		$overage->overage_Valin=$request->Valin;								  	  	  $overage->overage_Isoleusin=$request->Isoleusin;
+		$overage->overage_Alanin=$request->Alanin;								  	  	  $overage->overage_asam_aspartat=$request->asam_aspartat;
+		$overage->overage_asam_glutamat=$request->asam_glutamat; 						  $overage->overage_arginine=$request->arginine;
+		$overage->overage_sistein=$request->sistein;								  	  $overage->overage_serin=$request->serin;
+		$overage->overage_glisin=$request->glisin;										  $overage->overage_proline=$request->proline;
 		$overage->save();
 
 		return redirect::back();

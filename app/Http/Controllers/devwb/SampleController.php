@@ -6,8 +6,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
 
-use App\model\users\User;
-use App\model\modelfn\finance;
 use App\model\dev\Formula;
 use App\model\pkp\ProjectPDF;
 use App\model\pkp\PkpProject;
@@ -15,6 +13,7 @@ use App\model\pkp\Forecast;
 use App\model\pkp\SubPKP;
 use App\model\pkp\SubPDF;
 use App\model\dev\Fortail;
+use App\model\users\User;
 use Auth;
 use Redirect;
 use DB;
@@ -35,7 +34,7 @@ class SampleController extends Controller
         if($for->workbook_id!=NULL){
             $data = $for->workbook_id;
             $turunan = SubPKP::where('id_pkp',$data)->max('turunan');
-            $revisi =SubPKP::where('id_pkp',$data)->max('revisi');
+            $revisi = SubPKP::where('id_pkp',$data)->max('revisi');
             // kirim email sample (pengirim, Manager, PV)
             $isipkp = SubPKP::where('id_pkp',$for->workbook_id)->where('status_data','=','active')->get();
             $for = Forecast::where('id_pkp',$for->workbook_id)->where('revisi',$revisi)->where('turunan',$turunan)->get();
@@ -50,13 +49,13 @@ class SampleController extends Controller
                     foreach($datapkp as $data){
                         $dept = DB::table('ms_departements')->where('id',$data->tujuankirim)->get();
                         foreach($dept as $dept){
-                            $user = user::where('id',$dept->manager_id)->get();
+                            $user = User::where('id',$dept->manager_id)->get();
                             foreach($user as $user){
                                 $to = $user->email;
                                 $message->to($to);
                             }
                         }
-                        $user1 = user::where('id',$data->userpenerima)->get();
+                        $user1 = User::where('id',$data->userpenerima)->get();
                         foreach($user1 as $user1){
                             $cc = [$user1->email,Auth::user()->email];
                             $message->cc($cc);
@@ -86,13 +85,13 @@ class SampleController extends Controller
                     foreach($datapdf as $data){
                         $dept = DB::table('ms_departements')->where('id',$data->tujuankirim)->get();
                         foreach($dept as $dept){
-                            $user = user::where('id',$dept->manager_id)->get();
+                            $user = User::where('id',$dept->manager_id)->get();
                             foreach($user as $user){
                                 $to = $user->email;
                                 $message->to($to);
                             }
                         }
-                        $user1 = user::where('id',$data->userpenerima)->get();
+                        $user1 = User::where('id',$data->userpenerima)->get();
                         foreach($user1 as $user1){
                             $cc = [$user1->email,Auth::user()->email];
                             $message->cc($cc);
@@ -149,13 +148,13 @@ class SampleController extends Controller
                     foreach($datapkp as $data){
                         $dept = DB::table('ms_departements')->where('id',$data->tujuankirim)->get();
                         foreach($dept as $dept){
-                            $user = user::where('id',$dept->manager_id)->get();
+                            $user = User::where('id',$dept->manager_id)->get();
                             foreach($user as $user){
                                 $to = $user->email;
                                 $message->to($to);
                             }
                         }
-                        $user1 = user::where('id',$data->userpenerima)->get();
+                        $user1 = User::where('id',$data->userpenerima)->get();
                         foreach($user1 as $user1){
                             $cc = [$user1->email,Auth::user()->email];
                             $message->cc($cc);
@@ -185,13 +184,13 @@ class SampleController extends Controller
                     foreach($datapdf as $data){
                         $dept = DB::table('ms_departements')->where('id',$data->tujuankirim)->get();
                         foreach($dept as $dept){
-                            $user = user::where('id',$dept->manager_id)->get();
+                            $user = User::where('id',$dept->manager_id)->get();
                             foreach($user as $user){
                                 $to = $user->email;
                                 $message->to($to);
                             }
                         }
-                        $user1 = user::where('id',$data->userpenerima)->get();
+                        $user1 = User::where('id',$data->userpenerima)->get();
                         foreach($user1 as $user1){
                             $cc = [$user1->email,Auth::user()->email];
                             $message->cc($cc);
@@ -209,11 +208,11 @@ class SampleController extends Controller
     }
 
     public function approvefs($id_sample){
-        $for = ormula::where('id',$id_sample)->first();
+        $for = Formula::where('id',$id_sample)->first();
         $for->status_fisibility='approve';
         $for->save();
 
-        $fs = feasibility::where('id_formula',$id_project)->first();
+        $fs = Feasibility::where('id_formula',$id_project)->first();
         $fs->status_feasibility='approve';
         $fs->save();
 
@@ -257,20 +256,19 @@ class SampleController extends Controller
                 Mail::send('manager.infoemailpkp', [
                     'info' => 'R&D telah mengajukan sample untuk Project PKP berikut',
                     'for' => $for,
-                    'app'=>$isipkp,],function($message)use($data)
-                {
+                    'app'=>$isipkp,],function($message)use($data){
                     $message->subject('pengajuan sample PKP');
                     $datapkp = PkpProject::where('id_project',$data)->get();
                     foreach($datapkp as $data){
                         $dept = DB::table('ms_departements')->where('id',$data->tujuankirim)->get();
                         foreach($dept as $dept){
-                            $user = user::where('id',$dept->manager_id)->get();
+                            $user = User::where('id',$dept->manager_id)->get();
                             foreach($user as $user){
                                 $to = $user->email;
                                 $message->to($to);
                             }
                         }
-                        $user1 = user::where('id',$data->userpenerima)->get();
+                        $user1 = User::where('id',$data->userpenerima)->get();
                         foreach($user1 as $user1){
                             $cc = [$user1->email,Auth::user()->email];
                             $message->cc($cc);
@@ -293,20 +291,19 @@ class SampleController extends Controller
                 Mail::send('manager.infoemailpdf', [
                     'info' => 'R&D telah mengajukan sample untuk Project PDF berikut',
                     'for' => $for,
-                    'app'=>$isipdf,],function($message)use($data)
-                {
+                    'app'=>$isipdf,],function($message)use($data) {
                     $message->subject('Pengajuan PDF sample');
                     $datapdf = ProjectPDF::where('id_project_pdf',$data)->get();
                     foreach($datapdf as $data){
                         $dept = DB::table('ms_departements')->where('id',$data->tujuankirim)->get();
                         foreach($dept as $dept){
-                            $user = user::where('id',$dept->manager_id)->get();
+                            $user = User::where('id',$dept->manager_id)->get();
                             foreach($user as $user){
                                 $to = $user->email;
                                 $message->to($to);
                             }
                         }
-                        $user1 = user::where('id',$data->userpenerima)->get();
+                        $user1 = User::where('id',$data->userpenerima)->get();
                         foreach($user1 as $user1){
                             $cc = [$user1->email,Auth::user()->email];
                             $message->cc($cc);

@@ -12,7 +12,7 @@ use App\model\Modelkemas\FormulaKemas;
 use App\model\Modelkemas\KonsepKemas;
 use App\model\Modelfn\Finance;
 use App\model\dev\Formula;
-use App\model\pkp\tipp;
+use App\model\pkp\SubPKP;
 use Excel;
 
 class KemasController extends Controller
@@ -23,7 +23,7 @@ class KemasController extends Controller
 	}
 
 	public function index(Request $request,$id, $id_feasibility){
-		$formulas = tipp::where('id_pkp',$id)->where('status_data','=','active')->get();
+		$formulas = SubPKP::where('id_pkp',$id)->where('status_data','=','active')->get();
 		$request->session()->get('id_feasibility');
 		$request->session()->put('id_feasibility', $id_feasibility);
 		$fe=Finance::find($id_feasibility);

@@ -257,7 +257,7 @@ Route::post('updatepdf2/{id_pdf}/{revisi}/{turunan}','pv\PDFController@updatecob
 Route::post('uploadpdf','pv\PDFController@uploaddatapdf')->name('uploadpdf');
 
 Route::get('konfig/{id}','pv\PDFController@konfigurasi')->name('konfig');
-Route::get('drafpdf','pv\PDFController@drafpkp')->name('drafpdf');
+Route::get('drafpdf','pv\PDFController@drafpdf')->name('drafpdf');
 Route::get('listpdf','pv\PDFController@listpdf')->name('listpdf');
 Route::get('downloadpdf/{id_project_pdf}/{revisi}/{turunan}','pv\PDFController@downloadpdf')->name('downloadpdf');
 Route::get('buatpdf/{id_project_pdf}','pv\PDFController@buatpdf')->name('buatpdf');

@@ -23,7 +23,7 @@ use App\model\pkp\DataPromo;
 use App\model\pkp\ParameterForm;
 use App\model\pkp\SubPDF;
 use App\model\pkp\SubPKP;
-use App\model\pkp\FileProject;
+use App\model\manager\Pengajuan;
 use Auth;
 use Redirect;
 use DB;
@@ -48,7 +48,7 @@ class ReportController extends Controller
     }
 
     public function editpkpall(){
-        $brand = brand::all();
+        $brand = Brand::all();
         $uom = UOM::all();
         $par2 = ParameterForm::where('user',Auth::user()->id)->limit('1')->get();
         $tarkon = Tarkon::all();
@@ -101,7 +101,7 @@ class ReportController extends Controller
 
     public function editpdfall(){
         $type= Type::all();
-        $brand = brand::all();
+        $brand = Brand::all();
         $par = ParameterForm::where('user',Auth::user()->id)->limit('1')->get();
         $datapdf = ProjectPDF::where('status_project','!=','draf') ->join('tr_sub_pdf','tr_pdf_project.id_project_pdf','=','tr_sub_pdf.pdf_id')
             ->join('tr_edit','tr_edit.id_pdf','=','tr_pdf_project.id_project_pdf')
@@ -119,7 +119,7 @@ class ReportController extends Controller
     }
 
     public function editpromoall(){
-        $brand = brand::all();
+        $brand = Brand::all();
         $par = ParameterForm::where('user',Auth::user()->id)->limit('1')->get();
         $datapromo = Promo::where('status_project','!=','draf') ->join('tr_promo','tr_project_promo.id_pkp_promo','=','tr_promo.id_pkp_promoo')
             ->join('tr_edit','tr_edit.id_promo','=','tr_project_promo.id_pkp_promo')->where('id_user',Auth::user()->id)
@@ -529,7 +529,7 @@ class ReportController extends Controller
 
     public function notulenpdf(){
         $type= Type::all();
-        $brand = brand::all();
+        $brand = Brand::all();
         $datapdf = ProjectPDF::where('status_project','!=','draf') ->join('tr_sub_pdf','tr_pdf_project.id_project_pdf','=','tr_sub_pdf.pdf_id')->where('status_pdf','=','active')->get();
         return view('pdf.notulenpdf')->with([
             'datapdf' => $datapdf,
@@ -539,7 +539,7 @@ class ReportController extends Controller
     }
 
     public function notulenpkp(){
-        $brand = brand::all();
+        $brand = Brand::all();
         $datapkp = SubPKP::where('status_project','!=','draf') ->join('tr_project_pkp','tr_project_pkp.id_project','=','tr_sub_pkp.id_pkp')->where('status_data','=','active')->get();
         return view('pkp.notulen')->with([
             'datapkp' => $datapkp,
@@ -567,9 +567,9 @@ class ReportController extends Controller
     }
 
     public function indexnotulenpromo(){
-        $brand = brand::all();
+        $brand = Brand::all();
         $par = ParameterForm::where('user',Auth::user()->id)->limit('1')->get();
-        $datapromo = promo::where('status_project','!=','draf') ->join('tr_promo','tr_project_promo.id_pkp_promo','=','tr_promo.id_pkp_promoo')->where('status_data','=','active')->get();
+        $datapromo = Promo::where('status_project','!=','draf') ->join('tr_promo','tr_project_promo.id_pkp_promo','=','tr_promo.id_pkp_promoo')->where('status_data','=','active')->get();
         return view('promo.notulenpromo')->with([
             'datapromo' => $datapromo,
             'brand' => $brand,
@@ -651,10 +651,10 @@ class ReportController extends Controller
     }
 
     public function pengajuan(){
-        $pengajuanpdf = pengajuan::where('id_pdf','!=','')->get();
-        $pengajuanpkp = pengajuan::where('id_pkp','!=','')->get();
-        $pengajuanpromo = pengajuan::where('id_promo','!=','')->get();
-        $pengajuan = pengajuan::count();
+        $pengajuanpdf = Pengajuan::where('id_pdf','!=','')->get();
+        $pengajuanpkp = Pengajuan::where('id_pkp','!=','')->get();
+        $pengajuanpromo = Pengajuan::where('id_promo','!=','')->get();
+        $pengajuan = Pengajuan::count();
         return view('pv.datapengajuan')->with([
             'pengajuanpdf' => $pengajuanpdf,
             'pengajuanpkp' => $pengajuanpkp,

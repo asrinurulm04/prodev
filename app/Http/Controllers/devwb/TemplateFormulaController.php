@@ -30,13 +30,13 @@ class TemplateFormulaController extends Controller
     }
 
     public function template($ftujuan,$fasal){
-        //dd($ftujuan);
         $namaformAsal = Formula::where('id',$fasal)->first()->nama_produk;
         $cft=Fortail::where('formula_id',$fasal)->count();
         $formula_Asal   = Formula::where('id',$fasal)->first();
+
         $formula_Tujuan = Formula::where('id',$ftujuan)->first();
         $formula_Tujuan->batch   = $formula_Asal->batch;
-        $formula_Tujuan->serving = $formula_Asal->serving;
+        $formula_Tujuan->serving = $formula_Asal->serving + $formula_Tujuan->serving;
         $formula_Tujuan->save();
         // Ambil Susunan Bahan
         if($cft>0){

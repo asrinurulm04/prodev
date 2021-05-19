@@ -7,10 +7,9 @@ use App\Http\Controllers\Controller;
 
 use App\model\pkp\PkpProject;
 use App\model\pkp\ProjectPDF;
-use App\model\master\Brand;
-use App\model\pkp\promo;
+use App\model\pkp\Promo;
 use App\model\pkp\SubPKP;
-
+use App\model\master\Brand;
 use Auth;
 use DB;
 use Redirect;
@@ -24,7 +23,7 @@ class ListProjectController extends Controller
 
     public function listpkp(){
         $pkp = SubPKP::where('status_data','=','active')->join('tr_project_pkp','tr_project_pkp.id_project','=','tr_sub_pkp.id_pkp')->where('status_project','!=','draf')->where('status_project','!=','sent')->orderBy('pkp_number','desc')->get();
-        $brand = brand::all();
+        $brand = Brand::all();
         return view('devwb.listprojectpkp')->with([
             'brand' => $brand,
             'pkp' => $pkp
@@ -41,8 +40,8 @@ class ListProjectController extends Controller
     }
 
     public function listpromo(){
-        $promo = promo::all();
-        $brand = brand::all();
+        $promo = Promo::all();
+        $brand = Brand::all();
         return view('devwb.listprojectpromo')->with([
             'promo' => $promo,
             'brand' => $brand
@@ -56,8 +55,8 @@ class ListProjectController extends Controller
         $pdf = ProjectPDF::where('userpenerima',Auth::user()->id)->where('status_project','=','proses')->count();
         $pdf1 = ProjectPDF::where('userpenerima2',Auth::user()->id)->where('status_project','=','proses')->count();
         $datapdf = $pdf + $pdf1;
-        $promo = promo::where('userpenerima',Auth::user()->id)->where('status_project','=','proses')->count();
-        $promo1 = promo::where('userpenerima2',Auth::user()->id)->where('status_project','=','proses')->count();
+        $promo = Promo::where('userpenerima',Auth::user()->id)->where('status_project','=','proses')->count();
+        $promo1 = Promo::where('userpenerima2',Auth::user()->id)->where('status_project','=','proses')->count();
         $datapromo = $promo + $promo1;
         return view('devwb.dasboard')->with([
             'pkp' => $datapkp,

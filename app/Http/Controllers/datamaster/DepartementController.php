@@ -25,9 +25,7 @@ class DepartementController extends Controller
     }
 
     public function deldept($id){
-        $dept = Departement::where('id',$id)->first();
-        $n = $dept->dept;
-        $dept->delete();
+        $dept = Departement::where('id',$id)->delete();
 
         return Redirect::back()->with('error', 'Departement '.$n.' Telah Dihapus!');
     }

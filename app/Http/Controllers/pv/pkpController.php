@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Mail;
 use App\model\master\Teams;
 use App\model\master\Brand;
 use App\model\master\Tarkon;
-use App\model\kemas\datakemas;
+use App\model\kemas\Datakemas;
 use App\model\devnf\HasilPanel;
 use App\model\pkp\PkpProject;
 use App\model\pkp\ProjectPDF;
@@ -63,9 +63,9 @@ class PKPController extends Controller
     }
 
     public function formpkp(){
-        $brand = brand::select('brand','id')->get();
+        $brand = Brand::select('brand','id')->get();
         $menu = JenisMenu::select('jenis_menu')->get();
-        $pkp1 = PkpProject::where('status_project','!=','draf')->select('pkp_number','ket_no','id_brand')->get();
+        $pkp1 = PkpProject::where('status_project','!=','draf')->select('pkp_number','ket_no','id_brand','id_project')->orderBy('pkp_number','asc')->get();
         return view('pkp.requestPKP')->with([
             'brand' => $brand,
             'pkp1' => $pkp1,
@@ -192,26 +192,26 @@ class PKPController extends Controller
     public function buatpkp($id_project,$revisi,$turunan){
         $pkpdata = SubPKP::where([ ['id_pkp',$id_project], ['revisi',$revisi], ['turunan',$turunan] ])->get();
         $project = PkpProject::where('status_project','!=','draf')->get();
-        $brand = brand::all();
+        $brand = Brand::all();
         $ses = SES::all();
-        $user = user::where('status','=','active')->get();
+        $user = User::where('status','=','active')->get();
         $datases = DataSES::where([ ['id_pkp',$id_project], ['revisi',$revisi], ['turunan',$turunan]])->get();
         $uom = UOM::where('note',NULL)->get();
         $uom_primer = UOM::where('note','!=',NULL)->get();
         $Ddetail = DetailKlaim::max('id')+1;
         $tarkon = Tarkon::all();
-        $eksis=datakemas::count();
+        $eksis=Datakemas::count();
         $for = Forecast::where('id_pkp',$id_project)->where('revisi',$revisi)->where('turunan',$turunan)->get();
         $for2 = Forecast::where('id_pkp',$id_project)->where('revisi',$revisi)->where('turunan',$turunan)->count();
         $datadetail = DetailKlaim::where('id_pkp',$id_project)->where('turunan',$turunan)->where('revisi',$revisi)->get();
         $pangan = DataPangan::all();
         $dataklaim = DataKlaim::where('id_pkp',$id_project)->where('turunan',$turunan)->where('revisi',$revisi)->get();
         $ide = Uniqueness::all();
-        $kemas = datakemas::all();
+        $kemas = Datakemas::all();
         $mar = EstimasiMarket::all();
         $detail = KlaimDetail::all();
         $klaim = Klaim::all();
-        $komponen = komponen::all();
+        $komponen = Komponen::all();
         return view('pkp.buatpkp')->with([
             'brand' => $brand,
             'eksis' => $eksis,
@@ -240,15 +240,15 @@ class PKPController extends Controller
 
     public function buatpkp1($id_project){
         $pkp = PkpProject::where('id_project',$id_project)->first();
-        $brand = brand::all();
+        $brand = Brand::all();
         $tarkon = Tarkon::all();
         $pangan = DataPangan::all();
-        $kemas = datakemas::get();
+        $kemas = Datakemas::get();
         $uom = UOM::where('note',NULL)->get();
         $uom_primer = UOM::where('note','!=',NULL)->get();
         $data_uom = UOM::all();
         $ses = SES::all();
-        $eksis=datakemas::count();
+        $eksis=Datakemas::count();
         $Ddetail = DetailKlaim::max('id')+1;
         $detail = KlaimDetail::all();
         $klaim = Klaim::all();
@@ -305,13 +305,13 @@ class PKPController extends Controller
         $data = SubPKP::where('id_pkp',$id_project)->where('revisi',$revisi)->where('turunan',$pkp)->first();
         $data->status_data='inactive';
         if($data->bpom==null){
-        $data->bpom=$request->bpom;
+            $data->bpom=$request->bpom;
         }if($data->kategori_bpom==null){
-        $data->kategori_bpom=$request->katbpom;
+            $data->kategori_bpom=$request->katbpom;
         }if($data->kemas_eksis==null){
-        $data->kemas_eksis=$request->eksis;
+            $data->kemas_eksis=$request->eksis;
         }if($data->akg==null){
-        $data->akg=$request->akg;
+            $data->akg=$request->akg;
         }
         $data->save();
 
@@ -353,7 +353,7 @@ class PKPController extends Controller
                     }elseif($request->primer!='NULL'){
                     $tip->kemas_eksis=$request->kemas;
 
-                        $kemas = new datakemas;
+                        $kemas = new Datakemas;
                         $kemas->nama='-';
                         $kemas->tersier=$request->tersier;
                         $kemas->s_tersier=$request->s_tersier;
@@ -388,8 +388,7 @@ class PKPController extends Controller
             if ($validator->passes()) {
 				$idz = implode(',', $request->input('ses'));
 				$ids = explode(',', $idz);
-				for ($i = 0; $i < count($ids); $i++)
-				{
+				for ($i = 0; $i < count($ids); $i++){
 					$pipeline = new DataSES;
                     $pipeline->id_pkp=$id_project;
                     $pipeline->revisi=$revisi;;
@@ -408,8 +407,7 @@ class PKPController extends Controller
 				$ids = explode(',', $idz);
 				$ida = implode(',', $request->input('satuan'));
 				$idb = explode(',', $ida);
-				for ($i = 0; $i < count($ids); $i++)
-				{
+				for ($i = 0; $i < count($ids); $i++){
 					$pipeline = new Forecast;
                     $pipeline->id_pkp=$id_project;
                     $pipeline->revisi=$revisi;;
@@ -431,8 +429,7 @@ class PKPController extends Controller
 				$idb = explode(',', $ida);
 				$note = implode(',', $request->input('ket'));
 				$data = explode(',', $note);
-				for ($i = 0; $i < count($ids); $i++)
-				{
+				for ($i = 0; $i < count($ids); $i++){
 					$pipeline = new DataKlaim;
 					$pipeline->id_pkp=$id_project;
 					$pipeline->revisi=$revisi;;
@@ -452,8 +449,7 @@ class PKPController extends Controller
 			if ($validator->passes()) {
 				$idz = implode(',', $request->input('detail'));
 				$ids = explode(',', $idz);
-				for ($i = 0; $i < count($ids); $i++)
-				{
+				for ($i = 0; $i < count($ids); $i++){
 					$detail = new DetailKlaim;
 					$detail->id_pkp=$id_project;
 					$detail->revisi=$revisi;;
@@ -461,7 +457,6 @@ class PKPController extends Controller
 					$detail->id_detail = $ids[$i];
 					$detail->save();
 					$i = $i++;
-
 				}
 			}
 		}
@@ -473,15 +468,13 @@ class PKPController extends Controller
                 'app'=>$isipkp,
                 'for'=>$for,
                 'info' => 'Saat ini terdapat perubahan data PKP',
-            ],function($message)use($request)
-            {
+            ],function($message)use($request){
                 $tujuan = array(); 
                 $validator = Validator::make($request->all(), $tujuan);  
                 if ($validator->passes()) {
                 $email = implode(',', $request->input('emailtujuan'));
                 $data = explode(',', $email);
-                for ($i = 0; $i < count($data); $i++)
-                {
+                for ($i = 0; $i < count($data); $i++){
                     $message->subject('PRODEV | PKP');
                     $message->to($request->pengirim1);
                     $message->cc($data[$i]);
@@ -497,7 +490,7 @@ class PKPController extends Controller
     }
 
     public function updatetipp2(Request $request,$id_pkp,$revisi,$turunan){
-        $eksis = datakemas::count();
+        $eksis = Datakemas::count();
 
         $data2= PkpProject::where('id_project',$id_pkp)->first();
         $data2->project_name=$request->name_project;
@@ -537,7 +530,7 @@ class PKPController extends Controller
             }elseif($request->primer!='NULL'){
             $tip->kemas_eksis=$request->kemas;
 
-                $kemas = new datakemas;
+                $kemas = new Datakemas;
                 $kemas->tersier=$request->tersier;
                 $kemas->s_tersier=$request->s_tersier;
                 $kemas->primer=$request->primer;
@@ -567,8 +560,7 @@ class PKPController extends Controller
             if ($validator->passes()) {
                 $idz = implode(',', $request->input('ses'));
                 $ids = explode(',', $idz);
-                for ($i = 0; $i < count($ids); $i++)
-                {
+                for ($i = 0; $i < count($ids); $i++){
                     $pipeline = new DataSES;
                     $pipeline->id_pkp=$request->id;
                     $pipeline->turunan=$turunan;
@@ -589,8 +581,7 @@ class PKPController extends Controller
                 $ids = explode(',', $idz);
                 $ida = implode(',', $request->input('satuan'));
                 $idb = explode(',', $ida);
-                for ($i = 0; $i < count($ids); $i++)
-                {
+                for ($i = 0; $i < count($ids); $i++){
                     $pipeline = new Forecast;
                     $pipeline->id_pkp = $request->id;
                     $pipeline->turunan = $turunan;
@@ -614,8 +605,7 @@ class PKPController extends Controller
                 $idb = explode(',', $ida);
                 $note = implode(',', $request->input('ket'));
                 $data = explode(',', $note);
-                for ($i = 0; $i < count($ids); $i++)
-                {
+                for ($i = 0; $i < count($ids); $i++) {
                     $pipeline = new DataKlaim;
                     $pipeline->id_pkp=$request->id;
                     $pipeline->turunan=$turunan;
@@ -636,8 +626,7 @@ class PKPController extends Controller
             if ($validator->passes()) {
                 $idz = implode(',', $request->input('detail'));
                 $ids = explode(',', $idz);
-                for ($i = 0; $i < count($ids); $i++)
-                {
+                for ($i = 0; $i < count($ids); $i++){
                     $detail = new DetailKlaim;
                     $detail->id_pkp=$request->id;
                     $detail->turunan=$turunan;
@@ -656,15 +645,13 @@ class PKPController extends Controller
             Mail::send('pv.aktifitasinfoemail', [
                 'app'=>$isipkp,
                 'for'=>$for,
-                'info' => 'Saat ini terdapat perubahan data PKP',],function($message)use($request)
-            {
+                'info' => 'Saat ini terdapat perubahan data PKP',],function($message)use($request){
                 $tujuan = array(); 
                 $validator = Validator::make($request->all(), $tujuan);  
                 if ($validator->passes()) {
                     $email = implode(',', $request->input('emailtujuan'));
                     $data = explode(',', $email);
-                    for ($i = 0; $i < count($data); $i++)
-                    {
+                    for ($i = 0; $i < count($data); $i++){
                         $message->subject('PRODEV | PKP');
                         $message->to($request->pengirim1);
                         $message->cc($data[$i]);
@@ -675,7 +662,6 @@ class PKPController extends Controller
         catch (Exception $e){
         return response (['status' => false,'errors' => $e->getMessage()]);
         }
-
         return redirect()->Route('datatambahanpkp',['id_project' => $tip->id_pkp, 'revisi' => $tip->revisi, 'turunan' => $tip->turunan])->with('status', 'Revised data ');
     }
 
@@ -716,9 +702,9 @@ class PKPController extends Controller
                 if($request->primer==''){
                     $tip->kemas_eksis=$request->data_eksis;
                 }elseif($request->primer!='NULL'){
-                $tip->kemas_eksis=$request->kemas;
+                    $tip->kemas_eksis=$request->kemas;
 
-                    $kemas = new datakemas;
+                    $kemas = new Datakemas;
                     $kemas->tersier=$request->tersier;
                     $kemas->s_tersier=$request->s_tersier;
                     $kemas->primer=$request->primer;
@@ -750,8 +736,7 @@ class PKPController extends Controller
                 if ($validator->passes()) {
                     $idz = implode(',', $request->input('ses'));
                     $ids = explode(',', $idz);
-                    for ($i = 0; $i < count($ids); $i++)
-                    {
+                    for ($i = 0; $i < count($ids); $i++){
                         $pipeline = new DataSES;
                         $pipeline->id_pkp=$request->id;
                         $pipeline->turunan='0';
@@ -770,8 +755,7 @@ class PKPController extends Controller
                     $ids = explode(',', $idz);
                     $ida = implode(',', $request->input('satuan'));
                     $idb = explode(',', $ida);
-                    for ($i = 0; $i < count($ids); $i++)
-                    {
+                    for ($i = 0; $i < count($ids); $i++){
                         $pipeline = new Forecast;
                         $pipeline->id_pkp=$request->id;
                         $pipeline->turunan='0';
@@ -793,8 +777,7 @@ class PKPController extends Controller
                     $idb = explode(',', $ida);
                     $note = implode(',', $request->input('ket'));
                     $data = explode(',', $note);
-                    for ($i = 0; $i < count($ids); $i++)
-                    {
+                    for ($i = 0; $i < count($ids); $i++){
                         $pipeline = new DataKlaim;
                         $pipeline->id_pkp=$request->id;
                         $pipeline->turunan='0';
@@ -813,8 +796,7 @@ class PKPController extends Controller
                 if ($validator->passes()) {
                     $idz = implode(',', $request->input('detail'));
                     $ids = explode(',', $idz);
-                    for ($i = 0; $i < count($ids); $i++)
-                    {
+                    for ($i = 0; $i < count($ids); $i++){
                         $detail = new DetailKlaim;
                         $detail->id_pkp=$request->id;
                         $detail->id_klaim=$request->iddetail;
@@ -833,29 +815,25 @@ class PKPController extends Controller
                     'app'=>$isipkp,
                     'for'=>$for,
                     'info' => 'Terdapat Data PKP Baru',
-                ],function($message)use($request)
-                {
+                ],function($message)use($request){
                     $tujuan = array(); 
                     $validator = Validator::make($request->all(), $tujuan);  
                     if ($validator->passes()) {
-                    $email = implode(',', $request->input('emailtujuan'));
-                    $data = explode(',', $email);
-                    for ($i = 0; $i < count($data); $i++)
-                    {
-                        $message->subject('PRODEV | PKP');
-                        $message->to($request->pengirim1);
-                        $message->cc($data[$i]);
+                        $email = implode(',', $request->input('emailtujuan'));
+                        $data = explode(',', $email);
+                        for ($i = 0; $i < count($data); $i++){
+                            $message->subject('PRODEV | PKP');
+                            $message->to($request->pengirim1);
+                            $message->cc($data[$i]);
+                        }
                     }
-                }
                 });
             }
             catch (Exception $e){
-            return response (['status' => false,'errors' => $e->getMessage()]);
+                return response (['status' => false,'errors' => $e->getMessage()]);
             }
-
             return redirect()->Route('datatambahanpkp',['id_pkp' => $tip->id_pkp,'revisi' => $tip->revisi, 'turunan' => $tip->turunan])->with('status', 'Data has been added up ');
         }
-        
     }
 
     public function closeproject(Request $request,$id){
@@ -874,33 +852,32 @@ class PKPController extends Controller
         
         $files = [];
         foreach ($request->file('filename') as $file) {
-        if ($file->isValid()) {
-            $nama = time();
-            $nama_file = time()."_".$file->getClientOriginalName();
-            $tujuan_upload = 'data_file';
-            $path = $file->move($tujuan_upload,$nama_file);
-            $turunan =$request->turunan;
-            $form=$request->id;
-            $files[] = [
-                'id_pkp' => $form,
-                'tanggal' => $request->date,
-                'nama_produk' => $request->product,
-                'formula_baku' => $request->baku,
-                'formula_kemas' => $request->kemas,
-                'price_list' => $request->price,
-                'forecast' => $request->forecast,
-                'rto' => $request->rto,
-                'note' => $request->note, 
-                'barcode' => $nama_file,
-            ];
+            if ($file->isValid()) {
+                $nama = time();
+                $nama_file = time()."_".$file->getClientOriginalName();
+                $tujuan_upload = 'data_file';
+                $path = $file->move($tujuan_upload,$nama_file);
+                $turunan =$request->turunan;
+                $form=$request->id;
+                $files[] = [
+                    'id_pkp' => $form,
+                    'tanggal' => $request->date,
+                    'nama_produk' => $request->product,
+                    'formula_baku' => $request->baku,
+                    'formula_kemas' => $request->kemas,
+                    'price_list' => $request->price,
+                    'forecast' => $request->forecast,
+                    'rto' => $request->rto,
+                    'note' => $request->note, 
+                    'barcode' => $nama_file,
+                ];
             }
         }
         ProjectLaunching::insert($files);
 
         $emaillaunch = PkpProject::where('id_project',$id)->get();
         try{
-            Mail::send('launching', [
-                'launch'=>$emaillaunch,],function($message)use($request,$id){
+            Mail::send('launching', ['launch'=>$emaillaunch,],function($message)use($request,$id){
                 $message->subject('Konfirmasi Launching');
 
                 $data = $request->penerima1;
@@ -943,7 +920,6 @@ class PKPController extends Controller
                     }
                 }
             });
-            return back()->with('status','Berhasil Kirim Email');
         }
         catch (Exception $e){
         return response (['status' => false,'errors' => $e->getMessage()]);
@@ -1041,8 +1017,7 @@ class PKPController extends Controller
                 'for' => $for,
                 'info' => 'Anda Memiliki Project PKP Baru :)',
                 'jangka' => $request->jangka,
-                'waktu' => $request->waktu,],function($message)use($request)
-                {
+                'waktu' => $request->waktu,],function($message)use($request){
                     $message->subject('PKP '.$request->name);
                     //sent email to manager
                     $dept = DB::table('ms_departements')->where('id',$request->kirim)->get();
@@ -1230,7 +1205,7 @@ class PKPController extends Controller
             });
         }
         catch (Exception $e){
-        return response (['status' => false,'errors' => $e->getMessage()]);
+            return response (['status' => false,'errors' => $e->getMessage()]);
         }
         return redirect::Route('listpkprka');
     }
@@ -1239,7 +1214,7 @@ class PKPController extends Controller
         $sample_project = Formula::where('workbook_id', $id_project)->orderBy('versi','asc')->get();
         $hitung = SubPKP::where('id_pkp',$id_project)->count();
         $max = SubPKP::where('id_pkp',$id_project)->max('turunan');
-        $user = user::where('status','=','active')->get();
+        $user = User::where('status','=','active')->get();
         $max2 = SubPKP::where('id_pkp',$id_project)->max('revisi');
         $cf =Formula::where('workbook_id',$id_project)->count();
         $datapkp = SubPKP::where('id_pkp',$id_project)->where('turunan',$max)->where('revisi',$max2)->get();
@@ -1268,7 +1243,6 @@ class PKPController extends Controller
         return redirect::back();
     }
 
-    
     public function dasboardnr(){
         $pkp1 = PkpProject::all()->count();
         $promo1 = Promo::all()->count();
@@ -1364,11 +1338,10 @@ class PKPController extends Controller
         $data->status_pkp='revisi';
         $data->save();
 
-            $clf=SubPKP::where('id_pkp',$id_project)->where('revisi',$revisi)->where('turunan',$turunan)->count();
-            if($clf>0){
-                $isipkp=SubPKP::where('id_pkp',$id_project)->where('revisi',$revisi)->where('turunan',$turunan)->get();
-                foreach ($isipkp as $pkpp)
-                {
+        $clf=SubPKP::where('id_pkp',$id_project)->where('revisi',$revisi)->where('turunan',$turunan)->count();
+        if($clf>0){
+            $isipkp=SubPKP::where('id_pkp',$id_project)->where('revisi',$revisi)->where('turunan',$turunan)->get();
+            foreach ($isipkp as $pkpp){
                 $tip= new SubPKP;
                 $tip->id_pkp=$pkpp->id_pkp;
                 $tip->idea=$pkpp->idea;
@@ -1416,8 +1389,7 @@ class PKPController extends Controller
             $datases=DataSES::where('id_pkp',$id_project)->where('revisi',$revisi)->where('turunan',$turunan)->count();
             if($datases>0){
                 $isises=DataSES::where('id_pkp',$id_project)->where('revisi',$revisi)->where('turunan',$turunan)->get();
-                foreach ($isises as $isises)
-                {
+                foreach ($isises as $isises){
                     $data1= new DataSES;
                     $data1->id_pkp=$isises->id_pkp;
                     $data1->revisi=$naikversi;
@@ -1429,8 +1401,7 @@ class PKPController extends Controller
             $datafor=Forecast::where('id_pkp',$id_project)->where('revisi',$revisi)->where('turunan',$turunan)->count();
             if($datafor>0){
                 $isifor=Forecast::where('id_pkp',$id_project)->where('revisi',$revisi)->where('turunan',$turunan)->get();
-                foreach ($isifor as $isifor)
-                {
+                foreach ($isifor as $isifor){
                     $for= new Forecast;
                     $for->id_pkp=$isifor->id_pkp;
                     $for->revisi=$naikversi;
@@ -1443,8 +1414,7 @@ class PKPController extends Controller
             $dataklaim=DataKlaim::where('id_pkp',$id_project)->where('revisi',$revisi)->where('turunan',$turunan)->count();
             if($dataklaim>0){
                 $isiklaim=DataKlaim::where('id_pkp',$id_project)->where('revisi',$revisi)->where('turunan',$turunan)->get();
-                foreach ($isiklaim as $isiklaim)
-                {
+                foreach ($isiklaim as $isiklaim){
                     $klaim= new DataKlaim;
                     $klaim->id_pkp=$isiklaim->id_pkp;
                     $klaim->revisi=$naikversi;
@@ -1458,8 +1428,7 @@ class PKPController extends Controller
             $detailklaim=DetailKlaim::where('id_pkp',$id_project)->where('revisi',$revisi)->where('turunan',$turunan)->count();
             if($detailklaim>0){
                 $isidetail=DetailKlaim::where('id_pkp',$id_project)->where('revisi',$revisi)->where('turunan',$turunan)->get();
-                foreach ($isidetail as $isidetail)
-                {
+                foreach ($isidetail as $isidetail){
                     $detail= new DetailKlaim;
                     $detail->id_pkp=$isidetail->id_pkp;
                     $detail->revisi=$naikversi;
