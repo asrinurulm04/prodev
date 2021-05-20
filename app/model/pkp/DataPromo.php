@@ -10,7 +10,7 @@ class DataPromo extends Model
     protected $primaryKey ='id_promo';
     
     public function datapromoo(){
-        return $this->hasOne('App\model\pkp\Promo','id_pkp_promo','id_pkp_promoo');
+        return $this->hasOne('App\model\pkp\promo','id_pkp_promo','id_pkp_promoo');
     }
 
     public function departement(){

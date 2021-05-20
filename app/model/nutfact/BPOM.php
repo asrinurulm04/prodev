@@ -10,7 +10,7 @@ class BPOM extends Model
     
     public function mikroba()
     {
-    	return $this->belongsTo('App\nutfact\Mikroba','no_kategori','no_kategori');
+    	return $this->belongsTo('App\nutfact\mikroba','no_kategori','no_kategori');
     }
 
 }

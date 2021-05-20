@@ -18,7 +18,7 @@ class finance extends Model
 
     public function mesin()
     {
-        return $this->hasMany('App\model\Modelmesin\DataMesin','id_feasibility','id_mesin');
+        return $this->hasMany('App\model\Modelmesin\datamesin','id_feasibility','id_mesin');
     }
 
     public function lab()

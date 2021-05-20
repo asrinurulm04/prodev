@@ -18,7 +18,7 @@ class pengajuan extends Model
     }
 
     public function datapromo(){
-        return $this->hasOne('App\model\pkp\Promo','id_pkp_promo','id_promo');
+        return $this->hasOne('App\model\pkp\promo','id_pkp_promo','id_promo');
     }
 
     public function user(){

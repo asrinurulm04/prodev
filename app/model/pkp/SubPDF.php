@@ -18,7 +18,7 @@ class SubPDF extends Model
     }
 
     public function kemas(){
-        return $this->belongsTo('App\model\kemas\DataKemas','kemas_eksis','id_kemas');
+        return $this->belongsTo('App\model\kemas\datakemas','kemas_eksis','id_kemas');
     }
 
     public function picpdf(){

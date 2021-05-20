@@ -10,11 +10,11 @@ class DataKlaim extends Model
     protected $primaryKey ='id';
 
     public function datakp(){
-        return $this->hasOne('App\model\pkp\Komponen','id','id_komponen');
+        return $this->hasOne('App\model\pkp\komponen','id','id_komponen');
     }
 
     public function datakl(){
-        return $this->hasOne('App\model\pkp\Klaim','id','id_klaim');
+        return $this->hasOne('App\model\pkp\klaim','id','id_klaim');
     }
 
     public function datadt(){

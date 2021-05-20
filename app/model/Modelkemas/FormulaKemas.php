@@ -13,6 +13,6 @@ class FormulaKemas extends Model
 
     public function konsepkemas()
     {
-        return $this->hasOne('App\model\Modelfn\Finance','id_fk','id_konsepkemas');
+        return $this->hasOne('App\model\Modelfn\finance','id_fk','id_konsepkemas');
     }
 }

@@ -35,7 +35,7 @@ class masterController extends Controller
     }
 
     public function uom(Request $request){
-        $uom = new UOM;
+        $uom = new uom;
         $uom->primary_uom=$request->uom;
         $uom->save();
 

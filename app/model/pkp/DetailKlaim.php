@@ -14,6 +14,6 @@ class DetailKlaim extends Model
     }
     
     public function komponen_klaim(){
-        return $this->hasOne('App\model\pkp\Komponen','id','id_detail');
+        return $this->hasOne('App\model\pkp\komponen','id','id_detail');
     }
 }

@@ -15,6 +15,6 @@ class Mesin extends Model
 
     public function datamesin()
     {
-        return $this->hasMany('App\model\Modelmesin\Datamesin','id_data_mesin','id_data_mesin');
+        return $this->hasMany('App\model\Modelmesin\datamesin','id_data_mesin','id_data_mesin');
     }
 }

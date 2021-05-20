@@ -10,6 +10,6 @@ class klaim extends Model
     protected $primaryKey ='id';
 
     public function komponen(){
-        return $this->hasOne('App\model\pkp\Komponen','id','id_komponen');
+        return $this->hasOne('App\model\pkp\komponen','id','id_komponen');
     }
 }

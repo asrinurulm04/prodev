@@ -17,7 +17,7 @@ class notulen extends Model
     }
 
     public function promo(){
-        return $this->hasOne('App\model\pkp\Promo','id_pkp_promo','id_promo');
+        return $this->hasOne('App\model\pkp\promo','id_pkp_promo','id_promo');
     }
 
     public function users(){

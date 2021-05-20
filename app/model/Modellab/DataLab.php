@@ -12,11 +12,11 @@ class DataLab extends Model
 
     public function id()
     {
-        return $this->hasOne('App\model\Modelfn\Finance','id_feasibility','id_lab');
+        return $this->hasOne('App\model\Modelfn\finance','id_feasibility','id_lab');
     }
 
     public function datalab()
     {
-        return $this->belongsTo('App\model\Modelfn\Finance','id_feasibility','id_lab');
+        return $this->belongsTo('App\model\Modelfn\finance','id_feasibility','id_lab');
     }
 }

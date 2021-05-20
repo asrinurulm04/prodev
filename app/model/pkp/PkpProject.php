@@ -18,7 +18,7 @@ class PkpProject extends Model
     }
 
     public function not(){
-        return $this->hasOne('App\model\pkp\Notulen','id_pkp','id_project');
+        return $this->hasOne('App\model\pkp\notulen','id_pkp','id_project');
     }
 
     public function users1(){
@@ -46,7 +46,7 @@ class PkpProject extends Model
     }
 
     public function datases(){
-        return $this->hasOne('App\model\pkp\SES','id_pkp','id_project');
+        return $this->hasOne('App\model\pkp\ses','id_pkp','id_project');
     }
 
     public function Dklaim(){
@@ -54,11 +54,11 @@ class PkpProject extends Model
     }
     
     public function datauom(){
-        return $this->hasOne('App\model\pkp\UOM','id','UOM');
+        return $this->hasOne('App\model\pkp\uom','id','UOM');
     }
 
     public function datakemas(){
-        return $this->hasOne('App\model\kemas\DataKemas','id_kemas','eksis');
+        return $this->hasOne('App\model\kemas\datakemas','id_kemas','eksis');
     }
 
     public function datatarkon(){
