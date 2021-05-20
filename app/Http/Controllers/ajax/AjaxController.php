@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\model\dev\Bahan;
 use App\model\mesin\Mesin;
-use App\model\mesin\DataMesin;
+use App\model\mesin\datamesin;
 use DB;
 
 class AjaxController extends Controller
@@ -71,17 +71,17 @@ class AjaxController extends Controller
     }
 
     public function store(Request $request){
-        $mesin = DataMesin::create($request->all());
+        $mesin = datamesin::create($request->all());
         return response()->json($mesin);
     }
     
     public function update(Request $request, $id){
-        $mes = DataMesin::find($id)->update($request->all());
+        $mes = datamesin::find($id)->update($request->all());
         return response()->json($mes);
     }
 
     public function destroy($id){
-        DataMesin::find($id)->delete();
+        datamesin::find($id)->delete();
         return response()->json(['done']);
     }
 }

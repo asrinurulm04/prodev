@@ -42,11 +42,11 @@ class SubPKP extends Model
     }
 
     public function kemas(){
-        return $this->belongsTo('App\model\kemas\DataKemas','kemas_eksis','id_kemas');
+        return $this->belongsTo('App\model\kemas\datakemas','kemas_eksis','id_kemas');
     }
     
     public function Duom(){
-        return $this->hasOne('App\model\pkp\UOM','id','UOM');
+        return $this->hasOne('App\model\pkp\uom','id','UOM');
     }
 
     public function picpkp(){

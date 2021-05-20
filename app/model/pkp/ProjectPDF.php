@@ -21,7 +21,7 @@ class ProjectPDF extends Model
         return $this->hasOne('App\model\pkp\SubPDF','pdf_id','id_project_pdf');
     }
     public function nott(){
-        return $this->hasOne('App\model\pkp\Notulen','id_pdf','id_project_pdf');
+        return $this->hasOne('App\model\pkp\notulen','id_pdf','id_project_pdf');
     }
 
     public function users(){

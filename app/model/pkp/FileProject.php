@@ -18,6 +18,6 @@ class FileProject extends Model
     }
 
     public function pkppromo(){
-        return $this->hasOne('App\model\pkp\Promo','id_pkp_promo','promo');
+        return $this->hasOne('App\model\pkp\promo','id_pkp_promo','promo');
     }
 }
