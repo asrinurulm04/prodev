@@ -31,7 +31,11 @@ class Step2Controller extends Controller
 
         // checkbase !
         if($formula->batch != null){
-            $mybase = $formula->batch / $formula->serving; $mybase = round($mybase , 3);
+            if($formula->batch != 0){
+                $mybase = $formula->batch / $formula->serving; $mybase = round($mybase , 3);
+            }else{
+                $mybase = 0;
+            }
         }else{
             $mybase = 0;
         }
@@ -39,7 +43,7 @@ class Step2Controller extends Controller
         $idf = $id;
         $idfor = $formula->workbook_id;
         $idfor_pdf = $formula->workbook_pdf_id;
-        $fortails = Fortail::where('formula_id',$id)->orderBy('per_serving','asc')->get();
+        $fortails = Fortail::where('formula_id',$id)->orderBy('per_serving','desc')->get();
         $ada= Fortail::where('formula_id',$id)->count();
         $bahans = Bahan::orderBy('nama_sederhana','asc')->select('id','nama_bahan','nama_sederhana')->get();
         $no = 0;
@@ -120,7 +124,11 @@ class Step2Controller extends Controller
     public function insert($vf,Request $request){
         $formula = Formula::where('id',$vf)->first();
         if($formula->batch != null){
-            $mybase = $formula->batch / $formula->serving; $mybase = round($mybase , 3);
+            if($formula->batch != 0){
+                $mybase = $formula->batch / $formula->serving; $mybase = round($mybase , 3);
+            }else{
+                $mybase = 0;
+            }
         }
         else{
             $mybase = 0;
