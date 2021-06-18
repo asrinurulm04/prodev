@@ -215,7 +215,7 @@ class pdfController extends Controller
     }
 
     public function listpdf(){
-        $pdf = ProjectPDF::where('status_project','proses')->get();
+        $pdf = ProjectPDF::where('status_project','!=','draf')->get();
         return view('pdf.listpdf')->with([
             'pdf' => $pdf
         ]);

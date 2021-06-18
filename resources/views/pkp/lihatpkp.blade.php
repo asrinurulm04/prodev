@@ -773,10 +773,13 @@
 @section('s')
 <script>
   var banding = 1;
+  var type =document.getElementById("type").value;
+  var status =document.getElementById("status").value;
   var hasil = type == banding;
   var sent = status == 'sent';
   var proses = status == 'revisi';
 
+    console.log(status);
   if(hasil == true){
     if(sent == true){
       let formData = new FormData(document.forms.person);

@@ -429,4 +429,20 @@
 </script>
     <link href="{{ asset('lib/advanced-datatable/css/jquery.dataTables.css') }}" rel="stylesheet" />
     <script src="{{ asset('js/datatables.min.js')}}"></script>
+    <script type="text/javascript">$('.Table').DataTable({
+      "language": {
+        "search": "Cari :",
+        "lengthMenu": "Tampilkan _MENU_ data",
+        "zeroRecords": "Tidak ada data",
+        "emptyTable": "Tidak ada data",
+        "info": "Menampilkan data _START_  - _END_  dari _TOTAL_ data",
+        "infoEmpty": "Tidak ada data",
+        "paginate": {
+          "first": "Awal",
+          "last": "Akhir",
+          "next": ">",
+          "previous": "<"
+        }
+      }
+    });</script>
 @endsection

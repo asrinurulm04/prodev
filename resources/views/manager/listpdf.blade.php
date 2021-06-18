@@ -99,6 +99,7 @@
             <td>PDF Number</td>
             <td>Brand</td>
             <td width="10%">Global</td>
+            <td class="text-center">Sent</td>
             <td class="text-center">Status RD Kemas</td>
             <td class="text-center">Status RD Produk</td>
             <td class="text-center">Priority</td>
@@ -116,6 +117,7 @@
                 <td>{{ $pdf->pdf_number}}{{$pdf->ket_no}}</td>
                 <td>{{ $pdf->id_brand }}</td>
                 <td>@if($pdf->datappdf->perevisi!='null'){{ $pdf->datappdf->perevisi2->name}}@endif</td>
+                <td class="text-center">{{ $pdf->tgl_kirim }}</td>
                 <td>
                   @if($pdf->status_project=='sent')
                     @if($pdf->status_terima2=='proses')
@@ -274,6 +276,7 @@
                 <td>{{ $pdf->pdf_number}}{{$pdf->ket_no}}</td>
                 <td>{{ $pdf->id_brand }}</td>
                 <td>@if($pdf->datappdf->perevisi!=null){{ $pdf->datappdf->perevisi2->name}}@endif</td>
+                <td class="text-center">{{ $pdf->tgl_kirim }}</td>
                 <td>
                   No Prosess
                 </td>
