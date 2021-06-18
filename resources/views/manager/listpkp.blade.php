@@ -125,7 +125,7 @@
                 <td>{{$pkp->pkp_number}}{{$pkp->ket_no}}</td>
                 <td>{{$pkp->id_brand}}</td>
                 <td>@if($pkp->perevisi!=null){{$pkp->perevisi2->name}}@endif</td>
-                <td>{{$pkp->tgl_kirim}}</td>
+                <td class="text-center">{{$pkp->tgl_kirim}}</td>
                 <td>
                   @if($pkp->status_project=='sent')
                     @if($pkp->status_terima2=='proses')
@@ -293,7 +293,7 @@
                   @elseif($pkp->perevisi==null){{$pkp->author1->name}}
                   @endif
                 </td>
-                <td>{{$pkp->tgl_kirim}}</td>
+                <td class="text-center">{{$pkp->tgl_kirim}}</td>
                 <td>No Prosess</td>
                 <td>
                   @if($pkp->tujuankirim!=1)

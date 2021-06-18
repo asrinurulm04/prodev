@@ -103,6 +103,7 @@
                 <td>PKP Promo Number</td>
                 <td>Brand</td>
                 <td width="10%">PV</td>
+                <td class="text-center">Sent</td>
                 <td class="text-center">Status RD Kemas</td>
                 <td class="text-center">Status RD Produk</td>
                 <td class="text-center">Priority</td>
@@ -120,6 +121,7 @@
                   <td>{{ $pkp->promo_number}}{{$pkp->ket_no}}</td>
                   <td>{{ $pkp->brand }}</td>
                   <td>@if($pkp->datapromo->perevisi!=null){{ $pkp->datapromo->perevisi2->name}}@endif</td>
+                  <td class="text-center">{{ $pkp->tgl_kirim }}</td>
                   <td>
                     @if($pkp->status_project=='sent')
                       @if($pkp->status_terima2=='proses')
@@ -251,6 +253,7 @@
                   <td>{{ $pkp->promo_number}}{{$pkp->ket_no}}</td>
                   <td>{{ $pkp->brand }}</td>
                   <td>{{ $pkp->datapromo->perevisi2->name}}</td>
+                  <td class="text-center">{{ $pkp->tgl_kirim }}</td>
                   <td>No Prosess</td>
                   <td>
                     @if($pkp->tujuankirim!=1)
