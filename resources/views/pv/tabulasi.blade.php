@@ -191,7 +191,7 @@
                         </div>
                       </div>
                       <div class="modal-footer">
-                        <button type="submit" class="btn btn-sm primary"><i class="fa fa-paper-plane"></i> Submit</button>
+                        <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-paper-plane"></i> Submit</button>
                         {{ csrf_field() }}
                       </div>
                     </div>
