@@ -370,6 +370,13 @@
                           if($data->turunan!=$pkp->turunan){ echo" <s><font color='#6594c5'>Rp. ". number_format($data->price, 0, ".", "."). "<br></font></s>"; } if($data->turunan==$pkp->turunan){ echo"Rp. ". number_format($data->price, 0, ".", "."). "<br>"; } } ?>
                         </td>
                       </tr>
+                      <tr>
+                        <th>UOM</th>
+                        <td colspan="2">
+                          <?php $uom = []; foreach ($pkp1 as $key => $data) If (!$uom || !in_array($data->uom, $uom)) { $uom += array( $key => $data->uom ); 
+                          if($data->turunan!=$pkp->turunan){ echo" <s><font color='#6594c5'>$data->UOM<br></font></s>"; } if($data->turunan==$pkp->turunan){ echo"$data->UOM<br>"; } } ?>
+                        </td>
+                      </tr>
                       <tr class="table-highlight">
                         <th>Main Competitor</th>
                         <td colspan="2"><?php $competitor = []; foreach ($pkp1 as $key => $data) If (!$competitor || !in_array($data->competitor, $competitor)) {$competitor += array( $key => $data->competitor ); 
@@ -379,7 +386,10 @@
                         <th>Competitive Analysis</th>
                         <td colspan="2"><?php $competitive = []; foreach ($pkp1 as $key => $data) If (!$competitive || !in_array($data->competitive, $competitive)) { $competitive += array( $key => $data->competitive ); 
                         if($data->turunan!=$pkp->turunan){ echo" <s><font color='#6594c5'>$data->competitive <br></font></s>"; } if($data->turunan==$pkp->turunan){ echo" $data->competitive <br>"; } }  ?></td>
-                      </tr></tr>
+                      </tr>
+                      <tr>
+                        <th colspan="3" class="text-center"><span style="font-weight: bold;font-size: 20px;" class="card-title">Product features</span></th>
+                      </tr>
                       <tr>
                         <th>Product Form</th>
                         <td colspan="2"><?php $product_form = []; foreach ($pkp1 as $key => $data) If (!$product_form || !in_array($data->product_form, $product_form)) { $product_form += array( $key => $data->product_form  ); 
@@ -608,6 +618,13 @@
                           if($data->revisi!=$pkp->revisi){ echo" <s><font color='#ffa2a2'>Rp. ". number_format($data->price, 0, ".", "."). "<br></font></s>"; } if($data->revisi==$pkp->revisi){ echo" Rp. ". number_format($data->price, 0, ".", "."). "<br>"; } } ?>
                         </td>
                       </tr>
+                      <tr>
+                        <th>UOM</th>
+                        <td colspan="2">
+                          <?php $uom = []; foreach ($pkp1 as $key => $data) If (!$uom || !in_array($data->uom, $uom)) { $uom += array( $key => $data->uom ); 
+                          if($data->revisi!=$pkp->revisi){ echo" <s><font color='#6594c5'>$data->UOM<br></font></s>"; } if($data->revisi==$pkp->revisi){ echo"$data->UOM"; } } ?>
+                        </td>
+                      </tr>
                       <tr class="table-highlight">
                         <th>Main Competitor</th>
                         <input type="hidden" name="competitor" value="{{$pkp->competitor}}"><td colspan="2"><?php $competitor = []; foreach ($pkp2 as $key => $data) If (!$competitor || !in_array($data->competitor, $competitor)) {$competitor += array( $key => $data->competitor ); 
@@ -618,7 +635,9 @@
                         <input type="hidden" name="competitive" value="{{$pkp->competitive}}"><td colspan="2"><?php $competitive = []; foreach ($pkp2 as $key => $data) If (!$competitive || !in_array($data->competitive, $competitive)) { $competitive += array( $key => $data->competitive ); 
                         if($data->revisi!=$pkp->revisi){ echo" <s><font color='#ffa2a2'>$data->competitive <br></font></s>"; } if($data->revisi==$pkp->revisi){ echo" $data->competitive <br>"; } }  ?></td>
                       </tr>
-                      <tr><th colspan="3" class="text-center"><span style="font-weight: bold;font-size: 20px;" class="card-title">Product features</span></th></tr>
+                      <tr>
+                        <th colspan="3" class="text-center"><span style="font-weight: bold;font-size: 20px;" class="card-title">Product features</span></th>
+                      </tr>
                       <tr>
                         <th>Product Form</th>
                         <td colspan="2">
