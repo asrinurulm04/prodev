@@ -550,8 +550,7 @@
                 $('#loader').css("visibility","hidden");
             }
           });
-          }
-          else{
+          }else{
             $('#detaill' + b).empty();
           }
         });
@@ -564,20 +563,19 @@
               type: "GET",
               dataType: "json",
               beforeSend: function(){
-                  $('#loader').css("visibility", "visible");
+                $('#loader').css("visibility", "visible");
               },
               success:function(data){
-                  $('#klaimm'+b).empty();
-                  $.each(data, function(key, value){
-                      $('#klaimm'+b).append('<option value="'+ key +'">' + value + '</option>');
-                  });
+                $('#klaimm'+b).empty();
+                $.each(data, function(key, value){
+                  $('#klaimm'+b).append('<option value="'+ key +'">' + value + '</option>');
+                });
               },
               complete: function(){
                 $('#loader').css("visibility","hidden");
               }
             });
-          }
-          else{
+          }else{
             $('#klaimm'+b).empty();
           }
         });
@@ -588,55 +586,53 @@
 
       $('#komponen').on('change', function(){
         var myId = $(this).val();
-          if(myId){
-            $.ajax({
-              url: '{{URL::to('getkomponen')}}/'+myId,
-              type: "GET",
-              dataType: "json",
-              beforeSend: function(){
-                $('#loader').css("visibility", "visible");
-              },
-              success:function(data){
-                  $('#klaimm').empty();
-                  $.each(data, function(key, value){
-                    $('#klaimm').append('<option value="'+ key +'">' + value + '</option>');
-                  });
-              },
-              complete: function(){
-                $('#loader').css("visibility","hidden");
-              }
-            });
-          }
-          else{
-            $('#klaimm').empty();
-          }
+        if(myId){
+          $.ajax({
+            url: '{{URL::to('getkomponen')}}/'+myId,
+            type: "GET",
+            dataType: "json",
+            beforeSend: function(){
+              $('#loader').css("visibility", "visible");
+            },
+            success:function(data){
+              $('#klaimm').empty();
+              $.each(data, function(key, value){
+                $('#klaimm').append('<option value="'+ key +'">' + value + '</option>');
+              });
+            },
+            complete: function(){
+              $('#loader').css("visibility","hidden");
+            }
+          });
+        }else{
+          $('#klaimm').empty();
+        }
       });
 
       $('#komponen').on('change', function(){
         var myId = $(this).val();
-          if(myId){
-            $.ajax({
-              url: '{{URL::to('getdetail')}}/'+myId,
-              type: "GET",
-              dataType: "json",
-              beforeSend: function(){
-                $('#loader').css("visibility", "visible");
-              },
-              success:function(data){
-                $('#detaill').empty();
-                $.each(data, function(key, value){
-                  $('#detaill').append('<option value="'+ key +'">' + value + '</option>');
-                });
-              },
-              complete: function(){
-                $('#loader').css("visibility","hidden");
-              }
-            });
-          }
-          else{
-            $('#katbpom').empty();
-          }
-      });
+        if(myId){
+          $.ajax({
+            url: '{{URL::to('getdetail')}}/'+myId,
+            type: "GET",
+            dataType: "json",
+            beforeSend: function(){
+              $('#loader').css("visibility", "visible");
+            },
+            success:function(data){
+              $('#detaill').empty();
+              $.each(data, function(key, value){
+                $('#detaill').append('<option value="'+ key +'">' + value + '</option>');
+              });
+            },
+            complete: function(){
+              $('#loader').css("visibility","hidden");
+            }
+          });
+        }else{
+          $('#katbpom').empty();
+        }
+    });
   });
 </script>
 
@@ -754,9 +750,7 @@
 
   function tiga(){
     var tiga = document.getElementById('radio_tiga');
-    if(tiga.checked != true){
-      document.getElementById('tampil').innerHTML = "";
-    }else{
+    if(tiga.checked == true){
       document.getElementById('tampil').innerHTML = "<br><div class='panel panel-default'>"+
 	      "<div class='panel-heading'><h5>Configuration</h5></div>"+
 	        "<div class='panel-body'>"+
@@ -790,9 +784,7 @@
 
   function empat(){
     var empat = document.getElementById('radio_empat');
-    if(empat.checked != true){
-      document.getElementById('tampil').innerHTML = "";
-    }else{
+    if(empat.checked == true){
       document.getElementById('tampil').innerHTML =
       "<br><div class='panel panel-default'>"+
 	    "<div class='panel-heading'><h5>Configuration</h5></div>"+
@@ -925,7 +917,8 @@
             '<select name="data_eksis" class="form-control" id="txtOccupation" >'+
             '<option value="" readonly selected>-->Select One<--</option>'+pilihan+'</select>'+
           "</div>"+
-        "</div>"+"<div class='form-group'><hr>"+
+        "</div>"+"<div class='form-group'>"+
+        "<hr>"+
       "</di>"
     }
   }
@@ -1005,8 +998,7 @@
                 $('#loader').css("visibility","hidden");
               }
             });
-          }
-          else{
+          }else{
             $('#bpom').empty();
           }
       });
@@ -1032,8 +1024,7 @@
               $('#loader').css("visibility","hidden");
             }
           });
-        }
-        else{
+        }else{
           $('#katbpom').empty();
         }
       });
