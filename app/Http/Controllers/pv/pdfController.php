@@ -894,6 +894,7 @@ class pdfController extends Controller
                     foreach($user as $user){
                         $data = $user->email;
                         $message->to($data);
+                        $message->cc('bagas@nutrifood.co.id');
                     }
                 }
 

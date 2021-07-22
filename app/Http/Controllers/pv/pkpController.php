@@ -145,6 +145,26 @@ class pkpController extends Controller
         $data->note_freeze=$request->notefreeze;
         $data->save();
 
+        $isipkp = SubPKP::where('id_pkp',$id_project)->where('status_data','=','active')->get();
+        try{
+            Mail::send('pv.aktifitasinfoemail', [
+                'app'=>$isipkp,
+                'info' => 'Project Ini di freeze oleh PV.',], function ($message) use ($request,$id_project) {
+                $data = PkpProject::where('id_project',$id_project)->first();
+                $pkp = SubPKP::where('id_pkp',$id_project)->where('status_data','=','active')->first();
+                $user1 = User::where('id',$data->userpenerima)->first();
+                $user2 = User::where('id',$pkp->perevisi)->first();
+                $message->subject('PRODEV | PKP');
+                $message->to($user1->email);
+                $message->cc($user2->email);
+
+            });
+            return back()->with('status','E-mail Successfully');
+        }
+        catch (Exception $e){
+        return response (['status' => false,'errors' => $e->getMessage()]);
+        }
+
         return redirect::back()->with('status', 'Project '.$data->project_name.' has been disabled!');
     }
 
@@ -1025,7 +1045,7 @@ class pkpController extends Controller
                         $user = DB::table('tr_users')->where('id',$dept->manager_id)->get();
                         foreach($user as $user){
                             $data = $user->email;
-                            $cc = [Auth::user()->email];
+                            $cc = [Auth::user()->email,'bagas@nutrifood.co.id'];
                             $message->to($data);
                             $message->cc($cc);
                         }
