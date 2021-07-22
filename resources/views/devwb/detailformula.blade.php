@@ -53,8 +53,10 @@
 			<div id="exTab2" class="container">	
 				<ul class="nav nav-tabs bar_tabs" id="myTab" role="tablist">
 					<li class="nav-item"><a class="nav-link  active" href="#1" data-toggle="tab"><i class="fa fa-list"></i><b> Formula </b></a></li>
+					@if(auth()->user()->role->namaRule == 'manager' || auth()->user()->role->namaRule == 'user_produk')
 					<li class="nav-item"><a class="nav-link" href="#2" data-toggle="tab"><i class="fa fa-clipboard"></i><b> Nutfact </b></a></li>
-				<li class="nav-item"><a class="nav-link" href="#3" data-toggle="tab"><i class="fa fa-clipboard"></i><b> Logam berat & Mikro Biologi</b></a></li>
+					<li class="nav-item"><a class="nav-link" href="#3" data-toggle="tab"><i class="fa fa-clipboard"></i><b> Logam berat & Mikro Biologi</b></a></li>
+					@endif
 					<li class="nav-item"><a class="nav-link" href="#4" data-toggle="tab"><i class="fa fa-usd"></i><b> HPP Formula </b></a></li>
 					@if($formula->status_panel=='proses')
 					<li class="nav-item"><a class="nav-link" style="background-color:grey;color:white" ><i class="fa fa-glass"></i><b> PANEL </b></a></li>

@@ -71,7 +71,7 @@ class SampleController extends Controller
             $data = $for->workbook_pdf_id;
             $turunan = SubPDF::where('pdf_id',$data)->max('turunan');
             $revisi =SubPDF::where('pdf_id',$data)->max('revisi');
-            // kirim email sample (pengirim, Manager, PV)
+            // kirim email sample (pengirim, Manager)
             $isipdf = SubPDF::where('pdf_id',$for->workbook_pdf_id)->where('status_pdf','=','active')->get();
             $for = Forecast::where('id_pdf',$for->workbook_pdf_id)->where('revisi',$revisi)->where('turunan',$turunan)->get();
             try{
@@ -134,7 +134,7 @@ class SampleController extends Controller
             $data = $for->workbook_id;
             $turunan = SubPKP::where('id_pkp',$for->workbook_id)->max('turunan');
             $revisi =SubPKP::where('id_pkp',$for->workbook_id)->max('revisi');
-            // kirim email sample (pengirim, Manager, PV)
+            // kirim email sample (pengirim, Manager)
             $isipkp = SubPKP::where('id_pkp',$for->workbook_id)->where('status_data','=','active')->get();
             $for = Forecast::where('id_pkp',$for->workbook_id)->where('revisi',$revisi)->where('turunan',$turunan)->get();
             try{
@@ -170,7 +170,7 @@ class SampleController extends Controller
             $data = $for->workbook_pdf_id;
             $turunan = SubPDF::where('pdf_id',$for->workbook_pdf_id)->max('turunan');
             $revisi =SubPDF::where('pdf_id',$for->workbook_pdf_id)->max('revisi');
-            // kirim email sample (pengirim, Manager, PV)
+            // kirim email sample (pengirim, Manager)
             $isipdf = SubPDF::where('pdf_id',$for->workbook_pdf_id)->where('status_pdf','=','active')->get();
             $for = Forecast::where('id_pdf',$for->workbook_pdf_id)->where('revisi',$revisi)->where('turunan',$turunan)->get();
             try{
@@ -259,12 +259,14 @@ class SampleController extends Controller
                     'app'=>$isipkp,],function($message)use($data){
                     $message->subject('pengajuan sample PKP');
                     $datapkp = PkpProject::where('id_project',$data)->get();
+                    $pkp = SubPKP::where('id_pkp',$data)->where('status_data','=','active')->first();
                     foreach($datapkp as $data){
                         $dept = DB::table('ms_departements')->where('id',$data->tujuankirim)->get();
                         foreach($dept as $dept){
                             $user = User::where('id',$dept->manager_id)->get();
+                            $pv = User::where('id',$pkp->perevisi)->first();
                             foreach($user as $user){
-                                $to = $user->email;
+                                $to = [$user->email,$pv->email];
                                 $message->to($to);
                             }
                         }
@@ -294,12 +296,14 @@ class SampleController extends Controller
                     'app'=>$isipdf,],function($message)use($data) {
                     $message->subject('Pengajuan PDF sample');
                     $datapdf = ProjectPDF::where('id_project_pdf',$data)->get();
+                    $pdf = SubPDF::where('pdf_id',$data)->where('status_pdf','=','active')->first();
                     foreach($datapdf as $data){
                         $dept = DB::table('ms_departements')->where('id',$data->tujuankirim)->get();
                         foreach($dept as $dept){
                             $user = User::where('id',$dept->manager_id)->get();
+                            $pv = User::where('id',$pdf->perevisi)->first();
                             foreach($user as $user){
-                                $to = $user->email;
+                                $to = [$user->email,$pv->email];
                                 $message->to($to);
                             }
                         }
