@@ -25,7 +25,7 @@
 		@foreach($listpkp as $listpkp)
     <div class="x_panel">
       <div class="col-md-6">
-        <h3><li class="fa fa-star"></li> Project Name : {{ $listpkp->project_name}}</h3>
+        <h3><li class="fa fa-star"></li> Project Name : {{ $listpkp->project_name}}@if($listpkp->jenis!='Baku')_{{$listpkp->no_kemas}}@endif</h3>
       </div>
       <div class="col-md-6" align="right">
         @if($listpkp->status_project!='close' && $listpkp->status_project!='revisi')
@@ -77,7 +77,6 @@
         </div>
         <!-- modal selesai -->
         @endif
-        @foreach($datapkp as $pkp)
           @if($cf != 0)
             <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#upload"><i class="fa fa-upload"></i> Upload LHP</a>
             <!-- Formula Baru -->
@@ -89,7 +88,7 @@
                     <h4 class="modal-title text-center" id="hm"> Upload FIle</h4>
                   </div>
                   <div class="modal-body">
-                    <form method="post" action="{{route('uploadfile',$pkp->id_pkp)}}" enctype="multipart/form-data">                                    
+                    <form method="post" action="{{route('uploadfile',$listpkp->id_pkp)}}" enctype="multipart/form-data">                                    
                     <div class="form-group">
                       <label class="col-lg-2 control-label">LHP</label>
                       <div class="col-lg-9">
@@ -106,8 +105,7 @@
               </div>
             </div>
           @endif
-            <a class="btn btn-info btn-sm" href="{{ Route('pkplihat',['id_pkp' => $pkp->id_pkp, 'revisi' => $pkp->revisi, 'turunan' => $pkp->turunan]) }}" data-toggle="tooltip" title="show"><i class="fa fa-folder-open"></i> Show</a>
-        @endforeach
+            <a class="btn btn-info btn-sm" href="{{ Route('pkplihat',$listpkp->id_project) }}" data-toggle="tooltip" title="show"><i class="fa fa-folder-open"></i> Show</a>
         <a href="{{ route('listpkprka')}}" class="btn btn-danger btn-sm" type="button"><li class="fa fa-share"></li> Back</a>
       </div>
 
@@ -133,15 +131,7 @@
         <div class="col-md-5">
           <table>
 						<thead>
-              <tr><th>Prioritas</th><td>: </td><td> 
-                @if($listpkp->prioritas=='1')
-                <span class="label label-danger">High Priority</span>
-                @elseif($listpkp->prioritas=='2')
-                <span class="label label-warning">Standar Priority</span>
-                @elseif($listpkp->prioritas=='3')
-                <span class="label label-primary">Low Priority</span>
-                @endif  
-              </td></tr>
+              <tr><th>Prioritas</th><td>: </td><td> {{$listpkp->prioritas}}</td></tr>
               <tr><th>Perevisi</th><td>:</td><td> {{$listpkp->perevisi2->name}}</td></tr>
               <tr><th>Idea</th><td>:</td> <td> {{$listpkp->idea}}</td></tr>
               <tr><th>Configuration</th><td>: </td><td>
@@ -169,8 +159,8 @@
                   )
                 @endif
               </td></tr>
-              @if($listpkp->datapkpp->file!=NULL)
-              <tr><th>File</th><td>:</td><td> <a href="{{asset('data_file/'.$listpkp->datapkpp->file)}}" download="{{$listpkp->datapkpp->file}}" title="download file"><li class="fa fa-download"></li></a> {{$listpkp->datapkpp->file}}</td></tr>
+              @if($listpkp->file!=NULL)
+              <tr><th>File</th><td>:</td><td> <a href="{{asset('data_file/'.$listpkp->file)}}" download="{{$listpkp->file}}" title="download file"><li class="fa fa-download"></li></a> {{$listpkp->file}}</td></tr>
               @endif
 						</thead>
 					</table>
@@ -201,37 +191,37 @@
               </thead> 
               <tbody>
                 @php $no = 0; @endphp
-                @foreach($sample as $pkp)
-                @if($pkp->status=='final')
+                @foreach($sample as $wb)
+                @if($wb->status=='final')
                 <tr style="background-color:springgreen">
-                @elseif($pkp->vv=='reject')
+                @elseif($wb->vv=='reject')
                 <tr style="background-color:slategray;color:white">
                 @else
                 <tr>
                 @endif
                   <td class="text-center">{{++$no}}</td>
-                  <td>{{ $pkp->versi }}.{{ $pkp->turunan }}</td>
+                  <td>{{ $wb->versi }}.{{ $wb->turunan }}</td>
                   <td>
-                    @if($pkp->kategori!='fg')
-                    {{$pkp->kategori}}
-                    @elseif($pkp->kategori=='fg')
+                    @if($wb->kategori!='fg')
+                    {{$wb->kategori}}
+                    @elseif($wb->kategori=='fg')
                     Finished Good
                     @endif
                   </td>
-                  <td>{{ $pkp->formula}}</td>
+                  <td>{{ $wb->formula}}</td>
                   <td class="text-center" width="10%">
-                    @if ($pkp->vv == 'proses') <span class="label label-warning">Proses</span> @endif
-                    @if ($pkp->vv == 'reject') <span class="label label-danger">Rejected</span> @endif 
-                    @if ($pkp->vv == 'approve') <span class="label label-success">Approved</span> @endif 
-                    @if ($pkp->vv == 'final') <span class="label label-info">Final Approved</span> @endif 
-                    @if ($pkp->vv == '') <span class="label label-primary">Belum Diajukan</span> @endif   
+                    @if ($wb->vv == 'proses') <span class="label label-warning">Proses</span> @endif
+                    @if ($wb->vv == 'reject') <span class="label label-danger">Rejected</span> @endif 
+                    @if ($wb->vv == 'approve') <span class="label label-success">Approved</span> @endif 
+                    @if ($wb->vv == 'final') <span class="label label-info">Final Approved</span> @endif 
+                    @if ($wb->vv == '') <span class="label label-primary">Belum Diajukan</span> @endif   
                   </td>
-                  <td class="text-center"> {{$pkp->catatan_rd}} </td>
-                  <td class="text-center"> {{$pkp->catatan_pv}} </td>
+                  <td class="text-center"> {{$wb->catatan_rd}} </td>
+                  <td class="text-center"> {{$wb->catatan_pv}} </td>
                   <td class="text-center">
                   @if(auth()->user()->departement_id == '3' || auth()->user()->departement_id == '4' || auth()->user()->departement_id == '5' || auth()->user()->departement_id == '6')
                     {{csrf_field()}}
-                    <a class="btn btn-info btn-sm" href="{{ route('formula.detail',[$pkp->workbook_id,$pkp->id]) }}" data-toggle="tooltip" title="Show"><i style="font-size:12px;" class="fa fa-eye"></i></a>
+                    <a class="btn btn-info btn-sm" href="{{ route('formula.detail',[$wb->id,$pkp->id_project,$wb->workbook_id]) }}" data-toggle="tooltip" title="Show"><i style="font-size:12px;" class="fa fa-eye"></i></a>
                     <a class="btn btn-success btn-sm" data-toggle="modal" data-target="#update" data-toggle="tooltip" title="Updata"><i style="font-size:12px;" class="fa fa-arrow-circle-up"></i></a>
                     <!-- UpVersion -->
                     <div class="modal fade" id="update" role="dialog" aria-labelledby="hm" aria-hidden="true">
@@ -242,20 +232,20 @@
                             <h4 class="modal-title" id="hm" style="font-weight: bold;color:black;"> Update Data</h4>
                           </div>
                           <div class="modal-body">
-                          <a class="btn btn-primary btn-sm" href="{{ route('upversion',[$pkp->id,$pkp->workbook_id]) }}" onclick="return confirm('Up Version ?')"><i style="font-size:12px;" class="fa fa-arrow-circle-up"></i> Up Version</a><br><br>
-                          <a class="btn btn-warning btn-sm" href="{{ route('upversion2',[$pkp->id,$pkp->versi]) }}" onclick="return confirm('Up Sub Version ?')"><i style="font-size:12px;" class="fa fa-arrow-circle-up"></i> Up Sub Version</a>
-                          </div
+                          <a class="btn btn-primary btn-sm" href="{{ route('upversion',[$wb->id,$pkp->id_project,$wb->workbook_id]) }}" onclick="return confirm('Up Version ?')"><i style="font-size:12px;" class="fa fa-arrow-circle-up"></i> Up Version</a><br><br>
+                          <a class="btn btn-warning btn-sm" href="{{ route('upversion2',[$wb->id,$pkp->id_project,$wb->workbook_id]) }}" onclick="return confirm('Up Sub Version ?')"><i style="font-size:12px;" class="fa fa-arrow-circle-up"></i> Up Sub Version</a>
+                          </div>
                           <div class="modal-footer">
                           </div>
                         </div>
                       </div>
                     </div>
-                    @if($pkp->status!='proses')
-                    <a class="btn btn-primary btn-sm" href="{{ route('step1',[$pkp->workbook_id,$pkp->id]) }}"><i style="font-size:12px;" class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a>
-                    <a class="btn btn-dark btn-sm" href="{{ route('ajukanvp',[$pkp->workbook_id,$pkp->id]) }}" onclick="return confirm('Ajukan Formula Kepada PV?')" data-toggle="tooltip" title="Ajukan PV"><li class="fa fa-paper-plane"></li></a>
-                    @elseif($pkp->vv == 'approve' || $pkp->vv == 'proses' || $pkp->vv == 'final')
-                      <a class="btn btn-primary btn-sm" href="{{ route('panel',[$pkp->workbook_id,$pkp->id]) }}" data-toggle="tooltip" title="Lanjutkan Panel"><li class="fa fa-glass"></li></a>
-                      <a class="btn btn-warning btn-sm" href="{{ route('st',[$pkp->workbook_id,$pkp->id]) }}" data-toggle="tooltip" title="Lanjutkan Storage"><li class="fa fa-flask"></li></a>
+                    @if($wb->status!='proses')
+                    <a class="btn btn-primary btn-sm" href="{{ route('step1',[$wb->id,$pkp->id_project,$pkp->workbook_id]) }}"><i style="font-size:12px;" class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a>
+                    <a class="btn btn-dark btn-sm" href="{{ route('ajukanvp',[$wb->workbook_id,$pkp->id]) }}" onclick="return confirm('Ajukan Formula Kepada PV?')" data-toggle="tooltip" title="Ajukan PV"><li class="fa fa-paper-plane"></li></a>
+                    @elseif($wb->vv == 'approve' || $wb->vv == 'proses')
+                    <a class="btn btn-primary btn-sm" href="{{ route('panel',[$wb->id,$pkp->id_project,$wb->workbook_id]) }}" data-toggle="tooltip" title="Lanjutkan Panel"><li class="fa fa-glass"></li></a>
+                    <a class="btn btn-warning btn-sm" href="{{ route('st',[$wb->id,$pkp->id_project,$wb->workbook_id]) }}" data-toggle="tooltip" title="Lanjutkan Storage"><li class="fa fa-flask"></li></a>
                     @endif
                   @endif
                   </td>

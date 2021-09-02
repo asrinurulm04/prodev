@@ -30,13 +30,9 @@
 					<td class="text-center">{{ $user->departement->dept}}</td>
 					<td>{{ $user->role->namaRule}}</td>
 					<td class="text-center">
-						@if ($user->status == 'sending')
-						<span class="label label-warning">Sending</span>                        
-						@endif
 						@if ($user->status == 'active')
-					  <span class="label label-primary">Active</span>                        
-						@endif 
-						@if ($user->status == 'nonactive')
+					  <span class="label label-primary">Active</span>     
+						@elseif($user->status == 'nonactive')
 				    <span class="label label-danger">NonActive</span>                        
 						@endif 
 					</td>

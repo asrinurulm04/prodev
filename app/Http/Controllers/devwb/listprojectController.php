@@ -22,7 +22,7 @@ class listprojectController extends Controller
     }
 
     public function listpkp(){
-        $pkp = SubPKP::where('status_data','=','active')->join('tr_project_pkp','tr_project_pkp.id_project','=','tr_sub_pkp.id_pkp')->where('status_project','!=','draf')->where('status_project','!=','sent')->orderBy('pkp_number','desc')->get();
+        $pkp   = PkpProject::where('status_project','=','active')->where('status_pkp','=','proses')->orwhere('status_pkp','=','close')->orderBy('pkp_number','desc')->get();
         $brand = Brand::all();
         return view('devwb.listprojectpkp')->with([
             'brand' => $brand,
@@ -31,8 +31,8 @@ class listprojectController extends Controller
     }
 
     public function listpdf(){
-        $pdf = ProjectPDF::all();
-        $brand = Brand::all();
+        $pdf    = ProjectPDF::all();
+        $brand  = Brand::all();
         return view('devwb.listpdfproject')->with([
             'pdf' => $pdf,
             'brand' => $brand
@@ -45,23 +45,6 @@ class listprojectController extends Controller
         return view('devwb.listprojectpromo')->with([
             'promo' => $promo,
             'brand' => $brand
-        ]);
-    }
-
-    public function dasboard(){
-        $pkp = PkpProject::where('userpenerima',Auth::user()->id)->where('status_project','=','proses')->count();
-        $pkp1 = PkpProject::where('userpenerima2',Auth::user()->id)->where('status_project','=','proses')->count();
-        $datapkp = $pkp + $pkp1;
-        $pdf = ProjectPDF::where('userpenerima',Auth::user()->id)->where('status_project','=','proses')->count();
-        $pdf1 = ProjectPDF::where('userpenerima2',Auth::user()->id)->where('status_project','=','proses')->count();
-        $datapdf = $pdf + $pdf1;
-        $promo = promo::where('userpenerima',Auth::user()->id)->where('status_project','=','proses')->count();
-        $promo1 = promo::where('userpenerima2',Auth::user()->id)->where('status_project','=','proses')->count();
-        $datapromo = $promo + $promo1;
-        return view('devwb.dasboard')->with([
-            'pkp' => $datapkp,
-            'pdf' => $datapdf,
-            'promo' => $datapromo
         ]);
     }
 }

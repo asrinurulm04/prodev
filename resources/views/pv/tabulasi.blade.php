@@ -4,6 +4,9 @@
 
 <div class="x_panel">
   <div class="">
+  <div class="x_title">
+      <h3><li class="fa fa-list"></li> Tabulasi Project</h3>
+    </div>
     <div class="container"> 
       <section id="fancyTabWidget" class="tabs t-tabs">
       <ul class="nav nav-tabs fancyTabs" role="tablist">
@@ -33,9 +36,12 @@
             <div class="row"  >
               <div class="col-md-12">
                 <form class="form-horizontal form-label-left" method="POST" action="{{route('check')}}" novalidate>
-                <!-- <a href="{{route('notulenpkp')}}" class="btn btn-info btn-sm btn-sm"><li class="fa fa-book"></li> create Notulen PKP</a> -->
-                <button class="btn btn-primary btn-sm" type="button" data-toggle="modal" data-target="#parampkp"><i class="fa fa-hand-o-right"></i> Custom Tabular</a></button>
+                @if(auth()->user()->role->namaRule === 'pv_lokal')
+                <button class="btn btn-info btn-sm" type="button" data-toggle="modal" data-target="#notulen"><li class="fa fa-book"></li> create Notulen PKP</button>
+                @endif
+                <!-- <button class="btn btn-primary btn-sm" type="button" data-toggle="modal" data-target="#parampkp"><i class="fa fa-hand-o-right"></i> Custom Tabular</a></button> -->
                 <a href="{{route('cetak')}}" class="btn btn-sm btn-warning"><li class="fa fa-cloud-download"></li> Download</a>
+
                 <!-- modal -->
                 <div class="modal" id="parampkp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                   <div class="modal-dialog" role="document">
@@ -52,26 +58,26 @@
                             <thead>
                               <p><label><input type="checkbox" checked id="checkAllpkp1"/> Check all</label></p>
                               <input type="hidden" value="{{ Auth::user()->id }}" name="user">
-                              <tr><td><input hidden type="checkbox" class="" checked name="par1" value="ya"> Project Name </td>
-                              <td><input hidden type="checkbox" class="" checked name="par2" value="ya"> Brand </td></tr>
-                              <tr><td><input type="checkbox" class="data1" checked name="par3" value="ya"> Type</td>
-                              <td><input type="checkbox" class="data1" checked name="par4" value="ya"> Idea</td></tr>
-                              <tr><td><input type="checkbox" class="data1" checked name="par5" value="ya"> Age</td>
-                              <td><input type="checkbox" class="data1" checked name="par6" value="ya"> Gender</td></tr>
-                              <tr><td><input type="checkbox" class="data1" checked name="par7" value="ya"> Uniquenes Of Idea</td>
-                              <td><input type="checkbox" class="data1" checked name="par8" value="ya"> Potential Market</td></tr>
-                              <tr><td><input type="checkbox" class="data1" checked name="par9" value="ya"> Reason</td>
-                              <td><input type="checkbox" class="data1" checked name="par10" value="ya"> Aisle Placement</td></tr>
-                              <tr><td><input type="checkbox" class="data1" checked name="par11" value="ya"> Selling Price</td>
-                              <td><input type="checkbox" class="data1" checked name="par12" value="ya"> Consumer Price</td></tr>
-                              <tr><td><input type="checkbox" class="data1" checked name="par13" value="ya"> Main Competitor</td>
-                              <td><input type="checkbox" class="data1" checked name="par14" value="ya"> Competitive</td></tr>
-                              <tr><td><input type="checkbox" class="data1" checked name="par15" value="ya"> UOM</td>
-                              <td><input type="checkbox" class="data1" checked name="par16" value="ya"> Product Form</td></tr>
-                              <tr><td><input type="checkbox" class="data1" checked name="par17" value="ya"> AKG</td>
-                              <td><input type="checkbox" class="data1" checked name="par18" value="ya"> Prefered Flavour</td></tr>
-                              <tr><td><input type="checkbox" class="data1" checked name="par19" value="ya"> product benefits</td>
-                              <td><input type="checkbox" class="data1" checked name="par20" value="ya"> mandatory ingredient</td></tr>
+                              <tr><td><input hidden type="checkbox" class="" name="par1" value="ya"> Project Name </td>
+                              <td><input hidden type="checkbox" class="" name="par2" value="ya"> Brand </td></tr>
+                              <tr><td><input type="checkbox" class="data1" name="par3" value="ya" checked> Type</td>
+                              <td><input type="checkbox" class="data1" name="par4" value="ya" checked> Idea</td></tr>
+                              <tr><td><input type="checkbox" class="data1" name="par5" value="ya" checked> Age</td>
+                              <td><input type="checkbox" class="data1" name="par6" value="ya" checked> Gender</td></tr>
+                              <tr><td><input type="checkbox" class="data1" name="par7" value="ya" checked> Uniquenes Of Idea</td>
+                              <td><input type="checkbox" class="data1" name="par8" value="ya" checked> Potential Market</td></tr>
+                              <tr><td><input type="checkbox" class="data1" name="par9" value="ya" checked> Reason</td>
+                              <td><input type="checkbox" class="data1" name="par10" value="ya" checked> Aisle Placement</td></tr>
+                              <tr><td><input type="checkbox" class="data1" name="par11" value="ya" checked> Selling Price</td>
+                              <td><input type="checkbox" class="data1" name="par12" value="ya" checked> Consumer Price</td></tr>
+                              <tr><td><input type="checkbox" class="data1" name="par13" value="ya" checked> Main Competitor</td>
+                              <td><input type="checkbox" class="data1" name="par14" value="ya" checked> Competitive</td></tr>
+                              <tr><td><input type="checkbox" class="data1" name="par15" value="ya" checked> UOM</td>
+                              <td><input type="checkbox" class="data1" name="par16" value="ya" checked> Product Form</td></tr>
+                              <tr><td><input type="checkbox" class="data1" name="par17" value="ya" checked> AKG</td>
+                              <td><input type="checkbox" class="data1" name="par18" value="ya" checked> Prefered Flavour</td></tr>
+                              <tr><td><input type="checkbox" class="data1" name="par19" value="ya" checked> product benefits</td>
+                              <td><input type="checkbox" class="data1" name="par20" value="ya" checked> mandatory ingredient</td></tr>
                             </thead>
                           </table>
                         </div>
@@ -88,25 +94,30 @@
                 <table id="datatable" class="table table-striped table-bordered" style="width:100%">
                   <thead>
                     <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
-                      <td></td>
-                      <td class="text-center">No</td>
-                      <td class="text-center" style="min-width:110px">Sent to RND</td>
-                      <th class="text-center">Brand</th>
+                      <th></th>
+                      <th class="text-center">Priority</th>
+                      <th class="text-center">No</th>
+                      <th class="text-center" style="min-width:110px">Sent to RND</th>
+                      <th class="text-center" style="min-width:110px">Brand</th>
                       <th class="text-center" style="min-width:230px">Idea</th>
                       <th class="text-center" style="min-width:110px">Target Launch</th>
                       <th class="text-center">Age</th>
                       <th class="text-center" style="min-width:110px">Gender</th>
+                      <th class="text-center" style="min-width:200px">Forecast</th>
                       <th class="text-center">Uniquenes of idea</th>
                       <th class="text-center">Potential market</th>
                       <th class="text-center" style="min-width:230px">Reason</th>
                       <th class="text-center" style="min-width:230px">Aisle placement</th>
                       <th class="text-center">selling price</th>
                       <th class="text-center">Consumer price</th>
+                      <th class="text-center" style="min-width:200px">Configuration</th>
                       <th class="text-center" style="min-width:170px">Main Competitor</th>
                       <th class="text-center" style="min-width:230px">Competitive</th>
                       <th class="text-center">Product Form</th>
+                      <th class="text-center" style="min-width:130px">AKG</th>
+                      <th class="text-center" style="min-width:130px">BPOM</th>
                       <th class="text-center" style="min-width:130px">prefered flavour</th>
-                      <th class="text-center" style="min-width:230px">product benefits</th>
+                      <th class="text-center" style="min-width:130px">product benefits</th>
                       <th class="text-center" style="min-width:130px">mandatory ingredient</th>
                     </tr>
                   </thead>
@@ -114,6 +125,15 @@
                     @foreach($datapkp as $Dpkp)
                     <tr>
                       <td><input type="checkbox" class="cekbox1" name="datapkpp[]" id="cekbox" value="{{$Dpkp->id_project}}"></td>
+                      <td class="text-center">
+                      @if($Dpkp->prioritas!=NULL)
+                      {{$Dpkp->prioritas}}
+                      @elseif($Dpkp->prioritas==NULL)
+                        @if($Dpkp->status_pkp=='drop') Stop
+                        @elseif($Dpkp->status_pkp=='close') Launch
+                        @endif
+                      @endif
+                      </td>
                       <td>{{$Dpkp->pkp_number}}{{$Dpkp->ket_no}}</td>
                       <td>{{$Dpkp->tgl_kirim}}</td>
                       <td>{{$Dpkp->id_brand}}</td>
@@ -121,15 +141,37 @@
                       <td>{{$Dpkp->launch}} {{$Dpkp->years}}{{$Dpkp->tgl_launch}}</td>
                       <td>{{$Dpkp->dariumur}}-{{$Dpkp->sampaiumur}}</td>
                       <td>{{$Dpkp->gender}}</td>
+                      <td>@foreach($for as $data) @if($data->id_project==$Dpkp->id_project &&$data->id_pkp==$Dpkp->id_pkp && $data->turunan==$Dpkp->turunan && $data->revisi==$Dpkp->revisi && $data->revisi_kemas==$Dpkp->revisi_kemas) {{$data->satuan}} = <?php $angka_format = number_format($data->forecast,2,",","."); echo "Rp. ".$angka_format;?> <br> @endif @endforeach</td></td>
                       <td>{{$Dpkp->Uniqueness}}</td>
                       <td>{{$Dpkp->Estimated}}</td>
                       <td width="8%">{{$Dpkp->reason}}</td>
                       <td>{{$Dpkp->aisle}}</td>
                       <td>{{$Dpkp->price}}</td>
                       <td>{{$Dpkp->selling_price}}</td>
+                      <td>
+                      @if($Dpkp->kemas_eksis!=NULL)
+                        ( @if($Dpkp->kemas->primer!=NULL)
+                          {{ $Dpkp->kemas->primer }}{{ $Dpkp->kemas->s_primer }} X
+                        @endif
+
+                        @if($Dpkp->kemas->sekunder1!=NULL)
+                          {{ $Dpkp->kemas->sekunder1 }}{{ $Dpkp->kemas->s_sekunder1}} X
+                        @endif
+
+                        @if($Dpkp->kemas->sekunder2!=NULL)
+                          {{ $Dpkp->kemas->sekunder2 }}{{ $Dpkp->kemas->s_sekunder2 }} X
+                        @endif
+
+                        @if($Dpkp->kemas->tersier!=NULL)
+                          {{ $Dpkp->kemas->tersier }}{{ $Dpkp->kemas->s_tersier }}
+                        @endif )
+                      @endif
+                      </td>
                       <td>{{$Dpkp->competitor}}</td>
                       <td>{{$Dpkp->competitive}}</td>
                       <td>{{$Dpkp->product_form}}</td>
+                      <td>@if($Dpkp->akg!=NULL){{$Dpkp->tarkon->tarkon}}@endif</td>
+                      <td>@if($Dpkp->bpom!=NULL && $Dpkp->kategori_bpom!=NULL)({{$Dpkp->katpangan->no_kategori}}) {{$Dpkp->katpangan->pangan}}@endif</td>
                       <td width="5%">{{$Dpkp->prefered_flavour}}</td>
                       <td>{{$Dpkp->product_benefits}}</td>
                       <td>{{$Dpkp->mandatory_ingredient}}</td>
@@ -149,7 +191,7 @@
             <div class="col-md-12">
               <form class="form-horizontal form-label-left" method="POST" action="{{route('checkpdf')}}" novalidate>
               <a href="{{route('notulenpdf')}}" class="btn btn-sm btn-info" type="button"><li class="fa fa-book"></li> Create notulen PDF</a>
-              <button class="btn btn-primary btn-sm" type="button" data-toggle="modal" data-target="#parampdf"><i class="fa fa-hand-o-right"></i> Custom Tabular</a></button>
+              <!-- <button class="btn btn-primary btn-sm" type="button" data-toggle="modal" data-target="#parampdf"><i class="fa fa-hand-o-right"></i> Custom Tabular</a></button> -->
               <a href="{{route('cetak_pdf')}}" class="btn btn-sm btn-warning"><li class="fa fa-cloud-download"></li> Download</a>
               <!-- modal -->
                 <div class="modal" id="parampdf" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -191,7 +233,7 @@
                         </div>
                       </div>
                       <div class="modal-footer">
-                        <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-paper-plane"></i> Submit</button>
+                        <button type="submit" class="btn btn-sm primary"><i class="fa fa-paper-plane"></i> Submit</button>
                         {{ csrf_field() }}
                       </div>
                     </div>
@@ -265,7 +307,7 @@
           <div class="row"><br>
             <div class="col-md-12">
               <form class="form-horizontal form-label-left" method="POST" action="{{route('checkpromo')}}" novalidate>
-              <a href="{{route('indexnotulenpromo')}}" class="btn btn-info btn-sm" type="button"><li class="fa fa-book"></li> Create Notulen PROMO</a>
+              <!-- <a href="{{route('indexnotulenpromo')}}" class="btn btn-info btn-sm" type="button"><li class="fa fa-book"></li> Create Notulen PROMO</a> -->
               <button class="btn btn-primary btn-sm" type="button" data-toggle="modal" data-target="#datapromo"><i class="fa fa-hand-o-right"></i> Custom Tabular</a></button>
                 <!-- modal -->
                 <div class="modal" id="datapromo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -331,12 +373,9 @@
                     <td>{{$Dpromo->tgl_kirim}}</td>
                     <td>{{$Dpromo->brand}}</td>
                     <td>
-                    @if($Dpromo->type==1)
-                    Maklon
-                    @elseif($Dpromo->type==2)
-                    Internal
-                    @elseif($Dpromo->type==3)
-                    Maklon/Internal
+                    @if($Dpromo->type==1)Maklon
+                    @elseif($Dpromo->type==2)Internal
+                    @elseif($Dpromo->type==3)Maklon/Internal
                     @endif
                     </td>
                     <td>
@@ -369,9 +408,37 @@
     </div>
   </div>
 </div>
-
+<!-- modal -->
+<div class="modal" id="notulen" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title text-left" id="exampleModalLabel">Konfirmasi Meeting
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></h3>
+        </button>
+      </div>
+      <form class="form-horizontal form-label-left" method="POST" action="{{route('konfirmasi_notulen')}}" novalidate>
+      <div class="modal-body">
+        <div class="form-panel"><?php $last = Date('F'); ?>
+          <input type="hidden" value="{{$last}}" name="bulan" id="bulan">
+          <input type="radio" value="2" id="info" name="info" checked> PV & Marketing <br>
+          <input type="radio" value="1" id="info" name="info"> PV & RD <br>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-paper-plane"></i> Submit</button>
+        {{ csrf_field() }}
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- Modal Selesai -->
 @endsection
 @section('s')
+<link href="{{ asset('lib/advanced-datatable/css/jquery.dataTables.css') }}" rel="stylesheet" />
+<script src="{{ asset('js/datatables.min.js')}}"></script>
 <script>
   // PKP
   $("#checkAllpkp").change(function () {
@@ -427,22 +494,4 @@
     $(".cekboxpromo1").prop('checked', $(this).prop("checked"));
   });
 </script>
-    <link href="{{ asset('lib/advanced-datatable/css/jquery.dataTables.css') }}" rel="stylesheet" />
-    <script src="{{ asset('js/datatables.min.js')}}"></script>
-    <script type="text/javascript">$('.Table').DataTable({
-      "language": {
-        "search": "Cari :",
-        "lengthMenu": "Tampilkan _MENU_ data",
-        "zeroRecords": "Tidak ada data",
-        "emptyTable": "Tidak ada data",
-        "info": "Menampilkan data _START_  - _END_  dari _TOTAL_ data",
-        "infoEmpty": "Tidak ada data",
-        "paginate": {
-          "first": "Awal",
-          "last": "Akhir",
-          "next": ">",
-          "previous": "<"
-        }
-      }
-    });</script>
 @endsection

@@ -26,15 +26,15 @@
   <div class="col-md-7">
     <div class="tabbable">
       <ul class="nav nav-tabs wizard">
-        <li class="completed"><a href="{{ route('step1',[ $idfor_pdf, $idf]) }}"><span class="nmbr">1</span>Information</a></li>
-        <li class="active"><a href="{{ route('step2',[ $idfor_pdf, $idf]) }}"><span class="nmbr">2</span>Drafting</a></li>
-        <li class="active"><a href="{{ route('summarry',[ $idfor_pdf, $idf]) }}"><span class="nmbr">3</span>Summary</a></li>
+        <li class="completed"><a href="{{ route('step1_pdf',[ $idfor,$idpro]) }}"><span class="nmbr">1</span>Information</a></li>
+        <li class="active"><a href="{{ route('step2',[ $idfor,$idpro,$idpro]) }}"><span class="nmbr">2</span>Drafting</a></li>
+        <li class="active"><a href="{{ route('summarry',[ $idfor,$idpro,$idpro]) }}"><span class="nmbr">3</span>Summary</a></li>
       </ul>
     </div>
   </div>
 </div>
 
-<form method="post" class="form-horizontal form-label-left" action="{{ route('step1update',[$formula->id,$formula->workbook_pdf_id]) }}" enctype="multipart/form-data">
+<form method="post" class="form-horizontal form-label-left" action="{{ route('step1update',[$formula->id,$idpro,$idpro]) }}" enctype="multipart/form-data">
 <div class="col-md-12 col-xs-12">
   <div class="x_panel">
     <div class="x_title">
@@ -96,11 +96,7 @@
       	</div>
         <label class="control-label col-md-1 col-sm-1 col-xs-12">Brand </label>
 				<div class="col-md-2 col-sm-2 col-xs-12">
-          <select class="form-control edit" id="subbrand" name="subbrand" disabled>
-            @foreach($subbrands as $subbrand)
-            <option value="{{  $subbrand->id }}"{{ ( $subbrand->id == $formula->subbrand_id ) ? ' selected' : '' }} >{{ $formula->workbook_pdf->datapdf->id_brand }}</option>
-            @endforeach
-          </select>
+          <input class="form-control edit" id="versi" name="versi" type="text" value="{{ $formula->workbook_pdf->datapdf->id_brand }}" Readonly />
       	</div>
       </div>
 

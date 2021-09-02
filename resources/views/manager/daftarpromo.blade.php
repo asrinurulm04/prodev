@@ -30,10 +30,10 @@
                 @elseif($data->type==3)
                 Maklon/Internal
                 @endif</td></tr>
-                <tr><td>Promo Number</td><td> : {{$data->promo_number}}{{$data->ket_no}}</td></tr>
-                <tr><td>Created</td><td> : {{$data->created_date}}</td></tr>
-                <tr><td>Author</td><td> : {{$data->author1->name}}</td></tr>
-                <tr><td>Prioritas</td><td> :
+                <tr><td width="20%">Promo Number</td><td> : {{$data->promo_number}}{{$data->ket_no}}</td></tr>
+                <tr><td width="20%">Created</td><td> : {{$data->created_date}}</td></tr>
+                <tr><td width="20%">Author</td><td> : {{$data->author1->name}}</td></tr>
+                <tr><td width="20%">Prioritas</td><td> :
                   @if($data->prioritas=='1')
                   <span class="label label-danger">High Priority</span>
                   @elseif($data->prioritas=='2')
@@ -47,14 +47,14 @@
           </div>
         </div>
         
-        <div class="col-md-5">
+        <div class="col-md-7">
           <div class="x_content">
             <table>
               <thead>
-                <tr><td>Last update</td><td> : {{$data->datapromo->last_update}}</td></tr>
-                <tr><td>Country</td><td> : {{$data->country}}</td></tr>
-                <tr><td>Application</td><td> : {{$data->datapromo->application}}</td></tr>
-                <tr><td>Item Promo Readiness</td><td> : {{$data->datapromo->promo_readiness}}</td></tr>
+                <tr><td width="15%">Last update</td><td> : {{$data->datapromo->last_update}}</td></tr>
+                <tr><td width="15%">Country</td><td> : {{$data->country}}</td></tr>
+                <tr><td width="15%">Application</td><td> : {{$data->datapromo->application}}</td></tr>
+                <tr><td width="15%">Promo Readiness</td><td> : {{$data->datapromo->promo_readiness}}</td></tr>
               </thead>
             </table><br>
           </div>

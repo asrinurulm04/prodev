@@ -13,7 +13,7 @@ class CreatePkpProjectPdfeTable extends Migration
      */
     public function up()
     {
-        Schema::create('ms_pdf_project', function (Blueprint $table) {
+        Schema::create('tr_pdf_project', function (Blueprint $table) {
             $table->increments('id_projet_pdf');
             $table->string('reference')->nullable();
             $table->string('pdf_number')->nullable();
@@ -59,6 +59,6 @@ class CreatePkpProjectPdfeTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ms_pdf_project');
+        Schema::dropIfExists('tr_pdf_project');
     }
 }

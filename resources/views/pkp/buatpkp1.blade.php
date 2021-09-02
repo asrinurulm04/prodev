@@ -1,19 +1,55 @@
 @extends('pv.tempvv')
 @section('title', 'Request PKP')
+@section('judulhalaman','Request PKP')
 @section('content')
 
-<div class="col-md-12 col-xs-12">
-  <table class="table table-bordered">
-    <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
-      <td>Mandatory Information</td>
-      <td>* : Filled by Marketing</td>
-      <td>^ : Filled By PV</td>
-      <td>** : Filled by Marketing Or PV</td>
-    </tr>
-  </table>
+  <div class="col-md-12 col-xs-12">
+    <table class="table table-bordered">
+      <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
+        <td>Mandatory Information</td>
+        <td>* : Filled by Marketing</td>
+        <td>^ : Filled By PV</td>
+        <td>** : Filled by Marketing Or PV</td>
+      </tr>
+    </table>
+  </div>
+
+<form class="form-horizontal form-label-left" method="POST" action="{{ route('tippp',$pkp->id_project) }}">
+<?php $last = Date('j-F-Y'); ?>
+<input id="last_up" value="{{ $last }}" class="form-control col-md-12 col-xs-12" type="hidden" name="last_up">
+<div class="row">
+  <div class="col-md-12 col-xs-12">
+    <div class="x_panel">
+      <div class="x_title">
+        <h3><li class="fa fa-file"></li> Data</h3>
+      </div>
+      <div class="card-block">
+        <div class="x_content">
+          <div class="form-group row">
+            <label class="control-label col-md-2 col-sm-3 col-xs-12" for="first-name" style="color:#31a9b8">Project name </label>
+            <div class="col-md-9 col-sm-8 col-xs-12">
+              <input type="text" value="{{ $pkp->project_name }}" onkeyup="this.value = this.value.toUpperCase()" name="name_project" id="name_project" class="form-control col-md-12 col-xs-12">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="middle-name" class="control-label col-md-2 col-sm-3 col-xs-12" style="color:#31a9b8">Brand</label>
+            <div class="col-md-9 col-sm-8 col-xs-12">
+              <select class="form-control form-control-line" name="brand" >
+                <option readonly view="{{ $pkp->id_brand }}">{{ $pkp->id_brand }}</option>
+                @foreach($brand as $brand)
+                <option value="{{ $brand->brand }}">{{ $brand->brand }}</option>
+                @endforeach
+              </select>
+            </div>
+          </div>
+          <div class="ln_solid"></div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-  
-<form class="form-horizontal form-label-left" method="POST" action="{{ route('tippp') }}">
+
+<div class="row">
   <div class="col-md-12 col-xs-12">
     <div class="x_panel">
       <div class="x_title">
@@ -22,29 +58,33 @@
       <div class="card-block">
         <div class="x_content">
           <div class="form-group row">
-            <input type="hidden" value="{{ $id_pkp->id_project }}" name="id">
-            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="first-name" * style="color:#31a9b8">Idea*</label>
-            <div class="col-md-9 col-sm-9 col-xs-12">
-              <textarea name="idea" id="idea" class="form-control col-md-12 col-xs-12" ></textarea>
+            <input type="hidden" value="{{ $pkp->id_pkp }}" name="id">
+            <input type="hidden" value="{{ $pkp->revisi }}" name="revisi">
+            <label class="control-label col-md-2 col-sm-3 col-xs-12" for="first-name" style="color:#31a9b8">Idea*</label>
+            <div class="col-md-9 col-sm-8 col-xs-12">
+              <input type="text" value="{{ $pkp->idea }}"  name="idea" id="idea" class="form-control col-md-12 col-xs-12">
             </div>
           </div>
+          @if($pkp->jenis=='Baku' || $pkp->jenis=='Umum')
           <div class="form-group row">
-            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="last-name" style="color:#31a9b8">Target Market</label>
-            <label class="control-label col-md-1 col-sm-1 col-xs-12" for="last-name" style="color:#31a9b8">Gender*:</label>
-            <div class="col-md-4 col-sm-3 col-xs-12">
-              <select id="gender"  name="gender" class="form-control items" >
-                <option disabled selected>-- Select Gender --</option>
+            <label class="control-label col-md-2 col-sm-3 col-xs-12" for="last-name" style="color:#31a9b8">Target Market*</label>
+            <label class="control-label col-md-1 col-sm-1 col-xs-12" for="last-name" style="color:#31a9b8">Gender:</label>
+            <div class="col-md-3 col-sm-3 col-xs-12">
+              <select id="gender"  name="gender" class="form-control" >
+                <option readonly view="{{ $pkp->gender }}">{{ $pkp->gender }}</option>
                 <option value="male">Male</option>
                 <option value="female">Female</option>
-                <option value="Male dan Female">Male & Female</option>
+                <option value="male and female">Male & Female</option>
               </select>
             </div>
-            <label for="middle-name" class="control-label col-md-1 col-sm-1 col-xs-12" style="color:#31a9b8">SES* </label>
-              <div class="col-md-3 col-sm-3 col-xs-12">
-                <select placeholder="SES" class="form-control form-control-line items" name="ses[]"   multiple="multiple">
-                  <option disabled="">-- Select One --</option>
-                  @foreach($ses as $ses)
-                  <option value="{{$ses->ses}}">{{$ses->ses}}</option>
+            <label for="middle-name" class="control-label col-md-1 col-sm-1 col-xs-12" style="color:#31a9b8">SES : </label>
+              <div class="col-md-4 col-sm-3 col-xs-12">
+                <select class="form-control form-control-line filter items" name="ses[]"  multiple="multiple">
+                  @foreach($datases as $ses1)
+                  <option value="{{$ses1->ses}}" selected>{{$ses1->ses}}</option>
+                  @endforeach
+                  @foreach($ses as $s)
+                  <option value="{{$s->ses}}">{{$s->ses}}</option>
                   @endforeach
                 </select>
               </div><br><br><br>
@@ -52,56 +92,58 @@
               <label for="middle-name" class="control-label col-md-1 col-sm-1 col-xs-12"></label>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
               <label for="middle-name" class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#31a9b8"> &nbsp  &nbsp Remarks SES* : </label>
               <div class="col-md-8 col-sm-8 col-xs-12">
-                <input type="text"  name="remarks_ses" id="remarks_ses" class="form-control col-md-12 col-xs-12">
+                <textarea name="remarks_ses" value="{{$pkp->remarks_ses}}" id="remarks_ses" class="form-control col-md-12 col-xs-12" rows="2">{{$pkp->remarks_ses}}</textarea>
               </div>
             </div>
             <div class="form-group row">
               <label for="middle-name" class="control-label col-md-1 col-sm-1 col-xs-12"></label>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-              <label for="middle-name" class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#31a9b8"> &nbsp  &nbsp Age Range form* : </label>
-              <div class="col-md-2 col-sm-2 col-xs-12">
-                <input type="number"  name="dariumur" id="dariumur" class="form-control col-md-12 col-xs-12">
+              <label for="middle-name" class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#31a9b8"> &nbsp  &nbsp Age Range form : </label>
+              <div class="col-md-2 col-sm-3 col-xs-12">
+                <input type="number"  value="{{ $pkp->dariumur }}" name="dariumur" id="dariumur" class="form-control col-md-12 col-xs-12">
               </div>
-              <div class="col-md-2 col-sm-3 col-xs-12">&nbsp &nbsp &nbsp &nbsp &nbsp 
-                <input type="radio" name="data" oninput="plus()" id="radio_plus"> + &nbsp /  
-     			      <input type="radio" name="data" oninput="minus()" id="radio_minus"> - &nbsp /  
-     			      <input type="radio" name="data" oninput="to()" id="radio_to"> To 
+              <div class="col-md-1 col-sm-1 col-xs-12 text-center"> To </div>
+              <div class="col-md-2 col-sm-3 col-xs-12">
+                <input type="text" name="sampaiumur" value="{{ $pkp->sampaiumur }}" id="sampaiumur" class="form-control col-md-12 col-xs-12">
               </div>
-              <div class="col-md-1 col-sm-2 col-xs-12" id="umur"></div>
             </div>
           </div>
-          <?php $last = Date('j-F-Y'); ?>
-          <input id="last_up" value="{{ $last }}" class="form-control col-md-12 col-xs-12" type="hidden" name="last_up">
           <div class="form-group row">
-            <label for="middle-name" class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#31a9b8">Uniqueness of Idea* </label>
-            <div class="col-md-4 col-sm-4 col-xs-12">
-              <select class="form-control form-control-line items" name="uniq_idea" >
-                <option disabled="" selected="">-- Select One --</option>
-                @foreach($idea as $idea)
+            <label for="middle-name" class="control-label col-md-2 col-sm-3 col-xs-12" style="color:#31a9b8">Uniqueness of Idea* </label>
+            <div class="col-md-9 col-sm-8 col-xs-12">
+              <select class="form-control form-control-line" name="uniq_idea" >
+                <option readonly view="{{ $pkp->Uniqueness }}">{{ $pkp->Uniqueness }}</option>
+                @foreach($ide as $idea)
                 <option value="{{ $idea->uniqueness_of_idea }}">{{ $idea->uniqueness_of_idea }}</option>
                 @endforeach
               </select>
             </div>
-            <label class="control-label col-md-1 col-sm-1 col-xs-12" style="color:#31a9b8">Estimated*</label>
-            <div class="col-md-4 col-sm-4 col-xs-12">
-              <select class="form-control form-control-line items" name="estimated" >
-                <option disabled="" selected="">-- Select Estimated potential market --</option>
-                @foreach($market as $market)
-                <option value="{{ $market->estimasi_market }}">{{ $market->estimasi_market }}</option>
+          </div>
+          <div class="form-group row">
+            <label class="control-label col-md-2 col-sm-3 col-xs-12" style="color:#31a9b8">Estimated*</label>
+            <div class="col-md-9 col-sm-8 col-xs-12">
+              <select class="form-control form-control-line" name="estimated" >
+                <option readonly view="{{ $pkp->Estimated }}">{{ $pkp->Estimated }}</option>
+                @foreach($market as $mar)
+                <option value="{{ $mar->estimasi_market }}">{{ $mar->estimasi_market }}</option>
                 @endforeach
               </select>
             </div>
           </div>
           <div class="form-group row">
-            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="first-name" style="color:#31a9b8">reason*</label>
-            <div class="col-md-9 col-sm-9 col-xs-12">
-              <textarea name="reason" id="reason" class="form-control col-md-12 col-xs-12" ></textarea>
+            <label class="control-label col-md-2 col-sm-3 col-xs-12" for="first-name" style="color:#31a9b8">reason*</label>
+            <div class="col-md-9 col-sm-8 col-xs-12">
+              <input id="reason" class="form-control " value="{{ $pkp->reason }}" type="text" name="reason" >
             </div>
           </div>
+          @endif
           <div class="ln_solid"></div>
         </div>
       </div>
     </div>
   </div>
+</div>
+
+<div class="row">
   <div class="col-md-12 col-xs-12">
     <div class="x_panel">
       <div class="x_title">
@@ -110,70 +152,94 @@
       <div class="card-block">
         <div class="x_content">
           <div class="form-group row">
-            <label class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#31a9b8">Launch* </label> &nbsp
-      		  <input type="radio" name="data" oninput="template()" id="radio_temp"> Launch periode  &nbsp &nbsp
-     			  <input type="radio" name="data" oninput="kalender()" id="radio_cal"> Launch date &nbsp &nbsp
-          </div>
-          <div id="tampilkan"></div>
-          <div class="form-group row">
-            <label class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#31a9b8">Aisle Placement*</label>
-            <div class="col-md-9 col-sm-9 col-xs-12">
-              <input type="text" placeholder="Aisle Placement" name="aisle" id="aisle" class="form-control col-md-12 col-xs-12">
+            <label class="control-label col-md-2 col-sm-3 col-xs-12" style="color:#31a9b8">Launch Deadline*</label>
+            <div class="col-md-1 col-sm-1 col-xs-12">
+              <select name="launch" class="items">
+                @if($pkp->launch!=NULL)
+                  <option value="{{$pkp->launch}}" selected>{{$pkp->launch}}</option>
+                @endif
+                <?php
+                  $bulan=array("Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember");
+                  $jlh_bln=count($bulan);
+                  for($c=0; $c<$jlh_bln; $c+=1){ echo"<option value=$bulan[$c]> $bulan[$c] </option>"; }
+                ?>
+              </select>
+            </div>
+            <div class="col-md-3 col-sm-2 col-xs-12">
+              @if($pkp->years!=NULL)
+              <input type="number" name="tahun" class="form-control" placeholder="Years" id="tahun" value="{{$pkp->years}}">
+              @elseif($pkp->years==NULL)
+              <input type="number" name="tahun" class="form-control" placeholder="Years" id="tahun">
+              @endif
             </div>
           </div>
           <div class="form-group row">
-            <label class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#31a9b8">Comperitor*</label>
-            <div class="col-md-4 col-sm-4 col-xs-12">
-              <input type="text" placeholder="Comperitor" name="competitor" id="" class="form-control col-md-12 col-xs-12">
-            </div>
-            <label class="control-label col-md-1 col-sm-1 col-xs-12" style="color:#31a9b8">Competitiveness*</label>
-            <div class="col-md-4 col-sm-4 col-xs-12">
-              <input type="text" placeholder="Competitive Advantage" name="Competitive" id="" class="form-control col-md-12 col-xs-12">
+            <label class="control-label col-md-2 col-sm-3 col-xs-12" style="color:#31a9b8">Aisle Placement*</label>
+            <div class="col-md-9 col-sm-8 col-xs-12">
+              <input type="text" value="{{ $pkp->aisle }}" placeholder="Aisle Placement"  name="aisle" id="aisle" class="form-control col-md-12 col-xs-12">
             </div>
           </div>
           <div class="form-group row">
-            <label class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#31a9b8">Sales Forecast*</label> 
-            <div class="col-md-9 col-sm-9 col-xs-12" style="overflow-x: scroll;">
+            <label class="control-label col-md-2 col-sm-3 col-xs-12" style="color:#31a9b8">Comperitor*</label>
+            <div class="col-md-4 col-sm-8 col-xs-12">
+              <input type="text" value="{{ $pkp->competitor }}" placeholder="Comperitor"  name="competitor" id="" class="form-control col-md-12 col-xs-12">
+            </div>
+            <label class="control-label col-md-1 col-sm-3 col-xs-12" style="color:#31a9b8">Competitiveness*</label>
+            <div class="col-md-4 col-sm-8 col-xs-12">
+              <input type="text" value="{{ $pkp->competitive }}"  name="competitive" placeholder="Competitive Advantage" id="analysis" class="form-control col-md-12 col-xs-12">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="control-label col-md-2 col-sm-3 col-xs-12" style="color:#31a9b8">Sales Forecast*</label> 
+            <div class="col-md-9 col-sm-8 col-xs-12">
               <table class="table table-bordered table-hover" id="tabledata">
         				<tbody>
-        				  <tr id='tr_clone'>
-                    <td><input type="number" value="0" name="forecast[]" min="0" step="0.0001" class="form-control"></td>
-                    <td>
-                      <select name="satuan[]" class="form-control items">
-                        <option value="1st Month">1st Month</option>
-                        <option value="2nd Month">2nd Month</option>
-                        <option value="3rd Month">3rd Month</option>
-                      </select>
-                    </td>
-                    <td>
-                      <button id="add_data" type="button" class="btn btn-info btn-sm pull-left tr_clone_add"><li class="fa fa-plus"></li> Add Forecast</button>
-                    </td>
+                  @if($for2!='0')
+                  @foreach($for as $for)
+        				  <tr id='addrow0'>
+                    <td><input type="number" value="{{$for->forecast}}" name="forecast[]" class="form-control" required></td>
+                    <td><input type="text" value="{{$for->satuan}}" name="satuan[]" class="form-control" required readonly></td>
+                  </tr>
+                  @endforeach
+                  @elseif($for2=='0')
+                  <tr>
+                    <td><input type="number" name="forecast[]" value="0" width="500px" class="form-control"></td>
+                    <td><input type="text" value="1st Month" name="satuan[]" class="form-control" required readonly></td>
+                  </tr>
+                  <tr>
+                    <td><input type="number" name="forecast[]" value="0" width="500px" class="form-control"></td>
+                    <td><input type="text" value="2nd Month" name="satuan[]" class="form-control" required readonly></td>
+                  </tr>
+                  <tr>
+                    <td><input type="number" name="forecast[]" value="0" width="500px" class="form-control"></td>
+                    <td><input type="text" value="3rd Month" name="satuan[]" class="form-control" required readonly></td>
                   </tr>
         					<tr id='addrow1'></tr>
+                  @endif
         				</tbody>
       				</table>
             </div>
           </div>
           <div class="form-group row">
-            <label class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#31a9b8">Remarks Forecash*</label>
-            <div class="col-md-9 col-sm-9 col-xs-12">
-              <textarea name="remarks_forecash" id="remarks_forecash" class="form-control col-md-12 col-xs-12" rows="2"></textarea>
+            <label class="control-label col-md-2 col-sm-3 col-xs-12" style="color:#31a9b8">Remarks Forecash*</label>
+            <div class="col-md-9 col-sm-8 col-xs-12">
+              <textarea name="remarks_forecash" value="{{$pkp->remarks_forecash}}" id="remarks_forecash" class="form-control col-md-12 col-xs-12" rows="2">{{$pkp->remarks_forecash}}</textarea>
             </div>
           </div>
           <div class="form-group row">
-            <label class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#31a9b8">Selling Price (Before PPN)*</label>
-            <div class="col-md-4 col-sm-4 col-xs-12">
-              <input type="number" name="Selling_price" id="Selling_price" class="form-control col-md-12 col-xs-12">
+            <label class="control-label col-md-2 col-sm-3 col-xs-12"  style="color:#31a9b8">Selling Price (Before PPN)*</label>
+            <div class="col-md-4 col-sm-8 col-xs-12">
+              <input type="number" value="{{ $pkp->selling_price }}"  name="Selling_price" id="Selling_price" class="form-control col-md-12 col-xs-12">
             </div>
-            <label class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#31a9b8">Consumer Price*</label>
-            <div class="col-md-3 col-sm-3 col-xs-12">
-              <input type="number" placeholder="Consumer Price" name="consumer_price" id="consumer_price" class="form-control col-md-12 col-xs-12">
+            <label class="control-label col-md-2 col-sm-3 col-xs-12" style="color:#31a9b8">Consumer Price*</label>
+            <div class="col-md-3 col-sm-8 col-xs-12">
+              <input type="number" value="{{ $pkp->price }}"  name="analysis" placeholder="Consumer Price" id="analysis" class="form-control col-md-12 col-xs-12">
             </div>
           </div>
           <div class="form-group row">
-            <label class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#31a9b8">UOM*</label>
-            <div class="col-md-9 col-sm-9 col-xs-12">
-              <input type="text" placeholder="UOM" name="uom" id="uom" class="form-control col-md-12 col-xs-12">
+            <label class="control-label col-md-2 col-sm-3 col-xs-12" style="color:#31a9b8">UOM*</label>
+            <div class="col-md-9 col-sm-8 col-xs-12">
+              <input type="text" placeholder="UOM" value="{{$pkp->UOM}}" name="uom" id="uom" class="form-control col-md-12 col-xs-12">
             </div>
           </div>
           <div class="ln_solid"></div>
@@ -181,18 +247,19 @@
       </div>
     </div>
   </div>
+</div>
+
+<div class="row">
   <div class="col-md-12 col-xs-12">
     <div class="x_panel">
-      <div class="x_title">
-        <h3><li class="fa fa-star"></li> Product Features</h3>
-      </div>
+      <div class="x_title"><h3><li class="fa fa-star"></li> Product Features</h3></div>
       <div class="card-block">
         <div class="x_content">
           <div class="form-group">
-            <label class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#31a9b8">Product Form*</label>
+            <label class="control-label col-md-2 col-sm-3 col-xs-12" style="color:#31a9b8">Product Form*</label>
             <div class="col-md-9 col-sm-9 col-xs-12">
-              <select  id="product" name="product" class="form-control items" >
-                <option disabled selected>-- Select one --</option>
+              <select  id="product" name="product" class="form-control" >
+                <option readonly value="{{ $pkp->product_form }}">{{ $pkp->product_form }}</option>
                 <option value="powder">Powder</option>
                 <option value="solid">Solid</option>
                 <option value="paste">Paste</option>
@@ -200,92 +267,195 @@
               </select>
             </div>
           </div>
-          <div class="form-group row">
-            <label class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#31a9b8">Remarks Product Form*</label>
-            <div class="col-md-9 col-sm-9 col-xs-12">
-              <textarea name="remarks_product_form" id="remarks_product_form" class="form-control col-md-12 col-xs-12" rows="2"></textarea>
-            </div>
-          </div>
+          @if($pkp->jenis=='Baku' || $pkp->jenis=='Umum')
           <div class="form-group">
-            <label class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#cf3721">AKG^</label>
-            <div class="col-md-9 col-sm-9 col-xs-12">
-              <select name="akg" required id="akg" class="form-control">
+            <label class="control-label col-md-2 col-sm-3 col-xs-12" style="color:#cf3721">AKG^</label>
+            <div class="col-md-9 col-sm-89col-xs-12">
+              <select name="akg" required  id="akg" class="form-control">
+                @if($pkp->akg!=NULL)
+                <option value="{{$pkp->tarkon->id_tarkon}}" readonly>{{$pkp->tarkon->tarkon}}</option>
+                @elseif($pkp->akg==NULL)
+                <option value="6"></option>
+                @endif
                 @foreach($tarkon as $tr)
                 <option value="{{ $tr->id_tarkon}}">{{$tr->tarkon}}</option>
                 @endforeach
               </select>
             </div>
           </div>
+          <div class="form-group row">
+            <label class="control-label col-md-2 col-sm-3 col-xs-12" style="color:#31a9b8">Remarks Product Form*</label>
+            <div class="col-md-9 col-sm-8 col-xs-12">
+              <textarea name="remarks_product_form" value="{{$pkp->remarks_product_form}}" id="remarks_product_form" class="form-control col-md-12 col-xs-12" rows="2">{{$pkp->remarks_product_form}}</textarea>
+            </div>
+          </div>
           <div class="form-group">
-            <label class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#cf3721">No category BPOM^</label>
-            <div class="col-md-2 col-sm-2 col-xs-12">
-              <select class="form-control items"  id="bpom" name="bpom">
+            <label class="control-label col-md-2 col-sm-3 col-xs-12" style="color:#cf3721">No category BPOM^</label>
+            <div class="col-md-2 col-sm-8 col-xs-12">
+              <select class="form-control items"  id="bpom" name="bpom" required>
                 <option value=""></option>
+                @if($pkp->bpom!=null)
+                <option selected value="{{$pkp->bpom}}">{{$pkp->katpangan->no_kategori}}</option>
+                @elseif($pkp->bpom==null)
+                <option value=""></option>
+                @endif
                 @foreach($pangan as $dp)
                 <option value="{{ $dp->id_pangan }}">{{ $dp->no_kategori }}</option>
                 @endforeach
               </select>
             </div>
-            <label class="control-label col-md-1 col-sm-1 col-xs-12" style="color:#cf3721">category</label>
-            <div class="col-md-3 col-sm-3 col-xs-12">
+            <label class="control-label col-md-1 col-sm-3 col-xs-12" style="color:#cf3721">category^</label>
+            <div class="col-md-3 col-sm-8 col-xs-12">
               <select name="katbpom"  id="katbpom" class="form-control items">
-                <option value=""></option>
+                @if($pkp->kategori_bpom!=null)
+                <option selected value="{{$pkp->kategori_bpom}}">{{$pkp->katpangan->pangan}}</option>
+                @endif
                 @foreach($pangan as $kat)
-                <option value="{{$kat->id_pangan}}">{{$kat->kategori}}</option>
+                <option value="{{$kat->id_pangan}}">{{$kat->pangan}}</option>
                 @endforeach
               </select>
             </div>
-            <div class="col-md-3 col-sm-3 col-xs-12">
+            <label class="control-label col-md-0 col-sm-3 col-xs-12" style="color:#cf3721"></label>
+            <div class="col-md-3 col-sm-8 col-xs-12">
               <select name="olahan"  id="olahan" class="form-control items">
+                @if($pkp->olahan!=NULL)
+                <option value="{{$pkp->olahan}}">{{$pkp->panganolahan->pangan_olahan	}}</option>
+                @elseif($pkp->olahan==NULL)
+                <option value=""></option>
+                @endif
               </select>
             </div>
           </div>
-          <div class="form-group">
+          @endif
+          @if($pkp->jenis=='Kemas' || $pkp->jenis=='Umum')
+          <div class="form-group row">
             <input type="hidden" value="{{$eksis+1}}" name="kemas" id="kemas">
-            <label class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#cf3721">Product Packaging^</label>&nbsp &nbsp
+            <label class="control-label col-md-2 col-sm-3 col-xs-12" for="last-name" style="color:#cf3721">Product Packaging^</label>
+            @if($pkp->kemas_eksis!=NULL)
+            <div class="col-md-8 col-sm-8 col-xs-12">
+              <select name="data_eksis" id="data_eksis" class="form-control">
+                <option value="{{$pkp->kemas_eksis}}" readonly>
+                (
+                @if($pkp->kemas->primer!=NULL)
+							  {{ $pkp->kemas->primer }}{{ $pkp->kemas->s_primer }} </tr>
+								@elseif($pkp->kemas->primer==NULL)
+							  @endif
+
+								@if($pkp->kemas->sekunder1!=NULL)
+							  X {{ $pkp->kemas->sekunder1 }}{{ $pkp->kemas->s_sekunder1}} </tr>
+							  @elseif($pkp->kemas->sekunder1==NULL)
+							  @endif
+
+								@if($pkp->kemas->sekunder2!=NULL)
+							  X {{ $pkp->kemas->sekunder2 }}{{ $pkp->kemas->s_sekunder2 }} </tr>
+							  @elseif($pkp->sekunder2==NULL)
+							  @endif
+
+							  @if($pkp->kemas->tersier!=NULL)
+								X {{ $pkp->kemas->tersier }}{{ $pkp->kemas->s_tersier }} </tr>
+							  @elseif($pkp->tersier==NULL)
+							  @endif
+                )
+                </option>
+              </select>
+            </div>
+       		  <a type="buton" href="{{ Route('konfigurasi',$pkp->id_project)}}" class="fa fa-trash btn btn-danger btn-lg" title="Remove the configuration and create a new configuration"></a>
+            @elseif($pkp->kemas_eksis==NULL)
+            <input type="hidden" value="{{$eksis+1}}" name="kemas" id="kemas">&nbsp
             <input type="radio" name="data" oninput="baru()" id="radio_baru"> New Configuration  &nbsp &nbsp
-       			<input type="radio" name="data" oninput="eksis()" id="radio_eksis"> Configuration exists &nbsp &nbsp
-       			<input type="radio" name="data" oninput="pilih()" id="radio_project"> Previous Project Configuration  &nbsp &nbsp
-					</div>
+            <input type="radio" name="data" oninput="eksis()" id="radio_eksis"> Configuration exists &nbsp &nbsp
+            <input type="radio" name="data" oninput="pilih()" id="radio_project"> Previous Project Configuration  &nbsp &nbsp
+            @endif
+          </div>
+          <div class="form-group">
+            @if($pkp->primery!=null)
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name" style="color:#a871ff">Primary information^ :</label>
+            <div class="col-md-8 col-sm-3 col-xs-12">
+              <input name="primary" class="col-md-8 col-sm-8 col-xs-12 form-control" id="" value="{{$pkp->primery}}"></textarea>
+            </div><br><br><br>
+            @endif
+            @if($pkp->secondary!=null)
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name" style="color:#a871ff">Secondary information^:</label>
+            <div class="col-md-8 col-sm-3 col-xs-12">
+              <input name="secondary" class="col-md-8 col-sm-8 col-xs-12 form-control" id="" value="{{$pkp->secondary}}"></textarea>
+            </div><br><br><br>
+            @endif
+            @if($pkp->tertiary!=null)
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name" style="color:#a871ff">Tertiary information^:</label>
+            <div class="col-md-8 col-sm-3 col-xs-12">
+              <input name="tertiary" class="col-md-8 col-sm-8 col-xs-12 form-control" id="" value="{{$pkp->tertiary}}"></textarea>
+            </div><br><br>
+            @endif
+          </div>
           <div id="lihat"></div>
+          @endif
+          @if($pkp->jenis=='Baku' || $pkp->jenis=='Umum')
           <div class="form-group">
-            <label class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#31a9b8">prefered flavour (varian/rasa)*</label>
-            <div class="col-md-9 col-sm-9 col-xs-12">
-              <textarea id="prefered" class="form-control col-md-12 col-xs-12" type="text" name="prefered"></textarea>
+            <label class="control-label col-md-2 col-sm-3 col-xs-12" style="color:#31a9b8">prefered flavour (varian/rasa)*</label>
+            <div class="col-md-9 col-sm-8 col-xs-12">
+              <textarea name="prefered" id="prefered" class="form-control col-md-12 col-xs-12" value="{{ $pkp->prefered_flavour }}" rows="2">{{ $pkp->prefered_flavour }}</textarea>
             </div>
           </div>
           <div class="form-group">
-            <label class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#258039">Serving Suggestion (gr/ml)**</label>
-            <div class="col-md-9 col-sm-9 col-xs-12">
-              <textarea  id="suggestion" class="form-control col-md-12 col-xs-12" type="text" name="suggestion"></textarea>
-            </div>
-          </div>	
-          <div class="form-group">
-            <label  class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#31a9b8">Mandatory Ingredient*</label>
-            <div class="col-md-9 col-sm-9 col-xs-12">
-              <textarea id="ingredient"  class="form-control col-md-12 col-xs-12" placeholder="" type="text" name="ingredient"></textarea>
-            </div>
-          </div>	
-          <div class="form-group">
-            <label class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#31a9b8">Product Benefits*</label>
-            <div class="col-md-9 col-sm-9 col-xs-12">
-              <textarea  id="benefits" class="form-control col-md-12 col-xs-12" type="text" name="benefits"></textarea>
+            <label class="control-label col-md-2 col-sm-3 col-xs-12" style="color:#258039">Serving Suggestion (gr/ml)**</label>
+            <div class="col-md-9 col-sm-8 col-xs-12">
+              <textarea id="serving" value="{{ $pkp->serving_suggestion }}" class="form-control col-md-12 col-xs-12" name="suggestion" rows="2">{{ $pkp->serving_suggestion }}</textarea>
             </div>
           </div>
           <div class="form-group">
-            <div class="col-md-12 col-sm-12 col-xs-12" style="overflow-x: scroll;">
-              <table class="table table-bordered table-hover" id="tab_logic">
-        				<thead>
+            <label class="control-label col-md-2 col-sm-3 col-xs-12" style="color:#31a9b8">Product Benefits*</label>
+            <div class="col-md-9 col-sm-8 col-xs-12">
+              <textarea id="benefits" value="{{ $pkp->product_benefits }}" class="form-control col-md-12 col-xs-12" name="benefits" rows="2">{{ $pkp->product_benefits }}</textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <label  class="control-label col-md-2 col-sm-3 col-xs-12" style="color:#31a9b8">Mandatory Ingredient*</label>
+            <div class="col-md-9 col-sm-9 col-xs-12">
+              <textarea id="ingredient" value="{{ $pkp->mandatory_ingredient }}"  class="form-control col-md-12 col-xs-12" name="ingredient" rows="2">{{ $pkp->mandatory_ingredient }}</textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+              <table class="table table-bordered table-hover" id="table">
+                <thead>
                   <tr>
-        			      <th class="text-center">Komponen</th>
-        					  <th class="text-center" width="15%">Klaim</th>
-                    <th class="text-center" width="15%">Detail</th>
-                    <th class="text-center">Note</th>
-        			      <th class="text-center">Action</th>
-    					    </tr>
-        				</thead>
-        				<tbody>
-        				  <tr id='addr0'>
+                    <th class="text-center" >Komponen</th>
+                    <th class="text-center" width="15%">Klaim</th>
+                    <th class="text-center" width="25%">Detail</th>
+                    <th class="text-center" width="20%">Note</th>
+                    <th class="text-center" width="13%">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="tr_clone">
+                  @foreach($dataklaim as $dk)
+                    <td>
+                      <select class="form-control items komponen"   name="komponen[]">
+                        <option value="{{$dk->id_komponen}}">{{$dk->datakp->komponen}}</option>
+                        @foreach($komponen as $kp)
+                        <option value="{{ $kp->id }}">{{ $kp->komponen }}</option>
+                        @endforeach
+                      </select>
+                    </td>
+                    <td>
+                      <select name="klaim[]" class="form-control items">
+                        <option value="{{$dk->id_klaim}}">{{$dk->datakl->klaim}}</option>
+                      </select>
+                    </td>
+                    <td>
+                      <select name="detail[]"  multiple="multiple" class="form-control items">
+                        @foreach($datadetail as $dd)
+                        @if($dd->id_klaim==$dk->id)
+                        <option readonly selected value="{{$dd->id_detail}}">{{$dd->datadl->detail}}{{$dk->id_klaim}}</option>
+                        @endif
+                        @endforeach
+                      </select>
+                    </td>
+                    <td><textarea type="text" class="form-control" name="ket[]" value="{{$dk->note}}" id="ket">{{$dk->note}}</textarea></td>
+                    <td><a href="" class="btn btn-danger btn-sm"><li class="fa fa-trash"></li></a></td>
+                  </tr>
+                  @endforeach
+                  <tr id='addr0'>
                     <input type="hidden" value="{{$Ddetail}}" name="iddetail" id="iddetail">
                     <td>
                       <select class="form-control items komponen" id="komponen" name="komponen[]">
@@ -294,40 +464,37 @@
                         @endforeach
                       </select>
                     </td>
-                    <td>
-                      <select name="klaim[]" class="form-control items" id="klaimm">
-                      </select>
-                    </td>
-                    <td>
-                      <select name="detail[]"  id="detaill" multiple="multiple" class="form-control items">          
-                      </select>
-                    </td>
+                    <td><select name="klaim[]" class="form-control items" id="klaimm"> </select></td>
+                    <td><select name="detail[]"  id="detaill" multiple="multiple" class="form-control items"> </select></td>
                     <td><textarea type="text" class="form-control" name="ket[]" id="ket"></textarea></td>
-        					  <td class="text-center"><button class="tr_clone_add btn btn-info btn-sm" id="add_row" type="button"><li class="fa fa-plus"></li></button></td>
-        					</tr>
-        					<tr id='addr1'></tr>
-        				</tbody>
+                    <td><button class="tr_clone_add btn btn-info btn-sm" id="add_row" type="button"><li class="fa fa-plus"></li></button></td>
+                  </tr>
+                  <tr id='addr1'></tr><tr id='addr2'></tr><tr id='addr3'></tr><tr id='addr4'></tr>
+                </tbody>
               </table>
             </div>
           </div>
-          <input type="hidden" value="{{ Auth::user()->email }}" name="pengirim1" id="pengirim1">
-            @foreach($teams as $teams)
-            <input type="hidden" value="{{$teams->user->name}}" name="namatujuan[]" id="namatujuan">
-            <input type="hidden" value="{{$teams->user->email}}" name="emailtujuan[]" id="emailtujuan">
-            @endforeach
-          <div class="col-md-6 col-sm-offset-5 col-md-offset-5">
+          @endif
+          <input type="hidden" value="{{$pkp->author1->email}}" name="pengirim1" id="pengirim1">
+          @foreach($teams as $teams)
+          <input type="hidden" value="{{$teams->user->email}}" name="emailtujuan[]" id="emailtujuan">
+          @endforeach
+          <div class="col-md-6 col-md-offset-5">
+            <a type="button" href="{{route('rekappkp',[$pkp->id_pkp,$pkp->id])}}" class="btn btn-danger btn-sm"><li class="fa fa-ban"></li> Cencel</a>
             <button type="reset" class="btn btn-warning btn-sm"><li class="fa fa-repeat"></li> Reset</button>
-            <button type="submit" class="btn btn-primary btn-sm"><li class="fa fa-check"></li> Submit</button>
+            <button type="submit" class="btn btn-primary btn-sm"><li class="fa fa-check"></li> Submit And Next</button>
             {{ csrf_field() }}
           </div>
         </div>
-      </div>
+      </div>  
     </div>
   </div>
+</div>
 </form>
-@endsection
 
+@endsection
 @section('s')
+<script src="{{ asset('js/asrul.js') }}"></script>
 <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet">
 <script src="{{ asset('js/select2/select2.min.js') }}"></script>
 <script>
@@ -357,8 +524,8 @@
       $('#addr' + i).html("<input type='hidden' value='"+(a+i)+"' name='iddetail' id='iddetail'><td><select class='form-control items' name='komponen[]' id='komponen"+(a+i)+"' >"+komponen1+
         "</select></td><td><select name='klaim[]' class='form-control items' id='klaimm"+(a+i)+"'>"+
         "</select></td><td><select name='detail[]' multiple='multiple' class='form-control items' id='detaill"+(a+i)+"'>"+
-        "</select></td><td><textarea type='text' class='form-control' name='ket[]' id='ket'></textarea></td><td></td>");
-
+        "</select></td><td><textarea type='text' class='form-control' name='ket[]' id='ket'></textarea></td><td><a href='' class='btn btn-danger btn-sm'><li class='fa fa-trash'></li></a></td>");
+      console.log(i);
         var b = a+i;
         $('#komponen' + b).on('change', function(){
           var myId = $(this).val();
@@ -369,8 +536,9 @@
                 dataType: "json",
                 beforeSend: function(){
                 $('#loader').css("visibility", "visible");
-            },
-            success:function(data){
+              },
+
+              success:function(data){
                 $('#detaill' + b).empty();
                 $.each(data, function(key, value){
                   $('#detaill' + b).append('<option value="'+ key +'">' + value + '</option>');
@@ -378,46 +546,15 @@
               },
               complete: function(){
                 $('#loader').css("visibility","hidden");
-            }
-          });
-          }
-          else{
+              }
+            });
+          }else{
             $('#detaill' + b).empty();
           }
         });
 
         $('#komponen'+b).on('change', function(){
-        var myId = $(this).val();
-          if(myId){
-            $.ajax({
-              url: '{{URL::to('getkomponen')}}/'+myId,
-              type: "GET",
-              dataType: "json",
-              beforeSend: function(){
-                  $('#loader').css("visibility", "visible");
-              },
-              success:function(data){
-                  $('#klaimm'+b).empty();
-                  $.each(data, function(key, value){
-                      $('#klaimm'+b).append('<option value="'+ key +'">' + value + '</option>');
-                  });
-              },
-              complete: function(){
-                $('#loader').css("visibility","hidden");
-              }
-            });
-          }
-          else{
-            $('#klaimm'+b).empty();
-          }
-        });
-
-        $('#tab_logic').append('<tr id="addr' + (i + 1) + '"></tr>');
-        i++;
-      });
-
-      $('#komponen').on('change', function(){
-        var myId = $(this).val();
+          var myId = $(this).val();
           if(myId){
             $.ajax({
               url: '{{URL::to('getkomponen')}}/'+myId,
@@ -426,75 +563,80 @@
               beforeSend: function(){
                 $('#loader').css("visibility", "visible");
               },
-              success:function(data){
-                  $('#klaimm').empty();
-                  $.each(data, function(key, value){
-                    $('#klaimm').append('<option value="'+ key +'">' + value + '</option>');
-                  });
-              },
-              complete: function(){
-                $('#loader').css("visibility","hidden");
-              }
-            });
-          }
-          else{
-            $('#klaimm').empty();
-          }
-      });
 
-      $('#komponen').on('change', function(){
-        var myId = $(this).val();
-          if(myId){
-            $.ajax({
-              url: '{{URL::to('getdetail')}}/'+myId,
-              type: "GET",
-              dataType: "json",
-              beforeSend: function(){
-                $('#loader').css("visibility", "visible");
-              },
               success:function(data){
-                $('#detaill').empty();
+                $('#klaimm'+b).empty();
                 $.each(data, function(key, value){
-                  $('#detaill').append('<option value="'+ key +'">' + value + '</option>');
+                  $('#klaimm'+b).append('<option value="'+ key +'">' + value + '</option>');
                 });
               },
               complete: function(){
                 $('#loader').css("visibility","hidden");
               }
             });
+          }else{
+            $('#klaimm'+b).empty();
           }
-          else{
+        });
+          $('#tab_logic').append('<tr id="addr' + (i + 1) + '"></tr>');
+          i++;
+        });
+
+        $('#komponen').on('change', function(){
+          var myId = $(this).val();
+          if(myId){
+            $.ajax({
+            url: '{{URL::to('getkomponen')}}/'+myId,
+            type: "GET",
+            dataType: "json",
+            beforeSend: function(){
+              $('#loader').css("visibility", "visible");
+            },
+
+            success:function(data){
+              $('#klaimm').empty();
+              $.each(data, function(key, value){
+                $('#klaimm').append('<option value="'+ key +'">' + value + '</option>');
+              });
+            },
+            complete: function(){
+              $('#loader').css("visibility","hidden");
+            }
+          });
+        }else{
+          $('#klaimm').empty();
+        }
+      });
+
+      $('#komponen').on('change', function(){
+        var myId = $(this).val();
+        if(myId){
+          $.ajax({
+            url: '{{URL::to('getdetail')}}/'+myId,
+            type: "GET",
+            dataType: "json",
+            beforeSend: function(){
+              $('#loader').css("visibility", "visible");
+            },
+
+            success:function(data){
+              $('#detaill').empty();
+              $.each(data, function(key, value){
+                $('#detaill').append('<option value="'+ key +'">' + value + '</option>');
+              });
+            },
+            complete: function(){
+              $('#loader').css("visibility","hidden");
+            }
+          });
+        }else{
             $('#katbpom').empty();
-          }
+        }
       });
   });
 </script>
 
 <script>
-  function plus(){
-    var plus = document.getElementById('radio_plus')
-    if(plus.checked == true){
-      document.getElementById('umur').innerHTML =
-        "<input type='text' readonly class='form-control' value='+' name='sampaiumur' id='sampaiumur'>"
-    }
-  }
-
-  function minus(){
-    var minus = document.getElementById('radio_minus')
-    if(minus.checked == true){
-      document.getElementById('umur').innerHTML =
-        "<input type='text' readonly class='form-control' value='-' name='sampaiumur' id='sampaiumur'>"
-    }
-  }
-
-  function to(){
-    var to = document.getElementById('radio_to')
-    if(to.checked == true){
-      document.getElementById('umur').innerHTML =
-        '<input type="number" name="sampaiumur" id="sampaiumur" class="form-control col-md-12 col-xs-12">'
-    }
-  }
-
   var kode_uom = []
   <?php foreach($uom as $key => $value) { ?>
   if(!kode_uom){
@@ -530,8 +672,10 @@
        		"<input type='radio' name='gramasi' oninput='tiga()' id='radio_tiga'> 3 Dimensi &nbsp"+
       		"<input type='radio' name='gramasi' oninput='empat()' id='radio_empat'> 4 Dimensi &nbsp"+
 					"<div id='tampil'></div>"+
-				"</div><hr>"+
-        "<h4><b><lable class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>*Information</lable></b></h4><br><br>"+
+				"</div>"+
+        "<hr>"+
+        "<h4><b><lable class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>*Information</lable></b></h4>"+
+        "<br><br>"+
         "<div class='form-group'>"+
           "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>Primary</label>"+
           "<div class='col-md-10 col-sm-10 col-xs-12'>"+
@@ -584,9 +728,7 @@
 
   function tiga(){
     var tiga = document.getElementById('radio_tiga');
-    if(tiga.checked != true){
-      document.getElementById('tampil').innerHTML = "";
-    }else{
+    if(tiga.checked == true){
       document.getElementById('tampil').innerHTML = "<br><div class='panel panel-default'>"+
 	      "<div class='panel-heading'><h5>Configuration</h5></div>"+
 	        "<div class='panel-body'>"+
@@ -620,9 +762,7 @@
 
   function empat(){
     var empat = document.getElementById('radio_empat');
-    if(empat.checked != true){
-      document.getElementById('tampil').innerHTML = "";
-    }else{
+    if(empat.checked == true){
       document.getElementById('tampil').innerHTML =
       "<br><div class='panel panel-default'>"+
 	    "<div class='panel-heading'><h5>Configuration</h5></div>"+
@@ -638,12 +778,12 @@
               "<input name='sekunder1' id='sekunder1' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='text'>"+
             "</div>"+
             "<div class='col-md-2 col-sm-2 col-xs-12'>"+
-              "<select class='form-control' name='s_sekunder1'><option disabled='' selected=''>Sekunder 1</option></select>"+
+              "<select class='form-control' name='s_sekunder1'><option disabled='' selected=''>Sekunder 1</option>"+pilihan_uom+"</select>"+
             "</div>"+ "<div class='col-md-1 col-sm-1 col-xs-12'>"+
               "<input name='sekunder2' id='sekunder2' class='date-picker form-control col-md-12 col-xs-12' maxlength='4' type='text'>"+
             "</div>"+
             "<div class='col-md-2 col-sm-2 col-xs-12'>"+
-              "<select class='form-control' name='s_sekunder2'><option disabled='' selected=''>Sekunder 2</option></select>"+
+              "<select class='form-control' name='s_sekunder2'><option disabled='' selected=''>Sekunder 1</option>"+pilihan_uom+"</select>"+
             "</div>"+
             "<div class='col-md-1 col-sm-1 col-xs-12'>"+
               "<input name='primer' id='primer' class='date-picker form-control maxlength='4' col-md-12 col-xs-12' type='text'>"+
@@ -740,7 +880,7 @@
 
   var kemaseksis = '';
   for(var i = 0; i < Object.keys(kemas).length; i++){
-  kemaseksis += '<option value="'+idkemas[i][i]+'">'+' ('+kemas6[i][i]+''+kemas7[i][i]+' '+kemas4[i][i]+''+kemas4[i][i]+' '+kemas2[i][i]+''+kemas3[i][i]+' '+kemas[i][i]+''+kemas1[i][i]+')</option>';
+  kemaseksis += '<option value="'+idkemas[i][i]+'">'+' ('+kemas6[i][i]+''+kemas7[i][i]+' X '+kemas4[i][i]+''+kemas4[i][i]+' X '+kemas2[i][i]+''+kemas3[i][i]+' X '+kemas[i][i]+''+kemas1[i][i]+')</option>';
   }
 
   function pilih(){
@@ -755,7 +895,8 @@
             '<select name="data_eksis" class="form-control" id="txtOccupation" >'+
             '<option value="" readonly selected>-->Select One<--</option>'+pilihan+'</select>'+
           "</div>"+
-        "</div>"+"<div class='form-group'><hr>"+
+        "</div>"+"<div class='form-group'>"+
+        "<hr>"+
       "</di>"
     }
   }
@@ -769,71 +910,20 @@
         "<div class='form-group'>"+
           "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>Configuration</label>"+
           "<div class='col-md-9 col-sm-10 col-xs-12'>"+
-            '<select name="data_eksis" class="form-control items" id="eksis" ><option value="" readonly selected>-->Select One<--</option>'+kemaseksis+'</select>'+
+            '<select name="data_eksis" class="form-control" id="eksis" >'+
+              '<option value="" readonly selected>-->Select One<--</option>'+
+              kemaseksis+
+            '</select>'+
           "</div>"+
         "</div>"+"<div class='form-group'>"+
         "<hr>"+
       "</div>"
     }
   }
-
-  function template(){
-    var template = document.getElementById('radio_temp')
-    if(template.checked != true){
-      document.getElementById('tampilkan').innerHTML = "";
-    }else{
-      document.getElementById('tampilkan').innerHTML =
-      "<hr>"+
-      "<div class='form-group row'>"+
-      "  <label class='control-label col-md-2 col-sm-2 col-xs-12'>Launch</label>"+
-      "  <div class='col-md-4 col-sm-4 col-xs-12'>"+
-      "    <select class='form-control form-control-line' name='launch'>"+
-      "      <option disabled='' selected=''>-- Launch Deadline --</option>"+
-      "      <option>Q1</option>"+
-      "      <option>Q2</option>"+
-      "      <option>Q3</option>"+
-      "      <option>Q4</option>"+
-      "      <option>S1</option>"+
-      "      <option>S2</option>"+
-      "    </select>"+
-      "  </div>"+
-      "  <div class='col-md-4 col-sm-4 col-xs-12'>"+
-      "    <input type='number' placeholder='Years' name='tahun' id='tahun' class='form-control col-md-12 col-xs-12'>"+
-      "  </div>"+
-      "</div>"+
-      "<div class='ln_solid'></div>"
-    }
-  }
-
-  function kalender(){
-    var baru = document.getElementById('radio_cal')
-    if(baru.checked != true){
-      document.getElementById('tampilkan').innerHTML = "";
-    }else{
-      document.getElementById('tampilkan').innerHTML =
-      "<hr>"+
-      "<div class='form-group row'>"+
-      "  <label class='control-label col-md-2 col-sm-2 col-xs-12'>Launch</label>"+
-      "  <div class='col-md-9 col-sm-9 col-xs-12'>"+
-      "    <input type='date' name='tanggal' id='tanggal' class='form-control col-md-12 col-xs-12'>"+
-      "  </div>"+
-      "</div>"+
-      "<div class='ln_solid'></div>"
-    }
-  }
 </script>
 
 <script type="text/javascript">
-  $('select').select2({
-    placeholder: '-->Select One<--',
-    allowClear: true
-  });
-
   $(document).ready(function(){
-    $('#bpom').select2();
-    $('#olahan').select2();
-    $('#katbpom').select2();
-      // Get Pangan
       $('#bpom').on('change', function(){
         var myId = $(this).val();
           if(myId){
@@ -844,6 +934,7 @@
               beforeSend: function(){ 
                   $('#loader').css("visibility", "visible");
               },
+
               success:function(data){
                 $('#katbpom').empty();
                 $.each(data, function(key, value){
@@ -854,8 +945,7 @@
                 $('#loader').css("visibility","hidden");
               }
             });
-          }
-          else{
+          }else{
             $('#katbpom').empty();
           }
       });
@@ -870,6 +960,7 @@
               beforeSend: function(){
                 $('#loader').css("visibility", "visible");
               },
+
               success:function(data){
                 $('#bpom').empty();
                 $.each(data, function(key, value){
@@ -880,8 +971,7 @@
                 $('#loader').css("visibility","hidden");
               }
             });
-          }
-          else{
+          }else{
             $('#bpom').empty();
           }
       });
@@ -897,6 +987,7 @@
             beforeSend: function(){
               $('#loader').css("visibility", "visible");
             },
+
             success:function(data){
               $('#olahan').empty();
               $.each(data, function(key, value){
@@ -907,31 +998,10 @@
               $('#loader').css("visibility","hidden");
             }
           });
-        }
-        else{
+        }else{
           $('#katbpom').empty();
         }
       });
   });
 </script>
-<script>
-  $(document).ready(function() {
-    $('#tabledata').on('click', 'tr a', function(e) {
-      e.preventDefault();
-      $(this).parents('tr').remove();
-    });
-
-    var i = 1;
-    $("#add_data").click(function() {
-      $('#addrow' + i).html( "<td><input type='number' name='forecast[]' value='0' class='form-control'></td><td><select name='satuan[]'  class='form-control items'>"+
-        "<option value='1st Month'>1st Month</option>"+
-        "<option value='2nd Month'>2nd Month</option>"+
-        "<option value='3rd Month'>3rd Month</option>"+
-      "</select></td><td><a hreaf='' class='btn btn-danger'><li class='fa fa-trash'></li> Delete</a></td>");
-      $('#tabledata').append('<tr id="addrow' + (i + 1) + '"></tr>');
-      i++;
-    });
-  });
-</script>
-<script src="{{ asset('js/asrul.js') }}"></script>
 @endsection

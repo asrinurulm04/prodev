@@ -8,7 +8,7 @@
       <div class="x_title">
         <h4><li class="fa fa-clone"> FORMULA Yang Dapat Dijadikan Template</h4>
       </div> 
-      <table class="Table table-striped table-advance table-hover" id="datatable">
+      <table class=" table-bordered table-striped table-advance table-hover" id="datatable">
         <thead>
           <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
             <th>Nama Produk</th>
@@ -44,7 +44,7 @@
                 @if ($formula->vv == '') <span class="label label-primary">Belum Diajukan</span> @endif  
               </td>
               <td class="text-center">
-                <a class="btn btn-warning btn-sm" href="{{ route('insertTemplate',['ftujuan'=>$for,'fasal'=>$formula->id]) }}" onclick="return confirm('Jadikan Template ?')"><i class="fa fa-download"></i> Jadikan Template</a>
+                <a class="btn btn-warning btn-sm" href="{{ route('insertTemplate',['ftujuan'=>$for,$pkp,$formula->id]) }}" onclick="return confirm('Jadikan Template ?')"><i class="fa fa-download"></i> Jadikan Template</a>
               </td>
             </tr>
             @endif
@@ -69,7 +69,7 @@
                 @if ($formula->vv == '') <span class="label label-primary">Belum Diajukan</span> @endif
               </td>
               <td class="text-center">
-                <a class="btn btn-warning btn-sm" href="{{ route('insertTemplate',['ftujuan'=>$for,'fasal'=>$formula->id]) }}" onclick="return confirm('Jadikan Template ?')"><i class="fa fa-download"></i> Jadikan Template</a>
+                <a class="btn btn-warning btn-sm" href="{{ route('insertTemplate',['ftujuan'=>$for,$pkp,$formula->id]) }}" onclick="return confirm('Jadikan Template ?')"><i class="fa fa-download"></i> Jadikan Template</a>
               </td>
             </tr>
             @endif
@@ -100,7 +100,7 @@
                 @if ($formula->vv == '') <span class="label label-primary">Belum Diajukan</span> @endif
               </td>
               <td class="text-center">
-                <a class="btn btn-warning btn-sm" href="{{ route('insertTemplate',['ftujuan'=>$for,'fasal'=>$formula->id]) }}" onclick="return confirm('Jadikan Template ?')"><i class="fa fa-download"></i> Jadikan Template</a>
+                <a class="btn btn-warning btn-sm" href="{{ route('insertTemplate',['ftujuan'=>$for,$pkp,$formula->id]) }}" onclick="return confirm('Jadikan Template ?')"><i class="fa fa-download"></i> Jadikan Template</a>
               </td>
             </tr>
             @endif
@@ -125,7 +125,7 @@
                 @if ($formula->vv == '') <span class="label label-primary">Belum Diajukan</span> @endif
               </td>
               <td class="text-center">
-                <a class="btn btn-warning btn-sm" href="{{ route('insertTemplate',['ftujuan'=>$for,'fasal'=>$formula->id]) }}" onclick="return confirm('Jadikan Template ?')"><i class="fa fa-download"></i> Jadikan Template</a>
+                <a class="btn btn-warning btn-sm" href="{{ route('insertTemplate',['ftujuan'=>$for,$pkp,$formula->id]) }}" onclick="return confirm('Jadikan Template ?')"><i class="fa fa-download"></i> Jadikan Template</a>
               </td>
             </tr>
             @endif
@@ -134,7 +134,7 @@
         @endif
         </tbody>        
       </table>
-      <a href="{{ route('step2',[$ftujuan,$for]) }}" class="btn btn-danger btn-sm" ><i class="fa fa-arrow-left"></i> Back</a>
+      <a href="{{ route('step2',[$for,$pkp,$pro]) }}" class="btn btn-danger btn-sm" ><i class="fa fa-arrow-left"></i> Back</a>
     </div>
   </div>
 </div>

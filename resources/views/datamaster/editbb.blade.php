@@ -274,7 +274,6 @@
           <option value="{{$vitbb->id_satuan_vitB2}}" readonly>{{$vitbb->satuanVitB2->satuan}}</option>
         </select>
       </div>
-      
     </div>
     <div class="form-group">
       <label  class="control-label col-md-1 col-sm-1 col-xs-12"></label>
@@ -296,7 +295,6 @@
           <option value="{{$vitbb->id_satuan_vitB5}}" readonly>{{$vitbb->satuanVitB5->satuan}}</option>
         </select>
       </div>
-      
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Vitamin B6</label>
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" value="{{$vitbb->vitB6}}" class="form-control" name="vitB6" id="vitB6">

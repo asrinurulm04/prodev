@@ -140,9 +140,7 @@
 @section('fs')
 
 @if(auth()->user()->role->namaRule === 'finance')
-  @if($dF->status_finance =='belum selesai')
-      
-  @elseif($dF->status_finance =='selesai')
+  @if($dF->status_finance =='selesai')
     @if($dF->ststus_feasibility !='selesai')
       @foreach($dataF as $dF)
       <form id="demo-form2" action="{{route('kirimWB',['id_feasibility' => $dF->id_feasibility, 'id_formula' => $dF->id_formula])}}" method="post">

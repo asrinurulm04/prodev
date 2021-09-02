@@ -199,47 +199,36 @@
             </thead>
             <tbody>
               @php $no = 0; @endphp
-              @foreach($sample as $pdf)
-              @if($pdf->status=='final')
+              @foreach($sample as $wb)
+              @if($wb->status=='final')
               <tr style="background-color:springgreen">
-              @elseif($pdf->vv=='reject')
+              @elseif($wb->vv=='reject')
               <tr style="background-color:slategray;color:white">
               @else
               <tr>
               @endif
                 <td class="text-center">{{++$no}}</td>
-                <td>{{ $pdf->versi }}.{{ $pdf->turunan }}</td>
+                <td>{{ $wb->versi }}.{{ $wb->turunan }}</td>
                 <td>
-                  @if($pdf->kategori!='fg')
-                  {{$pdf->kategori}}
-                  @elseif($pdf->kategori=='fg')
-                  Finished Good
+                  @if($wb->kategori!='fg') {{$wb->kategori}}
+                  @elseif($wb->kategori=='fg') Finished Good
                   @endif
                 </td>
-                <td>{{ $pdf->formula}}</td>
+                <td>{{ $wb->formula}}</td>
                 <td class="text-center" width="10%">
-                  @if ($pdf->vv == 'proses')
-                  <span class="label label-warning">Proses</span>                        
-                  @endif
-                  @if ($pdf->vv == 'reject')
-                  <span class="label label-danger">Rejected</span>                        
-                  @endif 
-                  @if ($pdf->vv == 'approve')
-                  <span class="label label-success">Approved</span>                        
-                  @endif 
-                  @if ($pdf->vv == 'final')
-                  <span class="label label-info">Final Approved</span>                        
-                  @endif 
-                  @if ($pdf->vv == '')
-                  <span class="label label-primary">Belum Diajukan</span>                        
+                  @if($wb->vv == 'proses') <span class="label label-warning">Proses</span>    
+                  @elseif($wb->vv == 'reject') <span class="label label-danger">Rejected</span>  
+                  @elseif($wb->vv == 'approve') <span class="label label-success">Approved</span>    
+                  @elseif($wb->vv == 'final') <span class="label label-info">Final Approved</span>      
+                  @elseif($wb->vv == '') <span class="label label-primary">Belum Diajukan</span>                        
                   @endif   
                 </td>
-                <td class="text-center">{{$pdf->catatan_rd}}</td>
-                <td class="text-center">{{$pdf->catatan_pv}}</td>
+                <td class="text-center">{{$wb->catatan_rd}}</td>
+                <td class="text-center">{{$wb->catatan_pv}}</td>
                 <td class="text-center">
                 @if(auth()->user()->departement_id == '3' || auth()->user()->departement_id == '4' || auth()->user()->departement_id == '5' || auth()->user()->departement_id == '6')
                   {{csrf_field()}}
-                  <a class="btn btn-info btn-sm" href="{{ route('formula.detail',[$pdf->workbook_pdf_id,$pdf->id]) }}" data-toggle="tooltip" title="Show"><i style="font-size:12px;" class="fa fa-eye"></i></a>
+                  <a class="btn btn-info btn-sm" href="{{ route('formula.detail',[$wb->id,$id->id_project_pdf,$wb->workbook_pdf_id]) }}" data-toggle="tooltip" title="Show"><i style="font-size:12px;" class="fa fa-eye"></i></a>
                   <a class="btn btn-success btn-sm" data-toggle="modal" data-target="#update" data-toggle="tooltip" title="Updata"><i style="font-size:12px;" class="fa fa-arrow-circle-up"></i></a>
                   <!-- UpVersion -->
                   <div class="modal fade" id="update" role="dialog" aria-labelledby="hm" aria-hidden="true">
@@ -250,20 +239,20 @@
                           <h4 class="modal-title" id="hm" style="font-weight: bold;color:black;"> Update Data</h4>
                         </div>
                         <div class="modal-body">
-                          <a class="btn btn-primary btn-sm" href="{{ route('upversion',[$pdf->id,$pdf->workbook_pdf_id]) }}" onclick="return confirm('Up Version ?')"><i style="font-size:12px;" class="fa fa-arrow-circle-up"></i> Up Version</a><br><br>
-                          <a class="btn btn-warning btn-sm" href="{{ route('upversion2',[$pdf->id,$pdf->versi]) }}" onclick="return confirm('Up Sub Version ?')"><i style="font-size:12px;" class="fa fa-arrow-circle-up"></i> Up Sub Version</a>
+                          <a class="btn btn-primary btn-sm" href="{{ route('upversion',[$wb->id,$id->id_project_pdf,$wb->workbook_pdf_id]) }}" onclick="return confirm('Up Version ?')"><i style="font-size:12px;" class="fa fa-arrow-circle-up"></i> Up Version</a><br><br>
+                          <a class="btn btn-warning btn-sm" href="{{ route('upversion2',[$wb->id,$id->id_project_pdf,$wb->workbook_pdf_id]) }}" onclick="return confirm('Up Sub Version ?')"><i style="font-size:12px;" class="fa fa-arrow-circle-up"></i> Up Sub Version</a>
                         </div
                         <div class="modal-footer">
                         </div>
                       </div>
                     </div>
                   </div>
-                  @if($pdf->status!='proses')
-                  <a class="btn btn-primary btn-sm" href="{{ route('step1_pdf',[$pdf->workbook_pdf_id,$pdf->id]) }}"><i style="font-size:12px;" class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a>
-                  <a class="btn btn-dark btn-sm" href="{{ route('ajukanvp',[$pdf->workbook_pdf_id,$pdf->id]) }}" onclick="return confirm('Ajukan Formula Kepada PV?')" data-toggle="tooltip" title="Ajukan PV"><li class="fa fa-paper-plane"></li></a>
-                  @elseif($pdf->vv == 'approve' || $pdf->vv == 'proses')
-                    <a class="btn btn-primary btn-sm" href="{{ route('panel',[$pdf->workbook_pdf_id,$pdf->id]) }}" data-toggle="tooltip" title="Lanjutkan Panel"><li class="fa fa-glass"></li></a>
-                    <a class="btn btn-warning btn-sm" href="{{ route('st',[$pdf->workbook_pdf_id,$pdf->id]) }}" data-toggle="tooltip" title="Lanjutkan Storage"><li class="fa fa-flask"></li></a>
+                  @if($wb->status!='proses')
+                  <a class="btn btn-primary btn-sm" href="{{ route('step1_pdf',[$wb->workbook_pdf_id,$wb->id]) }}"><i style="font-size:12px;" class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a>
+                  <a class="btn btn-dark btn-sm" href="{{ route('ajukanvp',[$wb->id,$wb->workbook_pdf_id]) }}" onclick="return confirm('Ajukan Formula Kepada PV?')" data-toggle="tooltip" title="Ajukan PV"><li class="fa fa-paper-plane"></li></a>
+                  @elseif($wb->vv == 'approve' || $wb->vv == 'proses')
+                    <a class="btn btn-primary btn-sm" href="{{ route('panel',[$wb->id,$id->id_project_pdf,$wb->workbook_pdf_id]) }}" data-toggle="tooltip" title="Lanjutkan Panel"><li class="fa fa-glass"></li></a>
+                    <a class="btn btn-warning btn-sm" href="{{ route('st',[$wb->id,$id->id_project_pdf,$wb->workbook_pdf_id]) }}" data-toggle="tooltip" title="Lanjutkan Storage"><li class="fa fa-flask"></li></a>
                   @endif
                 @endif
                 </td>
