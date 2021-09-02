@@ -101,7 +101,7 @@
       <table id="datatable"  class="table table-striped table-bordered ex" style="width:100%" id="ex">
         <thead>
           <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
-            <th>No</th>
+            <th class="text-center">No</th>
             <th>Project Name</th>
             <th>Brand</th>
             <th class="text-center">PV</th>
@@ -117,74 +117,65 @@
         <tbody> 
           @php $no = 0; @endphp
           @foreach($pkp as $pkp)
-          @if($pkp->status_freeze=='inactive')
             @if($pkp->tujuankirim2=="1")
-              @if($pkp->datapkpp->departement->dept==Auth::user()->departement->dept ||  $pkp->datapkpp->departement2->dept==Auth::user()->departement->dept)
+              @if($pkp->departement->dept==Auth::user()->departement->dept ||  $pkp->departement2->dept==Auth::user()->departement->dept)
               <tr>
-                <td class="text-center">{{ ++$no}}</td>
+                <td class="text-center">{{{ ++$no}}}</td>
                 <td>{{$pkp->pkp_number}}{{$pkp->ket_no}}</td>
                 <td>{{$pkp->id_brand}}</td>
                 <td>@if($pkp->perevisi!=null){{$pkp->perevisi2->name}}@endif</td>
                 <td class="text-center">{{$pkp->tgl_kirim}}</td>
                 <td>
-                  @if($pkp->status_project=='sent')
+                  @if($pkp->status_pkp=='sent')
                     @if($pkp->status_terima2=='proses')
-                    New PKP - {{$pkp->datapkpp->departement2->dept}} ({{$pkp->datapkpp->departement2->users->name}})
+                      New PKP - {{$pkp->departement2->dept}} ({{$pkp->departement2->users->name}})
                     @elseif($pkp->status_terima2=='terima')
-                    Approve - {{$pkp->datapkpp->departement2->dept}} ({{$pkp->datapkpp->departement2->users->name}})
+                      Approve - {{$pkp->departement2->dept}} ({{$pkp->departement2->users->name}})
                     @endif
-                  @elseif($pkp->status_project=='revisi')
+                  @elseif($pkp->status_pkp=='revisi')
                   <span class="label label-danger" style="color:white">Revision proses</span>
-                  @elseif($pkp->status_project=='proses')
+                  @elseif($pkp->status_pkp=='proses')
                     @if($pkp->userpenerima2!=NULL)
-                    Sent to ({{$pkp->datapkpp->users2->name}})
+                      Sent to ({{$pkp->users2->name}})
                     @elseif($pkp->userpenerima2==NULL)
                       @if($pkp->status_terima2=='proses')
-                      New PKP - {{$pkp->datapkpp->departement2->dept}} ({{$pkp->datapkpp->departement2->users->name}})
+                        New PKP - {{$pkp->departement2->dept}} ({{$pkp->departement2->users->name}})
                       @elseif($pkp->status_terima2=='terima')
-                      Approve - {{$pkp->datapkpp->departement2->dept}} ({{$pkp->datapkpp->departement2->users->name}})
+                        Approve - {{$pkp->departement2->dept}} ({{$pkp->departement2->users->name}})
                       @endif
                     @endif
-                  @elseif($pkp->status_project=='close')
-                  Project has finished
+                  @elseif($pkp->status_pkp=='close')
+                    Project has finished
                   @endif
                 </td>
                 <td>
                   @if($pkp->tujuankirim!=1)
-                    @if($pkp->status_project=='sent')
+                    @if($pkp->status_pkp=='sent')
                       @if($pkp->status_terima=='proses')
-                      New PKP - {{$pkp->datapkpp->departement->dept}} ({{$pkp->datapkpp->departement->users->name}})
+                      New PKP - {{$pkp->departement->dept}} ({{$pkp->departement->users->name}})
                       @elseif($pkp->status_terima=='terima')
-                      Approve - {{$pkp->datapkpp->departement->dept}} ({{$pkp->datapkpp->departement->users->name}})
+                      Approve - {{$pkp->departement->dept}} ({{$pkp->departement->users->name}})
                       @endif
-                    @elseif($pkp->status_project=='revisi')
+                    @elseif($pkp->status_pkp=='revisi')
                     <span class="label label-danger" style="color:white">Revision proses</span>
-                    @elseif($pkp->status_project=='proses')
+                    @elseif($pkp->status_pkp=='proses')
                       @if($pkp->userpenerima!=NULL)
-                      Sent to ({{$pkp->datapkpp->users1->name}}) 
+                      Sent to ({{$pkp->users1->name}}) 
                       @elseif($pkp->userpenerima==NULL)
                       @if($pkp->status_terima=='proses')
-                      New PKP - {{$pkp->datapkpp->departement->dept}} ({{$pkp->datapkpp->departement->users->name}})
+                      New PKP - {{$pkp->departement->dept}} ({{$pkp->departement->users->name}})
                       @elseif($pkp->status_terima=='terima')
-                      Approve - {{$pkp->datapkpp->departement->dept}} ({{$pkp->datapkpp->departement->users->name}})
+                      Approve - {{$pkp->departement->dept}} ({{$pkp->departement->users->name}})
                       @endif
                       @endif 
-                    @elseif($pkp->status_project=='close')
+                    @elseif($pkp->status_pkp=='close')
                     Project has finished
                     @endif
                   @else
                   No Prosess
                   @endif
                 </td>
-                <td class="text-center">
-                  @if($pkp->prioritas==1)
-                  <span class="label label-primary" style="color:white">prioritas 1</span>
-                  @elseif($pkp->prioritas==2)
-                  <span class="label label-warning" style="color:white">prioritas 2</span>
-                  @elseif($pkp->prioritas==3)
-                  <span class="label label-success" style="color:white">prioritas 3</span>
-                  @endif
-                </td>
+                <td class="text-center">{{$pkp->prioritas}}</td>
                 <td class="text-center">
                   @if($pkp->launch!=null)
                   {{$pkp->launch}} {{$pkp->years}}
@@ -192,16 +183,111 @@
                   {{$pkp->tgl_launch}}
                   @endif
                 </td>
-                @if($pkp->status_project=='sent')
                 <td class="text-center">
+                  @if($pkp->workbook==0)a
                   <a class="btn btn-info btn-sm" href="{{ Route('daftarpkp',$pkp->id_project) }}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
+                  @elseif($pkp->workbook>=1)b
+                  <a class="btn btn-primary btn-sm" href="{{ Route('daftarpkp',$pkp->id_project) }}" data-toggle="tooltip" title="Show Workbook"><i class="fa fa-book"></i></a>
+                  @endif
                 </td>
                 <td>
-                  @if($pkp->tujuankirim!=1)
-                    @if($pkp->status_freeze=="inactive")
-                      @if($pkp->status_freeze=='inactive')
+                  @if($pkp->status_freeze=='inactive')
+                    @if($pkp->tujuankirim!=1)
+                      @if($pkp->status_pkp=='sent' || $pkp->status_pkp=='proses')
                         @if($pkp->pengajuan_sample=='proses')
-                        <?php
+                          <?php
+                            $awal  = date_create( $pkp->waktu );
+                            $akhir = date_create(); // waktu sekarang
+                            if($akhir<=$awal){
+                              $diff  = date_diff( $akhir, $awal );
+                              echo ' You Have ';
+                              echo $diff->m . ' Month, ';
+                              echo $diff->d . ' Days, ';
+                              echo $diff->h . ' Hours, ';
+                              echo ' To sending Sample ';
+                            }else{
+                              echo ' Your Time Is Up ';
+                            }
+                          ?>
+                        @elseif($pkp->pengajuan_sample=='sent')
+                          Sample has been sent to PV
+                        @elseif($pkp->pengajuan_sample=='reject')
+                          Sample rejected by PV
+                        @elseif($pkp->pengajuan_sample=='approve')
+                          <span class="label label-success" style="color:white">sample approved</span>
+                        @endif
+                      @elseif($pkp->status_pkp=='revisi')<span class="label label-danger" style="color:white">Revision proses</span>
+                      @elseif($pkp->status_pkp=='close')Project Finish
+                      @endif
+                    @elseif($pkp->tujuankirim==1) 
+                      No Prosess
+                    @endif
+                  @elseif($pkp->status_freeze=='active') 
+                    Project Is Inactive
+                  @endif
+                </td>
+              </tr>
+              @endif
+            @elseif($pkp->tujuankirim2==0)  
+              @if($pkp->departement->dept==Auth::user()->departement->dept )
+              <tr>
+                <td class="text-center">{{ ++$no}}</td>
+                <td>{{$pkp->pkp_number}}{{$pkp->ket_no}}</td>
+                <td>{{$pkp->id_brand}}</td>
+                <td>
+                  @if($pkp->perevisi!=null){{$pkp->perevisi2->name}}
+                  @elseif($pkp->perevisi==null){{$pkp->author1->name}}
+                  @endif
+                </td>
+                <td class="text-center">{{$pkp->tgl_kirim}}</td>
+                <td>No Prosess</td>
+                <td>
+                  @if($pkp->tujuankirim!=1)
+                    @if($pkp->status_pkp=='sent')
+                      @if($pkp->status_terima=='proses')
+                      New PKP - {{$pkp->departement->dept}} ({{$pkp->departement->users->name}})
+                      @elseif($pkp->status_terima=='terima')
+                      Approve - {{$pkp->departement->dept}} ({{$pkp->departement->users->name}})
+                      @endif
+                    @elseif($pkp->status_pkp=='revisi')
+                    <span class="label label-danger" style="color:white">Revision proses</span>
+                    @elseif($pkp->status_pkp=='proses')
+                      @if($pkp->userpenerima!=NULL)
+                      Sent to ({{$pkp->users1->name}}) 
+                      @elseif($pkp->userpenerima==NULL)
+                        @if($pkp->status_terima=='proses')
+                        New PKP - {{$pkp->departement->dept}} ({{$pkp->departement->users->name}})
+                        @elseif($pkp->status_terima=='terima')
+                        Approve - {{$pkp->departement->dept}} ({{$pkp->departement->users->name}})
+                        @endif
+                      @endif
+                    @elseif($pkp->status_pkp=='close')
+                    Project has finished
+                    @endif
+                  @else
+                  No Prosess
+                  @endif
+                </td>
+                <td class="text-center">{{$pkp->prioritas}}</td>
+                <td class="text-center">
+                  @if($pkp->launch!=null)
+                  {{$pkp->launch}} {{$pkp->years}}
+                  @else
+                  {{$pkp->tgl_launch}}
+                  @endif
+                </td>
+                <td class="text-center">
+                  @if($pkp->workbook==0)a
+                  <a class="btn btn-info btn-sm" href="{{ Route('daftarpkp',$pkp->id_project) }}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
+                  @elseif($pkp->workbook>=1)b
+                  <a class="btn btn-primary btn-sm" href="{{ Route('daftarpkp',$pkp->id_project) }}" data-toggle="tooltip" title="Show Workbook"><i class="fa fa-book"></i></a>
+                  @endif
+                </td>
+                <td>
+                  @if($pkp->status_freeze=="inactive")
+                    @if($pkp->status_pkp=='sent' || $pkp->status_pkp=='proses')
+                      @if($pkp->pengajuan_sample=='proses')
+                      <?php
                           $awal  = date_create( $pkp->waktu );
                           $akhir = date_create(); // waktu sekarang
                           if($akhir<=$awal){
@@ -214,52 +300,6 @@
                           }else{
                             echo ' Your Time Is Up ';
                           }
-                        ?>
-                        @elseif($pkp->pengajuan_sample=='sent')
-                        Sample has been sent to PV
-                        @elseif($pkp->pengajuan_sample=='reject')
-                        Sample rejected by PV
-                        @elseif($pkp->pengajuan_sample=='approve')
-                        <span class="label label-success" style="color:white">sample approved</span>
-                        @endif
-                      @elseif($pkp->status_freeze=='active')
-                        Project Is Inactive
-                      @endif
-                    @elseif($pkp->status_freeze=="active")
-                    Project Is Inactive
-                    @endif
-                  @elseif($pkp->tujuankirim==1)
-                  No Prosess
-                  @endif
-                </td>
-                @elseif($pkp->status_project=='revisi')
-                <td class="text-center"><a class="btn btn-info btn-sm" href="{{ Route('daftarpkp',$pkp->id_project) }}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a></td>
-                <td><span class="label label-danger" style="color:white">Revision proses</span></td>
-                @elseif($pkp->status_project=='proses')
-                <td class="text-center">
-                  @if($pkp->workbook==0)
-                  <a class="btn btn-info btn-sm" href="{{ Route('daftarpkp',$pkp->id_project) }}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
-                  @elseif($pkp->workbook>=1)
-                  <a class="btn btn-primary btn-sm" href="{{ Route('daftarpkp',$pkp->id_project) }}" data-toggle="tooltip" title="Show Workbook"><i class="fa fa-book"></i></a>
-                  @endif
-                </td>
-                <td>
-                  @if($pkp->tujuankirim!=1)
-                    @if($pkp->status_freeze=='inactive')
-                      @if($pkp->pengajuan_sample=='proses')
-                      <?php
-                        $awal  = date_create( $pkp->waktu );
-                        $akhir = date_create(); // waktu sekarang
-                        if($akhir<=$awal){
-                          $diff  = date_diff( $akhir, $awal );
-                          echo ' You Have ';
-                          echo $diff->m . ' Month, ';
-                          echo $diff->d . ' Days, ';
-                          echo $diff->h . ' Hours, ';
-                          echo ' To sending Sample ';
-                        }else{
-                          echo ' Your Time Is Up ';
-                        }
                       ?>
                       @elseif($pkp->pengajuan_sample=='sent')
                       Sample has been sent to PV
@@ -268,161 +308,16 @@
                       @elseif($pkp->pengajuan_sample=='approve')
                       <span class="label label-success" style="color:white">sample approved</span>
                       @endif
-                    @elseif($pkp->status_freeze=='active')
-                      Project Is Inactive
-                    @endif
-                  @else
-                  No Prosess
-                  @endif
-                </td>
-                @elseif($pkp->status_project=='close')
-                <td class="text-center">
-                <a class="btn btn-info btn-sm" href="{{ Route('daftarpkp',$pkp->id_project) }}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a></td>
-                <td>Project Finish</td>
-              </tr>
-              @endif
-              @endif
-            @elseif($pkp->tujuankirim2==0)  
-              @if($pkp->departement->dept==Auth::user()->departement->dept )
-              <tr>
-                <td>{{ ++$no}}</td>
-                <td>{{$pkp->pkp_number}}{{$pkp->ket_no}}</td>
-                <td>{{$pkp->id_brand}}</td>
-                <td>
-                  @if($pkp->perevisi!=null){{$pkp->perevisi2->name}}
-                  @elseif($pkp->perevisi==null){{$pkp->author1->name}}
-                  @endif
-                </td>
-                <td class="text-center">{{$pkp->tgl_kirim}}</td>
-                <td>No Prosess</td>
-                <td>
-                  @if($pkp->tujuankirim!=1)
-                    @if($pkp->status_project=='sent')
-                      @if($pkp->status_terima=='proses')
-                      New PKP - {{$pkp->departement->dept}} ({{$pkp->departement->users->name}})
-                      @elseif($pkp->status_terima=='terima')
-                      Approve - {{$pkp->departement->dept}} ({{$pkp->departement->users->name}})
-                      @endif
-                    @elseif($pkp->status_project=='revisi')
-                    <span class="label label-danger" style="color:white">Revision proses</span>
-                    @elseif($pkp->status_project=='proses')
-                      @if($pkp->userpenerima!=NULL)
-                      Sent to ({{$pkp->datapkpp->users1->name}}) 
-                      @elseif($pkp->userpenerima==NULL)
-                        @if($pkp->status_terima=='proses')
-                        New PKP - {{$pkp->departement->dept}} ({{$pkp->departement->users->name}})
-                        @elseif($pkp->status_terima=='terima')
-                        Approve - {{$pkp->departement->dept}} ({{$pkp->departement->users->name}})
-                        @endif
-                      @endif
-                    @elseif($pkp->status_project=='close')
-                    Project has finished
-                    @endif
-                  @else
-                  No Prosess
-                  @endif
-                </td>
-                <td class="text-center">
-                  @if($pkp->prioritas==1)
-                  <span class="label label-primary" style="color:white">prioritas 1</span>
-                  @elseif($pkp->prioritas==2)
-                  <span class="label label-warning" style="color:white">prioritas 2</span>
-                  @elseif($pkp->prioritas==3)
-                  <span class="label label-success" style="color:white">prioritas 3</span>
-                  @endif
-                </td>
-                <td class="text-center">
-                  @if($pkp->launch!=null)
-                  {{$pkp->launch}} {{$pkp->years}}
-                  @else
-                  {{$pkp->tgl_launch}}
-                  @endif
-                </td>
-                @if($pkp->status_project=='sent')
-                <td class="text-center">
-                  <a class="btn btn-info btn-sm" href="{{ Route('daftarpkp',$pkp->id_project) }}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
-                </td>
-                <td>
-                  @if($pkp->status_freeze=="inactive")
-                    @if($pkp->status_freeze=='inactive')
-                      @if($pkp->pengajuan_sample=='proses')
-                      <?php
-                        $awal  = date_create( $pkp->waktu );
-                        $akhir = date_create(); // waktu sekarang
-                        if($akhir<=$awal){
-                          $diff  = date_diff( $akhir, $awal );
-                          echo ' You Have ';
-                          echo $diff->m . ' Month, ';
-                          echo $diff->d . ' Days, ';
-                          echo $diff->h . ' Hours, ';
-                          echo ' To sending Sample ';
-                        }else{
-                          echo ' Your Time Is Up ';
-                        }
-                      ?>
-                      @elseif($pkp->pengajuan_sample=='sent')
-                      Sample has been sent to PV
-                      @elseif($pkp->pengajuan_sample=='reject')
-                      Sample rejected by PV
-                      @elseif($pkp->pengajuan_sample=='approve')
-                      <span class="label label-success" style="color:white">sample approved</span>
-                      @endif
-                    @elseif($pkp->status_freeze=='active')
-                      Project Is Inactive
+                    @elseif($pkp->status_pkp=='revisi')<span class="label label-danger" style="color:white">Revision proses</span>
+                    @elseif($pkp->status_pkp=='close')Project Finish
                     @endif
                   @elseif($pkp->status_freeze=="active")
                   Project Is Inactive
                   @endif
                 </td>
-                @elseif($pkp->status_project=='revisi')
-                <td class="text-center"><a class="btn btn-info btn-sm" href="{{ Route('daftarpkp',$pkp->id_project) }}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a></td>
-                <td><span class="label label-danger" style="color:white">Revision proses</span></td>
-                @elseif($pkp->status_project=='proses')
-                <td class="text-center">
-                  @if($pkp->workbook!='1')
-                  <a class="btn btn-info btn-sm" href="{{ Route('daftarpkp',$pkp->id_project) }}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
-                  @elseif($pkp->workbook=='0')
-                  <a class="btn btn-primary btn-sm" href="{{ Route('daftarpkp',$pkp->id_project) }}" data-toggle="tooltip" title="Show Workbook"><i class="fa fa-book"></i></a>
-                  @endif
-                </td>
-                <td>
-                  @if($pkp->status_freeze=='inactive')
-                    @if($pkp->pengajuan_sample=='proses')
-                    <?php
-                      $awal  = date_create( $pkp->waktu );
-                      $akhir = date_create(); // waktu sekarang
-                      if($akhir<=$awal){
-                        $diff  = date_diff( $akhir, $awal );
-                        echo ' You Have ';
-                        echo $diff->m . ' Month, ';
-                        echo $diff->d . ' Days, ';
-                        echo $diff->h . ' Hours, ';
-                        echo ' To sending Sample ';
-                      }else{
-                        echo ' Your Time Is Up ';
-                      }
-                    ?>
-                    @elseif($pkp->pengajuan_sample=='sent')
-                    Sample has been sent to PV
-                    @elseif($pkp->pengajuan_sample=='reject')
-                    Sample rejected by PV
-                    @elseif($pkp->pengajuan_sample=='approve')
-                    <span class="label label-success" style="color:white">sample approved</span>
-                    @endif
-                    @elseif($pkp->status_freeze=='active')
-                      Project Is Inactive
-                    @endif
-                </td>
-                @elseif($pkp->status_project=='close')
-                <td class="text-center">
-                <a class="btn btn-info btn-sm" href="{{ Route('daftarpkp',$pkp->id_project) }}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
-                <button class="btn btn-success btn-sm" data-toggle="tooltip" title="Project Finish" disabled><li class="fa fa-smile-o"></li></button></td>
-                <td>Project Finish</td>
-                @endif
               </tr>
               @endif
             @endif
-          @endif
           @endforeach
         </tbody>
       </table>

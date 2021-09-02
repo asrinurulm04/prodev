@@ -9,7 +9,7 @@ class Formula extends Model
     protected $table = 'tr_formulas';
 
     public function Workbook(){
-        return $this->belongsTo('App\model\pkp\SubPKP','workbook_id','id_pkp');
+        return $this->belongsTo('App\model\pkp\PkpProject','workbook_id','id_pkp');
     }
     
     public function Workbook_pdf(){

@@ -8,13 +8,13 @@
     <div class="tabbable">
       <ul class="nav nav-tabs wizard">
         @if($formula->workbook_id!=NULL)
-        <li class="active"><a href="{{ route('step1',[ $idfor, $idf]) }}"><span class="nmbr">1</span>Information</a></li>
-        <li class="active"><a href="{{ route('step2',[ $idfor, $idf]) }}"><span class="nmbr">2</span>Drafting</a></li>
-        <li class="completed"><a href="{{ route('summarry',[ $idfor, $idf]) }}"><span class="nmbr">3</span>Summary</a></li>
+        <li class="active"><a href="{{ route('step1',[ $idfor, $idpkp,$idpro]) }}"><span class="nmbr">1</span>Information</a></li>
+        <li class="active"><a href="{{ route('step2',[ $idfor, $idpkp,$idpro]) }}"><span class="nmbr">2</span>Drafting</a></li>
+        <li class="completed"><a href="{{ route('summarry',[ $idfor, $idpkp,$idpro]) }}"><span class="nmbr">3</span>Summary</a></li>
         @elseif($formula->workbook_pdf_id!=NULL)
-        <li class="active"><a href="{{ route('step1_pdf',[ $idfor_pdf, $idf]) }}"><span class="nmbr">1</span>Information</a></li>
-        <li class="active"><a href="{{ route('step2',[ $idfor_pdf, $idf]) }}"><span class="nmbr">2</span>Drafting</a></li>
-        <li class="completed"><a href="{{ route('summarry',[ $idfor_pdf, $idf]) }}"><span class="nmbr">3</span>Summary</a></li>
+        <li class="active"><a href="{{ route('step1_pdf',[ $idfor, $idpkp]) }}"><span class="nmbr">1</span>Information</a></li>
+        <li class="active"><a href="{{ route('step2',[ $idfor, $idpkp,$idpro]) }}"><span class="nmbr">2</span>Drafting</a></li>
+        <li class="completed"><a href="{{ route('summarry',[ $idfor, $idpkp,$idpro]) }}"><span class="nmbr">3</span>Summary</a></li>
         @endif
       </ul>
     </div>
@@ -29,8 +29,8 @@
 		<div class="col-md-4">
       <table>
         @if($formula->workbook_id!=NULL)
-        <tr><th>Product Name</th><td>&nbsp; : {{ $formula->Workbook->datapkpp->project_name }}</td></tr>
-        <tr><th>PV</th><td>&nbsp; : {{ $formula->workbook->perevisi2->name }}</td></tr>
+        <tr><th>Product Name</th><td>&nbsp; : {{ $project->project_name }}</td></tr>
+        <tr><th>PV</th><td>&nbsp; : {{ $project->perevisi2->name }}</td></tr>
         @else
         <tr><th>Product Name</th><td>&nbsp; : {{ $formula->Workbook_pdf->datapdf->project_name }}</td></tr>
         <tr><th>PV</th><td>&nbsp; : {{ $formula->workbook_pdf->perevisi2->name }} </td></tr>
@@ -58,9 +58,9 @@
       	<a class="btn btn-warning btn-sm" href="{{ route('FOR_pkp',$formula->id) }}" title="Download FOR"><i class="fa fa-download"></i> FOR</a>
       	<a class="btn btn-warning btn-sm" href="{{ route('nutfact_bayangan_pkp',$formula->id) }}" title="Download Nutfact"><i class="fa fa-download"></i> Nutfact</a>
 				@if(auth()->user()->role->namaRule == 'user_produk' || auth()->user()->role->namaRule == 'pv_lokal')
-				<a href="{{ route('rekappkp',$formula->workbook_id) }}" type="button" class="btn btn-sm btn-danger"><li class="fa fa-share"></li> Back</a>
+				<a href="{{ route('rekappkp',[$idpkp,$idpro]) }}" type="button" class="btn btn-sm btn-danger"><li class="fa fa-share"></li> Back</a>
 				@elseif(auth()->user()->role->namaRule == 'manager')
-				<a href="{{ route('daftarpkp',$formula->workbook_id) }}" type="button" class="btn btn-sm btn-danger"><li class="fa fa-share"></li> Back</a>
+				<a href="{{ route('rekappkp',[$idpkp,$idpro]) }}" type="button" class="btn btn-sm btn-danger"><li class="fa fa-share"></li> Back</a>
 				@endif
 			@elseif($formula->workbook_pdf_id!=NULL)
       	<a class="btn btn-warning btn-sm" href="{{ route('FOR_pdf',$formula->id) }}"  title="Download FOR"><i class="fa fa-download"></i> FOR</a>
@@ -97,7 +97,7 @@
 									<tr>
 										<th width="10%">Product Name </th>
 										@if($formula->workbook_id!=NULL)
-										<th width="45%">: {{ $formula->Workbook->datapkpp->project_name }}</th>
+										<th width="45%">: {{ $project->project_name }}</th>
 										@elseif($formula->workbook_pdf_id!=NULL)
 										<th width="45%">: {{ $formula->Workbook_pdf->datapdf->project_name }}</th>
 										@endif
@@ -1654,7 +1654,7 @@
 									<div class="accordion" id="accordionExample">
 										<div class="panel panel-info">
 											<div aria-labelledby="headingOne" data-parent="#accordionExample"><br> 
-												<form class="form-horizontal form-label-left" method="POST" action="{{route('savedosis',$idf)}}">
+												<form class="form-horizontal form-label-left" method="POST" action="{{route('savedosis',$idfor)}}">
 												<button type="submit" class="btn btn-primary btn-sm"><li class="fa fa-save"></li> Save Update</button>
 												{{ csrf_field() }}
 												<div style="overflow-x: scroll;">
@@ -2025,7 +2025,7 @@
 </div>
 <div class="row" hidden>
   <div class="col-md-6">
-    <form action="{{ route('savechanges2',$idf) }}" id="formsavechanges" method="POST">
+    <form action="{{ route('savechanges2',$idfor) }}" id="formsavechanges" method="POST">
     <table class="table">
       <tbody>
 			@foreach ($detail_harga->sortByDesc('per_batch') as $fortail)                                                                      

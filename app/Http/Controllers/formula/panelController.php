@@ -5,12 +5,12 @@ use Illuminate\Support\Facades\Mail;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\model\devnf\panel;
-use App\model\devnf\hasilpanel;
 use App\model\dev\Formula;
-use App\model\master\Teams;
 use App\model\pkp\PkpProject;
 use App\model\pkp\ProjectPDF;
+use App\model\master\Teams;
+use App\model\devnf\panel;
+use App\model\devnf\hasilpanel;
 use Auth;
 use Redirect;
 use DB;
@@ -37,24 +37,20 @@ class panelController extends Controller
         return redirect()->back()->with('status', 'panel '.' Telah Ditambahkan!');
     }
 
-    public function panel($formula,$id){
-        $myFormula = Formula::where('id',$id)->first();
-        $idfor = $myFormula->workbook_id;
-        $fo= Formula::where('id',$id)->first();
-        $panel =panel::all();
-        $pn = hasilpanel::where('id_formula',$id)->get();
-        $idf = $myFormula->id;
-        $cek_panel =hasilpanel::where('id_formula',$id)->count();
+    public function panel($formula,$pkp,$id){
+        $idfor     = $formula;
+        $myFormula = Formula::where('id',$formula)->first();
+        $panel     = panel::all();
+        $pn        = hasilpanel::where('id_formula',$formula)->get();
+        $cek_panel = hasilpanel::where('id_formula',$formula)->count();
         return view('formula.panel')->with([
-            'fo' => $fo,
             'myFormula' => $myFormula,
-            'idf' => $idf,
-            'id' => $id,
-            'idfor' => $idfor,
-            'pn' => $pn,
-            'panel' => $panel,
-            'cek_panel' => $cek_panel,
-            'formula' => $formula
+            'id'        => $id,
+            'idfor'     => $idfor,
+            'pkp'       => $pkp,
+            'pn'        => $pn,
+            'panel'     => $panel,
+            'cek_panel' => $cek_panel
             ]);
     }
 
@@ -65,9 +61,9 @@ class panelController extends Controller
 
     public function editpanel(Request $request,$id){
         $panel = hasilpanel::where('id',$id)->first();
-        $panel->panel=$request->panel;
-        $panel->tgl_panel=$request->date;
-        $panel->hus=$request->hus;
+        $panel->panel     =$request->panel;
+        $panel->tgl_panel =$request->date;
+        $panel->hus       =$request->hus;
         $panel->kesimpulan=$request->kesimpulan;
         $panel->save();
 
@@ -86,16 +82,15 @@ class panelController extends Controller
         $isipanel = hasilpanel::where('id',$id_panel)->first();
         try{
             Mail::send('formula.emailpanel', [
-                'app'=>$isipanel,
+                'app'     =>$isipanel,
                 'formula' => $formula,
-                'info' => 'RD telah selesai membuat data panel untuk project ini',
-            ],function($message)use($request,$id_formula)
-            {
+                'info'    => 'RD telah selesai membuat data panel untuk project ini',
+            ],function($message)use($request,$id_formula){
                 $message->subject('INFO PANEL PRODEV');
                 $for = Formula::where('id',$id_formula)->first();
                 if($for->id_wb!=NULL){
                     $project = PkpProject::where('id_project',$for->workbook_id)->first();
-                    $teams = Teams::where('brand',$project->id_brand)->get();
+                    $teams   = Teams::where('brand',$project->id_brand)->get();
                     foreach($teams as $teams){
                         $user = DB::table('tr_users')->where('id',$teams->id_user)->get();
                         foreach($user as $user){
@@ -117,18 +112,18 @@ class panelController extends Controller
                         $user = DB::table('tr_users')->where('id',$dept->manager_id)->get();
                         foreach($user as $user){
                             $data = $user->email;
-                            $cc = [$data,Auth::user()->email,'asrinurul4238@gmail.com'];
+                            $cc   = [$data,Auth::user()->email,'asrinurul4238@gmail.com'];
                             $message->cc($cc);
                         }
                     }
                 }elseif($for->id_wb_pdf!=NULL){
                     $project = ProjectPDF::where('id_project_pdf',$for->workbook_pdf_id)->first();
-                    $dept = DB::table('ms_departements')->where('id',$project->tujuankirim)->get();
+                    $dept    = DB::table('ms_departements')->where('id',$project->tujuankirim)->get();
                     foreach($dept as $dept){
                         $user = DB::table('tr_users')->where('id',$dept->manager_id)->get();
                         foreach($user as $user){
                             $data = $user->email;
-                            $cc = [$data,Auth::user()->email,'asrinurul4238@gmail.com'];
+                            $cc   = [$data,Auth::user()->email,'asrinurul4238@gmail.com'];
                             $message->cc($cc);
                         }
                     }

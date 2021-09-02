@@ -94,7 +94,11 @@
               @if($pdf->tujuankirim2=='0')
               {{$pdf->departement->dept}}
               @elseif($pdf->tujuankirim2=='1')
-              {{$pdf->departement->dept}} And {{$pdf->departement2->dept}}
+                @if($pdf->tujuankirim!='1')
+                {{$pdf->departement->dept}} And {{$pdf->departement2->dept}}
+                @elseif($pdf->tujuankirim=='1')
+                {{$pdf->departement2->dept}}
+                @endif
               @endif
             </td>
             <td class="text-center">
@@ -168,19 +172,12 @@
                               }
                             ?><br>
                             </lable>
-                            @if($pdf->status_project!='revisi')
-                            <h3> Sent request for a change in schedule </h3>
-                            @elseif($pdf->status_project=='revisi')
-                            <h3>Data In The Revision Process</h3>
-                            @endif
                             <input type="hidden" name="lamafreeze" value="Revisi Timeline (Date of data freezeing : {{$pdf->waktu_freeze}})">
                             <input type="hidden" value="{{$pdf->id_project_pdf}}" name="pdf" id="pdf">
                           </div>
                           <div class="modal-footer">
                             @if($pdf->status_project!='revisi')
-                            <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-paper-plane"></i> Sent</button>
-                            {{ csrf_field() }}
-                            <a href="{{route('activepdf',$pdf->id_project_pdf)}}" type="button" class="btn btn-info"><li class="fa fa-check"> Active</li></a>
+                            <a href="{{route('activepdf',$pdf->id_project_pdf)}}" type="button" class="btn btn-info btn-sm"><li class="fa fa-check"> Active</li></a>
                             @endif
                           </div>
                         </form>

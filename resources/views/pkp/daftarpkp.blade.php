@@ -20,21 +20,18 @@
   @endif
 </div>
 
-
 <div class="row">
   <div class="col-md-12 col-xs-12">
 		@foreach($data as $data)
     <div class="x_panel">
-      <div class="col-md-6"><h4><li class="fa fa-star"></li> Project Name : {{ $data->project_name}}</h4></div>
+      <div class="col-md-6"><h4><li class="fa fa-star"></li> Project Name : {{ $data->project_name}}@if($data->jenis!='Baku')_{{$data->no_kemas}}@endif</h4></div>
       <div class="col-md-6" align="right">
-        @foreach($datapkp as $pkp)
-        <a class="btn btn-info btn-sm" href="{{ Route('lihatpkp',['id_pkp' => $pkp->id_pkp,'revisi' => $pkp->revisi, 'turunan' => $pkp->turunan]) }}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i> Show</a>
-        @if($pkp->status_pkp=='revisi' || $pkp->status_pkp=='draf')
-          @if($pkp->status_data=='active')
-          <a class="btn btn-warning btn-sm" href="{{ route('buatpkp', ['id_pkp' => $pkp->id_pkp,'revisi' => $pkp->revisi, 'turunan' => $pkp->turunan]) }}" data-toggle="tooltip" title="Edit"><i class="fa fa-edit"></i> Edit</a>
+        <a class="btn btn-info btn-sm" href="{{ Route('lihatpkp',$data->id_project) }}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i> Show</a>
+        @if($data->status_pkp=='revisi' || $data->status_pkp=='draf')
+          @if($data->status_freeze=='inactive')
+          <a class="btn btn-warning btn-sm" href="{{ route('buatpkp', [$data->id_project]) }}" data-toggle="tooltip" title="Edit"><i class="fa fa-edit"></i> Edit</a>
           @endif
         @endif
-        @endforeach
         @if($cf != 0)
           @if($data->file==NULL)
           <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#upload"><i class="fa fa-upload"></i> Upload LHP</a>
@@ -65,17 +62,14 @@
             </div>
           </div>
         @endif
-        @if($hitung==0)
-          <a href="{{ route('buatpkp1',$data->id_project)}}" class="btn btn-primary btn-sm" type="button"><li class="fa fa-plus"></li> Add Data</a>
-        @endif
 
         @if(auth()->user()->role->namaRule == 'pv_lokal' || auth()->user()->role->namaRule == 'marketing')
-          @if($data->status_project=="revisi")
-            <a href="{{ route('datapengajuan')}}" class="btn btn-danger btn-sm" type="button"><li class="fa fa-share"></li> Back</a>
-          @elseif($data->status_project=="draf" )
+          @if($data->status_pkp=="draf" )
             <a href="{{ route('drafpkp')}}" class="btn btn-danger btn-sm" type="button"><li class="fa fa-share"></li> Back</a>
-          @elseif($data->status_project=="sent" || $data->status_project=="close" || $data->status_project=="proses")
+          @else
+            @if($data->status_pkp!="close")
             <button class="btn btn-success btn-sm"  data-toggle="modal" data-target="#edit"><li class="fa fa-edit"></li> Edit Type PKP</button>
+            @endif
             <a href="{{ route('listpkp')}}" class="btn btn-danger btn-sm" type="button"><li class="fa fa-share"></li> Back</a>
           @endif
         @elseif(auth()->user()->role->namaRule === 'kemas')
@@ -92,9 +86,10 @@
                     <h4 class="modal-title text-center" id="hm"> New Formula</h4>
                   </div>
                   <div class="modal-body">
-                    <form class="cmxform text-left form-horizontal style-form" method="POST" action="{{ route('addformula') }}">
-                    <input class="form-control " id="workbook_id" name="workbook_id" type="hidden" value="{{ $pkp->id_pkp}}"/>   
-                    <input class="form-control " id="akg" name="akg" type="hidden" value="{{ $pkp->akg}}"/>                                      
+                    <form class="cmxform text-left form-horizontal style-form" method="POST" action="{{ route('addformula') }}">  
+                    <input class="form-control " id="pkp" name="pkp" type="hidden" value="{{ $data->id_project}}"/>   
+                    <input class="form-control " id="workbook_id" name="workbook_id" type="hidden" value="{{ $data->id_pkp}}"/>   
+                    <input class="form-control " id="akg" name="akg" type="hidden" value="{{ $data->akg}}"/>                                      
                     <div class="form-group">
                       <label class="col-lg-3 control-label">Formula</label>
                       <div class="col-lg-8">
@@ -167,36 +162,35 @@
                 @endif
               </td></tr>
               <tr><th width="25%">PKP Number</th><td> : {{$data->pkp_number}}{{$data->ket_no}}</td></tr>
-              <tr><th>Status</th><td> : {{$data->status}}</td></tr>
+              @if($data->project_dev!=NULL)
+              <tr><th width="25%">PKP Number Dev</th><td> : {{$data->project_dev}}</td></tr>
+              @endif
+              <tr><th>Status</th><td> : {{$data->status_project}}</td></tr>
               <tr><th>Created</th><td> : {{$data->created_date}}</td></tr>
             </thead>
           </table><br>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-7">
           <table>
             <thead>
-              @if($data->datapkp!=null)
-              @foreach($data1 as $data)
               <tr><th>Idea</td> <td> : {{$data->idea}}</td></tr>
               <tr><th>Configuration</th><td>: 
-                @if($data->kemas_eksis!=NULL)
-                (
-                @if($data->kemas->tersier!=NULL)
-                {{ $data->kemas->tersier }}{{ $data->kemas->s_tersier }} X 
-                @endif
+                @if($data->kemas_eksis!=NULL)(
+                  @if($data->kemas->tersier!=NULL)
+                 {{ $data->kemas->tersier }}{{ $data->kemas->s_tersier }}
+                  @endif
 
-								@if($data->kemas->sekunder1!=NULL)
-								{{ $data->kemas->sekunder1 }}{{ $data->kemas->s_sekunder1}} X 
-								@endif
+                  @if($data->kemas->sekunder1!=NULL)
+                  X {{ $data->kemas->sekunder1 }}{{ $data->kemas->s_sekunder1}}
+                  @endif
 
-								@if($data->kemas->sekunder2!=NULL)
-								{{ $data->kemas->sekunder2 }}{{ $data->kemas->s_sekunder2 }} X
-								@endif
+                  @if($data->kemas->sekunder2!=NULL)
+                  X {{ $data->kemas->sekunder2 }}{{ $data->kemas->s_sekunder2 }}
+                  @endif
 
-                @if($data->kemas->primer!=NULL)
-								{{ $data->kemas->primer }}{{ $data->kemas->s_primer }}
-								@endif
-                )
+                  @if($data->kemas->primer!=NULL)
+                  X{{ $data->kemas->primer }}{{ $data->kemas->s_primer }}
+                  @endif )
                 @endif
               </td></tr>
               <tr><th width="25%">Launch Deadline</th><td>: {{$data->launch}} {{$data->years}} {{$data->tgl_launch}}</td></tr>
@@ -204,8 +198,6 @@
               <tr><th>PV</th><td> : {{$data->perevisi2->name}}</td></tr>
               @if($data->file!=NULL)
               <tr><th>File</th><td> : <a href="{{asset('data_file/'.$data->file)}}" download="{{$data->file}}" title="Download file"><li class="fa fa-download"></li></a> {{$data->file}} <a href="{{route('hapus_upload',$data->id_project)}}" title="Delete"><li class="fa fa-times"></li></a></td></tr>
-              @endif
-              @endforeach
               @endif
             </thead>
           </table><br>
@@ -237,38 +229,36 @@
               </tr>
             </thead>  
             <tbody>
-              @foreach($sample as $pkp)
-              @if($pkp->status=='final')
+              @foreach($sample as $wb)
+              @if($wb->status=='final')
               <tr style="background-color:springgreen">
-              @elseif($pkp->vv=='reject')
+              @elseif($wb->vv=='reject')
               <tr style="background-color:slategray;color:white">
               @else
               <tr>
               @endif
-                <td width="2%" class="text-center">
-                  <a href="{{ route('deleteFormula',$pkp->id) }}" onclick="return confirm('Hapus Formula ?')"><i style="font-size:12px;" class="fa fa-trash" data-toggle="tooltip" title="Delete"></i></a>
-                </td> 
-                <td>{{ $pkp->versi }}.{{ $pkp->turunan }}</td>
+                <td width="2%"> <a href="{{ route('deleteFormula',$wb->id) }}" onclick="return confirm('Hapus Formula ?')"><i class="fa fa-trash" data-toggle="tooltip" title="Delete"></i></a></td> 
+                <td>{{ $wb->versi }}.{{ $wb->turunan }}</td>
                 <td>
-                  @if($pkp->kategori!='fg'){{$pkp->kategori}}
-                  @elseif($pkp->kategori=='fg')Finished Good
+                  @if($wb->kategori!='fg'){{$wb->kategori}}
+                  @elseif($wb->kategori=='fg')Finished Good
                   @endif
                 </td>
-                <td>{{ $pkp->formula}}</td>
+                <td></td>
                 <td class="text-center" width="10%">
-                  @if($pkp->vv == 'proses')<span class="label label-warning">Proses</span>@endif
-                  @if($pkp->vv == 'reject')<span class="label label-danger">Rejected</span>@endif 
-                  @if($pkp->vv == 'approve')<span class="label label-success">Approved</span>@endif 
-                  @if($pkp->vv == 'final')<span class="label label-info">Final Approved</span>@endif 
-                  @if($pkp->vv == '')<span class="label label-primary">Belum Diajukan</span>@endif    
+                  @if($wb->vv == 'proses')<span class="label label-warning">Proses</span>@endif
+                  @if($wb->vv == 'reject')<span class="label label-danger">Rejected</span>@endif 
+                  @if($wb->vv == 'approve')<span class="label label-success">Approved</span>@endif 
+                  @if($wb->vv == 'final')<span class="label label-info">Final Approved</span>@endif 
+                  @if($wb->vv == '')<span class="label label-primary">Belum Diajukan</span>@endif    
                 </td>
-                <td class="text-center">{{$pkp->catatan_rd}}</td>
-                <td class="text-center">{{$pkp->catatan_pv}}</td>
+                <td class="text-center">{{$wb->catatan_rd}}</td>
+                <td class="text-center">{{$wb->catatan_pv}}</td>
                 <td class="text-center">
-                  <a class="btn btn-info btn-sm" href="{{ route('formula.detail',[$pkp->workbook_id,$pkp->id]) }}" data-toggle="tooltip" title="Show"><i style="font-size:12px;" class="fa fa-eye"></i></a>
-                  <a class="btn btn-success btn-sm" data-toggle="modal" data-target="#update{{$pkp->id}}" data-toggle="tooltip" title="Updata"><i style="font-size:12px;" class="fa fa-arrow-circle-up"></i></a>
+                  <a class="btn btn-info btn-sm" href="{{ route('formula.detail',[$wb->id,$id->id_project,$wb->workbook_id]) }}" data-toggle="tooltip" title="Show"><i style="font-size:12px;" class="fa fa-eye"></i></a>
+                  <a class="btn btn-success btn-sm" data-toggle="modal" data-target="#update{{$wb->id}}" data-toggle="tooltip" title="Updata"><i style="font-size:12px;" class="fa fa-arrow-circle-up"></i></a>
                   <!-- UpVersion -->
-                  <div class="modal fade" id="update{{$pkp->id}}" role="dialog" aria-labelledby="hm" aria-hidden="true">
+                  <div class="modal fade" id="update{{$wb->id}}" role="dialog" aria-labelledby="hm" aria-hidden="true">
                     <div class="modal-dialog modal-sm">
                       <div class="modal-content">
                         <div class="modal-header">
@@ -276,8 +266,8 @@
                           <h4 class="modal-title" id="hm" style="font-weight: bold;color:black;"> Update Data</h4>
                         </div>
                         <div class="modal-body">
-                          <a class="btn btn-primary btn-sm" href="{{ route('upversion',[$pkp->id,$pkp->workbook_id]) }}" onclick="return confirm('Up Version ?')"><i style="font-size:12px;" class="fa fa-arrow-circle-up"></i> Up Version</a><br><br>
-                          <a class="btn btn-warning btn-sm" href="{{ route('upversion2',[$pkp->id,$pkp->versi]) }}" onclick="return confirm('Up Sub Version ?')"><i style="font-size:12px;" class="fa fa-arrow-circle-up"></i> Up Sub Version</a>
+                          <a class="btn btn-primary btn-sm" href="{{ route('upversion',[$wb->id,$id->id_project,$wb->workbook_id]) }}" onclick="return confirm('Up Version ?')"><i style="font-size:12px;" class="fa fa-arrow-circle-up"></i> Up Version</a><br><br>
+                          <a class="btn btn-warning btn-sm" href="{{ route('upversion2',[$wb->id,$id->id_project,$wb->workbook_id]) }}" onclick="return confirm('Up Sub Version ?')"><i style="font-size:12px;" class="fa fa-arrow-circle-up"></i> Up Sub Version</a>
                         </div>
                         <div class="modal-footer">
                         </div>
@@ -285,12 +275,12 @@
                     </div>
                   </div>
                   
-                  @if($pkp->status!='proses')
-                  <a class="btn btn-primary btn-sm" href="{{ route('step1',[$pkp->workbook_id,$pkp->id]) }}"><i style="font-size:12px;" class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a>
-                  <a class="btn btn-dark btn-sm" href="{{ route('ajukanvp',[$pkp->workbook_id,$pkp->id]) }}" onclick="return confirm('Ajukan Formula Kepada PV?')" data-toggle="tooltip" title="Ajukan PV"><li class="fa fa-paper-plane"></li></a>
-                  @elseif($pkp->vv == 'approve' || $pkp->vv == 'proses' || $pkp->vv == 'final')
-                  <a class="btn btn-primary btn-sm" href="{{ route('panel',[$pkp->workbook_id,$pkp->id]) }}" data-toggle="tooltip" title="Panel"><li class="fa fa-glass"></li></a>
-                  <a class="btn btn-warning btn-sm" href="{{ route('st',[$pkp->workbook_id,$pkp->id]) }}" data-toggle="tooltip" title="Storage"><li class="fa fa-flask"></li></a>
+                  @if($wb->status!='proses')
+                  <a class="btn btn-primary btn-sm" href="{{ route('step1',[$wb->id,$id->id_project,$wb->workbook_id]) }}"><i style="font-size:12px;" class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a>
+                  <a class="btn btn-dark btn-sm" href="{{ route('ajukanvp',[$wb->id,$id->id_pkp]) }}" onclick="return confirm('Ajukan Formula Kepada PV?')" data-toggle="tooltip" title="Ajukan PV"><li class="fa fa-paper-plane"></li></a>
+                  @elseif($wb->vv == 'approve' || $wb->vv == 'proses' || $wb->vv == 'final')
+                  <a class="btn btn-primary btn-sm" href="{{ route('panel',[$wb->id,$id->id_project,$wb->workbook_id]) }}" data-toggle="tooltip" title="Panel"><li class="fa fa-glass"></li></a>
+                  <a class="btn btn-warning btn-sm" href="{{ route('st',[$wb->id,$id->id_project,$wb->workbook_id]) }}" data-toggle="tooltip" title="Storage"><li class="fa fa-flask"></li></a>
                   @endif
                 </td>
               </tr>
@@ -323,6 +313,7 @@
             </thead>
             <tbody>
               @foreach($formula as $for)
+              @if($for!='proses')
               @if($for->vv=='final')
               <tr style="background-color:springgreen">
               @elseif($for->vv=='reject')
@@ -343,7 +334,7 @@
                   @endif
                 </td>
                 <td class="text-center"> 
-                  <a class="btn btn-info btn-sm" href="{{ route('formula.detail',[$for->workbook_id,$for->id]) }}" data-toggle="tooltip" title="Show"><i style="font-size:12px;" class="fa fa-eye"></i></a>
+                  <a class="btn btn-info btn-sm" href="{{ route('formula.detail',[$for->id,$id->id_project,$for->workbook_id]) }}" data-toggle="tooltip" title="Show"><i style="font-size:12px;" class="fa fa-eye"></i></a>
                   @if(auth()->user()->role->namaRule == 'pv_lokal')
                     @if($for->vv=='proses')
                       <a class="btn btn-danger btn-sm" data-toggle="modal" data-target="#rejectsample{{ $for->id  }}" title="Reject"><li class="fa fa-times"></li></a>  
@@ -398,15 +389,22 @@
                     @elseif($for->vv=='approve')
                       <a href="" disabled class="btn btn-primary btn-sm" title="Ajukan FS"><li class="fa fa-paper-plane"></li></a>
                         <a href="{{route('finalsample',$for->id)}}" class="btn btn-success btn-sm" title="Final Approval"><li class="fa fa-tag"></li></a>
+                      @if($for->status_fisibility=='not_approved')
                         @if($hasilpanel>=1)
                         <a href="{{route('finalsample',$for->id)}}" class="btn btn-success btn-sm" title="Final Approva"><li class="fa fa-tag"></li></a>
                         @endif
+                      @elseif($for->status_fisibility=='selesai')
+                        @if($hasilpanel>=1)
+                        <a href="{{route('finalsample',$for->id)}}" class="btn btn-success btn-sm" title="Final Approval"><li class="fa fa-tag"></li></a>
+                        @endif
+                      @endif
                     @elseif($for->vv=='final')
                       <a href="{{route('unfinalsample',$for->id)}}" class="btn btn-warning btn-sm" title="Unfinal Approve"><li class="fa fa-times"></li> Unfinal</a>
                     @endif
                   @endif
                 </td>
               </tr>
+              @endif
               @endforeach
             </tbody>
           </table>

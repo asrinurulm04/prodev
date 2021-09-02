@@ -6,69 +6,696 @@
   <div class="col-md-12 col-sm-12 col-xs-12">
     <div class="x_panel">
 			<div class="x_title">
-				<h3><li class="fa fa-edit"></li>Report Notulen</h3>
+				<h3><li class="fa fa-edit"></li> Report Notulen PKP</h3>
 			</div>
 			<div class="" style="overflow-x: scroll;">
         <div class="container"> 
           <section id="fancyTabWidget" class="tabs t-tabs">
-						<ul class="nav nav-tabs fancyTabs" role="tablist">
-							<li class="tab fancyTab active col-md-4 col-sm-12 col-xs-12">
-								<div style="font-weight: bold;color:white;background-color: #2a3f54;" class="arrow-down"><div class="arrow-down-inner"></div></div>	
-									<a id="tab0" href="#tabBody0" role="tab" aria-controls="tabBody0" style="font-weight: bold;color:white;background-color: #2a3f54;" aria-selected="true" data-toggle="tab" tabindex="0"><span class="hidden-xs"> PKP</span></a>
-								<div class="whiteBlock"></div>
-							</li>
-										
-							<li class="tab fancyTab col-md-4 col-sm-12 col-xs-12">
-								<div class="arrow-down" style="font-weight: bold;color:white;background-color: #2a3f54;"><div class="arrow-down-inner"></div></div>
-									<a id="tab1" style="font-weight: bold;color:white;background-color: #2a3f54;" href="#tabBody1" role="tab" aria-controls="tabBody1" aria-selected="true" data-toggle="tab" tabindex="0"><span class="hidden-xs"> PDF</span></a>
-								<div class="whiteBlock"></div>
-							</li>
-										
-							<li class="tab fancyTab col-md-4 col-sm-12 col-xs-12">
-								<div class="arrow-down" style="font-weight: bold;color:white;background-color: #2a3f54;"><div class="arrow-down-inner"></div></div>
-									<a id="tab2" style="font-weight: bold;color:white;background-color: #2a3f54;" href="#tabBody2" role="tab" aria-controls="tabBody2" aria-selected="true" data-toggle="tab" tabindex="0"><span class="hidden-xs"> PKP Promo</span></a>
-								<div class="whiteBlock"></div>
-							</li>
-						</ul>
 						<div id="myTabContent" class="tab-content fancyTabContent" aria-live="polite">
 							<!-- PKP Pengajuan -->
-							<div class="tab-pane  fade active in" id="tabBody0" role="tabpanel" aria-labelledby="tab0" aria-hidden="false" tabindex="0">
+								<button class="btn btn-warning btn-sm" type="button" data-toggle="modal" data-target="#parampkp"><i class="fa fa-download"></i> Export Excel</a></button>
+                <!-- modal -->
+                <div class="modal" id="parampkp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-sm" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h3 class="modal-title text-left" id="exampleModalLabel">Export
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span></h3>
+                        </button>
+                      </div>
+											<form class="form-horizontal form-label-left" method="POST" action="{{ route('export_notulen_pkp') }}">
+                      <div class="modal-body">
+                        <div class="form-group row">
+													@foreach($not as $not)
+													<input type="radio" checked name="tahun" id="tahun" value="{{$not->tahun}}"> Tahun {{$not->tahun}} <br>
+													@endforeach
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-paper-plane"></i> Submit</button>
+                        {{ csrf_field() }}
+                      </div>
+											</form>
+                    </div>
+                  </div>
+                </div>
+                <!-- Modal Selesai -->
 								<div>
 									<div class="row">
 										<div class="col-md-12">
 											<table id="datatable" class="table table-striped table-bordered" style="width:100%">
 												<thead>
 													<tr style="font-weight: bold;color:white;background-color: #2a3f54;">
-														<td class="text-center" width="5%">No</td>
-														<td class="text-center">Brand</td>
-														<th class="text-center">NO.PKP</th>
-														<th class="text-center">Launch Deadline</th>
-														@foreach($Npkp as $npkp)
-														<th class="text-center" width="40%">Meeting {{$npkp->created_date}}</th>
-														@endforeach
+														<th class="text-center" width="3%" rowspan="3">No</th>
+														<th class="text-center" rowspan="3">PKP Number</th>
+														@if($des>=1)<th class="text-center" style="min-width:300px" colspan="8">December</th>@endif
+														@if($nov>=1)<th class="text-center" style="min-width:300px" colspan="8">November</th>@endif
+														@if($oct>=1)<th class="text-center" style="min-width:300px" colspan="8">October</th>@endif
+														@if($sep>=1)<th class="text-center" style="min-width:300px" colspan="8">September</th>@endif
+														@if($aug>=1)<th class="text-center" style="min-width:300px" colspan="8">August</th>@endif
+														@if($jul>=1)<th class="text-center" style="min-width:300px" colspan="8">july</th>@endif
+														@if($jun>=1)<th class="text-center" style="min-width:300px" colspan="8">June</th>@endif
+														@if($may>=1)<th class="text-center" style="min-width:300px" colspan="8">May</th>@endif
+														@if($apr>=1)<th class="text-center" style="min-width:300px" colspan="8">April</th>@endif
+														@if($mar>=1)<th class="text-center" style="min-width:300px" colspan="8">March</th>@endif
+														@if($feb>=1)<th class="text-center" style="min-width:300px" colspan="8">February</th>@endif
+														@if($jan>=1)<th class="text-center" style="min-width:300px" colspan="8">January</th>@endif
+													</tr>
+													<tr style="font-weight: bold;color:white;background-color: #2a3f54;">
+														@if($des>=1)
+														<th class="text-center" style="min-width:300px" colspan="4">Meeting PV & Marketing</th>
+														<th class="text-center" style="min-width:300px" colspan="4">Meeting PV & RD</th>
+														@endif
+														@if($nov>=1)
+														<th class="text-center" style="min-width:300px" colspan="4">Meeting PV & Marketing</th>
+														<th class="text-center" style="min-width:300px" colspan="4">Meeting PV & RD</th>
+														@endif
+														@if($oct>=1)
+														<th class="text-center" style="min-width:300px" colspan="4">Meeting PV & Marketing</th>
+														<th class="text-center" style="min-width:300px" colspan="4">Meeting PV & RD</th>
+														@endif
+														@if($sep>=1)
+														<th class="text-center" style="min-width:300px" colspan="4">Meeting PV & Marketing</th>
+														<th class="text-center" style="min-width:300px" colspan="4">Meeting PV & RD</th>
+														@endif
+														@if($aug>=1)
+														<th class="text-center" style="min-width:300px" colspan="4">Meeting PV & Marketing</th>
+														<th class="text-center" style="min-width:300px" colspan="4">Meeting PV & RD</th>
+														@endif
+														@if($jul>=1)
+														<th class="text-center" style="min-width:300px" colspan="4">Meeting PV & Marketing</th>
+														<th class="text-center" style="min-width:300px" colspan="4">Meeting PV & RD</th>
+														@endif
+														@if($jun>=1)
+														<th class="text-center" style="min-width:300px" colspan="4">Meeting PV & Marketing</th>
+														<th class="text-center" style="min-width:300px" colspan="4">Meeting PV & RD</th>
+														@endif
+														@if($may>=1)
+														<th class="text-center" style="min-width:300px" colspan="4">Meeting PV & Marketing</th>
+														<th class="text-center" style="min-width:300px" colspan="4">Meeting PV & RD</th>
+														@endif
+														@if($apr>=1)
+														<th class="text-center" style="min-width:300px" colspan="4">Meeting PV & Marketing</th>
+														<th class="text-center" style="min-width:300px" colspan="4">Meeting PV & RD</th>
+														@endif
+														@if($mar>=1)
+														<th class="text-center" style="min-width:300px" colspan="4">Meeting PV & Marketing</th>
+														<th class="text-center" style="min-width:300px" colspan="4">Meeting PV & RD</th>
+														@endif
+														@if($feb>=1)
+														<th class="text-center" style="min-width:300px" colspan="4">Meeting PV & Marketing</th>
+														<th class="text-center" style="min-width:300px" colspan="4">Meeting PV & RD</th>
+														@endif
+														@if($jan>=1)
+														<th class="text-center" style="min-width:300px" colspan="4">Meeting PV & Marketing</th>
+														<th class="text-center" style="min-width:300px" colspan="4">Meeting PV & RD</th>
+														@endif
+													</tr>
+													<tr style="font-weight: bold;color:white;background-color: #2a3f54;">
+														@if($des>=1)
+															<th class="text-center">Notulen</th>
+															<th class="text-center">Priority</th>
+															<th class="text-center">Launch Deadline</th>
+															<th width="15%" class="text-center">Forecast</th>
+															<th class="text-center">Notulen</th>
+															<th class="text-center">Priority</th>
+															<th class="text-center">Launch Deadline</th>
+															<th width="15%" class="text-center">Forecast</th>
+														@endif
+														@if($nov>=1)
+															<th class="text-center">Notulen</th>
+															<th class="text-center">Priority</th>
+															<th class="text-center">Launch Deadline</th>
+															<th width="15%" class="text-center">Forecast</th>
+															<th class="text-center">Notulen</th>
+															<th class="text-center">Priority</th>
+															<th class="text-center">Launch Deadline</th>
+															<th width="15%" class="text-center">Forecast</th>
+														@endif
+														@if($oct>=1)
+															<th class="text-center">Notulen</th>
+															<th class="text-center">Priority</th>
+															<th class="text-center">Launch Deadline</th>
+															<th width="15%" class="text-center">Forecast</th>
+															<th class="text-center">Notulen</th>
+															<th class="text-center">Priority</th>
+															<th class="text-center">Launch Deadline</th>
+															<th width="15%" class="text-center">Forecast</th>
+														@endif
+														@if($sep>=1)
+															<th class="text-center">Notulen</th>
+															<th class="text-center">Priority</th>
+															<th class="text-center">Launch Deadline</th>
+															<th width="15%" class="text-center">Forecast</th>
+															<th class="text-center">Notulen</th>
+															<th class="text-center">Priority</th>
+															<th class="text-center">Launch Deadline</th>
+															<th width="15%" class="text-center">Forecast</th>
+														@endif
+														@if($aug>=1)
+															<th class="text-center">Notulen</th>
+															<th class="text-center">Priority</th>
+															<th class="text-center">Launch Deadline</th>
+															<th width="15%" class="text-center">Forecast</th>
+															<th class="text-center">Notulen</th>
+															<th class="text-center">Priority</th>
+															<th class="text-center">Launch Deadline</th>
+															<th width="15%" class="text-center">Forecast</th>
+														@endif
+														@if($jul>=1)
+															<th class="text-center">Notulen</th>
+															<th class="text-center">Priority</th>
+															<th class="text-center">Launch Deadline</th>
+															<th width="15%" class="text-center">Forecast</th>
+															<th class="text-center">Notulen</th>
+															<th class="text-center">Priority</th>
+															<th class="text-center">Launch Deadline</th>
+															<th width="15%" class="text-center">Forecast</th>
+														@endif
+														@if($jun>=1)
+															<th class="text-center">Notulen</th>
+															<th class="text-center">Priority</th>
+															<th class="text-center">Launch Deadline</th>
+															<th width="15%" class="text-center">Forecast</th>
+															<th class="text-center">Notulen</th>
+															<th class="text-center">Priority</th>
+															<th class="text-center">Launch Deadline</th>
+															<th width="15%" class="text-center">Forecast</th>
+														@endif
+														@if($may>=1)
+															<th class="text-center">Notulen</th>
+															<th class="text-center">Priority</th>
+															<th class="text-center">Launch Deadline</th>
+															<th width="15%" class="text-center">Forecast</th>
+															<th class="text-center">Notulen</th>
+															<th class="text-center">Priority</th>
+															<th class="text-center">Launch Deadline</th>
+															<th width="15%" class="text-center">Forecast</th>
+														@endif
+														@if($apr>=1)
+															<th class="text-center">Notulen</th>
+															<th class="text-center">Priority</th>
+															<th class="text-center">Launch Deadline</th>
+															<th width="15%" class="text-center">Forecast</th>
+															<th class="text-center">Notulen</th>
+															<th class="text-center">Priority</th>
+															<th class="text-center">Launch Deadline</th>
+															<th width="15%" class="text-center">Forecast</th>
+														@endif
+														@if($mar>=1)
+															<th class="text-center">Notulen</th>
+															<th class="text-center">Priority</th>
+															<th class="text-center">Launch Deadline</th>
+															<th width="15%" class="text-center">Forecast</th>
+															<th class="text-center">Notulen</th>
+															<th class="text-center">Priority</th>
+															<th class="text-center">Launch Deadline</th>
+															<th width="15%" class="text-center">Forecast</th>
+														@endif
+														@if($feb>=1)
+															<th class="text-center">Notulen</th>
+															<th class="text-center">Priority</th>
+															<th class="text-center">Launch Deadline</th>
+															<th width="15%" class="text-center">Forecast</th>
+															<th class="text-center">Notulen</th>
+															<th class="text-center">Priority</th>
+															<th class="text-center">Launch Deadline</th>
+															<th width="15%" class="text-center">Forecast</th>
+														@endif
+														@if($jan>=1)
+															<th class="text-center">Notulen</th>
+															<th class="text-center">Priority</th>
+															<th class="text-center">Launch Deadline</th>
+															<th width="15%" class="text-center">Forecast</th>
+															<th class="text-center">Notulen</th>
+															<th class="text-center">Priority</th>
+															<th class="text-center">Launch Deadline</th>
+															<th width="15%" class="text-center">Forecast</th>
+														@endif
 													</tr>
 												</thead>
 												<tbody>
 													@php $no = 0; @endphp
 													@foreach ($DNpkp as $dnpkp)
-													@if($dnpkp->pkp->prioritas=='1')
-													<tr style="background-color:#a1d6e2">
-													@elseif($dnpkp->pkp->prioritas=='2')
-													<tr style="background-color:#bcbabe">
-													@elseif($dnpkp->pkp->prioritas=='3')
-													<tr style="background-color:#f1f1f2">
-													@endif
-													@php ++$no; @endphp
-														<td class="text-center">{{ $no }}</td>
-														<td>{{$dnpkp->pkp->id_brand}}</td>
-														<td>{{$dnpkp->pkp->pkp_number}}{{$dnpkp->pkp->ket_no}}</td>
-														<td>{{$dnpkp->pkp->datapkp->launch}} {{$dnpkp->pkp->datapkp->years}} {{$dnpkp->pkp->datapkp->tgl_launch}}</td>
-														@foreach($Npkp as $npkp)
-														<td class="text-center">
-															@if($npkp->id_pkp==$dnpkp->pkp->id_project)
-															{{$npkp->note}}
+													<tr>
+														<td class="text-center">{{ ++$no }}</td>
+														<td>{{$dnpkp->pkp_number}}{{$dnpkp->ket_no}}</td>
+														@foreach($Npkp as $npkp) 
+															@if($npkp->Bulan=='December' && $npkp->id_pkp==$dnpkp->id_project)
+																@if($judesn>=1 && $npkp->note_pv_marketing!=null)
+																	<td>{{$npkp->note_pv_marketing}}</td>
+																	<td>{{$npkp->prioritas}}</td>
+																	<td>{{$npkp->launch}} {{$npkp->launch_years}}</td>
+																	<td>
+																		@foreach($NForecast as $nf)
+																			@if($nf->id_pkp==$dnpkp->id_project && $nf->id_pkp==$npkp->id_pkp)
+																				@if($nf->info=='2' && $npkp->created==$nf->date) {{$nf->satuan}} = {{$nf->forecash}}<br>@endif
+																			@endif
+																		@endforeach
+																	</td>
+																@elseif($des=='0') 
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																@endif
+																@if($des2>=1 && $npkp->note_rd_pv!=null)
+																	<td>{{$npkp->note_rd_pv}}</td>
+																	<td>{{$npkp->prioritas}}</td>
+																	<td>{{$npkp->launch}} {{$npkp->launch_years}}</td>
+																	<td>
+																		@foreach($NForecast as $nf)
+																			@if($nf->id_pkp==$dnpkp->id_project && $nf->id_pkp==$npkp->id_pkp)
+																				@if($nf->info=='1' && $npkp->created==$nf->date) {{$nf->satuan}} = {{$nf->forecash}}<br>@endif
+																			@endif
+																		@endforeach
+																	</td>
+																@elseif($des2=='0') 
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																@endif 
 															@endif
-														</td>
+														@endforeach
+														@foreach($Npkp as $npkp) 
+															@if($npkp->Bulan=='November' && $npkp->id_pkp==$dnpkp->id_project)
+																@if($nov>=1 && $npkp->note_pv_marketing!=null)
+																	<td>{{$npkp->note_pv_marketing}}</td>
+																	<td>{{$npkp->prioritas}}</td>
+																	<td>{{$npkp->launch}} {{$npkp->launch_years}}</td>
+																	<td>
+																		@foreach($NForecast as $nf)
+																			@if($nf->id_pkp==$dnpkp->id_project && $nf->id_pkp==$npkp->id_pkp)
+																				@if($nf->info=='2' && $npkp->created==$nf->date) {{$nf->satuan}} = {{$nf->forecash}}<br>@endif
+																			@endif
+																		@endforeach
+																	</td>
+																@elseif($nov=='0') 
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																@endif
+																@if($nov2>=1 && $npkp->note_rd_pv!=null)
+																	<td>{{$npkp->note_rd_pv}}</td>
+																	<td>{{$npkp->prioritas}}</td>
+																	<td>{{$npkp->launch}} {{$npkp->launch_years}}</td>
+																	<td>
+																		@foreach($NForecast as $nf)
+																			@if($nf->id_pkp==$dnpkp->id_project && $nf->id_pkp==$npkp->id_pkp)
+																				@if($nf->info=='1' && $npkp->created==$nf->date) {{$nf->satuan}} = {{$nf->forecash}}<br>@endif
+																			@endif
+																		@endforeach
+																	</td>
+																@elseif($nov2=='0') 
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																@endif 
+															@endif
+														@endforeach
+														@foreach($Npkp as $npkp) 
+															@if($npkp->Bulan=='October' && $npkp->id_pkp==$dnpkp->id_project)
+																@if($oct>=1 && $npkp->note_pv_marketing!=null)
+																	<td>{{$npkp->note_pv_marketing}}</td>
+																	<td>{{$npkp->prioritas}}</td>
+																	<td>{{$npkp->launch}} {{$npkp->launch_years}}</td>
+																	<td>
+																		@foreach($NForecast as $nf)
+																			@if($nf->id_pkp==$dnpkp->id_project && $nf->id_pkp==$npkp->id_pkp)
+																				@if($nf->info=='2' && $npkp->created==$nf->date) {{$nf->satuan}} = {{$nf->forecash}}<br>@endif
+																			@endif
+																		@endforeach
+																	</td>
+																@elseif($oct=='0') 
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																@endif
+																@if($oct2>=1 && $npkp->note_rd_pv!=null)
+																	<td>{{$npkp->note_rd_pv}}</td>
+																	<td>{{$npkp->prioritas}}</td>
+																	<td>{{$npkp->launch}} {{$npkp->launch_years}}</td>
+																	<td>
+																		@foreach($NForecast as $nf)
+																			@if($nf->id_pkp==$dnpkp->id_project && $nf->id_pkp==$npkp->id_pkp)
+																				@if($nf->info=='1' && $npkp->created==$nf->date) {{$nf->satuan}} = {{$nf->forecash}}<br>@endif
+																			@endif
+																		@endforeach
+																	</td>
+																@elseif($oct2=='0') 
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																@endif 
+															@endif
+														@endforeach
+														@foreach($Npkp as $npkp) 
+															@if($npkp->Bulan=='September' && $npkp->id_pkp==$dnpkp->id_project)
+																@if($sep>=1 && $npkp->note_pv_marketing!=null)
+																	<td>{{$npkp->note_pv_marketing}}</td>
+																	<td>{{$npkp->prioritas}}</td>
+																	<td>{{$npkp->launch}} {{$npkp->launch_years}}</td>
+																	<td>
+																		@foreach($NForecast as $nf)
+																			@if($nf->id_pkp==$dnpkp->id_project && $nf->id_pkp==$npkp->id_pkp)
+																				@if($nf->info=='2' && $npkp->created==$nf->date) {{$nf->satuan}} = {{$nf->forecash}}<br>@endif
+																			@endif
+																		@endforeach
+																	</td>
+																@elseif($sep=='0') 
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																@endif
+																@if($sep2>=1 && $npkp->note_rd_pv!=null)
+																	<td>{{$npkp->note_rd_pv}}</td>
+																	<td>{{$npkp->prioritas}}</td>
+																	<td>{{$npkp->launch}} {{$npkp->launch_years}}</td>
+																	<td>
+																		@foreach($NForecast as $nf)
+																			@if($nf->id_pkp==$dnpkp->id_project && $nf->id_pkp==$npkp->id_pkp)
+																				@if($nf->info=='1' && $npkp->created==$nf->date) {{$nf->satuan}} = {{$nf->forecash}}<br>@endif
+																			@endif
+																		@endforeach
+																	</td>
+																@elseif($sep2=='0') 
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																@endif 
+															@endif
+														@endforeach
+														@foreach($Npkp as $npkp) 
+															@if($npkp->Bulan=='August' && $npkp->id_pkp==$dnpkp->id_project)
+																@if($aug>=1 && $npkp->note_pv_marketing!=null)
+																	<td>{{$npkp->note_pv_marketing}}</td>
+																	<td>{{$npkp->prioritas}}</td>
+																	<td>{{$npkp->launch}} {{$npkp->launch_years}}</td>
+																	<td>
+																		@foreach($NForecast as $nf)
+																			@if($nf->id_pkp==$dnpkp->id_project && $nf->id_pkp==$npkp->id_pkp)
+																				@if($nf->info=='2' && $npkp->created==$nf->date) {{$nf->satuan}} = {{$nf->forecash}}<br>@endif
+																			@endif
+																		@endforeach
+																	</td>
+																@elseif($aug=='0') 
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																@endif
+																@if($aug2>=1 && $npkp->note_rd_pv!=null)
+																	<td>{{$npkp->note_rd_pv}}</td>
+																	<td>{{$npkp->prioritas}}</td>
+																	<td>{{$npkp->launch}} {{$npkp->launch_years}}</td>
+																	<td>
+																		@foreach($NForecast as $nf)
+																			@if($nf->id_pkp==$dnpkp->id_project && $nf->id_pkp==$npkp->id_pkp)
+																				@if($nf->info=='1' && $npkp->created==$nf->date) {{$nf->satuan}} = {{$nf->forecash}}<br>@endif
+																			@endif
+																		@endforeach
+																	</td>
+																@elseif($aug2=='0') 
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																@endif 
+															@endif
+														@endforeach
+														@foreach($Npkp as $npkp) 
+															@if($npkp->Bulan=='July' && $npkp->id_pkp==$dnpkp->id_project)
+																@if($jul>=1 && $npkp->note_pv_marketing!=null)
+																	<td>{{$npkp->note_pv_marketing}}</td>
+																	<td>{{$npkp->prioritas}}</td>
+																	<td>{{$npkp->launch}} {{$npkp->launch_years}}</td>
+																	<td>
+																		@foreach($NForecast as $nf)
+																			@if($nf->id_pkp==$dnpkp->id_project && $nf->id_pkp==$npkp->id_pkp)
+																				@if($nf->info=='2' && $npkp->created==$nf->date) {{$nf->satuan}} = {{$nf->forecash}}<br>@endif
+																			@endif
+																		@endforeach
+																	</td>
+																@elseif($jul=='0') 
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																@endif
+																@if($jul2>=1 && $npkp->note_rd_pv!=null)
+																	<td>{{$npkp->note_rd_pv}}</td>
+																	<td>{{$npkp->prioritas}}</td>
+																	<td>{{$npkp->launch}} {{$npkp->launch_years}}</td>
+																	<td>
+																		@foreach($NForecast as $nf)
+																			@if($nf->id_pkp==$dnpkp->id_project && $nf->id_pkp==$npkp->id_pkp)
+																				@if($nf->info=='1' && $npkp->created==$nf->date) {{$nf->satuan}} = {{$nf->forecash}}<br>@endif
+																			@endif
+																		@endforeach
+																	</td>
+																@elseif($jul2=='0') 
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																@endif 
+															@endif
+														@endforeach
+														@foreach($Npkp as $npkp) 
+															@if($npkp->Bulan=='June' && $npkp->id_pkp==$dnpkp->id_project)
+																@if($jun>=1 && $npkp->note_pv_marketing!=null)
+																	<td>{{$npkp->note_pv_marketing}}</td>
+																	<td>{{$npkp->prioritas}}</td>
+																	<td>{{$npkp->launch}} {{$npkp->launch_years}}</td>
+																	<td>
+																		@foreach($NForecast as $nf)
+																			@if($nf->id_pkp==$dnpkp->id_project && $nf->id_pkp==$npkp->id_pkp)
+																				@if($nf->info=='2' && $npkp->created==$nf->date) {{$nf->satuan}} = {{$nf->forecash}}<br>@endif
+																			@endif
+																		@endforeach
+																	</td>
+																@elseif($jun=='0') 
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																@endif
+																@if($jun2>=1 && $npkp->note_rd_pv!=null)
+																	<td>{{$npkp->note_rd_pv}}</td>
+																	<td>{{$npkp->prioritas}}</td>
+																	<td>{{$npkp->launch}} {{$npkp->launch_years}}</td>
+																	<td>
+																		@foreach($NForecast as $nf)
+																			@if($nf->id_pkp==$dnpkp->id_project && $nf->id_pkp==$npkp->id_pkp)
+																				@if($nf->info=='1' && $npkp->created==$nf->date) {{$nf->satuan}} = {{$nf->forecash}}<br>@endif
+																			@endif
+																		@endforeach
+																	</td>
+																@elseif($jun2=='0') 
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																@endif 
+															@endif
+														@endforeach
+														@foreach($Npkp as $npkp) 
+															@if($npkp->Bulan=='May' && $npkp->id_pkp==$dnpkp->id_project)
+																@if($may>=1 && $npkp->note_pv_marketing!=null)
+																	<td>{{$npkp->note_pv_marketing}}</td>
+																	<td>{{$npkp->prioritas}}</td>
+																	<td>{{$npkp->launch}} {{$npkp->launch_years}}</td>
+																	<td>
+																		@foreach($NForecast as $nf)
+																			@if($nf->id_pkp==$dnpkp->id_project && $nf->id_pkp==$npkp->id_pkp)
+																				@if($nf->info=='2' && $npkp->created==$nf->date) {{$nf->satuan}} = {{$nf->forecash}}<br>@endif
+																			@endif
+																		@endforeach
+																	</td>
+																@elseif($may=='0') 
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																@endif
+																@if($may2>=1 && $npkp->note_rd_pv!=null)
+																	<td>{{$npkp->note_rd_pv}}</td>
+																	<td>{{$npkp->prioritas}}</td>
+																	<td>{{$npkp->launch}} {{$npkp->launch_years}}</td>
+																	<td>
+																		@foreach($NForecast as $nf)
+																			@if($nf->id_pkp==$dnpkp->id_project && $nf->id_pkp==$npkp->id_pkp)
+																				@if($nf->info=='1' && $npkp->created==$nf->date) {{$nf->satuan}} = {{$nf->forecash}}<br>@endif
+																			@endif
+																		@endforeach
+																	</td>
+																@elseif($may2=='0') 
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																@endif 
+															@endif
+														@endforeach
+														@foreach($Npkp as $npkp) 
+															@if($npkp->Bulan=='April' && $npkp->id_pkp==$dnpkp->id_project)
+																@if($apr>=1 && $npkp->note_pv_marketing!=null)
+																	<td>{{$npkp->note_pv_marketing}}</td>
+																	<td>{{$npkp->prioritas}}</td>
+																	<td>{{$npkp->launch}} {{$npkp->launch_years}}</td>
+																	<td>
+																		@foreach($NForecast as $nf)
+																			@if($nf->id_pkp==$dnpkp->id_project && $nf->id_pkp==$npkp->id_pkp)
+																				@if($nf->info=='2' && $npkp->created==$nf->date) {{$nf->satuan}} = {{$nf->forecash}}<br>@endif
+																			@endif
+																		@endforeach
+																	</td>
+																@elseif($apr=='0') 
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																@endif
+																@if($apr2>=1 && $npkp->note_rd_pv!=null)
+																	<td>{{$npkp->note_rd_pv}}</td>
+																	<td>{{$npkp->prioritas}}</td>
+																	<td>{{$npkp->launch}} {{$npkp->launch_years}}</td>
+																	<td>
+																		@foreach($NForecast as $nf)
+																			@if($nf->id_pkp==$dnpkp->id_project && $nf->id_pkp==$npkp->id_pkp)
+																				@if($nf->info=='1' && $npkp->created==$nf->date) {{$nf->satuan}} = {{$nf->forecash}}<br>@endif
+																			@endif
+																		@endforeach
+																	</td>
+																@elseif($apr2=='0') 
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																@endif 
+															@endif
+														@endforeach
+														@foreach($Npkp as $npkp) 
+															@if($npkp->Bulan=='March' && $npkp->id_pkp==$dnpkp->id_project)
+																@if($mar>=1 && $npkp->note_pv_marketing!=null)
+																	<td>{{$npkp->note_pv_marketing}}</td>
+																	<td>{{$npkp->prioritas}}</td>
+																	<td>{{$npkp->launch}} {{$npkp->launch_years}}</td>
+																	<td>
+																		@foreach($NForecast as $nf)
+																			@if($nf->id_pkp==$dnpkp->id_project && $nf->id_pkp==$npkp->id_pkp)
+																				@if($nf->info=='2' && $npkp->created==$nf->date) {{$nf->satuan}} = {{$nf->forecash}}<br>@endif
+																			@endif
+																		@endforeach
+																	</td>
+																@elseif($mar=='0') 
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																@endif
+																@if($mar2>=1 && $npkp->note_rd_pv!=null)
+																	<td>{{$npkp->note_rd_pv}}</td>
+																	<td>{{$npkp->prioritas}}</td>
+																	<td>{{$npkp->launch}} {{$npkp->launch_years}}</td>
+																	<td>
+																		@foreach($NForecast as $nf)
+																			@if($nf->id_pkp==$dnpkp->id_project && $nf->id_pkp==$npkp->id_pkp)
+																				@if($nf->info=='1' && $npkp->created==$nf->date) {{$nf->satuan}} = {{$nf->forecash}}<br>@endif
+																			@endif
+																		@endforeach
+																	</td>
+																@elseif($mar2=='0') 
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																@endif 
+															@endif
+														@endforeach
+														@foreach($Npkp as $npkp) 
+															@if($npkp->Bulan=='February' && $npkp->id_pkp==$dnpkp->id_project)
+																@if($feb>=1 && $npkp->note_pv_marketing!=null)
+																	<td>{{$npkp->note_pv_marketing}}</td>
+																	<td>{{$npkp->prioritas}}</td>
+																	<td>{{$npkp->launch}} {{$npkp->launch_years}}</td>
+																	<td>
+																		@foreach($NForecast as $nf)
+																			@if($nf->id_pkp==$dnpkp->id_project && $nf->id_pkp==$npkp->id_pkp)
+																				@if($nf->info=='2' && $npkp->created==$nf->date) {{$nf->satuan}} = {{$nf->forecash}}<br>@endif
+																			@endif
+																		@endforeach
+																	</td>
+																@elseif($feb=='0') 
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																@endif
+																@if($feb2>=1 && $npkp->note_rd_pv!=null)
+																	<td>{{$npkp->note_rd_pv}}</td>
+																	<td>{{$npkp->prioritas}}</td>
+																	<td>{{$npkp->launch}} {{$npkp->launch_years}}</td>
+																	<td>
+																		@foreach($NForecast as $nf)
+																			@if($nf->id_pkp==$dnpkp->id_project && $nf->id_pkp==$npkp->id_pkp)
+																				@if($nf->info=='1' && $npkp->created==$nf->date) {{$nf->satuan}} = {{$nf->forecash}}<br>@endif
+																			@endif
+																		@endforeach
+																	</td>
+																@elseif($feb2=='0') 
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																@endif 
+															@endif
+														@endforeach
+														@foreach($Npkp as $npkp) 
+															@if($npkp->Bulan=='January' && $npkp->id_pkp==$dnpkp->id_project)
+																@if($jan>=1 && $npkp->note_pv_marketing!=null)
+																	<td>{{$npkp->note_pv_marketing}}</td>
+																	<td>{{$npkp->prioritas}}</td>
+																	<td>{{$npkp->launch}} {{$npkp->launch_years}}</td>
+																	<td>
+																		@foreach($NForecast as $nf)
+																			@if($nf->id_pkp==$dnpkp->id_project && $nf->id_pkp==$npkp->id_pkp)
+																				@if($nf->info=='2' && $npkp->created==$nf->date) {{$nf->satuan}} = {{$nf->forecash}}<br>@endif
+																			@endif
+																		@endforeach
+																	</td>
+																@elseif($jan=='0') 
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																@endif
+																@if($jan2>=1 && $npkp->note_rd_pv!=null)
+																	<td>{{$npkp->note_rd_pv}}</td>
+																	<td>{{$npkp->prioritas}}</td>
+																	<td>{{$npkp->launch}} {{$npkp->launch_years}}</td>
+																	<td>
+																		@foreach($NForecast as $nf)
+																			@if($nf->id_pkp==$dnpkp->id_project && $nf->id_pkp==$npkp->id_pkp)
+																				@if($nf->info=='1' && $npkp->created==$nf->date) {{$nf->satuan}} = {{$nf->forecash}}<br>@endif
+																			@endif
+																		@endforeach
+																	</td>
+																@elseif($jan2=='0') 
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																	<td></td>
+																@endif 
+															@endif
 														@endforeach
 													</tr>
 													@endforeach
@@ -77,97 +704,6 @@
 										</div>
 									</div>
 								</div>
-							</div>
-							<!-- Pengajuan PDF -->
-							<div class="tab-pane  fade" id="tabBody1" role="tabpanel" aria-labelledby="tab1" aria-hidden="true" tabindex="0">
-								<div class="row">
-									<div class="col-md-12">
-										<table id="datatable" class="table table-striped table-bordered" style="width:100%">
-											<thead>
-												<tr style="font-weight: bold;color:white;background-color: #2a3f54;">
-													<td class="text-center" width="5%">No</td>
-													<td class="text-center">Brand</td>
-													<th class="text-center">NO.PKP</th>
-													<th class="text-center">RTO</th>
-													@foreach($Npdf as $npdf)
-													<th class="text-center">Meeting {{$npdf->created_at}}</th>
-													@endforeach
-												</tr>
-											</thead>
-											<tbody>
-												@php $no = 0; @endphp
-												@foreach ($DNpdf as $dnpdf)
-												@if($dnpdf->pdf->prioritas=='1')
-												<tr style="background-color:burlywood">
-												@elseif($dnpdf->pdf->prioritas=='2')
-												<tr style="background-color:coral">
-												@elseif($dnpdf->pdf->prioritas=='3')
-												<tr style="background-color:darkkhaki">
-												@endif
-												@php ++$no; @endphp
-													<td class="text-center">{{ $no }}</td>
-													<td>{{$dnpdf->pdf->id_brand}}</td>
-													<td>{{$dnpdf->pdf->pdf_number}}{{$dnpdf->pdf->ket_no}}</td>
-													<td>{{$dnpdf->pdf->datappdf->rto}}</td>
-													@foreach($Npdf as $npdf)
-													<td class="text-center">
-														@if($npdf->id_pdf==$dnpdf->pdf->id_project_pdf)
-														{{$npdf->note}}
-														@endif
-													</td>
-													@endforeach
-												</tr>
-												@endforeach
-											</tbody>
-										</table>
-									</div>
-								</div>
-							</div>
-							<!-- Pengajuan Promo -->
-							<div class="tab-pane  fade" id="tabBody2" role="tabpanel" aria-labelledby="tab2" aria-hidden="true" tabindex="0">
-								<div class="row">
-									<div class="col-md-12">
-										<table id="datatable" class="table table-striped table-bordered" style="width:100%">
-											<thead>
-												<tr style="font-weight: bold;color:white;background-color: #2a3f54;">
-													<td class="text-center" width="5%">No</td>
-													<td class="text-center">Brand</td>
-													<th class="text-center">NO.PKP</th>
-													<th class="text-center">Launch Deadline</th>
-													@foreach($Npromo as $npromo)
-													<th class="text-center">Meeting {{$npromo->created_at}}</th>
-													@endforeach
-												</tr>
-											</thead>
-											<tbody>
-												@php $no = 0; @endphp
-												@foreach ($DNpromo as $dnpromo)
-												@if($dnpromo->promo->prioritas=='1')
-												<tr style="background-color:#a1d6e2">
-												@elseif($dnpkp->pkp->prioritas=='2')
-												<tr style="background-color:#bcbabe">
-												@elseif($dnpkp->pkp->prioritas=='3')
-												<tr style="background-color:#f1f1f2">
-												@endif
-												@php ++$no; @endphp
-													<td class="text-center">{{ $no }}</td>
-													<td>{{$dnpromo->promo->brand}}</td>
-													<td>{{$dnpromo->promo->promo_number}}{{$dnpromo->promo->ket_no}}</td>
-													<td>{{$dnpromo->promo->datapromo->rto}}</td>
-													@foreach($Npromo as $npromo)
-													<td class="text-center">
-														@if($npromo->id_promo==$dnpromo->promo->id_pkp_promo)
-														{{$npromo->note}}
-														@endif
-													</td>
-													@endforeach
-												</tr>
-												@endforeach
-											</tbody>
-										</table>
-									</div>
-								</div>
-							</div>
 						</div>
           </section>
         </div>

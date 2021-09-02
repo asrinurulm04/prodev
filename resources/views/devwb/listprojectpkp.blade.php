@@ -99,15 +99,7 @@
             <td>{{ $pkp->project_name }}</td>
             <td>{{ $pkp->id_brand}}</td>
             <td>{{ $pkp->perevisi2->name }}</td>
-            <td>
-              @if($pkp->prioritas==1)
-              <span class="label label-primary" style="color:white">prioritas 1</span>
-              @elseif($pkp->prioritas==2)
-              <span class="label label-warning" style="color:white">prioritas 2</span>
-              @elseif($pkp->prioritas==3)
-              <span class="label label-success" style="color:white">prioritas 3</span>
-              @endif
-            </td>
+            <td class="text-center">{{$pkp->prioritas}}</td>
             <td class="text-center">
               @if($pkp->status_freeze=='inactive')
                 @if($pkp->pengajuan_sample=='proses')
@@ -137,12 +129,13 @@
               @endif
             </td>
             <td class="text-center">
-              @if($pkp->status_project=='proses')
-              <a class="btn btn-info btn-sm" href="{{ Route('rekappkp',$pkp->id_project) }}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
-              @elseif($pkp->status_project=='close')
-              <a class="btn btn-info btn-sm" href="{{ Route('rekappkp',$pkp->id_project) }}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
-              <button class="btn btn-info btn-sm" disabled><li class="fa fa-smile-o" title="close"></li></button>
-              @elseif($pkp->status_project=='revisi')
+              @if($pkp->status_pkp=='proses' || $pkp->status_pkp=='close')
+                @if($pkp->workbook==0)
+                <a class="btn btn-info btn-sm" href="{{ Route('rekappkp',[$pkp->id_project,$pkp->id_pkp]) }}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
+                @elseif($pkp->workbook>0)
+                <a class="btn btn-primary btn-sm" href="{{ Route('rekappkp',[$pkp->id_project,$pkp->id_pkp]) }}" data-toggle="tooltip" title="Workbook"><i class="fa fa-book"></i></a>
+                @endif
+              @elseif($pkp->status_pkp=='revisi')
                 The Project in the revised proses
               @endif
             </td>
@@ -154,15 +147,7 @@
             <td>{{ $pkp->project_name }}</td>
             <td>{{ $pkp->id_brand}}</td>
             <td>{{ $pkp->perevisi2->name }}</td>
-            <td>
-              @if($pkp->prioritas==1)
-              <span class="label label-primary" style="color:white">prioritas 1</span>
-              @elseif($pkp->prioritas==2)
-              <span class="label label-warning" style="color:white">prioritas 2</span>
-              @elseif($pkp->prioritas==3)
-              <span class="label label-success" style="color:white">prioritas 3</span>
-              @endif
-            </td>
+            <td class="text-center">{{$pkp->prioritas}}</td>
             <td>
               @if($pkp->status_freeze=='inactive')
                 @if($pkp->pengajuan_sample=='proses')
@@ -192,16 +177,13 @@
               @endif
             </td>
             <td class="text-center">
-              @if($pkp->status_project=='proses')
+              @if($pkp->status_pkp=='proses' || $pkp->status_pkp=='close')
                 @if($pkp->workbook==0)
-                <a class="btn btn-info btn-sm" href="{{ Route('rekappkp',$pkp->id_project) }}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
+                <a class="btn btn-info btn-sm" href="{{ Route('rekappkp',[$pkp->id_project,$pkp->id_pkp]) }}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
                 @elseif($pkp->workbook>0)
-                <a class="btn btn-primary btn-sm" href="{{ Route('rekappkp',$pkp->id_project) }}" data-toggle="tooltip" title="Workbook"><i class="fa fa-book"></i></a>
+                <a class="btn btn-primary btn-sm" href="{{ Route('rekappkp',[$pkp->id_project,$pkp->id_pkp]) }}" data-toggle="tooltip" title="Workbook"><i class="fa fa-book"></i></a>
                 @endif
-              @elseif($pkp->status_project=='close')
-              <a class="btn btn-info btn-sm" href="{{ Route('rekappkp',$pkp->id_project) }}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
-              <button class="btn btn-success btn-sm" title="this project is finished" disabled><li class="fa fa-smile-o" title="close"></li></button>
-              @elseif($pkp->status_project=='revisi')
+              @elseif($pkp->status_pkp=='revisi')
                 The Project in the revised proses
               @endif
             </td>

@@ -21,20 +21,17 @@ class storageController extends Controller
         $this->middleware('rule:user_rd_proses' || 'rule:user_produk');
     }
 
-    public function st($formulas,$id){
-        $formula = Formula::where('id',$id)->first();;
-        $fo=formula::where('id',$id)->first();
-        $idfor = $formula->workbook_id;
-        $idf = $formula->id;
-        $storage = storage::where('id_formula',$id)->get();
-        $cek_storage =storage::where('id_formula',$id)->count();
+    public function st($formulas,$pkp,$id){
+        $idfor       = $formulas;
+        $formula     = Formula::where('id',$formulas)->first();
+        $storage     = storage::where('id_formula',$formulas)->get();
+        $cek_storage = storage::where('id_formula',$formulas)->count();
         return view('formula.storage')->with([
-            'fo' => $fo,
-            'idf' => $idf,
-            'id' => $id,
-            'idfor' => $idfor,
-            'storage' => $storage,
-            'formula' => $formula,
+            'id'          => $id,
+            'idfor'       => $idfor,
+            'pkp'         =>$pkp,
+            'storage'     => $storage,
+            'formula'     => $formula,
             'cek_storage' =>$cek_storage
         ]);
     }
@@ -44,12 +41,12 @@ class storageController extends Controller
         if($data!=NULL){ $nama = $data->getClientOriginalName();}
         
         $add_st = new storage;
-        $add_st->id_formula=$request->idf;
-        $add_st->id_wb=$request->wb;
-        $add_st->id_wb_pdf=$request->wb_pdf;
-        $add_st->no_PST=$request->spt;
-        $add_st->suhu=$request->suhu;
-        $add_st->estimasi_selesai=$request->estimasi;
+        $add_st->id_formula      = $request->idf;
+        $add_st->id_wb           = $request->wb;
+        $add_st->id_wb_pdf       = $request->wb_pdf;
+        $add_st->no_PST          = $request->spt;
+        $add_st->suhu            = $request->suhu;
+        $add_st->estimasi_selesai= $request->estimasi;
         if($data!=NULL){ 
             $add_st->data_file=$nama;
         }
@@ -69,9 +66,9 @@ class storageController extends Controller
 
     public function editdata(request $request, $id){
         $data_storage= storage::where('id',$id)->first();
-        $data_storage->no_HSA=$request->hsa;
-        $data_storage->keterangan=$request->kesimpulan;
-        $data_storage->selesai=$request->selesai;
+        $data_storage->no_HSA       = $request->hsa;
+        $data_storage->keterangan   = $request->kesimpulan;
+        $data_storage->selesai      = $request->selesai;
         $data_storage->save();
 
         return redirect()->back();
@@ -94,16 +91,15 @@ class storageController extends Controller
         $isistorage = storage::where('id',$id_storage)->first();
         try{
             Mail::send('formula.emailstorage', [
-                'app'=>$isistorage,
+                'app'     => $isistorage,
                 'formula' => $formula,
-                'info' => 'RD telah selesai membuat data Storage untuk project ini',
-            ],function($message)use($request,$id_formula)
-            {
+                'info'    => 'RD telah selesai membuat data Storage untuk project ini',
+            ],function($message)use($request,$id_formula) {
                 $message->subject('INFO STORAGE PRODEV');
                 $for = Formula::where('id',$id_formula)->first();
                 if($for->id_wb!=NULL){
                     $project = PkpProject::where('id_project',$for->workbook_id)->first();
-                    $teams = Teams::where('brand',$project->id_brand)->get();
+                    $teams   = Teams::where('brand',$project->id_brand)->get();
                     // To
                     foreach($teams as $teams){
                         $user = DB::table('tr_users')->where('id',$teams->id_user)->get();
@@ -116,7 +112,6 @@ class storageController extends Controller
                     $user = DB::table('tr_users')->where('role_id','5')->get();
                     foreach($user as $user){
                         $data = $user->email;
-                        dd($data);
                         $message->to($data);
                     }
                 }
@@ -127,18 +122,18 @@ class storageController extends Controller
                         $user = DB::table('tr_users')->where('id',$dept->manager_id)->get();
                         foreach($user as $user){
                             $data = $user->email;
-                            $cc = [$data,Auth::user()->email,'asrinurul4238@gmail.com'];
+                            $cc   = [$data,Auth::user()->email,'asrinurul4238@gmail.com'];
                             $message->cc($cc);
                         }
                     }
                 }elseif($for->id_wb_pdf!=NULL){
                     $project = ProjectPDF::where('id_project_pdf',$for->workbook_pdf_id)->first();
-                    $dept = DB::table('ms_departements')->where('id',$project->tujuankirim)->get();
+                    $dept    = DB::table('ms_departements')->where('id',$project->tujuankirim)->get();
                     foreach($dept as $dept){
                         $user = DB::table('tr_users')->where('id',$dept->manager_id)->get();
                         foreach($user as $user){
                             $data = $user->email;
-                            $cc = [$data,Auth::user()->email,'asrinurul4238@gmail.com'];
+                            $cc   = [$data,Auth::user()->email,'asrinurul4238@gmail.com'];
                             $message->cc($cc);
                         }
                     }

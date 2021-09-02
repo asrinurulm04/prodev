@@ -22,31 +22,31 @@ class LabController extends Controller
     }
 
     public function index($id,$id_feasibility){
-        $formulas = SubPKP::where('id',$id)->get();
-        $analisa = analisa::all();
-        $fe=finance::where('id_feasibility',$id_feasibility)->first();
+        $formulas   = SubPKP::where('id',$id)->get();
+        $analisa    = analisa::all();
+        $fe         = finance::where('id_feasibility',$id_feasibility)->first();
         $formula_id = $fe->id_formula;
-        $mikroba = DB::table('fs_jenismikroba')->select(['jenis_mikroba'])->distinct()->get();
-        $dataL =Dlab::where('id_feasibility',$id_feasibility)->get();
-        $count_lab = Dlab::where('id_feasibility',$id_feasibility)->count();
-        $Jlab = Dlab::where('id_feasibility',$id_feasibility)->sum('rate');
-        $lab2 = DB::table('formulas')
-            ->join('tr_sub_pkp','tr_sub_pkp.id','=','tr_formulas.workbook_id')
-            ->join('ms_kategori_pangan','ms_kategori_pangan.id_pangan','=','tr_sub_pkp.bpom')
-            ->join('ms_jenis_mikroba','ms_jenis_mikroba.no_kategori','=','ms_kategori_pangan.no_kategori')
-            ->where('formulas.id',$id)->get();
-        $cek_lab =Dlab::where('id_feasibility',$id_feasibility)->count();
+        $mikroba    = DB::table('fs_jenismikroba')->select(['jenis_mikroba'])->distinct()->get();
+        $dataL      = Dlab::where('id_feasibility',$id_feasibility)->get();
+        $count_lab  = Dlab::where('id_feasibility',$id_feasibility)->count();
+        $Jlab       = Dlab::where('id_feasibility',$id_feasibility)->sum('rate');
+        $lab2       = DB::table('formulas')
+                    ->join('tr_sub_pkp','tr_sub_pkp.id','=','tr_formulas.workbook_id')
+                    ->join('ms_kategori_pangan','ms_kategori_pangan.id_pangan','=','tr_sub_pkp.bpom')
+                    ->join('ms_jenis_mikroba','ms_jenis_mikroba.no_kategori','=','ms_kategori_pangan.no_kategori')
+                    ->where('formulas.id',$id)->get();
+        $cek_lab    = Dlab::where('id_feasibility',$id_feasibility)->count();
         return view('lab.datalab',['fe'=>$fe])->with([
-            'formula_id' => $formula_id,
-            'cek_lab' => $cek_lab,
-            'mikroba' => $mikroba,
-            'analisa' => $analisa,
-            'formulas' => $formulas,
-            'lab2' => $lab2,
-            'dataL' => $dataL,
-            'count_lab' => $count_lab,
-            'id' => $id,
-            'jlab' =>$Jlab,
+            'formula_id'     => $formula_id,
+            'cek_lab'        => $cek_lab,
+            'mikroba'        => $mikroba,
+            'analisa'        => $analisa,
+            'formulas'       => $formulas,
+            'lab2'           => $lab2,
+            'dataL'          => $dataL,
+            'count_lab'      => $count_lab,
+            'id'             => $id,
+            'jlab'           =>$Jlab,
             'id_feasibility' => $id_feasibility
         ]);
     }
@@ -104,14 +104,14 @@ class LabController extends Controller
 
         for($i = 0; $i < $request->cek_lab; $i++){
             $add_lab = new Dlab;
-            $add_lab->id_feasibility=$request->finance;
+            $add_lab->id_feasibility    =$request->finance;
             $add_lab->jlh_analisatahunan=$jlhAT[$i];
-            $add_lab->jlh_analisaharian=$jlhAH[$i];
-            $add_lab->tahunan = $tahun[$i];
-            $add_lab->harian = $hari[$i];
-            $add_lab->kode_analisa = $kode[$i];
-            $add_lab->jenis_mikroba = $mikro[$i];
-            $add_lab->rate = $rate[$i];
+            $add_lab->jlh_analisaharian =$jlhAH[$i];
+            $add_lab->tahunan           = $tahun[$i];
+            $add_lab->harian            = $hari[$i];
+            $add_lab->kode_analisa      = $kode[$i];
+            $add_lab->jenis_mikroba     = $mikro[$i];
+            $add_lab->rate              = $rate[$i];
             $add_lab->save();
 		}
 		
@@ -176,14 +176,14 @@ class LabController extends Controller
 
 			for($i = 0; $i < $request->cek_lab; $i++){
 				$add_lab = new Dlab;
-				$add_lab->id_feasibility=$request->finance;
+				$add_lab->id_feasibility    =$request->finance;
 				$add_lab->jlh_analisatahunan=$jlhAT[$i];
-				$add_lab->jlh_analisaharian=$jlhAH[$i];
-				$add_lab->tahunan = $tahun[$i];
-				$add_lab->harian = $hari[$i];
-				$add_lab->kode_analisa = $kode[$i];
-				$add_lab->jenis_mikroba = $mikro[$i];
-				$add_lab->rate = $rate[$i];
+				$add_lab->jlh_analisaharian =$jlhAH[$i];
+				$add_lab->tahunan           = $tahun[$i];
+				$add_lab->harian            = $hari[$i];
+				$add_lab->kode_analisa      = $kode[$i];
+				$add_lab->jenis_mikroba     = $mikro[$i];
+				$add_lab->rate              = $rate[$i];
 				$add_lab->save();
 			}
 			
@@ -195,18 +195,18 @@ class LabController extends Controller
         }
         elseif($cek_lab>=1){
             $finances = finance::where('id_formula',$formula_id)->get();
-            $fid = collect();
+            $fid      = collect();
             foreach ($finances as $finance) {
                 $idf = $finance->id_feasibility;
                 $fid->push(['id' => $idf]);
             }
 
             foreach($fid as $key){
-                $lab= Dlab::where('id_feasibility',$key['id'])->first();
-                $there= Dlab::where('id_feasibility',$key['id'])->count();
+                $lab    = Dlab::where('id_feasibility',$key['id'])->first();
+                $there  = Dlab::where('id_feasibility',$key['id'])->count();
 
                 if($there == 0){
-                    $ms= new Dlab;
+                    $ms    = new Dlab;
                     $tahun = [];
                     for($i = 0; $i < $request->cek_lab; $i++){
 						$tahun += array(
@@ -258,14 +258,14 @@ class LabController extends Controller
             
                     for($i = 0; $i < $request->cek_lab; $i++){
                         $add_lab = new Dlab;
-                        $add_lab->id_feasibility=$request->finance;
+                        $add_lab->id_feasibility    =$request->finance;
                         $add_lab->jlh_analisatahunan=$jlhAT[$i];
-                        $add_lab->jlh_analisaharian=$jlhAH[$i];
-                        $add_lab->tahunan = $tahun[$i];
-                        $add_lab->harian = $hari[$i];
-                        $add_lab->kode_analisa = $kode[$i];
-                        $add_lab->jenis_mikroba = $mikro[$i];
-                        $add_lab->rate = $rate[$i];
+                        $add_lab->jlh_analisaharian =$jlhAH[$i];
+                        $add_lab->tahunan           = $tahun[$i];
+                        $add_lab->harian            = $hari[$i];
+                        $add_lab->kode_analisa      = $kode[$i];
+                        $add_lab->jenis_mikroba     = $mikro[$i];
+                        $add_lab->rate              = $rate[$i];
                         $add_lab->save();
 					}
 					
@@ -277,7 +277,7 @@ class LabController extends Controller
                 }
 
                 elseif($there == 1 ){
-                    $ms= new Dlab;
+                    $ms    = new Dlab;
                     $tahun = [];
                     for($i = 0; $i < $request->cek_lab; $i++){
 						$tahun += array(
@@ -329,14 +329,14 @@ class LabController extends Controller
             
                     for($i = 0; $i < $request->cek_lab; $i++){
                         $add_lab = new Dlab;
-                        $add_lab->id_feasibility=$request->finance;
+                        $add_lab->id_feasibility    =$request->finance;
                         $add_lab->jlh_analisatahunan=$jlhAT[$i];
-                        $add_lab->jlh_analisaharian=$jlhAH[$i];
-                        $add_lab->tahunan = $tahun[$i];
-                        $add_lab->harian = $hari[$i];
-                        $add_lab->kode_analisa = $kode[$i];
-                        $add_lab->jenis_mikroba = $mikro[$i];
-                        $add_lab->rate = $rate[$i];
+                        $add_lab->jlh_analisaharian =$jlhAH[$i];
+                        $add_lab->tahunan           = $tahun[$i];
+                        $add_lab->harian            = $hari[$i];
+                        $add_lab->kode_analisa      = $kode[$i];
+                        $add_lab->jenis_mikroba     = $mikro[$i];
+                        $add_lab->rate              = $rate[$i];
                         $add_lab->save();
 					}
 					

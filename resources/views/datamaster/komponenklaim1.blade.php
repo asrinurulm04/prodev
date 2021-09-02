@@ -122,9 +122,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				@php
-					$no = 0;
-				@endphp
+				@php $no = 0; @endphp
 				@foreach($klaim as $klaim)
 				<tr>
 					<td class="text-center">{{++$no}}</td>
@@ -192,42 +190,5 @@
     placeholder: '-->Select One<--',
     allowClear: true
   });
-</script>
-
-<script>
-  $(document).ready(function() {
-		$('#tabledata').on('click', 'tr a', function(e) {
-        e.preventDefault();
-        var lenRow = $('#tabledata tbody tr').length;
-        if (lenRow == 1 || lenRow <= 1) {
-          alert("Tidak bisa hapus semua baris!!");
-        } else {
-          $(this).parents('tr').remove();
-        }
-    });
-
-  var i = 1;
-  $("#add_data").click(function() {
-    $('#addrow' + i).html( "<td>"+
-			"<select name='sku[]' style='width:280px;' class='form-control items'>"+sku1+
-			"</select>"+
-			"</td>"+
-      "<td><input type='text' name='pcs[]' placeholder='Allocation ' class='form-control' /></td>"+
-			"<td><select require name='opsi[]' id='opsi' class='form-control'>"+
-				"<option value='pcs'>PCS</option>"+
-				"<option value='forecast'>forecast</option>"+
-			"</select></td>"+
-      "<td><textarea rows='4' type='text' required name='remarks[]' placeholder='Remarks' class='form-control' ></textarea></td>"+
-      "<td><input type='date' required name='start[]' placeholder='Start' title='start' class='form-control' /></td>"+
-			"<td><input type='date' required name='end[]' placeholder='End' title='End' class='form-control' /></td>"+
-			"<td><input type='date' required name='rto[]' placeholder='rto' class='form-control' /></td>"+
-			"<td><a href='' class='btn btn-danger btn-sm'><li class='fa fa-trash'></li></a>"+
-			"</td>");
-
-    	$('#tabledata').append('<tr id="addrow' + (i + 1) + '"></tr>');
-    	i++;
-  	});
-  });
-
 </script>
 @endsection

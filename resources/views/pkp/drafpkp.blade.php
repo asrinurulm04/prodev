@@ -2,15 +2,6 @@
 @section('title', 'PRODEV|Draf PKP')
 @section('content')
 
-@if (session('status'))
-<div class="col-lg-12 col-md-12 col-sm-12">
-  <div class="alert alert-success">
-    <button type="button" class="close" data-dismiss="alert">×</button>
-    {{ session('status') }}
-  </div>
-</div>
-@endif
-
 <div class="">
   <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
@@ -37,12 +28,12 @@
                 @foreach($pkp as $pkp)
                 <td class="text-center">{{ ++$no}}</td>
                 <td>{{ $pkp->id_brand }}</td>
-                <td>{{ $pkp->project_name }}</td>
+                <td>{{ $pkp->project_name }}@if($pkp->jenis!='Baku')_{{$pkp->no_kemas}}@endif</td>
                 <td>{{ $pkp->author1->name}}</td>
                 <td class="text-center">{{ $pkp->created_date }}</td>
                 <td class="text-center">{{ $pkp->approval }}</td>
                 <td class="text-center">
-                  <a class="btn btn-info btn-sm" href="{{ Route('rekappkp',$pkp->id_project) }}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
+                  <a class="btn btn-info btn-sm" href="{{ Route('rekappkp',[$pkp->id_project,$pkp->id_pkp]) }}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
                   <a href="{{route('hapuspkp',$pkp->id_project)}}" onclick="return confirm('Are you sure ?')" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Delete"><li class="fa fa-trash"></li></a>
                   {{csrf_field()}}
                 </td>
@@ -57,6 +48,6 @@
 </div>
 @endsection
 @section('s')
-    <link href="{{ asset('lib/advanced-datatable/css/jquery.dataTables.css') }}" rel="stylesheet" />
-    <script src="{{ asset('js/datatables.min.js')}}"></script>
+<link href="{{ asset('lib/advanced-datatable/css/jquery.dataTables.css') }}" rel="stylesheet" />
+<script src="{{ asset('js/datatables.min.js')}}"></script>
 @endsection

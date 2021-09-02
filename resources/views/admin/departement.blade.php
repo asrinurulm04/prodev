@@ -45,7 +45,7 @@
           <td class="text-center">
             @foreach($users as $user)
 							@if($user->id == $dept->manager_id)
-							{{ $user->name}}
+								{{ $user->name}}
 							@endif 
             @endforeach
           </td>
@@ -113,7 +113,7 @@
 				<select id="manager" name="manager" class="form-control">
 					@foreach($users as $user) 
 						@if($user->role->id=='12')
-						<option value="{{  $user->id }}"">{{ $user->role->role}} - {{ $user->name }}</option>
+						<option value="{{  $user->id }}">{{ $user->role->role}} - {{ $user->name }}</option>
 						@endif
 					@endforeach
 				</select>
