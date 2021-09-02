@@ -1394,6 +1394,8 @@ class pkpController extends Controller
                                 $cc = [Auth::user()->email,];
                             }if($penerima1!=NULL && $penerima2==NULL){
                                 $cc = [Auth::user()->email,$emailpenerima1->email];
+                            }if($penerima1==NULL && $penerima2!=NULL){
+                                $cc = [Auth::user()->email,$emailpenerima2->email];
                             }if($penerima1!=NULL && $penerima2!=NULL){
                                 $cc = [Auth::user()->email,$emailpenerima1->email,$emailpenerima2->email];
                             }
