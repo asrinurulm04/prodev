@@ -262,7 +262,7 @@
           @if($pkp->jenis=='Baku' || $pkp->jenis=='Umum')
           <div class="form-group">
             <label class="control-label col-md-2 col-sm-3 col-xs-12" style="color:#cf3721">AKG^</label>
-            <div class="col-md-9 col-sm-89col-xs-12">
+            <div class="col-md-9 col-sm-8 col-xs-12">
               <select name="akg" required  id="akg" class="form-control">
                 @if($pkp->akg!=NULL)
                 <option value="{{$pkp->tarkon->id_tarkon}}" readonly>{{$pkp->tarkon->tarkon}}</option>
@@ -358,19 +358,19 @@
           <div class="form-group">
             @if($pkp->primery!=null)
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name" style="color:#a871ff">Primary information^ :</label>
-            <div class="col-md-8 col-sm-3 col-xs-12">
+            <div class="col-md-8 col-sm-8 col-xs-12">
               <input name="primary" class="col-md-8 col-sm-8 col-xs-12 form-control" id="" value="{{$pkp->primery}}"></textarea>
             </div><br><br><br>
             @endif
             @if($pkp->secondary!=null)
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name" style="color:#a871ff">Secondary information^:</label>
-            <div class="col-md-8 col-sm-3 col-xs-12">
+            <div class="col-md-8 col-sm-8 col-xs-12">
               <input name="secondary" class="col-md-8 col-sm-8 col-xs-12 form-control" id="" value="{{$pkp->secondary}}"></textarea>
             </div><br><br><br>
             @endif
             @if($pkp->tertiary!=null)
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name" style="color:#a871ff">Tertiary information^:</label>
-            <div class="col-md-8 col-sm-3 col-xs-12">
+            <div class="col-md-8 col-sm-8 col-xs-12">
               <input name="tertiary" class="col-md-8 col-sm-8 col-xs-12 form-control" id="" value="{{$pkp->tertiary}}"></textarea>
             </div><br><br>
             @endif
@@ -669,19 +669,19 @@
         "<div class='form-group'>"+
           "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>Primary</label>"+
           "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-            "<textarea name='primary' id='primary' class='col-md-12 col-sm-12 col-xs-12'></textarea>"+
+            "<textarea name='primary' id='primary' class='col-md-12 col-sm-9 col-xs-12'></textarea>"+
           "</div>"+
         "</div>"+
         "<div class='form-group'>"+
           "<label class='control-label col-md-2 col-sm-3 col-xs-12' for='last-name'>Secondary</label>"+
           "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-            "<textarea name='secondary' id='secondary' class='col-md-12 col-sm-12 col-xs-12'></textarea>"+
+            "<textarea name='secondary' id='secondary' class='col-md-12 col-sm-9 col-xs-12'></textarea>"+
           "</div>"+
         "</div>"+
         "<div class='form-group'>"+
           "<label for='middle-name' class='control-label col-md-2 col-sm-3 col-xs-12'>Tertiary </label>"+
           "<div class='col-md-10 col-sm-10 col-xs-12'>"+
-            "<textarea name='tertiary' id='tertiary' class='col-md-12 col-sm-12 col-xs-12'></textarea>"+
+            "<textarea name='tertiary' id='tertiary' class='col-md-12 col-sm-9 col-xs-12'></textarea>"+
           "</div>"+
         "</div>"+
         "<div class='ln_solid'></div>"
