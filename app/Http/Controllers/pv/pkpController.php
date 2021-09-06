@@ -305,7 +305,7 @@ class pkpController extends Controller
         $data       = sprintf("%03s", abs($nopkp));
         $for        = Forecast::where([['id_project',$pkp->id_project],['id_pkp',$pkp->id_pkp],['revisi',$pkp->revisi],['turunan',$pkp->turunan],['revisi_kemas',$pkp->revisi_kemas]])->get();
         $type       = $pkp->type;
-        $ses        = DataSES::where([['id_project',$pkp->id_project],['id_pkp',$pkp->id_pkp],['revisi','<=',$pkp->revisi],['turunan','<=',$pkp->turunan],['revisi_kemas','<=',$pkp->revisi_kemas]])->orderBy('revisi','desc')->orderBy('turunan','desc')->get();
+        $ses        = DataSES::where([['id_project',$pkp->id_project],['id_pkp',$pkp->id_pkp],['revisi',$pkp->revisi],['turunan',$pkp->turunan],['revisi_kemas',$pkp->revisi_kemas]])->orderBy('revisi','desc')->orderBy('turunan','desc')->get();
         $pkp2       = PkpProject::where('id_pkp',$pkp->id_pkp)->where('revisi','<=',$pkp->revisi)->where('turunan',$pkp->turunan)->orderBy('turunan','desc')->orderBy('revisi','desc')->get();
         $pkp1       = PkpProject::where([['id_pkp',$pkp->id_pkp],['revisi','<=',$pkp->revisi],['turunan','<=',$pkp->turunan],['revisi_kemas','<=',$pkp->revisi_kemas]])->orderBy('turunan','desc')->orderBy('revisi','desc')->get();
         $dataklaim  = DataKlaim::join('ms_klaim','ms_klaim.id','=','id_klaim')->where([['id_project',$pkp->id_project],['id_pkp',$pkp->id_pkp],['revisi',$pkp->revisi],['turunan',$pkp->turunan],['revisi_kemas',$pkp->revisi_kemas]])->get();
