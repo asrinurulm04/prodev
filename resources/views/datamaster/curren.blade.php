@@ -58,7 +58,7 @@
                     <input class="form-control" id="currency" name="currency" placeholder="Currency" value="{{ $curren->currency }}" required />
                     <label for="" class="control-label">Harga</label>
                     <input type="text" class="form-control" id="harga" name="harga" placeholder="Harga" required value="{{ $curren->harga }}"/>
-                  <label for="" style="color:red">* gunakan "." untuk tanda baca ","</label><br>
+                    <label for="" style="color:red">* gunakan "." untuk tanda baca ","</label><br>
                     <label for="" class="control-label">Keterangan</label>
                     <input class="form-control" id="keterangan" name="keterangan" placeholder="Keterangan" value="{{ $curren->keterangan }}" required />
                   </div>
@@ -111,5 +111,4 @@
 @section('s')
 <link href="{{ asset('lib/advanced-datatable/css/jquery.dataTables.css') }}" rel="stylesheet" />
 <script src="{{ asset('js/datatables.min.js')}}"></script>
-<script type="text/javascript"></script>
 @endsection

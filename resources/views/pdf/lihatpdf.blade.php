@@ -337,27 +337,15 @@
                                   <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
                                     <th class="text-center">Komponen</th>
                                     <th class="text-center">Klaim</th>
-                                    <th class="text-center">Detail</th>
                                     <th class="text-center">Information</th>
                                   </tr>
+                                  @foreach($dataklaim as $data)
                                   <tr>
-                                    <td>
-                                      <?php $komponen = []; foreach ($dataklaim as $key => $data) If (!$komponen || !in_array($data->datakp->komponen, $komponen)) { $komponen += array( $key => $data->datakp->komponen ); 
-                                      if($data->turunan!=$pdf->turunan){ echo" <s><font color='#6594c5'>".$data->datakp->komponen."<br></font></s>"; } if($data->turunan==$pdf->turunan){ echo"". $data->datakp->komponen."<br>"; } }  ?>
-                                    </td>
-                                    <td>
-                                      <?php $klaim = []; foreach ($dataklaim as $key => $data) If (!$klaim || !in_array($data->klaim, $klaim)) { $klaim += array( $key => $data->klaim );
-                                      if($data->turunan!=$pdf->turunan){ echo" <s><font color='#6594c5'>".$data->klaim."<br></font></s>"; } if($data->turunan==$pdf->turunan){ echo"". $data->klaim."<br>"; } }  ?>
-                                    </td>
-                                    <td>
-                                      <?php $detail = []; foreach ($datadetail as $key => $data) If (!$detail || !in_array($data->datadl->detail, $detail)) { $detail += array( $key => $data->datadl->detail );
-                                      if($data->turunan!=$pdf->turunan){ echo" <s><font color='#6594c5'>".$data->datadl->detail."<br></font></s>"; } if($data->turunan==$pdf->turunan){ echo"". $data->datadl->detail."<br>"; } }  ?>
-                                    </td>
-                                    <td>
-                                      <?php $note = []; foreach ($dataklaim as $key => $data) If (!$note || !in_array($data->note, $note)) { $note += array( $key => $data->note );
-                                      if($data->turunan!=$pdf->turunan){ echo" <s><font color='#6594c5'>".$data->note."<br></font></s>"; } if($data->turunan==$pdf->turunan){ echo"". $data->note."<br>"; } }  ?>
-                                    </td>
+                                    <td>{{$data->datakp->komponen}}</td>
+                                    <td>{{$data->klaim}}</td>
+                                    <td>{{$data->note}}</td>
                                   </tr>
+                                  @endforeach
                                 </tbody>
                               </table>
 												    </td>
@@ -384,16 +372,13 @@
                                   @endif
                                 @endif <br><br>
                                 @if($pdf->primery!=NULL)
-                                <tr><th style="border:1px;" width="55%">Primary</th><th>:</th><td style="border:none;"><?php $primery = []; foreach ($pdf1 as $key => $data) If (!$primery || !in_array($data->primery, $primery)) { $primery += array( $key => $data->primery ); 
-                                  if($data->turunan!=$pdf->turunan){  echo" <s><font color='#6594c5'>$data->primery<br></font></s>";  } if($data->turunan==$pdf->turunan){ echo" $data->primery<br>"; } }  ?></td></tr>
+                                <tr><th style="border:none;" width="35%">Primary</th><th>:</th><td style="border:none;">{{$pdf->primery}}</td></tr>
                                 @endif
                                 @if($pdf->secondery!=NULL)
-                                <tr><th style="border:none;" width="55%">Secondary</th><th>:</th><td style="border:none;"><?php $secondery = []; foreach ($pdf1 as $key => $data) If (!$secondery || !in_array($data->secondery, $secondery)) { $secondery += array( $key => $data->secondery ); 
-                                  if($data->turunan!=$pdf->turunan){  echo" <s><font color='#6594c5'>$data->secondery<br></font></s>";  } if($data->turunan==$pdf->turunan){ echo" $data->secondery<br>"; } }  ?></td></tr>
+                                <tr><th style="border:none;" width="35%">Secondary</th><th>:</th><td style="border:none;">{{$pdf->secondery}}</td></tr>
                                 @endif
                                 @if($pdf->Tertiary!=NULL)
-                                <tr><th style="border:none;" width="55%">Teriery</th><th>:</th><td style="border:none;"><?php $Tertiary = []; foreach ($pdf1 as $key => $data) If (!$Tertiary || !in_array($data->Tertiary, $Tertiary)) { $Tertiary += array( $key => $data->Tertiary ); 
-                                  if($data->turunan!=$pdf->turunan){  echo" <s><font color='#6594c5'>$data->Tertiary<br></font></s>";  } if($data->turunan==$pdf->turunan){ echo" $data->Tertiary<br>"; } }  ?></td></tr>
+                                <tr><th style="border:none;" width="35%">Teriery</th><th>:</th><td style="border:none;">{{$pdf->Tertiary}}</td></tr>
                                 @endif
                               </table>
                               @if($hitungkemaspdf>=0)
@@ -419,11 +404,36 @@
                               @endif
 												    </td>
                           </tr>
+                          <tr>
+                            <th>File</th>
+                            <td colspan="2">
+                              <table class="table-bordered table">
+                                <thead>
+                                  <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
+                                    <td>File Name</td>
+                                    <td>Information</td>
+                                    <td></td>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  @foreach($picture as $pic)
+                                  <tr>
+                                    <td>{{$pic->filename}} </td>
+                                    <td width="40%"> &nbsp{{$pic->informasi}}</td>  
+                                    <td width="10%" class="text-center"> <a href="{{asset('data_file/'.$pic->filename)}}" class="btn btn-warning btn-sm" download="{{$pic->filename}}" title="Download file"><li class="fa fa-download"></li></a></td>
+                                  </tr>
+                                <input type="hidden" value="{{$pic->lokasi}}" name="pic[]" id="pic" required>
+                                  @endforeach
+                                </tbody>
+                              </table>
+                            </td>
+                          </tr>
                         </thead>
                       </table>
                       @elseif($pdf->status_project!='draf')
                       <table width="100%" class="table table-bordered">
                         <thead>
+                          <tr style="background-color:grey;font-weight: bold;color:white;font-size: 15px;"><td colspan="2" class="text-center">{{$pdf->project_name}}</td></tr>
                           <tr>
                             <th>Target market</th>
                             <td colspan="2">
@@ -490,27 +500,15 @@
                                   <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
                                     <th class="text-center">Komponen</th>
                                     <th class="text-center">Klaim</th>
-                                    <th class="text-center">Detail</th>
                                     <th class="text-center">Information</th>
                                   </tr>
+                                  @foreach($dataklaim as $data)
                                   <tr>
-                                    <td>
-                                      <?php $komponen = []; foreach ($dataklaim as $key => $data) If (!$komponen || !in_array($data->datakp->komponen, $komponen)) { $komponen += array( $key => $data->datakp->komponen ); 
-                                      if($data->revisi!=$pdf->revisi){ echo" <s><font color='#ffa2a2'>".$data->datakp->komponen."<br></font></s>"; } if($data->revisi==$pdf->revisi){ echo"". $data->datakp->komponen."<br>"; } }  ?>
-                                    </td>
-                                    <td>
-                                      <?php $klaim = []; foreach ($dataklaim as $key => $data) If (!$klaim || !in_array($data->klaim, $klaim)) { $klaim += array( $key => $data->klaim );
-                                      if($data->revisi!=$pdf->revisi){ echo" <s><font color='#ffa2a2'>".$data->klaim."<br></font></s>"; } if($data->revisi==$pdf->revisi){ echo"". $data->klaim."<br>"; } }  ?>
-                                    </td>
-                                    <td>
-                                      <?php $detail = []; foreach ($datadetail as $key => $data) If (!$detail || !in_array($data->datadl->detail, $detail)) { $detail += array( $key => $data->datadl->detail );
-                                      if($data->revisi!=$pdf->revisi){ echo" <s><font color='#ffa2a2'>".$data->datadl->detail."<br></font></s>"; } if($data->revisi==$pdf->revisi){ echo"". $data->datadl->detail."<br>"; } }  ?>
-                                    </td>
-                                    <td>
-                                      <?php $note = []; foreach ($dataklaim as $key => $data) If (!$note || !in_array($data->note, $note)) { $note += array( $key => $data->note );
-                                      if($data->revisi!=$pdf->revisi){ echo" <s><font color='#ffa2a2'>".$data->note."<br></font></s>"; } if($data->revisi==$pdf->revisi){ echo"". $data->note."<br>"; } }  ?>
-                                    </td>
+                                    <td>{{$data->datakp->komponen}}</td>
+                                    <td>{{$data->klaim}}</td>
+                                    <td>{{$data->note}}</td>
                                   </tr>
+                                  @endforeach
                                 </tbody>
                               </table>
 												    </td>
@@ -544,18 +542,14 @@
                                 @if($pdf->kemas_eksis==NULL)
                                 @endif
                               @endif <br><br>
-                              Information:<br>
                               @if($pdf->primery!=NULL)
-                              <tr><th style="border:none;" width="35%">Primary</th><th>:</th><th style="border:none;"><?php $primery = []; foreach ($pdf2 as $key => $data) If (!$primery || !in_array($data->primery, $primery)) { $primery += array( $key => $data->primery ); 
-                                if($data->revisi!=$pdf->revisi){  echo" <s><font color='#6594c5'>$data->primery<br></font></s>";  } if($data->revisi==$pdf->revisi){ echo" $data->primery<br>"; } }  ?></th></tr>
+                              <tr><th style="border:none;" width="35%">Primary</th><th>:</th><td style="border:none;">{{$pdf->primery}}</td></tr>
                               @endif
                               @if($pdf->secondery!=NULL)
-                              <tr><th style="border:none;" width="35%">Secondary</th><th>:</th><th style="border:none;"><?php $secondery = []; foreach ($pdf2 as $key => $data) If (!$secondery || !in_array($data->secondery, $secondery)) { $secondery += array( $key => $data->secondery ); 
-                                if($data->revisi!=$pdf->revisi){  echo" <s><font color='#6594c5'>$data->secondery<br></font></s>";  } if($data->revisi==$pdf->revisi){ echo" $data->secondery<br>"; } }  ?></th></tr>
+                              <tr><th style="border:none;" width="35%">Secondary</th><th>:</th><td style="border:none;">{{$pdf->secondery}}</td></tr>
                               @endif
                               @if($pdf->Tertiary!=NULL)
-                              <tr><th style="border:none;" width="35%">Teriery</th><th>:</th><th style="border:none;"><?php $Tertiary = []; foreach ($pdf2 as $key => $data) If (!$Tertiary || !in_array($data->Tertiary, $Tertiary)) { $Tertiary += array( $key => $data->Tertiary ); 
-                                if($data->revisi!=$pdf->revisi){  echo" <s><font color='#6594c5'>$data->Tertiary<br></font></s>";  } if($data->revisi==$pdf->revisi){ echo" $data->Tertiary<br>"; } }  ?></th></tr>
+                              <tr><th style="border:none;" width="35%">Teriery</th><th>:</th><td style="border:none;">{{$pdf->Tertiary}}</td></tr>
                               @endif
                             </table>
                             @if($hitungkemaspdf>=0)
@@ -580,6 +574,30 @@
                             </table>
                             @endif
 												    </td>
+                          </tr>
+                          <tr>
+                            <th>File</th>
+                            <td colspan="2">
+                              <table class="table-bordered table">
+                                <thead>
+                                  <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
+                                    <td>File Name</td>
+                                    <td>Information</td>
+                                    <td></td>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  @foreach($picture as $pic)
+                                  <tr>
+                                    <td>{{$pic->filename}} </td>
+                                    <td width="40%"> &nbsp{{$pic->informasi}}</td>  
+                                    <td width="10%" class="text-center"> <a href="{{asset('data_file/'.$pic->filename)}}" class="btn btn-warning btn-sm" download="{{$pic->filename}}" title="Download file"><li class="fa fa-download"></li></a></td>
+                                  </tr>
+                                <input type="hidden" value="{{$pic->lokasi}}" name="pic[]" id="pic" required>
+                                  @endforeach
+                                </tbody>
+                              </table>
+                            </td>
                           </tr>
                         </thead>
                       </table>

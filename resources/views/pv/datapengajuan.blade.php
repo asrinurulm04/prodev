@@ -37,7 +37,6 @@
                       <table id="datatable" class="table table-striped table-bordered" style="width:100%">
                         <thead>
                           <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
-                            <th class="text-center">From</th>
                             <th class="text-center">Project Name</th>
                             <th class="text-center">Priority</th>
                             <th class="text-center">receiver</th>
@@ -48,8 +47,7 @@
                         <tbody>
                         @foreach($pengajuanpkp as $pkp)
                           <tr>
-                            <td width="10%">Manager {{$pkp->datapkp->departement->dept}}</td>
-                            <td>{{$pkp->datapkp->project_name}}</td>
+                            <td>{{$pkp->project_name}}</td>
                             <td class="text-center">
                               @if($pkp->prioritas_pengajuan=='1')
                               <span class="label label-danger" style="color:#ffff">High Priority</span>
@@ -60,14 +58,11 @@
                               @endif
                             </td>
                             <th class="text-center">
-                            @if($pkp->penerima==NULL)
-                            @elseif($pkp->penerima!=NULL)
                             {{$pkp->user->role}}
-                            @endif
                             </th>
                             <td width="25%">{{$pkp->alasan_pengajuan}}</td>
                             <td width="10%">
-                              <a href="{{Route('rekappkp',$pkp->id_pkp)}}" class="btn btn-info btn-sm" type="button"><li class="fa fa-edit"> Start revision</li></a>
+                              <a href="{{Route('rekappkp',[$pkp->id_project,$pkp->id_pkp])}}" class="btn btn-info btn-sm" type="button"><li class="fa fa-edit"> Start revision</li></a>
             	              </td>
                           </tr>
                         @endforeach

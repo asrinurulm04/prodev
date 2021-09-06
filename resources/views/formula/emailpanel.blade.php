@@ -35,7 +35,7 @@
                                             Dengan data sebagai berikut : <br>
                                             <table>
                                               @if($formula->workbook_id!=NULL)
-                                              <tr><td>PKP Number</td><td>: {{$formula->Workbook->datapkpp->pkp_number}}{{$formula->Workbook->datapkpp->ket_no}}</td></tr>
+                                              <tr><td>PKP Number</td><td>: {{$formula->Workbook->pkp_number}}{{$formula->Workbook->ket_no}}</td></tr>
                                               @elseif($formula->workbook_pdf_id!=NULL)
                                               <tr><td>PDF Number</td><td>: {{$formula->Workbook_pdf->datapdf->pkp_number}}{{$formula->Workbook_pdf->datapdf->ket_no}}</td></tr>
                                               @endif

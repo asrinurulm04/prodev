@@ -7,14 +7,14 @@
   <div class="col-md-7">
     <div class="tabbable">
       <ul class="nav nav-tabs wizard">
-        @if($formula->workbook_id!=NULL)
-        <li class="active"><a href="{{ route('step1',[ $idfor, $idf]) }}"><span class="nmbr">1</span>Information</a></li>
-        <li class="completed"><a href="{{ route('step2',[ $idfor, $idf]) }}"><span class="nmbr">2</span>Drafting</a></li>
-        <li class="active"><a href="{{ route('summarry',[ $idfor, $idf]) }}"><span class="nmbr">3</span>Summary</a></li>
+        @if($formula->workbook_id!=NULL) 
+        <li class="active"><a href="{{ route('step1',[ $idfor, $idpkp,$idpro]) }}"><span class="nmbr">1</span>Information</a></li>
+        <li class="completed"><a href="{{ route('step2',[ $idfor, $idpkp,$idpro]) }}"><span class="nmbr">2</span>Drafting</a></li>
+        <li class="active"><a href="{{ route('summarry',[ $idfor, $idpkp,$idpro]) }}"><span class="nmbr">3</span>Summary</a></li>
         @elseif($formula->workbook_pdf_id!=NULL)
-        <li class="active"><a href="{{ route('step1_pdf',[ $idfor_pdf, $idf]) }}"><span class="nmbr">1</span>Information</a></li>
-        <li class="completed"><a href="{{ route('step2',[ $idfor_pdf, $idf]) }}"><span class="nmbr">2</span>Drafting</a></li>
-        <li class="active"><a href="{{ route('summarry',[ $idfor_pdf, $idf]) }}"><span class="nmbr">3</span>Summary</a></li>
+        <li class="active"><a href="{{ route('step1_pdf',[ $idfor, $idpkp]) }}"><span class="nmbr">1</span>Information</a></li>
+        <li class="completed"><a href="{{ route('step2',[ $idfor,$idpkp,$idpro]) }}"><span class="nmbr">2</span>Drafting</a></li>
+        <li class="active"><a href="{{ route('summarry',[ $idfor,$idpkp,$idpro]) }}"><span class="nmbr">3</span>Summary</a></li>
         @endif
       </ul>
     </div>
@@ -50,8 +50,8 @@
         <div class="col-md-4">
           <table>
             @if($formula->workbook_id!=NULL)
-            <tr><th>Product Name</th><td>&nbsp; : {{ $formula->Workbook->datapkpp->project_name }}</td></tr>
-            <tr><th>PV</th><td>&nbsp; : {{ $formula->workbook->perevisi2->name }}</td></tr>
+            <tr><th>Product Name</th><td>&nbsp; : {{ $project->project_name }}</td></tr>
+            <tr><th>PV</th><td>&nbsp; : {{ $project->perevisi2->name }}</td></tr>
             @else
             <tr><th>Product Name</th><td>&nbsp; : {{ $formula->Workbook_pdf->datapdf->project_name }}</td></tr>
             <tr><th>PV</th><td>&nbsp; : {{ $formula->workbook_pdf->perevisi2->name }} </td></tr>
@@ -84,7 +84,7 @@
       <h4><i class="fa fa-plus"></i> Add Materials <small style="color:red">* gunakan (.) untuk pengganti (,)</small></h4>
     </div>
     <div class="panel-body">
-      <form id="submitbahan" method="POST" action="{{ route('step2insert',$idf) }}">
+      <form id="submitbahan" method="POST" action="{{ route('step2insert',$idfor) }}">
       <div class="col-lg-12 col-md-12 col-sm-12">
         <table style="border-spacing: 10px;border-collapse: separate;">
         	<tr>
@@ -213,7 +213,7 @@
             @endif
             @if ($mybase != 0)
             <a type="button" class="btn btn-dark btn-sm" id="buttongantibase"><i class="fa fa-exchange"></i> Ganti Base</a>
-            <a type="button" class="btn btn-danger btn-sm" href="{{ route('hapusall',$idf) }}" onclick="return confirm('Hapus Data ?')"><i class="fa fa-times"></i> Delete Data</a>
+            <a type="button" class="btn btn-danger btn-sm" href="{{ route('hapusall',$idfor) }}" onclick="return confirm('Hapus Data ?')"><i class="fa fa-times"></i> Delete Data</a>
             @endif
           </div>                                    
         </div>                             
@@ -245,8 +245,7 @@
               <input type="hidden" placeholder="0" id="rsServing{{$no}}"  value="{{ $fortail['scale_serving'] }}">
               <input type="hidden" placeholder="0" id="rsBatch{{$no}}"    value="{{ $fortail['scale_batch'] }}">                 
               <td class="text-center">
-                <a type="button" href="{{ route('editfortail',['id'=>$fortail['id'],'vf'=>$idf]) }}"><i class="fa fa-edit" ></i></a>
-                <a type="button" onclick="return confirm('Hapus Bahan Baku ?')" href="{{ route('step2destroy',['id'=>$fortail['id'],'vf'=>$idf]) }}"><i class="fa fa-trash"></i></a>
+                <a type="button" onclick="return confirm('Hapus Bahan Baku ?')" href="{{ route('step2destroy',['id'=>$fortail['id'],'vf'=>$idfor]) }}"><i class="fa fa-trash"></i></a>
               </td>
               <td>
                 <table class="table-bordered table">
@@ -293,8 +292,8 @@
               <input type="hidden" placeholder="0" id="rsServing{{$no}}" value="{{ $fortail['scale_serving'] }}">
               <input type="hidden" placeholder="0" id="rsBatch{{$no}}" value="{{ $fortail['scale_batch'] }}">                      
               <td class="text-center">
-                <a type="button" href="{{ route('editfortail',['id'=>$fortail['id'],'vf'=>$idf]) }}" title="edit"><i class="fa fa-edit" ></i></a>
-                <a type="button" onclick="return confirm('Hapus Bahan Baku ?')" href="{{ route('step2destroy',['id'=>$fortail['id'],'vf'=>$idf]) }}"><i class="fa fa-trash"></i></a>
+                <a type="button" href="{{ route('editfortail',['id'=>$fortail['id'],'vf'=>$idfor]) }}" title="edit"><i class="fa fa-edit" ></i></a>
+                <a type="button" onclick="return confirm('Hapus Bahan Baku ?')" href="{{ route('step2destroy',['id'=>$fortail['id'],'vf'=>$idfor]) }}"><i class="fa fa-trash"></i></a>
               </td>
               <td>
                 <table class="table-bordered table">
@@ -342,8 +341,8 @@
               <input type="hidden" placeholder="0" id="rsServing{{$no}}" value="{{ $fortail['scale_serving'] }}">
               <input type="hidden" placeholder="0" id="rsBatch{{$no}}" value="{{ $fortail['scale_batch'] }}">                 
               <td class="text-center">
-                <a type="button" href="{{ route('editfortail',['id'=>$fortail['id'],'vf'=>$idf]) }}" title="edit"><i class="fa fa-edit" ></i></a>
-                <a type="button" onclick="return confirm('Hapus Bahan Baku ?')" href="{{ route('step2destroy',['id'=>$fortail['id'],'vf'=>$idf]) }}"><i class="fa fa-trash"></i></a>
+                <a type="button" href="{{ route('editfortail',['id'=>$fortail['id'],'vf'=>$idfor]) }}" title="edit"><i class="fa fa-edit" ></i></a>
+                <a type="button" onclick="return confirm('Hapus Bahan Baku ?')" href="{{ route('step2destroy',['id'=>$fortail['id'],'vf'=>$idfor]) }}"><i class="fa fa-trash"></i></a>
               </td>
               <td>
                 <table class="table-bordered table">
@@ -398,16 +397,16 @@
         <div class="col-md-8">
           @if($formula->workbook_id!=NULL)
             @if($ada==0)                                    
-            <a type="hidden" class="btn btn-success btn-sm" href="{{ route('getTemplate',[$idfor,$idf]) }}"><i class="fa fa-download"></i> Import Formula Template</a>        
+            <a type="hidden" class="btn btn-success btn-sm" href="{{ route('getTemplate',[$idfor,$idpkp,$idpro]) }}"><i class="fa fa-download"></i> Import Formula Template</a>        
             @else
-            <a class="btn btn-success btn-sm" href="{{ route('getTemplate',[$idfor,$idf]) }}" type="button" id="buttonformcheckscale"><i class="fa fa-download"></i> Import Granulasi/Premix</a>
+            <a class="btn btn-success btn-sm" href="{{ route('getTemplate',[$idfor,$idpkp,$idpro]) }}" type="button" id="buttonformcheckscale"><i class="fa fa-download"></i> Import Granulasi/Premix</a>
             <a class="btn btn-info btn-sm" type="button" id="buttonformsavechanges"><i class="fa fa-save"></i> Save Changes</a>                            
             @endif
           @elseif($formula->workbook_pdf_id!=NULL)
             @if($ada==0)                                    
-            <a type="button" class="btn btn-success btn-sm" href="{{ route('getTemplate',[$idfor_pdf,$idf]) }}"><i class="fa fa-download"></i> Import Formula Template</a>        
+            <a type="button" class="btn btn-success btn-sm" href="{{ route('getTemplate',[$idfor,$idpkp,$idpro]) }}"><i class="fa fa-download"></i> Import Formula Template</a>        
             @else
-            <a class="btn btn-success btn-sm" href="{{ route('getTemplate',[$idfor_pdf,$idf]) }}" type="button" id="buttonformcheckscale"><i class="fa fa-download"></i> Import Granulasi/Premix</a>
+            <a class="btn btn-success btn-sm" href="{{ route('getTemplate',[$idfor,$idpkp,$idpro]) }}" type="button" id="buttonformcheckscale"><i class="fa fa-download"></i> Import Granulasi/Premix</a>
             <a class="btn btn-info btn-sm" type="button" id="buttonformsavechanges"><i class="fa fa-save"></i> Save Changes</a>                            
             @endif
           @endif
@@ -455,7 +454,7 @@
   <div class="row" style="margin:20px">
     <div class="col-md-2" >
       <!-- Ganti Base -->
-      <form action="{{ route('gantibase',$idf) }}" id="formgantibase" method="POST">
+      <form action="{{ route('gantibase',$idfor) }}" id="formgantibase" method="POST">
         <label for="thebase">Ganti Base</label><br>
         <input type="number" id="thebase" name="thebase" placeholder="0" value="{{ $mybase }}">
         {{ csrf_field()}}
@@ -463,9 +462,9 @@
     </div>
     <div class="col-md-2">
       @if($formula->workbook_id!=NULL)
-      <form action="{{ route('cekscale',[ $idfor, $idf]) }}" id="formcheckscale" method="POST">
+      <form action="{{ route('cekscale',[ $idfor,$idpkp,$idpro]) }}" id="formcheckscale" method="POST">
       @elseif($formula->workbook_pdf_id!=NULL)
-      <form action="{{ route('cekscale',[ $idfor_pdf, $idf]) }}" id="formcheckscale" method="POST">
+      <form action="{{ route('cekscale',[ $idfor,$idpkp,$idpro]) }}" id="formcheckscale" method="POST">
       @endif
       <!-- Form Check Scale -->
       <label>Check Scale</label><br>
@@ -488,7 +487,7 @@
     </div>
     <div class="col-md-8">
       <!-- form save scale -->
-      <form action="{{ route('savescale',$idf) }}" id="formsavescale" method="POST">
+      <form action="{{ route('savescale',[$idfor,$idpkp]) }}" id="formsavescale" method="POST">
         <table class="table">
           <tbody>
             @foreach($scalecollect as $fortail)                                                                      
@@ -513,7 +512,7 @@
   </div>
   <div class="row">
     <div class="col-md-6">
-      <form action="{{ route('savechanges',$idf) }}" id="formsavechanges" method="POST">
+      <form action="{{ route('savechanges',$idfor) }}" id="formsavechanges" method="POST">
       <table class="table">
         <tbody>
           @foreach($scalecollect as $fortail)                                                                      

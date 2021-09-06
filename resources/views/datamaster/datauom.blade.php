@@ -17,7 +17,7 @@
 						</tr>
 					</thead>
 					<tbody>
-          @php $no = 0; @endphp 
+          	@php $no = 0; @endphp 
 						@foreach($uom as $data)
 						<tr>
               <td class="text-center">{{ ++$no }}</td>

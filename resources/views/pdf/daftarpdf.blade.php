@@ -24,10 +24,10 @@
   <div class="col-md-12 col-xs-12">
     @foreach($data as $data)
     <div class="x_panel">
-      <div class="col-md-5">
-        <h3><li class="fa fa-star"></li> Project Name: {{ $data->project_name}}</h3>
+      <div class="col-md-6">
+        <h4><li class="fa fa-star"></li> Project Name: {{ $data->project_name}}</h4>
       </div>
-      <div class="col-md-7" align="right">
+      <div class="col-md-6" align="right">
         @foreach($pdf as $pdf)
         <a class="btn btn-info btn-sm" href="{{ Route('lihatpdf',['pdf_id' => $pdf->pdf_id,'revisi' => $pdf->revisi, 'turunan' => $pdf->turunan]) }}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i> Show</a>
         @if($pdf->status_data=='revisi' || $pdf->status_data=='draf')
@@ -232,7 +232,7 @@
                   <td class="text-center">{{$sample->catatan_pv}}</td>
                   <td class="text-center">
                     {{csrf_field()}}
-                    <a class="btn btn-info btn-sm" href="{{ route('formula.detail',[$sample->workbook_pdf_id,$sample->id]) }}" data-toggle="tooltip" title="Show"><i style="font-size:12px;" class="fa fa-eye"></i></a>
+                    <a class="btn btn-info btn-sm" href="{{ route('formula.detail',[$sample->id,$id->id_project_pdf,$sample->workbook_pdf_id]) }}" data-toggle="tooltip" title="Show"><i style="font-size:12px;" class="fa fa-eye"></i></a>
                     <a class="btn btn-success btn-sm" data-toggle="modal" data-target="#update{{$sample->id}}" data-toggle="tooltip" title="Updata"><i style="font-size:12px;" class="fa fa-arrow-circle-up"></i></a>
                     <!-- UpVersion -->
                     <div class="modal fade" id="update{{$sample->id}}" role="dialog" aria-labelledby="hm" aria-hidden="true">
@@ -243,8 +243,8 @@
                             <h4 class="modal-title" id="hm" style="font-weight: bold;color:black;"> Update Data</h4>
                           </div>
                           <div class="modal-body">
-                            <a class="btn btn-primary btn-sm" href="{{ route('upversion',[$sample->id,$sample->workbook_pdf_id]) }}" onclick="return confirm('Up Version ?')"><i style="font-size:12px;" class="fa fa-arrow-circle-up"></i> Up Version</a><br><br>
-                            <a class="btn btn-warning btn-sm" href="{{ route('upversion2',[$sample->id,$sample->versi]) }}" onclick="return confirm('Up Sub Version ?')"><i style="font-size:12px;" class="fa fa-arrow-circle-up"></i> Up Sub Version</a>
+                            <a class="btn btn-primary btn-sm" href="{{ route('upversion',[$sample->id,$id->id_project_pdf,$sample->workbook_pdf_id]) }}" onclick="return confirm('Up Version ?')"><i style="font-size:12px;" class="fa fa-arrow-circle-up"></i> Up Version</a><br><br>
+                            <a class="btn btn-warning btn-sm" href="{{ route('upversion2',[$sample->id,$id->id_project_pdf,$sample->workbook_pdf_id]) }}" onclick="return confirm('Up Sub Version ?')"><i style="font-size:12px;" class="fa fa-arrow-circle-up"></i> Up Sub Version</a>
                           </div
                           <div class="modal-footer">
                           </div>
@@ -252,11 +252,11 @@
                       </div>
                     </div>
                     @if($sample->status!='proses')
-                    <a class="btn btn-primary btn-sm" href="{{ route('step1_pdf',[$sample->workbook_pdf_id,$sample->id]) }}"><i style="font-size:12px;" class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a>
-                    <a class="btn btn-dark btn-sm" href="{{ route('ajukanvp',[$sample->workbook_pdf_id,$sample->id]) }}" onclick="return confirm('Ajukan Formula Kepada PV?')" data-toggle="tooltip" title="Ajukan Global"><li class="fa fa-paper-plane"></li></a>
+                    <a class="btn btn-primary btn-sm" href="{{ route('step1_pdf',[$sample->id,$sample->workbook_pdf_id]) }}"><i style="font-size:12px;" class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a>
+                    <a class="btn btn-dark btn-sm" href="{{ route('ajukanvp',[$sample->id,$sample->workbook_pdf_id]) }}" onclick="return confirm('Ajukan Formula Kepada PV?')" data-toggle="tooltip" title="Ajukan Global"><li class="fa fa-paper-plane"></li></a>
                     @elseif($sample->vv == 'approve' || $sample->vv == 'proses')
-                      <a class="btn btn-primary btn-sm" href="{{ route('panel',[$sample->workbook_pdf_id,$sample->id]) }}" data-toggle="tooltip" title="Lanjutkan Panel"><li class="fa fa-glass"></li></a>
-                      <a class="btn btn-warning btn-sm" href="{{ route('st',[$sample->workbook_pdf_id,$sample->id]) }}" data-toggle="tooltip" title="Lanjutkan Storage"><li class="fa fa-flask"></li></a>
+                      <a class="btn btn-primary btn-sm" href="{{ route('panel',[$sample->id,$id->id_project_pdf,$sample->workbook_pdf_id]) }}" data-toggle="tooltip" title="Lanjutkan Panel"><li class="fa fa-glass"></li></a>
+                      <a class="btn btn-warning btn-sm" href="{{ route('st',[$sample->id,$id->id_project_pdf,$sample->workbook_pdf_id]) }}" data-toggle="tooltip" title="Lanjutkan Storage"><li class="fa fa-flask"></li></a>
                     @endif
                   </td>
                 </tr>
@@ -309,7 +309,7 @@
                   <td class="text-center">{{$sample1->catatan_rd}}</td>
                   <td class="text-center">{{$sample1->catatan_pv}}</td>
                   <td class="text-center"> 
-                    <a class="btn btn-info btn-sm" href="{{ route('formula.detail',[$sample1->workbook_pdf_id,$sample1->id]) }}" data-toggle="tooltip" title="Show"><i style="font-size:12px;" class="fa fa-eye"></i></a>
+                    <a class="btn btn-info btn-sm" href="{{ route('formula.detail',[$sample1->id,$id->id_project,$sample1->workbook_id]) }}" data-toggle="tooltip" title="Show"><i style="font-size:12px;" class="fa fa-eye"></i></a>
                   @if($sample1->vv=='proses')
                     <a class="btn btn-danger btn-sm" data-toggle="modal" data-target="#rejectsample{{ $sample1->id  }}" title="Reject"><li class="fa fa-times"></li></a>  
                     <!-- Modal -->

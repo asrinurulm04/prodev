@@ -10,8 +10,8 @@
 		<div class="col-md-4">
       <table>
 				@if($formula->workbook_id!=NULL)
-        <tr><th>Product Name</th><td>&nbsp; : {{ $formula->Workbook->datapkpp->project_name }}</td></tr>
-				<tr><th>No.PKP</th><td>&nbsp; : {{ $formula->Workbook->datapkpp->pkp_number }}{{$formula->Workbook->datapkpp->ket_no}}</td></tr>
+        <tr><th>Product Name</th><td>&nbsp; : {{ $formula->Workbook->project_name }}</td></tr>
+				<tr><th>No.PKP</th><td>&nbsp; : {{ $formula->Workbook->pkp_number }}{{$formula->Workbook->ket_no}}</td></tr>
         <tr><th>Revised By</th><td>&nbsp; : {{ $formula->workbook->perevisi2->name }} </td></tr>
 				@elseif($formula->workbook_pdf_id!=NULL)
         <tr><th>Product Name</th><td>&nbsp; : {{ $formula->Workbook_pdf->datapdf->project_name }}</td></tr>
@@ -33,9 +33,9 @@
       	<a class="btn btn-warning btn-sm" href="{{ route('FOR_pkp',$formula->id) }}" title="Download FOR"><i class="fa fa-download"></i> FOR</a>
       	<a class="btn btn-warning btn-sm" href="{{ route('nutfact_bayangan_pkp',$formula->id) }}" title="Download Nutfact"><i class="fa fa-download"></i> Nutfact</a>
 				@if(auth()->user()->role->namaRule == 'user_produk' || auth()->user()->role->namaRule == 'pv_lokal')
-				<a href="{{ route('rekappkp',$formula->workbook_id) }}" type="button" class="btn btn-sm btn-danger"><li class="fa fa-share"></li> Back</a>
+				<a href="{{ route('rekappkp',[$id,$pro]) }}" type="button" class="btn btn-sm btn-danger"><li class="fa fa-share"></li> Back</a>
 				@elseif(auth()->user()->role->namaRule == 'manager')
-				<a href="{{ route('daftarpkp',$formula->workbook_id) }}" type="button" class="btn btn-sm btn-danger"><li class="fa fa-share"></li> Back</a>
+				<a href="{{ route('daftarpkp',$id) }}" type="button" class="btn btn-sm btn-danger"><li class="fa fa-share"></li> Back</a>
 				@endif
 			@elseif($formula->workbook_pdf_id!=NULL)
       	<a class="btn btn-warning btn-sm" href="{{ route('FOR_pdf',$formula->id) }}"  title="Download FOR"><i class="fa fa-download"></i> FOR</a>
@@ -91,7 +91,7 @@
 										<tr>
 											<th width="10%">Product Name </th>
 											@if($formula->workbook_id!=NULL)
-											<th width="45%">: {{ $formula->Workbook->datapkpp->project_name }}</th>
+											<th width="45%">: {{ $formula->Workbook->project_name }}</th>
 											@elseif($formula->workbook_pdf_id!=NULL)
 											<th width="45%">: {{ $formula->Workbook_pdf->datapdf->project_name }}</th>
 											@endif

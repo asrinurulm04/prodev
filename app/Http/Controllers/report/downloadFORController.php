@@ -35,23 +35,12 @@ class downloadFORController extends Controller
         $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(14.00);
         $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(9.00);
 
-        $awal=1;
-        $pertama=2;
+        $pertama = 8;
 
-        $data = Formula::where('id',$formula)->join('tr_project_pkp','tr_project_pkp.id_project','=','tr_formulas.workbook_id')->first();
+        $data        = Formula::where('id',$formula)->join('tr_project_pkp','tr_project_pkp.id_project','=','tr_formulas.workbook_id')->first();
         $allergen_bb = AllergenFormula::join('tr_bb_allergen','id_bb','tr_allergen_formula.id_bahan')->where('id_formula',$formula)->where('allergen_countain','!=','')->select(['allergen_countain'])->distinct()->get();
-		$fortails = Fortail::where('formula_id',$formula)->orderBy('per_serving','dsc')->get();
+		$fortails    = Fortail::where('formula_id',$formula)->orderBy('per_serving','dsc')->get();
         
-        $no=1;
-        $pertama=8;
-        
-        $styleArray = array(
-            'background'  => array(
-            'color' => array('rgb' => 'FF0000'),
-        ));
-
-        $baris=1;
-
         // Baris Pertama
         $objPHPExcel->setActiveSheetIndex(0)
             ->setCellValue('A1', 'PT. NUTRIFOOD INDONESIA');
@@ -77,25 +66,24 @@ class downloadFORController extends Controller
         $objPHPExcel->getActiveSheet()->getStyle("A3")->getAlignment()->setHorizontal('center');
         
         $objPHPExcel->setActiveSheetIndex(0)
-            ->setCellValue('B5', 'Product Name :')
-            ->setCellValue('C5', $data['project_name'])
-            ->setCellValue('F5', 'Created Date :')
-            ->setCellValue('G5', $data['created_at'])
-            ->setCellValue('F6', 'jumlah/batch :')
-            ->setCellValue('G6', $data['batch'])
-            ->setCellValue('H6', 'gr');
+                    ->setCellValue('B5', 'Product Name :')
+                    ->setCellValue('C5', $data['project_name'])
+                    ->setCellValue('F5', 'Created Date :')
+                    ->setCellValue('G5', $data['created_at'])
+                    ->setCellValue('F6', 'jumlah/batch :')
+                    ->setCellValue('G6', $data['batch'])
+                    ->setCellValue('H6', 'gr');
 
         $objPHPExcel->setActiveSheetIndex(0)
-            ->setCellValue('A7', 'No')
-            ->setCellValue('B7', 'Kode Oracle')
-            ->setCellValue('C7', 'Nama Sederhana')
-            ->setCellValue('D7', 'Nama Bahan')
-            ->setCellValue('E7', 'Principal')
-            ->setCellValue('F7', 'PerServing (gr)')
-            ->setCellValue('G7', 'PerBatch (gr)')
-            ->setCellValue('H7', 'Persen');
+                    ->setCellValue('A7', 'No')
+                    ->setCellValue('B7', 'Kode Oracle')
+                    ->setCellValue('C7', 'Nama Sederhana')
+                    ->setCellValue('D7', 'Nama Bahan')
+                    ->setCellValue('E7', 'Principal')
+                    ->setCellValue('F7', 'PerServing (gr)')
+                    ->setCellValue('G7', 'PerBatch (gr)')
+                    ->setCellValue('H7', 'Persen');
 
-                
         $objPHPExcel->getActiveSheet()->getStyle("A7:H7")->getFill()
                     ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
                     ->getStartColor()->setARGB('13DFE4');
@@ -177,9 +165,9 @@ class downloadFORController extends Controller
         $objPHPExcel->getActiveSheet()->setTitle('FOR PKP');
 
         $skrg=date('d m Y');
-        header('Content-Type: application/vnd.ms-excel'); 
-        header('Content-Disposition: attachment;filename="FOR_PKP '.$skrg.'.xls"'); 
-        header('Cache-Control: max-age=0'); 
+            header('Content-Type: application/vnd.ms-excel'); 
+            header('Content-Disposition: attachment;filename="FOR_PKP '.$skrg.'.xls"'); 
+            header('Cache-Control: max-age=0'); 
         $objWriter = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($objPHPExcel, "Xlsx");
         ob_end_clean();
         $objWriter->save('php://output');
@@ -199,19 +187,13 @@ class downloadFORController extends Controller
         $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(9.00);
 
 
-        $data = Formula::where('id',$formula)->join('tr_pdf_project','tr_pdf_project.id_project_pdf','=','tr_formulas.workbook_pdf_id')->first();
+        $data        = Formula::where('id',$formula)->join('tr_pdf_project','tr_pdf_project.id_project_pdf','=','tr_formulas.workbook_pdf_id')->first();
         $allergen_bb = AllergenFormula::join('tr_bb_allergen','id_bb','tr_allergen_formula.id_bahan')->where('id_formula',$formula)->where('allergen_countain','!=','')->select(['allergen_countain'])->distinct()->get();
-		$fortails = Fortail::where('formula_id',$formula)->get();
+		$fortails    = Fortail::where('formula_id',$formula)->get();
         
-        $no=1;
-        $pertama=8;
-        
-        $styleArray = array(
-            'background'  => array(
-            'color' => array('rgb' => 'FF0000'),
-        ));
-
-        $baris=1;
+        $no     = 1;
+        $pertama= 8;
+        $baris  = 1;
         // Baris Pertama
         $objPHPExcel->setActiveSheetIndex(0)
                     ->setCellValue('A1', 'PT. NUTRIFOOD INDONESIA');
@@ -254,7 +236,6 @@ class downloadFORController extends Controller
                     ->setCellValue('F7', 'PerBatch (gr)')
                     ->setCellValue('G7', 'Persen');
 
-                
         $objPHPExcel->getActiveSheet()->getStyle("A7:G7")->getFill()
                     ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
                     ->getStartColor()->setARGB('13DFE4');
@@ -354,198 +335,193 @@ class downloadFORController extends Controller
         $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(8.00);
         $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(12.00);
 
-        $awal=1;
+        $awal   =1;
         $pertama=2;
 
-		$ada = Fortail::where('formula_id',$formulas)->count();
-		$formula = Formula::where('id',$formulas)->join('tr_overage_inngradient','tr_overage_inngradient.id_formula','tr_formulas.id')->first();
-        $akg = Akg::join('tr_formulas','tr_formulas.akg','ms_akg.id_tarkon')->join('tr_overage_inngradient','tr_overage_inngradient.id_formula','tr_formulas.id')->where('id',$formulas)->get();
+		$ada         = Fortail::where('formula_id',$formulas)->count();
+		$formula     = Formula::where('id',$formulas)->join('tr_overage_inngradient','tr_overage_inngradient.id_formula','tr_formulas.id')->first();
+        $akg         = Akg::join('tr_formulas','tr_formulas.akg','ms_akg.id_tarkon')->join('tr_overage_inngradient','tr_overage_inngradient.id_formula','tr_formulas.id')->where('id',$formulas)->get();
         $allergen_bb = AllergenFormula::join('tr_bb_allergen','id_bb','tr_allergen_formula.id_bahan')->where('id_formula',$formulas)->where('allergen_countain','!=','')->select(['allergen_countain'])->distinct()->get();
-		$fortails = Fortail::where('formula_id',$formulas)->get();
+		$fortails    = Fortail::where('formula_id',$formulas)->get();
         
-        $detail_formula     = collect();  
-        $granulasi= 0; $jumlah_granulasi= 0; $premix= 0;
-        $jumlah_premix= 0; $biasa= 0;
+        $detail_formula = collect();  
+        $granulasi      = 0; $jumlah_granulasi  = 0; $premix= 0;
+        $jumlah_premix  = 0; $biasa             = 0;
 
         $biasa = $ada - $granulasi;
 
         // Tampil Harga Bahan Baku
         $detail_harga = collect();
-        $satu_persen = $formula->serving / 100;
+        $satu_persen  = $formula->serving / 100;
 		// Inisialisasi Total
 		// total makro
-		$total_karbohidrat =0;  $total_glukosa = 0;         $total_serat = 0;           $total_beta = 0;
-		$total_sorbitol = 0;    $total_maltitol = 0;        $total_laktosa = 0;         $total_sukrosa = 0;
-		$total_gula = 0;        $total_erythritol  = 0;     $total_dha = 0;             $total_epa = 0;
-		$total_omega3 = 0;      $total_mufa = 0;            $total_lemak_total = 0;     $total_lemak_jenuh = 0;
-		$total_sfa = 0;         $total_omega6 = 0;          $total_kolestrol = 0;       $total_protein = 0;
-		$total_air = 0;
+		$total_karbohidrat = 0;  $total_glukosa    = 0;  $total_serat       = 0;     $total_beta        = 0;
+		$total_sorbitol    = 0;  $total_maltitol   = 0;  $total_laktosa     = 0;     $total_sukrosa     = 0;
+		$total_gula        = 0;  $total_erythritol = 0;  $total_dha         = 0;     $total_epa         = 0;
+		$total_omega3      = 0;  $total_mufa       = 0;  $total_lemak_total = 0;     $total_lemak_jenuh = 0;
+		$total_sfa         = 0;  $total_omega6     = 0;  $total_kolestrol   = 0;     $total_protein     = 0;
+		$total_air         = 0;
 		// total mineral
-		$total_ca = 0;          $total_mg = 0;              $total_k = 0;               $total_zink = 0;
-		$total_p = 0;           $total_na = 0;              $total_naci = 0;            $total_energi = 0;
-		$total_fosfor = 0;      $total_mn = 0;              $total_cr = 0;              $total_fe = 0;
+		$total_ca     = 0;       $total_mg = 0;          $total_k    = 0;            $total_zink   = 0;
+		$total_p      = 0;       $total_na = 0;          $total_naci = 0;            $total_energi = 0;
+		$total_fosfor = 0;       $total_mn = 0;          $total_cr   = 0;            $total_fe     = 0;
 		// total vitamin
-		$total_vitA = 0;        $total_vitB1 = 0;           $total_vitB2 = 0;           $total_vitB3 = 0;
-		$total_vitB5 = 0;       $total_vitB6 = 0;           $total_vitB12 = 0;          $total_vitC = 0;
-		$total_vitD = 0;        $total_vitE = 0;            $total_vitK = 0;            $total_folat = 0;
-		$total_biotin = 0;      $total_kolin = 0;
+		$total_vitA   = 0;       $total_vitB1 = 0;       $total_vitB2  = 0;          $total_vitB3 = 0;
+		$total_vitB5  = 0;       $total_vitB6 = 0;       $total_vitB12 = 0;          $total_vitC  = 0;
+		$total_vitD   = 0;       $total_vitE  = 0;       $total_vitK   = 0;          $total_folat = 0;
+		$total_biotin = 0;       $total_kolin = 0;
 		// total asam amino
-		$total_l_glutamine =0;  $total_threonin =0;         $total_methionin =0;        $total_phenilalanin =0;
-		$total_histidin =0;     $total_lisin =0;            $total_BCAA =0;             $total_valin =0;
-		$total_leusin =0;       $total_aspartat =0;         $total_alanin =0;           $total_sistein =0;
-		$total_serin =0;        $total_glisin =0;           $total_glutamat =0;         $total_tyrosin =0;
-		$total_proline =0;      $total_arginine =0;         $total_Isoleusin =0;
+		$total_l_glutamine = 0;  $total_threonin = 0;    $total_methionin = 0;        $total_phenilalanin = 0;
+		$total_histidin    = 0;  $total_lisin    = 0;    $total_BCAA      = 0;        $total_valin        = 0;
+		$total_leusin      = 0;  $total_aspartat = 0;    $total_alanin    = 0;        $total_sistein      = 0;
+		$total_serin       = 0;  $total_glisin   = 0;    $total_glutamat  = 0;        $total_tyrosin      = 0;
+		$total_proline     = 0;  $total_arginine = 0;    $total_Isoleusin = 0;
 		// berat
-        $total_berat_per_serving = 0;   $total_berat_per_batch = 0;     $total_berat_per_kg = 0;
+        $total_berat_per_serving = 0;   $total_berat_per_batch   = 0;   $total_berat_per_kg = 0;
 		// harga
-        $total_harga_per_batch = 0;     $total_harga_per_serving = 0;   $total_harga_per_kg = 0;    $total_harga_per_gram = 0;
+        $total_harga_per_batch   = 0;   $total_harga_per_serving = 0;   $total_harga_per_kg = 0;    $total_harga_per_gram = 0;
 
         $no = 0;
         foreach($fortails as $fortail){
 			//Get Needed
-			$mineral =MineralBB::where('id_bahan',$fortail->bahan_id)->first();
-			$makro = MakroBB::where('id_bahan',$fortail->bahan_id)->first();
-			$asam = AsamAminoBB::where('id_bahan',$fortail->bahan_id)->first();
+			$mineral = MineralBB::where('id_bahan',$fortail->bahan_id)->first();
+			$makro   = MakroBB::where('id_bahan',$fortail->bahan_id)->first();
+			$asam    = AsamAminoBB::where('id_bahan',$fortail->bahan_id)->first();
 			$vitamin = VitaminBB::where('id_bahan',$fortail->bahan_id)->first();
-            $bahan  = Bahan::where('id',$fortail->bahan_id)->first();
+            $bahan   = Bahan::where('id',$fortail->bahan_id)->first();
 
             //perhitungan nutfact bayangan
 			if($fortail->nama_sederhana != 'NULL'){
 				// makro
-				$karbohidrat =($makro->karbohidrat/100)*($fortail->per_serving);    $glukosa = ($makro->glukosa/100)*($fortail->per_serving);
-				$serat = ($makro->serat_pangan/100)*($fortail->per_serving);        $beta = ($makro->beta_glucan/100)*($fortail->per_serving);
-				$sorbitol = ($makro->sorbitol/100)*($fortail->per_serving);         $maltitol = ($makro->maltitol/100)*($fortail->per_serving);
-				$laktosa = ($makro->laktosa/100)*($fortail->per_serving);           $sukrosa = ($makro->sukrosa/100)*($fortail->per_serving);
-				$gula = ($makro->gula/100)*($fortail->per_serving);                 $erythritol  = ($makro->erythritol /100)*($fortail->per_serving);
-				$dha = ($makro->DHA/100)*($fortail->per_serving);                   $epa = ($makro->EPA/100)*($fortail->per_serving);
-				$omega3 = ($makro->Omega3/100)*($fortail->per_serving);             $mufa = ($makro->MUFA/100)*($fortail->per_serving);
-				$lemak_trans = ($makro->lemak_trans/100)*($fortail->per_serving);   $lemak_jenuh = ($makro->lemak_jenuh/100)*($fortail->per_serving);
-				$sfa = ($makro->SFA/100)*($fortail->per_serving);                   $omega6 = ($makro->omega6/100)*($fortail->per_serving);
-				$kolestrol = ($makro->kolesterol/100)*($fortail->per_serving);      $protein = ($makro->protein/100)*($fortail->per_serving);
-				$air = ($makro->air/100)*($fortail->per_serving);
+				$karbohidrat = ($makro->karbohidrat/100)*($fortail->per_serving);    $glukosa = ($makro->glukosa/100)*($fortail->per_serving);
+				$serat       = ($makro->serat_pangan/100)*($fortail->per_serving);   $beta = ($makro->beta_glucan/100)*($fortail->per_serving);
+				$sorbitol    = ($makro->sorbitol/100)*($fortail->per_serving);       $maltitol = ($makro->maltitol/100)*($fortail->per_serving);
+				$laktosa     = ($makro->laktosa/100)*($fortail->per_serving);        $sukrosa = ($makro->sukrosa/100)*($fortail->per_serving);
+				$gula        = ($makro->gula/100)*($fortail->per_serving);           $erythritol  = ($makro->erythritol /100)*($fortail->per_serving);
+				$dha         = ($makro->DHA/100)*($fortail->per_serving);            $epa = ($makro->EPA/100)*($fortail->per_serving);
+				$omega3      = ($makro->Omega3/100)*($fortail->per_serving);         $mufa = ($makro->MUFA/100)*($fortail->per_serving);
+				$lemak_trans = ($makro->lemak_trans/100)*($fortail->per_serving);    $lemak_jenuh = ($makro->lemak_jenuh/100)*($fortail->per_serving);
+				$sfa         = ($makro->SFA/100)*($fortail->per_serving);            $omega6 = ($makro->omega6/100)*($fortail->per_serving);
+				$kolestrol   = ($makro->kolesterol/100)*($fortail->per_serving);     $protein = ($makro->protein/100)*($fortail->per_serving);
+				$air         = ($makro->air/100)*($fortail->per_serving);
 				// mineral
-				$ca = ($mineral->ca/100)*($fortail->per_serving);                   $mg = ($mineral->mg/100)*($fortail->per_serving);
-				$k = ($mineral->k/100)*($fortail->per_serving);                     $zink = ($mineral->zink/100)*($fortail->per_serving);
-				$p = ($mineral->p/100)*($fortail->per_serving);                     $na = ($mineral->na/100)*($fortail->per_serving);
-				$naci = ($mineral->naci/100)*($fortail->per_serving);               $energi = ($mineral->energi/100)*($fortail->per_serving);
-				$fosfor = ($mineral->fosfor/100)*($fortail->per_serving);           $mn = ($mineral->mn/100)*($fortail->per_serving);
-				$cr = ($mineral->cr/100)*($fortail->per_serving);                   $fe = ($mineral->fe/100)*($fortail->per_serving);
+				$ca          = ($mineral->ca/100)*($fortail->per_serving);           $mg = ($mineral->mg/100)*($fortail->per_serving);
+				$k           = ($mineral->k/100)*($fortail->per_serving);            $zink = ($mineral->zink/100)*($fortail->per_serving);
+				$p           = ($mineral->p/100)*($fortail->per_serving);            $na = ($mineral->na/100)*($fortail->per_serving);
+				$naci        = ($mineral->naci/100)*($fortail->per_serving);         $energi = ($mineral->energi/100)*($fortail->per_serving);
+				$fosfor      = ($mineral->fosfor/100)*($fortail->per_serving);       $mn = ($mineral->mn/100)*($fortail->per_serving);
+				$cr           = ($mineral->cr/100)*($fortail->per_serving);           $fe = ($mineral->fe/100)*($fortail->per_serving);
 				// vitamin
-				$vitA = ($vitamin->vitA/100)*($fortail->per_serving);               $vitB1 = ($vitamin->vitB1/100)*($fortail->per_serving);
-				$vitB2 = ($vitamin->vitB2/100)*($fortail->per_serving);             $vitB3 = ($vitamin->vitB3/100)*($fortail->per_serving);
-				$vitB5 = ($vitamin->vitB5/100)*($fortail->per_serving);             $vitB6 = ($vitamin->vitB6/100)*($fortail->per_serving);
-				$vitB12 = ($vitamin->vitB12/100)*($fortail->per_serving);           $vitC = ($vitamin->vitC/100)*($fortail->per_serving);
-				$vitD = ($vitamin->vitD/100)*($fortail->per_serving);               $vitE = ($vitamin->vitE/100)*($fortail->per_serving);
-				$vitK = ($vitamin->vitK/100)*($fortail->per_serving);               $folat = ($vitamin->folat/100)*($fortail->per_serving);
-				$biotin = ($vitamin->biotin/100)*($fortail->per_serving);           $kolin = ($vitamin->kolin/100)*($fortail->per_serving);
+				$vitA        = ($vitamin->vitA/100)*($fortail->per_serving);         $vitB1 = ($vitamin->vitB1/100)*($fortail->per_serving);
+				$vitB2       = ($vitamin->vitB2/100)*($fortail->per_serving);        $vitB3 = ($vitamin->vitB3/100)*($fortail->per_serving);
+				$vitB5       = ($vitamin->vitB5/100)*($fortail->per_serving);        $vitB6 = ($vitamin->vitB6/100)*($fortail->per_serving);
+				$vitB12      = ($vitamin->vitB12/100)*($fortail->per_serving);       $vitC = ($vitamin->vitC/100)*($fortail->per_serving);
+				$vitD        = ($vitamin->vitD/100)*($fortail->per_serving);         $vitE = ($vitamin->vitE/100)*($fortail->per_serving);
+				$vitK        = ($vitamin->vitK/100)*($fortail->per_serving);         $folat = ($vitamin->folat/100)*($fortail->per_serving);
+				$biotin      = ($vitamin->biotin/100)*($fortail->per_serving);       $kolin = ($vitamin->kolin/100)*($fortail->per_serving);
 				//asam amino
 				$l_glutamine = ($asam->l_glutamin/100)*($fortail->per_serving);      $threonin = ($asam->Threonin/100)*($fortail->per_serving);
-				$methionin = ($asam->Methionin/100)*($fortail->per_serving);         $phenilalanin = ($asam->Phenilalanin/100)*($fortail->per_serving);
-				$histidin = ($asam->Histidin/100)*($fortail->per_serving);           $lisin = ($asam->lisin/100)*($fortail->per_serving);
-				$BCAA = ($asam->BCAA/100)*($fortail->per_serving);                   $valin = ($asam->Valin/100)*($fortail->per_serving);
-				$leusin = ($asam->Leusin/100)*($fortail->per_serving);               $aspartat = ($asam->Aspartat/100)*($fortail->per_serving);           
-				$alanin = ($asam->Alanine/100)*($fortail->per_serving);              $sistein = ($asam->Sistein/100)*($fortail->per_serving);
-				$serin = ($asam->Serin/100)*($fortail->per_serving);                 $glisin = ($asam->Glisin/100)*($fortail->per_serving);
-				$glutamat = ($asam->Glutamat/100)*($fortail->per_serving);           $tyrosin = ($asam->Tyrosin/100)*($fortail->per_serving);
-				$proline = ($asam->Proline/100)*($fortail->per_serving);             $arginine = ($asam->Arginine/100)*($fortail->per_serving);
-				$Isoleusin = ($asam->Isoleusin/100)*($fortail->per_serving);
+				$methionin   = ($asam->Methionin/100)*($fortail->per_serving);       $phenilalanin = ($asam->Phenilalanin/100)*($fortail->per_serving);
+				$histidin    = ($asam->Histidin/100)*($fortail->per_serving);        $lisin = ($asam->lisin/100)*($fortail->per_serving);
+				$BCAA        = ($asam->BCAA/100)*($fortail->per_serving);            $valin = ($asam->Valin/100)*($fortail->per_serving);
+				$leusin      = ($asam->Leusin/100)*($fortail->per_serving);          $aspartat = ($asam->Aspartat/100)*($fortail->per_serving);           
+				$alanin      = ($asam->Alanine/100)*($fortail->per_serving);         $sistein = ($asam->Sistein/100)*($fortail->per_serving);
+				$serin       = ($asam->Serin/100)*($fortail->per_serving);           $glisin = ($asam->Glisin/100)*($fortail->per_serving);
+				$glutamat    = ($asam->Glutamat/100)*($fortail->per_serving);        $tyrosin = ($asam->Tyrosin/100)*($fortail->per_serving);
+				$proline     = ($asam->Proline/100)*($fortail->per_serving);         $arginine = ($asam->Arginine/100)*($fortail->per_serving);
+				$Isoleusin   = ($asam->Isoleusin/100)*($fortail->per_serving);
 			}
 
 			// total makro
-			$total_karbohidrat = $total_karbohidrat+$karbohidrat;                   $total_glukosa = $total_glukosa + $glukosa; 
-			$total_serat = $total_serat + $serat;                                   $total_beta = $total_beta + $beta;
-			$total_sorbitol = $total_sorbitol + $sorbitol;                          $total_maltitol = $total_maltitol + $maltitol;
-			$total_laktosa = $total_laktosa + $laktosa;                             $total_sukrosa = $total_sukrosa + $sukrosa;
-			$total_gula = $total_gula + $gula;                                      $total_erythritol  = $total_erythritol + $erythritol;
-			$total_dha = $total_dha + $dha;                                         $total_epa = $total_epa + $epa;
-			$total_omega3 = $total_omega3 + $omega3;                                $total_mufa = $total_mufa + $mufa; 
-			$total_lemak_total = $total_lemak_total + $lemak_trans;                 $total_lemak_jenuh = $total_lemak_jenuh + $lemak_jenuh;
-			$total_sfa = $total_sfa + $sfa;                                         $total_omega6 = $total_omega6 + $omega6; 
-			$total_kolestrol = $total_kolestrol + $kolestrol;                       $total_protein = $total_protein + $protein;
-			$total_air = $total_air + $air;
+			$total_karbohidrat  = $total_karbohidrat+$karbohidrat;                   $total_glukosa      = $total_glukosa + $glukosa; 
+			$total_serat        = $total_serat + $serat;                             $total_beta         = $total_beta + $beta;
+			$total_sorbitol     = $total_sorbitol + $sorbitol;                       $total_maltitol     = $total_maltitol + $maltitol;
+			$total_laktosa      = $total_laktosa + $laktosa;                         $total_sukrosa      = $total_sukrosa + $sukrosa;
+			$total_gula         = $total_gula + $gula;                               $total_erythritol   = $total_erythritol + $erythritol;
+			$total_dha          = $total_dha + $dha;                                 $total_epa          = $total_epa + $epa;
+			$total_omega3       = $total_omega3 + $omega3;                           $total_mufa         = $total_mufa + $mufa; 
+			$total_lemak_total  = $total_lemak_total + $lemak_trans;                 $total_lemak_jenuh  = $total_lemak_jenuh + $lemak_jenuh;
+			$total_sfa          = $total_sfa + $sfa;                                 $total_omega6       = $total_omega6 + $omega6; 
+			$total_kolestrol    = $total_kolestrol + $kolestrol;                     $total_protein      = $total_protein + $protein;
+			$total_air          = $total_air + $air;
 			// total mineral
-			$total_ca = $total_ca + $ca;                                            $total_mg = $total_mg + $mg; 
-			$total_k = $total_k + $k;                                               $total_zink = $total_zink + $zink;
-			$total_p = $total_p + $p;                                               $total_na = $total_na + $na; 
-			$total_naci = $total_naci + $naci;                                      $total_energi = $total_energi + $energi;
-			$total_fosfor = $total_fosfor + $fosfor;                                $total_mn = $total_mn + $mn; 
-			$total_cr = $total_cr + $cr;                                            $total_fe = $total_fe + $fe;
+			$total_ca           = $total_ca + $ca;                                   $total_mg           = $total_mg + $mg; 
+			$total_k            = $total_k + $k;                                     $total_zink         = $total_zink + $zink;
+			$total_p            = $total_p + $p;                                     $total_na           = $total_na + $na; 
+			$total_naci         = $total_naci + $naci;                               $total_energi       = $total_energi + $energi;
+			$total_fosfor       = $total_fosfor + $fosfor;                           $total_mn           = $total_mn + $mn; 
+			$total_cr           = $total_cr + $cr;                                   $total_fe           = $total_fe + $fe;
 			// total vitamin
-			$total_vitA = $total_vitA + $vitA;                                      $total_vitB1 = $total_vitB1 + $vitB1;
-			$total_vitB2 = $total_vitB2 + $vitB2;                                   $total_vitB3 = $total_vitB3 + $vitB3;
-			$total_vitB5 = $total_vitB5 + $vitB5;                                   $total_vitB6 = $total_vitB6 + $vitB6;
-			$total_vitB12 = $total_vitB12 + $vitB12;                                $total_vitC = $total_vitC + $vitC;
-			$total_vitD = $total_vitD + $vitD;                                      $total_vitE = $total_vitE + $vitE;
-			$total_vitK = $total_vitK + $vitK;                                      $total_folat = $total_folat + $folat;
-			$total_biotin = $total_biotin + $biotin;                                $total_kolin = $total_kolin + $kolin;
+			$total_vitA         = $total_vitA + $vitA;                               $total_vitB1        = $total_vitB1 + $vitB1;
+			$total_vitB2        = $total_vitB2 + $vitB2;                             $total_vitB3        = $total_vitB3 + $vitB3;
+			$total_vitB5        = $total_vitB5 + $vitB5;                             $total_vitB6        = $total_vitB6 + $vitB6;
+			$total_vitB12       = $total_vitB12 + $vitB12;                           $total_vitC         = $total_vitC + $vitC;
+			$total_vitD         = $total_vitD + $vitD;                               $total_vitE         = $total_vitE + $vitE;
+			$total_vitK         = $total_vitK + $vitK;                               $total_folat        = $total_folat + $folat;
+			$total_biotin       = $total_biotin + $biotin;                           $total_kolin        = $total_kolin + $kolin;
 			// total asam amino
-			$total_l_glutamine =$total_l_glutamine + $l_glutamine;                  $total_threonin = $total_threonin + $threonin;
-			$total_methionin = $total_methionin + $methionin;                       $total_phenilalanin = $total_phenilalanin + $phenilalanin;
-			$total_histidin = $total_histidin + $histidin;                          $total_lisin = $total_lisin + $lisin;
-			$total_BCAA = $total_BCAA + $BCAA;                                      $total_valin = $total_valin + $valin;
-			$total_leusin = $total_leusin + $leusin;                                $total_aspartat = $total_aspartat + $aspartat;
-			$total_alanin = $total_alanin + $alanin;                                $total_sistein = $total_sistein + $sistein;
-			$total_serin = $total_serin + $serin;                                   $total_glisin = $total_glisin + $glisin;
-			$total_glutamat = $total_glutamat + $glutamat;                          $total_tyrosin = $total_tyrosin + $tyrosin;
-			$total_proline = $total_proline + $proline;                             $total_arginine = $total_arginine + $arginine;
-			$total_Isoleusin = $total_Isoleusin + $Isoleusin;
+			$total_l_glutamine  = $total_l_glutamine + $l_glutamine;                 $total_threonin     = $total_threonin + $threonin;
+			$total_methionin    = $total_methionin + $methionin;                     $total_phenilalanin = $total_phenilalanin + $phenilalanin;
+			$total_histidin     = $total_histidin + $histidin;                       $total_lisin        = $total_lisin + $lisin;
+			$total_BCAA         = $total_BCAA + $BCAA;                               $total_valin        = $total_valin + $valin;
+			$total_leusin       = $total_leusin + $leusin;                           $total_aspartat     = $total_aspartat + $aspartat;
+			$total_alanin       = $total_alanin + $alanin;                           $total_sistein      = $total_sistein + $sistein;
+			$total_serin        = $total_serin + $serin;                             $total_glisin       = $total_glisin + $glisin;
+			$total_glutamat     = $total_glutamat + $glutamat;                       $total_tyrosin      = $total_tyrosin + $tyrosin;
+			$total_proline      = $total_proline + $proline;                         $total_arginine     = $total_arginine + $arginine;
+			$total_Isoleusin    = $total_Isoleusin + $Isoleusin;
         }
         $total_harga = collect([
-			'total_karbohidrat' => $total_karbohidrat,                              'total_glukosa' => $total_glukosa, 
-			'total_serat' => $total_serat,                                          'total_beta' => $total_beta,
-			'total_sorbitol' => $total_sorbitol,                                    'total_maltitol' => $total_maltitol,
-			'total_laktosa' => $total_laktosa,                                      'total_sukrosa' => $total_sukrosa,
-			'total_gula' => $total_gula,                                            'total_erythritol' => $total_erythritol,
-			'total_dha' => $total_dha,                                              'total_epa' => $total_epa,
-			'total_omega3' => $total_omega3,                                        'total_mufa' => $total_mufa, 
-			'total_lemak_total' => $total_lemak_total,                              'total_lemak_jenuh' => $total_lemak_jenuh,
-			'total_sfa' => $total_sfa,                                              'total_omega6' => $total_omega6,
-			'total_kolestrol' => $total_kolestrol,                                  'total_protein' => $total_protein,
-			'total_air' => $total_air,
+			'total_karbohidrat' => $total_karbohidrat,        'total_glukosa'       => $total_glukosa, 
+			'total_serat'       => $total_serat,              'total_beta'          => $total_beta,
+			'total_sorbitol'    => $total_sorbitol,           'total_maltitol'      => $total_maltitol,
+			'total_laktosa'     => $total_laktosa,            'total_sukrosa'       => $total_sukrosa,
+			'total_gula'        => $total_gula,               'total_erythritol'    => $total_erythritol,
+			'total_dha'         => $total_dha,                'total_epa'           => $total_epa,
+			'total_omega3'      => $total_omega3,             'total_mufa'          => $total_mufa, 
+			'total_lemak_total' => $total_lemak_total,        'total_lemak_jenuh'   => $total_lemak_jenuh,
+			'total_sfa'         => $total_sfa,                'total_omega6'        => $total_omega6,
+			'total_kolestrol'   => $total_kolestrol,          'total_protein'       => $total_protein,
+			'total_air'         => $total_air,
 			// total mineral
-			'total_ca' => $total_ca,                                                'total_mg' => $total_mg, 
-			'total_k' => $total_k,                                                  'total_zink' => $total_zink,
-			'total_p' => $total_p,                                                  'total_na' => $total_na, 
-			'total_naci' => $total_naci,                                            'total_energi' => $total_energi,
-			'total_fosfor' => $total_fosfor,                                        'total_mn' => $total_mn, 
-			'total_cr' => $total_cr,                                                'total_fe' => $total_fe,
+			'total_ca'          => $total_ca,                 'total_mg'            => $total_mg, 
+			'total_k'           => $total_k,                  'total_zink'          => $total_zink,
+			'total_p'           => $total_p,                  'total_na'            => $total_na, 
+			'total_naci'        => $total_naci,               'total_energi'        => $total_energi,
+			'total_fosfor'      => $total_fosfor,             'total_mn'            => $total_mn, 
+			'total_cr'          => $total_cr,                 'total_fe'            => $total_fe,
 			// total vitamin
-			'total_vitA' => $total_vitA,                                            'total_vitB1' => $total_vitB1,
-			'total_vitB2' => $total_vitB2,                                          'total_vitB3' => $total_vitB3,
-			'total_vitB5' => $total_vitB5,                                          'total_vitB6' => $total_vitB6,
-			'total_vitB12' => $total_vitB12,                                        'total_vitC' => $total_vitC,
-			'total_vitD' => $total_vitD,                                            'total_vitE' => $total_vitE,
-			'total_vitK' => $total_vitK,                                            'total_folat' => $total_folat,
-			'total_biotin' => $total_biotin,                                        'total_kolin' => $total_kolin,
+			'total_vitA'        => $total_vitA,               'total_vitB1'         => $total_vitB1,
+			'total_vitB2'       => $total_vitB2,              'total_vitB3'         => $total_vitB3,
+			'total_vitB5'       => $total_vitB5,              'total_vitB6'         => $total_vitB6,
+			'total_vitB12'      => $total_vitB12,             'total_vitC'          => $total_vitC,
+			'total_vitD'        => $total_vitD,               'total_vitE'          => $total_vitE,
+			'total_vitK'        => $total_vitK,               'total_folat'         => $total_folat,
+			'total_biotin'      => $total_biotin,             'total_kolin'         => $total_kolin,
 			// total asam amino
-			'total_l_glutamine' =>$total_l_glutamine,                               'total_threonin' => $total_threonin,
-			'total_methionin' => $total_methionin,                                  'total_phenilalanin' => $total_phenilalanin,
-			'total_histidin' => $total_histidin,                                    'total_lisin' => $total_lisin,
-			'total_BCAA' => $total_BCAA,                                            'total_valin' => $total_valin,
-			'total_leusin' => $total_leusin,                                        'total_aspartat' => $total_aspartat,
-			'total_alanin' => $total_alanin,                                        'total_sistein' => $total_sistein,
-			'total_serin' => $total_serin,                                          'total_glisin' => $total_glisin,
-			'total_glutamat' => $total_glutamat,                                    'total_tyrosin' => $total_tyrosin,
-			'total_proline' => $total_proline,                                      'total_arginine' => $total_arginine,
-			'total_Isoleusin' => $total_Isoleusin,    
+			'total_l_glutamine' =>$total_l_glutamine,         'total_threonin'      => $total_threonin,
+			'total_methionin'   => $total_methionin,          'total_phenilalanin'  => $total_phenilalanin,
+			'total_histidin'    => $total_histidin,           'total_lisin'         => $total_lisin,
+			'total_BCAA'        => $total_BCAA,               'total_valin'         => $total_valin,
+			'total_leusin'      => $total_leusin,             'total_aspartat'      => $total_aspartat,
+			'total_alanin'      => $total_alanin,             'total_sistein'       => $total_sistein,
+			'total_serin'       => $total_serin,              'total_glisin'        => $total_glisin,
+			'total_glutamat'    => $total_glutamat,           'total_tyrosin'       => $total_tyrosin,
+			'total_proline'     => $total_proline,            'total_arginine'      => $total_arginine,
+			'total_Isoleusin'   => $total_Isoleusin,    
         ]);
         $no=1;
         $pertama=8;
-        
-        $styleArray = array(
-            'background'  => array(
-            'color' => array('rgb' => 'FF0000'),
-        ));
 
         //Bagian Header 
         $objPHPExcel->setActiveSheetIndex(0)
-            ->setCellValue('A1', 'Parameter')
-            ->setCellValue('B1', 'Gramasi')
-            ->setCellValue('C1', 'Unit')
-            ->setCellValue('D1', '%AKG')
-            ->setCellValue('E1', 'AKG')
-            ->setCellValue('F1', 'Unit')
-            ->setCellValue('G1', 'Overage');
+                    ->setCellValue('A1', 'Parameter')
+                    ->setCellValue('B1', 'Gramasi')
+                    ->setCellValue('C1', 'Unit')
+                    ->setCellValue('D1', '%AKG')
+                    ->setCellValue('E1', 'AKG')
+                    ->setCellValue('F1', 'Unit')
+                    ->setCellValue('G1', 'Overage');
                 
         $objPHPExcel->getActiveSheet()->getStyle("A1")->getFill()
                     ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
@@ -610,29 +586,29 @@ class downloadFORController extends Controller
         $objPHPExcel->getActiveSheet()->getStyle("G2:G84")->getAlignment()->setHorizontal('right');
 
         foreach($akg as $akg){     
-                $akg_karbo = $total_harga['total_karbohidrat']*($akg->karbohidrat_total/100);
+                $akg_karbo   = $total_harga['total_karbohidrat']*($akg->karbohidrat_total/100);
                 $akg_protein = $total_harga['total_protein']*($akg->protein/100);
-                $akg_jenuh = $total_harga['total_sfa']*($akg->lemak_jenuh/100);
-                $akg_pangan =$total_harga['total_serat']*($akg->serat_pangan/100);
-                $na = $total_harga['total_na']*($akg->natrium/100);
-                $k = $total_harga['total_k']* ($akg->kalium/100);
-                $ca = $total_harga['total_ca']*($akg->kalsium/100);
-                $p = $total_harga['total_p']*($akg->fosfor/100);
-                $mg = $total_harga['total_mg']*($akg->magnesium*100);
-                $vitA = $total_harga['total_vitA'] * ($akg->vitamin_a/100);
-                $vitB1 = $total_harga['total_vitB1'] * ($akg->vitamin_b1/100);
-                $vitB2 = $total_harga['total_vitB2'] * ($akg->vitamin_b2/100);
-                $vitB3 = $total_harga['total_vitB3'] * ($akg->vitamin_b3/100);
-                $vitB5 = $total_harga['total_vitB5'] * ($akg->vitamin_b5/100);
-                $vitB6 = $total_harga['total_vitB6'] * ($akg->vitamin_b6/100);
-                $vitB12 = $total_harga['total_vitB12'] * ($akg->vitamin_b12/100);
-                $vitC = $total_harga['total_vitC'] * ($akg->vitamin_c/100);
-                $vitD = $total_harga['total_vitD'] * ($akg->vitamin_d/100);
-                $vitE = $total_harga['total_vitE'] * ($akg->vitamin_e/100);
-                $vitK =  $total_harga['total_vitK'] * ($akg->vitamin_k/100);
-                $kolin = $total_harga['total_kolin']*($akg->kolin*100);
-                $biotin = $total_harga['total_biotin'] * ($akg->biotin/100);
-                $cr = $total_harga['total_cr']*($akg->kromium*100);
+                $akg_jenuh   = $total_harga['total_sfa']*($akg->lemak_jenuh/100);
+                $akg_pangan  = $total_harga['total_serat']*($akg->serat_pangan/100);
+                $na          = $total_harga['total_na']*($akg->natrium/100);
+                $k           = $total_harga['total_k']* ($akg->kalium/100);
+                $ca          = $total_harga['total_ca']*($akg->kalsium/100);
+                $p           = $total_harga['total_p']*($akg->fosfor/100);
+                $mg          = $total_harga['total_mg']*($akg->magnesium*100);
+                $vitA        = $total_harga['total_vitA'] * ($akg->vitamin_a/100);
+                $vitB1       = $total_harga['total_vitB1'] * ($akg->vitamin_b1/100);
+                $vitB2       = $total_harga['total_vitB2'] * ($akg->vitamin_b2/100);
+                $vitB3       = $total_harga['total_vitB3'] * ($akg->vitamin_b3/100);
+                $vitB5       = $total_harga['total_vitB5'] * ($akg->vitamin_b5/100);
+                $vitB6       = $total_harga['total_vitB6'] * ($akg->vitamin_b6/100);
+                $vitB12      = $total_harga['total_vitB12'] * ($akg->vitamin_b12/100);
+                $vitC        = $total_harga['total_vitC'] * ($akg->vitamin_c/100);
+                $vitD        = $total_harga['total_vitD'] * ($akg->vitamin_d/100);
+                $vitE        = $total_harga['total_vitE'] * ($akg->vitamin_e/100);
+                $vitK        = $total_harga['total_vitK'] * ($akg->vitamin_k/100);
+                $kolin       = $total_harga['total_kolin']*($akg->kolin*100);
+                $biotin      = $total_harga['total_biotin'] * ($akg->biotin/100);
+                $cr          = $total_harga['total_cr']*($akg->kromium*100);
 
             $objPHPExcel->setActiveSheetIndex(0)
                 ->setCellValue('A2', 'Energi Total')              ->setCellValue('B2', $total_harga['total_energi'])       ->setCellValue('C2', 'kkal') ->setCellValue('D2', 'NA')        ->setCellValue('E2', $akg['energi'])           ->setCellValue('F2', 'kkal') ->setCellValue('G2', $total_harga['total_energi'] * ($formula->overage/100))
@@ -721,9 +697,9 @@ class downloadFORController extends Controller
         }          
         $objPHPExcel->getActiveSheet()->setTitle('Nutfact Bayangan');
         $skrg=date('d m Y');
-        header('Content-Type: application/vnd.ms-excel'); 
-        header('Content-Disposition: attachment;filename="Nutfact_Bayangan '.$skrg.'.xls"'); 
-        header('Cache-Control: max-age=0'); 
+            header('Content-Type: application/vnd.ms-excel'); 
+            header('Content-Disposition: attachment;filename="Nutfact_Bayangan '.$skrg.'.xls"'); 
+            header('Cache-Control: max-age=0'); 
         $objWriter = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($objPHPExcel, "Xlsx");
         ob_end_clean();
         $objWriter->save('php://output');

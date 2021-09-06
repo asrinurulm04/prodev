@@ -40,16 +40,7 @@
 						<td>{{ $user->email}}</td>
 						<td class="text-center">{{ $user->departement->dept}}</td>
 						<td class="text-center">{{ $user->role->namaRule}}</td>
-						<td class="text-center">
-						  @if ($user->status == 'sending')
-						  	<span class="label label-warning">Sending</span>                        
-						  @endif
-						  @if ($user->status == 'active')
-						    <span class="label label-success">Active</span>                        
-						  @endif 
-						  @if ($user->status == 'nonactive')
-						    <span class="label label-danger">NonActive</span>                        
-						  @endif 
+						<td class="text-center"><span class="label label-warning">{{$user->status}}</span>     
 						</td>
 						<td class="text-center">
     					{{csrf_field()}}

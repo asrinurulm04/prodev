@@ -68,7 +68,7 @@
               <div class="form-group">
                 <div class="col-md-6 col-md-offset-4 col-sm-offset-4">
                   @if($myFormula->workbook_id!=NULL)
-                  <a href="{{ route('rekappkp',$myFormula->workbook_id) }}" class="btn btn-danger btn-sm" type="submit"><li class="fa fa-ban"></li> Back To Home</a>
+                  <a href="{{ route('rekappkp',[$pkp,$id]) }}" class="btn btn-danger btn-sm" type="submit"><li class="fa fa-ban"></li> Back To Home</a>
                   @elseif($myFormula->workbook_pdf_id!=NULL)
                   <a href="{{ route('rekappdf',$myFormula->workbook_pdf_id) }}" class="btn btn-danger btn-sm" type="submit"><li class="fa fa-ban"></li> Back To Home</a>
                   @endif
@@ -83,7 +83,7 @@
           <div class="col-md-12 col-sm-12 col-xs-12 text-right">
           <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#panel"><li class="fa fa-plus"></li> Add Data Panel</button>
           @if($myFormula->workbook_id!=NULL)
-          <a href="{{ route('rekappkp',$myFormula->workbook_id) }}" class="btn btn-danger btn-sm" type="submit"><li class="fa fa-ban"></li> Back To Home</a>
+          <a href="{{ route('rekappkp',[$pkp,$id]) }}" class="btn btn-danger btn-sm" type="submit"><li class="fa fa-ban"></li> Back To Home</a>
           @elseif($myFormula->workbook_pdf_id!=NULL)
           <a href="{{ route('rekappdf',$myFormula->workbook_pdf_id) }}" class="btn btn-danger btn-sm" type="submit"><li class="fa fa-ban"></li> Back To Home</a>
           @endif

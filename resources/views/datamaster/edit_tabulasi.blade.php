@@ -32,14 +32,13 @@
 						<li><a href="{{ route('signout') }}"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
 					</ul>
 				</li>
-				</ul>
+			</ul>
     </nav>
   </div>
 </div>
 <!-- /top navigation -->
 
 <!-- page content -->
-
 <div class="col-md-12 col-sm-12 col-xs-12">
   <div class="x_panel" style="min-height:466px">
     <div class="x_title">
@@ -272,21 +271,19 @@
 
 <div class="col-md-12 col-sm-12 col-xs-12">
   <div class="x_panel text-right">
-    Created By Asrul :)
+    2020
   </div>
   <div class="clearfix"></div>
 </div>
 
   <!-- jQuery -->
   <script src="{{ asset('js/vendor/jquery-2.2.4.min.js') }}"></script>
-  <!-- Bootstrap -->
   <script src="{{ asset('vendors/moment/min/moment.min.js') }}"></script>
   <script src="{{ asset('vendors/bootstrap/dist/js/bootstrap.min.js') }}"></script>
   <script type="text/javascript" language="javascript" src="{{ asset('lib/advanced-datatable/js/jquery.dataTables.js')}}"></script>
   <script type="text/javascript" language="javascript" src="{{ asset('lib/advanced-datatable/js/jquery.dataTables.min.js')}}"></script>
   <script src="{{ asset('js/datatables.min.js')}}"></script>
   <script src="{{ asset('build/js/custom.min.js') }}"></script>
-  @yield('s')
   <script
     type="text/javascript">$('.Table').DataTable({
       "language": {

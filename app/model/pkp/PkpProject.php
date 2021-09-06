@@ -29,7 +29,7 @@ class PkpProject extends Model
         return $this->hasOne('App\model\users\User','id','author');
     }
 
-    public function perevisi1(){
+    public function perevisi2(){
         return $this->hasOne('App\model\users\User','id','perevisi');
     }
 
@@ -48,6 +48,22 @@ class PkpProject extends Model
     public function datases(){
         return $this->hasOne('App\model\pkp\ses','id_pkp','id_project');
     }
+    
+    public function launch(){
+        return $this->hasMany('App\model\ProjectLaunching','id_pkp','id_project');
+    }
+
+    public function katpangan(){
+        return $this->hasOne('App\model\pkp\DataPangan','id_pangan','kategori_bpom');
+    }
+
+    public function panganolahan(){
+        return $this->hasOne('App\model\pkp\KategoriPangan','id_kategori','olahan');
+    }
+
+    public function tarkon(){
+        return $this->hasOne('App\model\master\Tarkon','id_tarkon','akg');
+    }
 
     public function Dklaim(){
         return $this->hasOne('App\model\pkp\DataKlaim','id_pkp','id_project');
@@ -55,6 +71,10 @@ class PkpProject extends Model
     
     public function datauom(){
         return $this->hasOne('App\model\pkp\uom','id','UOM');
+    }
+    
+    public function kemas(){
+        return $this->belongsTo('App\model\kemas\datakemas','kemas_eksis','id_kemas');
     }
 
     public function datakemas(){
