@@ -193,7 +193,6 @@
     jenis += [ { '<?php echo $key; ?>' : '<?php echo $value->no_kemas; ?>', } ];
   } else { jenis.push({ '<?php echo $key; ?>' : '<?php echo $value->no_kemas; ?>', }) }
   <?php } ?>
-  console.log(jenis);
 
   var id_pkp = []
   <?php foreach($pkp_eksis as $key => $value) { ?>

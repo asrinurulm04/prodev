@@ -3,8 +3,7 @@
   <head>
 
   <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title')
-    </title>
+    <title>@yield('title')</title>
     <link href="{{ asset('img/prod.png') }}" rel="icon">
     <link href="{{ asset('vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('vendors/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
@@ -353,7 +352,7 @@
             <div class="clearfix"></div>
             <div class="row">
               <div class="col-md-12 col-sm-12 col-xs-12">
-                     @yield('content')
+                @yield('content')
               </div>
             </div>
           </div>

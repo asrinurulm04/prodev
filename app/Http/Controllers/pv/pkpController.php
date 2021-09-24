@@ -1094,7 +1094,7 @@ class pkpController extends Controller
                     }
                 }
             }
-            $isipkp = PkpProject::where('id_project',$request->id)->where('status_project','=','active')->get();
+            $isipkp = PkpProject::where('id_project',$tip->id_project)->get();
             $for    = Forecast::where('id_project',$tip->id_project)->get();
             try{
                 Mail::send('pv.aktifitasinfoemail', [

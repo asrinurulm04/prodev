@@ -17,6 +17,10 @@ class SubPDF extends Model
         return $this->hasOne('App\model\users\Departement','id','tujuankirim');
     }
 
+    public function departement2(){
+        return $this->hasOne('App\model\users\Departement','id','tujuankirim2');
+    }
+
     public function kemas(){
         return $this->belongsTo('App\model\kemas\datakemas','kemas_eksis','id_kemas');
     }

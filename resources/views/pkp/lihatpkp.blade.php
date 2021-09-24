@@ -136,20 +136,21 @@
                         </div>
                         <div hidden>
                           <input id="type" value="{{$pkp->type}}">
-                          <input id="nama_project" value="{{$pkp->project_name}}"><input id="id_prodev" value="{{$pkp->id_project}}">
+                          <input id="nama_project" value="{{$pkp->project_name}}"><input id="id_prodev" value="{{$pkp->id_pkp}}">
                           <input id="revisi" value="{{$pkp->revisi}}"><input id="turunan" value="{{$pkp->turunan}}">
                           <input id="brand" value="{{$pkp->id_brand}}"><input id="ket_no" value="{{$pkp->ket_no}}">
                           <input id="id_pkp" value="{{$pkp->pkp_number}}"><input id="priority_project" value="{{$pkp->prioritas}}">
-                          <input id="status_freeze" value="{{$pkp->status_freeze}}"><input id="note_freeze" value="{{$pkp->note_freeze}}">
-                          <input id="selling_price" value="{{$pkp->price}}"><input id="price" value="{{$pkp->price}}">
-                          <input id="UOM" value="{{$pkp->UOM}}"><input id="status_data" value="{{$pkp->status_data}}">
+                          <input id="status_freeze" value="{{$pkp->status_freeze}}"><input id="jenis" value="{{$pkp->jenis}}">
+                          <input id="nfi_price" value="{{$pkp->price}}"><input id="price" value="{{$pkp->price}}">
+                          <input id="UOM" value="{{$pkp->UOM}}"><input id="status_project" value="{{$pkp->status_project}}">
                           @foreach ($datases as $data)<input id="ses" value="{{$data->ses}}">@endforeach
+                          @foreach($for as $fore)<input id="forecast" value="{{$fore->forecast}}"><input id="satuan" value="{{$fore->satuan}}">@endforeach
                           <input id="dari_umur" value="{{$pkp->dariumur}}"><input id="sampai_umur" value="{{$pkp->sampaiumur}}">
                           <input id="gender" value="{{$pkp->gender}}"><input id="uniqueness" value="{{$pkp->Uniqueness}}">
                           <input id="estimated" value="{{$pkp->Estimated}}"><input id="reason" value="{{$pkp->reason}}">
                           <input id="launch" value="{{$pkp->launch}}"><input id="years" value="{{$pkp->years}}">
                           <input id="tgl_launch" value="{{$pkp->tgl_launch}}"><input id="aisle" value="{{$pkp->aisle}}">
-                          <input id="data_forecast" value="{{$pkp->remarks_forecash}}"><input id="nfi_price" value="{{$pkp->selling_price}}">
+                          <input id="data_forecast" value="{{$pkp->remarks_forecash}}"><input id="selling_price" value="{{$pkp->selling_price}}">
                           <input id="costumer_price" value="{{$pkp->price}}"><input id="competitor" value="{{$pkp->competitor}}">
                           <input id="competitive" value="{{$pkp->competitive}}"><input id="product_form" value="{{$pkp->product_form}}">
                           <input id="data_form" value="{{$pkp->remarks_product_form}}"><input id="primary" value="{{$pkp->primery}}">
@@ -163,7 +164,7 @@
                           <input id="serving_suggestion" value="{{$pkp->serving_suggestion}}"><input id="mandatory_ingredient" value="{{$pkp->mandatory_ingredient}}">
                         </div>
                         <div class="modal-footer">
-                          <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-paper-plane"></i> Sent</button>
+                          <button type="submit" onclick="loadXMLDoc()" class="btn btn-primary btn-sm"><i class="fa fa-paper-plane"></i> Sent</button>
                           {{ csrf_field() }}
                         </div>
                       </form>
@@ -251,20 +252,21 @@
                         <input type="hidden" value="{{$pkp->userpenerima}}" name="userpenerima">
                         <input type="hidden" value="{{$pkp->userpenerima2}}" name="userpenerima2">
                         <div hidden>
-                          <input id="nama_project" value="{{$pkp->project_name}}"><input id="id_prodev" value="{{$pkp->id_project}}">
+                          <input id="nama_project" value="{{$pkp->project_name}}"><input id="id_prodev" value="{{$pkp->id_pkp}}">
                           <input id="revisi" value="{{$pkp->revisi}}"><input id="turunan" value="{{$pkp->turunan}}">
                           <input id="brand" value="{{$pkp->id_brand}}"><input id="ket_no" value="{{$pkp->ket_no}}">
                           <input id="id_pkp" value="{{$pkp->pkp_number}}"><input id="priority_project" value="{{$pkp->prioritas}}">
-                          <input id="status_freeze" value="{{$pkp->status_freeze}}"><input id="note_freeze" value="{{$pkp->note_freeze}}">
-                          <input id="selling_price" value="{{$pkp->price}}"><input id="price" value="{{$pkp->price}}">
-                          <input id="UOM" value="{{$pkp->UOM}}"><input id="status_data" value="{{$pkp->status_data}}">
+                          <input id="status_freeze" value="{{$pkp->status_freeze}}"><input id="note_freeze" value="{{$pkp->note_freeze}}"><input id="jenis" value="{{$pkp->jenis}}">
+                          <input id="nfi_price" value="{{$pkp->price}}"><input id="price" value="{{$pkp->price}}">
+                          <input id="UOM" value="{{$pkp->UOM}}"><input id="status_project" value="{{$pkp->status_project}}">
                           @foreach ($datases as $data)<input id="ses" value="{{$data->ses}}">@endforeach
+                          @foreach($for as $fore)<input id="forecast" value="{{$fore->forecast}}"><input id="satuan" value="{{$fore->satuan}}">@endforeach
                           <input id="dari_umur" value="{{$pkp->dariumur}}"><input id="sampai_umur" value="{{$pkp->sampaiumur}}">
                           <input id="gender" value="{{$pkp->gender}}"><input id="uniqueness" value="{{$pkp->Uniqueness}}">
                           <input id="estimated" value="{{$pkp->Estimated}}"><input id="reason" value="{{$pkp->reason}}">
                           <input id="launch" value="{{$pkp->launch}}"><input id="years" value="{{$pkp->years}}">
                           <input id="tgl_launch" value="{{$pkp->tgl_launch}}"><input id="aisle" value="{{$pkp->aisle}}">
-                          <input id="data_forecast" value="{{$pkp->remarks_forecash}}"><input id="nfi_price" value="{{$pkp->selling_price}}">
+                          <input id="data_forecast" value="{{$pkp->remarks_forecash}}"><input id="selling_price" value="{{$pkp->selling_price}}">
                           <input id="costumer_price" value="{{$pkp->price}}"><input id="competitor" value="{{$pkp->competitor}}">
                           <input id="competitive" value="{{$pkp->competitive}}"><input id="product_form" value="{{$pkp->product_form}}">
                           <input id="data_form" value="{{$pkp->remarks_product_form}}"><input id="primary" value="{{$pkp->primery}}">
@@ -274,11 +276,11 @@
                           <input id="prefered_flavour" value="{{$pkp->prefered_flavour}}"><input id="idea" value="{{$pkp->idea}}">
                           <input id="product_benefits" value="{{$pkp->product_benefits}}">
                           <input id="configuration" value="{{ $pkp->kemas->primer }}{{ $pkp->kemas->s_primer }} X {{ $pkp->kemas->sekunder1 }}{{ $pkp->kemas->s_sekunder1}} X {{ $pkp->kemas->sekunder2 }}{{ $pkp->kemas->s_sekunder2 }} X {{ $pkp->kemas->tersier }}{{ $pkp->kemas->s_tersier }}">
-                          <input id="kategori_bpom" value="{{$pkp->kategori_bpom}}">
+                          <input id="kategori_bpom" value="{{$pkp->kategori_bpom}}"><input id="revisi_id" value="{{$pkp->revisi}}">
                           <input id="serving_suggestion" value="{{$pkp->serving_suggestion}}"><input id="mandatory_ingredient" value="{{$pkp->mandatory_ingredient}}">
                         </div>
                         <div class="modal-footer">
-                          <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-paper-plane"></i> Sent</button>
+                          <button type="submit" onclick="revisiloadXMLDoc()" class="btn btn-primary btn-sm"><i class="fa fa-paper-plane"></i> Sent</button>
                           {{ csrf_field() }}
                         </div>
                         </form>
@@ -398,9 +400,7 @@
                       <tr><th colspan="3" class="text-center"><span style="font-weight: bold;font-size: 20px;" class="card-title">Product features</span></th></tr>
                       <tr>
                         <th>Product Form</th>
-                        <td colspan="2">{{$pkp->product_form}} <br><br>
-                        Remarks : {{$pkp->remarks_product_form}}
-                        </td>
+                        <td colspan="2">{{$pkp->product_form}} <br><br>Remarks : {{$pkp->remarks_product_form}}</td>
                       </tr>
                       <tr>
                     <tr>
@@ -747,14 +747,15 @@
     var revisi = document.getElementById("revisi").value;                 var turunan = document.getElementById("turunan").value;
     var brand = document.getElementById("brand").value;                   var ket_no = document.getElementById("ket_no").value;
     var id_pkp = document.getElementById("id_pkp").value;                 var priority_project = document.getElementById("priority_project").value;
-    var status_freeze = document.getElementById("status_freeze").value;   var note_freeze = document.getElementById("note_freeze").value;
+    var jenis = document.getElementById("jenis").value;                   var mandatory_ingredient = document.getElementById("mandatory_ingredient").value;
     var selling_price = document.getElementById("selling_price").value;   var price = document.getElementById("price").value;
-    var uom = document.getElementById("UOM").value;                       var status_data = document.getElementById("status_data").value;
+    var uom = document.getElementById("UOM").value;                       var status_project = document.getElementById("status_project").value;
     var ses = document.getElementById("ses").value;                       var dari_umur = document.getElementById("dari_umur").value;
     var sampai_umur = document.getElementById("sampai_umur").value;       var gender = document.getElementById("gender").value;
     var uniqueness = document.getElementById("uniqueness").value;         var estimated = document.getElementById("estimated").value;
     var reason = document.getElementById("reason").value;                 var launch = document.getElementById("launch").value;
     var years = document.getElementById("years").value;                   var tgl_launch = document.getElementById("tgl_launch").value;
+    var forecast = document.getElementById("forecast").value;             var satuan = document.getElementById("satuan").value;
     var aisle = document.getElementById("aisle").value;                   var data_forecast = document.getElementById("data_forecast").value;
     var nfi_price = document.getElementById("nfi_price").value;           var costumer_price = document.getElementById("costumer_price").value;
     var competitor = document.getElementById("competitor").value;         var competitive = document.getElementById("competitive").value;
@@ -765,22 +766,23 @@
     var idea = document.getElementById("idea").value;                     var product_benefits = document.getElementById("product_benefits").value;
     var configuration = document.getElementById("configuration").value;   var olahan = document.getElementById("olahan").value;
     var kategori_bpom = document.getElementById("kategori_bpom").value;   var serving_suggestion = document.getElementById("serving_suggestion").value;
-    var mandatory_ingredient = document.getElementById("mandatory_ingredient").value;
+    
 
     var formdata = new FormData();
     formdata.append("nama_project",nama_project);               formdata.append("id_prodev",id_prodev);
     formdata.append("revisi",revisi);                           formdata.append("turunan",turunan);
     formdata.append("brand",brand);                             formdata.append("ket_no",ket_no);
-    formdata.append("id_pkp",nama_project);                     formdata.append("priority_project",priority_project);
-    formdata.append("status_freeze",status_freeze);             formdata.append("note_freeze",note_freeze);
+    formdata.append("id_pkp",id_pkp);                           formdata.append("priority_project",priority_project);
+    formdata.append("jenis",jenis);                             formdata.append("serving_suggestion",serving_suggestion);  
     formdata.append("selling_price",selling_price);             formdata.append("price",price);
-    formdata.append("UOM",uom);                                 formdata.append("status_data",status_data);                              
+    formdata.append("UOM",uom);                                 formdata.append("status_project",status_project);                              
     formdata.append("ses",ses);                                 formdata.append("dari_umur",dari_umur);                     
     formdata.append("sampai_umur",sampai_umur);                 formdata.append("gender",gender);                           
     formdata.append("uniqueness",uniqueness);                   formdata.append("estimated",estimated);                     
     formdata.append("reason",reason);                           formdata.append("mandatory_ingredient",mandatory_ingredient);
     formdata.append("launch",launch);                           formdata.append("years",years);
     formdata.append("tgl_launch",tgl_launch);                   formdata.append("aisle",aisle);
+    formdata.append("forecast",forecast);                        formdata.append("satuan",satuan);
     formdata.append("data_forecast",data_forecast);             formdata.append("nfi_price",nfi_price);
     formdata.append("costumer_price",costumer_price);           formdata.append("competitor",competitor);
     formdata.append("competitive",competitive);                 formdata.append("product_form",product_form);
@@ -790,7 +792,6 @@
     formdata.append("prefered_flavour",prefered_flavour);       formdata.append("idea",idea);
     formdata.append("product_benefits",product_benefits);       formdata.append("configuration",configuration);
     formdata.append("olahan",olahan);                           formdata.append("kategori_bpom",kategori_bpom);
-    formdata.append("serving_suggestion",serving_suggestion);   
 
       let xhr = new XMLHttpRequest();
       xhr.open("POST","http://baf-staging-x2:9080/api/create",true);
@@ -799,18 +800,19 @@
   }
 
   function revisiloadXMLDoc() {
-    var nama_project = document.getElementById("nama_project").value;     var id_prodev = document.getElementById("id_prodev").value;
+    var nama_project = document.getElementById("nama_project").value;       var id_prodev = document.getElementById("id_prodev").value;
       var revisi = document.getElementById("revisi").value;                 var turunan = document.getElementById("turunan").value;
       var brand = document.getElementById("brand").value;                   var ket_no = document.getElementById("ket_no").value;
       var id_pkp = document.getElementById("id_pkp").value;                 var priority_project = document.getElementById("priority_project").value;
-      var status_freeze = document.getElementById("status_freeze").value;   var note_freeze = document.getElementById("note_freeze").value;
       var selling_price = document.getElementById("selling_price").value;   var price = document.getElementById("price").value;
-      var uom = document.getElementById("UOM").value;                       var status_data = document.getElementById("status_data").value;
+      var jenis = document.getElementById("jenis").value;                   var revisi_id = document.getElementById("revisi_id").value;
+      var uom = document.getElementById("UOM").value;                       var status_project = document.getElementById("status_project").value;
       var ses = document.getElementById("ses").value;                       var dari_umur = document.getElementById("dari_umur").value;
       var sampai_umur = document.getElementById("sampai_umur").value;       var gender = document.getElementById("gender").value;
       var uniqueness = document.getElementById("uniqueness").value;         var estimated = document.getElementById("estimated").value;
       var reason = document.getElementById("reason").value;                 var launch = document.getElementById("launch").value;
       var years = document.getElementById("years").value;                   var tgl_launch = document.getElementById("tgl_launch").value;
+      var forecast = document.getElementById("forecast").value;             var satuan = document.getElementById("satuan").value;
       var aisle = document.getElementById("aisle").value;                   var data_forecast = document.getElementById("data_forecast").value;
       var nfi_price = document.getElementById("nfi_price").value;           var costumer_price = document.getElementById("costumer_price").value;
       var competitor = document.getElementById("competitor").value;         var competitive = document.getElementById("competitive").value;
@@ -827,10 +829,11 @@
       formdata.append("nama_project",nama_project);               formdata.append("id_prodev",id_prodev);
       formdata.append("revisi",revisi);                           formdata.append("turunan",turunan);
       formdata.append("brand",brand);                             formdata.append("ket_no",ket_no);
-      formdata.append("id_pkp",nama_project);                     formdata.append("priority_project",priority_project);
-      formdata.append("status_freeze",status_freeze);             formdata.append("note_freeze",note_freeze);
+      formdata.append("id_pkp",id_pkp);                           formdata.append("priority_project",priority_project);
       formdata.append("selling_price",selling_price);             formdata.append("price",price);
-      formdata.append("UOM",uom);                                 formdata.append("status_data",status_data);                              
+      formdata.append("jenis",jenis);                             formdata.append("serving_suggestion",serving_suggestion);   
+      formdata.append("revisi_id",revisi_id);
+      formdata.append("UOM",uom);                                 formdata.append("status_project",status_project);                              
       formdata.append("ses",ses);                                 formdata.append("dari_umur",dari_umur);                     
       formdata.append("sampai_umur",sampai_umur);                 formdata.append("gender",gender);                           
       formdata.append("uniqueness",uniqueness);                   formdata.append("estimated",estimated);                     
@@ -846,7 +849,6 @@
       formdata.append("prefered_flavour",prefered_flavour);       formdata.append("idea",idea);
       formdata.append("product_benefits",product_benefits);       formdata.append("configuration",configuration);
       formdata.append("olahan",olahan);                           formdata.append("kategori_bpom",kategori_bpom);
-      formdata.append("serving_suggestion",serving_suggestion);   
 
       let xhr = new XMLHttpRequest();
       xhr.open("POST","http://baf-staging-x2:9080/api/update",true);

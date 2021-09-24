@@ -184,9 +184,9 @@
                   @endif
                 </td>
                 <td class="text-center">
-                  @if($pkp->workbook==0)a
+                  @if($pkp->workbook==0)
                   <a class="btn btn-info btn-sm" href="{{ Route('daftarpkp',$pkp->id_project) }}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
-                  @elseif($pkp->workbook>=1)b
+                  @elseif($pkp->workbook>=1)
                   <a class="btn btn-primary btn-sm" href="{{ Route('daftarpkp',$pkp->id_project) }}" data-toggle="tooltip" title="Show Workbook"><i class="fa fa-book"></i></a>
                   @endif
                 </td>
@@ -277,9 +277,9 @@
                   @endif
                 </td>
                 <td class="text-center">
-                  @if($pkp->workbook==0)a
+                  @if($pkp->workbook==0)
                   <a class="btn btn-info btn-sm" href="{{ Route('daftarpkp',$pkp->id_project) }}" data-toggle="tooltip" title="Show"><i class="fa fa-folder-open"></i></a>
-                  @elseif($pkp->workbook>=1)b
+                  @elseif($pkp->workbook>=1)
                   <a class="btn btn-primary btn-sm" href="{{ Route('daftarpkp',$pkp->id_project) }}" data-toggle="tooltip" title="Show Workbook"><i class="fa fa-book"></i></a>
                   @endif
                 </td>

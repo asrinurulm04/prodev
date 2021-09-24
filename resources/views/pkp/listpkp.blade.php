@@ -413,10 +413,13 @@
                       <div class="modal-body">
                         <form class="form-horizontal form-label-left" method="POST" action="{{route('freeze',$pkp->id_project)}}">
                         <div class="row x_panel">
-                          <label for="" style="color:red;">Note *required</label><textarea name="notefreeze" required class="col-md-12 col-sm-12 col-xs-12"></textarea>
+                          <label for="" style="color:red;">Note *required</label><textarea name="notefreeze" id="note_freeze" required class="col-md-12 col-sm-12 col-xs-12"></textarea>
+                        </div>
+                        <div hidden>
+                          <input id="id_prodev" value="{{$pkp->id_pkp}}"><input id="revisi" value="{{$pkp->revisi}}"><input id="status_freeze" value="active">
                         </div>
                         <div class="modal-footer">
-                          <button type="submit" class="btn btn-dark btn-sm" onclick="return confirm('Are you sure you deactivated this project ?')"><i class="fa fa-cubes"></i> Freeze</button>
+                          <button type="submit" onclick="revisiloadXMLDoc()" class="btn btn-dark btn-sm"><i class="fa fa-paper-plane"></i> Sent</button>
                           {{ csrf_field() }}
                         </div>
                         </form>
@@ -425,7 +428,6 @@
                   </div>
                 </div>
           <!-- Modal Selesai -->
-
           @endforeach
         </tbody>
       </table>
@@ -438,17 +440,19 @@
 <script src="{{ asset('js/datatables.min.js')}}"></script>
 <script>
   function revisiloadXMLDoc() {
-    var nama_project = document.getElementById("nama_project").value;     var id_prodev = document.getElementById("id_prodev").value;
-    var status_freeze = document.getElementById("status_freeze").value;   var note_freeze = document.getElementById("note_freeze").value;
-
-    var formdata = new FormData();
-    formdata.append("nama_project",nama_project);               formdata.append("id_prodev",id_prodev);
-    formdata.append("status_freeze",status_freeze);             formdata.append("note_freeze",note_freeze);
-
-    let xhr = new XMLHttpRequest();
-    xhr.open("POST","http://baf-staging-x2:9080/api/update",true);
-    xhr.send(formdata);
-    xhr.onload = () => alert(xhr.response);
+    let formData = new FormData();
+ 
+    formData.append("status_freeze", document.getElementById("status_freeze").value);
+    formData.append("note_freeze", document.getElementById("note_freeze").value);
+    formData.append("id_prodev", document.getElementById("id_prodev").value);
+ 
+    fetch('http://baf-staging-x2:9080/api/update',{
+                method : 'POST',
+                body : formData         
+    })
+    .then(res => res.text())
+    .then(teks => console.log(teks))
+    .catch(err => console.log(err));
   }
 </script>
 @endsection

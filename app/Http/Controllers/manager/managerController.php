@@ -114,7 +114,7 @@ class managerController extends Controller
     
     public function pengajuan(Request $request){    
         $pkp = PkpProject::where('id_project',$request->pkp)->first();
-        $pkp->updata=$request->id;
+        $pkp->updata=$request->pkp;
         $pkp->save();
         
         $pengajuan = new pengajuan;
@@ -129,7 +129,7 @@ class managerController extends Controller
         $pengajuan->revisi_kemas        = $request->revisi_kemas;
         $pengajuan->save();
 
-        $isipkp = PkpProject::where('id_project',$request->id)->get();
+        $isipkp = PkpProject::where('id_project',$request->pkp)->get();
         $for    = Forecast::where('id_pkp',$pkp->id_pkp)->where('revisi','=',$request->revisi)->where('turunan','=',$request->turunan)->where('revisi_kemas',$request->revisi_kemas)->get();
         try{
             Mail::send('manager.infoemailpkp', [

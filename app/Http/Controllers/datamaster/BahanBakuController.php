@@ -15,6 +15,7 @@ use App\model\dev\MineralBB;
 use App\model\dev\VitaminBB;
 use App\model\dev\AsamAminoBB;
 use App\model\dev\ZatAktif;
+use App\model\dev\ZatAktifBB;
 use App\model\dev\LogamBB;
 use App\model\dev\AllergenBB;
 use App\model\dev\Supplier;
@@ -396,8 +397,8 @@ class BahanBakuController extends Controller
         $currens = Curren::select('id','currency')->get();
         $satuan_bpom = SatuanBpom::select('satuan')->get();
         $zat_aktif = ZatAktif::select('zat_aktif')->get();
-        $zat = ZatAktif::where('id_bahan',$id)->get();
-        $hitung_zat = ZatAktif::where('id_bahan',$id)->count();
+        $zat = ZataktifBB::where('id_bahan',$id)->get();
+        $hitung_zat = ZataktifBB::where('id_bahan',$id)->count();
         $hasil_btp = BtpBB::where('id_bahan',$id)->get();
         $hitung_hasil_btp = BtpBB::where('id_bahan',$id)->count();
         $contain = AllergenBB::where('id_bb',$id)->where('allergen_countain','!=','NULL')->get();

@@ -36,9 +36,7 @@
               <div class="modal-content">
                 <div class="modal-header">                 
                   <h3 class="modal-title text-center" id="exampleModalLabel">Divert Project
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button> </h3>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button> </h3>
                 </div>
                 <div class="modal-body">
                 <form class="form-horizontal form-label-left" method="POST" action="{{ route('alihkanpdf',$data->id_project_pdf) }}" novalidate>
@@ -46,12 +44,13 @@
                     <label class="control-label text-bold col-md-1 col-sm-3 col-xs-12 text-center">Dept1</label>
                     <div class="col-md-11 col-sm-9 col-xs-12">
                       <select name="tujuankirim" class="form-control form-control-line" id="type">
-                        <option  value="{{$data->tujuankirim}}" selected>{{$data->departement->dept}} ({{$data->departement->nama_dept}})</option>
-                        @foreach($dept as $dept)
-                          @if($dept->Divisi=='RND')
-                          <option value="{{$dept->id}}">{{$dept->dept}} ({{$dept->nama_dept}})</option>
-                          @endif
-                        @endforeach
+                        @if($data->tujuankirim!='6')
+                        <option value="{{$data->tujuankirim}}" disabled selected>Not Selected</option>
+                        <option value="6">RPE (R&D Product Export Departement)</option>
+                        @elseif($data->tujuankirim=='6')
+                        <option value="{{$data->tujuankirim}}" disabled selected>{{$data->departement->dept}} ({{$data->departement->nama_dept}})</option>
+                        <option value="1">Not Selected</option>
+                        @endif
                       </select>
                     </div>
                   </div>
@@ -59,12 +58,13 @@
                     <label class="control-label text-bold col-md-1 col-sm-3 col-xs-12 text-center">Dept2</label>
                     <div class="col-md-11 col-sm-9 col-xs-12">
                       <select name="tujuankirim2" class="form-control form-control-line" id="type">
-                        @if($data->tujuankirim2==0)
+                        @if($data->tujuankirim2!='1') 
                         <option value="0" selected>No Departement Selected</option>
-                        @elseif($data->tujuanlirim2==1)
+                        <option value="1">RKA (R&D Kemas & service Departement)</option>
+                        @else($data->tujuanlirim2=='1')
                         <option value="{{$data->tujuankirim2}}" selected>{{$data->departement2->dept}} ({{$data->departement2->nama_dept}})</option>
-                        @endif<option value="1">RKA</option>
                         <option value="0">No Departement Selected</option>
+                        @endif
                       </select>
                     </div>
                   </div>
@@ -122,12 +122,9 @@
                 <tr><th>Brand</th><td> : {{$data->id_brand}} </td></tr>
                 <tr><th>Type</th><td> : {{$data->datapdf->type->type}} </td></tr>
                 <tr><th>Priority</th><td> : 
-                  @if($data->prioritas=='1')
-                  <span class="label label-danger">High Priority</span>
-                  @elseif($data->prioritas=='2')
-                  <span class="label label-warning">Standar Priority</span>
-                  @elseif($data->prioritas=='3')
-                  <span class="label label-primary">Low Priority</span>
+                  @if($data->prioritas=='1') <span class="label label-danger">High Priority</span>
+                  @elseif($data->prioritas=='2') <span class="label label-warning">Standar Priority</span>
+                  @elseif($data->prioritas=='3') <span class="label label-primary">Low Priority</span>
                   @endif
                 </td></tr>
                 <tr><th>PV</th><td> : {{$data->perevisi2->name}} </td></tr>
@@ -145,22 +142,18 @@
                     (
                     @if($data->kemas->tersier!=NULL)
                     {{ $data->kemas->tersier }}{{ $data->kemas->s_tersier }}
-                    @elseif($data->kemas->tersier==NULL)
                     @endif
 
                     @if($data->kemas->sekunder1!=NULL)
                     X {{ $data->kemas->sekunder1 }}{{ $data->kemas->s_sekunder1}}
-                    @elseif($data->kemas->sekunder1==NULL)
                     @endif
 
                     @if($data->kemas->sekunder2!=NULL)
                     X {{ $data->kemas->sekunder2 }}{{ $data->kemas->s_sekunder2 }}
-                    @elseif($data->kemas->sekunder2==NULL)
                     @endif
 
                     @if($data->kemas->primer!=NULL)
                     X{{ $data->kemas->primer }}{{ $data->kemas->s_primer }}
-                    @elseif($data->kemas->primer==NULL)
                     @endif
                     )
                   @endif
@@ -201,11 +194,11 @@
               @php $no = 0; @endphp
               @foreach($sample as $wb)
               @if($wb->status=='final')
-              <tr style="background-color:springgreen">
+                <tr style="background-color:springgreen">
               @elseif($wb->vv=='reject')
-              <tr style="background-color:slategray;color:white">
+                <tr style="background-color:slategray;color:white">
               @else
-              <tr>
+                <tr>
               @endif
                 <td class="text-center">{{++$no}}</td>
                 <td>{{ $wb->versi }}.{{ $wb->turunan }}</td>
@@ -265,5 +258,4 @@
     </div>
   </div>     
 </div>
-
 @endsection

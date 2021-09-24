@@ -292,7 +292,7 @@
           <div class="form-group">
             <label class="control-label col-md-2 col-sm-3 col-xs-12" style="color:#cf3721">No category BPOM^</label>
             <div class="col-md-2 col-sm-8 col-xs-12">
-              <select class="form-control items"  id="bpom" name="bpom" required>
+              <select class="form-control items"  id="bpom" name="bpom">
                 <option value=""></option>
                 @if($pkp->bpom!=null)
                 <option selected value="{{$pkp->bpom}}">{{$pkp->katpangan->no_kategori}}</option>
