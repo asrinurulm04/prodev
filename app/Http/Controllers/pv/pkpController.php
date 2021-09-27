@@ -758,9 +758,9 @@ class pkpController extends Controller
         $pkpp  = PkpProject::where('id_project',$id_pkp)->where('revisi',$revisi)->where('turunan',$turunan)->where('revisi_kemas',$kemas)->first();
         $tip   = PkpProject::where('id_project',$id_pkp)->where('revisi',$revisi)->where('turunan',$turunan)->where('revisi_kemas',$kemas)->first();
         $tip->project_name          = $request->name_project;
+        //dd($request->name_project);
         $tip->id_brand              = $request->brand;
         $tip->id_pkp                = $pkpp->id_pkp;
-        $tip->project_name          = $pkpp->project_name;
         $tip->id_brand              = $pkpp->id_brand;
         $tip->type                  = $pkpp->type;
         $tip->jenis                 = $pkpp->jenis;
