@@ -414,11 +414,9 @@ class pkpController extends Controller
         $data= PkpProject::where('id_project',$id_project)->first();
         $data->jangka           = $request->jangka;
         $data->waktu            = $request->waktu;
-        $data->status_freeze    = 'inactive';
-        $data->freeze_diaktifkan= Carbon::now();
         $data->save();
 
-        return redirect::route('listpkp');
+        return redirect::back()->with('status', 'Timeline Updated');
     }
 
     public function listpkp(){

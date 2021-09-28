@@ -69,6 +69,7 @@
           @else
             @if($data->status_pkp!="close")
             <button class="btn btn-success btn-sm"  data-toggle="modal" data-target="#edit"><li class="fa fa-edit"></li> Edit Type PKP</button>
+            <button class="btn btn-warning btn-sm" title="note" data-toggle="modal" data-target="#data1{{ $data->id_project  }}"><i class="fa fa-edit"></i> Edit Timeline</a></button>
             @endif
             <a href="{{ route('listpkp')}}" class="btn btn-danger btn-sm" type="button"><li class="fa fa-share"></li> Back</a>
           @endif
@@ -417,10 +418,10 @@
 
 <!-- modal -->
 <div class="modal" id="edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-sm" role="document">
     <div class="modal-content">
       <div class="modal-header">                 
-        <h3 class="modal-title" id="exampleModalLabel">Confirm Type PKP
+        <h3 class="modal-title" id="exampleModalLabel">Edit Type PKP
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button> </h3>
@@ -428,8 +429,8 @@
       <div class="modal-body">
       <form class="form-horizontal form-label-left" method="POST" action="{{ route('edittype',$data->id_project) }}" novalidate>
         <div class="form-group row">
-          <label class="control-label text-bold col-md-1 col-sm-3 col-xs-12 text-center">Type</label>
-          <div class="col-md-11 col-sm-9 col-xs-12">
+          <label class="control-label text-bold col-md-2 col-sm-3 col-xs-12 text-center">Type</label>
+          <div class="col-md-10 col-sm-9 col-xs-12">
             <select name="type" class="form-control form-control-line" id="type">
               <option disabled selected value="{{$data->type}}">
                 @if($data->type==1)Maklon
@@ -451,7 +452,7 @@
         @endif
       @endforeach
       <div class="modal-footer">
-        <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-plus-circle"></i> Submit</button>
+        <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> Edit</button>
         {{ csrf_field() }}
       </div>
       </form>
@@ -460,6 +461,36 @@
 </div>
 <!-- modal selesai -->
 
+<!-- Modal -->
+<div class="modal" id="data1{{ $data->id_project  }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="exampleModalLabel">Timeline Project : {{$data->project_name}}
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button></h3>
+      </div>
+      <div class="modal-body">
+        <div class="row x_panel">
+          <form class="form-horizontal form-label-left" method="POST" action="{{ Route('TMubahpkp',$data->id_project)}}" novalidate>
+          <label class="control-label col-md-2 col-sm-2 col-xs-12 text-center">Deadline</label>
+          <div class="col-md-5 col-sm-9 col-xs-12">
+            <input type="date" class="form-control" value="{{$data->jangka}}" name="jangka" id="jangka" placeholder="start date">
+          </div>
+          <div class="col-md-5 col-sm-9 col-xs-12">
+            <input type="date" class="form-control" value="{{$data->waktu}}" name="waktu" id="waktu" placeholder="end date">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> Edit</button>
+        {{ csrf_field() }}
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
 @endsection
 @section('s')
 <script type="text/javascript">
