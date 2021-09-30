@@ -446,7 +446,7 @@
     formData.append("note_freeze", document.getElementById("note_freeze").value);
     formData.append("id_prodev", document.getElementById("id_prodev").value);
  
-    fetch('http://baf-staging-x2:9080/api/update',{
+    fetch('https://smo.nutrifood.co.id/api/update',{
                 method : 'POST',
                 body : formData         
     })

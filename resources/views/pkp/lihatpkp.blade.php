@@ -794,7 +794,7 @@
     formdata.append("olahan",olahan);                           formdata.append("kategori_bpom",kategori_bpom);
 
       let xhr = new XMLHttpRequest();
-      xhr.open("POST","http://baf-staging-x2:9080/api/create",true);
+      xhr.open("POST","https://smo.nutrifood.co.id/api/create",true);
       xhr.send(formdata);
       xhr.onload = () => alert(xhr.response);
   }
@@ -851,7 +851,7 @@
       formdata.append("olahan",olahan);                           formdata.append("kategori_bpom",kategori_bpom);
 
       let xhr = new XMLHttpRequest();
-      xhr.open("POST","http://baf-staging-x2:9080/api/update",true);
+      xhr.open("POST","https://smo.nutrifood.co.id/api/update",true);
       xhr.send(formdata);
       xhr.onload = () => alert(xhr.response);
   }
