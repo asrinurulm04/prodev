@@ -248,7 +248,7 @@ class SampleController extends Controller
         if($formula->workbook_id!=NULL){
             $data  = $formula->workbook_id;
             // kirim email sample (pengirim, Manager, PV)
-            $isipkp = PkpProject::where('id_project',$formula->workbook_id)->where('status_project','=','active')->get();
+            $isipkp = PkpProject::where('id_pkp',$formula->workbook_id)->where('status_project','=','active')->get();
             $for    = Forecast::where('id_project',$formula->workbook_id)->get();
             try{
                 Mail::send('manager.infoemailpkp', [
@@ -257,10 +257,10 @@ class SampleController extends Controller
                     'app'=>$isipkp,
                 ],function($message)use($data){
                     $message->subject('pengajuan sample PKP');
-                    $datapkp = PkpProject::where('id_project',$data)->get();
-                    $pkp     = PkpProject::where('id_project',$data)->first();
+                    $datapkp = PkpProject::where('id_pkp',$data)->where('status_project','=','active')->get();
+                    $pkp     = PkpProject::where('id_pkp',$data)->where('status_project','=','active')->first();
                     foreach($datapkp as $data){
-                        $dept = DB::table('ms_departements')->where('id',$data->tujuankirim)->get();
+                        $dept = DB::table('ms_departements')->where('id',$pkp->tujuankirim)->get();
                         foreach($dept as $dept){
                             $user = User::where('id',$dept->manager_id)->get();
                             $pv   = User::where('id',$pkp->perevisi)->first();
