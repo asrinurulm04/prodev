@@ -228,6 +228,10 @@
       <div class="col-md-1 col-sm-1 col-xs-12">
         <input type="number" step="0.0001" value="{{$makro->fat}}" class="form-control" name="fat" id="fat">
       </div>
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12">GI</label>
+      <div class="col-md-1 col-sm-1 col-xs-12">
+        <input type="number" step="0.0001" value="{{$makro->GI}}" class="form-control" name="gi" id="gi">
+      </div>
     </div><br>
     <div class="form-group">
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Protein</label>

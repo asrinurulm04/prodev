@@ -461,6 +461,7 @@
 																@if($header->form16=='yes')<th class="text-center">Omega3</th>@endif      @if($header->form18=='yes')<th class="text-center">MUFA</th>@endif
 																@if($header->form17=='yes')<th class="text-center">Lemak Trans</th>@endif @if($header->form19=='yes')<th class="text-center">Lemak Jenuh</th>@endif
 																@if($header->form21=='yes')<th class="text-center">Omega6</th>@endif			@if($header->form70=='yes')<th class="text-center">FAT</th>@endif
+																@if($header->form70=='yes')<th class="text-center">GI</th>@endif
 																@if($header->form57=='yes')<th class="text-center">Omega9</th>@endif 			@if($header->form22=='yes')<th class="text-center">Kolestrol</th>@endif   
 																@if($header->form23=='yes')<th class="text-center">Protein</th>@endif 		@if($header->form24=='yes')<th class="text-center">Kadar Air</th>@endif
 																<!-- Mineral -->
@@ -518,6 +519,7 @@
 																@if($header->form19=='yes')<td>{{ $fortail['lemak_jenuh'] }}</td>@endif
 																@if($header->form21=='yes')<td>{{ $fortail['omega6'] }}</td>@endif
 																@if($header->form21=='yes')<td>{{ $fortail['fat'] }}</td>@endif
+																@if($header->form21=='yes')<td>{{ $fortail['gi'] }}</td>@endif
 																@if($header->form57=='yes')<td>{{ $fortail['omega9'] }}</td>@endif
 																@if($header->form22=='yes')<td>{{ $fortail['kolestrol'] }}</td>@endif
 																@if($header->form23=='yes')<td>{{ $fortail['protein'] }}</td>@endif
@@ -595,10 +597,11 @@
 																@if($header->form19=='yes')<td>{{ $total_harga['total_lemak_jenuh'] }}</td>@endif
 																@if($header->form21=='yes')<td>{{ $total_harga['total_omega6'] }}</td>@endif
 																@if($header->form70=='yes')<td>{{ $total_harga['total_fat'] }}</td>@endif
+																@if($header->form70=='yes')<td>{{ $total_harga['total_gi'] }}</td>@endif
 																@if($header->form57=='yes')<td>{{ $total_harga['total_omega9'] }}</td>@endif
 																@if($header->form22=='yes')<td>{{ $total_harga['total_kolestrol'] }}</td>@endif
 																@if($header->form23=='yes')<td>{{ $total_harga['total_protein'] }}</td>@endif
-																@if($header->form70=='yes')<td>{{ $total_harga['total_fat'] }}</td>@endif
+																@if($header->form70=='yes')<td>{{ $total_harga['total_air'] }}</td>@endif
 
 																@if($header->form25=='yes')<td>{{ $total_harga['total_ca'] }}</td>@endif
 																@if($header->form27=='yes')<td>{{ $total_harga['total_mg'] }}</td>@endif

@@ -118,6 +118,7 @@ class BahanBakuController extends Controller
         $makro->omega6=$request->omega6;
         $makro->omega9=$request->omega9;
         $makro->fat=$request->fat;
+        $makro->GI=$request->gi;
         $makro->linoleat=$request->linoleat;
         $makro->kolesterol=$request->kolesterol;
         $makro->protein=$request->protein;
@@ -494,6 +495,7 @@ class BahanBakuController extends Controller
         $makro->omega6=$request->omega6;
         $makro->omega9=$request->omega9;
         $makro->fat=$request->fat;
+        $makro->GI=$request->gi;
         $makro->linoleat=$request->linoleat;
         $makro->kolesterol=$request->kolesterol;
         $makro->protein=$request->protein;

@@ -390,8 +390,11 @@
                       <input type="hidden" class="form-control" value="{{$tgl2}}" name="waktu" id="waktu" placeholder="end date">
                       <input type="hidden" value="{{$pkp->id_project}}" name="pkp" id="pkp">
                     </div>
+                    <div hidden>
+                      <input id="id_prodev" value="{{$pkp->id_pkp}}"><input id="status_freeze" value="unactive">
+                    </div>
                     <div class="modal-footer">
-                      <button type="submit" class="btn btn-primary btn-sm"><li class="fa fa-check"> Active</li></button>
+                      <button type="submit" onclick="revisi2loadXMLDoc()" class="btn btn-primary btn-sm"><li class="fa fa-check"> Active</li></button>
                       {{ csrf_field() }}
                     </div>
                     </form>
@@ -444,6 +447,23 @@
  
     formData.append("status_freeze", document.getElementById("status_freeze").value);
     formData.append("note_freeze", document.getElementById("note_freeze").value);
+    formData.append("id_prodev", document.getElementById("id_prodev").value);
+ 
+    fetch('https://smo.nutrifood.co.id/api/update',{
+                method : 'POST',
+                body : formData         
+    })
+    .then(res => res.text())
+    .then(teks => console.log(teks))
+    .catch(err => console.log(err));
+  }
+</script>
+
+<script>
+  function revisi2loadXMLDoc() {
+    let formData = new FormData();
+ 
+    formData.append("status_freeze", document.getElementById("status_freeze").value);
     formData.append("id_prodev", document.getElementById("id_prodev").value);
  
     fetch('https://smo.nutrifood.co.id/api/update',{
