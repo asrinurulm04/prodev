@@ -6,8 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Redirect;
 
-use App\model\dev\Formula;
-use App\model\Modelfn\finance;
+use App\model\formula\Formula;
 use App\model\Modelmesin\DataMesin;//banyak
 use App\model\Modellab\DataLab;//satu
 use App\model\Modelkemas\KonsepKemas;//satu

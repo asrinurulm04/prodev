@@ -10,13 +10,4 @@ class DataLab extends Model
     protected $primaryKey ='id_lab';
     protected $fillable =['id_feasibility','no_kategori','jenis_mikroba','kode_analisa','tahunan','harian','status','rate'];
 
-    public function id()
-    {
-        return $this->hasOne('App\model\Modelfn\finance','id_feasibility','id_lab');
-    }
-
-    public function datalab()
-    {
-        return $this->belongsTo('App\model\Modelfn\finance','id_feasibility','id_lab');
-    }
 }

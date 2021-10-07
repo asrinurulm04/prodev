@@ -6,9 +6,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\model\master\Subbrand;
 use App\model\users\User;
-use App\model\dev\Formula;
-use App\model\dev\DataFormula;
 use App\model\pkp\PkpProject;
+use App\model\formula\Formula;
+use App\model\formula\DataFormula;
 use Redirect;
 
 class Step1Controller extends Controller

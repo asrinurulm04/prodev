@@ -14,10 +14,10 @@ class FileProject extends Model
     }
 
     public function pdf(){
-        return $this->hasOne('App\model\pkp\ProjectPDF','id_project_pdf','pdf_id');
+        return $this->hasOne('App\model\pdf\ProjectPDF','id_project_pdf','pdf_id');
     }
 
     public function pkppromo(){
-        return $this->hasOne('App\model\pkp\promo','id_pkp_promo','promo');
+        return $this->hasOne('App\model\promo\promo','id_pkp_promo','promo');
     }
 }

@@ -5,11 +5,11 @@ use Illuminate\Support\Facades\Mail;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\model\devnf\storage;
-use App\model\dev\Formula;
+use App\model\formula\storage;
+use App\model\formula\Formula;
 use App\model\master\Teams;
 use App\model\pkp\PkpProject;
-use App\model\pkp\ProjectPDF;
+use App\model\pdf\ProjectPDF;
 use Auth;
 use DB;
 use redirect;

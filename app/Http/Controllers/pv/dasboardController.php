@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\model\pkp\PkpProject;
-use App\model\pkp\ProjectPDF;
-use App\model\pkp\promo;
+use App\model\pdf\ProjectPDF;
+use App\model\promo\promo;
 use App\model\manager\pengajuan;
 use Charts;
 use Auth;

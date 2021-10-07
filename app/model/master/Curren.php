@@ -9,7 +9,7 @@ class Curren extends Model
     Protected $table = 'ms_currens';
     
     public function Formula(){
-        return $this->hasMany('app\dev\Formula');
+        return $this->hasMany('app\formula\Formula');
     }
 
     protected $fillable = [

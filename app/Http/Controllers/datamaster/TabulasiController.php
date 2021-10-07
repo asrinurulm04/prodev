@@ -5,10 +5,10 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-use App\model\dev\Bahan;
-use App\model\dev\MakroBB;
-use App\model\dev\MineralBB;
-use App\model\dev\VitaminBB;
+use App\model\formula\Bahan;
+use App\model\nutfact\MakroBB;
+use App\model\nutfact\MineralBB;
+use App\model\nutfact\VitaminBB;
 use App\model\master\Tabulasi;
 use App\model\pkp\EditProject;
 use DB;

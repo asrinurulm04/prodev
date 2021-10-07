@@ -8,10 +8,8 @@ use Illuminate\Support\Facades\DB;
 
 use App\model\Modellab\Dlab;
 use App\model\Modellab\analisa;
-use App\model\Modelfn\finance;
-use App\model\pkp\SubPKP;
 use App\model\pkp\PkpProject;
-use App\model\dev\Formula;
+use App\model\formula\Formula;
 use redirect;
 
 class LabController extends Controller

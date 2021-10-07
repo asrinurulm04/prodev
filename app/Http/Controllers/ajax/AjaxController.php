@@ -4,9 +4,9 @@ namespace App\Http\Controllers\ajax;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\model\dev\Bahan;
-use App\model\mesin\Mesin;
-use App\model\mesin\datamesin;
+use App\model\formula\Bahan;
+use App\model\Modelmesin\Mesin;
+use App\model\Modelmesin\datamesin;
 use DB;
 
 class AjaxController extends Controller

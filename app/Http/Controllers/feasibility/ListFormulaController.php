@@ -4,7 +4,7 @@ namespace App\Http\Controllers\feasibility;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\model\dev\Formula;
+use App\model\formula\Formula;
 use App\model\pkp\SubPKP;
 use Redirect;
 

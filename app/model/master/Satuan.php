@@ -9,7 +9,7 @@ class Satuan extends Model
     protected $table = 'ms_satuans';
 
     public function Bahan(){
-        return $this->hasMany('App\model\dev\Bahan');
+        return $this->hasMany('App\model\formula\Bahan');
     }
 
     protected $fillable = [

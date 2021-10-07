@@ -10,7 +10,7 @@ class pengajuan extends Model
     protected $primaryKey ='id_pengajuan';
 
     public function datapdf(){
-        return $this->hasOne('App\model\pkp\ProjectPDF','id_project_pdf','id_pdf');
+        return $this->hasOne('App\model\pdf\ProjectPDF','id_project_pdf','id_pdf');
     }
 
     public function datapkp(){
@@ -18,7 +18,7 @@ class pengajuan extends Model
     }
 
     public function datapromo(){
-        return $this->hasOne('App\model\pkp\promo','id_pkp_promo','id_promo');
+        return $this->hasOne('App\model\promo\promo','id_pkp_promo','id_promo');
     }
 
     public function user(){

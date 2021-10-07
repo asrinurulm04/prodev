@@ -7,12 +7,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
 
-use App\model\pkp\Allocation;
-use App\model\pkp\PromoIdea;
-use App\model\pkp\promo;
-use App\model\pkp\DataPromo;
 use App\model\pkp\FileProject;
 use App\model\pkp\SKU;
+use App\model\promo\Allocation;
+use App\model\promo\PromoIdea;
+use App\model\promo\promo;
+use App\model\prmomo\DataPromo;
 use App\model\users\User;
 use App\model\users\Departement;
 use App\model\master\Brand;

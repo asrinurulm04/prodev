@@ -36,11 +36,6 @@ class PkpProject extends Model
     public function users2(){
         return $this->hasOne('App\model\users\User','id','userpenerima2');
     }
-
-    public function datapkp(){
-        return $this->hasOne('App\model\pkp\SubPKP','id_pkp','id_project');
-    }
-
     public function for(){
         return $this->hasOne('App\model\pkp\Forecast','id_pkp','id_project');
     }
@@ -74,11 +69,11 @@ class PkpProject extends Model
     }
     
     public function kemas(){
-        return $this->belongsTo('App\model\kemas\datakemas','kemas_eksis','id_kemas');
+        return $this->belongsTo('App\model\Modelkemas\datakemas','kemas_eksis','id_kemas');
     }
 
     public function datakemas(){
-        return $this->hasOne('App\model\kemas\datakemas','id_kemas','eksis');
+        return $this->hasOne('App\model\Modelkemas\datakemas','id_kemas','eksis');
     }
 
     public function datatarkon(){

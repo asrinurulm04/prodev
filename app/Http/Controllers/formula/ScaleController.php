@@ -5,11 +5,11 @@ namespace App\Http\Controllers\formula;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
-use App\model\dev\Bahan;
-use App\model\dev\Formula;
-use App\model\dev\Fortail;
+use App\model\formula\Bahan;
+use App\model\formula\Formula;
+use App\model\formula\Fortail;
 use App\model\pkp\PkpProject;
-use App\model\pkp\ProjectPDF;
+use App\model\pdf\ProjectPDF;
 
 use Redirect;
 use DB;

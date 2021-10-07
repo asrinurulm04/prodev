@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Validator;
 
 use App\model\pkp\Type;
 use App\model\pkp\PkpProject;
-use App\model\pkp\ProjectPDF;
 use App\model\pkp\notulen;
 use App\model\pkp\DataKlaim;
 use App\model\pkp\uom;
@@ -20,7 +19,8 @@ use App\model\pkp\Allocation;
 use App\model\pkp\DataSES;
 use App\model\pkp\DataPromo;
 use App\model\pkp\ParameterForm;
-use App\model\pkp\SubPDF;
+use App\model\pdf\SubPDF;
+use App\model\pdf\ProjectPDF;
 use App\model\master\Tarkon;
 use App\model\master\Brand;
 use App\model\manager\pengajuan;

@@ -5,12 +5,12 @@ use Illuminate\Support\Facades\Mail;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\model\dev\Formula;
 use App\model\pkp\PkpProject;
-use App\model\pkp\ProjectPDF;
+use App\model\pdf\ProjectPDF;
 use App\model\master\Teams;
-use App\model\devnf\panel;
-use App\model\devnf\hasilpanel;
+use App\model\formula\Formula;
+use App\model\formula\panel;
+use App\model\formula\hasilpanel;
 use Auth;
 use Redirect;
 use DB;

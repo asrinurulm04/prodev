@@ -4,9 +4,9 @@ namespace App\Http\Controllers\formula;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\model\dev\Fortail;
-use App\model\dev\Bahan;
-use App\model\dev\Formula;
+use App\model\formula\Fortail;
+use App\model\formula\Bahan;
+use App\model\formula\Formula;
 use Auth;
 
 class EditFortailController extends Controller

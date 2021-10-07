@@ -9,15 +9,15 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Illuminate\Support\Facades\Validator;
 use App\model\pkp\PkpProject;
-use App\model\dev\Formula;
-use App\model\dev\Fortail;
-use App\model\dev\Bahan;
-use App\model\dev\MakroBB;
-use App\model\dev\MineralBB;
-use App\model\dev\VitaminBB;
-use App\model\dev\AsamAminoBB;
-use App\model\devnf\AllergenFormula;
-use App\model\devnf\Akg;
+use App\model\nutfact\MakroBB;
+use App\model\nutfact\MineralBB;
+use App\model\nutfact\VitaminBB;
+use App\model\nutfact\AsamAminoBB;
+use App\model\nutfact\AllergenFormula;
+use App\model\nutfact\Akg;
+use App\model\formula\Formula;
+use App\model\formula\Fortail;
+use App\model\formula\Bahan;
 use DB;
 
 class downloadFORController extends Controller
