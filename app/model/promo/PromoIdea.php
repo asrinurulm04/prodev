@@ -1,6 +1,6 @@
 <?php
 
-namespace App\model\prmo;
+namespace App\model\promo;
 
 use Illuminate\Database\Eloquent\Model;
 

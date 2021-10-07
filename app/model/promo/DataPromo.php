@@ -17,8 +17,8 @@ class DataPromo extends Model
         return $this->hasOne('App\model\users\Departement','id','tujuankirim');
     }
 
-    public function dept(){
-        return $this->hasOne('App\model\users\Departement','id','tujuankirim');
+    public function dept2(){
+        return $this->hasOne('App\model\users\Departement','id','tujuankirim2');
     }
 
     public function picpromo(){

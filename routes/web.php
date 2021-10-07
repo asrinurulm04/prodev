@@ -293,9 +293,9 @@ Route::get('pkplihat/{id_project}','manager\managerController@lihatpkp')->name('
 Route::get('promolihat/{id}/{revisi}/{turunan}','manager\managerController@lihatpromo')->name('promolihat');
 
 // ***************user_rd_produk
-Route::get('listprojectpkp','devwb\listprojectController@listpkp')->name('listprojectpkp');
-Route::get('listprojectpdf','devwb\listprojectController@listpdf')->name('listprojectpdf');
-Route::get('listprojectpromo','devwb\listprojectController@listpromo')->name('listprojectpromo');
+Route::get('listprojectpkp','RDproduct\listprojectController@listpkp')->name('listprojectpkp');
+Route::get('listprojectpdf','RDproduct\listprojectController@listpdf')->name('listprojectpdf');
+Route::get('listprojectpromo','RDproduct\listprojectController@listpromo')->name('listprojectpromo');
 
 // FEASIBILITY
 Route::get('PengajuanSelesai','feasibility\ListFormulaController@sudah')->name('formula.selesai');
@@ -303,13 +303,13 @@ Route::get('deletefs/{id}', 'feasibility\ListFeasibilityController@deletefs')->n
 
 /***** Workbook**/
 // Formula
-Route::get('DetailFormula/{id}/{wb}/{for}','devwb\FormulaController@detail')->name('formula.detail');
-Route::get('DestroyFormula/{id}','devwb\FormulaController@deleteformula')->name('deleteFormula');
-Route::get('hapusupload/{id}','devwb\FormulaController@hapus_upload')->name('hapus_upload');
-Route::get('hapus_upload_pdf/{id}','devwb\FormulaController@hapus_upload_pdf')->name('hapus_upload_pdf');
-Route::post('addformula','devwb\FormulaController@new')->name('addformula');
-Route::post('uploadfile/{id}','devwb\FormulaController@uploadfile')->name('uploadfile');
-Route::post('uploadfile_pdf/{id}','devwb\FormulaController@uploadfile_pdf')->name('uploadfile_pdf');
+Route::get('DetailFormula/{id}/{wb}/{for}','formula\FormulaController@detail')->name('formula.detail');
+Route::get('DestroyFormula/{id}','formula\FormulaController@deleteformula')->name('deleteFormula');
+Route::get('hapusupload/{id}','formula\FormulaController@hapus_upload')->name('hapus_upload');
+Route::get('hapus_upload_pdf/{id}','formula\FormulaController@hapus_upload_pdf')->name('hapus_upload_pdf');
+Route::post('addformula','formula\FormulaController@new')->name('addformula');
+Route::post('uploadfile/{id}','formula\FormulaController@uploadfile')->name('uploadfile');
+Route::post('uploadfile_pdf/{id}','formula\FormulaController@uploadfile_pdf')->name('uploadfile_pdf');
 
 //Step1
 Route::get('formulainformation/{for}/{pkp}/{project}','formula\Step1Controller@create')->name('step1');
@@ -341,22 +341,22 @@ Route::post('GantiBase/{id}','formula\ScaleController@gantibase')->name('gantiba
 Route::get('HapusBase/{id}','formula\ScaleController@hapusbase')->name('hapusbase');
 Route::get('HapusBase/{id}','formula\ScaleController@hapusbase')->name('hapusbase');
 
-Route::get('upversion/{for}/{pkp}/{pro}','devwb\UpVersionController@upversion')->name('upversion');
-Route::get('upversion2/{for}/{pkp}/{pro}','devwb\UpVersionController@upversion2')->name('upversion2');
-Route::get('tambahformula/{id}','devwb\UpVersionController@tambahformula')->name('tambahformula');
+Route::get('upversion/{for}/{pkp}/{pro}','formula\UpVersionController@upversion')->name('upversion');
+Route::get('upversion2/{for}/{pkp}/{pro}','formula\UpVersionController@upversion2')->name('upversion2');
+Route::get('tambahformula/{id}','formula\UpVersionController@tambahformula')->name('tambahformula');
 
 Route::get('getAlternatif/{id}','ajax\AjaxController@getAlternatif');
-Route::get('getTemplate/{for}/{pkp}/{pro}','devwb\TemplateFormulaController@index')->name('getTemplate');
-Route::get('InsertTemplate/{ftujuan}/{wb}/{fasal}','devwb\TemplateFormulaController@template')->name('insertTemplate');
+Route::get('getTemplate/{for}/{pkp}/{pro}','formula\TemplateFormulaController@index')->name('getTemplate');
+Route::get('InsertTemplate/{ftujuan}/{wb}/{fasal}','formula\TemplateFormulaController@template')->name('insertTemplate');
 Route::get('EditDetailPenyusunan/{id}/{for}','formula\EditFortailController@index')->name('editfortail');
 Route::patch('SaveDetailPenyusunan/{idf}/{id}','formula\EditFortailController@update')->name('updatefortail');
 
 // Ajukan Formula ke PV
-Route::post('rejectsample/{id}','devwb\SampleController@rejectsample')->name('rejectsample');
-Route::post('approvesample/{id}','devwb\SampleController@approvesample')->name('approvesample');
-Route::get('ajukanvp/{wb}/{id}','devwb\SampleController@vp')->name('ajukanvp');
-Route::get('finalsample/{sample}','devwb\SampleController@finalsample')->name('finalsample');
-Route::get('unfinalsample/{sample}','devwb\SampleController@unfinalsample')->name('unfinalsample');
+Route::post('rejectsample/{id}','formula\SampleController@rejectsample')->name('rejectsample');
+Route::post('approvesample/{id}','formula\SampleController@approvesample')->name('approvesample');
+Route::get('ajukanvp/{wb}/{id}','formula\SampleController@vp')->name('ajukanvp');
+Route::get('finalsample/{sample}','formula\SampleController@finalsample')->name('finalsample');
+Route::get('unfinalsample/{sample}','formula\SampleController@unfinalsample')->name('unfinalsample');
 
 // panel
 Route::post('hasilpanel','formula\panelController@hasil')->name('hasilpanel');

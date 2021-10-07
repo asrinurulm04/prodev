@@ -188,7 +188,7 @@
                         <label class="control-label text-bold col-md-1 col-sm-3 col-xs-12 text-center">Dept 2</label>
                         <div class="col-md-4 col-sm-9 col-xs-12">
                           <select name="rka" class="form-control form-control-line" id="rka">
-                            <option Value="0">-->Select One<--</option>
+                            <option value="{{$promo->tujuankirim2}}">{{$promo->dept2->dept}}</option>
                             <option Value="1">RKA</option>
                             <option value="0">Tidak Ada</option>
                           </select>

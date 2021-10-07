@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\mesin;
+namespace App\Http\Controllers\RDproses;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;

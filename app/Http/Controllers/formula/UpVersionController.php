@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\devwb;
+namespace App\Http\Controllers\formula;
 use Illuminate\Support\Facades\Mail;
 
 use Illuminate\Http\Request;

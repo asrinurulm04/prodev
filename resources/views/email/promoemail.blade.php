@@ -35,7 +35,7 @@
             </div>
               <table border="1" style="font-size:15px" class="table table-bordered">
                 <tr>
-                  <td style="width:530px"><b>Author</td>
+                  <td style="width:500px"><b>Author</td>
                   <td colspan="2">{{$promo->datapromoo->author1->name}}</td>
                 </tr>
                 <tr>
@@ -47,7 +47,7 @@
                   <td colspan="2">{{$promo->revisi}}.{{$promo->turunan}}</td>
                 </tr>
                 <tr>
-                  <td style="width:530px"><b>Perevisi</td>
+                  <td style="width:500px"><b>Perevisi</td>
                   <td colspan="2">@if($promo->perevisi!=null){{$promo->perevisi2->name}}@endif</td>
                 </tr>
                 <tr>

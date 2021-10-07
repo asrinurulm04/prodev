@@ -275,7 +275,7 @@
                           <input id="akg" value="{{$pkp->tarkon->tarkon}}">
                           <input id="prefered_flavour" value="{{$pkp->prefered_flavour}}"><input id="idea" value="{{$pkp->idea}}">
                           <input id="product_benefits" value="{{$pkp->product_benefits}}">
-                          <input id="configuration" value="{{ $pkp->kemas->primer }}{{ $pkp->kemas->s_primer }} X {{ $pkp->kemas->sekunder1 }}{{ $pkp->kemas->s_sekunder1}} X {{ $pkp->kemas->sekunder2 }}{{ $pkp->kemas->s_sekunder2 }} X {{ $pkp->kemas->tersier }}{{ $pkp->kemas->s_tersier }}">
+                          @if($pkp->kemas_eksis!=NULL)<input id="configuration" value="{{ $pkp->kemas->primer }}{{ $pkp->kemas->s_primer }} X {{ $pkp->kemas->sekunder1 }}{{ $pkp->kemas->s_sekunder1}} X {{ $pkp->kemas->sekunder2 }}{{ $pkp->kemas->s_sekunder2 }} X {{ $pkp->kemas->tersier }}{{ $pkp->kemas->s_tersier }}">@endif
                           <input id="kategori_bpom" value="{{$pkp->kategori_bpom}}"><input id="revisi_id" value="{{$pkp->revisi}}">
                           <input id="serving_suggestion" value="{{$pkp->serving_suggestion}}"><input id="mandatory_ingredient" value="{{$pkp->mandatory_ingredient}}">
                         </div>

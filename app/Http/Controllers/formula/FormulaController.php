@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\devwb;
+namespace App\Http\Controllers\formula;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -23,9 +23,9 @@ use App\model\formula\storage;
 use App\model\formula\Formula;
 use App\model\formula\DataFormula;
 use App\model\formula\Fortail;
+use App\model\formula\HeaderFormula;
 use App\model\formula\Bahan;
 use App\model\master\Curren;
-use App\model\master\HeaderFormula;
 use Auth;
 use DB;
 use Redirect;

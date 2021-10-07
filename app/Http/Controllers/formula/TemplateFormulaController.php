@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\devwb;
+namespace App\Http\Controllers\formula;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;

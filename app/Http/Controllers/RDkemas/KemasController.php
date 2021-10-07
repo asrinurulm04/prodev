@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\kemas;
+namespace App\Http\Controllers\RDkemas;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\CsvImportRequest;
