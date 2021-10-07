@@ -1,7 +1,5 @@
 @extends('produksi.tempproduksi')
-
 @section('title','Feasibility|Inputor')
-
 @section('content')
 
      <div id="RM" class="tab-pane">

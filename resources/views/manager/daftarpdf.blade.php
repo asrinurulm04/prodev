@@ -1,4 +1,4 @@
-@extends('manager.tempmanager')
+@extends('layout.tempmanager')
 @section('title', 'PRODEV|Daftar PDF')
 @section('content')
 

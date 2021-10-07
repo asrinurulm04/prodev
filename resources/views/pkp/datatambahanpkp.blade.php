@@ -1,4 +1,4 @@
-@extends('pv.tempvv')
+@extends('layout.tempvv')
 @section('title', 'Data Tambahan PKP')
 @section('content')
 

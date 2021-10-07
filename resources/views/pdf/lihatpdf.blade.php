@@ -1,4 +1,4 @@
-@extends('pv.tempvv')
+@extends('layout.tempvv')
 @section('title', 'PRODEV|data PDF')
 @section('content')
 

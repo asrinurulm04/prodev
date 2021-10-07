@@ -1,4 +1,4 @@
-@extends('pv.tempvv')
+@extends('layout.tempmanager')
 @section('title', 'PRODEV|Dashboard')
 @section('content')
 

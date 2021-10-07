@@ -1,6 +1,5 @@
-@extends('pv.tempvv')
+@extends('layout.tempvv')
 @section('title', 'Request PKP')
-
 @section('content')
 
 @if($pkp->status_pkp=='draf') 

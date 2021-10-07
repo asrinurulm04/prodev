@@ -1,7 +1,5 @@
 @extends('mesin.tempmesin')
-
 @section('title','Feasibility|Inputor')
-
 @section('content')
 
 <!-- page start-->

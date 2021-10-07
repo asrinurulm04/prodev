@@ -1,6 +1,5 @@
-@extends('pv.tempvv')
+@extends('layout.tempvv')
 @section('title', 'Request PKP')
-@section('judulhalaman','Request PKP')
 @section('content')
 
   <div class="col-md-12 col-xs-12">
