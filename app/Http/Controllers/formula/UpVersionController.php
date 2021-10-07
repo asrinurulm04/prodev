@@ -141,7 +141,7 @@ class UpVersionController extends Controller
 
         if(auth()->user()->role->namaRule == 'manager'){
             try{
-                Mail::send('formula.info', [
+                Mail::send('email.info', [
                     'info' => 'Manager Anda Telah Menambahkan Versi Pada Formula "'.$lastf->formula.'"' ,
                 ],function($message)use($request,$for){
                     $message->subject('INFO PRODEV');
@@ -292,7 +292,7 @@ class UpVersionController extends Controller
         
         if(auth()->user()->role->namaRule == 'manager'){
             try{
-                Mail::send('formula.info', [
+                Mail::send('email.info', [
                     'info' => 'Manager Anda Telah Menambahkan SubVersi Pada Formula "'.$lastf->formula.'"' ,
                 ],function($message)use($request,$for) {
                     $message->subject('INFO PRODEV');

@@ -45,7 +45,7 @@ class ListFeasibilityController extends Controller
         $datamaklon   = workbook_maklon::where('id_formula',$workbook->id)->get();
         $dataF        = finance::where('id_wb',$workbook->workbook_id)->where('id_formula',$wb)->get();
         $dF           = finance::where('id_wb',$workbook->workbook_id)->where('id_formula',$wb)->first();
-        return view('workbookfs.workbook')->with([
+        return view('workbookFS.workbook')->with([
             'myFormula'    => $myFormula,
             'wb'           => $wb,
             'for'          => $dF,

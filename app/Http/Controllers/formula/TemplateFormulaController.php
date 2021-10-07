@@ -20,7 +20,7 @@ class TemplateFormulaController extends Controller
         $ada          = Fortail::where('formula_id',$pro)->count();
         $formulas     = Formula::join('tr_project_pkp','tr_project_pkp.id_pkp','tr_formulas.workbook_id')->orderBy('pkp_number','asc')->orderBy('versi','asc')->get();
         $formulas_pdf = Formula::join('tr_pdf_project','tr_pdf_project.id_project_pdf','tr_formulas.workbook_pdf_id')->orderBy('pdf_number','asc')->orderBy('versi','asc')->get();
-        return view('devwb.template')->with([
+        return view('formula.template')->with([
             'ada'           => $ada,
             'formulas'      => $formulas,
             'formulas_pdf'  => $formulas_pdf,

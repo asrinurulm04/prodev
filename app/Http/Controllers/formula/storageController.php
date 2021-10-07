@@ -90,7 +90,7 @@ class storageController extends Controller
 
         $isistorage = storage::where('id',$id_storage)->first();
         try{
-            Mail::send('formula.emailstorage', [
+            Mail::send('email.emailstorage', [
                 'app'     => $isistorage,
                 'formula' => $formula,
                 'info'    => 'RD telah selesai membuat data Storage untuk project ini',

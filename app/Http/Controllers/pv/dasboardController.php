@@ -41,7 +41,7 @@ class dasboardController extends Controller
         $closepromo = promo::where('status_project','=','close')->count();
         $pie3       = Charts::create('area', 'highcharts')->title('Data PKP Promo')->labels(['draf', 'sent', 'revisi', 'proses', 'close'])
 			->values([$hitungpromo,$sentpromo,$revisipromo,$prosespromo,$closepromo])->responsive(false);
-        return view('NR.dasboard')->with([
+        return view('RDproduct.dasboard')->with([
             'pkp1'        => $pkp1,
             'promo1'      => $promo1,
             'pie'         => $pie,
@@ -167,7 +167,7 @@ class dasboardController extends Controller
         $promo      = promo::where('userpenerima',Auth::user()->id)->where('status_project','=','proses')->count();
         $promo1     = promo::where('userpenerima2',Auth::user()->id)->where('status_project','=','proses')->count();
         $datapromo  = $promo + $promo1;
-        return view('devwb.dasboard')->with([
+        return view('formula.dasboard')->with([
             'pkp'   => $datapkp,
             'pdf'   => $datapdf,
             'promo' => $datapromo

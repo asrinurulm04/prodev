@@ -312,7 +312,7 @@ class Step2Controller extends Controller
 
         if(auth()->user()->role->namaRule == 'manager'){
             try{
-                Mail::send('formula.info', [
+                Mail::send('email.info', [
                     'info' => 'Manager Anda Telah Merubah Data Untuk Formula "'.$formula->formula.'"' ,
                 ],function($message)use($request,$vf){
                     $message->subject('INFO PRODEV');

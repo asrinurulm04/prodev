@@ -363,7 +363,7 @@ class pkpController extends Controller
 
         $isipkp = PkpProject::where('id_project',$id_project)->get();
         try{
-            Mail::send('pv.aktifitasinfoemail', [
+            Mail::send('email.AktifitasEmail', [
                 'app'  => $isipkp,
                 'info' => 'Project Ini di freeze oleh PV dengan alasan "'.$request->notefreeze.'"',
             ], function ($message) use ($request,$id_project) {
@@ -726,7 +726,7 @@ class pkpController extends Controller
         $isipkp = PkpProject::where('id_project',$tip->id_project)->get();
         $for    = Forecast::where('id_project',$request->id)->get();
         try{
-            Mail::send('pv.aktifitasinfoemail', [
+            Mail::send('email.AktifitasEmail', [
                 'app'  => $isipkp,
                 'for'  => $for,
                 'info' => 'Saat ini terdapat perubahan data PKP',
@@ -915,7 +915,7 @@ class pkpController extends Controller
         $isipkp = PkpProject::where('id_project',$tip->id_project)->where('status_project','=','active')->get();
         $for    = Forecast::where('id_project',$request->id)->get();
         try{
-            Mail::send('pv.aktifitasinfoemail', [
+            Mail::send('email.AktifitasEmail', [
             'app'  => $isipkp,
             'for'  => $for,
             'info' => 'Saat ini terdapat perubahan data PKP',],function($message)use($request) {
@@ -1094,7 +1094,7 @@ class pkpController extends Controller
             $isipkp = PkpProject::where('id_project',$tip->id_project)->get();
             $for    = Forecast::where('id_project',$tip->id_project)->get();
             try{
-                Mail::send('pv.aktifitasinfoemail', [
+                Mail::send('email.AktifitasEmail', [
                     'app'  => $isipkp,
                     'for'  => $for,
                     'info' => 'Terdapat Data PKP Baru',
@@ -1151,7 +1151,7 @@ class pkpController extends Controller
 
         $emaillaunch = PkpProject::where('id_project',$id)->join('tr_project_launching','tr_project_pkp.id_project','tr_project_launching.id_pkp')->first();
         try{
-            Mail::send('launching', ['pkp'=>$emaillaunch,],function($message)use($request,$id){
+            Mail::send('email.Emaillaunching', ['pkp'=>$emaillaunch,],function($message)use($request,$id){
                 $message->subject('Konfirmasi Launching');
                 $user1    = $request->user1;
                 $user2    = $request->user2;
@@ -1293,7 +1293,7 @@ class pkpController extends Controller
         $isipkp = PkpProject::where('id_project',$id_project)->where('status_project','=','active')->get();
         $for    = Forecast::where('id_project',$data->id_project)->get();
         try{
-            Mail::send('manager.infoemailpkp', [
+            Mail::send('email.infoemailpkp', [
                 'nama'   => $request->email,
                 'app'    => $isipkp,
                 'for'    => $for,
@@ -1369,7 +1369,7 @@ class pkpController extends Controller
         $isipkp = PkpProject::where('id_project',$id_project)->get();
         $for    = Forecast::where('id_project',$id_project)->get();
         try{
-            Mail::send('manager.infoemailpkp', [
+            Mail::send('email.infoemailpkp', [
                 'nama'   => $request->email,
                 'app'    => $isipkp,
                 'for'    => $for,
@@ -1440,7 +1440,7 @@ class pkpController extends Controller
         $for    = Forecast::where('id_project',$edit->id_project)->get();
         $isipkp = PkpProject::where('id_project',$id_project)->get();
         try{
-            Mail::send('manager.infoemailpkp', [
+            Mail::send('email.infoemailpkp', [
                 'nama'   => $request->email,
                 'app'    => $isipkp,
                 'for'    => $for,

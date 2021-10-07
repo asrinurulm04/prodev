@@ -38,7 +38,7 @@ class SampleController extends Controller
             $isipkp  = PkpProject::where('id_project',$for->workbook_id)->get();
             $for     = Forecast::where('id_project',$for->workbook_id)->where('revisi',$revisi)->where('turunan',$turunan)->get();
             try{
-                Mail::send('manager.infoemailpkp', [
+                Mail::send('email.infoemailpkp', [
                     'info' => 'Sample yang anda ajukan disetujui dengan catatan "'.$request->note.'"',
                     'for' => $for,
                     'app'=>$isipkp,
@@ -74,7 +74,7 @@ class SampleController extends Controller
             $isipdf  = SubPDF::where('pdf_id',$for->workbook_pdf_id)->where('status_pdf','=','active')->get();
             $for     = Forecast::where('id_pdf',$for->workbook_pdf_id)->where('revisi',$revisi)->where('turunan',$turunan)->get();
             try{
-                Mail::send('manager.infoemailpdf', [
+                Mail::send('email.infoemailpdf', [
                     'info' => 'Sample yang anda ajukan disetujui dengan catatan "'.$request->note.'"',
                     'for' => $for,
                     'app'=>$isipdf,
@@ -136,7 +136,7 @@ class SampleController extends Controller
             $isipkp  = PkpProject::where('id_project',$for->workbook_id)->get();
             $for     = Forecast::where('id_project',$for->workbook_id)->where('revisi',$revisi)->where('turunan',$turunan)->get();
             try{
-                Mail::send('manager.infoemailpkp', [
+                Mail::send('email.infoemailpkp', [
                     'info' => 'Sample yang anda ajukan ditolah dengan catatan "'.$request->note.'"',
                     'for' => $for,
                     'app'=>$isipkp,
@@ -172,7 +172,7 @@ class SampleController extends Controller
             $isipdf  = SubPDF::where('pdf_id',$for->workbook_pdf_id)->where('status_pdf','=','active')->get();
             $for     = Forecast::where('id_pdf',$for->workbook_pdf_id)->where('revisi',$revisi)->where('turunan',$turunan)->get();
             try{
-                Mail::send('manager.infoemailpdf', [
+                Mail::send('email.infoemailpdf', [
                     'info' => 'Sample yang anda ajukan ditolak dengan catatan "'.$request->note.'"',
                     'for' => $for,
                     'app'=>$isipdf,
@@ -251,7 +251,7 @@ class SampleController extends Controller
             $isipkp = PkpProject::where('id_pkp',$formula->workbook_id)->where('status_project','=','active')->get();
             $for    = Forecast::where('id_project',$formula->workbook_id)->get();
             try{
-                Mail::send('manager.infoemailpkp', [
+                Mail::send('email.infoemailpkp', [
                     'info' => 'R&D telah mengajukan sample untuk Project PKP berikut',
                     'for' => $for,
                     'app'=>$isipkp,
@@ -289,7 +289,7 @@ class SampleController extends Controller
             $isipdf  = SubPDF::where('pdf_id',$formula->workbook_pdf_id)->where('status_pdf','=','active')->get();
             $for     = Forecast::where('id_pdf',$formula->workbook_pdf_id)->where('revisi',$revisi)->where('turunan',$turunan)->get();
             try{
-                Mail::send('manager.infoemailpdf', [
+                Mail::send('email.infoemailpdf', [
                     'info' => 'R&D telah mengajukan sample untuk Project PDF berikut',
                     'for' => $for,
                     'app'=>$isipdf,

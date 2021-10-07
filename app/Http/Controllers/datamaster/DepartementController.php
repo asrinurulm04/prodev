@@ -18,7 +18,7 @@ class DepartementController extends Controller
     public function dept(){
         $depts = Departement::all();
         $users = User::where('status','active')->get();
-        return view('admin.departement')->with([
+        return view('datamaster.departement')->with([
             'depts' => $depts,
             'users' => $users
         ]);

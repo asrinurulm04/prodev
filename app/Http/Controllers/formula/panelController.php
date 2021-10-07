@@ -81,7 +81,7 @@ class panelController extends Controller
 
         $isipanel = hasilpanel::where('id',$id_panel)->first();
         try{
-            Mail::send('formula.emailpanel', [
+            Mail::send('email.emailpanel', [
                 'app'     =>$isipanel,
                 'formula' => $formula,
                 'info'    => 'RD telah selesai membuat data panel untuk project ini',

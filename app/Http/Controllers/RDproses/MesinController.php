@@ -33,7 +33,7 @@ class MesinController extends Controller
                     ->where('id_feasibility', $id_feasibility)->get();
         $dataF      = finance::where('id_feasibility', $id_feasibility)->get();
         $fe         = finance::find($id_feasibility);
-        return view('mesin.datamesin')->with([
+        return view('RDproses.datamesin')->with([
             'id_feasibility'=> $id_feasibility,
             'fe'            => $fe,
             'konsep'        => $konsep,
@@ -56,7 +56,7 @@ class MesinController extends Controller
         $Mdata      = DataMesin::with('meesin')->get()->where('id_feasibility', $id_feasibility);
         $dataF      = finance::where('id_feasibility', $id_feasibility)->get();
         $fe         =finance::find($id_feasibility);
-        return view('mesin.ubahdata')->with([
+        return view('RDproses.ubahdata')->with([
             'id_feasibility' => $id_feasibility,
             'fe'             => $fe,
             'konsep'         => $konsep,
@@ -151,7 +151,7 @@ class MesinController extends Controller
         $dataF      = finance::where('id_feasibility', $id_feasibility)->get();
         $dataO      = oh::with('dataoh')->get()->where('id_feasibility', $id_feasibility);
         $fe         = finance::find($id_feasibility);
-        return view('mesin.reference')->with([
+        return view('RDproses.reference')->with([
             'id_feasibility'=> $id_feasibility,
             'id'            => $id,
             'fe'            => $fe,
@@ -173,7 +173,7 @@ class MesinController extends Controller
         $dataF      = finance::where('id_feasibility', $id_feasibility)->get();
         $fe         = finance::find($id_feasibility);
         $dataO      = oh::with('dataoh')->get()->where('id_feasibility', $id_feasibility);
-        return view('mesin.dataoh')->with([
+        return view('RDproses.dataoh')->with([
             'dataF'         => $dataF,
             'fe'            => $fe,
             'id'            => $id,
@@ -207,7 +207,7 @@ class MesinController extends Controller
     public function std($id_feasibility){
         $dataF = finance::with('formula')->get()->where('id_feasibility', $id_feasibility)->first();
         $fe=finance::find($id_feasibility);
-        return view('mesin.std',[])->with([
+        return view('RDproses.std')->with([
             'fe'=>$fe,
             'id_feasibility' => $id_feasibility,
             'dataF' => $dataF
@@ -278,7 +278,7 @@ class MesinController extends Controller
                 ->join('tr_feasibility','fs_formula_kemas.id_feasibility','=','tr_feasibility.id_feasibility')
                 ->join('fs_data_yield','fs_formula_kemas.kode','=','fs_data_yield.kode_item')
                 ->where('fs_formula_kemas.id_feasibility', $id_feasibility)->get();
-        return view('mesin.lihat')->with([
+        return view('RDproses.lihat')->with([
             'fe'             => $fe,
             'id_feasibility' => $id_feasibility,
             'id'             => $id,
@@ -301,7 +301,7 @@ class MesinController extends Controller
         $dataF  = finance::where('id_feasibility', $id_feasibility)->get();
         $Mdata  = DataMesin::with('meesin')->get()->where('id_feasibility', $id_feasibility);
         $dataO  = oh::with('dataoh')->get()->where('id_feasibility', $id_feasibility);
-        return view('mesin.runtimemesin')->with([
+        return view('RDproses.runtimemesin')->with([
             'fe'             => $fe,
             'id'             => $id,
             'id_feasibility' => $id_feasibility,
@@ -390,7 +390,7 @@ class MesinController extends Controller
         $dataF  = finance::where('id_feasibility', $id_feasibility)->get();
         $Mdata  = DataMesin::with('meesin')->get()->where('id_feasibility', $id_feasibility);
         $dataO  = oh::with('dataoh')->get()->where('id_feasibility', $id_feasibility);
-        return view('mesin.mixing')->with([
+        return view('RDproses.mixing')->with([
             'fe'            =>$fe,
             'id'            => $id,
             'id_feasibility'=> $id_feasibility,
@@ -414,7 +414,7 @@ class MesinController extends Controller
         $dataF  = finance::where('id_feasibility', $id_feasibility)->get();
         $Mdata  = DataMesin::with('meesin')->get()->where('id_feasibility', $id_feasibility);
         $dataO  = oh::with('dataoh')->get()->where('id_feasibility', $id_feasibility);
-        return view('mesin.filling')->with([
+        return view('RDproses.filling')->with([
             'fe'            =>$fe,
             'id'            => $id,
             'id_feasibility'=> $id_feasibility,
@@ -435,7 +435,7 @@ class MesinController extends Controller
         $dataF  = finance::where('id_feasibility', $id_feasibility)->get();
         $Mdata  = DataMesin::with('meesin')->get()->where('id_feasibility', $id_feasibility);
         $dataO  = oh::with('dataoh')->get()->where('id_feasibility', $id_feasibility);
-        return view('mesin.packing')->with([
+        return view('RDproses.packing')->with([
             'fe'            =>$fe,
             'id'            => $id,
             'id_feasibility'=> $id_feasibility,
@@ -455,7 +455,7 @@ class MesinController extends Controller
         $kemas  = FormulaKemas::with('kemas')->get()->where('id_feasibility', $id_feasibility);
         $dataF  =finance::where('id_feasibility', $id_feasibility)->get();
         $dataO  = oh::with('dataoh')->get()->where('id_feasibility', $id_feasibility);
-        return view('mesin.activity')->with([
+        return view('RDproses.activity')->with([
             'fe'            =>$fe,
             'id'            => $id,
             'id_feasibility'=> $id_feasibility,
@@ -481,7 +481,7 @@ class MesinController extends Controller
         $dataF  = finance::where('id_feasibility', $id_feasibility)->get();
         $Mdata  = DataMesin::with('meesin')->get()->where('id_feasibility', $id_feasibility);
         $dataO  = oh::with('dataoh')->get()->where('id_feasibility', $id_feasibility);
-        return view('mesin.lab')->with([
+        return view('RDproses.lab')->with([
             'fe'            =>$fe,
             'id'            => $id,
             'id_feasibility'=> $id_feasibility,
@@ -507,7 +507,7 @@ class MesinController extends Controller
                 ->where('fs_formula_kemas.id_feasibility', $id_feasibility)->get();
         $kemas  = FormulaKemas::with('kemas')->get()->where('id_feasibility', $id_feasibility);
         $dataF  =finance::where('id_feasibility', $id_feasibility)->get();
-        return view('mesin.std')->with([
+        return view('RDproses.std')->with([
             'fe'            =>$fe,
             'stdd'          => $stdd,
             'standar'       => $standar,

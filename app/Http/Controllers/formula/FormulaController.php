@@ -525,7 +525,7 @@ class FormulaController extends Controller
             'total_harga_per_kg' 		=> $total_harga_per_kg,                       
 		]);
        
-        return view('devwb/detailformula', compact(
+        return view('formula/detailformula', compact(
         'data','id'  ))->with([
             'idf' 			 => $idf,
             'ada'     		 => $ada,

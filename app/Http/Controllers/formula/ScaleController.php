@@ -391,7 +391,7 @@ class ScaleController extends Controller
         
         if(auth()->user()->role->namaRule == 'manager'){
             try{
-                Mail::send('formula.info', [
+                Mail::send('email.info', [
                     'info' => 'Manager Anda Telah Merubah Serving/Batch Pada Formula "'.$formula->formula.'"' ,
                 ],function($message)use($request,$idf){
                     $message->subject('INFO PRODEV');

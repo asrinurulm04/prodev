@@ -23,13 +23,7 @@ class KategoriController extends Controller
 
         return Redirect::back()->with('status','Kategori '.$kategori->kategori.' Berhasil Ditambahkan');
     }
-
-    public function edit(Kategori $kategori){
-        return view('datamaster.editkategori')->with([
-            'kategori' => $kategori
-        ]);
-    }
-
+    
     public function update(Request $request, Kategori $kategori){
         $kategori->kategori = $request->kategori;
         $kategori->save();

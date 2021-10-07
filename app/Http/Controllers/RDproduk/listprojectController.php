@@ -24,7 +24,7 @@ class listprojectController extends Controller
     public function listpkp(){
         $pkp   = PkpProject::where('status_project','=','active')->where('status_pkp','=','proses')->orwhere('status_pkp','=','close')->orderBy('pkp_number','desc')->get();
         $brand = Brand::all();
-        return view('devwb.listprojectpkp')->with([
+        return view('RDproduct.listprojectpkp')->with([
             'brand' => $brand,
             'pkp' => $pkp
         ]);
@@ -33,7 +33,7 @@ class listprojectController extends Controller
     public function listpdf(){
         $pdf    = ProjectPDF::all();
         $brand  = Brand::all();
-        return view('devwb.listpdfproject')->with([
+        return view('RDproduct.listpdfproject')->with([
             'pdf' => $pdf,
             'brand' => $brand
         ]);
@@ -42,7 +42,7 @@ class listprojectController extends Controller
     public function listpromo(){
         $promo = promo::all();
         $brand = Brand::all();
-        return view('devwb.listprojectpromo')->with([
+        return view('RDproduct.listprojectpromo')->with([
             'promo' => $promo,
             'brand' => $brand
         ]);

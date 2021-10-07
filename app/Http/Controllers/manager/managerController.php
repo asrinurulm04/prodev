@@ -131,7 +131,7 @@ class managerController extends Controller
         $isipkp = PkpProject::where('id_project',$request->pkp)->get();
         $for    = Forecast::where('id_pkp',$pkp->id_pkp)->where('revisi','=',$request->revisi)->where('turunan','=',$request->turunan)->where('revisi_kemas',$request->revisi_kemas)->get();
         try{
-            Mail::send('manager.infoemailpkp', [
+            Mail::send('email.infoemailpkp', [
                 'app'   => $isipkp,
                 'for'   => $for,
                 'info'  => 'Manager RD mengajukan revisi pada project PKP',
@@ -179,7 +179,7 @@ class managerController extends Controller
 
         $isipdf  = SubPDF::where('pdf_id',$request->pdf)->where('status_pdf','=','active')->get();
         try{
-            Mail::send('manager.infoemailpdf', [
+            Mail::send('email.infoemailpdf', [
                 'app'   =>$isipdf,
                 'info'  => 'Manager RD mengajukan revisi pada project PDF berikut',
                 'jangka'=> $request->jangka,

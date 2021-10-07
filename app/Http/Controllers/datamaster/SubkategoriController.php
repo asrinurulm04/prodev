@@ -28,14 +28,7 @@ class SubkategoriController extends Controller
 
         return Redirect::back()->with('status','Subkategori '.$subkategori->subkategori.' Berhasil Dibuat');
     }
-
-    public function edit(Subkategori $subkategori){
-        $kategoris = Kategori::all();
-        return view('datamaster.editsubkategori')->with([
-            'kategoris' =>$kategoris
-        ]);
-    }
-
+    
     public function update(Request $request, Subkategori $subkategori){
         $subkategori->subkategori = $request->subkategori;
         $subkategori->kategori_id = $request->kategori;

@@ -33,7 +33,7 @@ class EmailController extends Controller
         $active->status=$request->status;
         $active->save();
         try{
-            Mail::send('email', [
+            Mail::send('email.EmailUser.blade', [
                 'nama'     => $request->nama,
                 'role'     => $request->role,
                 'pesan'    => $request->pesan,
@@ -55,7 +55,7 @@ class EmailController extends Controller
         $active = User::where('id',$id)->first();
         $active->delete();
         try{
-            Mail::send('email', [
+            Mail::send('email.EmailUser.blade', [
                 'nama'     => $request->nama,
                 'role'     => $request->role,
                 'pesan'    => $request->pesan,
@@ -86,7 +86,7 @@ class EmailController extends Controller
         $datadetail     = DetailKlaim::where('id_pdf',$id_project_pdf)->where('revisi',$revisi)->where('turunan',$turunan)->get();
         $hitungkemaspdf = kemaspdf::where('id_pdf',$id_project_pdf)->where('revisi','=',$revisi)->where('turunan','=',$turunan)->count();
         try{
-            Mail::send('pv.pdfemail', [
+            Mail::send('email.pdfemail', [
                 'pdf'            => $pdf,
                 'pdf1'           => $pdf1,
                 'datadetail'     => $datadetail,
@@ -129,7 +129,7 @@ class EmailController extends Controller
         $allocation = Allocation::where([ ['id_pkp_promo',$id_pkp_promo], ['revisi',$revisi], ['turunan',$turunan]])->get();
         $picture    = FileProject::where('promo',$id_pkp_promo)->where('revisi',$revisi)->where('turunan',$turunan)->get();
         try{
-            Mail::send('pv.promoemail', [
+            Mail::send('email.promoemail', [
             'promo'      => $promo1,
             'app'        => $app,
             'idea'       => $idea,
@@ -167,7 +167,7 @@ class EmailController extends Controller
         $datadetail = DetailKlaim::where([['id_pkp',$pkpp->id_pkp],['revisi',$pkpp->revisi],['turunan',$pkpp->turunan],['revisi_kemas',$pkpp->revisi_kemas]])->get();
         $picture    = FileProject::where([['pkp_id',$pkpp->id_pkp],['revisi',$pkpp->revisi],['turunan',$pkpp->turunan],['revisi_kemas',$pkpp->revisi_kemas]])->get();
         try{
-            Mail::send('pv.emailpkp', [
+            Mail::send('email.emailpkp', [
                 'pkp'        => $pkpp,
                 'datases'    => $ses,
                 'for'        => $for,
@@ -207,7 +207,7 @@ class EmailController extends Controller
         $for    = Forecast::where('id_project',$data->id_project)->get();
         $isipkp = PkpProject::where('id_project',$id_project)->where('status_project','=','active')->get();
         try{
-            Mail::send('manager.infoemailpkp', [
+            Mail::send('email.infoemailpkp', [
                 'info'=>'selamat project anda telah disetujui.',
                 'for' => $for,
                 'app' => $isipkp,
@@ -239,7 +239,7 @@ class EmailController extends Controller
         $for    = Forecast::where('id_pkp',$app->id)->get();
         $isipkp = PkpProject::where('id_project',$id_project)->where('status_project','=','active')->get();
         try{
-            Mail::send('manager.infoemailpkp', [
+            Mail::send('email.infoemailpkp', [
                 'info'=>'Project anda di tolak, silahkan hubungi pihak yang bersangkutan.',
                 'for' => $for,
                 'app' => $isipkp,
@@ -268,7 +268,7 @@ class EmailController extends Controller
 
         $isipdf = SubPDF::where('pdf_id',$id_project_pdf)->where('status_pdf','=','active')->get();
         try{
-            Mail::send('manager.infoemailpdf', [
+            Mail::send('email.infoemailpdf', [
                 'info'=>'selamat project anda telah disetujui.',
                 'app' => $isipdf,
             ],function($message)use($request,$id_project_pdf){
@@ -297,7 +297,7 @@ class EmailController extends Controller
 
         $isipdf = SubPDF::where('pdf_id',$id_project_pdf)->where('status_pdf','=','active')->get();
         try{
-            Mail::send('manager.infoemailpdf', [
+            Mail::send('email.infoemailpdf', [
                 'info'=>'selamat project anda telah disetujui!',
                 'app' => $isipdf,
             ],function($message)use($request,$id_project_pdf){
@@ -325,7 +325,7 @@ class EmailController extends Controller
         
         $isipromo = DataPromo::where('id_pkp_promoo',$id_pkp_promo)->where('status_data','=','active')->get();
         try{
-            Mail::send('manager.infoemailpromo', [
+            Mail::send('email.infoemailpromo', [
                 'info'=>'selamat project anda telah disetujui.',
                 'app'=>$isipromo,
             ],function($message)use($request,$id_pkp_promo){
@@ -354,6 +354,6 @@ class EmailController extends Controller
     }
 
     public function REmail(){
-        return view('pkp.REmail');
+        return view('email.REmail');
     }
 }

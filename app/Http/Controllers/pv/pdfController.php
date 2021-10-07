@@ -887,7 +887,7 @@ class pdfController extends Controller
 
         $isipdf = SubPDF::where('pdf_id',$id_project_pdf)->where('status_pdf','=','active')->get();
         try{
-            Mail::send('manager.infoemailpdf', [
+            Mail::send('email.infoemailpdf', [
                 'nama'  =>$request->email,
                 'app'   =>$isipdf,
                 'info'  => 'Anda Memiliki Project PDF Baru :)',
@@ -971,7 +971,7 @@ class pdfController extends Controller
 
         $isipdf = SubPDF::where('pdf_id',$id_project_pdf)->where('status_pdf','=','active')->get();
         try{
-            Mail::send('manager.infoemailpdf', [
+            Mail::send('email.infoemailpdf', [
                 'nama'  => $request->email,
                 'app'   => $isipdf,
                 'info'  => 'anda memiliki project PDF baru :)',

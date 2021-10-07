@@ -378,7 +378,7 @@ class promoController extends Controller
         }
 
         try{
-            Mail::send('pv.aktifitasemail', ['type'=>'PROMO',],function($message)use($request){
+            Mail::send('email.EmailInfoPerubahan', ['type'=>'PROMO',],function($message)use($request){
                 $tujuan    = array(); 
                 $validator = Validator::make($request->all(), $tujuan);  
                 if ($validator->passes()) {
@@ -464,7 +464,7 @@ class promoController extends Controller
         }
 
         try{
-            Mail::send('pv.aktifitasemail', ['type'=>'PROMO',],function($message)use($request){
+            Mail::send('email.EmailInfoPerubahan', ['type'=>'PROMO',],function($message)use($request){
                 $tujuan    = array(); 
                 $validator = Validator::make($request->all(), $tujuan);  
                 if ($validator->passes()) {
@@ -542,7 +542,7 @@ class promoController extends Controller
 
         $isipromo = DataPromo::where('id_pkp_promoo',$id_pkp_promo)->where('status_data','=','active')->get();
         try{
-            Mail::send('manager.infoemailpromo', [
+            Mail::send('email.infoemailpromo', [
                 'nama'   => $request->email,
                 'app'    => $isipromo,
                 'jangka' => $request->jangka,
@@ -627,7 +627,7 @@ class promoController extends Controller
 
         $isipromo = DataPromo::where('id_pkp_promoo',$id_pkp_promo)->where('status_data','=','active')->get();
         try{
-            Mail::send('manager.infoemailpromo', [
+            Mail::send('email.infoemailpromo', [
                 'nama'   => $request->email,
                 'app'    => $isipromo,
                 'jangka' => $request->jangka,
