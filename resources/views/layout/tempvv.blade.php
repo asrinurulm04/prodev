@@ -230,24 +230,33 @@
                     </ul>
                   </li>
                   @elseif(auth()->user()->role->namaRule === 'manager')
-                  <li><a><i class="fa fa-sitemap"></i> PKP / PDF / PROMO <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a>My Project<span class="fa fa-chevron-down"></span></a>
-                        <ul class="nav child_menu">
-                          <li><a href="{{Route('listpkprka')}}">List PKP</a> </li>
-                          <li><a href="{{Route('listpromoo')}}">List PROMO</a> </li>
-                          <li><a href="{{Route('listpdfrka')}}">List PDF</a> </li>
-                        </ul>
-                      </li>
-                      <li><a>List All Project<span class="fa fa-chevron-down"></span></a>
-                        <ul class="nav child_menu">
-                          <li><a href="{{Route('listpkp')}}">List  PKP</a> </li>
-                          <li><a href="{{Route('listpromo')}}">List  PROMO</a> </li>
-                          <li><a href="{{Route('listpdf')}}">List  PDF</a> </li>
-                        </ul>
-                      </li>
-                    </ul>
-                  </li>
+                    @if(auth()->user()->departement_id!='2')
+                    <li><a><i class="fa fa-sitemap"></i> PKP / PDF / PROMO <span class="fa fa-chevron-down"></span></a>
+                      <ul class="nav child_menu">
+                        <li><a>My Project<span class="fa fa-chevron-down"></span></a>
+                          <ul class="nav child_menu">
+                            <li><a href="{{Route('listpkprka')}}">List PKP</a> </li>
+                            <li><a href="{{Route('listpromoo')}}">List PROMO</a> </li>
+                            <li><a href="{{Route('listpdfrka')}}">List PDF</a> </li>
+                          </ul>
+                        </li>
+                        <li><a>List All Project<span class="fa fa-chevron-down"></span></a>
+                          <ul class="nav child_menu">
+                            <li><a href="{{Route('listpkp')}}">List  PKP</a> </li>
+                            <li><a href="{{Route('listpromo')}}">List  PROMO</a> </li>
+                            <li><a href="{{Route('listpdf')}}">List  PDF</a> </li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </li>
+                    @elseif(auth()->user()->departement_id=='2' || auth()->user()->departement_id=='1')
+                    <li><a><i class="fa fa-cogs"></i> Feasibility <span class="fa fa-chevron-down"></span></a>
+                      <ul class="nav child_menu">
+                        <li><a href="{{Route('FsPKP')}}">List FS PKP</a> </li>
+                        <li><a href="{{Route('listpdfrka')}}">List FS PDF</a> </li>
+                      </ul>
+                    </li>
+                    @endif
                   <li><a><i class="fa fa-file-text"></i> Project Recapitulation <span class="label label-success"></span> <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="{{ route('datareport') }}">Data Project Summary</a></li>

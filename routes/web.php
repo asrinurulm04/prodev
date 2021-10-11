@@ -10,28 +10,21 @@ Route::patch('/updateprof','users\ProfilController@update')->name('updateprof');
 
 /** Auth */
 Route::post('postLogin', 'LoginController@postLogin')->name('postLogin');
-Route::post('add', [
-    'uses'=> 'RegistrationController@registrationPost',
-    'as' => 'add']);
+Route::post('add', [ 'uses'=> 'RegistrationController@registrationPost', 'as' => 'add']);
  
 Route::get('daftar', 'RegistrationController@create');
 Route::get('signin', 'LoginController@getLogin')->name('signin');
-Route::get('signout', function(){
-    Auth::logout();
-    return redirect('/home');
-})->name('signout');
+Route::get('signout', function(){ Auth::logout(); return redirect('/home');})->name('signout');
 
-/****** ADMIN**/
-// perubahan data form
+// forgot password
+Route::post('reset_password_without_token', 'AccountsController@validatePasswordRequest')->name('reset_password_without_token');
+Route::patch('/forgotpass','AccountsController@update')->name('forgotpass');
+Route::get('reset/{id}','LoginController@reset')->name('reset');
 
 /*User Approval*/
 Route::get('/userapproval', 'admin\ApprovalController@index')->name('userapproval');
-Route::get('userapproval/{id}/update', [
-    'uses'=>'admin\ApprovalController@update',
-    'as' =>'ua.update']);
-Route::get('userapproval/{id}/destroy', [
-    'uses'=>'admin\ApprovalController@destroy',
-    'as' =>'ua.destroy']);
+Route::get('userapproval/{id}/update', [ 'uses'=>'admin\ApprovalController@update', 'as' =>'ua.update']);
+Route::get('userapproval/{id}/destroy', [ 'uses'=>'admin\ApprovalController@destroy', 'as' =>'ua.destroy']);
     
 /*User Management*/
 Route::get('usermanagement','admin\UserListController@index')->name('usermanagement');
@@ -70,12 +63,18 @@ Route::get('supplier','datamaster\masterController@supplier')->name('supplier');
 
 //Departement
 Route::patch('storeupdatedept/{id}','datamaster\DepartementController@saveupdateDept')->name('storeupdatedept');
-Route::patch('storeupdateBahanBaku/{id}','datamaster\BahanBakuController@saveupdateBahan')->name('storeupdatebahan');
 Route::post('AddDepartement','datamaster\DepartementController@adddept')->name('adddept');
 Route::get('DataDepartement','datamaster\DepartementController@dept')->name('dept');
 Route::get('DeleteDepartement/{id}','datamaster\DepartementController@deldept')->name('deldept');
 
+// Dasboard
+Route::get('dasboardnr','pv\dasboardController@dasboardnr')->name('dasboardnr');
+Route::get('dasboardpv','pv\dasboardController@dasboardpv')->name('dasboardpv');
+Route::get('dasboardmanager','pv\dasboardController@dasboardmanager')->name('dasboardmanager');
+Route::get('dasboardawal','pv\dasboardController@dasboard')->name('dasboardawal');
+
 //Bahan Baku
+Route::patch('storeupdateBahanBaku/{id}','datamaster\BahanBakuController@saveupdateBahan')->name('storeupdatebahan');
 Route::post('addbahanrd','datamaster\BahanBakuController@addbahanrd')->name('addbahanrd');
 Route::post('AddBahanBaku','datamaster\BahanBakuController@addbahan')->name('addbahan');
 Route::get('bahan_rd','datamaster\BahanBakuController@bahanrd')->name('bahan_rd');
@@ -146,10 +145,10 @@ Route::get('hapuscheckpromo','report\reportController@hapuscheckpromo')->name('h
 Route::get('editpdfall','report\reportController@editpdfall')->name('editpdfall');
 Route::get('hapuspdf1/{id}','report\reportController@deletepdf1')->name('hapuspdf1');
 Route::get('deletepkp1/{id}','report\reportController@deletepkp1')->name('deletepkp1');
+
 Route::get('deletepromo1/{id}','report\reportController@deletepromo1')->name('deletepromo1');
 Route::get('editpromoall','report\reportController@editpromoall')->name('editpromoall');
 Route::get('datareport','report\reportController@data')->name('datareport');
-
 Route::get('reportnotulen','report\reportController@reportnotulen')->name('reportnotulen');
 Route::get('cetak','report\cetakController@download_project')->name('cetak');
 Route::get('cetak_my_project','report\cetakController@download_my_project')->name('cetak_my_project');
@@ -213,6 +212,7 @@ Route::post('uploadpromo','pv\promoController@uploaddatapkp')->name('uploadpromo
 Route::post('edituser/{id_project_pdf}','pv\promoController@edituser')->name('edituser');
 Route::post('sentpromo/{id_project}/{revisi}/{turunan}','pv\promoController@sentpromo')->name('sentpromo');
 Route::post('editpromo/{id_project}/{revisi}/{turunan}','pv\promoController@edit')->name('editpromo');
+
 Route::post('allocation','pv\promoController@postSave')->name('allocation');
 Route::post('edittypepromo/{id}','pv\promoController@edittype')->name('edittypepromo');
 Route::post('datapromo1','pv\promoController@datapromo')->name('datapromo1');
@@ -231,6 +231,7 @@ Route::get('activepromo/{id}','pv\promoController@active')->name('activepromo');
 Route::get('drafpromo','pv\promoController@drafpromo')->name('drafpromo');
 Route::get('rekappromo/{id_pkp_promo}','pv\promoController@daftarpromo')->name('rekappromo');
 Route::get('promo4/{id_pkp_promo}/{revisi}/{turunan}','pv\promoController@step4')->name('promo4');
+
 Route::get('uploadpkppromo/{id_pkp_promo}/{revisi}/{turunan}','pv\promoController@uploadpromo')->name('uploadpkppromo');
 Route::get('listpromo','pv\promoController@listpromo')->name('listpromo');
 Route::get('lihatpromo/{id}/{revisi}/{turunan}','pv\promoController@lihatpromo')->name('lihatpromo');
@@ -297,10 +298,6 @@ Route::get('listprojectpkp','RDproduct\listprojectController@listpkp')->name('li
 Route::get('listprojectpdf','RDproduct\listprojectController@listpdf')->name('listprojectpdf');
 Route::get('listprojectpromo','RDproduct\listprojectController@listpromo')->name('listprojectpromo');
 
-// FEASIBILITY
-Route::get('PengajuanSelesai','feasibility\ListFormulaController@sudah')->name('formula.selesai');
-Route::get('deletefs/{id}', 'feasibility\ListFeasibilityController@deletefs')->name('deletefs');
-
 /***** Workbook**/
 // Formula
 Route::get('DetailFormula/{id}/{wb}/{for}','formula\FormulaController@detail')->name('formula.detail');
@@ -312,8 +309,8 @@ Route::post('uploadfile/{id}','formula\FormulaController@uploadfile')->name('upl
 Route::post('uploadfile_pdf/{id}','formula\FormulaController@uploadfile_pdf')->name('uploadfile_pdf');
 
 //Step1
-Route::get('formulainformation/{for}/{pkp}/{project}','formula\Step1Controller@create')->name('step1');
 Route::post('updateformula/{for}/{pkp}/{project}','formula\Step1Controller@update')->name('step1update');
+Route::get('formulainformation/{for}/{pkp}/{project}','formula\Step1Controller@create')->name('step1');
 Route::get('formulainformation_pdf/{for}/{pdf}','formula\Step1Controller@step1_pdf')->name('step1_pdf');
 Route::get('hapus_file/{id}','formula\Step1Controller@hapus_file')->name('hapus_file');
 
@@ -338,9 +335,9 @@ Route::post('savedosis/{id}','formula\ScaleController@savedosis')->name('savedos
 Route::post('cekscale/{for}/{pkp}/{pro}','formula\ScaleController@cekscale')->name('cekscale');
 Route::post('savescale/{id}/{pkp}','formula\ScaleController@savescale')->name('savescale');
 Route::post('GantiBase/{id}','formula\ScaleController@gantibase')->name('gantibase');
-Route::get('HapusBase/{id}','formula\ScaleController@hapusbase')->name('hapusbase');
-Route::get('HapusBase/{id}','formula\ScaleController@hapusbase')->name('hapusbase');
 
+Route::get('HapusBase/{id}','formula\ScaleController@hapusbase')->name('hapusbase');
+Route::get('HapusBase/{id}','formula\ScaleController@hapusbase')->name('hapusbase');
 Route::get('upversion/{for}/{pkp}/{pro}','formula\UpVersionController@upversion')->name('upversion');
 Route::get('upversion2/{for}/{pkp}/{pro}','formula\UpVersionController@upversion2')->name('upversion2');
 Route::get('tambahformula/{id}','formula\UpVersionController@tambahformula')->name('tambahformula');
@@ -373,17 +370,6 @@ Route::get('st/{id}/{pkp}/{formula}','formula\storageController@st')->name('st')
 Route::get('deletest/{id}','formula\storageController@delete')->name('deletest');
 Route::get('ajukanstorage/{id}/{storage}','formula\storageController@ajukanstorage')->name('ajukanstorage');
 
-// forgot password
-Route::post('reset_password_without_token', 'AccountsController@validatePasswordRequest')->name('reset_password_without_token');
-Route::patch('/forgotpass','AccountsController@update')->name('forgotpass');
-Route::get('reset/{id}','LoginController@reset')->name('reset');
-
-// Dasboard
-Route::get('dasboardnr','pv\dasboardController@dasboardnr')->name('dasboardnr');
-Route::get('dasboardpv','pv\dasboardController@dasboardpv')->name('dasboardpv');
-Route::get('dasboardmanager','pv\dasboardController@dasboardmanager')->name('dasboardmanager');
-Route::get('dasboardawal','pv\dasboardController@dasboard')->name('dasboardawal');
-
 // Ajax
 Route::get('getpangan/{id}','ajax\AjaxController@getpangan')->name('getpangan');
 Route::get('getolahan/{id}','ajax\AjaxController@getolahan')->name('getolahan');
@@ -393,3 +379,17 @@ Route::get('getdetail/{id}','ajax\AjaxController@getdetailklaim')->name('getdeta
 Route::get('getbahan/{id}','ajax\AjaxController@getbahan')->name('getbahan');
 Route::get('subkategori/{id}','ajax\AjaxController@subkategori')->name('subkategori');
 Route::get('jenismikroba/{id}','ajax\AjaxController@getjenismikro')->name('jenismikroba');
+
+/***** Feasibility**/
+// pengajuan FS dari Pv
+Route::post('ajukanPKP/{id}/{for}','PengajuanFS\PengajuanFsController@ajukanPKP')->name('ajukanPKP');
+Route::get('pengajuanFS_PKP/{id}/{for}','PengajuanFS\PengajuanFsController@formPengajuanFS')->name('PengajuanFS_PKP');
+Route::get('BatalAjukanFS/{id}/{for}','PengajuanFs\PengajuanFsController@BatalAjukanFS')->name('BatalAjukanFS');
+
+// List FS
+Route::get('listPkpFs/{id}','feasibility\ListFsController@listPkpFs')->name('listPkpFs');
+Route::get('FsPKP','feasibility\ListFsController@FsPKP')->name('FsPKP');
+
+// Form Pengajuan FS dari proses
+Route::get('DetailPengajuanFsPKP/{pkp}/{id}/{fs}','PengajuanFS\PengajuanFsController@DetailPengajuanFsPKP')->name('DetailPengajuanFsPKP');
+Route::post('overview','PengajuanFS\PengajuanFsController@overview')->name('overview');

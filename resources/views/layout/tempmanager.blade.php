@@ -37,42 +37,30 @@
                       <li><a href="{{ route('MyProfile') }}">Profile settings</a></li>
                     </ul>
                   </li>
-                  @if(Auth::user()->departement->dept!='RKA')
-								  <li><a><i class="fa fa-sitemap"></i> PKP / PDF / PROMO <span class="label label-success pull-right">{{$hitungnotif}}</span></a>
+								  @if(auth()->user()->departement_id!='2')
+                  <li><a><i class="fa fa-sitemap"></i> PKP / PDF / PROMO <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a>My Project<span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                          <li><a href="{{Route('listpkprka')}}">List PKP <span class="label label-success pull-right">{{$hitungpkpselesai}}</span></a> </li>
-                          <li><a href="{{Route('listpromoo')}}">List PROMO <span class="label label-success pull-right">{{$hitungpromoselesai}}</span></a> </li>
-                          <li><a href="{{Route('listpdfrka')}}">List PDF (Export) <span class="label label-success pull-right">{{$hitungpdfselesai}}</span></a> </li>
+                          <li><a href="{{Route('listpkprka')}}">List PKP</a> </li>
+                          <li><a href="{{Route('listpromoo')}}">List PROMO</a> </li>
+                          <li><a href="{{Route('listpdfrka')}}">List PDF</a> </li>
                         </ul>
                       </li>
-                      <li><a>All Project<span class="fa fa-chevron-down"></span></a>
+                      <li><a>List All Project<span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                           <li><a href="{{Route('listpkp')}}">List  PKP</a> </li>
                           <li><a href="{{Route('listpromo')}}">List  PROMO</a> </li>
-                          <li><a href="{{Route('listpdf')}}">List PDF (Export)</a> </li>
+                          <li><a href="{{Route('listpdf')}}">List  PDF</a> </li>
                         </ul>
                       </li>
                     </ul>
                   </li>
-                  @elseif(Auth::user()->departement->dept=='RKA')
-                  <li><a><i class="fa fa-sitemap"></i> PKP / PDF / PROMO <span class="label label-success pull-right">{{$hitungnotif2}}</span></a>
+                  @elseif(auth()->user()->departement_id=='2' || auth()->user()->departement_id=='1')
+                  <li><a><i class="fa fa-cogs"></i> Feasibility <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a>My Project<span class="fa fa-chevron-down"></span></a>
-                        <ul class="nav child_menu">
-                          <li><a href="{{Route('listpkprka')}}">List PKP <span class="label label-success pull-right">{{$hitungpkpselesai2}}</span></a> </li>
-                          <li><a href="{{Route('listpromoo')}}">List PROMO  <span class="label label-success pull-right">{{$hitungpromoselesai}}</span></a> </li>
-                          <li><a href="{{Route('listpdfrka')}}">List PDF (Export) <span class="label label-success pull-right">{{$hitungpdfselesai2}}</span></a> </li>
-                        </ul>
-                      </li>
-                      <li><a>All Project<span class="fa fa-chevron-down"></span></a>
-                        <ul class="nav child_menu">
-                          <li><a href="{{Route('listpkp')}}">List  PKP</a> </li>
-                          <li><a href="{{Route('listpromo')}}">List  PROMO</a> </li>
-                          <li><a href="{{Route('listpdf')}}">List PDF (Export)</a> </li>
-                        </ul>
-                      </li>
+                      <li><a href="{{Route('FsPKP')}}">List FS PKP</a> </li>
+                      <li><a href="{{Route('listpdfrka')}}">List FS PDF</a> </li>
                     </ul>
                   </li>
                   @endif
@@ -122,7 +110,7 @@
         </div>
         <footer>
           <div class="text-right">
-            Created By Asrul4238 :)
+            Created By @asrinurulm
           </div>
           <div class="clearfix"></div>
         </footer>

@@ -9,104 +9,105 @@
     </div>
   </div>
 </div>    
-<div class="row top_tiles">
-  <a href="{{route('listpkprka')}}" type="button">
-    <div class="col-md-4 col-sm-4 col-xs-12">
-      <div class="x_panel ">
-        <div class="tile-stats">
-          <div class="icon"><i class="fa fa-file"></i></div>
-          @if(Auth::user()->departement->dept!='RKA')
-          <div class="count">{{$hitungpkpselesai}}</div>
-          @else
-          <div class="count">{{$hitungpkpselesai2}}</div>
-          @endif
-          <h3>PKP</h3>
-          <p>Click To See Details...</p>
+@if(Auth::user()->departement->dept!='REA')
+  <div class="row top_tiles">
+    <a href="{{route('listpkprka')}}" type="button">
+      <div class="col-md-4 col-sm-4 col-xs-12">
+        <div class="x_panel ">
+          <div class="tile-stats">
+            <div class="icon"><i class="fa fa-file"></i></div>
+            @if(Auth::user()->departement->dept!='RKA')
+            <div class="count">{{$hitungpkpselesai}}</div>
+            @else
+            <div class="count">{{$hitungpkpselesai2}}</div>
+            @endif
+            <h3>PKP</h3>
+            <p>Click To See Details...</p>
+          </div>
+        </div>
+      </div>  
+    </a>
+    <a href="{{route('listpromoo')}}" type="button">
+      <div class="col-md-4 col-sm-4 col-xs-12">
+        <div class="x_panel ">
+          <div class="tile-stats">
+            <div class="icon"><i class="fa fa-file"></i></div>
+            @if(Auth::user()->departement->dept!='RKA')
+            <div class="count">{{$hitungpromoselesai}}</div>
+            @else
+            <div class="count">{{$hitungpromoselesai2}}</div>
+            @endif
+            <h3>PKP Promo</h3>
+            <p>Click To See Details...</p>
+          </div>
+        </div>
+      </div>  
+    </a>
+    <a href="{{route('listpdfrka')}}" type="button" >
+      <div class="col-md-4 col-sm-4 col-xs-12">
+        <div class="x_panel ">
+          <div class="tile-stats">
+            <div class="icon"><i class="fa fa-file"></i></div>
+            @if(Auth::user()->departement->dept!='RKA')
+            <div class="count">{{$hitungpdfselesai}}</div>
+            @else
+            <div class="count">{{$hitungpdfselesai2}}</div>
+            @endif
+            <h3>PDFe & PDFp</h3>
+            <p>Click To See Details...</p>
+          </div>
         </div>
       </div>
-    </div>  
-  </a>
-  <a href="{{route('listpromoo')}}" type="button">
-    <div class="col-md-4 col-sm-4 col-xs-12">
-      <div class="x_panel ">
-        <div class="tile-stats">
-          <div class="icon"><i class="fa fa-file"></i></div>
-          @if(Auth::user()->departement->dept!='RKA')
-          <div class="count">{{$hitungpromoselesai}}</div>
-          @else
-          <div class="count">{{$hitungpromoselesai2}}</div>
-          @endif
-          <h3>PKP Promo</h3>
-          <p>Click To See Details...</p>
-        </div>
-      </div>
-    </div>  
-  </a>
-  <a href="{{route('listpdfrka')}}" type="button" >
-    <div class="col-md-4 col-sm-4 col-xs-12">
-      <div class="x_panel ">
-        <div class="tile-stats">
-          <div class="icon"><i class="fa fa-file"></i></div>
-          @if(Auth::user()->departement->dept!='RKA')
-          <div class="count">{{$hitungpdfselesai}}</div>
-          @else
-          <div class="count">{{$hitungpdfselesai2}}</div>
-          @endif
-          <h3>PDFe & PDFp</h3>
-          <p>Click To See Details...</p>
-        </div>
-      </div>
-    </div>
-  </a>
-</div>
+    </a>
+  </div>
 
-@if(Auth::user()->departement->dept!='RKA')
-<div class="row">
-  <div class="col-md-4 col-sm-4 col-xs-12">
-    <div class="x_panel">
-      <div class="x_title">
-        <h2>PKP</h2>
-        <ul class="nav navbar-right panel_toolbox">
-          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
-        </ul>
-        <div class="clearfix"></div>
+  @if(Auth::user()->departement->dept!='RKA')
+  <div class="row">
+    <div class="col-md-4 col-sm-4 col-xs-12">
+      <div class="x_panel">
+        <div class="x_title">
+          <h2>PKP</h2>
+          <ul class="nav navbar-right panel_toolbox">
+            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+          </ul>
+          <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+          <div  style="height:400px;">{!!$pie->html() !!}</div>
+        </div>
       </div>
-      <div class="x_content">
-        <div  style="height:400px;">{!!$pie->html() !!}</div>
+    </div>
+    <div class="col-md-4 col-sm-4 col-xs-12">
+      <div class="x_panel">
+        <div class="x_title">
+          <h2>PKP Promo</h2>
+          <ul class="nav navbar-right panel_toolbox">
+            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+          </ul>
+          <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+          <div style="height:400px;">{!!$pie3->html() !!}</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 col-sm-4 col-xs-12">
+      <div class="x_panel">
+        <div class="x_title">
+          <h2>PDF</h2>
+          <ul class="nav navbar-right panel_toolbox">
+            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+          </ul>
+          <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+          <div style="height:400px;">{!!$pie2->html() !!}</div>
+        </div>
       </div>
     </div>
   </div>
-  <div class="col-md-4 col-sm-4 col-xs-12">
-    <div class="x_panel">
-      <div class="x_title">
-        <h2>PKP Promo</h2>
-        <ul class="nav navbar-right panel_toolbox">
-          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
-        </ul>
-        <div class="clearfix"></div>
-      </div>
-      <div class="x_content">
-        <div style="height:400px;">{!!$pie3->html() !!}</div>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-4 col-sm-4 col-xs-12">
-    <div class="x_panel">
-      <div class="x_title">
-        <h2>PDF</h2>
-        <ul class="nav navbar-right panel_toolbox">
-          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
-        </ul>
-        <div class="clearfix"></div>
-      </div>
-      <div class="x_content">
-        <div style="height:400px;">{!!$pie2->html() !!}</div>
-      </div>
-    </div>
-  </div>
-</div>
-@elseif(Auth::user()->departement->dept=='RKA')
-<div class="row">
+  @elseif(Auth::user()->departement->dept=='RKA')
+  <div class="row">
   <div class="col-md-4 col-sm-4 col-xs-12">
     <div class="x_panel">
       <div class="x_title">
@@ -150,6 +151,7 @@
     </div>
   </div>
 </div>
+@endif
 
 @endif
 {!! Charts::scripts() !!}

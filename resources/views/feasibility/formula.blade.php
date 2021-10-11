@@ -1,4 +1,4 @@
-@extends('feasibility.tempfeasibility')
+@extends('layout.tempvv')
 @section('title', 'Formula')
 @section('content')
 

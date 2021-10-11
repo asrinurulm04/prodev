@@ -388,16 +388,11 @@
                         </div>
                         <!-- Modal Selesai -->
                     @elseif($for->vv=='approve')
-                      <a href="" disabled class="btn btn-primary btn-sm" title="Ajukan FS"><li class="fa fa-paper-plane"></li></a>
-                        <a href="{{route('finalsample',$for->id)}}" class="btn btn-success btn-sm" title="Final Approval"><li class="fa fa-tag"></li></a>
-                      @if($for->status_fisibility=='not_approved')
-                        @if($hasilpanel>=1)
-                        <a href="{{route('finalsample',$for->id)}}" class="btn btn-success btn-sm" title="Final Approva"><li class="fa fa-tag"></li></a>
-                        @endif
-                      @elseif($for->status_fisibility=='selesai')
-                        @if($hasilpanel>=1)
-                        <a href="{{route('finalsample',$for->id)}}" class="btn btn-success btn-sm" title="Final Approval"><li class="fa fa-tag"></li></a>
-                        @endif
+                      <a href="{{route('finalsample',$for->id)}}" class="btn btn-success btn-sm" title="Final Approval"><li class="fa fa-tag"></li></a>
+                      @if($for->status_fisibility=='proses')
+                        <a href="{{route('PengajuanFS_PKP',[$id->id_project,$for->id])}}" class="btn btn-warning btn-sm" title="Pengajuan FS"><li class="fa fa-folder"></li></a>
+                      @elseif($for->status_fisibility=='' || $for->status_fisibility=='reject')
+                        <a href="{{route('PengajuanFS_PKP',[$id->id_project,$for->id])}}" class="btn btn-primary btn-sm" title="Ajukan FS"><li class="fa fa-paper-plane"></li></a>
                       @endif
                     @elseif($for->vv=='final')
                       <a href="{{route('unfinalsample',$for->id)}}" class="btn btn-warning btn-sm" title="Unfinal Approve"><li class="fa fa-times"></li> Unfinal</a>
