@@ -12,6 +12,8 @@
   		<div class="x_content">
         <form class="form-horizontal form-label-left" method="POST" action="{{ route('ajukanPKP',[$pkp->id_project,$for->id]) }}">
           <div class="field item form-group">
+            <?php $last = Date('j-F-Y'); ?>
+            <input id="create" value="{{ $last }}"type="hidden" name="create">
             <label class="col-form-label col-md-2 col-sm-2  label-align">Project Name</label>
             <div class="col-md-8 col-sm-8">
               <input class="form-control" value="{{$pkp->project_name}}" name="name" required="required" readonly/>
@@ -123,10 +125,10 @@
           </div>
         	<div class="col-md-6 col-md-offset-5">
             <button type="reset" class="btn btn-warning btn-sm"><li class="fa fa-repeat"></li> Reset</button>
-            @if($for->status_fisibility=='' || $for->status_fisibility=='reject')
+            @if($for->status_feasibility=='' || $for->status_feasibility=='reject')
             <button type="submit" class="btn btn-primary btn-sm"><li class="fa fa-paper-plane"></li> Ajukan FS</button>
             {{ csrf_field() }}
-            @elseif($for->status_fisibility!='' || $for->status_fisibility!='reject')
+            @elseif($for->status_feasibility!='' || $for->status_feasibility!='reject')
             <a href="{{route('BatalAjukanFS',[$pkp->id_project,$for->id])}}" type="button" class="btn btn-danger btn-sm"><li class="fa fa-times"></li> Batalkan Pengajuan</a>
             @endif
           </div>

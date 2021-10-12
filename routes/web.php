@@ -393,3 +393,7 @@ Route::get('FsPKP','feasibility\ListFsController@FsPKP')->name('FsPKP');
 // Form Pengajuan FS dari proses
 Route::get('DetailPengajuanFsPKP/{pkp}/{id}/{fs}','PengajuanFS\PengajuanFsController@DetailPengajuanFsPKP')->name('DetailPengajuanFsPKP');
 Route::post('overview','PengajuanFS\PengajuanFsController@overview')->name('overview');
+
+// Workbook FS
+Route::get('workbookfs/{id}/{for}','workbookFS\WorkbookFsController@workbookfs')->name('workbookfs');
+Route::get('info/{id}/{for}','workbookFS\WorkbookFsController@info')->name('info');

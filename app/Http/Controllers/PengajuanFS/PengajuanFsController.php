@@ -34,6 +34,8 @@ class PengajuanFsController extends Controller
     }
 
     public function ajukanPKP(Request $request,$id_project,$for){
+        $wf = Feasibility::where('id_project',$id_project)->count();
+        $hasil = $wf+1;
         // Edit PKP sebelum di ajukan
         $pkp = PkpProject::where('id_project',$id_project)->first();
         $pkp->idea=$request->idea;
@@ -58,6 +60,22 @@ class PengajuanFsController extends Controller
         $pkp->pengajuan_fs='sent';
         $pkp->feasibility=$pkp->feasibility +1 ;
         $pkp->save();
+        
+        $fs = new Feasibility;
+        $fs->id_formula=$for;
+            if($wf=='0'){
+                $fs->revisi='1';
+            }elseif($wf!='0'){
+                $fs->revisi=$hasil;
+            }
+        $fs->id_project=$id_project;
+        $fs->tgl_pengajuan=$request->create;
+        $fs->status_feasibility='pengajuan';
+        $fs->save();
+
+        $formula = Formula::where('id',$for)->first();
+        $formula->status_feasibility='proses';
+        $formula->save();
 
         if($request->satuan!=''){
             $for = Forecast::where('id_project',$id_project)->delete();
@@ -83,15 +101,6 @@ class PengajuanFsController extends Controller
 			}
 		}
 
-        $fs = new Feasibility;
-        $fs->id_formula=$for;
-        $fs->id_project=$id_project;
-        $fs->status_feasibility='pengajuan';
-        $fs->save();
-
-        $formula = Formula::where('id',$for)->first();
-        $formula->status_fisibility='proses';
-        $formula->save();
 
         return redirect::route('rekappkp',[$pkp->id_project,$pkp->id_pkp]);
     }
@@ -125,35 +134,61 @@ class PengajuanFsController extends Controller
     }
 
     public function overview(Request $request){
-        $form = new FormPengajuanFS;
-        $form->id_feasibility=$request->id_fs;
-        $form->forecast=$request->forecast;
-        $form->uom=$request->uom;
-        $form->location=$request->location;
-        $form->Pricelist=$request->uom;
-        $form->uon_box=$request->uom_box;
-        $form->box_batch=$request->box_batch;
-        $form->mass_uom=$request->mass_uom;
-        $form->serving_size=$request->serving_size;
-        $form->serving_uom=$request->serving_uom;
-        $form->servings_month=$request->serving_month;
-        $form->Batch_month=$request->batch_month;
-        $form->batch_size=$request->batch_size;
-        $form->batch_granulation=$request->batch_granulation;
-        $form->Yield=$request->yiels;
-        $form->new_material=$request->new_material;
-        $form->new_machine=$request->new_Machine;
-        $form->trial=$request->trial;
-        $form->notes=$request->note;
-        $form->user_id=$request->forecast;
-        $form->created_date=$request->create;
-        $form->save();
+        $fs = FormPengajuanFS::where('id_feasibility',$request->id_fs)->count();
+        if($fs=='0'){
+            $form = new FormPengajuanFS;
+            $form->id_feasibility=$request->id_fs;
+            $form->forecast=$request->forecast;
+            $form->uom=$request->uom;
+            $form->location=$request->location;
+            $form->Pricelist=$request->uom;
+            $form->uon_box=$request->uom_box;
+            $form->box_batch=$request->box_batch;
+            $form->mass_uom=$request->mass_uom;
+            $form->serving_size=$request->serving_size;
+            $form->serving_uom=$request->serving_uom;
+            $form->servings_month=$request->serving_month;
+            $form->Batch_month=$request->batch_month;
+            $form->batch_size=$request->batch_size;
+            $form->batch_granulation=$request->batch_granulation;
+            $form->Yield=$request->yiels;
+            $form->new_material=$request->new_material;
+            $form->new_machine=$request->new_Machine;
+            $form->trial=$request->trial;
+            $form->notes=$request->note;
+            $form->user_id=$request->forecast;
+            $form->created_date=$request->create;
+            $form->save();
+        }elseif($fs>='0'){
+            $form = FormPengajuanFS::where('id_feasibility',$request->id_fs)->first();
+            $form->forecast=$request->forecast;
+            $form->uom=$request->uom;
+            $form->location=$request->location;
+            $form->Pricelist=$request->uom;
+            $form->uon_box=$request->uom_box;
+            $form->box_batch=$request->box_batch;
+            $form->mass_uom=$request->mass_uom;
+            $form->serving_size=$request->serving_size;
+            $form->serving_uom=$request->serving_uom;
+            $form->servings_month=$request->serving_month;
+            $form->Batch_month=$request->batch_month;
+            $form->batch_size=$request->batch_size;
+            $form->batch_granulation=$request->batch_granulation;
+            $form->Yield=$request->yiels;
+            $form->new_material=$request->new_material;
+            $form->new_machine=$request->new_Machine;
+            $form->trial=$request->trial;
+            $form->notes=$request->note;
+            $form->created_date=$request->create;
+            $form->save();
+        }
 
         if($request->info=='sent'){
             $fs = Feasibility::where('id',$request->id_fs)->first();
             $fs->status_maklon='proses';
             $fs->status_kemas='proses';
             $fs->status_lab='proses';
+            $fs->status_feasibility='proses';
             $fs->lokasi=$request->location;
             $fs->batch_size=$request->batch_size;
             $fs->save();

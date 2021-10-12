@@ -5,10 +5,10 @@ namespace App\Http\Controllers\feasibility;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+use App\model\users\User;
 use App\model\pkp\PkpProject;
 use App\model\formula\Formula;
 use App\model\feasibility\Feasibility;
-use App\model\users\User;
 
 class ListFsController extends Controller
 {

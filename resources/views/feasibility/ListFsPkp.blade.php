@@ -53,7 +53,7 @@
               <tr>
                 <td class="text-center">{{$fs->revisi}}.{{$fs->revisi_kemas}}.{{$fs->revisi_proses}}.{{$fs->revisi_produk}}</td>
                 <td>{{$fs->workbook->formula}}</td>
-                <td>{{$fs->lokasi}}</td>
+                <td class="text-center">{{$fs->lokasi}}</td>
                 <td>{{$fs->batchsize}}</td>
                 <td class="text-center">
                   @if($fs->status_feasibility=='pengajuan')
@@ -61,16 +61,16 @@
                   @elseif($fs->status_feasibility=='proses')
                     <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#sent{{$fs->id_project}}{{$fs->id_formula}}" title="Up"><i class="fa fa-arrow-circle-o-up"></i></a></button>
                     <a href="{{route('DetailPengajuanFsPKP',[$fs->id_project,$fs->id_formula,$fs->id])}}" class="btn btn-sm btn-primary" type="button" title="sent"><li class="fa fa-paper-plane"></li></a>
-                    <a href="{{route('DetailPengajuanFsPKP',[$fs->id_project,$fs->id_formula,$fs->id])}}" class="btn btn-sm btn-info" type="button" title="Information"><li class="fa fa-file"></li></a>
+                    <a href="{{route('info',[$fs->id_project,$fs->id_formula])}}" class="btn btn-sm btn-info" type="button" title="Information"><li class="fa fa-file"></li></a>
                   @endif
                 </td>
                 <!-- Action user product -->
                 <td class="text-center">
                   @if($fs->status_product=='ajukan')
                     @if(auth()->user()->role->namaRule === 'user_produk' || auth()->user()->role->namaRule === 'manager')
-                    <a href="" class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
+                    <a href="{{route('workbookfs',[$fs->id_project,$fs->id_formula])}}" class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
                     @else
-                    <a href="" disabled class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
+                    <a disabled class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
                     @endif
                   @elseif($fs->status_product=='proses')
                     @if(auth()->user()->role->namaRule === 'user_produk')
@@ -94,9 +94,9 @@
                 <td class="text-center">
                   @if($fs->status_proses=='ajukan')
                     @if(auth()->user()->role->namaRule === 'user_rd_proses' || auth()->user()->role->namaRule === 'manager')
-                    <a href="" class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
+                    <a href=" {{route('workbookfs',[$fs->id_project,$fs->id_formula])}}" class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
                     @else
-                    <a href="" disabled class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
+                    <a disabled class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
                     @endif
                   @elseif($fs->status_proses=='proses')
                     @if(auth()->user()->role->namaRule === 'user_rd_proses' || auth()->user()->role->namaRule === 'manager')
@@ -120,9 +120,9 @@
                 <td class="text-center">
                   @if($fs->status_kemas=='ajukan')
                     @if(auth()->user()->role->namaRule === 'kemas')
-                    <a href="" class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
+                    <a href=" {{route('workbookfs',[$fs->id_project,$fs->id_formula])}}" class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
                     @else
-                    <a href="" disabled class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
+                    <a disabled class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
                     @endif
                   @elseif($fs->status_kemas=='proses')
                     @if(auth()->user()->role->namaRule === 'kemas')
@@ -146,9 +146,9 @@
                 <td class="text-center">
                   @if($fs->status_lab=='ajukan')
                     @if(auth()->user()->role->namaRule === 'lab')
-                    <a href="" class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
+                    <a href=" {{route('workbookfs',[$fs->id_project,$fs->id_formula])}}" class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
                     @else
-                    <a href="" disabled class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
+                    <a disabled class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
                     @endif
                   @elseif($fs->status_lab=='proses')
                     @if(auth()->user()->role->namaRule === 'lab')
@@ -172,9 +172,9 @@
                 <td class="text-center">
                   @if($fs->status_maklon=='ajukan')
                     @if(auth()->user()->role->namaRule === 'maklon' || auth()->user()->role->namaRule === 'manager')
-                    <a href="" class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
+                    <a href=" {{route('workbookfs',[$fs->id_project,$fs->id_formula])}}" class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
                     @else
-                    <a href="" disabled class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
+                    <a disabled class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
                     @endif
                   @elseif($fs->status_maklon=='proses')
                     @if(auth()->user()->role->namaRule === 'maklon' || auth()->user()->role->namaRule === 'manager')
