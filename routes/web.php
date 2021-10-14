@@ -148,7 +148,6 @@ Route::get('deletepkp1/{id}','report\reportController@deletepkp1')->name('delete
 
 Route::get('deletepromo1/{id}','report\reportController@deletepromo1')->name('deletepromo1');
 Route::get('editpromoall','report\reportController@editpromoall')->name('editpromoall');
-Route::get('datareport','report\reportController@data')->name('datareport');
 Route::get('reportnotulen','report\reportController@reportnotulen')->name('reportnotulen');
 Route::get('cetak','report\cetakController@download_project')->name('cetak');
 Route::get('cetak_my_project','report\cetakController@download_my_project')->name('cetak_my_project');
@@ -393,7 +392,9 @@ Route::get('FsPKP','feasibility\ListFsController@FsPKP')->name('FsPKP');
 // Form Pengajuan FS dari proses
 Route::get('DetailPengajuanFsPKP/{pkp}/{id}/{fs}','PengajuanFS\PengajuanFsController@DetailPengajuanFsPKP')->name('DetailPengajuanFsPKP');
 Route::post('overview','PengajuanFS\PengajuanFsController@overview')->name('overview');
+Route::post('user_fs/{id}','PengajuanFS\PengajuanFsController@user_fs')->name('user_fs');
 
 // Workbook FS
 Route::get('workbookfs/{id}/{for}','workbookFS\WorkbookFsController@workbookfs')->name('workbookfs');
 Route::get('info/{id}/{for}','workbookFS\WorkbookFsController@info')->name('info');
+Route::get('reportinfo/{id}','workbookFS\WorkbookFsController@reportinfo')->name('reportinfo');

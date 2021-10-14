@@ -9,6 +9,7 @@ use App\model\users\User;
 use App\model\pkp\PkpProject;
 use App\model\formula\Formula;
 use App\model\feasibility\Feasibility;
+use Auth;
 
 class ListFsController extends Controller
 {
@@ -25,8 +26,10 @@ class ListFsController extends Controller
 
     public function FsPKP(){
         $pkp = PkpProject::where('pengajuan_fs','sent')->orwhere('pengajuan_fs','proses')->get();
+        $pkp2 = PkpProject::where('user_fs',Auth::user()->id)->where('pengajuan_fs','sent')->orwhere('pengajuan_fs','proses')->get();
         return view('feasibility.FsPKP')->with([
-            'pkp' => $pkp
+            'pkp' => $pkp,
+            'pkp2' => $pkp2
         ]);
     }
 }

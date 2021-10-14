@@ -69,7 +69,6 @@
                   </li>
                   <li><a><i class="fa fa-file-text"></i> Project Recapitulation <span class="label label-success"></span> <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="{{ route('datareport') }}">Data Project Summary</a></li>
                       <li><a href="{{ route('tabulasi') }}">Data Project Tabulation</a></li>
                       <li><a href="{{ route('reportnotulen') }}">Meeting Minutes</a></li>
                       <li><a href="{{ route('datapengajuan') }}">Revision Request</a></li>
@@ -106,7 +105,6 @@
                   </li>
                   <li><a><i class="fa fa-file-text"></i> Project Recapitulation <span class="label label-success"></span> <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="{{ route('datareport') }}">Data Project Summary</a></li>
                       <li><a href="{{ route('tabulasi') }}">Data Project Tabulation</a></li>
                       <li><a href="{{ route('reportnotulen') }}">Meeting Minutes</a></li>
                       <li><a href="{{ route('datapengajuan') }}">Revision Request</a></li>
@@ -191,11 +189,6 @@
                       <li><a href="{{ route('tabulasibb') }}">Material Tabulation</a></li>
                     </ul>
                   </li>
-                  <li><a><i class="fa fa-file-text"></i> Project Recapitulation <span class="label label-success"></span> <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="{{ route('datareport') }}">Data Project Summary</a></li>
-                    </ul>
-                  </li>
                   <li><a><i class="fa fa-book"></i> Master Data <span class="label label-success"></span> <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="{{ route('datapangan') }}">Microbiology</a></li>
@@ -209,24 +202,30 @@
                       <li><a href="{{ route('principal') }}">Principle</a></li>
                     </ul>
                   </li>
-                  @elseif(auth()->user()->role->namaRule === 'CS')
-                  <li><a><i class="fa fa-folder-open"></i> PKP / PDF / PROMO <span class="fa fa-chevron-down"></span></a>
+                  @elseif(auth()->user()->role->namaRule === 'user_rd_proses')
+                  <li><a><i class="fa fa-cogs"></i> Feasibility <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                    <li><a><i class="fa fa-edit"></i>Input Project<span class="fa fa-chevron-down"></span></a>
-                      <ul class="nav child_menu">
-                        <li><a href="{{ route('promo') }}">Input PROMO</a> </li>
-                      </ul>
-                    </li>
-                    <li><a><i class="fa fa-archive"></i>Draf Project<span class="fa fa-chevron-down"></span></a>
-                      <ul class="nav child_menu">
-                        <li><a href="{{ route('drafpromo') }}">Draf PROMO</a> </li>
-                      </ul>
-                    </li>
-                    <li><a><i class="fa fa-list"></i>List Project<span class="fa fa-chevron-down"></span></a>
-                      <ul class="nav child_menu">
-                        <li><a href="{{ route('listpromo') }}">List PROMO</a> </li>
-                      </ul>
-                    </li>
+                      <li><a href="{{Route('FsPKP')}}">List FS PKP</a> </li>
+                      <li><a href="{{Route('listpdfrka')}}">List FS PDF</a> </li>
+                    </ul>
+                  </li>
+                  <li><a><i class="fa fa-registered"></i> Material Registration <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{{ route('registrasi_bb_rd') }}"> Material Registration</a> </li>
+                      <li><a href="{{ route('tabulasibb') }}">Material Tabulation</a></li>
+                    </ul>
+                  </li>
+                  <li><a><i class="fa fa-book"></i> Master Data <span class="label label-success"></span> <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{{ route('datapangan') }}">Microbiology</a></li>
+                      <li><a href="{{ route('sku') }}">Active SKU</a></li>
+                      <li><a href="{{ route('klaim') }}">Claim Regulation</a></li>
+                      <li><a href="{{ route('allergen') }}">Allergen</a></li>
+                      <li><a href="{{ route('curren.index') }}">Currency</a></li>
+                      <li><a href="{{ route('bahanbaku') }}">Bahan Baku Eksis</a></li>
+                      <li><a href="{{ route('bahan_rd') }}">Bahan Baku RD</a></li>
+                      <li><a href="{{ route('supplier') }}">Supplier</a></li>
+                      <li><a href="{{ route('principal') }}">Principle</a></li>
                     </ul>
                   </li>
                   @elseif(auth()->user()->role->namaRule === 'manager')
@@ -259,7 +258,6 @@
                     @endif
                   <li><a><i class="fa fa-file-text"></i> Project Recapitulation <span class="label label-success"></span> <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="{{ route('datareport') }}">Data Project Summary</a></li>
                       <li><a href="{{ route('tabulasi') }}">Data Project Tabulation</a></li>
                       <li><a href="{{ route('reportnotulen') }}">Meeting Minutes</a></li>
                     </ul>

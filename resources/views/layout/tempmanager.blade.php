@@ -66,7 +66,6 @@
                   @endif
                   <li><a><i class="fa fa-file-text"></i> Project Recapitulation <span class="label label-success"></span> <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="{{ route('datareport') }}">Data Project Summary</a></li>
                       <li><a href="{{ route('tabulasi') }}">Data Project Tabulation</a></li>
                       <li><a href="{{ route('reportnotulen') }}">Meeting Minutes</a></li>
                     </ul>

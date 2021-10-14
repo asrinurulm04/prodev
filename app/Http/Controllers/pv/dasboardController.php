@@ -96,13 +96,24 @@ class dasboardController extends Controller
     }
     
     public function dasboardmanager(){
+        // jumlah FS
+        $hitungFsPKP         = PkpProject::where('pengajuan_fs','sent')->count();
+        $hitungFsPDF         = ProjectPDF::where('pengajuan_fs','sent')->count();
+        // Chart FS-PKP
+        $donefsPKP           = PkpProject::where('pengajuan_fs','done')->count();
+        $prosesfsPKP         = PkpProject::where('pengajuan_fs','proses')->count();
+        $chartFsPKP          = Charts::create('bar', 'highcharts')->title('Data FS-PKP')->elementlabel("Data FS-PKP")->colors(['#ff9000', '#1384fb', '#2afb13'])->labels(['sent', 'proses', 'Done'])->values([$hitungFsPKP,$donefsPKP,$prosesfsPKP])->responsive(false);
+        // Chart FS-PKP
+        $donefsPDF           = ProjectPDF::where('pengajuan_fs','done')->count();
+        $prosesfsPDF         = ProjectPDF::where('pengajuan_fs','proses')->count();
+        $chartFsPDF          = Charts::create('bar', 'highcharts')->title('Data FS-PDF')->elementlabel("Data FS-PDF")->colors(['#ff9000', '#1384fb', '#2afb13'])->labels(['sent', 'proses', 'Done'])->values([$hitungFsPDF,$donefsPDF,$prosesfsPDF])->responsive(false);
+        // Jumlah Project
         $hitungpkpselesai2   = PkpProject::where([['status_terima2','=','proses'],['status_project','active'],['status_freeze','inactive'],['tujuankirim2',Auth::user()->Departement->id]])->count();
         $hitungpkpselesai    = PkpProject::where([['status_terima','=','proses'],['status_project','active'],['status_freeze','inactive'],['tujuankirim',Auth::user()->Departement->id]])->count();
         $hitungpdfselesai2   = ProjectPDF::where('status_terima2','=','proses')->where('tujuankirim2',Auth::user()->Departement->id)->count();
         $hitungpdfselesai    = ProjectPDF::where('status_terima','=','proses')->where('tujuankirim',Auth::user()->Departement->id)->count();
         $hitungpromoselesai2 = promo::where('status_terima2','=','proses')->where('tujuankirim2',Auth::user()->Departement->id)->count();
         $hitungpromoselesai  = promo::where('status_terima','=','proses')->where('tujuankirim',Auth::user()->Departement->id)->count();
-        $hitungnotif2        = $hitungpkpselesai2 + $hitungpdfselesai2 + $hitungpromoselesai2 ;$hitungnotif = $hitungpkpselesai + $hitungpdfselesai + $hitungpromoselesai;
         // chart PKP
         $revisi              = PkpProject::where('status_pkp','=','revisi')->where('status_project','active')->where('tujuankirim',Auth::user()->Departement->id)->count();
         $proses              = PkpProject::where('status_pkp','=','proses')->where('status_project','active')->where('tujuankirim',Auth::user()->Departement->id)->count();
@@ -143,11 +154,13 @@ class dasboardController extends Controller
             'chart1'              => $chart1,
             'chart2'              => $chart2,
             'chart3'              => $chart3,
+            'chartFsPKP'          => $chartFsPKP,
+            'chartFsPDF'          => $chartFsPDF,
             'pie'                 => $pie,
             'pie2'                => $pie2,
             'pie3'                => $pie3,
-            'hitungnotif'         => $hitungnotif,
-            'hitungnotif2'        => $hitungnotif2,
+            'hitungFsPDF'         => $hitungFsPDF,
+            'hitungFsPKP'         => $hitungFsPKP,
             'hitungpkpselesai'    => $hitungpkpselesai,
             'hitungpkpselesai2'   => $hitungpkpselesai2,
             'hitungpdfselesai'    => $hitungpdfselesai,
@@ -167,10 +180,17 @@ class dasboardController extends Controller
         $promo      = promo::where('userpenerima',Auth::user()->id)->where('status_project','=','proses')->count();
         $promo1     = promo::where('userpenerima2',Auth::user()->id)->where('status_project','=','proses')->count();
         $datapromo  = $promo + $promo1;
+        $pkp_fs     = PkpProject::where('user_fs',Auth::user()->id)->where('pengajuan_fs','!=','reject')->where('status_project','active')->count();
+        $pdf_fs     = ProjectPDF::where('user_fs',Auth::user()->id)->where('pengajuan_fs','!=','reject')->count();
+        $promo_fs   = promo::where('user_fs',Auth::user()->id)->where('pengajuan_fs','!=','reject')->count();
         return view('formula.dasboard')->with([
-            'pkp'   => $datapkp,
-            'pdf'   => $datapdf,
-            'promo' => $datapromo
+            'pkp'      => $datapkp,
+            'pdf'      => $datapdf,
+            'promo'    => $datapromo,
+            'pkp_fs'   => $pkp_fs,
+            'pdf_fs'   => $pdf_fs,
+            'promo_fs' => $promo_fs
+
         ]);
     }
 }

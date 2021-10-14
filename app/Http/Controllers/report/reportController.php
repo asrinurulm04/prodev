@@ -771,44 +771,6 @@ class reportController extends Controller
         return redirect::back()->with('status', 'Saved data ');
     }
 
-    public function data(){
-        $hilo1    = PkpProject::where('id_brand','=','Hilo')->count();
-        $hilo2    = ProjectPDF::where('id_brand','=','Hilo')->count();
-        $hhilo    = $hilo1 + $hilo2;
-        $lmen1    = PkpProject::where('id_brand','=','L-Men')->count();
-        $lmen2    = ProjectPDF::where('id_brand','=','L-Men')->count();
-        $hlmen    = $lmen1 + $lmen2;
-        $nr1      = PkpProject::where('id_brand','=','Nutrisari')->count();
-        $nr2      = ProjectPDF::where('id_brand','=','Nutrisari')->count();
-        $hnr      = $nr1 + $nr2;
-        $ts1      = PkpProject::where('id_brand','=','Tropicana Slim')->count();
-        $ts2      = ProjectPDF::where('id_brand','=','Tropicana Slim')->count();
-        $hts      = $ts1 + $ts2;
-        $ekspor1  = PkpProject::where('id_brand','=','Ekspor')->count();
-        $ekspor2  = ProjectPDF::where('id_brand','=','Ekspor')->count();
-        $hekspor  = $ekspor1 + $ekspor2;
-        $dhilo1   = PkpProject::where('id_brand','=','Hilo')->where('status_project','=','active')->get();
-        $dhilo2   = ProjectPDF::where('id_brand','=','Hilo')->join('tr_sub_pdf','tr_sub_pdf.pdf_id','=','tr_pdf_project.id_project_pdf')->where('status_pdf','=','active')->get();
-        $dlmen1   = PkpProject::where('id_brand','=','L-Men')->where('status_project','=','active')->get();
-        $dlmen2   = ProjectPDF::where('id_brand','=','L-Men')->join('tr_sub_pdf','tr_sub_pdf.pdf_id','=','tr_pdf_project.id_project_pdf')->where('status_pdf','=','active')->get();
-        $dnr1     = PkpProject::where('id_brand','=','Nutrisari')->where('status_project','=','active')->get();
-        $dnr2     = ProjectPDF::where('id_brand','=','Nutrisari')->join('tr_sub_pdf','tr_sub_pdf.pdf_id','=','tr_pdf_project.id_project_pdf')->where('status_pdf','=','active')->get();
-        $dts1     = PkpProject::where('id_brand','=','Tropicana Slim')->where('status_project','=','active')->get();
-        $dts2     = ProjectPDF::where('id_brand','=','Tropicana Slim')->join('tr_sub_pdf','tr_sub_pdf.pdf_id','=','tr_pdf_project.id_project_pdf')->where('status_pdf','=','active')->get();
-        $dekspor1 = PkpProject::where('id_brand','=','Ekspor')->where('status_project','=','active')->get();
-        $dekspor2 = ProjectPDF::where('id_brand','=','Ekspor')->join('tr_sub_pdf','tr_sub_pdf.pdf_id','=','tr_pdf_project.id_project_pdf')->where('status_pdf','=','active')->get();
-        return view('pv.data')->with([
-            'hhilo'    => $hhilo,
-            'hlmen'    => $hlmen,   'hnr'      => $hnr,
-            'hts'      => $hts,     'hekspor'  => $hekspor,
-            'dhilo1'   => $dhilo1,  'dhilo2'   => $dhilo2,
-            'dlmen1'   => $dlmen1,  'dlmen2'   => $dlmen2,
-            'dnr1'     => $dnr1,    'dnr2'     => $dnr2,
-            'dts1'     => $dts1,    'dts2'     =>$dts2,
-            'dekspor1' => $dekspor1,'dekspor2' => $dekspor2
-        ]);
-    }
-
     public function pengajuan(){
         $pengajuanpdf   = pengajuan::where('id_pdf','!=','')->get();
         $pengajuanpkp   = pengajuan::where('id_pkp','!=','')->get();

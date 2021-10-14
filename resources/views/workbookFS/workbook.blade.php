@@ -17,7 +17,7 @@
   <div class="x_title">
 		<div class="row">
 			<div class="col-md-10">
-    		<h3><li class="fa fa-list"> List Workbook Kemas</li></h3><hr>
+    		<h3><li class="fa fa-list"> List Workbook</li></h3><hr>
 			</div>
 			<div class="col-md-2">
 				@if($ws=='0')

@@ -9,6 +9,7 @@ use App\model\pkp\PkpProject;
 use App\model\formula\Formula;
 use App\model\feasibility\Feasibility;
 use App\model\feasibility\WorkbookFs;
+use App\model\feasibility\reportRevisi;
 
 class WorkbookFsController extends Controller
 {
@@ -28,9 +29,20 @@ class WorkbookFsController extends Controller
     public function info($id_project,$for){
         $pkp = PkpProject::where('id_project',$id_project)->first();
         $wb = Formula::where('id',$for)->first();
+        $report = reportRevisi::join('tr_feasibility','tr_feasibility.id','tr_report_revisifs.id_fs')->where('id_formula',$for)->get();
         return view('workbookFS.info')->with([
             'pkp' => $pkp,
-            'wb' => $wb
+            'wb' => $wb,
+            'report' => $report
+        ]);
+    }
+
+     public function reportinfo($id_project){
+        $pkp = PkpProject::where('id_project',$id_project)->first();
+        $report = reportRevisi::join('tr_feasibility','tr_feasibility.id','tr_report_revisifs.id_fs')->where('id_project',$id_project)->get();
+        return view('workbookFS.tabulasiInfo')->with([
+            'pkp' => $pkp,
+            'report' => $report
         ]);
     }
 }

@@ -90,37 +90,37 @@
 					<div class="form-group row">
             <label for="middle-name" class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#31a9b8">UoM per BOX</label>
             <div class="col-md-4 col-sm-4 col-xs-12">
-							 <input type="text" value="{{ $pkp->kemas->tersier }}" name="uom_box" id="uom_box" class="form-control col-md-12 col-xs-12">
+							 <input type="text" value="{{ $pkp->kemas->tersier }}" name="uom_box" id="uom_box" class="form-control col-md-12 col-xs-12" readonly>
             </div>
 						<label for="middle-name" class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#31a9b8">BOX per BATCH</label>
             <div class="col-md-3 col-sm-3 col-xs-12">
-							 <input type="text" value="" name="box_batch" id="box_batch" class="form-control col-md-12 col-xs-12">
+							 <input type="text" value="" name="box_batch" id="box_batch" class="form-control col-md-12 col-xs-12" readonly>
             </div>
           </div>
 					<div class="form-group row">
             <label for="middle-name" class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#31a9b8">Mass per UOM (g)</label>
             <div class="col-md-4 col-sm-4 col-xs-12">
-							 <input type="text" value="" name="mass_uom" id="mass_uom" class="form-control col-md-12 col-xs-12">
+							 <input type="text" value="" name="mass_uom" id="mass_uom" class="form-control col-md-12 col-xs-12" readonly>
             </div>
 						<label for="middle-name" class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#31a9b8">serving size (g)</label>
             <div class="col-md-3 col-sm-3 col-xs-12">
-							 <input type="text" value="{{$formula->serving_size}}" name="serving_size" id="serving_size" class="form-control col-md-12 col-xs-12">
+							 <input type="text" value="{{$formula->serving_size}}" name="serving_size" id="serving_size" class="form-control col-md-12 col-xs-12" readonly>
             </div>
           </div>
 					<div class="form-group row">
             <label for="middle-name" class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#31a9b8">servings/ UOM</label>
             <div class="col-md-4 col-sm-4 col-xs-12">
-							 <input type="text" value="{{ $pkp->kemas->primer }}" name="serving_uom" id="serving_uom" class="form-control col-md-12 col-xs-12">
+							 <input type="text" value="{{ $pkp->kemas->primer }}" name="serving_uom" id="serving_uom" class="form-control col-md-12 col-xs-12" readonly>
             </div>
 						<label for="middle-name" class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#31a9b8">servings/ month</label>
             <div class="col-md-3 col-sm-3 col-xs-12">
-							 <input type="text" value="" name="serving_month" id="serving_month" class="form-control col-md-12 col-xs-12">
+							 <input type="text" value="" name="serving_month" id="serving_month" class="form-control col-md-12 col-xs-12" readonly>
             </div>
           </div>
 					<div class="form-group row">
             <label for="middle-name" class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#31a9b8">Batch/month</label>
             <div class="col-md-4 col-sm-4 col-xs-12">
-							 <input type="text" value="" name="batch_month" id="batch_month" class="form-control col-md-12 col-xs-12">
+							 <input type="text" value="" name="batch_month" id="batch_month" class="form-control col-md-12 col-xs-12" readonly>
             </div>
 						<label for="middle-name" class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#31a9b8">Batch size (g)</label>
             <div class="col-md-3 col-sm-3 col-xs-12">

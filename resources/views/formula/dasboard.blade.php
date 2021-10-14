@@ -3,14 +3,22 @@
 @section('content')
 
 <div class="row top_tiles">
+  @if(auth()->user()->role->namaRule === 'user_rd_proses')
+  <a href="{{route('FsPKP')}}" type="button">
+  @else
   <a href="{{route('listprojectpkp')}}" type="button">
+  @endif
   <div class="col-md-4 col-sm-4 col-xs-12">
     <div class="x_panel ">
       <div class="tile-stats">
         <div class="icon"><i class="fa fa-file"></i></div>
+        @if(auth()->user()->role->namaRule === 'user_rd_proses')
+        <div class="count">{{$pkp_fs}}</div>
+        @else
         <div class="count">{{$pkp}}</div>
+        @endif
         <h3>PKP</h3>
-        <p> Data Uncompleted <a href="{{Route('drafpkp')}}">(Click To See Details)</a></p>
+        <p> Data All PKP (Click To See Details)</a></p>
       </div>
     </div>
   </div>  
@@ -20,9 +28,13 @@
     <div class="x_panel ">
       <div class="tile-stats">
         <div class="icon"><i class="fa fa-file"></i></div>
+        @if(auth()->user()->role->namaRule === 'user_rd_proses')
+        <div class="count">{{$promo_fs}}</div>
+        @else
         <div class="count">{{$promo}}</div>
+        @endif
         <h3>PKP Promo</h3>
-        <p> Data Uncompleted <a href="{{Route('drafpromo')}}">(Click To See Details)</a></p>
+        <p> Data All PROMO (Click To See Details)</a></p>
       </div>
     </div>
   </div>  
@@ -32,9 +44,13 @@
     <div class="x_panel ">
       <div class="tile-stats">
         <div class="icon"><i class="fa fa-file"></i></div>
+        @if(auth()->user()->role->namaRule === 'user_rd_proses')
+        <div class="count">{{$pdf_fs}}</div>
+        @else
         <div class="count">{{$pdf}}</div>
+        @endif
         <h3>PDFe & PDFp</h3>
-        <p> Data Uncompleted <a href="{{Route('drafpdf')}}">(Click To See Details)</a></p>
+        <p> Data All PDF (Click To See Details)</a></p>
       </div>
     </div>
   </div>

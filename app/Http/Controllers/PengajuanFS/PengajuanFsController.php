@@ -101,13 +101,12 @@ class PengajuanFsController extends Controller
 			}
 		}
 
-
         return redirect::route('rekappkp',[$pkp->id_project,$pkp->id_pkp]);
     }
 
     public function BatalAjukanFS($id_project,$for){
         $formula = Formula::where('id',$for)->first();
-        $formula->status_fisibility='reject';
+        $formula->status_feasibility='reject';
         $formula->save();
 
         $fs = Feasibility::where('id_project',$id_project)->where('id_formula',$for)->first();
@@ -195,5 +194,13 @@ class PengajuanFsController extends Controller
         }
 
         return redirect::route('listPkpFs',$request->id_project);
+    }
+
+    public function user_fs(Request $request,$id_project){
+        $pkp = PkpProject::where('id_project',$id_project)->first();
+        $pkp->user_fs=$request->user;
+        $pkp->save();
+
+        return redirect::back();
     }
 }

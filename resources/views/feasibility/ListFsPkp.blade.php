@@ -9,7 +9,7 @@
       @if(auth()->user()->role->namaRule === 'manager')
       <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#sent{{$pkp->id_project}}"><i class="fa fa-paper-plane"></i> Sent To User</a></button>
       @endif
-      <a href="" class="btn btn-sm btn-success" type="button"><li class="fa fa-files-o"></li> Report</a> 
+      <a href="{{route('reportinfo',$pkp->id_project)}}" class="btn btn-sm btn-success" type="button"><li class="fa fa-files-o"></li> Report</a> 
       <a href="{{ Route('lihatpkp',$pkp->id_project) }}" class="btn btn-sm btn-info" type="button"><li class="fa fa-folder-open"></li> Show PKP</a> 
       <a href="{{route('FsPKP')}}" class="btn btn-sm btn-danger" type="button"><li class="fa fa-arrow-left"></li> Back</a> 
     </div>
@@ -67,23 +67,11 @@
                 <!-- Action user product -->
                 <td class="text-center">
                   @if($fs->status_product=='ajukan')
-                    @if(auth()->user()->role->namaRule === 'user_produk' || auth()->user()->role->namaRule === 'manager')
                     <a href="{{route('workbookfs',[$fs->id_project,$fs->id_formula])}}" class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
-                    @else
-                    <a disabled class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
-                    @endif
                   @elseif($fs->status_product=='proses')
-                    @if(auth()->user()->role->namaRule === 'user_produk')
                     <a href="{{ route('formula.detail',[$fs->workbook->id,$fs->id_project,$fs->workbook->workbook_id]) }}" class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-edit"></li></a>
-                    @else
-                    <a disabled class="btn btn-sm btn-info" type="button" title="show"><li class="fa fa-warning"></li></a>
-                    @endif
                   @elseif($fs->status_product=='selesai')
-                    @if(auth()->user()->role->namaRule === 'user_produk' || auth()->user()->role->namaRule === 'manager')
                     <a href="{{ route('formula.detail',[$fs->workbook->id,$fs->id_project,$fs->workbook->workbook_id]) }}" class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-folder"></li></a>
-                    @else
-                    <a disabled class="btn btn-sm btn-info" type="button" title="show"><li class="fa fa-warning"></li></a>
-                    @endif
                   @elseif($fs->status_product=='sending')
                     <a href="{{ route('formula.detail',[$fs->workbook->id,$fs->id_project,$fs->workbook->workbook_id]) }}" class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-folder"></li></a>
                   @else
@@ -171,19 +159,19 @@
                 <!-- Action user Maklon -->
                 <td class="text-center">
                   @if($fs->status_maklon=='ajukan')
-                    @if(auth()->user()->role->namaRule === 'maklon' || auth()->user()->role->namaRule === 'manager')
+                    @if(auth()->user()->role->namaRule === 'user_rd_proses' || auth()->user()->role->namaRule === 'manager')
                     <a href=" {{route('workbookfs',[$fs->id_project,$fs->id_formula])}}" class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
                     @else
                     <a disabled class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
                     @endif
                   @elseif($fs->status_maklon=='proses')
-                    @if(auth()->user()->role->namaRule === 'maklon' || auth()->user()->role->namaRule === 'manager')
+                    @if(auth()->user()->role->namaRule === 'user_rd_proses' || auth()->user()->role->namaRule === 'manager')
                     <a href="{{ route('formula.detail',[$fs->workbook->id,$fs->id_project,$fs->workbook->workbook_id]) }}" class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-edit"></li></a>
                     @else
                     <a disabled class="btn btn-sm btn-info" type="button" title="show"><li class="fa fa-warning"></li></a>
                     @endif
                   @elseif($fs->status_maklon=='selesai')
-                    @if(auth()->user()->role->namaRule === 'maklon' || auth()->user()->role->namaRule === 'manager')
+                    @if(auth()->user()->role->namaRule === 'user_rd_proses' || auth()->user()->role->namaRule === 'manager')
                     <a href="{{ route('formula.detail',[$fs->workbook->id,$fs->id_project,$fs->workbook->workbook_id]) }}" class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-folder"></li></a>
                     @else
                     <a disabled class="btn btn-sm btn-info" type="button" title="show"><li class="fa fa-warning"></li></a>
@@ -214,7 +202,7 @@
         </button></h3>
       </div>
       <div class="modal-body">
-        <form class="form-horizontal form-label-left" method="POST" action="{{ Route('edittuser',$pkp->id_project)}}" novalidate>
+        <form class="form-horizontal form-label-left" method="POST" action="{{ Route('user_fs',$pkp->id_project)}}" novalidate>
         <div class=" row">
           <label class="control-label text-bold col-md-2 col-sm-2 col-xs-12 text-center"> User</label>
           <div class="col-md-9 col-sm-9 col-xs-12">
