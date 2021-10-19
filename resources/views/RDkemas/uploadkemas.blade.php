@@ -1,6 +1,5 @@
-@extends('kemas.tempkemas')
+@extends('layout.tempvv')
 @section('title', 'feasibility|Kemas')
-@section('judulnya', 'List Feasibility')
 @section('content')
 
 <div class="row">

@@ -22,7 +22,7 @@
 				@elseif(auth()->user()->role->namaRule === 'kemas' && $ws_kemas=='0')
 				<a class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="tambah Data" href="{{route('datamesin',$pkp->id_project)}}"><li class="fa fa-plus"></li> Add</a>
 				@elseif(auth()->user()->role->namaRule === 'lab' && $ws_lab=='0')
-				<a class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="tambah Data" href="{{route('datamesin',$pkp->id_project)}}"><li class="fa fa-plus"></li> Add</a>
+				<a class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="tambah Data" href="{{route('datalab',$pkp->id_project)}}"><li class="fa fa-plus"></li> Add</a>
 				@endif
 				<a class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Kemabali" href="{{route('listPkpFs',$pkp->id_project)}}"><i class="fa fa-arrow-left"></i> Back</a></th></tr>
     </div>
@@ -61,7 +61,7 @@
               @elseif(auth()->user()->role->namaRule === 'kemas' && $ws_kemas=='0')
               <a class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="tambah Data" href="{{route('datamesin',[$pkp->id_project,$list->id])}}"><li class="fa fa-plus"></li> Add</a>
               @elseif(auth()->user()->role->namaRule === 'lab' && $ws_lab=='0')
-              <a class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="tambah Data" href="{{route('datamesin',[$pkp->id_project,$list->id])}}"><li class="fa fa-plus"></li> Add</a>
+              <a class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="tambah Data" href="{{route('datalab',$pkp->id_project)}}"><li class="fa fa-plus"></li> Add</a>
               @endif
 							<button class="btn btn-success btn-sm" title="Update"><li class="fa fa-arrow-circle-up"></li></button>
 							<button class="btn btn-dark btn-sm" data-toggle="modal" data-target="#sent" title="Up"><i class="fa fa-paper-plane"></i></a></button>

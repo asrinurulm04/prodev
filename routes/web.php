@@ -50,6 +50,7 @@ Route::post('ses','datamaster\masterController@ses')->name('ses');
 Route::get('datauom','datamaster\masterController@datauom')->name('datauom');
 Route::get('datases','datamaster\masterController@datases')->name('datases');
 Route::get('mesin','datamaster\masterController@mesin')->name('mesin');
+Route::get('oh','datamaster\masterController@oh')->name('oh');
 
 Route::get('inactive_supplier/{id}','datamaster\masterController@inactive_supplier')->name('inactive_supplier');
 Route::get('active_supplier/{id}','datamaster\masterController@active_supplier')->name('active_supplier');
@@ -404,3 +405,10 @@ Route::get('reportinfo/{id}','workbookFS\WorkbookFsController@reportinfo')->name
 Route::get('datamesin/{id}','RDproses\MesinController@index')->name('datamesin');
 Route::get('datamesin2/{id}/{ws}','RDproses\MesinController@index2')->name('datamesin2');
 Route::get('dataOH/{id}/{ws}','RDproses\MesinController@dataOH')->name('dataOH');
+
+// Workbook Lab
+Route::get('datalab/{id}','lab\LabController@index')->name('datalab');
+Route::get('AddItem/{id}','lab\LabController@AddItem')->name('AddItem');
+
+// Workbook Kemas
+Route::get('datakemas/{id}','RDkemas\KonsepController@index')->name('datakemas');

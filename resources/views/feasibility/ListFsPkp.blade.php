@@ -68,101 +68,63 @@
                 <td class="text-center">
                   @if($fs->status_product=='proses')
                     <a href="{{ route('formula.detail',[$fs->workbook->id,$fs->id_project,$fs->workbook->workbook_id]) }}" class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-edit"></li></a>
-                  @elseif($fs->status_product=='selesai')
-                    <a href="{{ route('formula.detail',[$fs->workbook->id,$fs->id_project,$fs->workbook->workbook_id]) }}" class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-folder"></li></a>
-                  @elseif($fs->status_product=='sending')
+                  @elseif($fs->status_product=='selesai' || $fs->status_product=='sending')
                     <a href="{{ route('formula.detail',[$fs->workbook->id,$fs->id_project,$fs->workbook->workbook_id]) }}" class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-folder"></li></a>
                   @endif  
                 </td>
                 <!-- Action user Proses -->
                 <td class="text-center">
-                  @if($fs->status_proses=='ajukan')
-                    @if(auth()->user()->role->namaRule === 'user_rd_proses' || auth()->user()->role->namaRule === 'manager')
+                  @if(auth()->user()->role->namaRule === 'user_rd_proses' || auth()->user()->role->namaRule === 'manager')
+                    @if($fs->status_proses=='ajukan')
                     <a href=" {{route('workbookfs',$fs->id_project)}}" class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
-                    @else
-                    <a disabled class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
-                    @endif
-                  @elseif($fs->status_proses=='proses')
-                    @if(auth()->user()->role->namaRule === 'user_rd_proses' || auth()->user()->role->namaRule === 'manager')
+                    @elseif($fs->status_proses=='proses' )
                     <a href="{{ route('formula.detail',[$fs->workbook->id,$fs->id_project,$fs->workbook->workbook_id]) }}" class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-edit"></li></a>
-                    @else
-                    <a disabled class="btn btn-sm btn-info" type="button" title="show"><li class="fa fa-warning"></li></a>
-                    @endif
-                  @elseif($fs->status_proses=='selesai')
-                    @if(auth()->user()->role->namaRule === 'user_rd_proses' || auth()->user()->role->namaRule === 'manager')
-                    <a href="{{ route('formula.detail',[$fs->workbook->id,$fs->id_project,$fs->workbook->workbook_id]) }}" class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-folder"></li></a>
-                    @else
-                    <a disabled class="btn btn-sm btn-info" type="button" title="show"><li class="fa fa-warning"></li></a>
-                    @endif
-                  @elseif($fs->status_proses=='sending')
-                    <a href="{{ route('formula.detail',[$fs->workbook->id,$fs->id_project,$fs->workbook->workbook_id]) }}" class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-folder"></li></a>
-                  @endif 
+                    @elseif($fs->status_proses=='sending' || $fs->status_proses=='selesai')
+                      <a href="{{ route('formula.detail',[$fs->workbook->id,$fs->id_project,$fs->workbook->workbook_id]) }}" class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-folder"></li></a>
+                    @endif 
+                  @else
+                    <a disabled class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
+                  @endif
                 </td>
                 <!-- Action user Kemas -->
                 <td class="text-center">
-                  @if($fs->status_kemas=='ajukan')
-                    @if(auth()->user()->role->namaRule === 'kemas')
-                    <a href=" {{route('workbookfs',$fs->id_project)}}" class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
-                    @else
-                    <a disabled class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
+                  @if(auth()->user()->role->namaRule === 'kemas' || auth()->user()->role->namaRule === 'manager')
+                    @if($fs->status_kemas=='ajukan')
+                      <a href=" {{route('workbookfs',$fs->id_project)}}" class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
+                    @elseif($fs->status_kemas=='proses')
+                      <a href="{{ route('formula.detail',[$fs->workbook->id,$fs->id_project,$fs->workbook->workbook_id]) }}" class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-edit"></li></a>
+                    @elseif($fs->status_kemas=='selesai' || $fs->status_kemas=='sending')
+                      <a href="{{ route('formula.detail',[$fs->workbook->id,$fs->id_project,$fs->workbook->workbook_id]) }}" class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-folder"></li></a>
                     @endif
-                  @elseif($fs->status_kemas=='proses')
-                    @if(auth()->user()->role->namaRule === 'kemas')
-                    <a href="{{ route('formula.detail',[$fs->workbook->id,$fs->id_project,$fs->workbook->workbook_id]) }}" class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-edit"></li></a>
-                    @else
+                  @else
                     <a disabled class="btn btn-sm btn-info" type="button" title="show"><li class="fa fa-warning"></li></a>
-                    @endif
-                  @elseif($fs->status_kemas=='selesai')
-                    @if(auth()->user()->role->namaRule === 'kemas' || auth()->user()->role->namaRule === 'manager')
-                    <a href="{{ route('formula.detail',[$fs->workbook->id,$fs->id_project,$fs->workbook->workbook_id]) }}" class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-folder"></li></a>
-                    @else
-                    <a disabled class="btn btn-sm btn-info" type="button" title="show"><li class="fa fa-warning"></li></a>
-                    @endif
-                  @elseif($fs->status_kemas=='sending')
-                    <a href="{{ route('formula.detail',[$fs->workbook->id,$fs->id_project,$fs->workbook->workbook_id]) }}" class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-folder"></li></a>
                   @endif 
                 </td>
                 <!-- Action user Lab -->
                 <td class="text-center">
-                  @if($fs->status_lab=='ajukan')
-                    @if(auth()->user()->role->namaRule === 'lab')
-                    <a href=" {{route('workbookfs',$fs->id_project)}}" class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
-                    @else
+                  @if(auth()->user()->role->namaRule === 'lab')
+                    @if($fs->status_lab!='sending' || $fs->status_lab!='')
+                    <a href=" {{route('datalab',$fs->id_project)}}" class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
+                    @elseif($fs->status_lab=='sending')
+                    <a href="{{ route('formula.detail',[$fs->workbook->id,$fs->id_project,$fs->workbook->workbook_id]) }}" class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-folder"></li></a>
+                    @endif
+                  @else
                     <a disabled class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
-                    @endif
-                  @elseif($fs->status_lab=='proses')
-                    @if(auth()->user()->role->namaRule === 'lab')
-                    <a href="{{ route('formula.detail',[$fs->workbook->id,$fs->id_project,$fs->workbook->workbook_id]) }}" class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-edit"></li></a>
-                    @else
-                    <a disabled class="btn btn-sm btn-info" type="button" title="show"><li class="fa fa-warning"></li></a>
-                    @endif
-                  @elseif($fs->status_lab=='selesai')
-                    @if(auth()->user()->role->namaRule === 'lab' || auth()->user()->role->namaRule === 'manager')
-                    <a href="{{ route('formula.detail',[$fs->workbook->id,$fs->id_project,$fs->workbook->workbook_id]) }}" class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-folder"></li></a>
-                    @else
-                    <a disabled class="btn btn-sm btn-info" type="button" title="show"><li class="fa fa-warning"></li></a>
-                    @endif
-                  @elseif($fs->status_lab=='sending')
-                    <a href="{{ route('formula.detail',[$fs->workbook->id,$fs->id_project,$fs->workbook->workbook_id]) }}" class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-folder"></li></a>
                   @endif
                 </td>
                 <!-- Action user Maklon -->
                 <td class="text-center">
-                  @if($fs->status_maklon=='ajukan')
-                    @if(auth()->user()->role->namaRule === 'user_rd_proses' || auth()->user()->role->namaRule === 'manager' || auth()->user()->role->namaRule === 'maklon')
+                  @if(auth()->user()->role->namaRule === 'user_rd_proses' || auth()->user()->role->namaRule === 'manager' || auth()->user()->role->namaRule === 'maklon')
+                    @if($fs->status_maklon=='ajukan')  
                     <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#maklon{{$fs->id}}"><li class="fa fa-warning"></li></button>
-                    @else
-                    <a disabled class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
-                    @endif
-                  @elseif($fs->status_maklon=='proses' || $fs->status_maklon=='selesai')
-                    @if(auth()->user()->role->namaRule === 'user_rd_proses' || auth()->user()->role->namaRule === 'manager' || auth()->user()->role->namaRule === 'maklon')
+                    @elseif($fs->status_maklon=='proses' || $fs->status_maklon=='selesai')
                     <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#maklon2{{$fs->id}}"><li class="fa fa-warning"></li></button>
-                    @else
+                    @elseif($fs->status_maklon=='sending')
+                    <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#maklon2{{$fs->id}}"><li class="fa fa-warning"></li></button>
+                    @endif
+                  @else
                     <a disabled class="btn btn-sm btn-info" type="button" title="show"><li class="fa fa-warning"></li></a>
-                    @endif
-                  @elseif($fs->status_maklon=='sending')
-                    <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#maklon2{{$fs->id}}"><li class="fa fa-warning"></li></button>
-                  @endif 
+                  @endif
                 </td>
               </tr>
             @endforeach

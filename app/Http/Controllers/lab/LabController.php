@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 use App\model\Modellab\Dlab;
 use App\model\Modellab\analisa;
+use App\model\Modellab\ItemDesc;
 use App\model\pkp\PkpProject;
 use App\model\formula\Formula;
 use redirect;
@@ -19,33 +20,19 @@ class LabController extends Controller
         $this->middleware('rule:lab');
     }
 
-    public function index($id,$id_feasibility){
-        $formulas   = SubPKP::where('id',$id)->get();
-        $analisa    = analisa::all();
-        $fe         = finance::where('id_feasibility',$id_feasibility)->first();
-        $formula_id = $fe->id_formula;
-        $mikroba    = DB::table('fs_jenismikroba')->select(['jenis_mikroba'])->distinct()->get();
-        $dataL      = Dlab::where('id_feasibility',$id_feasibility)->get();
-        $count_lab  = Dlab::where('id_feasibility',$id_feasibility)->count();
-        $Jlab       = Dlab::where('id_feasibility',$id_feasibility)->sum('rate');
-        $lab2       = DB::table('formulas')
-                    ->join('tr_sub_pkp','tr_sub_pkp.id','=','tr_formulas.workbook_id')
-                    ->join('ms_kategori_pangan','ms_kategori_pangan.id_pangan','=','tr_sub_pkp.bpom')
-                    ->join('ms_jenis_mikroba','ms_jenis_mikroba.no_kategori','=','ms_kategori_pangan.no_kategori')
-                    ->where('formulas.id',$id)->get();
-        $cek_lab    = Dlab::where('id_feasibility',$id_feasibility)->count();
-        return view('lab.datalab',['fe'=>$fe])->with([
-            'formula_id'     => $formula_id,
-            'cek_lab'        => $cek_lab,
-            'mikroba'        => $mikroba,
-            'analisa'        => $analisa,
-            'formulas'       => $formulas,
-            'lab2'           => $lab2,
-            'dataL'          => $dataL,
-            'count_lab'      => $count_lab,
-            'id'             => $id,
-            'jlab'           =>$Jlab,
-            'id_feasibility' => $id_feasibility
+    public function index($id){
+        $desc   = ItemDesc::all();
+        $pkp    = PkpProject::where('id_project',$id)->first();
+        return view('lab.datalab')->with([
+            'pkp'       => $pkp,
+            'desc'      => $desc
+        ]);
+    }
+
+    public function AddItem($id){
+        $pkp    = PkpProject::where('id_project',$id)->first();
+        return view('lab.add_item')->with([
+            'pkp'       => $pkp
         ]);
     }
 

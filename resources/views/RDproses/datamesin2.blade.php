@@ -1,6 +1,5 @@
 @extends('layout.tempvv')
-@section('title', 'feasibility|Inputor')
-@section('judulnya', 'List Feasibility')
+@section('title', 'feasibility|Proses')
 @section('content')
 
 <div class="x_panel">

@@ -6,7 +6,7 @@
 	<div class="col-md-6 col-sm-12 col-xs-12">
 		<div class="x_panel">
 			<div class="x_title">
-				<h3><li class="fa fa-cogs"></li> Mesin</h3>
+				<h3><li class="fa fa-cogs"></li> OH</h3>
 			</div>
 			<table id="datatable" class="table table-striped table-bordered">
 				<thead>
@@ -20,13 +20,13 @@
 				</thead>
 				<tbody>
 					@php $no = 0; @endphp
-					@foreach($mesin as $mesin)
+					@foreach($oh as $oh)
 					<tr>
 						<td>{{++$no}}</td>
-						<td>{{$mesin->workcenter}}</td>
-						<td>{{$mesin->kategori}}</td>
-						<td>{{$mesin->IO}}</td>
-						<td>{{$mesin->nama_mesin	}}</td>
+						<td>{{$oh->workcenter}}</td>
+						<td>{{$oh->type}}</td>
+						<td>{{$oh->aktifitas}}</td>
+						<td>{{$oh->mesin	}}</td>
 					</tr>
 					@endforeach
 				</tbody>
@@ -36,7 +36,7 @@
 	<div class="col-md-6 col-sm-12 col-xs-12">
 		<div class="x_panel">
 			<div class="x_title">
-				<h3><li class="fa fa-cogs"></li> Create New Mesin</h3>
+				<h3><li class="fa fa-cogs"></li> Create New OH</h3>
 			</div>
 			<form class="form-horizontal form-label-left" method="POST" action="{{ route('add_principal') }}">
       <div class="card-block">
@@ -50,15 +50,9 @@
             </div>
           </div>
           <div class="form-group row">
-            <label class="control-label col-md-2 col-sm-3 col-xs-12">kategori</label>
+            <label class="control-label col-md-2 col-sm-3 col-xs-12">type</label>
             <div class="col-md-9 col-sm-9 col-xs-12">
 							<input id="name" class="form-control col-md-12 col-xs-12" name="name" type="text">
-            </div>
-          </div>
-          <div class="form-group row">
-            <label class="control-label col-md-2 col-sm-3 col-xs-12">IO</label>
-            <div class="col-md-9 col-sm-9 col-xs-12">
-          		<input id="email" class="form-control col-md-12 col-xs-12" name="email" type="text">
             </div>
           </div>
 					<div class="form-group row">

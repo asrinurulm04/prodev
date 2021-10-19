@@ -5,9 +5,11 @@ namespace App\Http\Controllers\RDkemas;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+use App\model\pkp\PkpProject;
 use App\model\formula\Formula;
 use App\model\Modelkemas\KonsepKemas;
 use App\model\Modelkemas\FormulaKemas;
+use App\model\feasibility\Feasibility;
 use Redirect;
 use Auth;
 
@@ -18,22 +20,14 @@ class KonsepController extends Controller
         $this->middleware('rule:kemas');
     }
 
-    public function index($id,$id_feasibility){
-        $formulas     = SubPKP::where('id_pkp',$id)->where('status_data','=','active')->get();
-        $fe           = finance::find($id_feasibility);
-        $myFormula    = Formula::where('id',$id)->get();
-        $konsep       = KonsepKemas::where('id_feasibility',$id_feasibility)->get();
-        $dataF        = finance::where('id_feasibility', $id_feasibility)->get();
-        $count_konsep = KonsepKemas::where('id_feasibility',$id_feasibility)->count();
-        return view('kemas/konsep', compact('gramasi'))->with([
-            'fe'            => $fe,
-            'dataF'         => $dataF,
+    public function index($id){
+        $fs           = Feasibility::where('id_project',$id)->first();
+        $pkp          = PkpProject::where('id_project',$id)->where('status_project','=','active')->first();
+        $myFormula    = Formula::where('id',$fs->id_formula)->get();
+        return view('RDkemas/konsep', compact('gramasi'))->with([
             'myFormula'     => $myFormula,
             'id'            => $id,
-            'count_konsep'  => $count_konsep,
-            'konsep'        => $konsep,
-			'formulas'      => $formulas,
-            'id_feasibility'=> $id_feasibility
+			'pkp'      => $pkp
         ]);
     }
 

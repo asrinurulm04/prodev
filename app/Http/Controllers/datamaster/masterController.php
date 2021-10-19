@@ -277,4 +277,11 @@ class masterController extends Controller
             'mesin' => $mesin
         ]);
     }
+
+    public function oh(){
+        $oh = dataOH::select('workcenter','type','aktifitas','mesin')->get();
+        return view('datamaster.oh')->with([
+            'oh' => $oh
+        ]);
+    }
 }

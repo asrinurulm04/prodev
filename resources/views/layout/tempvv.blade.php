@@ -221,7 +221,7 @@
                       <li><a href="{{ route('bahanbaku') }}">Bahan Baku Eksis</a></li>
                       <li><a href="{{ route('bahan_rd') }}">Bahan Baku RD</a></li>
                       <li><a href="{{ route('mesin') }}">Data Mesin</a></li>
-                      <li><a href="{{ route('principal') }}">OH Aktifitas</a></li>
+                      <li><a href="{{ route('oh') }}">OH Aktifitas</a></li>
                     </ul>
                   </li>
                   @elseif(auth()->user()->role->namaRule === 'manager')
@@ -265,6 +265,8 @@
                       <li><a href="{{ route('klaim') }}">Claim Regulation</a></li>
                       <li><a href="{{ route('supplier') }}">Supplier</a></li>
                       <li><a href="{{ route('principal') }}">Principle</a></li>
+                      <li><a href="{{ route('mesin') }}">Data Mesin</a></li>
+                      <li><a href="{{ route('oh') }}">OH Aktifitas</a></li>
                     </ul>
                   </li>
                   @elseif(auth()->user()->role->namaRule === 'admin')
@@ -318,6 +320,8 @@
                       <li><a href="{{ route('satuan.index') }}">Satuan</a></li>
                       <li><a href="{{ route('kategori.index') }}">Kategori</a></li>
                       <li><a href="{{ route('subkategori.index') }}">Sub Kategori</a></li>
+                      <li><a href="{{ route('mesin') }}">Data Mesin</a></li>
+                      <li><a href="{{ route('oh') }}">OH Aktifitas</a></li>
                     </ul>
                   </li>
                   @endif
