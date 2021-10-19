@@ -51,7 +51,9 @@ class homeController extends Controller
         }elseif (auth()->check() && Auth::user()->role->namaRule == 'CS'){
             return Redirect::route('dasboardnr');
         }elseif (auth()->check() && Auth::user()->role->namaRule == 'lab'){
-            return Redirect::route('formula.feasibility');
+            return Redirect::route('dasboardawal');
+        }elseif (auth()->check() && Auth::user()->role->namaRule == 'maklon'){
+            return Redirect::route('dasboardawal');
         }else{
             return view ('login');
         }

@@ -15,7 +15,11 @@ class ListFsController extends Controller
 {
     public function listPkpFs($id_project){
         $pkp = PkpProject::where('id_project',$id_project)->first();
-        $fs = Feasibility::where('status_feasibility','!=','batal')->get();
+        if(Auth::user()->departement_id=='2'){
+            $fs = Feasibility::where('status_feasibility','!=','batal')->get();
+        }elseif(Auth::user()->departement_id!='2'){
+            $fs = Feasibility::where('status_feasibility','proses')->orwhere('status_feasibility','selesai')->get();
+        }
         $users = User::where('departement_id','2')->get();
         return view('feasibility.ListFsPkp')->with([
             'fs'    => $fs,
@@ -27,9 +31,11 @@ class ListFsController extends Controller
     public function FsPKP(){
         $pkp = PkpProject::where('pengajuan_fs','sent')->orwhere('pengajuan_fs','proses')->get();
         $pkp2 = PkpProject::where('user_fs',Auth::user()->id)->where('pengajuan_fs','sent')->orwhere('pengajuan_fs','proses')->get();
+        $pkp3 = PkpProject::where('user_fs',Auth::user()->id)->where('pengajuan_fs','done')->orwhere('pengajuan_fs','proses')->get();
         return view('feasibility.FsPKP')->with([
             'pkp' => $pkp,
-            'pkp2' => $pkp2
+            'pkp2' => $pkp2,
+            'pkp3' => $pkp3
         ]);
     }
 }

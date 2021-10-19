@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="row top_tiles">
-  @if(auth()->user()->role->namaRule === 'user_rd_proses')
+  @if(auth()->user()->role->namaRule === 'user_rd_proses' || auth()->user()->role->namaRule === 'maklon' || auth()->user()->role->namaRule === 'lab')
   <a href="{{route('FsPKP')}}" type="button">
   @else
   <a href="{{route('listprojectpkp')}}" type="button">

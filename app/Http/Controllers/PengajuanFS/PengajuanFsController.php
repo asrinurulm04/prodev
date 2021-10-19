@@ -3,16 +3,19 @@
 namespace App\Http\Controllers\PengajuanFS;
 
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\model\users\User;
+use App\model\users\Departement;
 use App\model\pkp\uom;
 use App\model\pkp\Forecast;
 use App\model\pkp\PkpProject;
 use App\model\formula\Formula;
 use App\model\Modelkemas\datakemas;
 use App\model\feasibility\Feasibility;
+use App\model\feasibility\WorkbookFs;
 use App\model\feasibility\FormPengajuanFS;
 use Redirect;
 
@@ -101,10 +104,33 @@ class PengajuanFsController extends Controller
 			}
 		}
 
+        $isipkp = PkpProject::where('id_project',$id_project)->get();
+        $for    = Forecast::where('id_project',$id_project)->get();
+        try{
+            Mail::send('email.infoemailpkp', [
+                'app'  => $isipkp,
+                'for'    => $for,
+                'info' => 'Terdapat Pengajuan Feasibility Untuk Project PKP Berikut! ',
+            ], function ($message) use ($request,$id_project) {
+                $data  = PkpProject::where('id_project',$id_project)->first();
+                $dept  = Departement::where('dept','REA')->first();
+                $user1 = User::where('id',$dept->manager_id)->first();
+                $user2 = User::where('id',$data->perevisi)->first();
+                $message->subject('PRODEV | Pengajuan Feasibility-PKP');
+                $message->to($user1->email);
+                $message->cc($user2->email);
+
+            });
+            return back()->with('status','E-mail Successfully');
+        }
+        catch (Exception $e){
+        return response (['status' => false,'errors' => $e->getMessage()]);
+        }
+
         return redirect::route('rekappkp',[$pkp->id_project,$pkp->id_pkp]);
     }
 
-    public function BatalAjukanFS($id_project,$for){
+    public function BatalAjukanFS(Request $request,$id_project,$for){
         $formula = Formula::where('id',$for)->first();
         $formula->status_feasibility='reject';
         $formula->save();
@@ -116,6 +142,29 @@ class PengajuanFsController extends Controller
         $pkp = PkpProject::where('id_project',$id_project)->first();
         $pkp->feasibility=$pkp->feasibility - 1;
         $pkp->save();
+
+        $isipkp = PkpProject::where('id_project',$id_project)->get();
+        $for    = Forecast::where('id_project',$id_project)->get();
+        try{
+            Mail::send('email.infoemailpkp', [
+                'app'  => $isipkp,
+                'for'    => $for,
+                'info' => 'Pengajuan Feasibility Untuk Project PKP Ini Dibatalkan Oleh PV! ',
+            ], function ($message) use ($request,$id_project) {
+                $data  = PkpProject::where('id_project',$id_project)->first();
+                $dept  = Departement::where('dept','REA')->first();
+                $user1 = User::where('id',$dept->manager_id)->first();
+                $user2 = User::where('id',$data->perevisi)->first();
+                $message->subject('PRODEV | Pengajuan Feasibility-PKP');
+                $message->to($user1->email);
+                $message->cc($user2->email);
+
+            });
+            return back()->with('status','E-mail Successfully');
+        }
+        catch (Exception $e){
+        return response (['status' => false,'errors' => $e->getMessage()]);
+        }
 
         return redirect::route('rekappkp',[$id_project,$formula->workbook_id])->with('status', 'Project canceled!');
     }
@@ -191,6 +240,34 @@ class PengajuanFsController extends Controller
             $fs->lokasi=$request->location;
             $fs->batch_size=$request->batch_size;
             $fs->save();
+
+            $pkp = PkpProject::where('id_project',$fs->id_project)->first();
+            $pkp->pengajuan_fs='proses';
+            $pkp->save();
+
+            $isipkp = PkpProject::where('id_project',$fs->id_project)->get();
+            $for    = Forecast::where('id_project',$fs->id_project)->get();
+            $id     = $fs->id_project;
+            try{
+                Mail::send('email.infoemailpkp', [
+                    'app'  => $isipkp,
+                    'for'    => $for,
+                    'info' => 'Terdapat Pengajuan Feasibility Untuk Project PKP Berikut! ',
+                ], function ($message) use ($request,$id) {
+                    $data       = PkpProject::where('id_project',$id)->first();
+                    $dept       = Departement::where('dept','RKA')->first();
+                    $user1      = User::where('id',$dept->manager_id)->first();
+                    $userLab    = User::where('role_id','11')->first();
+                    $user2      = User::where('id',$data->user_fs)->first();
+                    $message->subject('PRODEV | Pengajuan Feasibility-PKP');
+                    $message->to([$user1->email,$userLab->email]);
+                    $message->cc($user2->email);
+
+                });
+            }
+            catch (Exception $e){
+            return response (['status' => false,'errors' => $e->getMessage()]);
+            }
         }
 
         return redirect::route('listPkpFs',$request->id_project);

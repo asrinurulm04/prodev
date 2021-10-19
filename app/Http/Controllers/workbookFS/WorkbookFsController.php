@@ -13,16 +13,20 @@ use App\model\feasibility\reportRevisi;
 
 class WorkbookFsController extends Controller
 {
-    public function workbookfs($id_project,$for){
-        $ws = WorkbookFs::where('id_project',$id_project)->count();
-        $list = WorkbookFs::where('id_project',$id_project)->where('status','!=','sent')->get();
-        $fs = Feasibility::where('id_project',$id_project)->where('id_wb_fs',NULL)->get();
-        $pkp = PkpProject::where('id_project',$id_project)->first();
+    public function workbookfs($id_project){
+        $ws         = WorkbookFs::where('id_project',$id_project)->where('type','proses')->count();
+        $ws_lab     = WorkbookFs::where('id_project',$id_project)->where('type','lab')->count();
+        $ws_kemas   = WorkbookFs::where('id_project',$id_project)->where('type','kemas')->count();
+        $list       = WorkbookFs::where('id_project',$id_project)->where('status','!=','sent')->get();
+        $fs         = Feasibility::where('id_project',$id_project)->where('id_wb_fs',NULL)->get();
+        $pkp        = PkpProject::where('id_project',$id_project)->first();
         return view('workbookFS.workbook')->with([
-            'pkp' => $pkp,
-            'ws' => $ws,
-            'list' => $list,
-            'fs' => $fs
+            'pkp'       => $pkp,
+            'ws'        => $ws,
+            'ws_lab'    => $ws_lab,
+            'ws_kemas'  => $ws_kemas,
+            'list'      => $list,
+            'fs'        => $fs
         ]);
     }
 

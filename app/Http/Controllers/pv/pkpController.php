@@ -28,6 +28,7 @@ use App\model\master\Teams;
 use App\model\master\Brand;
 use App\model\master\Tarkon;
 use App\model\Modelkemas\datakemas;
+use App\model\feasibility\Feasibility;
 use App\model\users\Departement;
 use App\model\users\User;
 use Auth;
@@ -1490,11 +1491,13 @@ class pkpController extends Controller
         $formula        = Formula::where('workbook_id',$id_pkp)->where('vv','!=','null')->orderBy('versi','asc')->get();
         $id             = PkpProject::where('id_project',$id_project)->first();
         $data           = PkpProject::where('id_project',$id_project)->where('id_pkp',$id_pkp)->where('status_project','active')->get();
+        $fs             = Feasibility::where('status_feasibility','proses')->orwhere('status_feasibility','selesai')->get();
         return view('pkp.daftarpkp')->with([
             'sample' => $sample_project,
             'user'    => $user,
             'formula' => $formula,
             'cf'      => $cf,
+            'fs'      => $fs,
             'id'      => $id,
             'data'    => $data
         ]);

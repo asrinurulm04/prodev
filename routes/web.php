@@ -49,6 +49,7 @@ Route::post('uom','datamaster\masterController@uom')->name('uom');
 Route::post('ses','datamaster\masterController@ses')->name('ses');
 Route::get('datauom','datamaster\masterController@datauom')->name('datauom');
 Route::get('datases','datamaster\masterController@datases')->name('datases');
+Route::get('mesin','datamaster\masterController@mesin')->name('mesin');
 
 Route::get('inactive_supplier/{id}','datamaster\masterController@inactive_supplier')->name('inactive_supplier');
 Route::get('active_supplier/{id}','datamaster\masterController@active_supplier')->name('active_supplier');
@@ -395,6 +396,11 @@ Route::post('overview','PengajuanFS\PengajuanFsController@overview')->name('over
 Route::post('user_fs/{id}','PengajuanFS\PengajuanFsController@user_fs')->name('user_fs');
 
 // Workbook FS
-Route::get('workbookfs/{id}/{for}','workbookFS\WorkbookFsController@workbookfs')->name('workbookfs');
+Route::get('workbookfs/{id}','workbookFS\WorkbookFsController@workbookfs')->name('workbookfs');
 Route::get('info/{id}/{for}','workbookFS\WorkbookFsController@info')->name('info');
 Route::get('reportinfo/{id}','workbookFS\WorkbookFsController@reportinfo')->name('reportinfo');
+
+// Workbook User_Proses
+Route::get('datamesin/{id}','RDproses\MesinController@index')->name('datamesin');
+Route::get('datamesin2/{id}/{ws}','RDproses\MesinController@index2')->name('datamesin2');
+Route::get('dataOH/{id}/{ws}','RDproses\MesinController@dataOH')->name('dataOH');

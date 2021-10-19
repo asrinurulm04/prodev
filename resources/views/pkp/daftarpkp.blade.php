@@ -408,6 +408,99 @@
       </div>
     </div>
   </div>
+  @elseif(auth()->user()->role->namaRule == 'kemas')
+  <div class="col-md-12 col-xs-12">
+    <div class="x_panel">
+      <div class="x_title">
+        <h3><li class="fa fa-list"></li> List Feasibility</h3>
+      </div>
+      <div class="card-block">
+        <div class="dt-responsive table-responsive"><br>
+          <table id="datatable" class="table table-striped table-bordered">
+            <thead>
+              <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
+                <th class="text-center" width="8%">Versi</th>
+                <th class="text-center" width="15%">Kode Formula</th>
+                <th class="text-center" width="12%">Lokasi</th>
+                <th class="text-center" width="12%">Batch Size (g)</th>
+                <th class="text-center" width="8%">Product</th>
+                <th class="text-center" width="8%">Proses</th>
+                <th class="text-center" width="8%">Kemas</th>
+                <th class="text-center" width="8%">Lab</th>
+                <th class="text-center" width="8%">Maklon</th>
+              </tr>
+            </thead>
+            <tbody>
+              @foreach($fs as $fs)
+                <tr>
+                  <td class="text-center">{{$fs->revisi}}.{{$fs->revisi_kemas}}.{{$fs->revisi_proses}}.{{$fs->revisi_produk}}</td>
+                  <td>{{$fs->workbook->formula}}</td>
+                  <td class="text-center">{{$fs->lokasi}}</td>
+                  <td>{{$fs->batchsize}}</td>
+                  <!-- Action user product -->
+                  <td class="text-center">
+                    @if($fs->status_product=='ajukan')
+                      <a href="{{route('workbookfs',[$fs->id_project,$fs->id_formula])}}" class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
+                    @else
+                      <a href="{{ route('formula.detail',[$fs->workbook->id,$fs->id_project,$fs->workbook->workbook_id]) }}" class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-edit"></li></a>
+                    @endif  
+                  </td>
+                  <!-- Action user Proses -->
+                  <td class="text-center">
+                    @if($fs->status_proses=='ajukan')
+                      <a disabled class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
+                    @elseif($fs->status_proses=='proses')
+                      <a disabled class="btn btn-sm btn-info" type="button" title="show"><li class="fa fa-warning"></li></a>
+                    @elseif($fs->status_proses=='selesai')
+                      <a disabled class="btn btn-sm btn-info" type="button" title="show"><li class="fa fa-warning"></li></a>
+                    @elseif($fs->status_proses=='sending')
+                      <a disabled class="btn btn-sm btn-dark" type="button" title="not request"><li class="fa fa-warning"></li></a>
+                    @endif
+                  </td>
+                  <!-- Action user Kemas -->
+                  <td class="text-center">
+                    @if($fs->status_kemas=='ajukan')
+                      <a href=" {{route('workbookfs',[$fs->id_project,$fs->id_formula])}}" class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
+                    @elseif($fs->status_kemas=='proses')
+                      <a href="{{ route('formula.detail',[$fs->workbook->id,$fs->id_project,$fs->workbook->workbook_id]) }}" class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-edit"></li></a>
+                    @elseif($fs->status_kemas=='selesai')
+                      <a href="{{ route('formula.detail',[$fs->workbook->id,$fs->id_project,$fs->workbook->workbook_id]) }}" class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-folder"></li></a>
+                    @elseif($fs->status_kemas=='sending')
+                      <a href="{{ route('formula.detail',[$fs->workbook->id,$fs->id_project,$fs->workbook->workbook_id]) }}" class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-folder"></li></a>
+                    @endif 
+                  </td>
+                  <!-- Action user Lab -->
+                  <td class="text-center">
+                    @if($fs->status_lab=='ajukan')
+                      <a disabled class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
+                    @elseif($fs->status_lab=='proses')
+                      <a disabled class="btn btn-sm btn-info" type="button" title="show"><li class="fa fa-warning"></li></a>
+                    @elseif($fs->status_lab=='selesai')
+                      <a disabled class="btn btn-sm btn-info" type="button" title="show"><li class="fa fa-warning"></li></a>
+                    @elseif($fs->status_lab=='sending')
+                      <a href="{{ route('formula.detail',[$fs->workbook->id,$fs->id_project,$fs->workbook->workbook_id]) }}" class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-folder"></li></a>
+                    @endif
+                  </td>
+                  <!-- Action user Maklon -->
+                  <td class="text-center">
+                    @if($fs->status_maklon=='ajukan')
+                      <a disabled class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
+                    @elseif($fs->status_maklon=='proses')
+                      <a disabled class="btn btn-sm btn-info" type="button" title="show"><li class="fa fa-warning"></li></a>
+                    @elseif($fs->status_maklon=='selesai')
+                      <a disabled class="btn btn-sm btn-info" type="button" title="show"><li class="fa fa-warning"></li></a>
+                    @elseif($fs->status_maklon=='sending')
+                      <a href="{{ route('formula.detail',[$fs->workbook->id,$fs->id_project,$fs->workbook->workbook_id]) }}" class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-folder"></li></a>
+                    @endif 
+                  </td>
+                </tr>
+              @endforeach
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
   @endif
 </div>
 

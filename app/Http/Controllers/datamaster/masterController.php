@@ -17,6 +17,8 @@ use App\model\nutfact\BPOM;
 use App\model\nutfact\mikroba;
 use App\model\nutfact\Allergen;
 use App\model\Modelkemas\datakemas;
+use App\model\Modelmesin\dataOH;
+use App\model\Modelmesin\DataMesin;
 use DB;
 use Auth;
 use Redirect;
@@ -267,5 +269,12 @@ class masterController extends Controller
         $ses->save();
 
         return redirect::back();
+    }
+
+    public function mesin(){
+        $mesin = DataMesin::select('workcenter','kategori','IO','nama_mesin')->get();
+        return view('datamaster.mesin')->with([
+            'mesin' => $mesin
+        ]);
     }
 }

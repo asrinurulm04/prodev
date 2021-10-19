@@ -54,6 +54,23 @@
               </tr>
             @endforeach
           </tbody>
+          @elseif(auth()->user()->role->namaRule === 'maklon' || auth()->user()->role->namaRule === 'lab')
+          <tbody>
+            @php $no = 0; @endphp
+            @foreach($pkp3 as $pkp)
+              <tr>
+                <td class="text-center">{{++$no}}</td>
+                <td>{{$pkp->pkp_number}}{{$pkp->ket_no}}</td>
+                <td>{{$pkp->project_name}}</td>
+                <td>{{$pkp->id_brand}}</td>
+                <td>{{$pkp->perevisi2->name}}</td>
+                <td>{{$pkp->tgl_pengajuan_fs}}</td>
+                <td class="text-center">
+									<a href="{{route('listPkpFs',$pkp->id_project)}}" class="btn-info btn-sm btn" type="button"><li class="fa fa-folder"></li></a>
+								</td>
+              </tr>
+            @endforeach
+          </tbody>
           @endif
         </table>
       </div>

@@ -208,14 +208,14 @@ class LoginController extends Controller
             'status' => 'active',
             'role_id' => 11
         ])){
-            return redirect()->route('formula.feasibility');        }
+            return redirect()->route('dasboardawal');        }
         elseif(Auth::attempt([
             'username' =>$request->inputEmailUser,
             'password' => $request->password,
             'status' => 'active',
             'role_id' => 11
         ])){
-            return redirect()->route('formula.feasibility');        }
+            return redirect()->route('dasboardawal');        }
 
         //MANAGER============================================================================================
         if(Auth::attempt([
@@ -272,14 +272,14 @@ class LoginController extends Controller
             'status' => 'active',
             'role_id' => 15
         ])){
-            return redirect()->route('dasboardmaklon');        }
+            return redirect()->route('dasboardawal');        }
         elseif(Auth::attempt([
             'username' =>$request->inputEmailUser,
             'password' => $request->password,
             'status' => 'active',
             'role_id' => 15
         ])){
-            return redirect()->route('dasboardmaklon');        }
+            return redirect()->route('dasboardawal');        }
 
         //Gagal==========================================================================================
         else{

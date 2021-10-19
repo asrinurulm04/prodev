@@ -202,7 +202,7 @@
                       <li><a href="{{ route('principal') }}">Principle</a></li>
                     </ul>
                   </li>
-                  @elseif(auth()->user()->role->namaRule === 'user_rd_proses')
+                  @elseif(auth()->user()->role->namaRule === 'user_rd_proses' || auth()->user()->role->namaRule === 'maklon'  || auth()->user()->role->namaRule === 'lab')
                   <li><a><i class="fa fa-cogs"></i> Feasibility <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="{{Route('FsPKP')}}">List FS PKP</a> </li>
@@ -217,15 +217,11 @@
                   </li>
                   <li><a><i class="fa fa-book"></i> Master Data <span class="label label-success"></span> <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="{{ route('datapangan') }}">Microbiology</a></li>
-                      <li><a href="{{ route('sku') }}">Active SKU</a></li>
-                      <li><a href="{{ route('klaim') }}">Claim Regulation</a></li>
                       <li><a href="{{ route('allergen') }}">Allergen</a></li>
-                      <li><a href="{{ route('curren.index') }}">Currency</a></li>
                       <li><a href="{{ route('bahanbaku') }}">Bahan Baku Eksis</a></li>
                       <li><a href="{{ route('bahan_rd') }}">Bahan Baku RD</a></li>
-                      <li><a href="{{ route('supplier') }}">Supplier</a></li>
-                      <li><a href="{{ route('principal') }}">Principle</a></li>
+                      <li><a href="{{ route('mesin') }}">Data Mesin</a></li>
+                      <li><a href="{{ route('principal') }}">OH Aktifitas</a></li>
                     </ul>
                   </li>
                   @elseif(auth()->user()->role->namaRule === 'manager')

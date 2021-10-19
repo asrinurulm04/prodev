@@ -66,23 +66,19 @@
                 </td>
                 <!-- Action user product -->
                 <td class="text-center">
-                  @if($fs->status_product=='ajukan')
-                    <a href="{{route('workbookfs',[$fs->id_project,$fs->id_formula])}}" class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
-                  @elseif($fs->status_product=='proses')
+                  @if($fs->status_product=='proses')
                     <a href="{{ route('formula.detail',[$fs->workbook->id,$fs->id_project,$fs->workbook->workbook_id]) }}" class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-edit"></li></a>
                   @elseif($fs->status_product=='selesai')
                     <a href="{{ route('formula.detail',[$fs->workbook->id,$fs->id_project,$fs->workbook->workbook_id]) }}" class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-folder"></li></a>
                   @elseif($fs->status_product=='sending')
                     <a href="{{ route('formula.detail',[$fs->workbook->id,$fs->id_project,$fs->workbook->workbook_id]) }}" class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-folder"></li></a>
-                  @else
-                    <a disabled class="btn btn-sm btn-dark" type="button" title="not request"><li class="fa fa-warning"></li></a>
                   @endif  
                 </td>
                 <!-- Action user Proses -->
                 <td class="text-center">
                   @if($fs->status_proses=='ajukan')
                     @if(auth()->user()->role->namaRule === 'user_rd_proses' || auth()->user()->role->namaRule === 'manager')
-                    <a href=" {{route('workbookfs',[$fs->id_project,$fs->id_formula])}}" class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
+                    <a href=" {{route('workbookfs',$fs->id_project)}}" class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
                     @else
                     <a disabled class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
                     @endif
@@ -100,15 +96,13 @@
                     @endif
                   @elseif($fs->status_proses=='sending')
                     <a href="{{ route('formula.detail',[$fs->workbook->id,$fs->id_project,$fs->workbook->workbook_id]) }}" class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-folder"></li></a>
-                  @else
-                    <a disabled class="btn btn-sm btn-dark" type="button" title="not request"><li class="fa fa-warning"></li></a>
                   @endif 
                 </td>
                 <!-- Action user Kemas -->
                 <td class="text-center">
                   @if($fs->status_kemas=='ajukan')
                     @if(auth()->user()->role->namaRule === 'kemas')
-                    <a href=" {{route('workbookfs',[$fs->id_project,$fs->id_formula])}}" class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
+                    <a href=" {{route('workbookfs',$fs->id_project)}}" class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
                     @else
                     <a disabled class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
                     @endif
@@ -126,15 +120,13 @@
                     @endif
                   @elseif($fs->status_kemas=='sending')
                     <a href="{{ route('formula.detail',[$fs->workbook->id,$fs->id_project,$fs->workbook->workbook_id]) }}" class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-folder"></li></a>
-                  @else
-                    <a disabled class="btn btn-sm btn-dark" type="button" title="not request"><li class="fa fa-warning"></li></a>
                   @endif 
                 </td>
                 <!-- Action user Lab -->
                 <td class="text-center">
                   @if($fs->status_lab=='ajukan')
                     @if(auth()->user()->role->namaRule === 'lab')
-                    <a href=" {{route('workbookfs',[$fs->id_project,$fs->id_formula])}}" class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
+                    <a href=" {{route('workbookfs',$fs->id_project)}}" class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
                     @else
                     <a disabled class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
                     @endif
@@ -152,34 +144,24 @@
                     @endif
                   @elseif($fs->status_lab=='sending')
                     <a href="{{ route('formula.detail',[$fs->workbook->id,$fs->id_project,$fs->workbook->workbook_id]) }}" class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-folder"></li></a>
-                  @else
-                    <a disabled class="btn btn-sm btn-dark" type="button" title="not request"><li class="fa fa-warning"></li></a>
                   @endif
                 </td>
                 <!-- Action user Maklon -->
                 <td class="text-center">
                   @if($fs->status_maklon=='ajukan')
-                    @if(auth()->user()->role->namaRule === 'user_rd_proses' || auth()->user()->role->namaRule === 'manager')
-                    <a href=" {{route('workbookfs',[$fs->id_project,$fs->id_formula])}}" class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
+                    @if(auth()->user()->role->namaRule === 'user_rd_proses' || auth()->user()->role->namaRule === 'manager' || auth()->user()->role->namaRule === 'maklon')
+                    <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#maklon{{$fs->id}}"><li class="fa fa-warning"></li></button>
                     @else
                     <a disabled class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
                     @endif
-                  @elseif($fs->status_maklon=='proses')
-                    @if(auth()->user()->role->namaRule === 'user_rd_proses' || auth()->user()->role->namaRule === 'manager')
-                    <a href="{{ route('formula.detail',[$fs->workbook->id,$fs->id_project,$fs->workbook->workbook_id]) }}" class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-edit"></li></a>
-                    @else
-                    <a disabled class="btn btn-sm btn-info" type="button" title="show"><li class="fa fa-warning"></li></a>
-                    @endif
-                  @elseif($fs->status_maklon=='selesai')
-                    @if(auth()->user()->role->namaRule === 'user_rd_proses' || auth()->user()->role->namaRule === 'manager')
-                    <a href="{{ route('formula.detail',[$fs->workbook->id,$fs->id_project,$fs->workbook->workbook_id]) }}" class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-folder"></li></a>
+                  @elseif($fs->status_maklon=='proses' || $fs->status_maklon=='selesai')
+                    @if(auth()->user()->role->namaRule === 'user_rd_proses' || auth()->user()->role->namaRule === 'manager' || auth()->user()->role->namaRule === 'maklon')
+                    <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#maklon2{{$fs->id}}"><li class="fa fa-warning"></li></button>
                     @else
                     <a disabled class="btn btn-sm btn-info" type="button" title="show"><li class="fa fa-warning"></li></a>
                     @endif
                   @elseif($fs->status_maklon=='sending')
-                    <a href="{{ route('formula.detail',[$fs->workbook->id,$fs->id_project,$fs->workbook->workbook_id]) }}" class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-folder"></li></a>
-                  @else
-                    <a disabled class="btn btn-sm btn-dark" type="button" title="not request"><li class="fa fa-warning"></li></a>
+                    <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#maklon2{{$fs->id}}"><li class="fa fa-warning"></li></button>
                   @endif 
                 </td>
               </tr>
@@ -218,6 +200,104 @@
         </div><br>
         <div class="modal-footer">
           <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-paper-plane"></i> Assign</button>
+          {{ csrf_field() }}
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal Selesai -->
+
+<!-- modal maklon-->
+<div class="modal" id="maklon{{$fs->id}}"" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog " role="document">
+    <div class="modal-content">
+      <div class="modal-header">                 
+        <center><h3 class="modal-title" id="exampleModalLabel">Data Maklon 
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button></h3></center>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal form-label-left" method="POST" action="" novalidate>
+        <div class="form-group row">
+          <label class="control-label text-bold col-md-3 col-sm-3 col-xs-12 text-center"> Biaya Maklon/UOM</label>
+          <div class="col-md-4 col-sm-4 col-xs-12">
+            <input type="text" class="form-control" name="" id="">
+          </div>
+          <label class="control-label text-bold col-md-1 col-sm-1 col-xs-12 text-center">Satuan</label>
+          <div class="col-md-4 col-sm-4 col-xs-12">
+            <input type="text" class="form-control" name="" id="">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="control-label text-bold col-md-3 col-sm-3 col-xs-12 text-center">Remarks</label>
+          <div class="col-md-9 col-sm-9 col-xs-12">
+            <input type="text" class="form-control" name="" id="">
+          </div>
+        </div><div class="form-group row">
+          <label class="control-label text-bold col-md-3 col-sm-3 col-xs-12 text-center">Biaya Transport</label>
+          <div class="col-md-9 col-sm-9 col-xs-12">
+            <input type="text" class="form-control" name="" id="">
+          </div>
+        </div><div class="form-group row">
+          <label class="control-label text-bold col-md-3 col-sm-3 col-xs-12 text-center">Remarks</label>
+          <div class="col-md-9 col-sm-9 col-xs-12">
+            <input type="text" class="form-control" name="" id="">
+          </div>
+        </div><br>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-check"></i> Submit</button>
+          {{ csrf_field() }}
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal Selesai -->
+
+<!-- modal maklon detail-->
+<div class="modal" id="maklon2{{$fs->id}}"" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog " role="document">
+    <div class="modal-content">
+      <div class="modal-header">                 
+        <center><h3 class="modal-title" id="exampleModalLabel">Data Maklon 
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button></h3></center>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal form-label-left" method="POST" action="" novalidate>
+        <div class="form-group row">
+          <label class="control-label text-bold col-md-3 col-sm-3 col-xs-12 text-center"> Biaya Maklon/UOM</label>
+          <div class="col-md-4 col-sm-4 col-xs-12">
+            <input type="text" class="form-control" name="" id="">
+          </div>
+          <label class="control-label text-bold col-md-1 col-sm-1 col-xs-12 text-center">Satuan</label>
+          <div class="col-md-4 col-sm-4 col-xs-12">
+            <input type="text" class="form-control" name="" id="">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="control-label text-bold col-md-3 col-sm-3 col-xs-12 text-center">Remarks</label>
+          <div class="col-md-9 col-sm-9 col-xs-12">
+            <input type="text" class="form-control" name="" id="">
+          </div>
+        </div><div class="form-group row">
+          <label class="control-label text-bold col-md-3 col-sm-3 col-xs-12 text-center">Biaya Transport</label>
+          <div class="col-md-9 col-sm-9 col-xs-12">
+            <input type="text" class="form-control" name="" id="">
+          </div>
+        </div><div class="form-group row">
+          <label class="control-label text-bold col-md-3 col-sm-3 col-xs-12 text-center">Remarks</label>
+          <div class="col-md-9 col-sm-9 col-xs-12">
+            <input type="text" class="form-control" name="" id="">
+          </div>
+        </div><br>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-check"></i> Submit</button>
           {{ csrf_field() }}
         </div>
         </form>
