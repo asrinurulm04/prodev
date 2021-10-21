@@ -1,11 +1,10 @@
 @extends('layout.tempvv')
 @section('title', 'feasibility|Kemas')
 @section('content')
-
     <div class="x_panel">
       <div class="col-md-6"><h4><li class="fa fa-list"></li> Kemas </h4></div>
       <div class="col-md-6" align="right">
-        <a href="{{ route('listPkpFs',$pkp->id_project)}}" class="btn btn-danger btn-sm" type="button"><li class="fa fa-arrow-left"></li> Back</a>
+        <a href="{{ route('workbookfs',$pkp->id_project)}}" class="btn btn-danger btn-sm" type="button"><li class="fa fa-arrow-left"></li> Back</a>
       </div><hr><hr>
 	    <div class="col-md-6 col-sm-6 col-xs-12 content-panel">
   		  <table>

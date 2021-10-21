@@ -19,6 +19,8 @@ use App\model\nutfact\Allergen;
 use App\model\Modelkemas\datakemas;
 use App\model\Modelmesin\dataOH;
 use App\model\Modelmesin\DataMesin;
+use App\model\Modelmesin\IO;
+use App\model\Modelmesin\workcenter;
 use DB;
 use Auth;
 use Redirect;
@@ -273,8 +275,12 @@ class masterController extends Controller
 
     public function mesin(){
         $mesin = DataMesin::select('workcenter','kategori','IO','nama_mesin')->get();
+        $IO = IO::all();
+        $ws = workcenter::all();
         return view('datamaster.mesin')->with([
-            'mesin' => $mesin
+            'mesin' => $mesin,
+            'IO'    => $IO,
+            'ws'    => $ws
         ]);
     }
 
@@ -283,5 +289,29 @@ class masterController extends Controller
         return view('datamaster.oh')->with([
             'oh' => $oh
         ]);
+    }
+
+    public function addmesin(Request $request){
+        $mesin  = new DataMesin;
+        $mesin->workcenter=$request->workcenter;
+        $mesin->kategori=$request->kategori;
+        $mesin->IO=$request->io;
+        $mesin->nama_mesin=$request->mesin;
+        $mesin->jlh_line=$request->line;
+        $mesin->save();
+
+        return redirect::back()->with('status','Successfully');
+    }
+
+    public function addOh(Request $request){
+        $oh  = new dataOH;
+        $oh->workcenter=$request->workcenter;
+        $oh->type=$request->kategori;
+        $oh->line=$request->line;
+        $oh->mesin=$request->mesin;
+        $oh->aktifitas=$request->line;
+        $oh->save();
+
+        return redirect::back()->with('status','Successfully');
     }
 }

@@ -3,6 +3,24 @@
 @section('content')
 
 <div class="row">
+  @if (session('status'))
+  <div class="col-lg-12 col-md-12 col-sm-12">
+    <div class="alert alert-success">
+    	<button type="button" class="close" data-dismiss="alert">×</button>
+      {{ session('status') }}
+    </div>
+  </div>
+  @elseif(session('error'))
+  <div class="col-lg-12 col-md-12 col-sm-12">
+    <div class="alert alert-danger">
+    	<button type="button" class="close" data-dismiss="alert">×</button>
+      {{ session('error') }}
+    </div>
+  </div>
+  @endif
+</div>
+
+<div class="row">
 	<div class="col-md-6 col-sm-12 col-xs-12">
 		<div class="x_panel">
 			<div class="x_title">
@@ -38,45 +56,55 @@
 			<div class="x_title">
 				<h3><li class="fa fa-cogs"></li> Create New Mesin</h3>
 			</div>
-			<form class="form-horizontal form-label-left" method="POST" action="{{ route('add_principal') }}">
+			<form class="form-horizontal form-label-left" method="POST" action="{{ route('addmesin') }}">
       <div class="card-block">
         <div class="x_content">
         	<?php $last = Date('j-F-Y'); ?>
           <input id="last" value="{{ $last }}" class="form-control col-md-12 col-xs-12" name="last" type="hidden">
           <div class="form-group row">
-            <label class="control-label col-md-2 col-sm-3 col-xs-12">workcenter</label>
+            <label class="control-label col-md-2 col-sm-3 col-xs-12">Workcenter *</label>
             <div class="col-md-9 col-sm-9 col-xs-12">
-          		<input id="name" class="form-control col-md-12 col-xs-12" name="name" type="text">
+							<select name="workcenter" id="workcenter" class="form-control" required>
+								<option disabled selected>->Select One<-</option>
+								@foreach($ws as $ws)
+								<option value="{{$ws->workcenter}}">{{$ws->workcenter}}</option>
+								@endforeach
+							</select>
             </div>
           </div>
           <div class="form-group row">
-            <label class="control-label col-md-2 col-sm-3 col-xs-12">kategori</label>
+            <label class="control-label col-md-2 col-sm-3 col-xs-12">kategori *</label>
             <div class="col-md-9 col-sm-9 col-xs-12">
-							<input id="name" class="form-control col-md-12 col-xs-12" name="name" type="text">
+							<input id="kategori" class="form-control col-md-12 col-xs-12" name="kategori" type="text" required>
             </div>
           </div>
           <div class="form-group row">
-            <label class="control-label col-md-2 col-sm-3 col-xs-12">IO</label>
+            <label class="control-label col-md-2 col-sm-3 col-xs-12">IO *</label>
             <div class="col-md-9 col-sm-9 col-xs-12">
-          		<input id="email" class="form-control col-md-12 col-xs-12" name="email" type="text">
+							<select name="io" id="io" class="form-control" required>
+								<option disabled selected>->Select One<-</option>
+								@foreach($IO as $io)
+								<option value="{{$io->io}}">{{$io->io}}</option>
+								@endforeach
+							</select>
             </div>
           </div>
 					<div class="form-group row">
             <label class="control-label col-md-2 col-sm-3 col-xs-12">aktifitas</label>
             <div class="col-md-9 col-sm-9 col-xs-12">
-          		<input id="name" class="form-control col-md-12 col-xs-12" name="name" type="text">
+          		<input id="aktifitas" class="form-control col-md-12 col-xs-12" name="aktifitas" type="text">
             </div>
           </div>
           <div class="form-group row">
-            <label class="control-label col-md-2 col-sm-3 col-xs-12">Mesin</label>
+            <label class="control-label col-md-2 col-sm-3 col-xs-12">Mesin *</label>
             <div class="col-md-9 col-sm-9 col-xs-12">
-							<input id="name" class="form-control col-md-12 col-xs-12" name="name" type="text">
+							<input id="mesin" class="form-control col-md-12 col-xs-12" name="mesin" type="text" required>
             </div>
           </div>
           <div class="form-group row">
             <label class="control-label col-md-2 col-sm-3 col-xs-12">Line</label>
             <div class="col-md-9 col-sm-9 col-xs-12">
-          		<input id="email" class="form-control col-md-12 col-xs-12" name="email" type="text">
+          		<input id="line" class="form-control col-md-12 col-xs-12" name="line" type="number">
             </div>
           </div><hr>
 					<div class="card-block col-md-5 col-md-offset-5">

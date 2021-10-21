@@ -20,7 +20,7 @@
         @if(auth()->user()->role->namaRule === 'user_rd_proses' && $ws=='0')
 				<a class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="tambah Data" href="{{route('datamesin',$pkp->id_project)}}"><li class="fa fa-plus"></li> Add</a>
 				@elseif(auth()->user()->role->namaRule === 'kemas' && $ws_kemas=='0')
-				<a class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="tambah Data" href="{{route('datamesin',$pkp->id_project)}}"><li class="fa fa-plus"></li> Add</a>
+				<a class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="tambah Data" href="{{route('datakemas',$pkp->id_project)}}"><li class="fa fa-plus"></li> Add</a>
 				@elseif(auth()->user()->role->namaRule === 'lab' && $ws_lab=='0')
 				<a class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="tambah Data" href="{{route('datalab',$pkp->id_project)}}"><li class="fa fa-plus"></li> Add</a>
 				@endif
@@ -59,7 +59,7 @@
 							@if(auth()->user()->role->namaRule === 'user_rd_proses' && $ws=='0')
               <a class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="tambah Data" href="{{route('datamesin',[$pkp->id_project,$list->id])}}"><li class="fa fa-plus"></li> Add</a>
               @elseif(auth()->user()->role->namaRule === 'kemas' && $ws_kemas=='0')
-              <a class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="tambah Data" href="{{route('datamesin',[$pkp->id_project,$list->id])}}"><li class="fa fa-plus"></li> Add</a>
+              <a class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="tambah Data" href="{{route('datakemas',[$pkp->id_project,$list->id])}}"><li class="fa fa-plus"></li> Add</a>
               @elseif(auth()->user()->role->namaRule === 'lab' && $ws_lab=='0')
               <a class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="tambah Data" href="{{route('datalab',$pkp->id_project)}}"><li class="fa fa-plus"></li> Add</a>
               @endif

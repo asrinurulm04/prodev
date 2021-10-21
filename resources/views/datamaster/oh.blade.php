@@ -3,6 +3,24 @@
 @section('content')
 
 <div class="row">
+  @if (session('status'))
+  <div class="col-lg-12 col-md-12 col-sm-12">
+    <div class="alert alert-success">
+    	<button type="button" class="close" data-dismiss="alert">×</button>
+      {{ session('status') }}
+    </div>
+  </div>
+  @elseif(session('error'))
+  <div class="col-lg-12 col-md-12 col-sm-12">
+    <div class="alert alert-danger">
+    	<button type="button" class="close" data-dismiss="alert">×</button>
+      {{ session('error') }}
+    </div>
+  </div>
+  @endif
+</div>
+
+<div class="row">
 	<div class="col-md-6 col-sm-12 col-xs-12">
 		<div class="x_panel">
 			<div class="x_title">
@@ -38,39 +56,43 @@
 			<div class="x_title">
 				<h3><li class="fa fa-cogs"></li> Create New OH</h3>
 			</div>
-			<form class="form-horizontal form-label-left" method="POST" action="{{ route('add_principal') }}">
+			<form class="form-horizontal form-label-left" method="POST" action="{{ route('addoh') }}">
       <div class="card-block">
         <div class="x_content">
-        	<?php $last = Date('j-F-Y'); ?>
-          <input id="last" value="{{ $last }}" class="form-control col-md-12 col-xs-12" name="last" type="hidden">
           <div class="form-group row">
             <label class="control-label col-md-2 col-sm-3 col-xs-12">workcenter</label>
             <div class="col-md-9 col-sm-9 col-xs-12">
-          		<input id="name" class="form-control col-md-12 col-xs-12" name="name" type="text">
+          		<input id="workcenter" class="form-control col-md-12 col-xs-12" name="workcenter" type="text" required>
             </div>
           </div>
-          <div class="form-group row">
-            <label class="control-label col-md-2 col-sm-3 col-xs-12">type</label>
+					<div class="form-group row">
+            <label class="control-label col-md-2 col-sm-3 col-xs-12">Kategori</label>
             <div class="col-md-9 col-sm-9 col-xs-12">
-							<input id="name" class="form-control col-md-12 col-xs-12" name="name" type="text">
+							<select name="kategori" id="kategori" class="form-control" required>
+								<option disabled selected>->Select One<-</option>
+								<option value="Filling">Filling</option>
+								<option value="Packing">Packing</option>
+								<option value="Mixing">Mixing</option>
+								<option value="Maklon">Maklon</option>
+							</select>
             </div>
           </div>
 					<div class="form-group row">
             <label class="control-label col-md-2 col-sm-3 col-xs-12">aktifitas</label>
             <div class="col-md-9 col-sm-9 col-xs-12">
-          		<input id="name" class="form-control col-md-12 col-xs-12" name="name" type="text">
+          		<input id="aktifitas" class="form-control col-md-12 col-xs-12" name="aktifitas" type="text" required>
             </div>
           </div>
           <div class="form-group row">
             <label class="control-label col-md-2 col-sm-3 col-xs-12">Mesin</label>
             <div class="col-md-9 col-sm-9 col-xs-12">
-							<input id="name" class="form-control col-md-12 col-xs-12" name="name" type="text">
+							<input id="mesin" class="form-control col-md-12 col-xs-12" name="mesin" type="text" required>
             </div>
           </div>
           <div class="form-group row">
             <label class="control-label col-md-2 col-sm-3 col-xs-12">Line</label>
             <div class="col-md-9 col-sm-9 col-xs-12">
-          		<input id="email" class="form-control col-md-12 col-xs-12" name="email" type="text">
+          		<input id="line" class="form-control col-md-12 col-xs-12" name="line" type="number" required>
             </div>
           </div><hr>
 					<div class="card-block col-md-5 col-md-offset-5">

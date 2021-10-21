@@ -41,6 +41,8 @@ Route::post('edit_allergen/{id}','datamaster\masterController@edit_allergen')->n
 Route::post('edit_principal/{id}','datamaster\masterController@edit_principal')->name('edit_principal');
 Route::post('edit_supplier/{id}','datamaster\masterController@edit_supplier')->name('edit_supplier');
 Route::post('tambahsku','datamaster\masterController@tambahsku')->name('tambahsku');
+Route::post('addmesin','datamaster\masterController@addmesin')->name('addmesin');
+Route::post('addoh','datamaster\masterController@addoh')->name('addoh');
 
 Route::post('add_allergen','datamaster\masterController@add_allergen')->name('add_allergen');
 Route::post('add_principal','datamaster\masterController@add_principal')->name('add_principal');
@@ -405,6 +407,7 @@ Route::get('reportinfo/{id}','workbookFS\WorkbookFsController@reportinfo')->name
 Route::get('datamesin/{id}','RDproses\MesinController@index')->name('datamesin');
 Route::get('datamesin2/{id}/{ws}','RDproses\MesinController@index2')->name('datamesin2');
 Route::get('dataOH/{id}/{ws}','RDproses\MesinController@dataOH')->name('dataOH');
+Route::get('AllergenBaru/{id}/{ws}','RDproses\MesinController@AllergenBaru')->name('AllergenBaru');
 
 // Workbook Lab
 Route::get('datalab/{id}','lab\LabController@index')->name('datalab');
@@ -412,3 +415,6 @@ Route::get('AddItem/{id}','lab\LabController@AddItem')->name('AddItem');
 
 // Workbook Kemas
 Route::get('datakemas/{id}','RDkemas\KonsepController@index')->name('datakemas');
+
+// Workbook Maklon
+Route::Post('FsMaklon/{fs}','Maklon\MaklonController@FsMaklon')->name('FsMaklon');

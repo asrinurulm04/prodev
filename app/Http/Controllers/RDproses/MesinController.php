@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use App\model\Modelmesin\Mesin;
 use App\model\Modelmesin\dataOH;
 use App\model\Modelmesin\OH;
+use App\model\Modelmesin\IO;
 use App\model\Modelmesin\DataMesin;
 use App\model\modelkemas\KonsepKemas;
 use App\model\Modelkemas\FormulaKemas;
@@ -54,6 +55,13 @@ class MesinController extends Controller
             'id'            => $id,
             'messin'        => $messin
             ]);
+    }
+
+    public function AllergenBaru($id,$ws){
+        $pkp    = PkpProject::where('id_project',$id)->first();
+        return view('RDproses.allergenBaru')->with([
+            'pkp'   => $pkp
+        ]);
     }
 
     public function status(Request $request,$id, $id_feasibility){

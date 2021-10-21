@@ -182,31 +182,32 @@
         </button></h3></center>
       </div>
       <div class="modal-body">
-        <form class="form-horizontal form-label-left" method="POST" action="" novalidate>
+        <form class="form-horizontal form-label-left" method="POST" action="{{route('FsMaklon',$fs->id)}}">
+          <input type="text" value="{{$fs->id}}" name="id_fs" id="id_fs">
         <div class="form-group row">
-          <label class="control-label text-bold col-md-3 col-sm-3 col-xs-12 text-center"> Biaya Maklon/UOM</label>
+          <label class="control-label text-bold col-md-3 col-sm-3 col-xs-12 text-center"> Biaya Maklon/UOM*</label>
           <div class="col-md-4 col-sm-4 col-xs-12">
-            <input type="text" class="form-control" name="" id="">
+            <input type="number" class="form-control" name="biaya" id="biaya" required>
           </div>
-          <label class="control-label text-bold col-md-1 col-sm-1 col-xs-12 text-center">Satuan</label>
+          <label class="control-label text-bold col-md-1 col-sm-1 col-xs-12 text-center">Satuan*</label>
           <div class="col-md-4 col-sm-4 col-xs-12">
-            <input type="text" class="form-control" name="" id="">
+            <input type="text" class="form-control" name="satuan" id="satuan" required>
           </div>
         </div>
         <div class="form-group row">
           <label class="control-label text-bold col-md-3 col-sm-3 col-xs-12 text-center">Remarks</label>
           <div class="col-md-9 col-sm-9 col-xs-12">
-            <input type="text" class="form-control" name="" id="">
+            <input type="text" class="form-control" name="remarks_biaya" id="remarks_biaya">
           </div>
         </div><div class="form-group row">
-          <label class="control-label text-bold col-md-3 col-sm-3 col-xs-12 text-center">Biaya Transport</label>
+          <label class="control-label text-bold col-md-3 col-sm-3 col-xs-12 text-center">Biaya Transport*</label>
           <div class="col-md-9 col-sm-9 col-xs-12">
-            <input type="text" class="form-control" name="" id="">
+            <input type="number" class="form-control" name="transportasi" id="transportasi" required>
           </div>
         </div><div class="form-group row">
           <label class="control-label text-bold col-md-3 col-sm-3 col-xs-12 text-center">Remarks</label>
           <div class="col-md-9 col-sm-9 col-xs-12">
-            <input type="text" class="form-control" name="" id="">
+            <input type="text" class="form-control" name="remarks_transport" id="remarks_transport">
           </div>
         </div><br>
         <div class="modal-footer">
@@ -231,38 +232,36 @@
         </button></h3></center>
       </div>
       <div class="modal-body">
-        <form class="form-horizontal form-label-left" method="POST" action="" novalidate>
+        @foreach($maklon as $maklon)
+        @if($maklon->id_fs==$fs->id)
         <div class="form-group row">
           <label class="control-label text-bold col-md-3 col-sm-3 col-xs-12 text-center"> Biaya Maklon/UOM</label>
           <div class="col-md-4 col-sm-4 col-xs-12">
-            <input type="text" class="form-control" name="" id="">
+            <input type="number" class="form-control" value="{{$maklon->biaya_maklon}}" name="" id="" readonly>
           </div>
           <label class="control-label text-bold col-md-1 col-sm-1 col-xs-12 text-center">Satuan</label>
           <div class="col-md-4 col-sm-4 col-xs-12">
-            <input type="text" class="form-control" name="" id="">
+            <input type="text" class="form-control" value="{{$maklon->satuan}}" name="" id="" readonly>
           </div>
         </div>
         <div class="form-group row">
           <label class="control-label text-bold col-md-3 col-sm-3 col-xs-12 text-center">Remarks</label>
           <div class="col-md-9 col-sm-9 col-xs-12">
-            <input type="text" class="form-control" name="" id="">
+            <input type="text" class="form-control" value="{{$maklon->remarks_biaya}}" name="" id="" readonly>
           </div>
         </div><div class="form-group row">
           <label class="control-label text-bold col-md-3 col-sm-3 col-xs-12 text-center">Biaya Transport</label>
           <div class="col-md-9 col-sm-9 col-xs-12">
-            <input type="text" class="form-control" name="" id="">
+            <input type="number" class="form-control" value="{{$maklon->biaya_transport}}" name="" id="" readonly>
           </div>
         </div><div class="form-group row">
           <label class="control-label text-bold col-md-3 col-sm-3 col-xs-12 text-center">Remarks</label>
           <div class="col-md-9 col-sm-9 col-xs-12">
-            <input type="text" class="form-control" name="" id="">
+            <input type="text" class="form-control" value="{{$maklon->remarks_transport}}" name="" id="" readonly>
           </div>
-        </div><br>
-        <div class="modal-footer">
-          <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-check"></i> Submit</button>
-          {{ csrf_field() }}
-        </div>
-        </form>
+        </div><hr>
+        @endif
+        @endforeach
       </div>
     </div>
   </div>

@@ -9,20 +9,23 @@ use App\model\users\User;
 use App\model\pkp\PkpProject;
 use App\model\formula\Formula;
 use App\model\feasibility\Feasibility;
+use App\model\Modelmaklon\Maklon;
 use Auth;
 
 class ListFsController extends Controller
 {
     public function listPkpFs($id_project){
-        $pkp = PkpProject::where('id_project',$id_project)->first();
+        $pkp    = PkpProject::where('id_project',$id_project)->first();
         if(Auth::user()->departement_id=='2'){
-            $fs = Feasibility::where('status_feasibility','!=','batal')->get();
+            $fs = Feasibility::where('status_feasibility','!=','batal')->where('id_project',$id_project)->get();
         }elseif(Auth::user()->departement_id!='2'){
-            $fs = Feasibility::where('status_feasibility','proses')->orwhere('status_feasibility','selesai')->get();
+            $fs = Feasibility::where('status_feasibility','proses')->orwhere('status_feasibility','selesai')->where('id_project',$id_project)->get();
         }
-        $users = User::where('departement_id','2')->get();
+        $maklon = Maklon::all();
+        $users  = User::where('departement_id','2')->get();
         return view('feasibility.ListFsPkp')->with([
             'fs'    => $fs,
+            'maklon'=> $maklon,
             'users' => $users,
             'pkp'   => $pkp
         ]);
