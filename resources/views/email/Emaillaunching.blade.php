@@ -10,8 +10,8 @@
       <table border="1">
         <tr>
 					<td width="200px" class="text-center">
-					
-					<img src="{{ $message->embed('data_file/'.$pkp->barcode) }}" align="center" alt="Creating Email Magic" width="220px" height="220px" style="display: block;" />
+					{{$pkp->project_name}}
+    			</td>
 					<td width="600px">
 						<table>
 							<tr>
@@ -54,6 +54,5 @@
 					</td>
       	</tr> 
 			</table>
-    </td>
   </tr>
 </table>

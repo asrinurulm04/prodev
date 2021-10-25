@@ -766,6 +766,7 @@
     var idea = document.getElementById("idea").value;                     var product_benefits = document.getElementById("product_benefits").value;
     var configuration = document.getElementById("configuration").value;   var olahan = document.getElementById("olahan").value;
     var kategori_bpom = document.getElementById("kategori_bpom").value;   var serving_suggestion = document.getElementById("serving_suggestion").value;
+    var type = document.getElementById("type").value;
     
 
     var formdata = new FormData();
@@ -792,6 +793,7 @@
     formdata.append("prefered_flavour",prefered_flavour);       formdata.append("idea",idea);
     formdata.append("product_benefits",product_benefits);       formdata.append("configuration",configuration);
     formdata.append("olahan",olahan);                           formdata.append("kategori_bpom",kategori_bpom);
+    formdata.append("type",type);
 
       let xhr = new XMLHttpRequest();
       xhr.open("POST","https://smo.nutrifood.co.id/api/create",true);

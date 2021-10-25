@@ -38,7 +38,7 @@ class managerController extends Controller
     }
 
     public function listpkp(){
-        $pkp                 = PkpProject::where('status_project','active')->where('status_pkp','!=','draf')->where('status_pkp','!=','drop')->orderBy('pkp_number','desc')->get();
+        $pkp                 = PkpProject::where('status_project','active')->where('status_pkp','!=','draf')->where('status_pkp','!=','drop')->where('status_freeze','inactive')->orderBy('pkp_number','desc')->get();
         $brand               = Brand::all();
         return view('manager.listpkp')->with([
             'brand'               => $brand,

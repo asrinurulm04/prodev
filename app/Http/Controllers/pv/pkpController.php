@@ -1152,7 +1152,7 @@ class pkpController extends Controller
 
         $emaillaunch = PkpProject::where('id_project',$id)->join('tr_project_launching','tr_project_pkp.id_project','tr_project_launching.id_pkp')->first();
         try{
-            Mail::send('email.Emaillaunching', ['pkp'=>$emaillaunch,],function($message)use($request,$id){
+            Mail::send('launching', ['pkp'=>$emaillaunch,],function($message)use($request,$id){
                 $message->subject('Konfirmasi Launching');
                 $user1    = $request->user1;
                 $user2    = $request->user2;
@@ -1166,49 +1166,43 @@ class pkpController extends Controller
                         // user rd kemas dan produk terisi
                         if($pro->userpenerima2!=NULL && $pro->userpenerima!=NULL){
                             $to = [$user1,$user2,$rd1,$rd2];
-                            $cc = [$author,$perevisi,$request->cc1,$request->cc2,$request->cc2];
                             $message->to($to);
-                            $message->cc($cc);
                         }
                         // user rd kemas terisi rd produk null
                         elseif($pro->userpenerima==NULL){
                             $to = [$user2,$rd2];
-                            $cc = [$author,$perevisi,$request->cc1,$request->cc2,$request->cc2];
                             $message->to($to);
-                            $message->cc($cc);
                         }
                         // user rd kemas null rd produk terisi
                         elseif($pro->userpenerima2==NULL){
                             $to = [$user1,$rd1,$rd2];
-                            $cc = [$author,$perevisi,$request->cc1,$request->cc2,$request->cc2];
                             $message->to($to);
-                            $message->cc($cc);
                         }
                     }elseif($pro->tujuankirim2==NULL && $pro->tujuankirim!=NULL){
                         if($pro->userpenerima!=NULL){
                             $to = [$user1,$rd1];
-                            $cc = [$author,$perevisi,$request->cc1,$request->cc2,$request->cc2];
                             $message->to($to);
-                            $message->cc($cc);
                         }else{
                             $to = $rd1;
-                            $cc = [$author,$perevisi,$request->cc1,$request->cc2,$request->cc2];
                             $message->to($to);
-                            $message->cc($cc);
                         }
                     }elseif($pro->tujuankirim2!=NULL && $pro->tujuankirim==NULL){
                         if($pro->userpenerima2!=NULL){
                             $to = [$user2,$rd2];
-                            $cc = [$author,$perevisi,$request->cc1,$request->cc2,$request->cc2];
                             $message->to($to);
-                            $message->cc($cc);
                         }else{
                             $to = $rd2;
-                            $cc = [$author,$perevisi,$request->cc1,$request->cc2,$request->cc2];
                             $message->to($to);
-                            $message->cc($cc);
                         }
                     }
+
+                    $data   = $request->file('filename');
+                    $nama   = $data->getClientOriginalName();
+                    $cc     = [$author,$perevisi,$request->cc1,$request->cc2,$request->cc3,$request->cc4,$request->cc5,$request->cc6,$request->cc7,$request->cc8];
+                    $message->cc($cc);
+                    $message->bcc('asrimarifah0402@gmail.com');
+                    $message->attach(public_path() . '/data_file/' .$nama);
+                
                 }
             });
         }

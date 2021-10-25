@@ -17,14 +17,22 @@
 	<div class="x_panel">
     <div class="col-md-6"><h3><li class="fa fa-list"> List Workbook</li></h3></div>
     <div class="col-md-6" align="right">
-        @if(auth()->user()->role->namaRule === 'user_rd_proses' && $ws=='0')
-				<a class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="tambah Data" href="{{route('datamesin',$pkp->id_project)}}"><li class="fa fa-plus"></li> Add</a>
-				@elseif(auth()->user()->role->namaRule === 'kemas' && $ws_kemas=='0')
-				<a class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="tambah Data" href="{{route('datakemas',$pkp->id_project)}}"><li class="fa fa-plus"></li> Add</a>
-				@elseif(auth()->user()->role->namaRule === 'lab' && $ws_lab=='0')
-				<a class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="tambah Data" href="{{route('datalab',$pkp->id_project)}}"><li class="fa fa-plus"></li> Add</a>
+      <form class="form-horizontal form-label-left" method="POST" action="{{ route('addFs') }}">
+        <input type="hidden" value="{{$pkp->id_project}}" name="id">
+        <input type="hidden" value="1" name="opsi">
+        @if(auth()->user()->role->namaRule === 'user_rd_proses')
+        <input type="hidden" value="proses" name="type"><br>
+        @elseif(auth()->user()->role->namaRule === 'kemas')
+        <input type="hidden" value="kemas" name="type"><br>
+				@elseif(auth()->user()->role->namaRule === 'lab')
+        <input type="hidden" value="lab" name="type"><br>
 				@endif
-				<a class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Kemabali" href="{{route('listPkpFs',$pkp->id_project)}}"><i class="fa fa-arrow-left"></i> Back</a></th></tr>
+        @if($ws<=1)
+        <button type="submit" class="btn btn-primary btn-sm"><li class="fa fa-plus"></li> Add</button>
+        @endif
+        {{ csrf_field() }}
+        <a class="btn btn-danger btn-sm" data-toggle="tooltip" type="button" data-placement="top" title="Kemabali" href="{{route('listPkpFs',$pkp->id_project)}}"><i class="fa fa-arrow-left"></i> Back</a></th></tr>
+      </form>
     </div>
   </div>
   <div class="row">
@@ -56,12 +64,10 @@
 						<td>{{$list->note}}</td>
 						<td>{{$list->status}}</td>
 						<td class="text-center">
-							@if(auth()->user()->role->namaRule === 'user_rd_proses' && $ws=='0')
-              <a class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="tambah Data" href="{{route('datamesin',[$pkp->id_project,$list->id])}}"><li class="fa fa-plus"></li> Add</a>
-              @elseif(auth()->user()->role->namaRule === 'kemas' && $ws_kemas=='0')
-              <a class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="tambah Data" href="{{route('datakemas',[$pkp->id_project,$list->id])}}"><li class="fa fa-plus"></li> Add</a>
-              @elseif(auth()->user()->role->namaRule === 'lab' && $ws_lab=='0')
-              <a class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="tambah Data" href="{{route('datalab',$pkp->id_project)}}"><li class="fa fa-plus"></li> Add</a>
+							@if(auth()->user()->role->namaRule === 'user_rd_proses' && $ws!='0')
+              <a class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Edit Data" href="{{route('datamesin',[$pkp->id_project,$list->id])}}"><li class="fa fa-edit"></li></a>
+              @elseif(auth()->user()->role->namaRule === 'kemas' && $ws!='0')
+              <a class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Edit Data" href="{{route('datakemas',[$pkp->id_project,$list->id])}}"><li class="fa fa-edit"></li></a>
               @endif
 							<button class="btn btn-success btn-sm" title="Update"><li class="fa fa-arrow-circle-up"></li></button>
 							<button class="btn btn-dark btn-sm" data-toggle="modal" data-target="#sent" title="Up"><i class="fa fa-paper-plane"></i></a></button>

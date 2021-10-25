@@ -403,18 +403,28 @@ Route::get('workbookfs/{id}','workbookFS\WorkbookFsController@workbookfs')->name
 Route::get('info/{id}/{for}','workbookFS\WorkbookFsController@info')->name('info');
 Route::get('reportinfo/{id}','workbookFS\WorkbookFsController@reportinfo')->name('reportinfo');
 
+Route::post('addFs','workbookFS\WorkbookFsController@addFs')->name('addFs');
+
 // Workbook User_Proses
-Route::get('datamesin/{id}','RDproses\MesinController@index')->name('datamesin');
-Route::get('datamesin2/{id}/{ws}','RDproses\MesinController@index2')->name('datamesin2');
+Route::get('datamesin/{id}/{ws}','RDproses\MesinController@index')->name('datamesin');
 Route::get('dataOH/{id}/{ws}','RDproses\MesinController@dataOH')->name('dataOH');
 Route::get('AllergenBaru/{id}/{ws}','RDproses\MesinController@AllergenBaru')->name('AllergenBaru');
+Route::get('destroymesin/{id}','RDproses\MesinController@destroy')->name('destroymesin');
+Route::get('destroyoh/{id}','RDproses\MesinController@destroyoh')->name('destroyoh');
+
+Route::post('Mdata','RDproses\MesinController@Mdata')->name('Mdata');
+Route::post('runtime','RDproses\MesinController@runtime')->name('runtime');
+Route::post('dataO','RDproses\MesinController@dataO')->name('dataO');
+Route::post('runtimeoh','RDproses\MesinController@runtimeoh')->name('runtimeoh');
 
 // Workbook Lab
-Route::get('datalab/{id}','lab\LabController@index')->name('datalab');
-Route::get('AddItem/{id}','lab\LabController@AddItem')->name('AddItem');
+Route::get('datalab/{id}/{fs}','lab\LabController@index')->name('datalab');
+Route::get('AddItem/{id}/{fs}','lab\LabController@AddItem')->name('AddItem');
+
+Route::post('adddesc','lab\LabController@add')->name('adddesc');
 
 // Workbook Kemas
-Route::get('datakemas/{id}','RDkemas\KonsepController@index')->name('datakemas');
+Route::get('datakemas/{id}/{ws}','RDkemas\KonsepController@index')->name('datakemas');
 
 // Workbook Maklon
 Route::Post('FsMaklon/{fs}','Maklon\MaklonController@FsMaklon')->name('FsMaklon');

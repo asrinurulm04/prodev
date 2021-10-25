@@ -1,4 +1,4 @@
-@extends('layout.tempvv')
+@extends('pv.tempvv')
 @section('title', 'PRODEV|List PKP')
 @section('content')
 
@@ -299,7 +299,25 @@
                       <div class="col-md-3 col-sm-3 col-xs-12">
                         <input required id="project" required="required" class="form-control col-md-12 col-xs-12" type="email" name="cc3">
                       </div>
-                    </div><hr><hr>
+                      <div class="col-md-3 col-sm-3 col-xs-12">
+                        <input required id="project" required="required" class="form-control col-md-12 col-xs-12" type="email" name="cc4">
+                      </div>
+                    </div>
+                    <div class="item form-group">
+                      <label class="control-label col-md-2 col-sm-2 col-xs-12"></label>
+                      <div class="col-md-3 col-sm-3 col-xs-12">
+                        <input required id="project" required="required" class="form-control col-md-12 col-xs-12" type="email" name="cc5">
+                      </div>
+                      <div class="col-md-3 col-sm-3 col-xs-12">
+                        <input required id="project" required="required" class="form-control col-md-12 col-xs-12" type="email" name="cc6">
+                      </div>
+                      <div class="col-md-3 col-sm-3 col-xs-12">
+                        <input required id="project" required="required" class="form-control col-md-12 col-xs-12" type="email" name="cc7">
+                      </div>
+                      <div class="col-md-3 col-sm-3 col-xs-12">
+                        <input required id="project" required="required" class="form-control col-md-12 col-xs-12" type="email" name="cc8">
+                      </div>
+                    </div><hr>
                     <div class="item form-group">
                       <?php $date = Date('j-F-Y'); ?>
                       <label class="control-label col-md-2 col-sm-2 col-xs-12">Close Date*</label>
@@ -355,6 +373,7 @@
                         <input type="file" name="filename" required class="form-control">
                       </div>
                     </div>
+                      <label for="" style="color:red">* Semua kolom wajib terisi</label>
                     <div class="modal-footer">
                       <button type="submit" class="btn btn-success btn-sm" onclick="return confirm('Are you sure close this project ?')"><i class="fa fa-power-off"></i> Send Launching</button>
                       {{ csrf_field() }}
@@ -439,8 +458,6 @@
 </div>
 @endsection
 @section('s')
-<link href="{{ asset('lib/advanced-datatable/css/jquery.dataTables.css') }}" rel="stylesheet" />
-<script src="{{ asset('js/datatables.min.js')}}"></script>
 <script>
   function revisiloadXMLDoc() {
     let formData = new FormData();
@@ -475,4 +492,7 @@
     .catch(err => console.log(err));
   }
 </script>
+
+<link href="{{ asset('lib/advanced-datatable/css/jquery.dataTables.css') }}" rel="stylesheet" />
+<script src="{{ asset('js/datatables.min.js')}}"></script>
 @endsection

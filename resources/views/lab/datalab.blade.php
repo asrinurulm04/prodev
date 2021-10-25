@@ -68,9 +68,23 @@
       </div>
       <br>
       <div>
-        @foreach($desc as $desc)
-        <input type="radio" name="desc" id="desc" value="{{$desc->id}}"> {{$desc->Item_Desc}}
-        @endforeach
+        <table class="table table-bordered">
+          <thead>
+            <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
+              <th class="text-center">#</th>
+              <th class="text-center">Item Desc</th>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach($desc as $desc)
+            <tr>
+              <td width="5%"><input type="radio" name="desc" id="desc" value="{{$desc->id}}"></td>
+              <th> {{$desc->item_desc}}</th>
+            </tr>
+            @endforeach
+          </tbody>
+        </table>
+        
       </div>
     </div>
   </div>
@@ -88,9 +102,9 @@
               <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
                 <th class="text-center">Jenis Mikroba</th>
                 <th class="text-center">Harian</th>
-                <th class="text-center" width="15%">Jumlah Analisa</th>
+                <th class="text-center" width="15%">Jlh Analisa</th>
                 <th class="text-center">Tahunan</th>
-                <th class="text-center" width="15%">Jumlah Analisa</th>
+                <th class="text-center" width="15%">Jlh Analisa</th>
                 <th class="text-center">Input kode</th>
                 <th class="text-center">rate</th>
               </tr>
@@ -99,7 +113,7 @@
             </tbody>
           </table>
           <center>
-            <a href="{{route('AddItem',$pkp->id_project)}}" class="btn btn-warning btn-sm" type="button"> <li class="fa fa-plus"></li> New Desc</a>
+            <a href="{{route('AddItem',[$pkp->id_project,$fs])}}" class="btn btn-warning btn-sm" type="button"> <li class="fa fa-plus"></li> New Desc</a>
             <button type="submit" onclick="return confirm('Yakin Dengan Data Yang Anda Masukan??')" class="btn btn-primary btn-sm"><li class="fa fa-check"></li> Use Item Desc</button>
             {{ csrf_field() }}
           </center>  

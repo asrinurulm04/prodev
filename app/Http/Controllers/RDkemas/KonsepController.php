@@ -20,7 +20,7 @@ class KonsepController extends Controller
         $this->middleware('rule:kemas');
     }
 
-    public function index($id){
+    public function index($id,$ws){
         $fs           = Feasibility::where('id_project',$id)->first();
         $pkp          = PkpProject::where('id_project',$id)->where('status_project','=','active')->first();
         $myFormula    = Formula::where('id',$fs->id_formula)->get();

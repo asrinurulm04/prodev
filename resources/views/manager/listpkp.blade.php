@@ -222,8 +222,6 @@
                     @elseif($pkp->tujuankirim==1) 
                       No Prosess
                     @endif
-                  @elseif($pkp->status_freeze=='active') 
-                    Project Is Inactive
                   @endif
                 </td>
               </tr>

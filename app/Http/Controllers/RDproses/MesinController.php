@@ -27,33 +27,16 @@ class MesinController extends Controller
         $this->middleware('rule:user_rd_proses' || 'rule:manager');
     }
 
-    public function index(Request $request,$id){
+    public function index(Request $request,$id,$ws){
         $mesins     = DataMesin::all();
-        $messin     = DB::table('ms_mesin')->select(['workcenter'])->distinct()->get();
-        $Mdata      = DB::table('tr_mesin')
-                    ->join('ms_mesin','tr_mesin.id_data_mesin','=','ms_mesin.id_data_mesin')->get();
+        $Mdata      = DB::table('tr_mesin')->join('ms_mesin','tr_mesin.id_data_mesin','=','ms_mesin.id_data_mesin')->where('id_wb_fs',$ws)->get();
+        $hitung     = DB::table('tr_mesin')->where('id_wb_fs',$ws)->count();
         return view('RDproses.datamesin')->with([
             'mesins'        => $mesins,
             'Mdata'         => $Mdata,
             'id'            => $id,
-            'messin'        => $messin
-            ]);
-    }
-
-    public function index2(Request $request,$id,$ws){
-        $fs         = Feasibility::where('id',$id)->first();
-        $formulas   = Formula::where('id',$id)->get();
-        $mesins     = DataMesin::all();
-        $messin     = DB::table('ms_mesin')->select(['workcenter'])->distinct()->get();
-        $Mdata      = DB::table('tr_mesin')
-                    ->join('ms_mesin','tr_mesin.id_data_mesin','=','ms_mesin.id_data_mesin')->get();
-        return view('RDproses.datamesin2')->with([
-            'fs'            => $fs,
-			'formulas'      => $formulas,
-            'mesins'        => $mesins,
-            'Mdata'         => $Mdata,
-            'id'            => $id,
-            'messin'        => $messin
+            'ws'            => $ws,
+            'hitung'        => $hitung
             ]);
     }
 
@@ -73,87 +56,70 @@ class MesinController extends Controller
 
     public function dataOH($id,$ws){
         $aktifitas  = dataOH::all();
-        $dataO      = OH::with('dataoh')->get()->where('id_ws', $ws);
+        $dataO      = OH::where('id_ws',$ws)->get();
+        $hitung     = DB::table('tr_dataoh')->where('id_ws',$ws)->count();
         return view('RDproses.dataoh')->with([
             'id'            => $id,
+            'ws'            => $ws,
             'dataO'         => $dataO,
-            'aktifitas'     => $aktifitas
+            'aktifitas'     => $aktifitas,
+            'hitung'        => $hitung
         ]);
     }
 
-    public function ubahdata(Request $request){
-        foreach (array_combine($request->input('rate'), $request->input('no')) as $rate => $no){
-            $data = Mesin::find($no);
-            $data->rate_mesin= $rate;
-            $data->save();
-        }
-        return redirect()->back();
-     }
-     
+    public function destroy($id){
+        $mesin = Mesin::where('id_mesin',$id)->delete();
+        return redirect::back()->with('alert', 'Data berhasil dihapus!');
+    }
+
+    public function destroyoh($id){
+        $mesin = Oh::where('id',$id)->delete();
+        return redirect::back()->with('message', 'Data berhasil dihapus!');
+    }
+
     public function dataO(Request $request){
-        $aktifitas= new oh;
+        $aktifitas= new OH;
         foreach ($request->input("oh") as $oh){
-            $add_oh = new oh;
-            $add_oh->id_feasibility = $request->finance;
-            $add_oh->rate_aktifitas = $request->rateoh;
-            $add_oh->id_aktifitasOH = $oh;
+            $add_oh = new OH;
+            $add_oh->id_ws = $request->id;
+            $add_oh->id_oh = $oh;
             $add_oh->save();
         }
         return redirect()->back();
     }
 
-    public function destroy(Request $request, $id){
-        $request->session()->forget('references');
-        $mesin = DataMesin::find($id);
-        $mesin->delete();
-
-        return redirect::back()->with('alert', 'Data berhasil dihapus!');
-    }
-
-    public function destroyoh($id){
-        $mesin = oh::find($id);
-        $mesin->delete();
-        return redirect::back()->with('message', 'Data berhasil dihapus!');
-    }
-
     public function Mdata(Request $request){
-        $ms= new DataMesin;
+        $ms= new Mesin;
         foreach ($request->input("pmesin") as $pmesin){
-            $add_mesin = new DataMesin;
-            $add_mesin->id_feasibility  = $request->finance;
-            $add_mesin->rate_mesin      = $request->rate;
-            $add_mesin->standar_sdm     = $request->standar;
-            $add_mesin->line            = $request->jlh_line;
+            $add_mesin = new Mesin;
+            $add_mesin->id_wb_fs        = $request->id_ws;
             $add_mesin->id_data_mesin   = $pmesin;
-            $add_mesin->user1           = Auth::user()->name;
-            $add_mesin->runtime         = $request->hasil;
-            $add_mesin->hasil           = $request->jumlah;
-            $add_mesin->SDM             = $request->sdm;
             $add_mesin->save();
-            $id                         = DataMesin::orderBy('created_at', 'desc')->pluck('id_feasibility')->first();
-            $data                       = DB::table('fs_datamesin')
-                                        ->leftjoin('tr_mesin','tr_mesin.id_data_mesin','=','fs_datamesin.id_data_mesin')
-                                        ->rightjoin('tr_feasibility','tr_mesin.id_feasibility','=','tr_feasibility.id_feasibility')
-                                        ->rightjoin('formulas','tr_feasibility.id_formula','=','formulas.id')
-                                        ->where([['tr_feasibility.id_feasibility', $id]])->first();
-            $request->session()->push('references', $data);
         }
     return redirect()->back();
     }
 
-    public function createDMmesin(Request $request){
-        $Dm= new Mesin;
-        $Dm->workcenter     = $request->workcenter;
-        $Dm->rate_mesin     = $request->rate;
-        $Dm->kategori       = $request->kategori;
-        $Dm->IO             = $rfinanceequest->aktifitas;
-        $Dm->gedung         = $request->gedung;
-        $Dm->jlh_line       = $request->line;
-        $Dm->standar_sdm    = $request->sdm;
-        $Dm->nama_kategori  = $request->Nkategori;
-        $Dm->nama_mesin     = $request->mesin;
-        $Dm->save();
+    public function runtime(Request $request){
+        $scores = $request->input('scores');
+        foreach($scores as $row){
+            $mesin = Mesin::where('id_mesin',$row['id'])->update([
+                "runtime" => $row['runtime'],
+                "note"    => $row['note']
+            ]);
+        }
 
-        return redirect()->back();
+        return redirect::back();
+    }
+
+    public function runtimeoh(Request $request){
+        $scores = $request->input('scores');
+        foreach($scores as $row){
+            $mesin = OH::where('id',$row['id'])->update([
+                "runtime" => $row['runtime'],
+                "note"    => $row['note']
+            ]);
+        }
+
+        return redirect::back();
     }
 }
