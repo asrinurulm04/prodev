@@ -97,6 +97,41 @@
   </div>
 </div>
 
+<!-- Template -->
+<div class="modal" id="NW1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="exampleModalLabel">Template PKP
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button> </h3>
+      </div>
+      <div class="modal-body">
+        <table id="datatable" class="table table-striped table-bordered" style="width:100%">
+          <thead>
+            <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
+              <td class="text-center" width="5%">No</td>
+              <td class="text-center">Note</td>
+              <td></td>
+            </tr>
+          </thead>
+          @php $nol = 0; @endphp
+          @foreach($WorkbookFs as $WorkbookFs)
+            <tr>
+              <th class="text-center">{{ ++$nol }}</th>
+              <th>{{ $WorkbookFs->id }}</th>
+              <th width="21%" class="text-center">
+                <a class="btn btn-success btn-sm" onclick="return confirm('Are you sure you want to use this template?')" href="{{route('useMesin',[$WorkbookFs->id,$ws])}}"><i class="fa fa-check"></i></a>
+              </th>
+            </tr>
+          @endforeach
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Selesai -->
 @endsection
 @section('s')
 <link href="{{ asset('lib/advanced-datatable/css/jquery.dataTables.css') }}" rel="stylesheet" />

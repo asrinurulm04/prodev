@@ -436,7 +436,7 @@
                   <td class="text-center">{{$fs->revisi}}.{{$fs->revisi_kemas}}.{{$fs->revisi_proses}}.{{$fs->revisi_produk}}</td>
                   <td>{{$fs->workbook->formula}}</td>
                   <td class="text-center">{{$fs->lokasi}}</td>
-                  <td>{{$fs->batchsize}}</td>
+                  <td>{{$fs->batch_size}}</td>
                   <!-- Action user product -->
                   <td class="text-center">
                     @if($fs->status_product=='ajukan')
@@ -447,51 +447,37 @@
                   </td>
                   <!-- Action user Proses -->
                   <td class="text-center">
-                    @if($fs->status_proses=='ajukan')
-                      <a disabled class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
-                    @elseif($fs->status_proses=='proses')
-                      <a disabled class="btn btn-sm btn-info" type="button" title="show"><li class="fa fa-warning"></li></a>
-                    @elseif($fs->status_proses=='selesai')
-                      <a disabled class="btn btn-sm btn-info" type="button" title="show"><li class="fa fa-warning"></li></a>
-                    @elseif($fs->status_proses=='sending')
-                      <a disabled class="btn btn-sm btn-dark" type="button" title="not request"><li class="fa fa-warning"></li></a>
-                    @endif
+                      @if($fs->status_proses=='ajukan')
+                        <a disabled" class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
+                      @elseif($fs->status_proses!='ajukan')
+                        <a disabled class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-folder"></li></a>
+                      @endif 
                   </td>
                   <!-- Action user Kemas -->
                   <td class="text-center">
-                    @if($fs->status_kemas=='ajukan')
-                      <a href=" {{route('workbookfs',[$fs->id_project,$fs->id_formula])}}" class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
-                    @elseif($fs->status_kemas=='proses')
-                      <a href="{{ route('formula.detail',[$fs->workbook->id,$fs->id_project,$fs->workbook->workbook_id]) }}" class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-edit"></li></a>
-                    @elseif($fs->status_kemas=='selesai')
-                      <a href="{{ route('formula.detail',[$fs->workbook->id,$fs->id_project,$fs->workbook->workbook_id]) }}" class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-folder"></li></a>
-                    @elseif($fs->status_kemas=='sending')
-                      <a href="{{ route('formula.detail',[$fs->workbook->id,$fs->id_project,$fs->workbook->workbook_id]) }}" class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-folder"></li></a>
-                    @endif 
+                      @if($fs->status_kemas=='ajukan')
+                        <a href=" {{route('workbookfs',$fs->id_project)}}" class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
+                      @elseif($fs->status_kemas=='proses')
+                        <a href="{{ route('formula.detail',[$fs->workbook->id,$fs->id_project,$fs->workbook->workbook_id]) }}" class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-edit"></li></a>
+                      @elseif($fs->status_kemas!='ajukan')
+                        <a href="{{ route('formula.detail',[$fs->workbook->id,$fs->id_project,$fs->workbook->workbook_id]) }}" class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-folder"></li></a>
+                      @endif
                   </td>
                   <!-- Action user Lab -->
                   <td class="text-center">
-                    @if($fs->status_lab=='ajukan')
+                      @if($fs->status_lab!='sending' || $fs->status_lab!='')
                       <a disabled class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
-                    @elseif($fs->status_lab=='proses')
-                      <a disabled class="btn btn-sm btn-info" type="button" title="show"><li class="fa fa-warning"></li></a>
-                    @elseif($fs->status_lab=='selesai')
-                      <a disabled class="btn btn-sm btn-info" type="button" title="show"><li class="fa fa-warning"></li></a>
-                    @elseif($fs->status_lab=='sending')
-                      <a href="{{ route('formula.detail',[$fs->workbook->id,$fs->id_project,$fs->workbook->workbook_id]) }}" class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-folder"></li></a>
-                    @endif
+                      @elseif($fs->status_lab=='sending')
+                      <a disabled class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-folder"></li></a>
+                      @endif
                   </td>
                   <!-- Action user Maklon -->
                   <td class="text-center">
-                    @if($fs->status_maklon=='ajukan')
-                      <a disabled class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
-                    @elseif($fs->status_maklon=='proses')
-                      <a disabled class="btn btn-sm btn-info" type="button" title="show"><li class="fa fa-warning"></li></a>
-                    @elseif($fs->status_maklon=='selesai')
-                      <a disabled class="btn btn-sm btn-info" type="button" title="show"><li class="fa fa-warning"></li></a>
-                    @elseif($fs->status_maklon=='sending')
-                      <a href="{{ route('formula.detail',[$fs->workbook->id,$fs->id_project,$fs->workbook->workbook_id]) }}" class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-folder"></li></a>
-                    @endif 
+                    @if($fs->status_maklon=='ajukan')  
+                      <button class="btn btn-danger btn-sm" data-toggle="modal" disabled><li class="fa fa-warning"></li></button>
+                      @elseif($fs->status_maklon!='ajukan')
+                      <button class="btn btn-info btn-sm" data-toggle="modal" disabled><li class="fa fa-warning"></li></button>
+                      @endif
                   </td>
                 </tr>
               @endforeach

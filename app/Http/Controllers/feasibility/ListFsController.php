@@ -9,8 +9,10 @@ use App\model\users\User;
 use App\model\pkp\PkpProject;
 use App\model\formula\Formula;
 use App\model\feasibility\Feasibility;
+use App\model\feasibility\WorkbookFs;
 use App\model\Modelmaklon\Maklon;
 use Auth;
+use Redirect;
 
 class ListFsController extends Controller
 {
@@ -40,5 +42,21 @@ class ListFsController extends Controller
             'pkp2' => $pkp2,
             'pkp3' => $pkp3
         ]);
+    }
+
+    public function gabung($id,$fs){
+        $list = WorkbookFs::where('id',$id)->first();
+        $list->id_feasibility=$fs;
+        $list->save();
+
+        $ws = Feasibility::where('id',$fs)->first();
+        if($list->type=='proses'){
+            $ws->status_proses='sending';
+        }elseif($list->type=='kemas'){
+            $ws->status_kemas='sending';
+        }
+        $ws->save();
+
+        return redirect::route('listPkpFs',$ws->id_project);
     }
 }

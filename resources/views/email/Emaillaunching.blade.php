@@ -10,7 +10,7 @@
       <table border="1">
         <tr>
 					<td width="200px" class="text-center">
-					{{$pkp->project_name}}
+						<center>{{$pkp->nama_produk}}</center>
     			</td>
 					<td width="600px">
 						<table>

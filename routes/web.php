@@ -392,6 +392,7 @@ Route::get('BatalAjukanFS/{id}/{for}','PengajuanFs\PengajuanFsController@BatalAj
 // List FS
 Route::get('listPkpFs/{id}','feasibility\ListFsController@listPkpFs')->name('listPkpFs');
 Route::get('FsPKP','feasibility\ListFsController@FsPKP')->name('FsPKP');
+Route::get('gabung/{id}/{fs}','feasibility\ListFsController@gabung')->name('gabung');
 
 // Form Pengajuan FS dari proses
 Route::get('DetailPengajuanFsPKP/{pkp}/{id}/{fs}','PengajuanFS\PengajuanFsController@DetailPengajuanFsPKP')->name('DetailPengajuanFsPKP');
@@ -416,6 +417,8 @@ Route::post('Mdata','RDproses\MesinController@Mdata')->name('Mdata');
 Route::post('runtime','RDproses\MesinController@runtime')->name('runtime');
 Route::post('dataO','RDproses\MesinController@dataO')->name('dataO');
 Route::post('runtimeoh','RDproses\MesinController@runtimeoh')->name('runtimeoh');
+Route::get('useMesin/{id}/{ws}','RDproses\MesinController@useMesin')->name('useMesin');
+Route::get('useOH/{id}/{ws}','RDproses\MesinController@useOH')->name('useOH');
 
 // Workbook Lab
 Route::get('datalab/{id}/{fs}','lab\LabController@index')->name('datalab');

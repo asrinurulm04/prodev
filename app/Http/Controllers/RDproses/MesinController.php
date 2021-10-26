@@ -31,11 +31,13 @@ class MesinController extends Controller
         $mesins     = DataMesin::all();
         $Mdata      = DB::table('tr_mesin')->join('ms_mesin','tr_mesin.id_data_mesin','=','ms_mesin.id_data_mesin')->where('id_wb_fs',$ws)->get();
         $hitung     = DB::table('tr_mesin')->where('id_wb_fs',$ws)->count();
+        $WorkbookFs = WorkbookFs::where('type','proses')->get();
         return view('RDproses.datamesin')->with([
             'mesins'        => $mesins,
             'Mdata'         => $Mdata,
             'id'            => $id,
             'ws'            => $ws,
+            'WorkbookFs'    => $WorkbookFs,
             'hitung'        => $hitung
             ]);
     }
@@ -58,11 +60,13 @@ class MesinController extends Controller
         $aktifitas  = dataOH::all();
         $dataO      = OH::where('id_ws',$ws)->get();
         $hitung     = DB::table('tr_dataoh')->where('id_ws',$ws)->count();
+        $WorkbookFs = WorkbookFs::where('type','proses')->get();
         return view('RDproses.dataoh')->with([
             'id'            => $id,
             'ws'            => $ws,
             'dataO'         => $dataO,
             'aktifitas'     => $aktifitas,
+            'WorkbookFs'    => $WorkbookFs,
             'hitung'        => $hitung
         ]);
     }
@@ -118,6 +122,40 @@ class MesinController extends Controller
                 "runtime" => $row['runtime'],
                 "note"    => $row['note']
             ]);
+        }
+
+        return redirect::back();
+    }
+
+    public function useMesin($id,$ws){
+        $clf=Mesin::where('id_wb_fs',$id)->count();
+        if($clf>0){
+            $isimesin=Mesin::where('id_wb_fs',$id)->get();
+            foreach ($isimesin as $ms){
+                $tip= new Mesin;
+                $tip->id_wb_fs       = $ws;
+                $tip->id_data_mesin  = $ms->id_data_mesin;
+                $tip->runtime        = $ms->runtime;
+                $tip->note           = $ms->note;
+                $tip->save();
+            }
+        }
+
+        return redirect::back();
+    }
+
+    public function useOH($id,$ws){
+        $clf=OH::where('id_ws',$id)->count();
+        if($clf>0){
+            $isioh=OH::where('id_ws',$id)->get();
+            foreach ($isioh as $oh){
+                $tip= new OH;
+                $tip->id_ws         = $ws;
+                $tip->id_oh         = $oh->id_oh;
+                $tip->runtime       = $oh->runtime;
+                $tip->note          = $oh->note;
+                $tip->save();
+            }
         }
 
         return redirect::back();

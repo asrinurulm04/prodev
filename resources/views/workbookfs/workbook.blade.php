@@ -1,122 +1,110 @@
 @extends('layout.tempvv')
-@section('title', 'Workbook | Feasibility')
+@section('title', 'PRODEV|feasibility')
 @section('content')
 
-@if (session('status'))
-<div class="row">
-  <div class="col-md-12">
-    <div class="alert alert-success" style="margin:20px">
-      <button type="button" class="close" data-dismiss="alert">×</button>
-      {{ session('status') }}
-    </div>
-  </div>
-</div>
-@endif
-
 <div class="x_panel">
-	<div class="x_panel">
-    <div class="col-md-6"><h3><li class="fa fa-list"> List Workbook</li></h3></div>
+  <div class="x_panel">
+    <div class="col-md-6"><h4><li class="fa fa-star"></li> List Feasibility </h4></div>
     <div class="col-md-6" align="right">
-      <form class="form-horizontal form-label-left" method="POST" action="{{ route('addFs') }}">
-        <input type="hidden" value="{{$pkp->id_project}}" name="id">
-        <input type="hidden" value="1" name="opsi">
-        @if(auth()->user()->role->namaRule === 'user_rd_proses')
-        <input type="hidden" value="proses" name="type"><br>
-        @elseif(auth()->user()->role->namaRule === 'kemas')
-        <input type="hidden" value="kemas" name="type"><br>
-				@elseif(auth()->user()->role->namaRule === 'lab')
-        <input type="hidden" value="lab" name="type"><br>
-				@endif
-        @if($ws<=1)
-        <button type="submit" class="btn btn-primary btn-sm"><li class="fa fa-plus"></li> Add</button>
-        @endif
-        {{ csrf_field() }}
-        <a class="btn btn-danger btn-sm" data-toggle="tooltip" type="button" data-placement="top" title="Kemabali" href="{{route('listPkpFs',$pkp->id_project)}}"><i class="fa fa-arrow-left"></i> Back</a></th></tr>
-      </form>
+      @if(auth()->user()->role->namaRule === 'manager')
+      <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#sent{{$pkp->id_project}}"><i class="fa fa-paper-plane"></i> Sent To User</a></button>
+      @endif
+      <a href="{{route('reportinfo',$pkp->id_project)}}" class="btn btn-sm btn-success" type="button"><li class="fa fa-files-o"></li> Report</a> 
+      <a href="{{ Route('lihatpkp',$pkp->id_project) }}" class="btn btn-sm btn-info" type="button"><li class="fa fa-folder-open"></li> Show PKP</a> 
+      <a href="{{route('FsPKP')}}" class="btn btn-sm btn-danger" type="button"><li class="fa fa-arrow-left"></li> Back</a> 
     </div>
   </div>
   <div class="row">
-		<div class="col-md-10">
-			<table>
-				<tr><th width="15%">No.PKP</th><th width="45%">: {{$pkp->pkp_number}}{{$pkp->ket_no}}</th>
-				<tr><th width="15%">Brand</th><th width="45%">: {{$pkp->id_brand}}</th>
-				<tr><th width="15%">Idea</th><th width="45%">: {{$pkp->idea}}</th></tr>
-			</table>
-		</div>
-	</div><hr>
-  <div class="card-block">
-    <div class="dt-responsive table-responsive"><br>
-      <table id="datatable" class="table table-striped table-bordered">
-        <thead>
-          <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
-            <th class="text-center" width="5%">Versi</th>
-            <th class="text-center" width="25%">Name</th>
-            <th class="text-center" width="25%">Note</th>
-            <th class="text-center" width="25%">Status</th>
-            <th class="text-center" width="15%">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-					@foreach($list as $list)
-					<tr>
-						<td class="text-center">{{$list->opsi}}</td>
-						<td>{{$list->name}}</td>
-						<td>{{$list->note}}</td>
-						<td>{{$list->status}}</td>
-						<td class="text-center">
-							@if(auth()->user()->role->namaRule === 'user_rd_proses' && $ws!='0')
-              <a class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Edit Data" href="{{route('datamesin',[$pkp->id_project,$list->id])}}"><li class="fa fa-edit"></li></a>
-              @elseif(auth()->user()->role->namaRule === 'kemas' && $ws!='0')
-              <a class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Edit Data" href="{{route('datakemas',[$pkp->id_project,$list->id])}}"><li class="fa fa-edit"></li></a>
-              @endif
-							<button class="btn btn-success btn-sm" title="Update"><li class="fa fa-arrow-circle-up"></li></button>
-							<button class="btn btn-dark btn-sm" data-toggle="modal" data-target="#sent" title="Up"><i class="fa fa-paper-plane"></i></a></button>
-						</td>
-					</tr>
-					@endforeach
-        </tbody>
-      </table>
+    <div class="col-md-5">
+      <table>
+        <tr><th width="10%">Project Name</th><th width="45%">: {{$pkp->project_name}}</th>
+        <tr><th width="10%">PKP Number</th><th width="45%">: {{$pkp->pkp_number}}{{$pkp->ket_no}}</th>
+        <tr><th width="10%">Brand</th><th>: {{$pkp->id_brand}}</th>
+      </table><br>
+    </div>
+    <div class="col-md-7">
+      <table>
+        <tr><th width="10%">Idea</th><th width="45%">: {{$pkp->idea}}</th></tr>
+        <tr><th width="10%">Configuration</th><th>: {{$pkp->id_brand}}</th>
+      </table><br>
     </div>
   </div>
 </div>
-
-
-<!-- modal -->
-<div class="modal" id="sent" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog " role="document">
-    <div class="modal-content">
-      <div class="modal-header">                 
-        <h3 class="modal-title" id="exampleModalLabel">Sent
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button></h3>
-      </div>
-      <div class="modal-body">
-        <div class=" row">
-          <div class="col-md-12 col-sm-12 col-xs-12">
-            <Table class="table table-bordered">
-							<thead>
-								<th class="text-center" width="12%">Revisi</th>
-								<th class="text-center" width="75%">Note</th>
-								<th class="text-center" width="13%">Action</th>
-							</thead>
-							<tbody>
-								@foreach($fs as $fs)
-								<tr>
-									<td class="text-center">{{$fs->revisi}}.{{$fs->revisi_kemas}}.{{$fs->revisi_proses}}.{{$fs->revisi_produk}}</td>
-									<td>{{$fs->note}}</td>
-									<td class="text-center"><a href="" class="btn btn-sm btn-primary" type="button"><li class="fa fa-check"></li> Tetapkan</a></td>
-								</tr>
-								@endforeach
-							</tbody>
-						</Table>
-          </div>
-        </div><br>
+<div class="x_panel">
+    <div class="card-block">
+      <div class="dt-responsive table-responsive"><br>
+        <table id="datatable" class="table table-striped table-bordered">
+          <thead>
+            <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
+              <th class="text-center" width="5%">Versi</th>
+              <th class="text-center" width="25%">Name</th>
+              <th class="text-center" width="25%">Note</th>
+              <th class="text-center" width="25%">Status</th>
+              <th class="text-center" width="15%">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach($list as $list)
+              <tr>
+                <td class="text-center">{{$list->opsi}}</td>
+                <td>{{$list->name}}</td>
+                <td>{{$list->note}}</td>
+                <td>{{$list->status}}</td>
+                <td class="text-center">
+                  @if(auth()->user()->role->namaRule === 'user_rd_proses' && $ws!='0')
+                <a class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Edit Data" href="{{route('datamesin',[$pkp->id_project,$list->id])}}"><li class="fa fa-edit"></li></a>
+                @elseif(auth()->user()->role->namaRule === 'kemas' && $ws!='0')
+                <a class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Edit Data" href="{{route('datakemas',[$pkp->id_project,$list->id])}}"><li class="fa fa-edit"></li></a>
+                @endif
+                  <button class="btn btn-success btn-sm" title="Update"><li class="fa fa-arrow-circle-up"></li></button>
+                  <button class="btn btn-dark btn-sm" data-toggle="modal" data-target="#sent{{ $list->id  }}" title="Up"><i class="fa fa-paper-plane"></i></a></button>
+                  <!-- modal maklon-->
+                  <div class="modal" id="sent{{$list->id}}"" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog " role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">                 
+                          <center><h3 class="modal-title" id="exampleModalLabel">Sent
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button></h3></center>
+                        </div>
+                        <div class="modal-body">
+                          <div class=" row">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                              <Table class="table table-bordered">
+                                <thead>
+                                  <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
+                                    <th class="text-center" width="12%">Revisi</th>
+                                    <th class="text-center" width="75%">Note</th>
+                                    <th class="text-center" width="13%">Action</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  @foreach($fs as $f)
+                                  <tr>
+                                    <td class="text-center">{{$f->revisi}}.{{$f->revisi_kemas}}.{{$f->revisi_proses}}.{{$f->revisi_produk}}</td>
+                                    <td>{{$f->note}}</td>
+                                    <td class="text-center"><a href="{{route('gabung',[$list->id,$f->id])}}" class="btn btn-sm btn-primary" type="button"><li class="fa fa-check"></li> Tetapkan</a></td>
+                                  </tr>
+                                  @endforeach
+                                </tbody>
+                              </Table>
+                            </div>
+                          </div><br>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Modal Selesai -->
+                </td>
+              </tr>
+            @endforeach
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
 </div>
-<!-- Modal Selesai -->
 
 @endsection
 @section('s')

@@ -80,7 +80,7 @@
                     @elseif($fs->status_proses=='proses' )
                     <a href="{{ route('formula.detail',[$fs->workbook->id,$fs->id_project,$fs->workbook->workbook_id]) }}" class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-edit"></li></a>
                     @elseif($fs->status_proses=='sending' || $fs->status_proses=='selesai')
-                      <a href="{{ route('formula.detail',[$fs->workbook->id,$fs->id_project,$fs->workbook->workbook_id]) }}" class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-folder"></li></a>
+                      <a href="{{ route('datamesin',[$fs->id_project,$fs->workbook->workbook_id]) }}" class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-folder"></li></a>
                     @endif 
                   @else
                     <a disabled class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
