@@ -1,0 +1,16 @@
+<script type="text/javascript">$('#sampleTable').DataTable({
+      "language": {
+        "search": "Cari :",
+        "lengthMenu": "Tampilkan _MENU_ data",
+        "zeroRecords": "Tidak ada data",
+        "emptyTable": "Tidak ada data",
+        "info": "Menampilkan data _START_  - _END_  dari _TOTAL_ data",
+        "infoEmpty": "Tidak ada data",
+        "paginate": {
+          "first": "Awal",
+          "last": "Akhir",
+          "next": ">",
+          "previous": "<"
+        }
+      }
+    });</script>
