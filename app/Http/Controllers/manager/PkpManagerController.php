@@ -4,6 +4,7 @@ namespace App\Http\Controllers\manager;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 
 use App\model\manager\pengajuan;
 use App\model\master\Brand;

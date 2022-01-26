@@ -384,8 +384,8 @@
                         </div>
                         <!-- Modal Selesai -->
                     @elseif($for->vv=='approve')
-                      <a href="{{route('finalsample',$for->id)}}" class="btn btn-success btn-sm" title="Final Approval"><li class="fa fa-tag"></li></a>
                       @if($for->status_feasibility=='proses' || $for->status_feasibility=='sent' || $for->status_feasibility=='done')
+                      <a href="{{route('finalsample',$for->id)}}" class="btn btn-success btn-sm" title="Final Approval"><li class="fa fa-tag"></li></a>
                         <a href="{{route('PengajuanFS_PKP',[$id->id_project,$for->id])}}" class="btn btn-warning btn-sm" title="Pengajuan FS"><li class="fa fa-folder"></li></a>
                       @elseif($for->status_feasibility=='' || $for->status_feasibility=='reject')
                         <a href="{{route('PengajuanFS_PKP',[$id->id_project,$for->id])}}" class="btn btn-primary btn-sm" title="Ajukan FS"><li class="fa fa-paper-plane"></li></a>

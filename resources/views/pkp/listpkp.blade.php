@@ -501,20 +501,20 @@
 </script>
 
 <script>
-  function revisi2loadXMLDoc() {
-    let formData = new FormData();
+  // function revisi2loadXMLDoc() {
+  //   let formData = new FormData();
  
-    formData.append("status_freeze", document.getElementById("status_freeze").value);
-    formData.append("id_prodev", document.getElementById("id_prodev").value);
+  //   formData.append("status_freeze", document.getElementById("status_freeze").value);
+  //   formData.append("id_prodev", document.getElementById("id_prodev").value);
  
-    fetch('https://smo.nutrifood.co.id/api/update',{
-                method : 'POST',
-                body : formData         
-    })
-    .then(res => res.text())
-    .then(teks => console.log(teks))
-    .catch(err => console.log(err));
-  }
+  //   fetch('https://smo.nutrifood.co.id/api/update',{
+  //               method : 'POST',
+  //               body : formData         
+  //   })
+  //   .then(res => res.text())
+  //   .then(teks => console.log(teks))
+  //   .catch(err => console.log(err));
+  // }
 </script>
 
 <link href="{{ asset('lib/advanced-datatable/css/jquery.dataTables.css') }}" rel="stylesheet" />
