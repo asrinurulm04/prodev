@@ -16,6 +16,10 @@ class Formula extends Model
         return $this->belongsTo('App\model\pdf\SubPDF','workbook_pdf_id','pdf_id');
     }
 
+    public function pdf(){
+        return $this->belongsTo('App\model\pdf\ProjectPDF','workbook_pdf_id','id_project_pdf');
+    }
+
     public function Fortail(){
         return $this->hasMany('App\model\formula\Fortail');
     }

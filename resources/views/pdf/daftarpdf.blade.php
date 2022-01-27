@@ -339,8 +339,8 @@
                     </div>
                     <!-- Modal Selesai -->
                   @elseif($sample1->vv=='approve')
-                    <a href="{{route('finalsample',$sample1->id)}}" class="btn btn-success btn-sm" title="Final Approval"><li class="fa fa-tag"></li></a>
                     @if($sample1->status_feasibility=='proses' || $sample1->status_feasibility=='sent' || $sample1->status_feasibility=='done')
+                      <a href="{{route('finalsample',$sample1->id)}}" class="btn btn-success btn-sm" title="Final Approval"><li class="fa fa-tag"></li></a>
                       <a href="{{route('PengajuanFS_PDF',[$id->id_project_pdf,$sample1->id])}}" class="btn btn-warning btn-sm" title="Pengajuan FS"><li class="fa fa-folder"></li></a>
                     @elseif($sample1->status_feasibility=='' || $sample1->status_feasibility=='reject')
                       <a href="{{route('PengajuanFS_PDF',[$id->id_project_pdf,$sample1->id])}}" class="btn btn-primary btn-sm" title="Ajukan FS"><li class="fa fa-paper-plane"></li></a>

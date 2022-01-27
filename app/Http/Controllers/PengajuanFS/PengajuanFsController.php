@@ -15,10 +15,12 @@ use App\model\pdf\SubPDF;
 use App\model\users\User;
 use App\model\users\Departement;
 use App\model\formula\Formula;
+use App\model\Modellab\DataLab;
 use App\model\Modelmesin\Mesin;
 use App\model\Modelmesin\IO;
 use App\model\Modelmesin\LiniTerdampak;
 use App\model\Modelkemas\KonsepKemas;
+use App\model\Modelkemas\FormulaKemas;
 use App\model\Modelmaklon\Maklon;
 use App\model\Modelkemas\datakemas;
 use App\model\feasibility\Feasibility;
@@ -595,19 +597,25 @@ class PengajuanFsController extends Controller
                  ->join('tr_workbook_fs','tr_workbook_fs.id','tr_mesin.id_wb_fs')->join('tr_feasibility','tr_feasibility.id','tr_workbook_fs.id_feasibility')->select('IO')->distinct()->get();
         $all     = LiniTerdampak::join('tr_workbook_fs','tr_workbook_fs.id','tr_lini_allergen.id_ws')->where('tr_workbook_fs.status','Sent')
                  ->join('tr_feasibility','tr_feasibility.id','tr_workbook_fs.id_feasibility')->where('id_feasibility',$fs->id)->first();
+        $dataLab = DataLab::where('id_fs',$fs->id)->join('ms_item_desc','ms_item_desc.id','tr_lab.id_item_desc')->first();
+        $lab     = ($dataLab->kimia_batch * $formula->batch) + ($dataLab->biaya_tahanan * $formula->batch) + ($dataLab->analisa_swab * $formula->batch) + ($dataLab->mikro_analisa * $formula->batch) + (($dataLab->biaya_analisa * $dataLab->jlh_sample_mikro)* $formula->batch) + $dataLab->biaya_analisa_tahun;
+        $analisa = $lab/$formula->batch;
+        $forKemas= FormulaKemas::join('tr_feasibility','tr_feasibility.id_wb_kemas','tr_formula_kemas.id_ws')->where('id',$fs->id)->where('cost_uom','!=',NULL)->select('cost_uom')->first();
         try{ // mengirim email FS ke costing
             Mail::send('email.EmailOverview', [
-                'data'   => $data,
-                'fs'     => $fs,
-                'for'    => $for,
-                'formula'=> $formula,
-                'form'   => $form,
-                'maklon' => $maklon,
-                'lokasi' => $lokasi,
-                'lokasi2'=> $lokasi2,
-                'all'    => $all,
-                'kemas'  => $kemas,
-                'mesin'  => $mesin
+                'data'      => $data,
+                'fs'        => $fs,
+                'for'       => $for,
+                'formula'   => $formula,
+                'form'      => $form,
+                'maklon'    => $maklon,
+                'lokasi'    => $lokasi,
+                'lokasi2'   => $lokasi2,
+                'forKemas'  => $forKemas,
+                'analisa'   => $analisa,
+                'all'       => $all,
+                'kemas'     => $kemas,
+                'mesin'     => $mesin
             ], function ($message) use ($request,$id) {
                 $message->subject('PRODEV | INFORMASI PENGAJUAN FS');
                 $message->to($request->email);

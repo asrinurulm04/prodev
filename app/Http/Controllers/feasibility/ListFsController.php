@@ -19,7 +19,7 @@ use Redirect;
 class ListFsController extends Controller
 {
     public function listPkpFs($id_project){
-        $pkp     = PkpProject::where('id_project',$id_project)->select('id_project','pkp_number','ket_no','id_brand','idea','user_fs','project_name')->first();
+        $pkp     = PkpProject::where('id_project',$id_project)->select('id_project','pkp_number','ket_no','id_brand','idea','user_fs','project_name','pengajuan_fs')->first();
         if(Auth::user()->departement_id=='2'){
             $fs  = Feasibility::where('id_project','!=',NULL)->where('id_project',$id_project)->get();
         }elseif(Auth::user()->departement_id!='2'){
@@ -47,7 +47,7 @@ class ListFsController extends Controller
 
     public function listPdfFs($id_project){
         $pdf     = ProjectPDF::where('id_project_pdf',$id_project)->join('tr_sub_pdf','tr_pdf_project.id_project_pdf','tr_sub_pdf.pdf_id')
-                ->select('id_project_pdf','pdf_number','ket_no','id_brand','background','user_fs','project_name','revisi','turunan')->first();
+                ->select('id_project_pdf','pdf_number','ket_no','id_brand','background','user_fs','project_name','revisi','turunan','pengajuan_fs')->first();
         if(Auth::user()->departement_id=='2'){
             $fs  = Feasibility::where('id_project_pdf','!=',NULL)->where('id_project_pdf',$id_project)->get();
         }elseif(Auth::user()->departement_id!='2'){
@@ -90,7 +90,7 @@ class ListFsController extends Controller
         $pdf  = ProjectPDF::where('pengajuan_fs','!=','reject')->get();
         $pdf2 = ProjectPDF::where('pengajuan_fs','!=',NULL)->where('user_fs',Auth::user()->id)->get();
         $pdf3 = ProjectPDF::where('pengajuan_fs','done')->orwhere('pengajuan_fs','proses')->get();
-        $pdf4 = ProjectPDF::where('pengajuan_fs','done')->orwhere('pengajuan_fs','proses')->where('userpenerima2',Auth::user()->id)->get();
+        $pdf4 = ProjectPDF::where('userpenerima2',Auth::user()->id)->get();
         return view('feasibility.FsPDF')->with([
             'pdf'  => $pdf,
             'pdf2' => $pdf2,

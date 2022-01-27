@@ -145,9 +145,15 @@
 					</tr>
 					<tr>
 						<th>Pricelist (Rp/ UOM)</th>
+						@if($data=='PKP')
 						<td>@if($cm1!=NULL){{$project->selling_price}}@endif</td>
 						<td>@if($cm2!=NULL){{$project->selling_price}}@endif</td>
 						<td>@if($cm3!=NULL){{$project->selling_price}}@endif</td>
+						@elseif($data=='PDF')
+						<td>@if($cm1!=NULL){{$project->target_price}}@endif</td>
+						<td>@if($cm2!=NULL){{$project->target_price}}@endif</td>
+						<td>@if($cm3!=NULL){{$project->target_price}}@endif</td>
+						@endif
 					</tr>
 					<tr>
 						<th>UoM</th>
@@ -157,9 +163,9 @@
 					</tr>
 					<tr>
 						<th>UoM per BOX</th>
-						<td>@if($cm1!=NULL){{$cm1->uom}}@endif</td>
-						<td>@if($cm2!=NULL){{$cm2->uom}}@endif</td>
-						<td>@if($cm3!=NULL){{$cm3->uom}}@endif</td>
+						<td>@if($cm1!=NULL){{$cm1->uom_box}}@endif</td>
+						<td>@if($cm2!=NULL){{$cm2->uom_box}}@endif</td>
+						<td>@if($cm3!=NULL){{$cm3->uom_box}}@endif</td>
 					</tr>
 					<tr>
 						<th>Gramasi per UOM (g)</th>

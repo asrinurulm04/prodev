@@ -150,11 +150,11 @@
                     </tr>
                     <tr>
                       <td>Cost of Packaging (Rp/UOM)</td>
-                      <td></td>
+						          <td>{{$forKemas->cost_uom}}</td>
                     </tr>
                     <tr>
                       <td>Cost of Lab/Analysis (Rp/UOM)</td>
-                      <td></td>
+						          <td>{{$analisa}}</td>
                     </tr>
                     <tr>
                       <td>Maklon Fee (Rp/UOM)</td>

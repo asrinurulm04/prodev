@@ -195,6 +195,8 @@
                       <li><a href="{{ route('curren.index') }}">Currency</a></li>
                       <li><a href="{{ route('supplier') }}">Supplier</a></li>
                       <li><a href="{{ route('principal') }}">Principle</a></li>
+                      <li><a href="{{ route('bahanbaku') }}">Bahan Baku Eksis</a></li>
+                      <li><a href="{{ route('bahan_rd') }}">Bahan Baku RD</a></li>
                     </ul>
                   </li>
                   @elseif(auth()->user()->role->namaRule === 'user_rd_proses' || auth()->user()->role->namaRule === 'maklon'  || auth()->user()->role->namaRule === 'lab')

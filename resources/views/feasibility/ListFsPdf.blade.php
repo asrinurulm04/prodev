@@ -9,8 +9,10 @@
       @if(auth()->user()->role->namaRule === 'manager')
       <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#sent{{$pdf->id_project_pdf}}"><i class="fa fa-paper-plane"></i> Sent To User</a></button>
       @endif
+      @if($pdf->pengajuan_fs=='proses')
       <a href="{{route('compare',[$data,$pdf->id_project_pdf])}}" class="btn btn-sm btn-dark" type="button"><li class="fa fa-balance-scale"></li> Compare</a> 
       <a href="{{route('reportinfo',['PDF',$pdf->id_project_pdf])}}" class="btn btn-sm btn-success" type="button"><li class="fa fa-files-o"></li> Report</a> 
+      @endif
       <a href="{{Route('lihatpdf',[$pdf->id_project_pdf,$pdf->revisi,$pdf->turunan]) }}" class="btn btn-sm btn-info" type="button"><li class="fa fa-folder-open"></li> Show PDF</a> 
       <a href="{{route('FsPKP')}}" class="btn btn-sm btn-danger" type="button"><li class="fa fa-arrow-left"></li> Back</a> 
     </div>

@@ -8,7 +8,7 @@
     <div class="col-md-6" align="right">
       @if(auth()->user()->role->namaRule === 'manager')
       <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#sent{{$pkp->id_project}}"><i class="fa fa-paper-plane"></i> Sent To User</a></button>
-      @endif
+      @endif 
       @if($pkp->pengajuan_fs=='proses')
       <a href="{{route('compare',[$data,$pkp->id_project])}}" class="btn btn-sm btn-dark" type="button"><li class="fa fa-balance-scale"></li> Compare</a> 
       <a href="{{route('reportinfo',['PKP',$pkp->id_project])}}" class="btn btn-sm btn-success" type="button"><li class="fa fa-files-o"></li> Report</a> 
@@ -99,7 +99,7 @@
                     @if($fs->revisi_kemas!='' && $fs->revisi_proses!='' && $fs->revisi_lab!='')
                       @if($fs->status_proses=='sending' && $fs->status_maklon=='sending' && $fs->status_kemas=='sending' && $fs->status_lab=='sending')
                         @if(auth()->user()->Departement->dept === 'REA')
-                          <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#sent2{{$fs->id}}"><i class="fa fa-paper-plane"></i></a></button>
+                          <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#sent2{{$fs->id}}" title="Kirim"><i class="fa fa-paper-plane"></i></a></button>
                         @endif
                       @endif
                       @if($fs->status_proses!='ajukan' && $fs->status_maklon!='ajukan' && $fs->status_kemas!='ajukan' && $fs->status_lab!='ajukan')

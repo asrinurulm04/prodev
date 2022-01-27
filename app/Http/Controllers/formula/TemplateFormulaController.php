@@ -17,8 +17,8 @@ class TemplateFormulaController extends Controller
 
     public function index($for,$pkp,$pro){ // halaman template formula
         $ada          = Fortail::where('formula_id',$pro)->count();
-        $formulas     = Formula::join('tr_project_pkp','tr_project_pkp.id_pkp','tr_formulas.workbook_id')->orderBy('pkp_number','asc')->orderBy('versi','asc')->get();
-        $formulas_pdf = Formula::join('tr_pdf_project','tr_pdf_project.id_project_pdf','tr_formulas.workbook_pdf_id')->orderBy('pdf_number','asc')->orderBy('versi','asc')->get();
+        $formulas     = Formula::where('id','!=',$pro)->where('workbook_id','!=',NULL)->get();
+        $formulas_pdf = Formula::where('id','!=',$pro)->where('workbook_pdf_id','!=',NULL)->get();
         return view('formula.template')->with([
             'ada'           => $ada,
             'formulas'      => $formulas,

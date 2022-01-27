@@ -7,7 +7,11 @@
   <div class="col-md-6"><h4><li class="fa fa-star"></li> Project Name </h4></div>
   <div class="col-md-6" align="right">
 		<button class="btn btn-info btn-sm" data-toggle="modal" data-target="#NW1" type="button"><li class="fa fa-check"></li> Finish</button>
+		@if($wb->fs->id_project != '')
     <a href="{{ route('datamesin',[$pkp->id_project,$fs,$ws])}}" class="btn btn-danger btn-sm" type="button"><li class="fa fa-arrow-left"></li> Back</a>
+		@elseif($wb->fs->id_project_pdf != '')
+    <a href="{{ route('datamesin',[$pdf->pdf_id,$fs,$ws])}}" class="btn btn-danger btn-sm" type="button"><li class="fa fa-arrow-left"></li> Back</a>
+		@endif
 	</div><br><br><hr>
   <div class="card-block">
     <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
@@ -41,8 +45,7 @@
 									<td class="text-center">{{$pkp->kemas->tersier}}{{ $pkp->kemas->s_tersier }}</td>
 									<td class="text-center">{{$pkp->kemas->sekunder}}{{ $pkp->kemas->s_sekunder }}</td>
 									<td class="text-center">{{$pkp->kemas->primer}}{{ $pkp->kemas->s_primer }}</td>
-									@endif
-									@if($wb->fs->id_project_pdf != '')
+									@elseif($wb->fs->id_project_pdf != '')
 									<td class="text-center">{{$pdf->kemas->tersier}}{{ $pdf->kemas->s_tersier }}</td>
 									<td class="text-center">{{$pdf->kemas->sekunder}}{{ $pdf->kemas->s_sekunder }}</td>
 									<td class="text-center">{{$pdf->kemas->primer}}{{ $pdf->kemas->s_primer }}</td>
@@ -250,7 +253,11 @@
       <form class="form-horizontal form-label-left" method="POST" action="{{ route('judul') }}">
       <div class="modal-body">
         <div class="form-group row">
+					@if($wb->fs->id_project != '')
           <input type="hidden" value="{{$pkp->id_project}}" name="id" id="id">
+					@elseif($wb->fs->id_project_pdf != '')
+          <input type="hidden" value="{{$pdf->pdf_id}}" name="id" id="id">
+					@endif
           <input type="hidden" value="{{$ws}}" name="ws" id="ws">
           <input type="hidden" value="{{$wb->id_feasibility}}" name="fs" id="fs">
           <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name" style="color:#31a9b8">Judul Workbook</label>

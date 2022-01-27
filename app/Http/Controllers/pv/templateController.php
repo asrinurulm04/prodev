@@ -841,6 +841,12 @@ class templateController extends Controller
                 $detail->save();
             }
         }
+        
+        $pengajuan = pengajuan::where('id_pdf',$SubPDF->pdf_id)->count();
+        if($pengajuan == 1){
+            $pengajuan = pengajuan::where('id_pdf',$SubPDF->pdf_id)->delete();
+        }
+
         return Redirect::Route('buatpdf1',['pdf_id' => $id_ProjectPDF, 'revisi' => $naikversi, 'turunan' => $turunan]);
     }
     
@@ -900,6 +906,12 @@ class templateController extends Controller
                 $ide->save();
             }
         }
+        
+        $pengajuan = pengajuan::where('id_promo',$ppromo->id_pkp_promoo)->count();
+        if($pengajuan == 1){
+            $pengajuan = pengajuan::where('id_promo',$ppromo->id_pkp_promoo)->delete();
+        }
+
         return Redirect::Route('datapromo11',['id_pkp_promo'=> $ppromo->id_pkp_promoo,'revisi' => $naikversi,'turunan' => $ppromo->turunan]);
     }
 }

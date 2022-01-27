@@ -21,12 +21,12 @@
         </thead>
         <tbody>
         <!-- Untuk Project PKP -->
-        @if(auth()->user()->departement_id != '6')
+        @if(auth()->user()->departement_id != '6') 
           @foreach ($formulas as $formula)
           @if($ada==0)
             @if($for!=$formula->id)
             <tr style="background-color:white">
-              <td>{{ $formula->pkp_number}}{{ $formula->ket_no}}</td>
+              <td>{{ $formula->workbook->pkp_number}}{{ $formula->workbook->ket_no}}</td>
               <td class="text-center" width="15%">
                 @if($formula->kategori!='fg')
                 {{$formula->kategori}}
@@ -82,7 +82,7 @@
           @if($ada==0)
             @if($for!=$formula->id)
             <tr style="background-color:white">
-              <td>{{ $formula->pdf_number}}{{ $formula->ket_no}}</td>
+              <td>{{ $formula->pdf->pdf_number}}{{ $formula->pdf->ket_no}}</td>
               <td class="text-center" width="15%">
                 @if($formula->kategori!='fg')
                 {{$formula->kategori}}
@@ -107,7 +107,7 @@
           @else
             @if($formula->kategori=='granulasi')
             <tr style="background-color:white">
-              <td>{{ $formula->pkp_number}}{{ $formula->ket_no}}</td>
+              <td>{{ $formula->pdf->pdf_number}}{{ $formula->pdf->ket_no}}</td>
               <td class="text-center" width="15%">
                 @if($formula->kategori!='fg')
                   {{$formula->kategori}}

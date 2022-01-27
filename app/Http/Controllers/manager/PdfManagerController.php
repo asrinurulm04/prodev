@@ -4,6 +4,7 @@ namespace App\Http\Controllers\manager;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 
 use App\model\pkp\DataSES;
 use App\model\pkp\FileProject;

@@ -5,7 +5,11 @@
 <div class="x_panel">
   <div class="col-md-6"><h4><li class="fa fa-list"></li> Kemas </h4></div>
   <div class="col-md-6" align="right">
+    @if($fs->id_project!=NULL)
     <a href="{{ route('workbookfs',[$pkp->id_project,$fs->id])}}" class="btn btn-danger btn-sm" type="button"><li class="fa fa-arrow-left"></li> Back</a>
+    @elseif($fs->id_project_pdf!=NULL)
+    <a href="{{ route('workbookfs',[$pdf->id_project_pdf,$fs->id])}}" class="btn btn-danger btn-sm" type="button"><li class="fa fa-arrow-left"></li> Back</a>
+    @endif
   </div><hr><hr>
   @if($fs->id_project!=NULL)
   <div class="x_panel">

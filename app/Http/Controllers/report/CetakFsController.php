@@ -40,7 +40,7 @@ class CetakFsController extends Controller
         $for        = Formula::where('id',$data->id_formula)->first();
         $mesin      = Mesin::join('ms_mesin','ms_mesin.id_data_mesin','tr_mesin.id_data_mesin')->where('kategori','Filling')
                     ->join('tr_workbook_fs','tr_workbook_fs.id','tr_mesin.id_wb_fs')->where('tr_workbook_fs.status','Sent')->where('id_feasibility',$fs)
-                    ->join('tr_feasibility','tr_feasibility.id','tr_workbook_fs.id_feasibility')->select('nama_mesin')->distinct()->get();
+                    ->join('tr_feasibility','tr_feasibility.id','tr_workbook_fs.id_feasibility')->select('nama_mesin')->distinct()->first();
         $all        = LiniTerdampak::join('tr_workbook_fs','tr_workbook_fs.id','tr_lini_allergen.id_ws')->where('tr_workbook_fs.status','Sent')
                     ->join('tr_feasibility','tr_feasibility.id','tr_workbook_fs.id_feasibility')->where('id_feasibility',$fs)->first();
         $referensi  = KonsepKemas::join('tr_workbook_fs','tr_workbook_fs.id','tr_datakemas.id_ws')->where('tr_workbook_fs.status','Sent')->where('id_feasibility',$fs)
@@ -53,7 +53,7 @@ class CetakFsController extends Controller
         $lab        = ($dataLab->kimia_batch * $for->batch) + ($dataLab->biaya_tahanan * $for->batch) + ($dataLab->analisa_swab * $for->batch) + ($dataLab->mikro_analisa * $for->batch) + (($dataLab->biaya_analisa * $dataLab->jlh_sample_mikro)* $for->batch) + $dataLab->biaya_analisa_tahun;
         $analisa    = $lab/$for->batch;
         $forKemas   = FormulaKemas::join('tr_feasibility','tr_feasibility.id_wb_kemas','tr_formula_kemas.id_ws')->where('id',$fs)->where('cost_uom','!=',NULL)->select('cost_uom')->first();
-        
+        $pertama = 26;
 
         $objPHPExcel->setActiveSheetIndex(0)
                     ->setCellValue('A1', 'Project Overview');
@@ -139,14 +139,8 @@ class CetakFsController extends Controller
                 ->setCellValue('B24', $lokasi['IO'])
                 ->setCellValue('A25', 'Fillpack Location')
                 ->setCellValue('B25', $lokasi2['IO'])
-                ->setCellValue('A26', 'Filling Machine');
-
-            foreach($mesin as $_mesin){   
-            $objPHPExcel->setActiveSheetIndex(0)
-                        ->setCellValue('B6', $_mesin['nama_mesin']);
-            }
-
-            $objPHPExcel->setActiveSheetIndex(0)
+                ->setCellValue('A26', 'Filling Machine')
+                ->setCellValue('B26', $mesin['nama_mesin'])
                 ->setCellValue('A27', 'Cost of Packaging (Rp/UOM)')
                 ->setCellValue('B27', $analisa)
                 ->setCellValue('A28', 'Cost of Lab/Analysis (Rp/UOM)')
@@ -210,10 +204,10 @@ class CetakFsController extends Controller
                     ->join('tr_workbook_fs','tr_workbook_fs.id','tr_mesin.id_wb_fs')->join('tr_feasibility','tr_feasibility.id','tr_workbook_fs.id_feasibility')->select('IO')->distinct()->first();
         $lokasi2    = Mesin::join('ms_mesin','ms_mesin.id_data_mesin','tr_mesin.id_data_mesin')->where('kategori','Filling')->orwhere('kategori','Packing')
                     ->join('tr_workbook_fs','tr_workbook_fs.id','tr_mesin.id_wb_fs')->join('tr_feasibility','tr_feasibility.id','tr_workbook_fs.id_feasibility')->select('IO')->distinct()->first();
-        $dataLab    = DataLab::where('id_fs',$fs->id)->join('ms_item_desc','ms_item_desc.id','tr_lab.id_item_desc')->first();
-        $lab        = ($dataLab->kimia_batch * $formula->batch) + ($dataLab->biaya_tahanan * $formula->batch) + ($dataLab->analisa_swab * $formula->batch) + ($dataLab->mikro_analisa * $formula->batch) + (($dataLab->biaya_analisa * $dataLab->jlh_sample_mikro)* $formula->batch) + $dataLab->biaya_analisa_tahun;
-        $analisa    = $lab/$formula->batch;
-        $forKemas   = FormulaKemas::join('tr_feasibility','tr_feasibility.id_wb_kemas','tr_formula_kemas.id_ws')->where('id',$fs->id)->where('cost_uom','!=',NULL)->select('cost_uom')->first();
+        $dataLab    = DataLab::where('id_fs',$fs)->join('ms_item_desc','ms_item_desc.id','tr_lab.id_item_desc')->first();
+        $lab        = ($dataLab->kimia_batch * $for->batch) + ($dataLab->biaya_tahanan * $for->batch) + ($dataLab->analisa_swab * $for->batch) + ($dataLab->mikro_analisa * $for->batch) + (($dataLab->biaya_analisa * $dataLab->jlh_sample_mikro)* $for->batch) + $dataLab->biaya_analisa_tahun;
+        $analisa    = $lab/$for->batch;
+        $forKemas   = FormulaKemas::join('tr_feasibility','tr_feasibility.id_wb_kemas','tr_formula_kemas.id_ws')->where('id',$fs)->where('cost_uom','!=',NULL)->select('cost_uom')->first();
         
         $objPHPExcel->setActiveSheetIndex(0)
                     ->setCellValue('A1', 'Project Overview');

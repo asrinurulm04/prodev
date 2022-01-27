@@ -36,11 +36,14 @@ class CompareController extends Controller
           $project = SubPDF::where('pdf_id',$id)->first();
           $fs      = Feasibility::where('id_project_pdf',$id)->where('status_feasibility','!=','batal')->select('id','revisi','revisi_kemas','revisi_lab','revisi_proses')->get();
           $cm1     = compare::where('id_pdf',$id)->where('fs1','!=',NULL)->join('tr_feasibility','tr_feasibility.id','tr_compare.fs1')
-                   ->join('tr_formulas','tr_formulas.id','tr_feasibility.id_formula')->join('tr_maklon','tr_maklon.id_fs','tr_feasibility.id')->first();
+                   ->join('tr_formulas','tr_formulas.id','tr_feasibility.id_formula')->join('tr_formpengajuanfs','tr_formpengajuanfs.id_feasibility','tr_feasibility.id')
+                   ->join('tr_maklon','tr_maklon.id_fs','tr_feasibility.id')->first();
           $cm2     = compare::where('id_pdf',$id)->where('fs2','!=',NULL)->join('tr_feasibility','tr_feasibility.id','tr_compare.fs2')
-                   ->join('tr_formulas','tr_formulas.id','tr_feasibility.id_formula')->join('tr_maklon','tr_maklon.id_fs','tr_feasibility.id')->first();
+                   ->join('tr_formulas','tr_formulas.id','tr_feasibility.id_formula')->join('tr_formpengajuanfs','tr_formpengajuanfs.id_feasibility','tr_feasibility.id')
+                   ->join('tr_maklon','tr_maklon.id_fs','tr_feasibility.id')->first();
           $cm3     = compare::where('id_pdf',$id)->where('fs3','!=',NULL)->join('tr_feasibility','tr_feasibility.id','tr_compare.fs3')
-                   ->join('tr_formulas','tr_formulas.id','tr_feasibility.id_formula')->join('tr_maklon','tr_maklon.id_fs','tr_feasibility.id')->first();
+                   ->join('tr_formulas','tr_formulas.id','tr_feasibility.id_formula')->join('tr_formpengajuanfs','tr_formpengajuanfs.id_feasibility','tr_feasibility.id')
+                   ->join('tr_maklon','tr_maklon.id_fs','tr_feasibility.id')->first();
         }
         $mesin   = Mesin::join('ms_mesin','ms_mesin.id_data_mesin','tr_mesin.id_data_mesin')->where('kategori','Filling')
                  ->join('tr_workbook_fs','tr_workbook_fs.id','tr_mesin.id_wb_fs')->where('tr_workbook_fs.status','Sent')->select('nama_mesin','id_feasibility')->distinct()->get();
