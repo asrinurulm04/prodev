@@ -80,6 +80,7 @@ class BahanBakuController extends Controller
         $bahan->principle       = $request->principle;
         $bahan->no_HEIPBR       = $request->heipbr;
         $bahan->shelf_life      = $request->shelf_life;
+        $bahan->qty_order       = $request->qty;
         $bahan->PIC             = $request->pic;
         $bahan->id_kategori     = $request->kategori;
         $bahan->subkategori_id  = $request->subkategori;
@@ -448,6 +449,7 @@ class BahanBakuController extends Controller
         $bahan->principle       = $request->principle;
         $bahan->no_HEIPBR       = $request->heipbr;
         $bahan->shelf_life      = $request->shelf_life;
+        $bahan->qty_order       = $request->qty;
         $bahan->PIC             = $request->pic;
         $bahan->id_kategori     = $request->kategori;
         $bahan->subkategori_id  = $request->subkategori;

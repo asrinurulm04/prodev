@@ -31,25 +31,29 @@
     </div>
 		<div class="form-group">
       <label  class="control-label col-md-2 col-sm-2 col-xs-12">Kode Komputer</label>
-      <div class="col-md-3 col-sm-3 col-xs-12">
+      <div class="col-md-2 col-sm-2 col-xs-12">
         <input type="text" class="form-control" value="{{$bahan->kode_komputer}}" name="komputer" id="komputer">
       </div>
       <label  class="control-label col-md-1 col-sm-1 col-xs-12">Shelf life </label>
-      <div class="col-md-2 col-sm-3 col-xs-12">
+      <div class="col-md-2 col-sm-2 col-xs-12">
         <input type="text" class="form-control" value="{{$bahan->shelf_life}}" name="shelf_life" id="shelf_life">
       </div>
-      <label  class="control-label col-md-2 col-sm-2 col-xs-12">Kode Oracle</label>
-      <div class="col-md-3 col-sm-3 col-xs-12">
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Kode Oracle</label>
+      <div class="col-md-2 col-sm-2 col-xs-12">
         <input type="text" class="form-control" value="{{$bahan->kode_oracle}}" name="oracle" id="oracle">
       </div>
     </div>
     <div class="form-group">
       <label  class="control-label col-md-2 col-sm-2 col-xs-12">PIC</label>
-      <div class="col-md-3 col-sm-3 col-xs-12">
+      <div class="col-md-2 col-sm-2 col-xs-12">
         <input type="text" class="form-control" value="{{$bahan->PIC}}" name="pic" id="pic">
       </div>
-      <label  class="control-label col-md-2 col-sm-2 col-xs-12">No HEIPBR</label>
-      <div class="col-md-3 col-sm-3 col-xs-12">
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12">Qty Order</label>
+      <div class="col-md-2 col-sm-2 col-xs-12">
+        <input type="text" class="form-control" value="{{$bahan->qty_order}}" name="qty" id="qty">
+      </div>
+      <label  class="control-label col-md-1 col-sm-1 col-xs-12">No HEIPBR</label>
+      <div class="col-md-2 col-sm-2 col-xs-12">
         <input type="text" class="form-control" value="{{$bahan->no_HEIPBR}}" name="heipbr" id="heipbr">
       </div>
     </div>

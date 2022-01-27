@@ -188,6 +188,7 @@
                       <li><a href="{{ route('listprojectpromo') }}">List PROMO</a> </li>
                     </ul>
                   </li>
+                  <li><a href="{{ route('registrasi_bb_rd') }}"><i class="fa fa-registered"></i> Material Registration </a></li>
                   <li><a><i class="fa fa-book"></i> Master Data <span class="label label-success"></span> <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="{{ route('sku') }}">Active SKU</a></li>
