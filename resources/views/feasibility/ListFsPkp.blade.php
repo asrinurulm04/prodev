@@ -9,8 +9,10 @@
       @if(auth()->user()->role->namaRule === 'manager')
       <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#sent{{$pkp->id_project}}"><i class="fa fa-paper-plane"></i> Sent To User</a></button>
       @endif
+      @if($pkp->pengajuan_fs=='proses')
       <a href="{{route('compare',[$data,$pkp->id_project])}}" class="btn btn-sm btn-dark" type="button"><li class="fa fa-balance-scale"></li> Compare</a> 
       <a href="{{route('reportinfo',['PKP',$pkp->id_project])}}" class="btn btn-sm btn-success" type="button"><li class="fa fa-files-o"></li> Report</a> 
+      @endif
       <a href="{{ Route('lihatpkp',$pkp->id_project) }}" class="btn btn-sm btn-info" type="button"><li class="fa fa-folder-open"></li> Show PKP</a> 
       <a href="{{route('FsPKP')}}" class="btn btn-sm btn-danger" type="button"><li class="fa fa-arrow-left"></li> Back</a> 
     </div>

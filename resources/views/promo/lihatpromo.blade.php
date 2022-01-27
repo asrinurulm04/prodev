@@ -318,12 +318,12 @@
                     <tr>
                       <td width="25%"><b>Application</td>
                       <td colspan="2"><?php $application = []; foreach ($promo1 as $key => $data) If (!$application || !in_array($data->application, $application)) { $application += array( $key => $data->application );
-                      if($data->turunan!=$promo->turunan){ echo": <s><font color='#6594c5'>$data->application<br></font></s>"; } if($data->turunan==$promo->turunan){ echo": $data->application<br>"; } } ?></td>
+                      if($data->revisi!=$promo->revisi){ echo": <s><font color='#6594c5'>$data->application<br></font></s>"; } if($data->turunan==$promo->turunan){ echo": $data->application<br>"; } } ?></td>
                     </tr>
                     <tr class="table-highlight">
                       <td width="25%"><b>Item Promo Readiness</td>
                       <td colspan="2"><?php $promo_readiness = []; foreach ($promo1 as $key => $data) If (!$promo_readiness || !in_array($data->promo_readiness, $promo_readiness)) { $promo_readiness += array( $key => $data->promo_readiness );
-                      if($data->turunan!=$promo->turunan){ echo": <s><font color='#6594c5'>$data->promo_readiness<br></font></s>"; } if($data->turunan==$promo->turunan){ echo": $data->promo_readiness<br>"; } } ?></td>
+                      if($data->revisi!=$promo->revisi){ echo": <s><font color='#6594c5'>$data->promo_readiness<br></font></s>"; } if($data->turunan==$promo->turunan){ echo": $data->promo_readiness<br>"; } } ?></td>
                     </tr>
                     <tr>
                       <td width="25%"><b>Related Picture</td>
@@ -421,12 +421,12 @@
                     <tr>
                       <td width="25%"><b>Application</td>
                       <td colspan="2"><?php $application = []; foreach ($promo1 as $key => $data) If (!$application || !in_array($data->application, $application)) { $application += array( $key => $data->application );
-                      if($data->turunan!=$promo->turunan){ echo": <s><font color='#6594c5'>$data->application<br></font></s>"; } if($data->turunan==$promo->turunan){ echo": $data->application<br>"; } } ?></td>
+                      if($data->revisi!=$promo->revisi){ echo": <s><font color='#6594c5'>$data->application<br></font></s>"; } if($data->revisi==$promo->revisi){ echo": $data->application<br>"; } } ?></td>
                     </tr>
                     <tr class="table-highlight">
                       <td width="25%"><b>Item Promo Readiness</td>
                       <td colspan="2"><?php $promo_readiness = []; foreach ($promo1 as $key => $data) If (!$promo_readiness || !in_array($data->promo_readiness, $promo_readiness)) { $promo_readiness += array( $key => $data->promo_readiness );
-                      if($data->turunan!=$promo->turunan){ echo": <s><font color='#6594c5'>$data->promo_readiness<br></font></s>"; } if($data->turunan==$promo->turunan){ echo": $data->promo_readiness<br>"; } } ?></td>
+                      if($data->revisi!=$promo->revisi){ echo": <s><font color='#6594c5'>$data->promo_readiness<br></font></s>"; } if($data->revisi==$promo->revisi){ echo": $data->promo_readiness<br>"; } } ?></td>
                     </tr>
                     <tr>
                       <td width="25%"><b>Related Picture</td>

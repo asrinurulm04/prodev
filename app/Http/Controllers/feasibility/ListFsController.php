@@ -77,7 +77,7 @@ class ListFsController extends Controller
         $pkp  = PkpProject::where('pengajuan_fs','!=','reject')->get();
         $pkp2 = PkpProject::where('user_fs',Auth::user()->id)->where('pengajuan_fs','!=',NULL)->orwhere('pengajuan_fs','!=','reject')->where('user_fs',Auth::user()->id)->get();
         $pkp3 = PkpProject::where('pengajuan_fs','done')->orwhere('pengajuan_fs','proses')->get();
-        $pkp4 = PkpProject::where('pengajuan_fs','done')->orwhere('pengajuan_fs','proses')->where('userpenerima2',Auth::user()->id)->get();
+        $pkp4 = PkpProject::where('userpenerima2',Auth::user()->id)->get();
         return view('feasibility.FsPKP')->with([
             'pkp'  => $pkp,
             'pkp2' => $pkp2,

@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use App\model\manager\pengajuan;
 use App\model\master\Brand;
 use App\model\pkp\FileProject;
-use App\model\pkp\Allocation;
+use App\model\promo\Allocation;
 use App\model\promo\PromoIdea;
 use App\model\promo\promo;
 use App\model\promo\DataPromo;
@@ -70,6 +70,7 @@ class PromoManagerController extends Controller
 
     public function lihatpromo($id_pkp_promo,$revisi,$turunan){
         $promoo      = DataPromo::join('tr_project_promo','tr_promo.id_pkp_promoo','=','tr_project_promo.id_pkp_promo')->where([ ['id_pkp_promo',$id_pkp_promo], ['revisi',$revisi], ['turunan',$turunan] ])->get();
+        $hitung             = pengajuan::where([ ['id_promo',$id_pkp_promo], ['turunan',$turunan] ])->count();
         $max2        = DataPromo::where('id_pkp_promoo',$id_pkp_promo)->max('revisi');
         $max         = DataPromo::where('id_pkp_promoo',$id_pkp_promo)->max('turunan');
         $promo1      = DataPromo::where('id_pkp_promoo',$id_pkp_promo)->where('revisi',$max2)->where('turunan',$max)->get();
@@ -84,6 +85,7 @@ class PromoManagerController extends Controller
             'promoo'       => $promoo,
             'app'          => $app,
             'picture'      => $picture,
+            'hitung'       => $hitung,
             'idea'         => $idea,
             'promo1'       => $promo1,
             'user'         => $user,
