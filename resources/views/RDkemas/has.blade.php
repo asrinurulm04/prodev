@@ -43,11 +43,11 @@
 									<td class="text-center">{{ $myFormula->formula }}</td>
 									@if($wb->fs->id_project != '')
 									<td class="text-center">{{$pkp->kemas->tersier}}{{ $pkp->kemas->s_tersier }}</td>
-									<td class="text-center">{{$pkp->kemas->sekunder}}{{ $pkp->kemas->s_sekunder }}</td>
+									<td class="text-center">{{$pkp->kemas->sekunder1}}{{ $pkp->kemas->s_sekunder1 }}</td>
 									<td class="text-center">{{$pkp->kemas->primer}}{{ $pkp->kemas->s_primer }}</td>
 									@elseif($wb->fs->id_project_pdf != '')
 									<td class="text-center">{{$pdf->kemas->tersier}}{{ $pdf->kemas->s_tersier }}</td>
-									<td class="text-center">{{$pdf->kemas->sekunder}}{{ $pdf->kemas->s_sekunder }}</td>
+									<td class="text-center">{{$pdf->kemas->sekunder1}}{{ $pdf->kemas->s_sekunder1 }}</td>
 									<td class="text-center">{{$pdf->kemas->primer}}{{ $pdf->kemas->s_primer }}</td>
 									@endif
 								</tr>
