@@ -373,9 +373,9 @@
 					</tr>
 					<tr>
 						<th>Value of Unprocessed Raw Material per year</th>
-						<td></td>
-						<td></td>
-						<td></td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
 					</tr>
 					<tr>
 						<th>New Packaging Material?</th>

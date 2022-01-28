@@ -737,6 +737,11 @@ class templateController extends Controller
         $datapdf = SubPDF::where('pdf_id',$id_ProjectPDF)->where('revisi',$revisi)->where('turunan',$turunan)->first();
         $datapdf->status_pdf='inactive';
         $datapdf->save();
+        
+        $pengajuan = pengajuan::where('id_pdf',$datapdf->pdf_id)->count();
+        if($pengajuan == 1){
+            $pengajuan = pengajuan::where('id_pdf',$datapdf->pdf_id)->delete();
+        }
 
         $clf = SubPDF::where('pdf_id',$id_ProjectPDF)->where('revisi',$revisi)->where('turunan',$turunan)->count();
         if($clf>0){
@@ -840,11 +845,6 @@ class templateController extends Controller
                 $detail->information = $isikemaspdf->information;
                 $detail->save();
             }
-        }
-        
-        $pengajuan = pengajuan::where('id_pdf',$SubPDF->pdf_id)->count();
-        if($pengajuan == 1){
-            $pengajuan = pengajuan::where('id_pdf',$SubPDF->pdf_id)->delete();
         }
 
         return Redirect::Route('buatpdf1',['pdf_id' => $id_ProjectPDF, 'revisi' => $naikversi, 'turunan' => $turunan]);
