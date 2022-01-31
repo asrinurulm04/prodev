@@ -10,6 +10,7 @@ use App\model\pkp\PkpProject;
 use App\model\pkp\SKU;
 use App\model\pdf\SubPDF;
 use App\model\formula\Formula;
+use App\model\formula\Fortail;
 use App\model\Imports\KemasImport;
 use App\model\Modelmesin\Mesin;
 use App\model\Modelmesin\datamesin;
@@ -65,7 +66,10 @@ class KonsepController extends Controller
         $myFormula  = Formula::where('id',$fs)->first();
         $konsep     = KonsepKemas::where('id_ws',$ws)->first();
 		$kemas      = FormulaKemas::where('id_ws', $ws)->get();
+		$kemasNew   = FormulaKemas::where('id_ws', $ws)->get();
+        $fortail    = Fortail::where('formula_id',$fs)->join('ms_bahans','ms_bahans.id','tr_fortails.bahan_id')->where('status_bb','baru')->get();
         $workbook   = WorkbookFs::where('id',$ws)->first();
+        $form       = FormPengajuanFS::where('id_feasibility',$workbook->id_feasibility)->first();
         $Mdata      = DB::table('tr_mesin')->join('ms_mesin','tr_mesin.id_data_mesin','=','ms_mesin.id_data_mesin')->where('id_wb_fs',$ws)->orwhere('kategori','Filling')->where('kategori','Packing')->get();
         $manual     = Mesin::where('manual','!=',NULL)->where('id_wb_fs',$ws)->get();
         $lokasi2    = Mesin::join('ms_mesin','ms_mesin.id_data_mesin','tr_mesin.id_data_mesin')->where('kategori','Filling')->orwhere('kategori','Packing')
@@ -76,7 +80,10 @@ class KonsepController extends Controller
             'id'        => $id,
             'manual'    => $manual,
             'lokasi'    => $lokasi2,
+            'fortail'   => $fortail,
+            'form'      => $form,
             'konsep'    => $konsep,
+            'kemasNew'  => $kemasNew,
             'Mdata'     => $Mdata,
             'myFormula' => $myFormula,
             'ws'        => $ws,

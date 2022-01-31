@@ -182,15 +182,15 @@
                     </tr>
                     <tr>
                       <td>Value of Unprocessed Raw Material per year</td>
-                      <td></td>
+						          <td><?php $angka_format = number_format($form->material_per_year,2,",","."); echo "Rp. ".$angka_format;?></td>
                     </tr>
                     <tr>
                       <td>New Packaging Material?</td>
                       <td>{{$form->new_packaging_material}}</td>
                     </tr>
                     <tr>
-                      <td>Value of Unprocessed Packaging Material</td>
-                      <td></td>
+                      <td>Value of Unprocessed Packaging Material per year</td>
+						          <td><?php $angka_format = number_format($form->packaging_per_year,2,",","."); echo "Rp. ".$angka_format;?></td>
                     </tr>
                     <tr>
                       <td>New Machine?</td>

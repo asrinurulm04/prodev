@@ -42,6 +42,7 @@ class TempKemasController extends Controller
         $objPHPExcel->getActiveSheet()->getColumnDimension('W')->setWidth(18.00);
         $objPHPExcel->getActiveSheet()->getColumnDimension('X')->setWidth(18.00);
         $objPHPExcel->getActiveSheet()->getColumnDimension('Y')->setWidth(18.00);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('Z')->setWidth(18.00);
 
         $objPHPExcel->getActiveSheet()->mergeCells('A1:Y1');
         $objPHPExcel->setActiveSheetIndex(0)
@@ -58,22 +59,23 @@ class TempKemasController extends Controller
                     ->setCellValue('G2', 'Spek')
                     ->setCellValue('H2', 'supplier')
                     ->setCellValue('I2', 'Min.Order')
-                    ->setCellValue('J2', 'Harga/UOM')
-                    ->setCellValue('K2', 'Cost Kemas')
-                    ->setCellValue('L2', 'Line Mesin')
-                    ->setCellValue('M2', 'Dus Net')
-                    ->setCellValue('N2', 'Box Net')
-                    ->setCellValue('O2', 'Batch Net')
-                    ->setCellValue('P2', 'Unit')
-                    ->setCellValue('Q2', 'Dus Net UOM')
-                    ->setCellValue('R2', 'Box Net UOM')
-                    ->setCellValue('S2', 'Batch Net UOM')
-                    ->setCellValue('T2', 'Unit')
-                    ->setCellValue('U2', 'Waste')
-                    ->setCellValue('V2', 'Cost kemas/box')
-                    ->setCellValue('W2', 'Cost kemas/dus')
-                    ->setCellValue('X2', 'Cost kemas/bag')
-                    ->setCellValue('Y2', 'Cost kemas/UOM');
+                    ->setCellValue('J2', 'Unit Order')
+                    ->setCellValue('K2', 'Harga/UOM')
+                    ->setCellValue('L2', 'Cost Kemas')
+                    ->setCellValue('M2', 'Line Mesin')
+                    ->setCellValue('N2', 'Dus Net')
+                    ->setCellValue('O2', 'Box Net')
+                    ->setCellValue('P2', 'Batch Net')
+                    ->setCellValue('Q2', 'Unit')
+                    ->setCellValue('R2', 'Dus Net UOM')
+                    ->setCellValue('S2', 'Box Net UOM')
+                    ->setCellValue('T2', 'Batch Net UOM')
+                    ->setCellValue('U2', 'Unit')
+                    ->setCellValue('V2', 'Waste')
+                    ->setCellValue('W2', 'Cost kemas/box')
+                    ->setCellValue('X2', 'Cost kemas/dus')
+                    ->setCellValue('Y2', 'Cost kemas/bag')
+                    ->setCellValue('Z2', 'Cost kemas/UOM');
         $objPHPExcel->getActiveSheet()->getStyle('A2:W2')->getAlignment()->setHorizontal('center');
 
         $objPHPExcel->getActiveSheet()->setTitle('TEMPLATE KEMAS');

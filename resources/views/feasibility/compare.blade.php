@@ -373,9 +373,9 @@
 					</tr>
 					<tr>
 						<th>Value of Unprocessed Raw Material per year</th>
-						<td>0</td>
-						<td>0</td>
-						<td>0</td>
+						<td>@if($cm1!=NULL)<?php $angka_format = number_format($cm1->material_per_year,2,",","."); echo "Rp. ".$angka_format;?>@endif</td>
+						<td>@if($cm1!=NULL)<?php $angka_format = number_format($cm2->material_per_year,2,",","."); echo "Rp. ".$angka_format;?>@endif</td>
+						<td>@if($cm1!=NULL)<?php $angka_format = number_format($cm3->material_per_year,2,",","."); echo "Rp. ".$angka_format;?>@endif</td>
 					</tr>
 					<tr>
 						<th>New Packaging Material?</th>
@@ -384,10 +384,10 @@
 						<td>@if($cm3!=NULL){{$cm3->new_packaging_material}}@endif</td>
 					</tr>
 					<tr>
-						<th>Value of Unprocessed Packaging Material</th>
-						<td></td>
-						<td></td>
-						<td></td>
+						<th>Value of Unprocessed Packaging Material per year</th>
+						<td>@if($cm1!=NULL)<?php $angka_format = number_format($cm1->packaging_per_year,2,",","."); echo "Rp. ".$angka_format;?>@endif</td>
+						<td>@if($cm1!=NULL)<?php $angka_format = number_format($cm2->packaging_per_year,2,",","."); echo "Rp. ".$angka_format;?>@endif</td>
+						<td>@if($cm1!=NULL)<?php $angka_format = number_format($cm3->packaging_per_year,2,",","."); echo "Rp. ".$angka_format;?>@endif</td>
 					</tr>
 					<tr>
 						<th>New Machine?</th>

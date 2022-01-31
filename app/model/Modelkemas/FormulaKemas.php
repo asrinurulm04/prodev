@@ -19,6 +19,7 @@ class FormulaKemas extends Model
         'spek',
         'supplier',
         'min_order',
+        'unit_order',
         'harga_uom',
         'cost_kemas',
         'line_mesin',

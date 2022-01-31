@@ -16,8 +16,8 @@
   <div class="card-block">
     <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
 		  <li class="nav-item"><a class="nav-link active"href="#1" data-toggle="tab" aria-expanded="true">Data kemas FBK</a></li>
-		  <!-- <li class="nav-item"><a class="nav-link" href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Data Kemas HPP</a></li> -->
 		  <li class="nav-item"><a class="nav-link" href="#tab_content3" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Configuration</a></li>
+		  <li class="nav-item"><a class="nav-link" href="#tab_content4" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Form BK</a></li>
     </ul>
 		<div id="myTabContent" class="tab-content"><br>
 		
@@ -160,7 +160,7 @@
 				</div>
 			</div>
 			
-			<!-- KOnfigurasi -->
+			<!-- Konfigurasi -->
 			<div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">
 				<div class="panel panel-default">
 					<div class="panel-body badan">
@@ -236,6 +236,132 @@
 					</div>
 				</div>
 			</div>  
+			<!-- Form BK baru -->
+			<div role="tabpanel" class="tab-pane fade" id="tab_content4" aria-labelledby="profile-tab">
+				<div class="panel panel-default">			
+					<div class="panel-body badan">
+						<table class=" table table-sm table-responsive table-hover table-bordered" style="font-size: 11px;">
+							<thead>
+								<tr style="font-weight: bold;color:white;background-color: #2a3f54;">
+									<th rowspan="2" class="text-center">Nama BB</th>
+									<th rowspan="2" class="text-center">Supplier</th>
+									<th colspan="3" class="text-center">Price</th>
+									<th colspan="2" class="text-center">Quantity order</th>
+									<th rowspan="2" class="text-center">Shelf life</th>
+									<th rowspan="2" class="text-center">Usage/ Batch</th>
+									<th rowspan="2" class="text-center">Usage/ month</th>
+									<th rowspan="2" class="text-center">DOI</th>
+									<th colspan="2" class="text-center">Potential Scrap</th>
+								</tr>
+								<tr style="font-weight: bold;color:white;background-color: #2a3f54;">
+									<th class="text-center">CURRENCY</th>
+									<th class="text-center">PRICE/Unit</th>
+									<th class="text-center">Unit</th>
+									<th class="text-center">MOQ</th>
+									<th class="text-center">Unit</th>
+									<th class="text-center">currency</th>
+									<th class="text-center">value</th>
+								</tr>
+							</thead>
+							<tbody>
+          			@php $nom = 0; @endphp
+								@foreach($kemasNew as $new)
+								@if($new->status=='New')
+          			@php ++$nom; @endphp
+								<tr>
+									<td class="text-right">{{ $new->Description }}</td>
+									<td class="text-right">{{ $new->supplier }}</td>
+									<td>IDR</td>
+									<td class="text-center">{{ $new->harga_uom }}</td>
+									<td class="text-center">{{ $new->unit_order }}</td>
+									<td class="text-center">{{ $new->min_order }}</td>
+									<td class="text-right">{{ $new->unit_order }}</td>
+									<td class="text-right">{{ $new->shelf_life }}</td>
+									<td class="text-right">{{ $new->batch_net }}</td>
+									<td class="text-right">{{ $form->Batch_month * $new->batch_net }}</td>
+									<td class="text-right">{{ $new->min_order / ( $form->Batch_month * $new->batch_net ) }}</td>
+									<td class="text-right">IDR</td>
+									<td class="text-right">
+										@if( ($new->min_order / ( $form->Batch_month * $new->batch_net )) >= $new->shelf_life )
+										<input type="text" value="<?php $angka_format = number_format(($new->min_order * $new->harga_uom) - ($new->harga_uom * ( ($form->Batch_month * $new->batch_net) * $new->shelf_life ) ),2,",","."); echo "Rp. ".$angka_format;?>" readonly>
+										<input id="nilai{{$nom}}" type="hidden" value="{{($new->min_order * $new->harga_uom) - ($new->harga_uom * ( ($form->Batch_month * $new->batch_net) * $new->shelf_life ) )}}" readonly>
+										@else
+										<input type="text" value="<?php $angka_format = number_format(0,2,",","."); echo "Rp. ".$angka_format;?>">
+										<input type="hidden" id="nilai{{$nom}}" value="0">
+										@endif
+									</td>
+									</td>
+								</tr>
+								@endif
+								@endforeach
+							</tbody>
+						</table>
+						<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-5">
+						</div>
+					</div>
+					
+					<div class="panel-body">
+						<table class=" table table-sm table-responsive table-hover table-bordered" style="font-size: 11px;">
+							<thead>
+								<tr style="font-weight: bold;color:white;background-color: #2a3f54;">
+									<th rowspan="2" class="text-center">Nama BB</th>
+									<th rowspan="2" class="text-center">Supplier</th>
+									<th colspan="2" class="text-center">Price</th>
+									<th rowspan="2" class="text-center">Quantity order</th>
+									<th rowspan="2" class="text-center">Shelf life</th>
+									<th rowspan="2" class="text-center">Usage/ Batch</th>
+									<th rowspan="2" class="text-center">Usage/ month</th>
+									<th rowspan="2" class="text-center">DOI</th>
+									<th colspan="3" class="text-center">Potential Scrap</th>
+								</tr>
+								<tr style="font-weight: bold;color:white;background-color: #2a3f54;">
+									<th class="text-center">CURRENCY</th>
+									<th class="text-center">PRICE/Unit</th>
+									<th class="text-center">currency</th>
+									<th class="text-center">value</th>
+									<th class="text-center">value/year</th>
+								</tr>
+							</thead>
+							<tbody>
+          			@php $no = 0; @endphp
+								@foreach($fortail as $new)
+          			@php ++$no; @endphp
+								<tr>
+									<td class="text-right">{{ $new->nama_bahan}}</td>
+									<td class="text-right">{{ $new->supplier }}</td>
+									<td>IDR</td>
+									<td class="text-center">{{ $new->harga_satuan }}</td>
+									<td class="text-center">{{ $new->qty_order }}</td>
+									<td class="text-center">{{ $new->shelf_life }}</td>
+									<td class="text-right">{{ $new->per_batch }}</td>
+									<td class="text-right">{{ $form->Batch_month * $new->per_batch }}</td>
+									<td class="text-right">{{ $new->qty_order / ( $form->Batch_month * $new->per_batch ) }}</td>
+									<td class="text-right">IDR</td>
+									<td class="text-right">
+										@if( ($new->qty_order / ( $form->Batch_month * $new->per_batch )) >= $new->shelf_life )
+										<input type="text" value="<?php $angka_format = number_format(($new->qty_order * $new->harga_satuan) - ($new->harga_satuan * ( (($form->Batch_month * $new->batch_net) * $new->shelf_life ) * ( 75/100 ) ) ),2,",","."); echo "Rp. ".$angka_format;?>" readonly>
+										@else
+										<input type="text" value="<?php $angka_format = number_format(0,2,",","."); echo "Rp. ".$angka_format;?>">
+										@endif
+									</td>
+									<td class="text-right">
+										@if( ($new->qty_order / ( $form->Batch_month * $new->per_batch )) >= $new->shelf_life )
+										<input type="text" value="<?php $angka_format = number_format((12 / ($new->shelf_life * (75/100)) * ($new->qty_order * $new->harga_satuan) - ($new->harga_satuan * ( (($form->Batch_month * $new->batch_net) * $new->shelf_life ) * ( 75/100 ) ) ) ) ,2,",","."); echo "Rp. ".$angka_format;?>" readonly>
+										<input id="nilaibb{{$no}}" type="hidden" value="{{ (12 / ($new->shelf_life * (75/100)) * ($new->qty_order * $new->harga_satuan) - ($new->harga_satuan * ( (($form->Batch_month * $new->batch_net) * $new->shelf_life ) * ( 75/100 ) ) ) )}}" readonly>
+										@else
+										<input type="text" value="<?php $angka_format = number_format(0,2,",","."); echo "Rp. ".$angka_format;?>">
+										<input type="hidden" id="nilaibb{{$no}}" value="0">
+										@endif
+									</td>
+								</tr>
+								@endforeach
+							</tbody>
+						</table>
+						<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-5">
+						</div>
+					</div>
+				</div>
+			</div>  
 		</div>
   </div>
 </div>
@@ -265,6 +391,8 @@
             <input type="text" name="judul" value="WB Kemas-{{$wb->opsi}}" id="judul" class="form-control col-md-12 col-xs-12" readonly>
           </div>
         </div>
+				<input type="hidden" id="hasil" name="hasil" readonly>
+				<input type="hidden" id="hasilbaku" name="hasilbaku" readonly>
         <div class="form-group row">
           <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name" style="color:#31a9b8">Remarks</label>
           <div class="col-md-9 col-sm-8 col-xs-12">
@@ -281,4 +409,29 @@
   </div>
 </div>
 <!-- Selesai -->
+@endsection
+@section('s')
+<script type="text/javascript">
+  var i = {{ $nom }} ;
+  var total  = 0;
+  var y;
+    for(y=1;y<=i;y++){
+			potential 		= parseFloat($('#nilai'+y).val());
+     	total   			= total + potential;
+      $("#hasil").val(total);
+    }
+</script>
+
+<script type="text/javascript">
+	jumlahbb 			= $('#nilaibb1').val();
+	console.log(jumlahbb);
+  var j = {{ $no }} ;
+  var total  = 0;
+  var y;
+    for(y=1;y<=j;y++){
+			jumlahbb 			= parseFloat($('#nilaibb'+y).val());
+     	total   			= total + jumlahbb;
+      $("#hasilbaku").val(total);
+    }
+</script>
 @endsection

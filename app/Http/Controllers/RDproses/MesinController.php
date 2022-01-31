@@ -23,6 +23,7 @@ use App\model\modelkemas\KonsepKemas;
 use App\model\Modelkemas\FormulaKemas;
 use App\model\feasibility\WorkbookFs;
 use App\model\feasibility\Feasibility;
+use App\model\feasibility\FormPengajuanFS;
 use Auth;
 use Redirect;
 
@@ -117,6 +118,11 @@ class MesinController extends Controller
         $ws->note=$request->remarks;
         $ws->save();
         
+        $form = FormPengajuanFS::where('id_feasibility', $ws->id_feasibility)->first();
+        $form->material_per_year=$request->hasilbaku;
+        $form->packaging_per_year=$request->hasil;
+        $form->save();
+
         return redirect::route('workbookfs',[$request->id,$request->fs]);
     }
 
