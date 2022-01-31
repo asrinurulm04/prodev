@@ -47,7 +47,7 @@ class MesinController extends Controller
         }
         $Mdata2     = DB::table('tr_mesin')->where('manual','!=',NULL)->where('id_wb_fs',$ws)->get();
         $lokasi     = Mesin::join('ms_mesin','ms_mesin.id_data_mesin','tr_mesin.id_data_mesin')->where('kategori','!=','Filling')->where('kategori','!=','Packing')
-                    ->join('tr_workbook_fs','tr_workbook_fs.id','tr_mesin.id_wb_fs')->where('id_feasibility',$fs)->join('tr_feasibility','tr_feasibility.id','tr_workbook_fs.id_feasibility')->select('id_wb_fs','IO')->distinct()->get();
+                    ->join('tr_workbook_fs','tr_workbook_fs.id','tr_mesin.id_wb_fs')->where('id_feasibility',$fs)->join('tr_feasibility','tr_feasibility.id','tr_workbook_fs.id_feasibility')->select('IO')->distinct()->get();
         $hitung     = DB::table('tr_mesin')->where('id_wb_fs',$ws)->count();
         $wb         = WorkbookFs::where('id',$ws)->first();
         $fs         = Feasibility::where('id',$wb->id_feasibility)->first();

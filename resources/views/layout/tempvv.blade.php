@@ -262,13 +262,13 @@
                   @elseif(auth()->user()->role->namaRule === 'admin')
                   <li><a><i class="fa fa-folder-open"></i> PKP / PDF / PROMO <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                    <li><a><i class="fa fa-edit"></i>Input Project<span class="fa fa-chevron-down"></span></a>
+                    <!-- <li><a><i class="fa fa-edit"></i>Input Project<span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">
                         <li><a href="{{Route('formpkp')}}">Input PKP</a> </li>
                         <li><a href="{{Route('formpdf')}}">Input PDF</a> </li>
                         <li><a href="{{Route('promo')}}">Input PROMO</a> </li>
                       </ul>
-                    </li>
+                    </li> -->
                     <li><a><i class="fa fa-archive"></i>Draf Project<span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">
                         <li><a href="{{Route('drafpkp')}}">Draf PKP</a> </li>

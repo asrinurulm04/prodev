@@ -28,7 +28,7 @@
 					<td>{{ $user->username}}</td>
 					<td>{{ $user->email}}</td>
 					<td class="text-center">{{ $user->departement->dept}}</td>
-					<td>{{ $user->role->namaRule}}</td>
+					<td>{{ $user->role->role}}</td>
 					<td class="text-center">
 						@if ($user->status == 'active')
 					  <span class="label label-primary">Active</span>     

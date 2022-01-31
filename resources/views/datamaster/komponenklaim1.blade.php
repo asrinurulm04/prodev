@@ -137,7 +137,7 @@
 						<div class="modal-dialog" role="document">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h3 class="modal-title" id="exampleModalLabel">Edit Data {{$klaim->komponen}}
+									<h3 class="modal-title" id="exampleModalLabel">Edit Data {{$klaim->komponen->komponen}}
 									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 										<span aria-hidden="true">&times;</span>
 									</button></h3>
@@ -149,7 +149,7 @@
 											<div class="form-group">
 												<label class="control-label col-md-2 col-sm-3 col-xs-12">Komponen</label>
 												<div class="col-md-5 col-sm-4 col-xs-12">
-													<input disabled value="{{$klaim->komponen}}" required="required" class="form-control col-md-12 col-xs-12" type="text" name="komponen">
+													<input disabled value="{{$klaim->komponen->komponen}}" required="required" class="form-control col-md-12 col-xs-12" type="text" name="komponen">
 												</div>
 												<label class="control-label col-md-1 col-sm-3 col-xs-12">Klaim</label>
 												<div class="col-md-4 col-sm-4 col-xs-12">

@@ -10,7 +10,8 @@ class FormulaKemas extends Model
     protected $primaryKey ='id_fk';
 
     public $fillable = [
-        'id_Ws',
+        'status',
+        'shelf_life',
         'item_code',
         'kode_komputer',
         'Description',
@@ -33,6 +34,7 @@ class FormulaKemas extends Model
         'unit_order',
         'cost_box',
         'cost_dus',
-        'cost_sachet'];
+        'cost_sachet',
+        'cost_uom'];
 
 }

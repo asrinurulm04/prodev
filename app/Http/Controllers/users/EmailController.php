@@ -17,6 +17,7 @@ use App\model\pkp\Forecast;
 use App\model\pdf\SubPDF;
 use App\model\pdf\kemaspdf;
 use App\model\pdf\ProjectPDF;
+use App\model\master\emailLaunching;
 use App\model\promo\promo;
 use App\model\promo\Allocation;
 use App\model\promo\DataPromo;

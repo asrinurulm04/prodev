@@ -298,9 +298,9 @@
             <tr style="font-weight: bold;color:white;background-color: #2a3f54;">
               <td class="text-center" width="5%">No</td>
               <td class="text-center" width="15%">#</td>
-              <td class="text-center" width="20%">Formula</td>
-              <td class="text-center" width="20%">Versi FS</td>
-              <td class="text-center" width="40%">Note</td>
+              <td class="text-center" width="15%">Project Number</td>
+              <td class="text-center" width="15%">Formula</td>
+              <td class="text-center" width="35%">Note</td>
               <td width="5%"></td>
             </tr>
           </thead>
@@ -309,8 +309,12 @@
             <tr>
               <th class="text-center">{{ ++$nol }}</th>
               <th>{{ $WorkbookFs->name }}</th>
+              @if($WorkbookFs->id_project!='NULL')
+              <th>{{ $WorkbookFs->fs->pkp->pkp_number }}{{ $WorkbookFs->fs->pkp->ket_no }}</th>
+              @elseif($WorkbookFs->id_project_pdf!='NULL')
+              <th>{{ $WorkbookFs->fs->pdf->pdf_number }}{{ $WorkbookFs->fs->pdf->ket_no }}</th>
+              @endif
               <th>{{ $WorkbookFs->fs->workbook->formula }}</th>
-              <th class="text-center">{{ $WorkbookFs->fs->revisi }}.{{ $WorkbookFs->fs->revisi_proses }}.{{ $WorkbookFs->fs->revisi_kemas }}.{{ $WorkbookFs->fs->revisi_lab }}</th>
               <th>{{ $WorkbookFs->note }}</th>
               <th width="21%" class="text-center">
                 <a class="btn btn-success btn-sm" onclick="return confirm('Are you sure you want to use this template?')" href="{{route('useMesin',[$WorkbookFs->id,$ws])}}"><i class="fa fa-check"></i></a>

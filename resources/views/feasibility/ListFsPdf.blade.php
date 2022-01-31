@@ -119,7 +119,7 @@
                   @if(auth()->user()->Departement->dept === 'REA')
                     @if($fs->revisi_proses!=NULL)
                       @if($fs->status_proses=='ajukan')
-                        <a href=" {{route('workbookfs',[$fs->id_project_pdf,$fs->id])}}" class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
+                        <a href=" {{route('workbookfs',[$fs->id_project_pdf,$fs->id])}}" class="btn btn-sm btn-warning" type="button" title="request"><li class="fa fa-edit"></li></a>
                       @elseif($fs->status_proses=='selesai')
                         <a href="{{ route('datamesin',[$fs->id_project_pdf,$fs->id,$fs->id_wb_proses]) }}" class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-folder"></li></a>
                       @elseif($fs->status_proses=='sending')
@@ -130,7 +130,7 @@
                     @endif
                   @else
                     @if($fs->status_proses=='ajukan')
-                      <a disabled class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
+                      <a disabled class="btn btn-sm btn-warning" type="button" title="request"><li class="fa fa-edit"></li></a>
                     @elseif($fs->status_proses=='sending' || $fs->status_proses=='selesai')
                       <a disabled class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-folder"></li></a>
                     @endif 
@@ -141,7 +141,7 @@
                   @if(auth()->user()->Departement->dept === 'RKA')
                     @if($fs->revisi_kemas!=NULL)
                       @if($fs->status_kemas=='ajukan')
-                        <a href=" {{route('workbookfs',[$fs->id_project_pdf,$fs->id])}}" class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
+                        <a href=" {{route('workbookfs',[$fs->id_project_pdf,$fs->id])}}" class="btn btn-sm btn-warning" type="button" title="request"><li class="fa fa-edit"></li></a>
                       @elseif($fs->status_kemas=='selesai')
                         <a href="{{ route('hasilnya',[$fs->id_project_pdf,$fs->id,$fs->id_wb_kemas]) }}" class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-folder"></li></a>
                       @elseif($fs->status_kemas=='sending')
@@ -152,7 +152,7 @@
                     @endif
                   @else
                     @if($fs->status_kemas=='ajukan')
-                      <a disabled class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
+                      <a disabled class="btn btn-sm btn-warning" type="button" title="request"><li class="fa fa-edit"></li></a>
                     @elseif($fs->status_kemas=='selesai' || $fs->status_kemas=='sending')
                       <a disabled class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-folder"></li></a>
                     @endif
@@ -163,7 +163,7 @@
                   @if(auth()->user()->role->namaRule === 'lab') 
                     @if($fs->revisi_lab!=NULL)
                       @if($fs->status_lab=='ajukan')
-                        <a href=" {{route('datalab',[$fs->id_project_pdf,$fs->id])}}" class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
+                        <a href=" {{route('datalab',[$fs->id_project_pdf,$fs->id])}}" class="btn btn-sm btn-warning" type="button" title="request"><li class="fa fa-edit"></li></a>
                       @elseif($fs->status_lab=='selesai' || $fs->status_lab=='sending')
                         <a href=" {{route('datalab',[$fs->id_project_pdf,$fs->id])}}" class="btn btn-sm btn-info" type="button" title="show"><li class="fa fa-folder"></li></a>
                       @endif
@@ -172,7 +172,7 @@
                     @endif
                   @else
                     @if($fs->status_lab=='ajukan')
-                      <a disabled class="btn btn-sm btn-danger" type="button" title="request"><li class="fa fa-warning"></li></a>
+                      <a disabled class="btn btn-sm btn-warning" type="button" title="request"><li class="fa fa-edit"></li></a>
                     @elseif($fs->status_lab=='proses' || $fs->status_lab=='selesai' || $fs->status_lab=='sending')
                       <a disabled class="btn btn-sm btn-info" type="button" title="show"><li class="fa fa-folder"></li></a>
                     @endif
@@ -182,13 +182,13 @@
                 <td class="text-center">
                   @if(auth()->user()->Departement->dept === 'REA' || auth()->user()->role->namaRule === 'maklon')
                     @if($fs->status_maklon=='ajukan')  
-                    <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#maklon{{$fs->id}}" title="Request"><li class="fa fa-warning"></li></button>
+                    <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#maklon{{$fs->id}}" title="Request"><li class="fa fa-edit"></li></button>
                     @elseif($fs->status_maklon=='sending' || $fs->status_maklon=='selesai')
                     <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#maklon2{{$fs->id}}" title="Show"><li class="fa fa-folder"></li></button>
                     @endif
                   @else
                     @if($fs->status_maklon=='ajukan')  
-                      <button class="btn btn-danger btn-sm" disabled title="Request"><li class="fa fa-warning"></li></button>
+                      <button class="btn btn-warning btn-sm" disabled title="Request"><li class="fa fa-edit"></li></button>
                     @elseif($fs->status_maklon=='sending' || $fs->status_maklon=='selesai')
                       <button class="btn btn-info btn-sm" disabled title="Show"><li class="fa fa-folder"></li></button>
                     @endif

@@ -12,6 +12,14 @@ class Feasibility extends Model
         return $this->hasOne('App\model\formula\Formula','id','id_formula');
     }
 
+    public function pkp(){
+        return $this->hasOne('App\model\pkp\PkpProject','id_project','id_project');
+    }
+
+    public function pdf(){
+        return $this->hasOne('App\model\pdf\ProjectPDF','id_project_pdf','id_project_pdf');
+    }
+
     public function form(){
         return $this->hasOne('App\model\feasibility\FormPengajuanFS','id_feasibility','id');
     }
