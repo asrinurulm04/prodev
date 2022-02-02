@@ -373,8 +373,8 @@ Route::post('user_fs/{id}','PengajuanFS\PengajuanFsController@user_fs')->name('u
 Route::post('final/{fs}','PengajuanFS\PengajuanFsController@final')->name('final');
 // Workbook FS
 Route::get('workbookfs/{id}/{fs}','workbookFS\WorkbookFsController@workbookfs')->name('workbookfs');
-Route::get('overview/{fs}','workbookFS\WorkbookFsController@overview')->name('overview');
-Route::get('overviewpdf/{fs}','workbookFS\WorkbookFsController@overviewpdf')->name('overviewpdf');
+Route::get('overview/{fs}/{wb1}/{wb2}','workbookFS\WorkbookFsController@overview')->name('overview');
+Route::get('overviewpdf/{fs}/{wb1}/{wb2}','workbookFS\WorkbookFsController@overviewpdf')->name('overviewpdf');
 Route::get('reportinfo/{info}/{id}','workbookFS\WorkbookFsController@reportinfo')->name('reportinfo');
 Route::get('addFs/{id}/{fs}','workbookFS\WorkbookFsController@addFs')->name('addFs');
 Route::get('upProses/{ws}','workbookFS\UpFsController@upProses')->name('upProses');

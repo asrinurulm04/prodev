@@ -103,7 +103,7 @@
                         @endif
                       @endif
                       @if($fs->status_proses!='ajukan' && $fs->status_maklon!='ajukan' && $fs->status_kemas!='ajukan' && $fs->status_lab!='ajukan')
-                      <a href="{{route('overview',$fs->id)}}" class="btn btn-sm btn-info" type="button" title="Overview"><li class="fa fa-file"></li></a>
+                      <a href="{{route('overview',[$fs->id,$fs->id_wb_proses,$fs->id_wb_kemas])}}" class="btn btn-sm btn-info" type="button" title="Overview"><li class="fa fa-file"></li></a>
                       @endif
                     @endif
                     <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#up{{$fs->id}}" title="Up"><i class="fa fa-arrow-circle-o-up"></i></a></button>

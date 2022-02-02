@@ -300,7 +300,7 @@
 						</div>
 					</div>
 					
-					<div class="panel-body">
+					<div class="panel-body hidden">
 						<table class=" table table-sm table-responsive table-hover table-bordered" style="font-size: 11px;">
 							<thead>
 								<tr style="font-weight: bold;color:white;background-color: #2a3f54;">
