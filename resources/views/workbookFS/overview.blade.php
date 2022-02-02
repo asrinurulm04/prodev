@@ -9,7 +9,7 @@
     		<h3><li class="fa fa-list"> Overview</li></h3><hr>
 			</div>
 			<div class="col-md-2">
-				<a href="{{route('download_fs',[$pkp->id_project,$form->id_feasibility])}}" class="btn btn-warning btn-sm" type="button"><li class="fa fa-upload"></li> export excel</a>
+				<a href="{{route('download_fs',[$form->id_feasibility,$fs->id_wb_proses,$fs->id_wb_kemas])}}" class="btn btn-warning btn-sm" type="button"><li class="fa fa-upload"></li> export excel</a>
 				@if(auth()->user()->role->namaRule == 'pv_lokal')
 				<a class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Kemabali" href="{{route('PengajuanFS_PKP',[$pkp->id_project,$formula->id])}}"><i class="fa fa-arrow-left"></i> Back</a>
 				@elseif(auth()->user()->role->namaRule != 'pv_lokal')

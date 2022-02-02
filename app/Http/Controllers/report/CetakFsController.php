@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Validator;
 
 use App\model\pkp\PkpProject;
 use App\model\pkp\DataPangan;
+use App\model\pkp\Forecast;
 use App\model\pdf\SubPDF;
 use App\model\pdf\ProjectPDF;
 use App\model\Modellab\DataLab;
@@ -22,37 +23,41 @@ use App\model\Modelmesin\Mesin;
 use App\model\Modelmesin\LiniTerdampak;
 use App\model\Modelkemas\KonsepKemas;
 use App\model\formula\Formula;
+use App\model\formula\Fortail;
+use DB;
 
 class CetakFsController extends Controller
 {
-    public function download_fs($id,$fs){ // download data Overview FS
+    public function download_fs($fs,$wbProses,$wbKemas){ // download data Overview FS
         $objPHPExcel = new Spreadsheet();
         $objPHPExcel->setActiveSheetIndex(0); 
 
         $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(51.00);
         $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(38.00);
 
-        $pkp        = PkpProject::where('id_project',$id)->join('tr_kemas','tr_kemas.id_kemas','tr_project_pkp.kemas_eksis')->first();
-        $pangan     = DataPangan::where('id_pangan',$pkp->bpom)->first();
         $data       = Feasibility::where('id',$fs)->first();
-        $maklon     = Maklon::where('id_fs',$fs)->first();
-        $form       = FormPengajuanFS::where('id_feasibility',$fs)->first();
-        $for        = Formula::where('id',$data->id_formula)->first();
-        $mesin      = Mesin::join('ms_mesin','ms_mesin.id_data_mesin','tr_mesin.id_data_mesin')->where('kategori','Filling')
-                    ->join('tr_workbook_fs','tr_workbook_fs.id','tr_mesin.id_wb_fs')->where('tr_workbook_fs.status','Sent')->where('id_feasibility',$fs)
-                    ->join('tr_feasibility','tr_feasibility.id','tr_workbook_fs.id_feasibility')->select('nama_mesin')->distinct()->first();
-        $all        = LiniTerdampak::join('tr_workbook_fs','tr_workbook_fs.id','tr_lini_allergen.id_ws')->where('tr_workbook_fs.status','Sent')
-                    ->join('tr_feasibility','tr_feasibility.id','tr_workbook_fs.id_feasibility')->where('id_feasibility',$fs)->first();
-        $referensi  = KonsepKemas::join('tr_workbook_fs','tr_workbook_fs.id','tr_datakemas.id_ws')->where('tr_workbook_fs.status','Sent')->where('id_feasibility',$fs)
-                    ->join('tr_feasibility','tr_feasibility.id','tr_workbook_fs.id_feasibility')->join('ms_sku','tr_datakemas.referensi','ms_sku.id')->select('nama_sku')->first();
-        $lokasi     = Mesin::join('ms_mesin','ms_mesin.id_data_mesin','tr_mesin.id_data_mesin')->where('kategori','!=','Filling')->where('kategori','!=','Packing')
-                    ->join('tr_workbook_fs','tr_workbook_fs.id','tr_mesin.id_wb_fs')->join('tr_feasibility','tr_feasibility.id','tr_workbook_fs.id_feasibility')->select('IO')->distinct()->first();
-        $lokasi2    = Mesin::join('ms_mesin','ms_mesin.id_data_mesin','tr_mesin.id_data_mesin')->where('kategori','Filling')->orwhere('kategori','Packing')
-                    ->join('tr_workbook_fs','tr_workbook_fs.id','tr_mesin.id_wb_fs')->join('tr_feasibility','tr_feasibility.id','tr_workbook_fs.id_feasibility')->select('IO')->distinct()->first();
-        $dataLab    = DataLab::where('id_fs',$fs)->join('ms_item_desc','ms_item_desc.id','tr_lab.id_item_desc')->first();
-        $lab        = ($dataLab->kimia_batch * $for->batch) + ($dataLab->biaya_tahanan * $for->batch) + ($dataLab->analisa_swab * $for->batch) + ($dataLab->mikro_analisa * $for->batch) + (($dataLab->biaya_analisa * $dataLab->jlh_sample_mikro)* $for->batch) + $dataLab->biaya_analisa_tahun;
-        $analisa    = $lab/$for->batch;
-        $forKemas   = FormulaKemas::join('tr_feasibility','tr_feasibility.id_wb_kemas','tr_formula_kemas.id_ws')->where('id',$fs)->where('cost_uom','!=',NULL)->select('cost_uom')->first();
+        $pkp        = PkpProject::where('id_project',$data->id_project)->join('tr_kemas','tr_kemas.id_kemas','tr_project_pkp.kemas_eksis')->first();
+        $pangan     = DataPangan::where('id_pangan',$pkp->bpom)->first();
+        $formula    = Formula::where('id',$data->id_formula)->first();
+        $for        = Forecast::where('id_project',$data->id_project)->where('forecast','!=','0')->min('forecast');
+        $form       = FormPengajuanFS::where('id_feasibility',$data->id)->first();
+        $maklon     = Maklon::where('id_fs',$data->id)->first();
+        $mesin      = Mesin::join('ms_mesin','ms_mesin.id_data_mesin','tr_mesin.id_data_mesin')->where('kategori','Filling')->where('id_wb_fs',$wbKemas)->select('nama_mesin')->distinct()->first();
+        $kemas      = KonsepKemas::where('id_ws',$wbKemas)->select('id_ws','referensi')->first();
+        $lokasi     = Mesin::join('ms_mesin','ms_mesin.id_data_mesin','tr_mesin.id_data_mesin')->where('kategori','!=','Filling')->where('kategori','!=','Packing')->where('id_wb_fs',$wbProses)->select('IO')->distinct()->first();
+        $lokasi2    = Mesin::join('ms_mesin','ms_mesin.id_data_mesin','tr_mesin.id_data_mesin')->where('kategori','Filling')->orwhere('kategori','Packing')->where('id_wb_fs',$wbKemas)->select('IO')->distinct()->first();
+        $all        = LiniTerdampak::where('id_ws',$wbProses)->first();
+        $dataLab    = DataLab::where('id_fs',$data->id)->join('ms_item_desc','ms_item_desc.id','tr_lab.id_item_desc')->first();
+        $konsep     = KonsepKemas::where('id_ws',$wbKemas)->join('ms_sku','tr_datakemas.referensi','ms_sku.id')->select('nama_sku')->first();
+        $Mdata      = DB::table('tr_mesin')->join('ms_mesin','tr_mesin.id_data_mesin','=','ms_mesin.id_data_mesin')->where('id_wb_fs',$kemas->id_ws)->orwhere('kategori','Filling')->where('kategori','Packing')->get();
+        $lab        = ($dataLab->kimia_batch * $formula->batch) + ($dataLab->biaya_tahanan * $formula->batch) + ($dataLab->analisa_swab * $formula->batch) + ($dataLab->mikro_analisa * $formula->batch) + (($dataLab->biaya_analisa * $dataLab->jlh_sample_mikro)* $formula->batch) + $dataLab->biaya_analisa_tahun;
+        $analisa    = $lab/$formula->batch;
+        $forKemas   = FormulaKemas::join('tr_feasibility','tr_feasibility.id_wb_kemas','tr_formula_kemas.id_ws')->where('id',$data->id)->where('cost_uom','!=',NULL)->select('cost_uom')->first();
+        $fortail    = Fortail::where('formula_id',$data->id)->join('ms_bahans','ms_bahans.id','tr_fortails.bahan_id')->where('status_bb','baru')->get();
+        $manual     = Mesin::where('manual','!=',NULL)->where('id_wb_fs',$wbKemas)->get();
+        $mesin2     = Mesin::join('tr_workbook_fs','tr_workbook_fs.id','tr_mesin.id_wb_fs')->where('id_wb_fs',$wbProses)->get();
+        $kemasNew   = FormulaKemas::where('id_ws', $wbKemas)->get();
+        $iddesc     = DataLab::where('id_fs',$data->id)->join('ms_item_desc','ms_item_desc.id','tr_lab.id_item_desc')->first();
         $pertama = 26;
 
         $objPHPExcel->setActiveSheetIndex(0)
@@ -100,7 +105,7 @@ class CetakFsController extends Controller
                 ->setCellValue('A5', 'Product Name/Desc')
                 ->setCellValue('B5', $pkp['idea'])
                 ->setCellValue('A6', 'Formula Code')
-                ->setCellValue('B6', $for['formula'])
+                ->setCellValue('B6', $formula['formula'])
                 ->setCellValue('A7', 'Product type (BPOM Category)')
                 ->setCellValue('B7', $dp)
                 ->setCellValue('A8', 'Packaging configuration')
@@ -108,7 +113,7 @@ class CetakFsController extends Controller
                 ->setCellValue('A9', 'Product reference :product characteristic')
                 ->setCellValue('B9', $form['product_reference'])
                 ->setCellValue('A10', 'Product reference :packaging')
-                ->setCellValue('B10', $referensi['nama_sku'])
+                ->setCellValue('B10', $konsep['nama_sku'])
                 ->setCellValue('A11', 'Forecast (Rp/ month)')
                 ->setCellValue('B11', $form['forecast'])
                 ->setCellValue('A12', 'Pricelist (Rp/ UOM)')
@@ -158,11 +163,11 @@ class CetakFsController extends Controller
                 ->setCellValue('A34', 'New Raw Material?')
                 ->setCellValue('B34', $form['new_raw_material'])
                 ->setCellValue('A35', 'Value of Unprocessed Raw Material per year')
-                ->setCellValue('B35', '-')
+                ->setCellValue('B35', $form['material_per_year'])
                 ->setCellValue('A36', 'New Packaging Material?')
                 ->setCellValue('B36', $form['new_packaging_material'])
                 ->setCellValue('A37', 'Value of Unprocessed Packaging Material')
-                ->setCellValue('B37', '-')
+                ->setCellValue('B37', $form['packaging_per_year'])
                 ->setCellValue('A38', 'New Machine?')
                 ->setCellValue('B38', $form['new_machine'])
                 ->setCellValue('A39', 'Need Trial before real packaging?')
@@ -180,34 +185,36 @@ class CetakFsController extends Controller
         $objWriter->save('php://output');
     }
     
-    public function download_fs_pdf($id,$fs){ // download data Overview FS
+    public function download_fs_pdf($fs,$wbProses,$wbKemas){ // download data Overview FS
         $objPHPExcel = new Spreadsheet();
         $objPHPExcel->setActiveSheetIndex(0); 
 
         $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(51.00);
         $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(38.00);
 
-        $pdf        = SubPDF::where('pdf_id',$id)->where('status_pdf','active')->join('tr_pdf_project','tr_pdf_project.id_project_pdf','tr_sub_pdf.pdf_id')
-                    ->join('tr_kemas','tr_kemas.id_kemas','tr_sub_pdf.kemas_eksis')->first();
         $data       = Feasibility::where('id',$fs)->first();
-        $maklon     = Maklon::where('id_fs',$fs)->first();
-        $form       = FormPengajuanFS::where('id_feasibility',$fs)->first();
-        $for        = Formula::where('id',$data->id_formula)->first();
-        $mesin      = Mesin::join('ms_mesin','ms_mesin.id_data_mesin','tr_mesin.id_data_mesin')->where('kategori','Filling')
-                    ->join('tr_workbook_fs','tr_workbook_fs.id','tr_mesin.id_wb_fs')->where('tr_workbook_fs.status','Sent')->where('id_feasibility',$fs)
-                    ->join('tr_feasibility','tr_feasibility.id','tr_workbook_fs.id_feasibility')->select('nama_mesin')->distinct()->get();
-        $all        = LiniTerdampak::join('tr_workbook_fs','tr_workbook_fs.id','tr_lini_allergen.id_ws')->where('tr_workbook_fs.status','Sent')
-                    ->join('tr_feasibility','tr_feasibility.id','tr_workbook_fs.id_feasibility')->where('id_feasibility',$fs)->first();
-        $referensi  = KonsepKemas::join('tr_workbook_fs','tr_workbook_fs.id','tr_datakemas.id_ws')->where('tr_workbook_fs.status','Sent')->where('id_feasibility',$fs)
-                    ->join('tr_feasibility','tr_feasibility.id','tr_workbook_fs.id_feasibility')->join('ms_sku','tr_datakemas.referensi','ms_sku.id')->select('nama_sku')->first();
-        $lokasi     = Mesin::join('ms_mesin','ms_mesin.id_data_mesin','tr_mesin.id_data_mesin')->where('kategori','!=','Filling')->where('kategori','!=','Packing')
-                    ->join('tr_workbook_fs','tr_workbook_fs.id','tr_mesin.id_wb_fs')->join('tr_feasibility','tr_feasibility.id','tr_workbook_fs.id_feasibility')->select('IO')->distinct()->first();
-        $lokasi2    = Mesin::join('ms_mesin','ms_mesin.id_data_mesin','tr_mesin.id_data_mesin')->where('kategori','Filling')->orwhere('kategori','Packing')
-                    ->join('tr_workbook_fs','tr_workbook_fs.id','tr_mesin.id_wb_fs')->join('tr_feasibility','tr_feasibility.id','tr_workbook_fs.id_feasibility')->select('IO')->distinct()->first();
-        $dataLab    = DataLab::where('id_fs',$fs)->join('ms_item_desc','ms_item_desc.id','tr_lab.id_item_desc')->first();
-        $lab        = ($dataLab->kimia_batch * $for->batch) + ($dataLab->biaya_tahanan * $for->batch) + ($dataLab->analisa_swab * $for->batch) + ($dataLab->mikro_analisa * $for->batch) + (($dataLab->biaya_analisa * $dataLab->jlh_sample_mikro)* $for->batch) + $dataLab->biaya_analisa_tahun;
-        $analisa    = $lab/$for->batch;
-        $forKemas   = FormulaKemas::join('tr_feasibility','tr_feasibility.id_wb_kemas','tr_formula_kemas.id_ws')->where('id',$fs)->where('cost_uom','!=',NULL)->select('cost_uom')->first();
+        $pdf        = SubPDF::where('pdf_id',$data->id)->where('status_pdf','active')->join('tr_pdf_project','tr_pdf_project.id_project_pdf','tr_sub_pdf.pdf_id')
+                    ->join('tr_kemas','tr_kemas.id_kemas','tr_sub_pdf.kemas_eksis')->first();
+        $formula    = Formula::where('id',$data->id_formula)->first();
+        $for        = Forecast::where('id_project',$data->id_project)->where('forecast','!=','0')->min('forecast');
+        $form       = FormPengajuanFS::where('id_feasibility',$data->id)->first();
+        $maklon     = Maklon::where('id_fs',$data->id)->first();
+        $mesin      = Mesin::join('ms_mesin','ms_mesin.id_data_mesin','tr_mesin.id_data_mesin')->where('kategori','Filling')->where('id_wb_fs',$wbKemas)->select('nama_mesin')->distinct()->get();
+        $kemas      = KonsepKemas::where('id_ws',$wbKemas)->select('id_ws','referensi')->first();
+        $lokasi     = Mesin::join('ms_mesin','ms_mesin.id_data_mesin','tr_mesin.id_data_mesin')->where('kategori','!=','Filling')->where('kategori','!=','Packing')->where('id_wb_fs',$wbProses)->select('IO')->distinct()->get();
+        $lokasi2    = Mesin::join('ms_mesin','ms_mesin.id_data_mesin','tr_mesin.id_data_mesin')->where('kategori','Filling')->orwhere('kategori','Packing')->where('id_wb_fs',$wbKemas)->select('IO')->distinct()->get();
+        $all        = LiniTerdampak::where('id_ws',$wbProses)->first();
+        $dataLab    = DataLab::where('id_fs',$data->id)->join('ms_item_desc','ms_item_desc.id','tr_lab.id_item_desc')->first();
+        $konsep     = KonsepKemas::where('id_ws',$kemas->id_ws)->first();
+        $Mdata      = DB::table('tr_mesin')->join('ms_mesin','tr_mesin.id_data_mesin','=','ms_mesin.id_data_mesin')->where('id_wb_fs',$kemas->id_ws)->orwhere('kategori','Filling')->where('kategori','Packing')->get();
+        $lab        = ($dataLab->kimia_batch * $formula->batch) + ($dataLab->biaya_tahanan * $formula->batch) + ($dataLab->analisa_swab * $formula->batch) + ($dataLab->mikro_analisa * $formula->batch) + (($dataLab->biaya_analisa * $dataLab->jlh_sample_mikro)* $formula->batch) + $dataLab->biaya_analisa_tahun;
+        $analisa    = $lab/$formula->batch;
+        $forKemas   = FormulaKemas::join('tr_feasibility','tr_feasibility.id_wb_kemas','tr_formula_kemas.id_ws')->where('id',$data->id)->where('cost_uom','!=',NULL)->select('cost_uom')->first();
+        $fortail    = Fortail::where('formula_id',$data->id)->join('ms_bahans','ms_bahans.id','tr_fortails.bahan_id')->where('status_bb','baru')->get();
+        $manual     = Mesin::where('manual','!=',NULL)->where('id_wb_fs',$wbKemas)->get();
+        $mesin2     = Mesin::join('tr_workbook_fs','tr_workbook_fs.id','tr_mesin.id_wb_fs')->where('id_wb_fs',$wbProses)->get();
+        $kemasNew   = FormulaKemas::where('id_ws', $wbKemas)->get();
+        $iddesc     = DataLab::where('id_fs',$data->id)->join('ms_item_desc','ms_item_desc.id','tr_lab.id_item_desc')->first();
         
         $objPHPExcel->setActiveSheetIndex(0)
                     ->setCellValue('A1', 'Project Overview');
@@ -282,14 +289,8 @@ class CetakFsController extends Controller
                 ->setCellValue('B23', $lokasi['IO'])
                 ->setCellValue('A24', 'Fillpack Location')
                 ->setCellValue('B24', $lokasi2['IO'])
-                ->setCellValue('A25', 'Filling Machine');
-
-            foreach($mesin as $_mesin){   
-            $objPHPExcel->setActiveSheetIndex(0)
-                        ->setCellValue('B25', $_mesin['nama_mesin']);
-            }
-
-            $objPHPExcel->setActiveSheetIndex(0)
+                ->setCellValue('A25', 'Filling Machine')
+                ->setCellValue('B25', $_mesin['nama_mesin'])
                 ->setCellValue('A26', 'Cost of Packaging (Rp/UOM)')
                 ->setCellValue('B26', $forKemas->cost_uom)
                 ->setCellValue('A27', 'Cost of Lab/Analysis (Rp/UOM)')
@@ -307,11 +308,11 @@ class CetakFsController extends Controller
                 ->setCellValue('A33', 'New Raw Material?')
                 ->setCellValue('B33', $form['new_raw_material'])
                 ->setCellValue('A34', 'Value of Unprocessed Raw Material per year')
-                ->setCellValue('B34', '-')
+                ->setCellValue('B34', $form['material_per_year'])
                 ->setCellValue('A35', 'New Packaging Material?')
                 ->setCellValue('B35', $form['new_packaging_material'])
                 ->setCellValue('A36', 'Value of Unprocessed Packaging Material')
-                ->setCellValue('B36', '-')
+                ->setCellValue('B36', $form['packaging_per_year'])
                 ->setCellValue('A37', 'New Machine?')
                 ->setCellValue('B37', $form['new_machine'])
                 ->setCellValue('A38', 'Need Trial before real packaging?')

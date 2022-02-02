@@ -110,8 +110,8 @@ Route::get('rejectemailpromo\{id}','users\EmailController@rejectemailpromo')->na
 
 /***** Report */
 // Cetak Excel
-Route::get('download_fs/{id}/{fs}','report\CetakFsController@download_fs')->name('download_fs');
-Route::get('download_fs_pdf/{id}/{fs}','report\CetakFsController@download_fs_pdf')->name('download_fs_pdf');
+Route::get('download_fs/{fs}/{wb1}/{wb2}','report\CetakFsController@download_fs')->name('download_fs');
+Route::get('download_fs_pdf/{fs}/{wb1}/{wb2}','report\CetakFsController@download_fs_pdf')->name('download_fs_pdf');
 Route::get('cetak','report\cetakController@download_project')->name('cetak');
 Route::get('cetak_my_project','report\cetakController@download_my_project')->name('cetak_my_project');
 Route::get('cetak_pdf','report\cetakController@download_project_pdf')->name('cetak_pdf');
