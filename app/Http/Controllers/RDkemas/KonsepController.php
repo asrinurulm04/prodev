@@ -62,12 +62,13 @@ class KonsepController extends Controller
     public function hasilnya(Request $request,$id,$fs, $ws){ // halaman summary data kemas
         $pdf        = SubPDF::where('pdf_id',$id)->join('tr_pdf_project','tr_pdf_project.id_project_pdf','tr_sub_pdf.pdf_id')->where('status_pdf','active')->first();
         $pkp        = PkpProject::where('id_project',$id)->where('status_project','=','active')->first();
-        $myFormula  = Formula::where('id',$fs)->first();
+        $feasibility= Feasibility::where('id',$fs)->first();
+        $myFormula  = Formula::where('id',$feasibility->id_formula)->first();
         $konsep     = KonsepKemas::where('id_ws',$ws)->first();
 		$kemas      = FormulaKemas::where('id_ws', $ws)->get();
 		$kemasNew   = FormulaKemas::where('id_ws', $ws)->get();
         $workbook   = WorkbookFs::where('id',$ws)->first();
-        $fortail    = Fortail::where('formula_id',$fs)->join('ms_bahans','ms_bahans.id','tr_fortails.bahan_id')->where('status_bb','baru')->get();
+        $fortail    = Fortail::where('formula_id',$feasibility->id_formula)->join('ms_bahans','ms_bahans.id','tr_fortails.bahan_id')->where('status_bb','baru')->get();
         $form       = FormPengajuanFS::where('id_feasibility',$workbook->id_feasibility)->first();
         $Mdata      = DB::table('tr_mesin')->join('ms_mesin','tr_mesin.id_data_mesin','=','ms_mesin.id_data_mesin')->where('id_wb_fs',$ws)->orwhere('kategori','Filling')->where('kategori','Packing')->get();
         $manual     = Mesin::where('manual','!=',NULL)->where('id_wb_fs',$ws)->get();

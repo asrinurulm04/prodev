@@ -198,7 +198,9 @@
                           
                           <div class="modal-body">
                             <form class="form-horizontal form-label-left" method="POST" action="{{route('tolakfs',$fs->id)}}">
-                            <input id="tgl" value="PDF "type="hidden" name="type">
+                            <input id="type" value="PDF "type="hidden" name="type">
+                            <?php $date = Date('j-F-Y'); ?>
+                            <input id="tgl" value="{{ $date }}"type="hidden" name="tgl">
                             <textarea name="note" id="note" rows="2" cols="60" class="form-control" required></textarea><br>
                           </div>
                           <div class="modal-footer">
@@ -223,7 +225,9 @@
                           </div>
                           <div class="modal-body">
                             <form class="form-horizontal form-label-left" method="POST" action="{{route('approvefs',$fs->id)}}">
-                            <input id="tgl" value="PDF "type="hidden" name="type">
+                            <input id="type" value="PDF "type="hidden" name="type">
+                            <?php $date = Date('j-F-Y'); ?>
+                            <input id="tgl" value="{{ $date }}"type="hidden" name="tgl">
                             <textarea name="note" id="note" cols="60" rows="2" class="form-control" required></textarea><br>
                           </div>
                           <div class="modal-footer">

@@ -115,7 +115,7 @@
                 @if($pkp->status_freeze=='inactive')
                   @if(auth()->user()->role->namaRule === 'pv_lokal')
                   <button title="freeze" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#freezedata{{ $pkp->id_project  }}" data-toggle="tooltip"><li class="fa fa-exclamation-triangle"></i></a></button>
-                    @if($pkp->status_pkp=='proses' && $pkp->pengajuan_fs=='done')
+                    @if($pkp->status_pkp=='proses')
                     <button title="Launch" class="btn btn-success btn-sm" data-toggle="modal" data-target="#closedata{{ $pkp->id_project  }}" data-toggle="tooltip"><li class="fa fa-power-off"></i></a></button>
                     @elseif($pkp->status_pkp=='proses' || $pkp->status_pkp=='sent')
                     <a href="{{route('droppkp',$pkp->id_project)}}" title="Drop" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')"><li class="fa fa-ban"></li></a>

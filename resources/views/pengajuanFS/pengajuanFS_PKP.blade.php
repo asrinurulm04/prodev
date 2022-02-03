@@ -79,7 +79,6 @@
                     <th class="text-center" width="35%">Configuration Concept</th>
                     <th  width="20%" class="text-center">UOM</th>
                     <th width="10%" class="text-center">NFI Price</th>
-                    <th width="10%" class="text-center">Costumer Price</th>
                   </tr>
                 </thead>
         				<tbody>
@@ -151,7 +150,6 @@
                     </td>
                     <td><input type="text" value="{{$pkp->UOM}}" required class="form-control" name="uom" id="uom"></td>
                     <td><input type="number" value="{{$pkp->selling_price}}" required class="form-control" name="selling" id="selling"></td>
-                    <td><input type="number" value="{{$pkp->price}}" required class="form-control" name="price" id="price"></td>
                   </tr>
         					<tr id='addrow1'></tr>
         				</tbody>
@@ -210,7 +208,9 @@
                           
                           <div class="modal-body">
                             <form class="form-horizontal form-label-left" method="POST" action="{{route('tolakfs',$fs->id)}}">
-                            <input id="tgl" value="PKP "type="hidden" name="type">
+                            <input id="type" value="PKP "type="hidden" name="type">
+                            <?php $date = Date('j-F-Y'); ?>
+                            <input id="tgl" value="{{ $date }}"type="hidden" name="tgl">
                             <textarea name="note" id="note" rows="2" cols="60" class="form-control" required></textarea><br>
                           </div>
                           <div class="modal-footer">
@@ -235,7 +235,9 @@
                           </div>
                           <div class="modal-body">
                             <form class="form-horizontal form-label-left" method="POST" action="{{route('approvefs',$fs->id)}}">
-                            <input id="tgl" value="PKP "type="hidden" name="type">
+                            <input id="type" value="PKP "type="hidden" name="type">
+                            <?php $date = Date('j-F-Y'); ?>
+                            <input id="tgl" value="{{ $date }}"type="hidden" name="tgl">
                             <textarea name="note" id="note" cols="60" rows="2" class="form-control" required></textarea><br>
                           </div>
                           <div class="modal-footer">
@@ -247,6 +249,10 @@
                       </div>
                     </div>
                     <!-- Modal Selesai -->
+                    @elseif($fs->status=='approve')
+                    <a href="{{route('batalApprove',$fs->id)}}" class="btn btn-danger btn-sm " title="Batalkan Approve" type="button"><li class="fa fa-times"></li></a>
+                    @elseif($fs->status=='reject')
+                    <a href="{{route('batalApprove',$fs->id)}}" class="btn btn-danger btn-sm " title="Batalkan Reject" type="button"><li class="fa fa-times"></li></a>
                     @endif
                   </td>
                 </tr>

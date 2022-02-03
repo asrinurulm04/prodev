@@ -398,8 +398,8 @@
             <input type="text" name="judul" value="WB Kemas-{{$wb->opsi}}" id="judul" class="form-control col-md-12 col-xs-12" readonly>
           </div>
         </div>
-				<input type="hidden" id="hasil" name="hasil" readonly>
-				<input type="hidden" id="hasilbaku" name="hasilbaku" readonly>
+				<input type="text" id="hasil" name="hasil" readonly>
+				<input type="text" id="hasilbaku" name="hasilbaku" readonly>
         <div class="form-group row">
           <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name" style="color:#31a9b8">Remarks</label>
           <div class="col-md-9 col-sm-8 col-xs-12">
@@ -438,6 +438,7 @@
     for(y=1;y<=j;y++){
 			jumlahbb 			= parseFloat($('#nilaibb'+y).val());
      	total   			= total + jumlahbb;
+			total = parseFloat(total.toFixed(3));
       $("#hasilbaku").val(total);
     }
 </script>

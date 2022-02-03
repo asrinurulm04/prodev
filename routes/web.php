@@ -344,6 +344,8 @@ Route::get('getitemdesc/{id}','ajax\AjaxController@getitemdesc')->name('getitemd
 // pengajuan FS dari Pv
 Route::post('approvefs/{fs}','feasibility\ApproveFsController@approvefs')->name('approvefs');
 Route::post('tolakfs/{fs}','feasibility\ApproveFsController@rejectfs')->name('tolakfs');
+Route::get('batalReject/{fs}','feasibility\ApproveFsController@batalReject')->name('batalReject');
+Route::get('batalApprove/{fs}','feasibility\ApproveFsController@batalApprove')->name('batalApprove');
 // PKP
 Route::post('ajukanPKP/{id}/{for}','PengajuanFS\PengajuanFsController@ajukanPKP')->name('ajukanPKP');
 Route::get('pengajuanFS_PKP/{id}/{for}','PengajuanFS\PengajuanFsController@formPengajuanFS')->name('PengajuanFS_PKP');

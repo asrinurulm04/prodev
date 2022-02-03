@@ -45,7 +45,7 @@ class ApproveFsController extends Controller
             $user4 = User::where('id',$mr->manager_id )->first();
             $user5 = User::where('id',$mr2->manager_id )->first();
 
-            $message->subject('PRODEV | INFO Pengajuan FS');
+            $message->subject('PRODEV | INFO APPROVAL MARGIN |'.$data->project_name.'- '.$request->tgl.'');
             $message->to([$user1->email,$user2->email,$user3->email,$user4->email,$user5->email]);
             $message->cc(Auth::user()->email);
         });
@@ -54,6 +54,24 @@ class ApproveFsController extends Controller
         return response (['status' => false,'errors' => $e->getMessage()]);
     }
     return redirect::back()->with('status','E-mail Successfully');
+  }
+
+  public function batalApprove($fs){
+    $fs = Feasibility::where('id',$fs)->first();
+    $fs->status         = NULL;
+    $fs->note_approve   = NULL;
+    $fs->save();
+
+    return redirect::back();
+  }
+
+  public function batalReject($fs){
+    $fs = Feasibility::where('id',$fs)->first();
+    $fs->status         = NULL;
+    $fs->note_approve   = NULL;
+    $fs->save();
+
+    return redirect::back();
   }
 
   public function rejectfs(Request $request, $fs){
@@ -85,7 +103,7 @@ class ApproveFsController extends Controller
             $user4 = User::where('id',$mr->manager_id )->first();
             $user5 = User::where('id',$mr2->manager_id )->first();
 
-            $message->subject('PRODEV | INFO Pengajuan FS');
+            $message->subject('PRODEV | INFO REJECT MARGIN |'.$data->project_name.'- '.$request->tgl.'');
             $message->to([$user1->email,$user2->email,$user3->email,$user4->email,$user5->email]);
             $message->cc(Auth::user()->email);
         });
