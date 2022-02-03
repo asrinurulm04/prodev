@@ -12,8 +12,8 @@ class Feasibility extends Model
         return $this->hasOne('App\model\formula\Formula','id','id_formula');
     }
 
-    public function pkp(){
-        return $this->hasOne('App\model\pkp\PkpProject','id_project','id_project');
+    public function datapkp(){
+        return $this->belongsTo('App\model\pkp\PkpProject','id_project','id_project');
     }
 
     public function pdf(){

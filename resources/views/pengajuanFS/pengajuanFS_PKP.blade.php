@@ -194,7 +194,7 @@
                     @endif
                   </td>
                   <td class="text-center">
-                    <a href="{{route('overview',$fs->id)}}" class="btn btn-sm btn-info" title="Show"><li class='fa fa-eye'></li></a>
+									  <a href="{{route('listPkpFs',$fs->id_project)}}" class="btn-info btn-sm btn" type="button" title="Show"><li class="fa fa-eye"></li></a>
                     @if($fs->status=='')
                     <a class="btn btn-danger btn-sm" data-toggle="modal" data-target="#rejectfs{{ $fs->id  }}" title="Reject"><li class="fa fa-times"></li></a>  
                     <!-- Modal Reject FS-->

@@ -6,11 +6,19 @@
 <div class="x_panel">
   <div class="col-md-6"><h4><li class="fa fa-star"></li> Project Name </h4></div>
   <div class="col-md-6" align="right">
-		<button class="btn btn-info btn-sm" data-toggle="modal" data-target="#NW1" type="button"><li class="fa fa-check"></li> Finish</button>
-		@if($wb->fs->id_project != '')
-    <a href="{{ route('datamesin',[$pkp->id_project,$fs,$ws])}}" class="btn btn-danger btn-sm" type="button"><li class="fa fa-arrow-left"></li> Back</a>
-		@elseif($wb->fs->id_project_pdf != '')
-    <a href="{{ route('datamesin',[$pdf->pdf_id,$fs,$ws])}}" class="btn btn-danger btn-sm" type="button"><li class="fa fa-arrow-left"></li> Back</a>
+    @if(auth()->user()->role->namaRule == 'kemas')
+			<button class="btn btn-info btn-sm" data-toggle="modal" data-target="#NW1" type="button"><li class="fa fa-check"></li> Finish</button>
+			@if($wb->fs->id_project != '')
+			<a href="{{ route('datamesin',[$pkp->id_project,$fs,$ws])}}" class="btn btn-danger btn-sm" type="button"><li class="fa fa-arrow-left"></li> Back</a>
+			@elseif($wb->fs->id_project_pdf != '')
+			<a href="{{ route('datamesin',[$pdf->pdf_id,$fs,$ws])}}" class="btn btn-danger btn-sm" type="button"><li class="fa fa-arrow-left"></li> Back</a>
+			@endif
+		@elseif(auth()->user()->role->namaRule != 'kemas')
+			@if($wb->fs->id_project != '')
+			<a href="{{ route('listPkpFs',[$pkp->id_project])}}" class="btn btn-danger btn-sm" type="button"><li class="fa fa-arrow-left"></li> Back</a>
+			@elseif($wb->fs->id_project_pdf != '')
+			<a href="{{ route('listPdfFs',[$pdf->pdf_id])}}" class="btn btn-danger btn-sm" type="button"><li class="fa fa-arrow-left"></li> Back</a>
+			@endif
 		@endif
 	</div><br><br><hr>
   <div class="card-block">
@@ -20,7 +28,6 @@
 		  <li class="nav-item"><a class="nav-link" href="#tab_content4" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Form BK</a></li>
     </ul>
 		<div id="myTabContent" class="tab-content"><br>
-		
 			<!-- pertama -->
 			<div class="tab-pane active" id="1">
 				<div class="panel panel-default">			

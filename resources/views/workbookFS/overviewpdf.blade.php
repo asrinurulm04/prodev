@@ -9,7 +9,7 @@
     		<h3><li class="fa fa-list"> Overview</li></h3><hr>
 			</div>
 			<div class="col-md-2">
-				<a href="{{route('download_fs_pdf',[$pdf->id_project_pdf,$form->id_feasibility])}}" class="btn btn-warning btn-sm" type="button"><li class="fa fa-upload"></li> export excel</a>
+				<a href="{{route('download_fs_pdf',[$form->id_feasibility,$fs->id_wb_proses,$fs->id_wb_kemas])}}" class="btn btn-warning btn-sm" type="button"><li class="fa fa-upload"></li> export excel</a>
 				@if(auth()->user()->role->namaRule == 'pv_global')
 				<a class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Kemabali" href="{{route('PengajuanFS_PDF',[$pdf->id_project_pdf,$formula->id])}}"><i class="fa fa-arrow-left"></i> Back</a>
 				@elseif(auth()->user()->role->namaRule != 'pv_global')
@@ -215,15 +215,15 @@
 					</tr>
 					<tr>
 						<th>Value of Unprocessed Raw Material per year</th>
-						<td></td>
+						<td><?php $angka_format = number_format($form->material_per_year,2,",","."); echo "Rp. ".$angka_format;?></td>
 					</tr>
 					<tr>
 						<th>New Packaging Material?</th>
 						<td>{{$form->new_packaging_material}}</td>
 					</tr>
 					<tr>
-						<th>Value of Unprocessed Packaging Material</th>
-						<td></td>
+						<th>Value of Unprocessed Packaging Material per year</th>
+						<td><?php $angka_format = number_format($form->packaging_per_year,2,",","."); echo "Rp. ".$angka_format;?></td>
 					</tr>
 					<tr>
 						<th>New Machine?</th>

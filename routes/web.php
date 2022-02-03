@@ -370,7 +370,7 @@ Route::get('DetailPengajuanFsPKP/{pkp}/{id}/{fs}','PengajuanFS\PengajuanFsContro
 Route::get('DetailPengajuanFsPDF/{pdf}/{id}/{fs}','PengajuanFS\PengajuanFsController@DetailPengajuanFsPDF')->name('DetailPengajuanFsPDF');
 Route::post('detailoverview','PengajuanFS\PengajuanFsController@overview')->name('detailoverview');
 Route::post('user_fs/{id}','PengajuanFS\PengajuanFsController@user_fs')->name('user_fs');
-Route::post('final/{fs}','PengajuanFS\PengajuanFsController@final')->name('final');
+Route::post('final/{fs}/{wb1}/{wb2}','PengajuanFS\PengajuanFsController@final')->name('final');
 // Workbook FS
 Route::get('workbookfs/{id}/{fs}','workbookFS\WorkbookFsController@workbookfs')->name('workbookfs');
 Route::get('overview/{fs}/{wb1}/{wb2}','workbookFS\WorkbookFsController@overview')->name('overview');
@@ -388,6 +388,7 @@ Route::get('dataOH/{id}/{fs}/{ws}','RDproses\MesinController@dataOH')->name('dat
 Route::get('AllergenBaru/{id}/{fs}/{ws}','RDproses\MesinController@AllergenBaru')->name('AllergenBaru');
 Route::get('destroymesin/{id}','RDproses\MesinController@destroy')->name('destroymesin');
 Route::get('useMesin/{id}/{ws}','RDproses\MesinController@useMesin')->name('useMesin');
+Route::get('detailProses/{id}/{fs}/{ws}','RDproses\MesinController@detailProses')->name('detailProses');
 Route::post('Mdata','RDproses\MesinController@Mdata')->name('Mdata');
 Route::post('runtime','RDproses\MesinController@runtime')->name('runtime');
 Route::post('ohOther','RDproses\MesinController@ohOther')->name('ohOther');
@@ -405,3 +406,5 @@ Route::get('hasilnya/{id}/{fs}/{ws}','RDkemas\KonsepController@hasilnya')->name(
 Route::post('insert','RDkemas\KonsepController@insert')->name('insert');
 // Workbook Maklon
 Route::Post('FsMaklon/{fs}','Maklon\MaklonController@FsMaklon')->name('FsMaklon');
+// Costing
+Route::get('listFsConting','feasibility\ListFsCostingController@listFsConting')->name('listFsConting');

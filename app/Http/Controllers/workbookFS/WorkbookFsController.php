@@ -134,7 +134,7 @@ class WorkbookFsController extends Controller
             'iddesc'   => $iddesc,
             'fortail'  => $fortail,
             'forKemas' => $forKemas,
-            'pkp'      => $pkp,
+            'pdf'      => $pdf,
             'konsep'   => $konsep,
             'form'     => $form,
             'maklon'   => $maklon,

@@ -254,4 +254,28 @@ class MesinController extends Controller
         }
         return redirect::back();
     }
+
+    public function detailProses($id,$fs,$ws){
+        $wb     = WorkbookFs::where('id',$ws)->first();
+        $fs     = Feasibility::where('id',$wb->id_feasibility)->first();
+        $pkp    = PkpProject::where('id_project',$id)->first();
+        $dataO  = OH::where('id_ws',$ws)->get();
+        $lini   = LiniTerdampak::where('id_ws',$ws)->first();
+        $all    = Fortail::where('formula_id',$fs->id_formula)->join('tr_bb_allergen','tr_bb_allergen.id_bb','tr_fortails.bahan_id')->get();
+        $pdf    = SubPDF::where('pdf_id',$id)->join('tr_pdf_project','tr_pdf_project.id_project_pdf','tr_sub_pdf.pdf_id')->where('status_pdf','active')->first();
+        $Mdata  = DB::table('tr_mesin')->join('ms_mesin','tr_mesin.id_data_mesin','=','ms_mesin.id_data_mesin')->where('id_wb_fs',$ws)->where('kategori','!=','Filling')->where('kategori','!=','Packing')->get();
+        $bahan  = Fortail::where('formula_id',$fs->id_formula)->join('tr_bb_allergen','tr_bb_allergen.id_bb','tr_fortails.bahan_id')->select('bahan_id')->distinct()->get();
+        return view('RDproses.detailproses')->with([
+            'id'        => $id,
+            'pkp'       => $pkp,
+            'pdf'       => $pdf,
+            'lini'      => $lini,
+            'wb'        => $ws,
+            'bahan'     => $bahan,
+            'fs'        => $fs,
+            'all'       => $all,
+            'dataO'     => $dataO,
+            'Mdata'     => $Mdata
+        ]);
+    }
 }

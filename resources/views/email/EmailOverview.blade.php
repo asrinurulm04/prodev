@@ -82,7 +82,7 @@
                     </tr>
                     <tr>
                       <td>Product reference :packaging </td>
-                      <td>{{$kemas->sku->nama_sku}}</td>
+                      <td>{{$kemas->nama_sku}}</td>
                     </tr>
                     <tr>
                       <td>Forecast (Rp/ month)</td>

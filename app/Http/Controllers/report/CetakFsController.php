@@ -193,19 +193,19 @@ class CetakFsController extends Controller
         $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(38.00);
 
         $data       = Feasibility::where('id',$fs)->first();
-        $pdf        = SubPDF::where('pdf_id',$data->id)->where('status_pdf','active')->join('tr_pdf_project','tr_pdf_project.id_project_pdf','tr_sub_pdf.pdf_id')
+        $pdf        = SubPDF::where('pdf_id',$data->id_project_pdf)->where('status_pdf','active')->join('tr_pdf_project','tr_pdf_project.id_project_pdf','tr_sub_pdf.pdf_id')
                     ->join('tr_kemas','tr_kemas.id_kemas','tr_sub_pdf.kemas_eksis')->first();
         $formula    = Formula::where('id',$data->id_formula)->first();
         $for        = Forecast::where('id_project',$data->id_project)->where('forecast','!=','0')->min('forecast');
         $form       = FormPengajuanFS::where('id_feasibility',$data->id)->first();
         $maklon     = Maklon::where('id_fs',$data->id)->first();
-        $mesin      = Mesin::join('ms_mesin','ms_mesin.id_data_mesin','tr_mesin.id_data_mesin')->where('kategori','Filling')->where('id_wb_fs',$wbKemas)->select('nama_mesin')->distinct()->get();
+        $mesin      = Mesin::join('ms_mesin','ms_mesin.id_data_mesin','tr_mesin.id_data_mesin')->where('kategori','Filling')->where('id_wb_fs',$wbKemas)->select('nama_mesin')->distinct()->first();
         $kemas      = KonsepKemas::where('id_ws',$wbKemas)->select('id_ws','referensi')->first();
-        $lokasi     = Mesin::join('ms_mesin','ms_mesin.id_data_mesin','tr_mesin.id_data_mesin')->where('kategori','!=','Filling')->where('kategori','!=','Packing')->where('id_wb_fs',$wbProses)->select('IO')->distinct()->get();
-        $lokasi2    = Mesin::join('ms_mesin','ms_mesin.id_data_mesin','tr_mesin.id_data_mesin')->where('kategori','Filling')->orwhere('kategori','Packing')->where('id_wb_fs',$wbKemas)->select('IO')->distinct()->get();
+        $lokasi     = Mesin::join('ms_mesin','ms_mesin.id_data_mesin','tr_mesin.id_data_mesin')->where('kategori','!=','Filling')->where('kategori','!=','Packing')->where('id_wb_fs',$wbProses)->select('IO')->distinct()->first();
+        $lokasi2    = Mesin::join('ms_mesin','ms_mesin.id_data_mesin','tr_mesin.id_data_mesin')->where('kategori','Filling')->orwhere('kategori','Packing')->where('id_wb_fs',$wbKemas)->select('IO')->distinct()->first();
         $all        = LiniTerdampak::where('id_ws',$wbProses)->first();
         $dataLab    = DataLab::where('id_fs',$data->id)->join('ms_item_desc','ms_item_desc.id','tr_lab.id_item_desc')->first();
-        $konsep     = KonsepKemas::where('id_ws',$kemas->id_ws)->first();
+        $konsep     = KonsepKemas::where('id_ws',$wbKemas)->join('ms_sku','tr_datakemas.referensi','ms_sku.id')->select('nama_sku')->first();
         $Mdata      = DB::table('tr_mesin')->join('ms_mesin','tr_mesin.id_data_mesin','=','ms_mesin.id_data_mesin')->where('id_wb_fs',$kemas->id_ws)->orwhere('kategori','Filling')->where('kategori','Packing')->get();
         $lab        = ($dataLab->kimia_batch * $formula->batch) + ($dataLab->biaya_tahanan * $formula->batch) + ($dataLab->analisa_swab * $formula->batch) + ($dataLab->mikro_analisa * $formula->batch) + (($dataLab->biaya_analisa * $dataLab->jlh_sample_mikro)* $formula->batch) + $dataLab->biaya_analisa_tahun;
         $analisa    = $lab/$formula->batch;
@@ -252,13 +252,13 @@ class CetakFsController extends Controller
                 ->setCellValue('A5', 'Product Name/Desc')
                 ->setCellValue('B5', $pdf['background'])
                 ->setCellValue('A6', 'Formula Code')
-                ->setCellValue('B6', $for['formula'])
+                ->setCellValue('B6', $formula['formula'])
                 ->setCellValue('A7', 'Packaging configuration')
                 ->setCellValue('B7', $km)
                 ->setCellValue('A8', 'Product reference :product characteristic')
                 ->setCellValue('B8', $form['product_reference'])
                 ->setCellValue('A9', 'Product reference :packaging')
-                ->setCellValue('B9', $referensi['nama_sku'])
+                ->setCellValue('B9', $konsep['nama_sku'])
                 ->setCellValue('A10', 'Forecast (Rp/ month)')
                 ->setCellValue('B10', $form['forecast'])
                 ->setCellValue('A11', 'Pricelist (Rp/ UOM)')
@@ -290,7 +290,7 @@ class CetakFsController extends Controller
                 ->setCellValue('A24', 'Fillpack Location')
                 ->setCellValue('B24', $lokasi2['IO'])
                 ->setCellValue('A25', 'Filling Machine')
-                ->setCellValue('B25', $_mesin['nama_mesin'])
+                ->setCellValue('B25', $mesin['nama_mesin'])
                 ->setCellValue('A26', 'Cost of Packaging (Rp/UOM)')
                 ->setCellValue('B26', $forKemas->cost_uom)
                 ->setCellValue('A27', 'Cost of Lab/Analysis (Rp/UOM)')

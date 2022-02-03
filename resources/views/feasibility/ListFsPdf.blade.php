@@ -103,7 +103,7 @@
                         @endif
                       @endif
                       @if($fs->status_proses!='ajukan' && $fs->status_maklon!='ajukan' && $fs->status_kemas!='ajukan' && $fs->status_lab!='ajukan')
-                      <a href="{{route('overviewpdf',$fs->id)}}" class="btn btn-sm btn-info" type="button" title="Overview"><li class="fa fa-file"></li></a>
+                      <a href="{{route('overviewpdf',[$fs->id,$fs->id_wb_proses,$fs->id_wb_kemas])}}" class="btn btn-sm btn-info" type="button" title="Overview"><li class="fa fa-file"></li></a>
                       @endif
                     @else
                     @endif
@@ -123,7 +123,7 @@
                       @elseif($fs->status_proses=='selesai')
                         <a href="{{ route('datamesin',[$fs->id_project_pdf,$fs->id,$fs->id_wb_proses]) }}" class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-folder"></li></a>
                       @elseif($fs->status_proses=='sending')
-                        <a href="{{route('workbookfs',[$fs->id_project_pdf,$fs->id])}}" class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-folder"></li></a>
+                      <a href="{{route('detailProses',[$fs->id_project,$fs->id,$fs->id_wb_proses])}}" class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-folder"></li></a>
                       @endif 
                     @elseif($fs->revisi_proses==NULL)
                       <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#konfirmasi{{$fs->id}}" title="Show"><li class="fa fa-exclamation"></li></button>
@@ -132,7 +132,7 @@
                     @if($fs->status_proses=='ajukan')
                       <a disabled class="btn btn-sm btn-warning" type="button" title="request"><li class="fa fa-edit"></li></a>
                     @elseif($fs->status_proses=='sending' || $fs->status_proses=='selesai')
-                      <a disabled class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-folder"></li></a>
+                      <a href="{{route('detailProses',[$fs->id_project,$fs->id,$fs->id_wb_proses])}}" class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-folder"></li></a>
                     @endif 
                   @endif
                 </td>
@@ -154,7 +154,7 @@
                     @if($fs->status_kemas=='ajukan')
                       <a disabled class="btn btn-sm btn-warning" type="button" title="request"><li class="fa fa-edit"></li></a>
                     @elseif($fs->status_kemas=='selesai' || $fs->status_kemas=='sending')
-                      <a disabled class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-folder"></li></a>
+                      <a href="{{ route('hasilnya',[$fs->id_project_pdf,$fs->id,$fs->id_wb_kemas]) }}" class="btn btn-sm btn-info" type="button" title="Show"><li class="fa fa-folder"></li></a>
                     @endif
                   @endif 
                 </td>
@@ -174,7 +174,7 @@
                     @if($fs->status_lab=='ajukan')
                       <a disabled class="btn btn-sm btn-warning" type="button" title="request"><li class="fa fa-edit"></li></a>
                     @elseif($fs->status_lab=='proses' || $fs->status_lab=='selesai' || $fs->status_lab=='sending')
-                      <a disabled class="btn btn-sm btn-info" type="button" title="show"><li class="fa fa-folder"></li></a>
+                      <a href=" {{route('datalab',[$fs->id_project_pdf,$fs->id])}}" class="btn btn-sm btn-info" type="button" title="show"><li class="fa fa-folder"></li></a>
                     @endif
                   @endif
                 </td>
@@ -190,7 +190,7 @@
                     @if($fs->status_maklon=='ajukan')  
                       <button class="btn btn-warning btn-sm" disabled title="Request"><li class="fa fa-edit"></li></button>
                     @elseif($fs->status_maklon=='sending' || $fs->status_maklon=='selesai')
-                      <button class="btn btn-info btn-sm" disabled title="Show"><li class="fa fa-folder"></li></button>
+                      <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#maklon2{{$fs->id}}" title="Show"><li class="fa fa-folder"></li></button>
                     @endif
                   @endif
                 </td>
@@ -340,7 +340,7 @@
                         <span aria-hidden="true">&times;</span>
                       </button></h3>
                     </div>
-                    <form class="form-horizontal form-label-left" method="POST" action="{{route('final',$fs->id)}}">
+                    <form class="form-horizontal form-label-left" method="POST" action="{{route('final',[$fs->id,$fs->id_wb_proses,$fs->id_wb_kemas])}}">
                     <div class="modal-body">
                       <div class=" row">
                         <?php $date = Date('j-F-Y'); ?>

@@ -70,6 +70,7 @@
         <h3><li class="fa fa-list"> Item Desc</li></h3>
       </div><br>
       <form class="" method="POST" action="{{route('item')}}">
+      @if(auth()->user()->role->namaRule == 'lab')
       <div class='form-group row'>
         <input type="hidden" value="{{$fs}}" name="id" id="id">
         <label class='control-label col-md-3 col-sm-3 col-xs-12'>Item</label>
@@ -83,6 +84,7 @@
         </div>
       </div>
       <div class='ln_solid'></div>
+      @endif
       @if($ws->status_lab=='ajukan')
       <input type="hidden" id="batch" value="{{ $ws->form->batch_size }}">
       <div class="form-group row">
@@ -350,14 +352,16 @@
       @if($ws->status_lab!='selesai')
       <center>
         <hr>
-        @if($ws->id_project!=NULL)
-        <a href="{{route('AddItem',[$pkp->id_project,$fs])}}" class="btn btn-warning btn-sm" type="button"> <li class="fa fa-plus"></li> New Desc</a>
-        @elseif($ws->id_project_pdf!=NULL)
-        <a href="{{route('AddItem',[$pdf->id_project_pdf,$fs])}}" class="btn btn-warning btn-sm" type="button"> <li class="fa fa-plus"></li> New Desc</a>
-        @endif
-        <button type="submit" onclick="return confirm('Yakin Dengan Data Yang Anda Pilih??')" class="btn btn-primary btn-sm"><li class="fa fa-check"></li> Use Item Desc</button>
-        {{ csrf_field() }}
-      </center>  
+        @if(auth()->user()->role->namaRule == 'lab')
+          @if($ws->id_project!=NULL)
+          <a href="{{route('AddItem',[$pkp->id_project,$fs])}}" class="btn btn-warning btn-sm" type="button"> <li class="fa fa-plus"></li> New Desc</a>
+          @elseif($ws->id_project_pdf!=NULL)
+          <a href="{{route('AddItem',[$pdf->id_project_pdf,$fs])}}" class="btn btn-warning btn-sm" type="button"> <li class="fa fa-plus"></li> New Desc</a>
+          @endif
+          <button type="submit" onclick="return confirm('Yakin Dengan Data Yang Anda Pilih??')" class="btn btn-primary btn-sm"><li class="fa fa-check"></li> Use Item Desc</button>
+          {{ csrf_field() }}
+        @endif 
+      </center> 
       @endif
       </form>
     </div>

@@ -83,6 +83,17 @@
 					@elseif($hfile==0)
 					<li class="nav-item"><a class="nav-link" disabled  style="background-color:grey;color:white"><i class="fa fa-folder-open-o"></i><b> File </b></a></li>
 					@endif
+					@if($hitungFs!=0)
+						@if($formula->workbook_id!=NULL)
+							@if($pkp->pengajuan_fs!='ajukan' || $pkp->pengajuan_fs!='reject')
+							<li class="nav-item"><a class="nav-link" href="#8" data-toggle="tab"><i class="fa fa-file"></i><b> Bahan Baku Baru </b></a></li>
+							@endif
+						@elseif($formula->workbook_pdf_id!=NULL)
+							@if($formula->Workbook_pdf->datapdf->pengajuan_fs!='ajukan' || $formula->Workbook_pdf->datapdf->pengajuan_fs!='reject')
+							<li class="nav-item"><a class="nav-link" href="#8" data-toggle="tab"><i class="fa fa-file"></i><b> Bahan Baku Baru </b></a></li>
+							@endif
+						@endif
+					@endif
 				</ul><br>
 				<div class="tab-content ">
 					<div class="tab-content ">
@@ -2136,6 +2147,73 @@
 								</div>
 							</div>
 						</div>
+						<!-- BB Baru -->
+						@if($hitungFs!=0)
+						@if($fs->status_feasibility!='batal' && $fs->status_feasibility!='pengajuan')
+						<div class="tab-pane" id="8">
+							<div class="row">
+								<div class="col-md-12">
+									<table class=" table table-sm table-responsive table-hover table-bordered" style="font-size: 11px;">
+										<thead>
+											<tr style="font-weight: bold;color:white;background-color: #2a3f54;">
+												<th rowspan="2" class="text-center">Nama BB</th>
+												<th rowspan="2" class="text-center">Supplier</th>
+												<th colspan="2" class="text-center">Price</th>
+												<th rowspan="2" class="text-center">Quantity order</th>
+												<th rowspan="2" class="text-center">Shelf life</th>
+												<th rowspan="2" class="text-center">Usage/ Batch</th>
+												<th rowspan="2" class="text-center">Usage/ month</th>
+												<th rowspan="2" class="text-center">DOI</th>
+												<th colspan="3" class="text-center">Potential Scrap</th>
+											</tr>
+											<tr style="font-weight: bold;color:white;background-color: #2a3f54;">
+												<th class="text-center">CURRENCY</th>
+												<th class="text-center">PRICE/Unit</th>
+												<th class="text-center">currency</th>
+												<th class="text-center">value</th>
+												<th class="text-center">value/year</th>
+											</tr>
+										</thead>
+										<tbody>
+											@php $no = 0; @endphp
+											@foreach($fortailbb as $new)
+											@php ++$no; @endphp
+											<tr>
+												<td class="text-right">{{ $new->nama_bahan}}</td>
+												<td class="text-right">{{ $new->supplier }}</td>
+												<td>IDR</td>
+												<td class="text-center">{{ $new->harga_satuan }}</td>
+												<td class="text-center">{{ $new->qty_order }}</td>
+												<td class="text-center">{{ $new->shelf_life }}</td>
+												<td class="text-right">{{ $new->per_batch }}</td>
+												<td class="text-right">{{ $formfs->Batch_month * $new->per_batch }}</td>
+												<td class="text-right">{{ $new->qty_order / ( $formfs->Batch_month * $new->per_batch ) }}</td>
+												<td class="text-right">IDR</td>
+												<td class="text-right">
+													@if( ($new->qty_order / ( $formfs->Batch_month * $new->per_batch )) >= $new->shelf_life )
+													<input type="text" value="<?php $angka_format = number_format(($new->qty_order * $new->harga_satuan) - ($new->harga_satuan * ( (($formfs->Batch_month * $new->batch_net) * $new->shelf_life ) * ( 75/100 ) ) ),2,",","."); echo "Rp. ".$angka_format;?>" readonly>
+													@else
+													<input type="text" value="<?php $angka_format = number_format(0,2,",","."); echo "Rp. ".$angka_format;?>">
+													@endif
+												</td>
+												<td class="text-right">
+													@if( ($new->qty_order / ( $formfs->Batch_month * $new->per_batch )) >= $new->shelf_life )
+													<input type="text" value="<?php $angka_format = number_format((12 / ($new->shelf_life * (75/100)) * ($new->qty_order * $new->harga_satuan) - ($new->harga_satuan * ( (($formfs->Batch_month * $new->batch_net) * $new->shelf_life ) * ( 75/100 ) ) ) ) ,2,",","."); echo "Rp. ".$angka_format;?>" readonly>
+													<input id="nilaibb{{$no}}" type="hidden" value="{{ (12 / ($new->shelf_life * (75/100)) * ($new->qty_order * $new->harga_satuan) - ($new->harga_satuan * ( (($formfs->Batch_month * $new->batch_net) * $new->shelf_life ) * ( 75/100 ) ) ) )}}" readonly>
+													@else
+													<input type="text" value="<?php $angka_format = number_format(0,2,",","."); echo "Rp. ".$angka_format;?>">
+													<input type="hidden" id="nilaibb{{$no}}" value="0">
+													@endif
+												</td>
+											</tr>
+											@endforeach
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+						@endif
+						@endif
 					</div>
 				</div>
 			</div>

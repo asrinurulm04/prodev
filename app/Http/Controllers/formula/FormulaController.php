@@ -26,6 +26,8 @@ use App\model\formula\Fortail;
 use App\model\formula\HeaderFormula;
 use App\model\formula\Bahan;
 use App\model\master\Curren;
+use App\model\feasibility\Feasibility;
+use App\model\feasibility\FormPengajuanFS;
 use Auth;
 use DB;
 use Redirect;
@@ -123,6 +125,14 @@ class FormulaController extends Controller
 			$data 		  = Formula::with('Workbook')->where('id',$for)->get();
 			$hfile 		  = DataFormula::where('id_formula',$id)->count();
 			$ceklis 	  = CemaranCeklis::all();
+			$hitungFs		= Feasibility::where('id_formula',$for)->where('status_feasibility','!=','batal')->count();
+			$fs					= Feasibility::where('id_formula',$for)->where('status_feasibility','!=','batal')->first();
+			if($hitungFs!=0){
+				$formfs   = FormPengajuanFS::where('id_feasibility',$fs->id)->first();
+			}elseif($hitungFs==0){
+				$formfs		=	FormPengajuanFS::all();
+			}
+			$fortailbb  = Fortail::where('formula_id',$for)->join('ms_bahans','ms_bahans.id','tr_fortails.bahan_id')->where('status_bb','baru')->get();
 			$akg 			  = Akg::join('tr_formulas','tr_formulas.akg','ms_akg.id_tarkon')->join('tr_overage_inngradient','tr_overage_inngradient.id_formula','tr_formulas.id')->where('id',$for)->get();
 			$idf 			  = $for;
 			$panel 		  = hasilpanel::where('id_formula',$for)->get();
@@ -517,12 +527,16 @@ class FormulaController extends Controller
 				'storage' 	 		 => $storage,
 				'file' 			 		 => $file,
 				'fortails'	 		 => $fortails,
-				'detail_formula' =>  $detail_formula,
+				'fortailbb'			 => $fortailbb,
+				'hitungFs'			 => $hitungFs,
+				'detail_formula' => $detail_formula,
 				'granulasi' 	 	 => $granulasi,
 				'premix' 		 		 => $premix,
 				'pkp' 			 		 => $pkp,
 				'ceklis' 		 		 => $ceklis,
 				'gp' 			 			 => $gp,
+				'fs' 			 			 => $fs,
+				'formfs'				 => $formfs,
 				'form' 			 		 => $form,
 				'akg' 			 		 => $akg,
 				'idfor'			 		 => $idfor,

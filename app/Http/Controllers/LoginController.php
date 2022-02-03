@@ -174,14 +174,14 @@ class LoginController extends Controller
             'status' => 'active',
             'role_id' => 9
         ])){
-            return redirect()->route('formula.feasibility');        }
+            return redirect()->route('listFsConting');        }
         elseif(Auth::attempt([
             'username' =>$request->inputEmailUser,
             'password' => $request->password,
             'status' => 'active',
             'role_id' => 9
         ])){
-            return redirect()->route('formula.feasibility');        }
+            return redirect()->route('listFsConting');        }
 
         //Lab============================================================================================
         if(Auth::attempt([
