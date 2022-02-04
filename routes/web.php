@@ -409,4 +409,5 @@ Route::post('insert','RDkemas\KonsepController@insert')->name('insert');
 // Workbook Maklon
 Route::Post('FsMaklon/{fs}','Maklon\MaklonController@FsMaklon')->name('FsMaklon');
 // Costing
-Route::get('listFsConting','feasibility\ListFsCostingController@listFsConting')->name('listFsConting');
+Route::get('listFsConting','Costing\ListFsCostingController@listFsConting')->name('listFsConting');
+Route::get('CostingDownloadPKP/{id}/{for}/{fs}','Costing\DownloadController@CostingDownloadPKP')->name('CostingDownloadPKP');

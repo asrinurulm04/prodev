@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\feasibility;
+namespace App\Http\Controllers\Costing;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
