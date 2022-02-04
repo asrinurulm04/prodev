@@ -10,6 +10,17 @@ input[type="number"]{
     width: 70px;
 	}
 
+    input[type="text"] {
+        background: transparent !important;
+        border: none;
+        outline: none;
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        box-shadow: none;
+        -moz-appearance: textfield;
+        width: 120px;
+    }
+
 	input::-webkit-outer-spin-button,
 	input::-webkit-inner-spin-button {
     -webkit-appearance: none;

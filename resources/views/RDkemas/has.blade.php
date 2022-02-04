@@ -276,6 +276,9 @@
 								@if($new->status=='New')
           			@php ++$nom; @endphp
 								<tr>
+									<input type="hidden" id="batch{{$nom}}" value="{{$form->Batch_month}}">
+									<input type="hidden" id="net{{$nom}}" value="{{$new->batch_net}}">
+									<input type="hidden" id="order{{$nom}}" value="{{$new->min_order}}">
 									<td class="text-right">{{ $new->Description }}</td>
 									<td class="text-right">{{ $new->supplier }}</td>
 									<td>IDR</td>
@@ -286,14 +289,14 @@
 									<td class="text-right">{{ $new->shelf_life }}</td>
 									<td class="text-right">{{ $new->batch_net }}</td>
 									<td class="text-right">{{ $form->Batch_month * $new->batch_net }}</td>
-									<td class="text-right">{{ $new->min_order / ( $form->Batch_month * $new->batch_net ) }}</td>
+									<td class="text-right"><input type="number" step=any id="nilaiDOI{{$nom}}" name="nilaiDOI" placeholder="0" value="" readonly/></td>
 									<td class="text-right">IDR</td>
 									<td class="text-right">
 										@if( ($new->min_order / ( $form->Batch_month * $new->batch_net )) >= $new->shelf_life )
-										<input type="text" value="<?php $angka_format = number_format(($new->min_order * $new->harga_uom) - ($new->harga_uom * ( ($form->Batch_month * $new->batch_net) * $new->shelf_life ) ),2,",","."); echo "Rp. ".$angka_format;?>" readonly>
+										<input type="text" readonly type="number" step=any value="<?php $angka_format = number_format(($new->min_order * $new->harga_uom) - ($new->harga_uom * ( ($form->Batch_month * $new->batch_net) * $new->shelf_life ) ),2,",","."); echo "Rp. ".$angka_format;?>" readonly>
 										<input id="nilai{{$nom}}" type="hidden" value="{{($new->min_order * $new->harga_uom) - ($new->harga_uom * ( ($form->Batch_month * $new->batch_net) * $new->shelf_life ) )}}" readonly>
 										@else
-										<input type="text" value="<?php $angka_format = number_format(0,2,",","."); echo "Rp. ".$angka_format;?>">
+										<input type="text" readonly value="<?php $angka_format = number_format(0,2,",","."); echo "Rp. ".$angka_format;?>">
 										<input type="hidden" id="nilai{{$nom}}" value="0">
 										@endif
 									</td>
@@ -371,7 +374,7 @@
 			</div>  
 		</div>
   </div>
-</div>
+</div>   
 
 <!-- Template -->
 <div class="modal" id="NW1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -425,6 +428,13 @@
     for(y=1;y<=i;y++){
 			potential 		= parseFloat($('#nilai'+y).val());
      	total   			= total + potential;
+
+			batch 		= parseFloat($('#batch'+y).val());
+			net 			= parseFloat($('#net'+y).val());
+			order 		= parseFloat($('#order'+y).val());
+
+			doi = order / (batch*net);doi = parseFloat(doi.toFixed(3));
+			parseFloat($('#nilaiDOI'+y).val(doi));
       $("#hasil").val(total);
     }
 </script>
@@ -442,4 +452,6 @@
       $("#hasilbaku").val(total);
     }
 </script>
+
+<link href="{{ asset('css/asrul.css') }}" rel="stylesheet">
 @endsection

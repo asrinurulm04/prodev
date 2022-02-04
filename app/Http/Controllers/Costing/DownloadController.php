@@ -10,6 +10,11 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Illuminate\Support\Facades\Validator;
 use App\model\nutfact\AllergenFormula;
+use App\model\feasibility\FormPengajuanFS;
+use App\model\feasibility\Feasibility;
+use App\model\Modelmaklon\Maklon;
+use App\model\Modellab\DataLab;
+use App\model\Modelmesin\OH;
 use App\model\formula\Formula;
 use App\model\formula\Fortail;
 use App\model\formula\Bahan;
@@ -18,10 +23,9 @@ use DB;
 class DownloadController extends Controller
 {
     public function CostingDownloadPKP($project,$formula,$fs){ // download FOR PKP
-        // Sheet 1 /FOR PKP 
         $objPHPExcel = new Spreadsheet();
+        // Sheet 1 /FOR PKP 
         $objPHPExcel->setActiveSheetIndex(0); 
-
         $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(6.00);
         $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(23.00);
         $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(23.00);
@@ -157,9 +161,220 @@ class DownloadController extends Controller
                     ->setCellValue('C'.$note, $data['note_formula']);
         $objPHPExcel->getActiveSheet()->setTitle('FOR PKP');
 
+        // Create a new worksheet2
+        $objPHPExcel->createSheet();
+        $objPHPExcel->setActiveSheetIndex(1); 
+        $objPHPExcel->getActiveSheet(1)->getColumnDimension('A')->setWidth(25.00);
+        $objPHPExcel->getActiveSheet(1)->getColumnDimension('B')->setWidth(25.00);
+        $objPHPExcel->getActiveSheet(1)->getColumnDimension('C')->setWidth(25.00);
+        $objPHPExcel->getActiveSheet(1)->getColumnDimension('D')->setWidth(25.00);
+        $objPHPExcel->getActiveSheet(1)->getColumnDimension('E')->setWidth(25.00);
+        $objPHPExcel->getActiveSheet(1)->getColumnDimension('F')->setWidth(25.00);
+        $objPHPExcel->getActiveSheet(1)->getColumnDimension('G')->setWidth(25.00);
+        $objPHPExcel->getActiveSheet(1)->getColumnDimension('H')->setWidth(25.00);
+        $objPHPExcel->getActiveSheet(1)->getColumnDimension('I')->setWidth(25.00);
+        $objPHPExcel->getActiveSheet(1)->getColumnDimension('J')->setWidth(25.00);
+        $objPHPExcel->getActiveSheet(1)->getColumnDimension('K')->setWidth(25.00);
+        $objPHPExcel->getActiveSheet(1)->getColumnDimension('L')->setWidth(25.00);
+        $objPHPExcel->getActiveSheet(1)->getColumnDimension('M')->setWidth(25.00);
+        $objPHPExcel->getActiveSheet(1)->getColumnDimension('N')->setWidth(25.00);
+        $objPHPExcel->getActiveSheet(1)->getColumnDimension('O')->setWidth(25.00);
+        $objPHPExcel->getActiveSheet(1)->getColumnDimension('P')->setWidth(25.00);
+        $objPHPExcel->getActiveSheet(1)->getColumnDimension('Q')->setWidth(25.00);
+        $objPHPExcel->getActiveSheet(1)->getColumnDimension('R')->setWidth(25.00);
+        $objPHPExcel->getActiveSheet(1)->getColumnDimension('S')->setWidth(25.00);
+        $objPHPExcel->getActiveSheet(1)->getColumnDimension('T')->setWidth(25.00);
+        $objPHPExcel->getActiveSheet(1)->getColumnDimension('U')->setWidth(25.00);
+        $objPHPExcel->getActiveSheet(1)->getColumnDimension('V')->setWidth(25.00);
+        $objPHPExcel->getActiveSheet(1)->getColumnDimension('W')->setWidth(25.00);
+        $objPHPExcel->getActiveSheet(1)->getColumnDimension('X')->setWidth(25.00);
+        $objPHPExcel->getActiveSheet(1)->getColumnDimension('Y')->setWidth(25.00);
+        $objPHPExcel->getActiveSheet(1)->getColumnDimension('Z')->setWidth(25.00);
+
+        $iddesc = DataLab::where('id_fs',$fs)->join('ms_item_desc','ms_item_desc.id','tr_lab.id_item_desc')->first();
+        $form   = FormPengajuanFS::where('id_feasibility',$fs)->first();
+
+        $objPHPExcel->setActiveSheetIndex(1);
+        $objPHPExcel->getActiveSheet()->setCellValue('A1', 'Item Desc');
+        $objPHPExcel->getActiveSheet()->setCellValue('B1', 'PLANT');
+        $objPHPExcel->getActiveSheet()->setCellValue('C1', 'Lokasi analisa');
+        $objPHPExcel->getActiveSheet()->setCellValue('D1', 'Total batch');
+        $objPHPExcel->getActiveSheet()->setCellValue('E1', 'para x spl (BB)/batch');
+        $objPHPExcel->getActiveSheet()->setCellValue('F1', 'para x sampel (swab)/batch');
+        $objPHPExcel->getActiveSheet()->setCellValue('G1', 'Parameter mikro rilis');
+        $objPHPExcel->getActiveSheet()->setCellValue('H1', 'Para x sampel analisa rutin');
+        $objPHPExcel->getActiveSheet()->setCellValue('I1', 'Jlh sampel mikro/batch');
+        $objPHPExcel->getActiveSheet()->setCellValue('J1', 'Jlh sampel mikro analisa/thn');
+        $objPHPExcel->getActiveSheet()->setCellValue('K1', 'Biaya analisa mikro rutin/sampel');
+        $objPHPExcel->getActiveSheet()->setCellValue('L1', 'Biaya mikro rutin/batch');
+        $objPHPExcel->getActiveSheet()->setCellValue('M1', 'Biaya mikro rutin/tahun');
+        $objPHPExcel->getActiveSheet()->setCellValue('N1', 'Biaya analisa tahunan/sampel');
+        $objPHPExcel->getActiveSheet()->setCellValue('O1', 'Biaya analisa tahunan/SKU');
+        $objPHPExcel->getActiveSheet()->setCellValue('P1', 'Estimasi Biaya mikro analisa BB/batch');
+        $objPHPExcel->getActiveSheet()->setCellValue('Q1', 'Estimasi Biaya mikro analisa BB/tahun');
+        $objPHPExcel->getActiveSheet()->setCellValue('R1', 'Estimasi biaya analisa swab/batch');
+        $objPHPExcel->getActiveSheet()->setCellValue('S1', 'Estimasi biaya analisa swab/tahun');
+        $objPHPExcel->getActiveSheet()->setCellValue('T1', 'Estimasi biaya tahanan (resampling)/batch');
+        $objPHPExcel->getActiveSheet()->setCellValue('U1', 'Estimasi biaya tahanan (resampling/tahun)');
+        $objPHPExcel->getActiveSheet()->setCellValue('V1', 'Estimasi biaya kimia/batch');
+        $objPHPExcel->getActiveSheet()->setCellValue('W1', 'Estimasi biaya analisa kimia/tahun');
+        $objPHPExcel->getActiveSheet()->setCellValue('X1', 'Biaya total/SKU');
+        $objPHPExcel->getActiveSheet()->setCellValue('Y1', 'Biaya total analisa/batch');
+        $objPHPExcel->getActiveSheet()->setCellValue('Z1', 'Total Para x spl/batch');
+
+        $objPHPExcel->getActiveSheet()->getStyle("A1:Z1")->getFill()
+                    ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('13DFE4');
+        $objPHPExcel->getActiveSheet()->getStyle("A1:Z1")->getAlignment()->setHorizontal('center');
+
+        // Hitung rumus Analisa
+        $biaya_mikro_rutin = $iddesc->biaya_analisa * $iddesc->jlh_sample_mikro;
+        $biaya_mikro_tahun   = $biaya_mikro_rutin * $form->batch_size;
+        $mikro_analisa_bb    = $iddesc->mikro_analisa * $form->batch_size;
+        $swab_analisa_thn    = $iddesc->analisa_swab * $form->batch_size;
+        $resampling_thn      = $iddesc->biaya_tahanan * $form->batch_size;
+        $biaya_analisa_kimia = $iddesc->kimia_batch * $form->batch_size;
+        $total_sku           = $biaya_analisa_kimia + $resampling_thn + $swab_analisa_thn + $mikro_analisa_bb + $biaya_mikro_tahun + $iddesc->biaya_analisa_tahun;
+        $total_analisa       = $total_sku / $form->batch_size;
+        $total_para          = $iddesc->sample_swab + $iddesc->sample_analisa;
+
+        $objPHPExcel->setActiveSheetIndex(1)
+                    ->setCellValue('A2', $iddesc['item_desc'])
+                    ->setCellValue('B2', $iddesc['io'])
+                    ->setCellValue('C2', $iddesc['lokasi'])
+                    ->setCellValue('D2', $form['batch_size'])
+                    ->setCellValue('E2', $iddesc['spl_batch'])
+                    ->setCellValue('F2', $iddesc['sample_swab'])
+                    ->setCellValue('G2', $iddesc['parameter_mikro'])
+                    ->setCellValue('H2', $iddesc['sample_analisa'])
+                    ->setCellValue('I2', $iddesc['jlh_sample_mikro'])
+                    ->setCellValue('J2', $iddesc['jlh_mikro_tahunan'])
+                    ->setCellValue('K2', $iddesc['biaya_analisa'])
+                    ->setCellValue('L2', $biaya_mikro_rutin)
+                    ->setCellValue('M2', $biaya_mikro_tahun)
+                    ->setCellValue('N2', $iddesc['biaya_analisa_tahun'])
+                    ->setCellValue('O2', $iddesc['biaya_analisa_tahun'])
+                    ->setCellValue('P2', $iddesc['mikro_analisa'])
+                    ->setCellValue('Q2', $mikro_analisa_bb)
+                    ->setCellValue('R2', $iddesc['analisa_swab'])
+                    ->setCellValue('S2', $swab_analisa_thn)
+                    ->setCellValue('T2', $iddesc['biaya_tahanan'])
+                    ->setCellValue('U2', $resampling_thn)
+                    ->setCellValue('V2', $iddesc['kimia_batch'])
+                    ->setCellValue('W2', $biaya_analisa_kimia)
+                    ->setCellValue('X2', $total_sku)
+                    ->setCellValue('Y2', $total_analisa)
+                    ->setCellValue('Z2', $total_para);
+
+        // Rename 2nd sheet
+        $objPHPExcel->getActiveSheet()->setTitle('Form Biaya Analisa');
+
+        // Create a new worksheet3 Maklon
+        $objPHPExcel->createSheet();
+        $objPHPExcel->setActiveSheetIndex(2); 
+        $objPHPExcel->getActiveSheet(2)->getColumnDimension('A')->setWidth(20.00);
+        $objPHPExcel->getActiveSheet(2)->getColumnDimension('B')->setWidth(20.00);
+        $objPHPExcel->getActiveSheet(2)->getColumnDimension('C')->setWidth(35.00);
+        $objPHPExcel->getActiveSheet(2)->getColumnDimension('D')->setWidth(20.00);
+        $objPHPExcel->getActiveSheet(2)->getColumnDimension('E')->setWidth(35.00);
+
+        $maklon = Maklon::where('id_fs',$fs)->first();
+
+        $objPHPExcel->setActiveSheetIndex(2);
+        $objPHPExcel->getActiveSheet()->setCellValue('A1', 'Biaya Maklon/UOM');
+        $objPHPExcel->getActiveSheet()->setCellValue('B1', 'Satuan');
+        $objPHPExcel->getActiveSheet()->setCellValue('C1', 'Remarks');
+        $objPHPExcel->getActiveSheet()->setCellValue('D1', 'Biaya Transport/UOM');
+        $objPHPExcel->getActiveSheet()->setCellValue('E1', 'NRemarks');
+
+        $objPHPExcel->getActiveSheet()->getStyle("A1:E1")->getFill()
+                    ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('13DFE4');
+        $objPHPExcel->getActiveSheet()->getStyle("A1:E1")->getAlignment()->setHorizontal('center');
+        $objPHPExcel->getActiveSheet()->getStyle("A2:E2")->getAlignment()->setHorizontal('center');
+
+        $objPHPExcel->setActiveSheetIndex(2)
+                    ->setCellValue('A2', $maklon['biaya_maklon'])
+                    ->setCellValue('B2', $maklon['satuan'])
+                    ->setCellValue('C2', $maklon['remarks_biaya'])
+                    ->setCellValue('D2', $maklon['biaya_transport'])
+                    ->setCellValue('E2', $maklon['remarks_transport']);
+
+        // Rename sHEET3
+        $objPHPExcel->getActiveSheet()->setTitle('Form Maklon');
+
+        // Create a new worksheet 4 Mesin
+        $objPHPExcel->createSheet();
+        $objPHPExcel->setActiveSheetIndex(3); 
+        $objPHPExcel->getActiveSheet(3)->getColumnDimension('A')->setWidth(35.00);
+        $objPHPExcel->getActiveSheet(3)->getColumnDimension('B')->setWidth(20.00);
+        $objPHPExcel->getActiveSheet(3)->getColumnDimension('C')->setWidth(20.00);
+        $objPHPExcel->getActiveSheet(3)->getColumnDimension('D')->setWidth(20.00);
+        $objPHPExcel->getActiveSheet(3)->getColumnDimension('F')->setWidth(35.00);
+        $objPHPExcel->getActiveSheet(3)->getColumnDimension('G')->setWidth(20.00);
+        $objPHPExcel->getActiveSheet(3)->getColumnDimension('H')->setWidth(20.00);
+        $objPHPExcel->getActiveSheet(3)->getColumnDimension('I')->setWidth(20.00);
+
+        $value=3;
+        $nilai=3;
+        $feasibility = Feasibility::where('id',$fs)->first();
+        $Mdata       = DB::table('tr_mesin')->join('ms_mesin','tr_mesin.id_data_mesin','=','ms_mesin.id_data_mesin')
+                      ->where('id_wb_fs',$feasibility->id_wb_proses)->where('kategori','!=','Filling')->where('kategori','!=','Packing')->get();
+        $dataO       = OH::where('id_ws',$feasibility->id_wb_proses)->get();
+        
+        $objPHPExcel->setActiveSheetIndex(3);
+        // Informasi Data Mesin
+        $objPHPExcel->getActiveSheet()->setCellValue('A2', 'Mesin');
+        $objPHPExcel->getActiveSheet()->setCellValue('B2', 'Runtime (menit/batch granulasi)');
+        $objPHPExcel->getActiveSheet()->setCellValue('C2', 'Runtime (menit/batch)');
+        $objPHPExcel->getActiveSheet()->setCellValue('D2', 'Note');
+        // Informasi Data OH
+        $objPHPExcel->getActiveSheet()->setCellValue('F2', 'Informasi Biaya Lain-Lain');
+        $objPHPExcel->getActiveSheet()->setCellValue('G2', 'Curren');
+        $objPHPExcel->getActiveSheet()->setCellValue('H2', 'Nominal');
+        $objPHPExcel->getActiveSheet()->setCellValue('I2', 'Note');
+
+        $objPHPExcel->getActiveSheet()->mergeCells('A1:D1');
+        $objPHPExcel->setActiveSheetIndex(3)
+                    ->setCellValue('A1', 'Data Mesin');
+
+        $objPHPExcel->getActiveSheet()->mergeCells('F1:I1');
+        $objPHPExcel->setActiveSheetIndex(3)
+                    ->setCellValue('F1', 'Data OH');
+        $objPHPExcel->getActiveSheet()->getStyle("A1:I1")->getAlignment()->setHorizontal('center');
+
+        $objPHPExcel->getActiveSheet()->getStyle("A2:D2")->getFill()
+                    ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('13DFE4');
+        $objPHPExcel->getActiveSheet()->getStyle("F2:I2")->getFill()
+                    ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('13DFE4');
+        $objPHPExcel->getActiveSheet()->getStyle("A2:I2")->getAlignment()->setHorizontal('center');
+
+        // Data Mesin
+        foreach($Mdata as $mesin){
+            $objPHPExcel->setActiveSheetIndex(3)
+                        ->setCellValue('A'.$value, $mesin->nama_mesin)
+                        ->setCellValue('B'.$value, $mesin->runtime_granulasi)
+                        ->setCellValue('C'.$value, $mesin->runtime)
+                        ->setCellValue('D'.$value, $mesin->note);
+            $value++;
+        }
+        // dd($Mdata);
+        foreach($dataO as $oh){
+            $objPHPExcel->setActiveSheetIndex(3)
+                        ->setCellValue('F'.$nilai, $oh->mesin)
+                        ->setCellValue('G'.$nilai, $oh->Curren)
+                        ->setCellValue('H'.$nilai, $oh->nominal)
+                        ->setCellValue('I'.$nilai, $oh->note);
+            $nilai++;
+        }
+        // Rename Sheet 4
+        $objPHPExcel->getActiveSheet()->setTitle('Data Mesin Dan OH');
+
         $skrg=date('d m Y');
             header('Content-Type: application/vnd.ms-excel'); 
-            header('Content-Disposition: attachment;filename="FOR_PKP '.$skrg.'.xls"'); 
+            header('Content-Disposition: attachment;filename="Download For Costing '.$skrg.'.xls"'); 
             header('Cache-Control: max-age=0'); 
         $objWriter = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($objPHPExcel, "Xlsx");
         ob_end_clean();

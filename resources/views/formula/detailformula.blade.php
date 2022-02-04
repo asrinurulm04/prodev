@@ -2179,6 +2179,9 @@
 											@foreach($fortailbb as $new)
 											@php ++$no; @endphp
 											<tr>
+												<input type="hidden" id="batch{{$no}}" value="{{$formfs->Batch_month}}">
+												<input type="hidden" id="net{{$no}}" value="{{$new->per_batch}}">
+												<input type="hidden" id="order{{$no}}" value="{{$new->qty_order}}">
 												<td class="text-right">{{ $new->nama_bahan}}</td>
 												<td class="text-right">{{ $new->supplier }}</td>
 												<td>IDR</td>
@@ -2187,7 +2190,7 @@
 												<td class="text-center">{{ $new->shelf_life }}</td>
 												<td class="text-right">{{ $new->per_batch }}</td>
 												<td class="text-right">{{ $formfs->Batch_month * $new->per_batch }}</td>
-												<td class="text-right">{{ $new->qty_order / ( $formfs->Batch_month * $new->per_batch ) }}</td>
+												<td class="text-right"><input type="number" step=any id="nilaiDOI{{$no}}" name="nilaiDOI" placeholder="0" value="" readonly/></td>
 												<td class="text-right">IDR</td>
 												<td class="text-right">
 													@if( ($new->qty_order / ( $formfs->Batch_month * $new->per_batch )) >= $new->shelf_life )
@@ -2222,6 +2225,7 @@
 </div>
 @endsection
 @section('s')
+<link href="{{ asset('css/asrul.css') }}" rel="stylesheet">
 <script>
 	$(function() {
 		$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
@@ -2233,7 +2237,19 @@
 		}
 	});
 </script>
+<script>
+  var j = {{ $no }} ;
+  var total  = 0;
+  var y;
+    for(y=1;y<=j;y++){
+			batch 		= parseFloat($('#batch'+y).val());
+			net 			= parseFloat($('#net'+y).val());
+			order 		= parseFloat($('#order'+y).val());
 
+			doi = order / (batch*net);doi = parseFloat(doi.toFixed(3));
+			parseFloat($('#nilaiDOI'+y).val(doi));
+    }
+</script>
 <script>
   // PKP
   $("#checkAllpkp1").change(function () {

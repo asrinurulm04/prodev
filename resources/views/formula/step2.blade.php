@@ -546,7 +546,7 @@
 @section('s')
 
 <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet">
-  <script src="{{ asset('js/select2/select2.min.js') }}"></script>
+<script src="{{ asset('js/select2/select2.min.js') }}"></script>
 <link href="{{ asset('css/asrul.css') }}" rel="stylesheet">
 <script type="text/javascript">
   $(document).ready(function(){        
