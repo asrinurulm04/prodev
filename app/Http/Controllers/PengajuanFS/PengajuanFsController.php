@@ -12,6 +12,7 @@ use App\model\pkp\Forecast;
 use App\model\pkp\PkpProject;
 use App\model\pdf\ProjectPDF;
 use App\model\pdf\SubPDF;
+use App\model\master\Teams;
 use App\model\users\User;
 use App\model\users\Departement;
 use App\model\formula\Formula;
@@ -41,11 +42,15 @@ class PengajuanFsController extends Controller
         $fs         = Feasibility::where('id_project',$id_project)->where('id_formula',$for)->where('status_feasibility','selesai')->get();
         $for        = Forecast::where('id_project',$id_project)->select('forecast','satuan')->get();
         $uom        = uom::where('note',NULL)->get();
+        $team       = Teams::where('brand',$pkp->id_brand)->get();
         $uom_primer = uom::where('note','!=',NULL)->get();
+        $kemas      = datakemas::where('id_kemas',$pkp->kemas_eksis)->first();
         return view('pengajuanFS.pengajuanFS_PKP')->with([
             'pkp'        => $pkp,
             'for'        => $formula,
+            'kemas'      => $kemas,
             'uom'        => $uom,
+            'team'       => $team,
             'hitung'     => $hitung,
             'uom_primer' => $uom_primer,
             'fs'         => $fs,
@@ -63,10 +68,12 @@ class PengajuanFsController extends Controller
         $for        = Forecast::where('id_pdf',$id_project)->select('forecast','satuan')->get();
         $uom        = uom::where('note',NULL)->get();
         $uom_primer = uom::where('note','!=',NULL)->get();
+        $kemas      = datakemas::where('id_kemas',$pdf->kemas_eksis)->first();
         return view('pengajuanFS.pengajuanFS_PDF')->with([
             'pdf'        => $pdf,
             'for'        => $formula,
             'uom'        => $uom,
+            'kemas'      => $kemas,
             'hitung'     => $hitung,
             'uom_primer' => $uom_primer,
             'fs'         => $fs,
@@ -120,6 +127,11 @@ class PengajuanFsController extends Controller
         $formula                     = Formula::where('id',$for)->first();
         $formula->status_feasibility = 'proses';
         $formula->save();
+
+        $form                 = new FormPengajuanFS;
+        $form->id_feasibility = $fs->id;
+        $form->uom            = $request->uom;
+        $form->save();
 
         if($request->satuan!=''){
             $for       = Forecast::where('id_project',$id_project)->delete();
@@ -251,6 +263,11 @@ class PengajuanFsController extends Controller
         $formula                     = Formula::where('id',$for)->first();
         $formula->status_feasibility = 'proses';
         $formula->save();
+
+        $form                 = new FormPengajuanFS;
+        $form->id_feasibility = $fs->id;
+        $form->uom            = $request->uom;
+        $form->save();
 
         if($request->satuan!=''){
             $for       = Forecast::where('id_pdf',$id)->delete();

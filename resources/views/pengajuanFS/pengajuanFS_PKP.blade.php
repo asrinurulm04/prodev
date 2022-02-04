@@ -148,7 +148,18 @@
                         <tr><th>Tertiary</th><td> <input name='tertiary' id='tertiary' class='form-control col-md-12 col-xs-12' value="{{$pkp->tertiary}}" type='text' required></td></tr>
                       </table>
                     </td>
-                    <td><input type="text" value="{{$pkp->UOM}}" required class="form-control" name="uom" id="uom"></td>
+                    <td>
+                      <select name="uom" id="uom" required class="form-control">
+                        <option value="{{$kemas->s_tersier}}">{{$kemas->s_tersier}}</option>
+                        @if($kemas->s_sekunder1!=NULL)
+                        <option value="{{$kemas->s_sekunder1}}">{{$kemas->s_sekunder1}}</option>
+                        @endif
+                        @if($kemas->s_sekunder2!=NULL)
+                        <option value="{{$kemas->s_sekunder2}}">{{$kemas->s_sekunder2}}</option>
+                        @endif
+                        <option value="{{$kemas->s_primer}}">{{$kemas->s_primer}}</option>
+                      </select>
+                    </td>
                     <td><input type="number" value="{{$pkp->selling_price}}" required class="form-control" name="selling" id="selling"></td>
                   </tr>
         					<tr id='addrow1'></tr>
@@ -212,6 +223,7 @@
                             <?php $date = Date('j-F-Y'); ?>
                             <input id="tgl" value="{{ $date }}"type="hidden" name="tgl">
                             <textarea name="note" id="note" rows="2" cols="60" class="form-control" required></textarea><br>
+                            @foreach($team as $teams) <input type="hidden" value="{{$teams->user->email}}" name="team[]">@endforeach
                           </div>
                           <div class="modal-footer">
                             <button class="btn btn-sm btn-primary" type="submit"><li class="fa fa-check"></li> submit</button>
@@ -239,6 +251,7 @@
                             <?php $date = Date('j-F-Y'); ?>
                             <input id="tgl" value="{{ $date }}"type="hidden" name="tgl">
                             <textarea name="note" id="note" cols="60" rows="2" class="form-control" required></textarea><br>
+                            @foreach($team as $team) <input type="hidden" value="{{$team->user->email}}" name="team[]">@endforeach
                           </div>
                           <div class="modal-footer">
                             <button class="btn btn-sm btn-primary" type="submit"><li class="fa fa-check"></li> submit</button>

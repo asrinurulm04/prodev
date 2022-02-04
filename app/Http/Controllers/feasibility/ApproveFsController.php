@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\feasibility;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
 
 use Illuminate\Http\Request;
@@ -37,16 +38,28 @@ class ApproveFsController extends Controller
             'catatan' => '...',
         ], function ($message) use ($request,$id) {
             $data  = PkpProject::where('id_project',$id)->first();
-            $mr    = Departement::where('dept','RKA')->first();
+            $mr    = Departement::where('dept','RKA')->first(); 
             $mr2   = Departement::where('dept','REA')->first();
-            $user1 = User::where('departement_id','7')->first();
-            $user2 = User::where('id',$data->user_fs)->first();
-            $user3 = User::where('id',$data->userpenerima2)->first();
-            $user4 = User::where('id',$mr->manager_id )->first();
-            $user5 = User::where('id',$mr2->manager_id )->first();
+            $user1 = User::where('departement_id','7')->first(); //user lab
+            $user2 = User::where('id',$data->user_fs)->first(); // user proses
+            $user3 = User::where('id',$data->userpenerima2)->first(); // user rka
+            $user4 = User::where('id',$mr->manager_id )->first(); // managerrka
+            $user5 = User::where('id',$mr2->manager_id )->first(); //managerrea
+            $user6 = User::where('id',$data->userpenerima )->first(); //user produk
 
             $message->subject('PRODEV | INFO APPROVAL MARGIN |'.$data->project_name.'- '.$request->tgl.'');
-            $message->to([$user1->email,$user2->email,$user3->email,$user4->email,$user5->email]);
+            $message->to([$user1->email,$user2->email,$user3->email,$user4->email,$user5->email,$user6->email,Auth::user()->email]);
+            // Cc Team Brand
+            $tujuan    = array(); 
+            $validator = Validator::make($request->all(), $tujuan);  
+            if ($validator->passes()) {
+                $email = implode(',', $request->input('team'));
+                $data  = explode(',', $email);
+                for ($i = 0; $i < count($data); $i++){
+                    $message->cc($data[$i]);
+                }
+            }
+
             $message->cc(Auth::user()->email);
         });
     }
@@ -104,8 +117,17 @@ class ApproveFsController extends Controller
             $user5 = User::where('id',$mr2->manager_id )->first();
 
             $message->subject('PRODEV | INFO REJECT MARGIN |'.$data->project_name.'- '.$request->tgl.'');
-            $message->to([$user1->email,$user2->email,$user3->email,$user4->email,$user5->email]);
-            $message->cc(Auth::user()->email);
+            $message->to([$user1->email,$user2->email,$user3->email,$user4->email,$user5->email,Auth::user()->email]);
+            // Cc Team Brand
+            $tujuan    = array(); 
+            $validator = Validator::make($request->all(), $tujuan);  
+            if ($validator->passes()) {
+                $email = implode(',', $request->input('team'));
+                $data  = explode(',', $email);
+                for ($i = 0; $i < count($data); $i++){
+                    $message->cc($data[$i]);
+                }
+            }
         });
     }
     catch (Exception $e){

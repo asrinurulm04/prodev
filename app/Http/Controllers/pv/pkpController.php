@@ -530,7 +530,7 @@ class pkpController extends Controller
         return redirect::back();
     }
 
-    public function updatetPKP(Request $request,$id_project,$revisi,$turunan){
+    public function updatedPKP(Request $request,$id_project,$revisi,$turunan){
         $pkp        = PkpProject::where('id_project',$id_project)->first();
         $naikversi  = $pkp->turunan + 1;
         $versikemas = $pkp->revisi_kemas + 1;
@@ -742,7 +742,7 @@ class pkpController extends Controller
         return redirect()->Route('datatambahanpkp',$tip->id_project)->with('status', 'Revised data ');
     }
 
-    public function updatetPKP2(Request $request,$id_pkp,$revisi,$turunan,$kemas){ //update pkp after sent RD
+    public function updatedPKP2(Request $request,$id_pkp,$revisi,$turunan,$kemas){ //update pkp after sent RD
         $eksis = datakemas::count();
         $pkpp  = PkpProject::where('id_project',$id_pkp)->where('revisi',$revisi)->where('turunan',$turunan)->where('revisi_kemas',$kemas)->first();
         $tip   = PkpProject::where('id_project',$id_pkp)->where('revisi',$revisi)->where('turunan',$turunan)->where('revisi_kemas',$kemas)->first();

@@ -83,7 +83,7 @@
             </div>
 						<label for="middle-name" class="control-label col-md-1 col-sm-1 col-xs-12" style="color:#31a9b8">UOM / month</label>
             <div class="col-md-2 col-sm-2 col-xs-12">
-							@if($count=='1') <input type="text" class="form-control" value="{{$form->uom_month}}" name="uom_month" id="uom_month" readonly>
+							@if($count=='1') <input type="text" class="form-control" value="{{$form->uom_month}}" name="uom_month" id="uom_month">
               @elseif($count=='0') <input type="text" name="uom_month" id="uom_month" class="form-control col-md-12 col-xs-12" readonly>
               @endif
             </div>
@@ -91,7 +91,7 @@
           <div class="form-group row">
             <label for="middle-name" class="control-label col-md-2 col-sm-2 col-xs-12" style="color:#31a9b8">Gramasi/UOM (g)</label>
             <div class="col-md-2 col-sm-2 col-xs-12">
-              @if($count=='1') <input type="text" class="form-control" value="{{$form->gramasi_uom}}" name="gramasi_uom" id="gramasi_uom" readonly>
+              @if($count=='1') <input type="text" class="form-control" value="{{$form->gramasi_uom}}" name="gramasi_uom" id="gramasi_uom">
               @elseif($count=='0') <input type="text" name="gramasi_uom" id="gramasi_uom" class="form-control col-md-12 col-xs-12">
               @endif
             </div>

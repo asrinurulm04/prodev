@@ -132,12 +132,23 @@
                       <h4><b><lable class='control-label col-md-2 col-sm-3 col-xs-12' for='first-name'>*Information</lable></b></h4>
                       <br><br>
                       <table class="table table-bordered">
-                        <tr><th>Primary</th><td> <input name='primary' id='primary' class='form-control col-md-12 col-xs-12' value="{{$pdf->primery}}" type='text' required></td></tr>
-                        <tr><th>Secondary</th><td> <input name='secondary' id='secondary' class='form-control col-md-12 col-xs-12' value="{{$pdf->secondery}}" type='text' required></td></tr>
-                        <tr><th>Tertiary</th><td> <input name='tertiary' id='tertiary' class='form-control col-md-12 col-xs-12' value="{{$pdf->Tertiary}}" type='text' required></td></tr>
+                        <tr><th>Primary</th><td> <input name='primary' id='primary' class='form-control col-md-12 col-xs-12' value="{{$pdf->primery}}" type='text'></td></tr>
+                        <tr><th>Secondary</th><td> <input name='secondary' id='secondary' class='form-control col-md-12 col-xs-12' value="{{$pdf->secondery}}" type='text'></td></tr>
+                        <tr><th>Tertiary</th><td> <input name='tertiary' id='tertiary' class='form-control col-md-12 col-xs-12' value="{{$pdf->Tertiary}}" type='text'></td></tr>
                       </table>
                     </td>
-                    <td><input type="text" value="{{$pdf->UOM}}" required class="form-control" name="uom" id="uom"></td>
+                    <td>
+                      <select name="uom" id="uom" required class="form-control">
+                        <option value="{{$kemas->s_tersier}}">{{$kemas->s_tersier}}</option>
+                        @if($kemas->s_sekunder1!=NULL)
+                        <option value="{{$kemas->s_sekunder1}}">{{$kemas->s_sekunder1}}</option>
+                        @endif
+                        @if($kemas->s_sekunder2!=NULL)
+                        <option value="{{$kemas->s_sekunder2}}">{{$kemas->s_sekunder2}}</option>
+                        @endif
+                        <option value="{{$kemas->s_primer}}">{{$kemas->s_primer}}</option>
+                      </select>
+                    </td>
                     <td><input type="number" value="{{$pdf->target_price}}" required class="form-control" name="target_price" id="target_price"></td>
                     <td><input type="number" value="{{$pdf->retailer_price}}" required class="form-control" name="retailer_price" id="retailer_price"></td>
                   </tr>

@@ -3,9 +3,9 @@
 @section('content')
 
 @if($pkp->status_pkp=='draf') 
-<form class="form-horizontal form-label-left" method="POST" action="{{ route('updatetPKP',[$pkp->id_project,$pkp->revisi,$pkp->turunan]) }}">
+<form class="form-horizontal form-label-left" method="POST" action="{{ route('updatedPKP',[$pkp->id_project,$pkp->revisi,$pkp->turunan]) }}">
 @else
-<form class="form-horizontal form-label-left" method="POST" action="{{ route('updatetPKP2',[$pkp->id_project,$pkp->revisi,$pkp->turunan,$pkp->revisi_kemas]) }}">
+<form class="form-horizontal form-label-left" method="POST" action="{{ route('updatedPKP2',[$pkp->id_project,$pkp->revisi,$pkp->turunan,$pkp->revisi_kemas]) }}">
 @endif
 <?php $last = Date('j-F-Y'); ?>
 <input id="last_up" value="{{ $last }}" class="form-control col-md-12 col-xs-12" type="hidden" name="last_up">

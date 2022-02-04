@@ -148,8 +148,8 @@ Route::post('sentRevisiPkpRD/{id_project}','pv\PengajuanPkpController@sentRevisi
 Route::post('SentPkpToUser/{id_project}','pv\PengajuanPkpController@SentPkpToUser')->name('SentPkpToUser');
 // Update PKP
 Route::get('konfigurasi/{id}','pv\pkpController@konfigurasi')->name('konfigurasi');
-Route::post('updatetPKP/{id_pkp}/{revisi}/{turunan}', 'pv\pkpController@updatetPKP')->name('updatetPKP');
-Route::post('updatetPKP2/{id_pkp}/{revisi}/{turunan}/{kemas}', 'pv\pkpController@updatetPKP2')->name('updatetPKP2');
+Route::post('updatedPKP/{id_pkp}/{revisi}/{turunan}', 'pv\pkpController@updatedPKP')->name('updatedPKP');
+Route::post('updatedPKP2/{id_pkp}/{revisi}/{turunan}/{kemas}', 'pv\pkpController@updatedPKP2')->name('updatedPKP2');
 Route::post('EditTimelinepkp/{id}','pv\pkpController@EditTimeline')->name('EditTimelinepkp');
 Route::post('edittype/{id_project}','pv\pkpController@edittype')->name('edittype');
 Route::post('freeze/{id}','pv\pkpController@freeze')->name('freeze');
