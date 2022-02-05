@@ -23,6 +23,7 @@ use App\model\Modelmesin\Mesin;
 use App\model\formula\Formula;
 use App\model\formula\Fortail;
 use App\model\formula\Bahan;
+use App\model\master\Curren;
 use DB;
 
 class DownloadController extends Controller
@@ -31,140 +32,95 @@ class DownloadController extends Controller
         $objPHPExcel = new Spreadsheet();
         // Sheet 1 /FOR PKP 
             $objPHPExcel->setActiveSheetIndex(0); 
-            $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(6.00);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(23.00);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(23.00);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(23.00);
-
-            $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(14.00);
-            $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(14.00);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(25.00);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(25.00);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(20.00);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(9.00);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(20.00);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(20.00);
             $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(9.00);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(20.00);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(20.00);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('J')->setWidth(9.00);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('K')->setWidth(20.00);
 
-            $pertama     = 8;
-            $data        = Formula::where('id',$formula)->join('tr_project_pkp','tr_project_pkp.id_project','=','tr_formulas.workbook_id')->first();
-            $allergen_bb = AllergenFormula::join('tr_bb_allergen','id_bb','tr_allergen_formula.id_bahan')->where('id_formula',$formula)->where('allergen_countain','!=','')->select(['allergen_countain'])->distinct()->get();
-            $fortails    = Fortail::where('formula_id',$formula)->orderBy('per_serving','dsc')->get();
-            
-            // Baris Pertama
-            $objPHPExcel->setActiveSheetIndex(0)
-                        ->setCellValue('A1', 'PT. NUTRIFOOD INDONESIA');
-            $objPHPExcel->getActiveSheet()->mergeCells('A1:B1');
-            $objPHPExcel->setActiveSheetIndex(0)
-                        ->setCellValue('A1', 'PT. NUTRIFOOD INDONESIA');
-            $objPHPExcel->getActiveSheet()->getStyle("A1")->getAlignment()->setHorizontal('center');
-
-            // Baris Kedua
-            $objPHPExcel->setActiveSheetIndex(0)
-                        ->setCellValue('A2', 'FORMULA PRODUK');
-            $objPHPExcel->getActiveSheet()->mergeCells('A2:G2');
-            $objPHPExcel->setActiveSheetIndex(0)
-                        ->setCellValue('A2', 'FORMULA PRODUK');
-            $objPHPExcel->getActiveSheet()->getStyle("A2")->getAlignment()->setHorizontal('center');
-
-            // Baris ketiga
-            $objPHPExcel->setActiveSheetIndex(0)
-                        ->setCellValue('A3', '(FOR)');
-            $objPHPExcel->getActiveSheet()->mergeCells('A3:G3');
-            $objPHPExcel->setActiveSheetIndex(0)
-                        ->setCellValue('A3', '(FOR)');
-            $objPHPExcel->getActiveSheet()->getStyle("A3")->getAlignment()->setHorizontal('center');
-            
-            $objPHPExcel->setActiveSheetIndex(0)
-                        ->setCellValue('B5', 'Product Name :')
-                        ->setCellValue('C5', $data['project_name'])
-                        ->setCellValue('F5', 'Created Date :')
-                        ->setCellValue('G5', $data['created_at'])
-                        ->setCellValue('F6', 'jumlah/batch :')
-                        ->setCellValue('G6', $data['batch'])
-                        ->setCellValue('H6', 'gr');
+            $for        = Formula::where('id',$formula)->first();
+			$fortails 	= Fortail::where('formula_id',$formula)->get();
 
             $objPHPExcel->setActiveSheetIndex(0)
-                        ->setCellValue('A7', 'No')
-                        ->setCellValue('B7', 'Kode Oracle')
-                        ->setCellValue('C7', 'Nama Sederhana')
-                        ->setCellValue('D7', 'Nama Bahan')
-                        ->setCellValue('E7', 'Principal')
-                        ->setCellValue('F7', 'PerServing (gr)')
-                        ->setCellValue('G7', 'PerBatch (gr)')
-                        ->setCellValue('H7', 'Persen');
+                        ->setCellValue('A1', 'HPP Bahan Baku')
+                        ->setCellValue('A2', 'Bahan Baku')
+                        ->setCellValue('E2', 'Per Serving')
+                        ->setCellValue('H2', 'Per Batch')
+                        ->setCellValue('K2', 'Per Serving');
+            $objPHPExcel->getActiveSheet()->mergeCells('A1:K1');
+            $objPHPExcel->getActiveSheet()->mergeCells('A2:C2');
+            $objPHPExcel->getActiveSheet()->mergeCells('E2:F2');
+            $objPHPExcel->getActiveSheet()->mergeCells('H2:I2');
+            $objPHPExcel->getActiveSheet()->getStyle("A1:K1")->getAlignment()->setHorizontal('center');
+            $objPHPExcel->getActiveSheet()->getStyle("A2:K2")->getAlignment()->setHorizontal('center');
 
-            $objPHPExcel->getActiveSheet()->getStyle("A7:H7")->getFill()
+            $objPHPExcel->setActiveSheetIndex(0)
+                        ->setCellValue('A3', 'Kode Oracle')
+                        ->setCellValue('B3', 'Nama Bahan')
+                        ->setCellValue('C3', 'Harga PerGram')
+                        ->setCellValue('E3', 'Berat')
+                        ->setCellValue('F3', 'Harga PerGram')
+                        ->setCellValue('H3', 'Berat')
+                        ->setCellValue('I3', 'Harga')
+                        ->setCellValue('K3', 'Harga');
+
+            $objPHPExcel->getActiveSheet()->getStyle("A1:K1")->getFill()
                         ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
                         ->getStartColor()->setARGB('13DFE4');
-            $objPHPExcel->getActiveSheet()->getStyle("A7:H7")->getAlignment()->setHorizontal('center');
+            $objPHPExcel->getActiveSheet()->getStyle("A3:C3")->getFill()
+                        ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+                        ->getStartColor()->setARGB('8c8888');
+            $objPHPExcel->getActiveSheet()->getStyle("E3:F3")->getFill()
+                        ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+                        ->getStartColor()->setARGB('8c8888');
+            $objPHPExcel->getActiveSheet()->getStyle("H3:I3")->getFill()
+                        ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+                        ->getStartColor()->setARGB('8c8888');
+            $objPHPExcel->getActiveSheet()->getStyle("K3")->getFill()
+                        ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+                        ->getStartColor()->setARGB('8c8888');
+            $objPHPExcel->getActiveSheet()->getStyle("A3:K3")->getAlignment()->setHorizontal('center');
 
-            $number = 1;
+            $pertama = 4;
             foreach($fortails as $_data){
-                $one_persen = $_data->per_batch / $data->batch  ;
-                $persen     = $one_persen * 100;
-                $persen     = round($persen, 2);
+				$bahan      = Bahan::where('id',$_data->bahan_id)->first();
+				$curren 	= Curren::where('id',$bahan->curren_id)->first();
+				// Harga Pergram
+				if($bahan->satuan=='Kg'){
+					$hpg = ($bahan->harga_satuan * $curren->harga)/1000;  $hpg = round($hpg,2); 
+				}elseif($bahan->satuan=='Mg'){
+					$hpg = ($bahan->harga_satuan * $curren->harga)/0.001; $hpg = round($hpg,2); 
+				}elseif($bahan->satuan=='G'){
+					$hpg = ($bahan->harga_satuan * $curren->harga); 	  $hpg = round($hpg,2); 
+				}
+				// PerServing
+				$berat_per_serving = $_data->per_serving;  			                    $berat_per_serving  = round($berat_per_serving,5);
+				$harga_per_serving = $berat_per_serving * $hpg; 						$harga_per_serving  = round($harga_per_serving,2);
+				// Per Batch
+				$berat_per_batch   = $_data->per_batch;  								$berat_per_batch    = round($berat_per_batch,5);
+				$harga_per_batch   = $berat_per_batch * $hpg;  							$harga_per_batch    = round($harga_per_batch,2);
+				// Per Kg
+				$berat_per_kg      = (1000 * $berat_per_serving)/$for->serving;      	$berat_per_kg 	    = round($berat_per_kg,5);
+				$harga_per_kg      = $bahan->harga_satuan;  							$harga_per_kg 	    = round($harga_per_kg,2); 
+
                 $objPHPExcel->setActiveSheetIndex(0)
-                    ->setCellValue('A'.$pertama, $number)
-                    ->setCellValue('B'.$pertama, $_data['kode_oracle'])
-                    ->setCellValue('C'.$pertama, $_data['nama_sederhana'])
-                    ->setCellValue('D'.$pertama, $_data['nama_bahan'])
-                    ->setCellValue('E'.$pertama, $_data['principle'])
-                    ->setCellValue('F'.$pertama, $_data['per_serving'])
-                    ->setCellValue('G'.$pertama, $_data['per_batch'])
-                    ->setCellValue('H'.$pertama, $persen);
-
-                $count_bahan = 8;
-                for($i = 2;$i<=8;$i++){
-                    $ask = 'alternatif'.$i;
-                    $ii=$i-1;
-                    if($_data->$ask == null){
-                        $count_bahan--;
-                    }
-                }
-                $count_alternatif = $count_bahan;
-
-                $kedua = $pertama+1;
-                $n = 1;
-                for($n = 1;$n<=$count_alternatif;$n++){
-                    $objPHPExcel->setActiveSheetIndex(0)
-                    ->setCellValue('B'.$kedua, $_data['alternatif'.$n])
-                    ->setCellValue('C'.$kedua, $_data['nama_bahan'.$n])
-                    ->setCellValue('D'.$kedua, $_data['principle'.$n]);
-                    $kedua++;
-                }
-                            
-                $number++;
-                $pertama = $pertama+$count_alternatif;
+                    ->setCellValue('A'.$pertama, $_data['kode_oracle'])
+                    ->setCellValue('B'.$pertama, $_data['nama_sederhana'])
+                    ->setCellValue('C'.$pertama, $hpg)
+                    ->setCellValue('E'.$pertama, $_data['per_serving'])
+                    ->setCellValue('F'.$pertama, $harga_per_serving)
+                    ->setCellValue('H'.$pertama, $_data['per_batch'])
+                    ->setCellValue('I'.$pertama, $harga_per_batch)
+                    ->setCellValue('K'.$pertama, $harga_per_kg);
                 $pertama++;
             }
-            $akhir = $pertama;
-            $objPHPExcel->setActiveSheetIndex(0)
-                        ->setCellValue('A'.$akhir, 'Jumlah')
-                        ->setCellValue('F'.$akhir, $data['serving'])
-                        ->setCellValue('G'.$akhir, $data['batch'])
-                        ->setCellValue('H'.$akhir, '100 %');
-                    
-            $objPHPExcel->getActiveSheet()->getStyle("A".$akhir.":H".$akhir)->getFill()
-                        ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                        ->getStartColor()->setARGB('aca6a6');
-            $objPHPExcel->getActiveSheet()->getStyle("A".$akhir.":H".$akhir)->getAlignment()->setHorizontal('center');
-                    
-            $note    = $akhir+1;
-            $contain = $note+1;
-            $objPHPExcel->setActiveSheetIndex(0)
-                        ->setCellValue('B'.$note, 'Note Formula :')
-                        ->setCellValue('B'.$contain, 'Mengandung Allergen')
-                        ->setCellValue('C'.$contain, 'Contain :')
-                        ->setCellValue('E'.$contain, 'May Contain :');
-
-            $isi_contain = $contain;
-            foreach($allergen_bb as $contain){
-                $objPHPExcel->setActiveSheetIndex(0)
-                        ->setCellValue('D'.$isi_contain, $contain['allergen_countain']);
-            }
-
-            // Note Formula
-            $objPHPExcel->setActiveSheetIndex(0)
-                        ->setCellValue('C'.$note, $data['note_formula']);
-            $objPHPExcel->getActiveSheet()->mergeCells('C'.$note.':G'.$note);
-            $objPHPExcel->setActiveSheetIndex(0)
-                        ->setCellValue('C'.$note, $data['note_formula']);
-            $objPHPExcel->getActiveSheet()->setTitle('FOR PKP');
+            $objPHPExcel->getActiveSheet()->setTitle('HPP PKP');
         // Sheet 1 Selesai
 
         // Create a new worksheet2
@@ -440,7 +396,6 @@ class DownloadController extends Controller
                             ->setCellValue('E'.$value, $mesin->note);
                 $value++;
             }
-            // dd($Mdata);
             foreach($manual as $manual){
                 $objPHPExcel->setActiveSheetIndex(4)
                             ->setCellValue('G'.$nilai, $manual->manual)
@@ -514,9 +469,7 @@ class DownloadController extends Controller
                         ->setCellValue('C4', 'jumlah kemasan sekunder')
                         ->setCellValue('C5', $eksis['s_sekunder1'])
                         ->setCellValue('D4', 'Gr')
-                        ->setCellValue('D5', $eksis['s_primer']);
-
-            $objPHPExcel->setActiveSheetIndex(5)
+                        ->setCellValue('D5', $eksis['s_primer'])
                         ->setCellValue('A7', 'keterangan')
                         ->setCellValue('B7', $konsep['keterangan'])
                         ->setCellValue('A8', 'Formula')
@@ -530,10 +483,10 @@ class DownloadController extends Controller
                         ->setCellValue('Q9', 'jumlah Box/Batch ')
                         ->setCellValue('R9', $konsep['jumlah_box']);
             
-        $objPHPExcel->getActiveSheet()->getStyle("A11:R11")->getFill()
-                    ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                    ->getStartColor()->setARGB('13DFE4');
-        $objPHPExcel->getActiveSheet()->getStyle("A11:R11")->getAlignment()->setHorizontal('center');
+            $objPHPExcel->getActiveSheet()->getStyle("A11:R11")->getFill()
+                        ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+                        ->getStartColor()->setARGB('13DFE4');
+            $objPHPExcel->getActiveSheet()->getStyle("A11:R11")->getAlignment()->setHorizontal('center');
 
             $objPHPExcel->setActiveSheetIndex(5);
             $objPHPExcel->getActiveSheet()->setCellValue('A11', 'kode item');
@@ -580,14 +533,12 @@ class DownloadController extends Controller
 
                 $fk++;
             }
-            $akhir = $fk;
-            $objPHPExcel->setActiveSheetIndex(5)
-                        ->setCellValue('I'.$akhir, 'Cost Kemas/Box')
-                        ->setCellValue('j'.$akhir, $kemas2['cost_box']);
-                    
+            $akhir   = $fk;
             $note    = $akhir+1;
             $contain = $note+1;
             $objPHPExcel->setActiveSheetIndex(5)
+                        ->setCellValue('I'.$akhir, 'Cost Kemas/Box')
+                        ->setCellValue('j'.$akhir, $kemas2['cost_box'])
                         ->setCellValue('I'.$note, 'Cost Kemas/Dus :')
                         ->setCellValue('J'.$note, $kemas2['cost_dus'])
                         ->setCellValue('I'.$contain, 'Cost Kemas/Sachet	 :')

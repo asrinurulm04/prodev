@@ -38,7 +38,7 @@
 				<a href="{{ route('daftarpkp',$id) }}" type="button" class="btn btn-sm btn-danger"><li class="fa fa-arrow-left"></li> Back</a>
 				@elseif(auth()->user()->role->namaRule == 'manager' && auth()->user()->Departement->dept=='REA')
 				<a href="{{ route('listPkpFs',$id) }}" type="button" class="btn btn-sm btn-danger"><li class="fa fa-arrow-left"></li> Back</a>
-				@elseif(auth()->user()->role->namaRule == 'user_rd_proses' || auth()->user()->role->namaRule == 'kemas' || auth()->user()->role->namaRule == 'maklon' || auth()->user()->role->namaRule == 'lab')
+				@elseif(auth()->user()->role->namaRule == 'user_rd_proses' || auth()->user()->role->namaRule == 'kemas' || auth()->user()->role->namaRule == 'maklon' || auth()->user()->role->namaRule == 'lab'  || auth()->user()->role->namaRule == 'lab' || auth()->user()->role->namaRule == 'finance')
 				<a href="{{ route('listPkpFs',$id) }}" type="button" class="btn btn-sm btn-danger"><li class="fa fa-arrow-left"></li> Back</a>
 				@endif
 			@elseif($formula->workbook_pdf_id!=NULL)
@@ -50,7 +50,7 @@
 				<a href="{{ route('daftarpdf',$formula->workbook_pdf_id) }}" type="button" class="btn btn-sm btn-danger"><li class="fa fa-arrow-left"></li> Back</a>
 				@elseif(auth()->user()->role->namaRule == 'manager' && auth()->user()->Departement->dept=='REA')
 				<a href="{{ route('listPdfFs',$formula->workbook_pdf_id) }}" type="button" class="btn btn-sm btn-danger"><li class="fa fa-arrow-left"></li> Back</a>
-				@elseif(auth()->user()->role->namaRule == 'user_rd_proses' || auth()->user()->role->namaRule == 'kemas' || auth()->user()->role->namaRule == 'maklon' || auth()->user()->role->namaRule == 'lab')
+				@elseif(auth()->user()->role->namaRule == 'user_rd_proses' || auth()->user()->role->namaRule == 'kemas' || auth()->user()->role->namaRule == 'maklon' || auth()->user()->role->namaRule == 'lab' || auth()->user()->role->namaRule == 'finance')
 				<a href="{{ route('listPdfFs',$id) }}" type="button" class="btn btn-sm btn-danger"><li class="fa fa-arrow-left"></li> Back</a>
 				@endif
 			@endif
@@ -66,22 +66,12 @@
 					<li class="nav-item"><a class="nav-link" href="#3" data-toggle="tab"><i class="fa fa-clipboard"></i><b> Logam berat & Mikro Biologi</b></a></li>
 					@endif
 					<li class="nav-item"><a class="nav-link" href="#4" data-toggle="tab"><i class="fa fa-usd"></i><b> HPP Formula </b></a></li>
-					@if($formula->status_panel=='proses')
-					<li class="nav-item"><a class="nav-link" style="background-color:grey;color:white" ><i class="fa fa-glass"></i><b> PANEL </b></a></li>
-					@elseif($formula->status_panel!='proses')
+					@if($formula->status_panel!='proses')
 					<li class="nav-item"><a class="nav-link" href="#5" data-toggle="tab"><i class="fa fa-glass"></i><b> PANEL </b></a></li>
-					@endif
-
-					@if($formula->status_storage=='proses')
-					<li class="nav-item"><a class="nav-link"  style="background-color:grey;color:white"><i class="fa fa-flask"></i><b> STORAGE </b></a></li>
 					@elseif($formula->status_storage!='proses')
 					<li class="nav-item"><a class="nav-link" href="#6" data-toggle="tab"><i class="fa fa-flask"></i><b> STORAGE </b></a></li>
-					@endif
-
-					@if($hfile>=1)
+					@elseif($hfile>=1)
 					<li class="nav-item"><a class="nav-link" href="#7" data-toggle="tab"><i class="fa fa-folder-open-o"></i><b> File </b></a></li>
-					@elseif($hfile==0)
-					<li class="nav-item"><a class="nav-link" disabled  style="background-color:grey;color:white"><i class="fa fa-folder-open-o"></i><b> File </b></a></li>
 					@endif
 					@if($hitungFs!=0)
 						@if($formula->workbook_id!=NULL)

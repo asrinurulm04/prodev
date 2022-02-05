@@ -22,9 +22,9 @@ class ListFsController extends Controller
         $pkp     = PkpProject::where('id_project',$id_project)->select('id_project','pkp_number','ket_no','id_brand','idea','user_fs','project_name','pengajuan_fs','id_pkp')->first();
         if(Auth::user()->departement_id=='2'){
             $fs  = Feasibility::where('id_project','!=',NULL)->where('id_project',$id_project)->get();
-        }elseif(Auth::user()->departement_id!='2' && Auth()->user()->role->namaRule != 'pv_lokal' && Auth()->user()->role->namaRule != 'pv_global' ){
+        }elseif(Auth::user()->departement_id!='2' && Auth()->user()->role->namaRule != 'pv_lokal' && Auth()->user()->role->namaRule != 'pv_global' && Auth()->user()->role->namaRule != 'finance' ){
             $fs  = Feasibility::where('id_project','!=',NULL)->where('status_feasibility','proses')->orwhere('status_feasibility','selesai')->where('id_project',$id_project)->get();
-        }elseif(Auth()->user()->role->namaRule == 'pv_lokal' || Auth()->user()->role->namaRule == 'pv_global' ){
+        }elseif(Auth()->user()->role->namaRule == 'pv_lokal' || Auth()->user()->role->namaRule == 'pv_global' || Auth()->user()->role->namaRule == 'finance'){
             $fs  = Feasibility::where('id_project','!=',NULL)->where('status_feasibility','selesai')->where('id_project',$id_project)->get();
         }
         $lokasi  = Mesin::join('ms_mesin','ms_mesin.id_data_mesin','tr_mesin.id_data_mesin')->where('kategori','!=','Filling')->where('kategori','!=','Packing')
