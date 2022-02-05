@@ -104,23 +104,23 @@
                       <td>{{$Dpkp->price}}</td>
                       <td>{{$Dpkp->selling_price}}</td>
                       <td>
-                      @if($Dpkp->kemas_eksis!=NULL)
-                        ( @if($Dpkp->kemas->primer!=NULL)
-                          {{ $Dpkp->kemas->primer }}{{ $Dpkp->kemas->s_primer }} X
-                        @endif
-
-                        @if($Dpkp->kemas->sekunder1!=NULL)
-                          {{ $Dpkp->kemas->sekunder1 }}{{ $Dpkp->kemas->s_sekunder1}} X
-                        @endif
-
-                        @if($Dpkp->kemas->sekunder2!=NULL)
-                          {{ $Dpkp->kemas->sekunder2 }}{{ $Dpkp->kemas->s_sekunder2 }} X
-                        @endif
-
-                        @if($Dpkp->kemas->tersier!=NULL)
+                        @if($Dpkp->kemas_eksis!=NULL)(
+                          @if($Dpkp->kemas->tersier!=NULL)
                           {{ $Dpkp->kemas->tersier }}{{ $Dpkp->kemas->s_tersier }}
-                        @endif )
-                      @endif
+                          @endif
+
+                          @if($Dpkp->kemas->sekunder1!=NULL)
+                          X {{ $Dpkp->kemas->sekunder1 }}{{ $Dpkp->kemas->s_sekunder1}}
+                          @endif
+
+                          @if($Dpkp->kemas->sekunder2!=NULL)
+                          X {{ $Dpkp->kemas->sekunder2 }}{{ $Dpkp->kemas->s_sekunder2 }}
+                          @endif
+
+                          @if($Dpkp->kemas->primer!=NULL)
+                          X{{ $Dpkp->kemas->primer }}{{ $Dpkp->kemas->s_primer }}
+                          @endif )
+                        @endif
                       </td>
                       <td>{{$Dpkp->competitor}}</td>
                       <td>{{$Dpkp->competitive}}</td>

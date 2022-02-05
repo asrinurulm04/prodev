@@ -355,9 +355,9 @@
                             <th>Packaging Concept</th>
                             <td colspan="2">
 													    <table>
-                                @if($pdf->kemas_eksis!=NULL)
-                                  @if($pdf->kemas->primer!=NULL)
-                                  {{ $pdf->kemas->primer }}{{ $pdf->kemas->s_primer }}
+                                @if($pdf->kemas_eksis!=NULL)(
+                                  @if($pdf->kemas->tersier!=NULL)
+                                  {{ $pdf->kemas->tersier }}{{ $pdf->kemas->s_tersier }}
                                   @endif
 
                                   @if($pdf->kemas->sekunder1!=NULL)
@@ -368,9 +368,9 @@
                                   X {{ $pdf->kemas->sekunder2 }}{{ $pdf->kemas->s_sekunder2 }}
                                   @endif
 
-                                  @if($pdf->kemas->tersier!=NULL)
-                                  X {{ $pdf->kemas->tersier }}{{ $pdf->kemas->s_tersier }}
-                                  @endif
+                                  @if($pdf->kemas->primer!=NULL)
+                                  X{{ $pdf->kemas->primer }}{{ $pdf->kemas->s_primer }}
+                                  @endif )
                                 @endif <br><br>
                                 @if($pdf->primery!=NULL)
                                 <tr><th style="border:none;" width="35%">Primary</th><th>:</th><td style="border:none;">{{$pdf->primery}}</td></tr>

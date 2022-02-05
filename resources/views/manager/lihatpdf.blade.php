@@ -336,25 +336,22 @@
                           <tr>
                             <th>Packaging Concept</th>
                             <td colspan="2">
+                              @if($pdf->kemas_eksis!=NULL)(
+                                @if($pdf->kemas->tersier!=NULL)
+                                {{ $pdf->kemas->tersier }}{{ $pdf->kemas->s_tersier }}
+                                @endif
 
-                              @if($pdf->kemas_eksis!=NULL)
-                              (
+                                @if($pdf->kemas->sekunder1!=NULL)
+                                X {{ $pdf->kemas->sekunder1 }}{{ $pdf->kemas->s_sekunder1}}
+                                @endif
+
+                                @if($pdf->kemas->sekunder2!=NULL)
+                                X {{ $pdf->kemas->sekunder2 }}{{ $data->kemas->s_sekunder2 }}
+                                @endif
+
                                 @if($pdf->kemas->primer!=NULL)
-														    {{ $pdf->kemas->primer }}{{ $pdf->kemas->s_primer }}
-														    @endif
-
-														    @if($pdf->kemas->sekunder1!=NULL)
-														    X {{ $pdf->kemas->sekunder1 }}{{ $pdf->kemas->s_sekunder1}}
-														    @endif
-
-														    @if($pdf->kemas->sekunder2!=NULL)
-														    X {{ $pdf->kemas->sekunder2 }}{{ $pdf->kemas->s_sekunder2 }}
-														    @endif
-
-														    @if($pdf->kemas->tersier!=NULL)
-														    X {{ $pdf->kemas->tersier }}{{ $pdf->kemas->s_tersier }}
-														    @endif
-                                )
+                                X{{ $data->kemas->primer }}{{ $pdf->kemas->s_primer }}
+                                @endif )
                               @endif <br><br>
                               information :
 													    <table class="table table-sm">

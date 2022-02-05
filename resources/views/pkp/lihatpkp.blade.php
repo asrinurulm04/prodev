@@ -414,22 +414,22 @@
                       <td colspan="2">
                         <table>
                           @if($pkp->kemas_eksis!=NULL)(
-                            @if($pkp->kemas->primer!=NULL)
-                              {{ $pkp->kemas->primer }}{{ $pkp->kemas->s_primer }} X
+                            @if($pkp->kemas->tersier!=NULL)
+                            {{ $pkp->kemas->tersier }}{{ $pkp->kemas->s_tersier }}
                             @endif
 
                             @if($pkp->kemas->sekunder1!=NULL)
-                              {{ $pkp->kemas->sekunder1 }}{{ $pkp->kemas->s_sekunder1}} X
+                            X {{ $pkp->kemas->sekunder1 }}{{ $pkp->kemas->s_sekunder1}}
                             @endif
 
                             @if($pkp->kemas->sekunder2!=NULL)
-                              {{ $pkp->kemas->sekunder2 }}{{ $pkp->kemas->s_sekunder2 }} X
+                            X {{ $pkp->kemas->sekunder2 }}{{ $pkp->kemas->s_sekunder2 }}
                             @endif
 
-                            @if($pkp->kemas->tersier!=NULL)
-                              {{ $pkp->kemas->tersier }}{{ $pkp->kemas->s_tersier }}
-                            @endif
-                          ) @endif
+                            @if($pkp->kemas->primer!=NULL)
+                            X{{ $pkp->kemas->primer }}{{ $pkp->kemas->s_primer }}
+                            @endif )
+                          @endif
                           <br><br>
                           @if($pkp->primery!=NULL)
                           <tr><th width="35%">Primary information</th><th>:</th><td style="border:none;"> {{$pkp->primery}}</td></tr>

@@ -142,23 +142,23 @@
                             <tr>
                               <td>Packaging Concept</td>
                               <td colspan="2">
-                                <table class="table">
-                                  @if($pdf->kemas_eksis!=NULL)
-                                    @if($pdf->kemas->primer!=NULL)
-                                    {{ $pdf->kemas->primer }}{{ $pdf->kemas->s_primer }} </tr>
+                                <table class="table">y
+                                  @if($pdf->kemas_eksis!=NULL)(
+                                    @if($pdf->kemas->tersier!=NULL)
+                                    {{ $pdf->kemas->tersier }}{{ $pdf->kemas->s_tersier }}
                                     @endif
 
                                     @if($pdf->kemas->sekunder1!=NULL)
-                                    X {{ $pdf->kemas->sekunder1 }}{{ $pdf->kemas->s_sekunder1}} </tr>
+                                    X {{ $pdf->kemas->sekunder1 }}{{ $pdf->kemas->s_sekunder1}}
                                     @endif
 
                                     @if($pdf->kemas->sekunder2!=NULL)
-                                    X {{ $pdf->kemas->sekunder2 }}{{ $pdf->kemas->s_sekunder2 }} </tr>
+                                    X {{ $pdf->kemas->sekunder2 }}{{ $pdf->kemas->s_sekunder2 }}
                                     @endif
 
-                                    @if($pdf->kemas->tersier!=NULL)
-                                    X {{ $pdf->kemas->tersier }}{{ $pdf->kemas->s_tersier }} </tr>
-                                    @endif
+                                    @if($pdf->kemas->primer!=NULL)
+                                    X{{ $pdf->kemas->primer }}{{ $pdf->kemas->s_primer }}
+                                    @endif )
                                   @endif <br><br>
                                   @if($pdf->primery!=NULL)
                                   <tr><th style="border:none;" width="15%">Primary</th></th><td style="border:none;"><?php $primery = []; foreach ($pdf1 as $key => $data) If (!$primery || !in_array($data->primery, $primery)) { $primery += array( $key => $data->primery ); 

@@ -23,8 +23,8 @@
             <tr><td>NF Selling Price</td><td>:</td><td> {{$pkp->selling_price}}</td></tr>
             <tr><td>Packaging Concept</td><td>:</td><td>
             @if($pkp->kemas_eksis!=NULL)(
-              @if($pkp->kemas->primer!=NULL)
-              {{ $pkp->kemas->primer }}{{ $pkp->kemas->s_primer }}
+              @if($pkp->kemas->tersier!=NULL)
+              {{ $pkp->kemas->tersier }}{{ $pkp->kemas->s_tersier }}
               @endif
 
               @if($pkp->kemas->sekunder1!=NULL)
@@ -35,8 +35,8 @@
               X {{ $pkp->kemas->sekunder2 }}{{ $pkp->kemas->s_sekunder2 }}
               @endif
 
-              @if($pkp->kemas->tersier!=NULL)
-              X {{ $pkp->kemas->tersier }}{{ $pkp->kemas->s_tersier }}
+              @if($pkp->kemas->primer!=NULL)
+              X{{ $pkp->kemas->primer }}{{ $pkp->kemas->s_primer }}
               @endif )
             @endif
             </td></tr>
