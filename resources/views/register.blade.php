@@ -18,9 +18,9 @@
           <div class="container">
             <form class="form-login" method="post" action="{{ route('add') }}">
             <div class="login-wrap">
-              <input data-toggle="tooltip" title="your name" class="form-control" autocomplete="off" id="name" name="name" placeholder="Name" value="{{ old('name') }}" type="text" minlength="2" autofocus required/>
+              <input data-toggle="tooltip" title="your name" class="form-control" autocomplete="off" id="name" name="name" placeholder="Name" minlength="2" autofocus required/>
               <br>
-              <input data-toggle="tooltip" title="username" class="form-control" autocomplete="off" id="username" name="username" placeholder="username" value="{{ old('username') }}" type="text" minlength="1" required/>
+              <input data-toggle="tooltip" title="username" class="form-control" autocomplete="off" id="username" name="username" placeholder="username" minlength="1" required/>
               <br>
               <input data-toggle="tooltip" title="password" class="form-control" id="myInput" name="password" placeholder="password" type="password" minlength="8" required/>
               <p style="color:#ffff;"><input type="checkbox" onclick="myFunction()"> Show Password</p>
