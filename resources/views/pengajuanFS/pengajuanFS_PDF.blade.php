@@ -193,7 +193,7 @@
                     @endif
                   </td>
                   <td class="text-center">
-                    <a href="{{route('overviewpdf',$fs->id)}}" class="btn btn-sm btn-info" title="Show"><li class='fa fa-eye'></li></a>
+									  <a href="{{route('listPdfFs',$fs->id_project_pdf)}}" class="btn-info btn-sm btn" type="button" title="Show"><li class="fa fa-eye"></li></a>
                     @if($fs->status=='')
                     <a class="btn btn-danger btn-sm" data-toggle="modal" data-target="#rejectfs{{ $fs->id  }}" title="Reject"><li class="fa fa-times"></li></a>  
                     <!-- Modal Reject FS-->
@@ -213,6 +213,7 @@
                             <?php $date = Date('j-F-Y'); ?>
                             <input id="tgl" value="{{ $date }}"type="hidden" name="tgl">
                             <textarea name="note" id="note" rows="2" cols="60" class="form-control" required></textarea><br>
+                            @foreach($team as $teams) <input type="hidden" value="{{$teams->email}}" name="team[]">@endforeach
                           </div>
                           <div class="modal-footer">
                             <button class="btn btn-sm btn-primary" type="submit"><li class="fa fa-check"></li> submit</button>
@@ -240,6 +241,7 @@
                             <?php $date = Date('j-F-Y'); ?>
                             <input id="tgl" value="{{ $date }}"type="hidden" name="tgl">
                             <textarea name="note" id="note" cols="60" rows="2" class="form-control" required></textarea><br>
+                            @foreach($team as $teams) <input type="hidden" value="{{$teams->email}}" name="team[]">@endforeach
                           </div>
                           <div class="modal-footer">
                             <button class="btn btn-sm btn-primary" type="submit"><li class="fa fa-check"></li> submit</button>

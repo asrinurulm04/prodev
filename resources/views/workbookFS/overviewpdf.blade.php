@@ -5,11 +5,12 @@
 <div class="x_panel">
   <div class="x_title">
 		<div class="row">
-			<div class="col-md-10">
+			<div class="col-md-8">
     		<h3><li class="fa fa-list"> Overview</li></h3><hr>
 			</div>
-			<div class="col-md-2">
+			<div class="col-md-4">
 				<a href="{{route('download_fs_pdf',[$form->id_feasibility,$fs->id_wb_proses,$fs->id_wb_kemas])}}" class="btn btn-warning btn-sm" type="button"><li class="fa fa-upload"></li> export excel</a>
+				<a href="{{route('CostingDownloadPKP',[$fs->id_project_pdf,$fs->id_formula,$fs->id])}}" class="btn btn-warning btn-sm" type="button"><li class="fa fa-upload"></li> Export Excel FS</a>
 				@if(auth()->user()->role->namaRule == 'pv_global')
 				<a class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Kemabali" href="{{route('PengajuanFS_PDF',[$pdf->id_project_pdf,$formula->id])}}"><i class="fa fa-arrow-left"></i> Back</a>
 				@elseif(auth()->user()->role->namaRule != 'pv_global')

@@ -14,7 +14,11 @@
       <a href="{{route('reportinfo',['PDF',$pdf->id_project_pdf])}}" class="btn btn-sm btn-success" type="button"><li class="fa fa-files-o"></li> Report</a> 
       @endif
       <a href="{{Route('lihatpdf',[$pdf->id_project_pdf,$pdf->revisi,$pdf->turunan]) }}" class="btn btn-sm btn-info" type="button"><li class="fa fa-folder-open"></li> Show PDF</a> 
-      <a href="{{route('FsPKP')}}" class="btn btn-sm btn-danger" type="button"><li class="fa fa-arrow-left"></li> Back</a> 
+      @if(auth()->user()->role->namaRule != 'pv_global' && auth()->user()->role->namaRule != 'pv_global')
+      <a href="{{route('FsPDF')}}" class="btn btn-sm btn-danger" type="button"><li class="fa fa-arrow-left"></li> Back</a> 
+      @else
+      <a href="{{ Route('rekappdf',$pdf->id_project_pdf) }}" class="btn btn-sm btn-danger" type="button"><li class="fa fa-arrow-left"></li> Back</a> 
+      @endif
     </div>
   </div>
   <div class="row">

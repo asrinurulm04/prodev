@@ -310,6 +310,7 @@
               <th class="text-center">{{ ++$nol }}</th>
               <th>{{ $WorkbookFs->name }}</th>
               @if($WorkbookFs->id_project!='NULL')
+              <th>{{ $WorkbookFs->fs->pkp->pkp_number }}{{ $WorkbookFs->fs->pkp->ket_no }}</th>
               @elseif($WorkbookFs->id_project_pdf!='NULL')
               <th>{{ $WorkbookFs->fs->pdf->pdf_number }}{{ $WorkbookFs->fs->pdf->ket_no }}</th>
               @endif

@@ -68,12 +68,14 @@ class PengajuanFsController extends Controller
         $for        = Forecast::where('id_pdf',$id_project)->select('forecast','satuan')->get();
         $uom        = uom::where('note',NULL)->get();
         $uom_primer = uom::where('note','!=',NULL)->get();
+        $team       = User::where('role_id','5')->get();
         $kemas      = datakemas::where('id_kemas',$pdf->kemas_eksis)->first();
         return view('pengajuanFS.pengajuanFS_PDF')->with([
             'pdf'        => $pdf,
             'for'        => $formula,
             'uom'        => $uom,
             'kemas'      => $kemas,
+            'team'       => $team,
             'hitung'     => $hitung,
             'uom_primer' => $uom_primer,
             'fs'         => $fs,
