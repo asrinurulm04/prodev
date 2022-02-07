@@ -126,7 +126,9 @@
                 @endif
               @elseif($pkp->status_pkp=='close')
                 <a  class="btn btn-warning btn-sm" title="Note Launch" data-toggle="modal" data-target="#ajukan{{ $pkp->id_project  }}" data-toggle="tooltip"><i class="fa fa-sticky-note"></i></a>
+                @if(auth()->user()->role->namaRule === 'pv_lokal' || auth()->user()->role->namaRule === 'marketing')
                 <a  class="btn btn-success btn-sm" title="Improvement" data-toggle="modal" data-target="#imp{{ $pkp->id_project  }}" data-toggle="tooltip"><i class="fa fa-check"></i></a>
+                @endif
               @endif
             </td>
             <td>
@@ -436,10 +438,12 @@
                     <div hidden>
                       <input id="id_prodev" value="{{$pkp->id_pkp}}"><input id="status_freeze" value="unactive">
                     </div>
+                     @if(auth()->user()->role->namaRule === 'pv_lokal' || auth()->user()->role->namaRule === 'marketing')
                     <div class="modal-footer">
                       <button type="submit" onclick="revisi2loadXMLDoc()" class="btn btn-primary btn-sm"><li class="fa fa-check"> Active</li></button>
                       {{ csrf_field() }}
                     </div>
+                    @endif
                     </form>
                   </div>
                 </div>
@@ -490,10 +494,10 @@
     formData.append("note_freeze", document.getElementById("note_freeze").value);
     formData.append("id_prodev", document.getElementById("id_prodev").value);
  
-    // fetch('https://smo.nutrifood.co.id/api/update',{
-    //             method : 'POST',
-    //             body : formData         
-    // })
+    fetch('https://smo.nutrifood.co.id/api/update',{
+                method : 'POST',
+                body : formData         
+    })
     .then(res => res.text())
     .then(teks => console.log(teks))
     .catch(err => console.log(err));
@@ -501,20 +505,20 @@
 </script>
 
 <script>
-  // function revisi2loadXMLDoc() {
-  //   let formData = new FormData();
+  function revisi2loadXMLDoc() {
+    let formData = new FormData();
  
-  //   formData.append("status_freeze", document.getElementById("status_freeze").value);
-  //   formData.append("id_prodev", document.getElementById("id_prodev").value);
+    formData.append("status_freeze", document.getElementById("status_freeze").value);
+    formData.append("id_prodev", document.getElementById("id_prodev").value);
  
-  //   fetch('https://smo.nutrifood.co.id/api/update',{
-  //               method : 'POST',
-  //               body : formData         
-  //   })
-  //   .then(res => res.text())
-  //   .then(teks => console.log(teks))
-  //   .catch(err => console.log(err));
-  // }
+    fetch('https://smo.nutrifood.co.id/api/update',{
+                method : 'POST',
+                body : formData         
+    })
+    .then(res => res.text())
+    .then(teks => console.log(teks))
+    .catch(err => console.log(err));
+  }
 </script>
 
 <link href="{{ asset('lib/advanced-datatable/css/jquery.dataTables.css') }}" rel="stylesheet" />

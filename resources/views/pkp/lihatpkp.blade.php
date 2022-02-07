@@ -798,12 +798,12 @@
     formdata.append("olahan",olahan);                           formdata.append("kategori_bpom",kategori_bpom);
     formdata.append("type",type);
 
-    // if(type==1){
-    //   let xhr = new XMLHttpRequest();
-    //   xhr.open("POST","https://smo.nutrifood.co.id/api/create",true);
-    //   xhr.send(formdata);
-    //   xhr.onload = () => alert(xhr.response);
-    // }
+    if(type==1){
+      let xhr = new XMLHttpRequest();
+      xhr.open("POST","https://smo.nutrifood.co.id/api/create",true);
+      xhr.send(formdata);
+      xhr.onload = () => alert(xhr.response);
+    }
   }
 
   function revisiloadXMLDoc() {
@@ -857,10 +857,10 @@
       formdata.append("product_benefits",product_benefits);       formdata.append("configuration",configuration);
       formdata.append("olahan",olahan);                           formdata.append("type",type);
 
-      // let xhr = new XMLHttpRequest();
-      // xhr.open("POST","https://smo.nutrifood.co.id/api/update",true);
-      // xhr.send(formdata);
-      // xhr.onload = () => alert(xhr.response);
+      let xhr = new XMLHttpRequest();
+      xhr.open("POST","https://smo.nutrifood.co.id/api/update",true);
+      xhr.send(formdata);
+      xhr.onload = () => alert(xhr.response);
   }
 </script>
 @endsection
