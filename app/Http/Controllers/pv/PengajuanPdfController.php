@@ -130,8 +130,6 @@ class PengajuanPdfController extends Controller
                     foreach($user as $user){
                         $data = $user->email;
                         $message->to($data);
-                        $message->cc('asrimarifah0402@gmail.com');
-                        $message->bcc('asrimarifah0402@gmail.com');
                     }
                 }
                 if($request->rka==1){// CC Manager tambahan

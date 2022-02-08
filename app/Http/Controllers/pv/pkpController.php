@@ -367,8 +367,6 @@ class pkpController extends Controller
                 $user2 = User::where('id',$data->perevisi)->first();
                 $message->subject('PRODEV | PKP');
                 $message->to($user1->email);
-                $message->cc($user2->email,'asrimarifah0402@gmail.com');
-                $message->bcc('asrimarifah0402@gmail.com');
             });
         }
         catch (Exception $e){
@@ -730,7 +728,6 @@ class pkpController extends Controller
                         $message->subject('PRODEV | PKP');
                         $message->to($request->pengirim1);
                         $message->cc($data[$i]);
-                        $message->bcc('asrimarifah0402@gmail.com');
                     }
                 }
             });
@@ -918,7 +915,6 @@ class pkpController extends Controller
                         $message->subject('PRODEV | PKP');
                         $message->to($request->pengirim1);
                         $message->cc($data[$i]);
-                        $message->bcc('asrimarifah0402@gmail.com');
                     }
                 }
             });
@@ -1098,7 +1094,6 @@ class pkpController extends Controller
                         $message->subject('PRODEV | PKP');
                         $message->to($request->pengirim1);
                         $message->cc($data[$i]);
-                        $message->bcc('asrimarifah0402@gmail.com');
                     }
                 }
             });

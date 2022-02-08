@@ -48,10 +48,9 @@ class PengajuanPkpController extends Controller
                         $user = DB::table('tr_users')->where('id',$dept->manager_id)->get();
                         foreach($user as $user){
                             $data = $user->email;
-                            $cc   = [Auth::user()->email,'asrimarifah0402@gmail.com'];
+                            $cc   = Auth::user()->email;
                             $message->to($data);
                             $message->cc($cc);
-                            $message->bcc('asrimarifah0402@gmail.com');
                         }
                     }
                     if($request->rka==1){ // CC Manager
@@ -128,17 +127,16 @@ class PengajuanPkpController extends Controller
                             $emailpenerima1 = DB::table('tr_users')->where('id',$request->userpenerima)->first();
                             $emailpenerima2 = DB::table('tr_users')->where('id',$request->userpenerima2)->first();
                             if($penerima1==NULL && $penerima2==NULL){
-                                $cc = [Auth::user()->email,'asrimarifah0402@gmail.com'];
+                                $cc = [Auth::user()->email];
                             }if($penerima1!=NULL && $penerima2==NULL){
-                                $cc = [Auth::user()->email,$emailpenerima1->email,'asrimarifah0402@gmail.com'];
+                                $cc = [Auth::user()->email,$emailpenerima1->email];
                             }if($penerima1==NULL && $penerima2!=NULL){
-                                $cc = [Auth::user()->email,$emailpenerima2->email,'asrimarifah0402@gmail.com'];
+                                $cc = [Auth::user()->email,$emailpenerima2->email];
                             }if($penerima1!=NULL && $penerima2!=NULL){
-                                $cc = [Auth::user()->email,$emailpenerima1->email,$emailpenerima2->email,'asrimarifah0402@gmail.com'];
+                                $cc = [Auth::user()->email,$emailpenerima1->email,$emailpenerima2->email];
                             }
                             $message->to($data);
                             $message->cc($cc);
-                            $message->bcc('asrimarifah0402@gmail.com');
                         }
                     }
                     if($request->rka==1){// CC Manager
@@ -202,7 +200,6 @@ class PengajuanPkpController extends Controller
                         $message->to($data2);
                     }
                 }
-                $message->bcc('asrimarifah0402@gmail.com');
 
                 if($request->pic!=null){
                     $tujuan    = array(); 
@@ -317,14 +314,12 @@ class PengajuanPkpController extends Controller
                         $message->to($to);
                         if($data[$i]!=NULL){
                             $message->cc($data[$i]);
-                            $message->bcc('asrimarifah0402@gmail.com');
                         }
                     }
                 }
 
                 $data   = $request->file('filename');
                 $nama   = $data->getClientOriginalName();
-                $message->bcc('asrimarifah0402@gmail.com');
                 $message->attach(public_path() . '/data_file/' .$nama);
             });
         }
