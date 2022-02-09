@@ -12,3 +12,6 @@
 ## About PRODEV (PRODUCT DEVELOPMENT) 
 Web Based Application using Laravel framework. This application is a product design application from the start of the product being designed until the product is launched. The process includes the initial design stages of a product, raw material design, nutritional value design of a product, packaging material design, calculation of lab analysis, calculation of required human resources, calculation of costs needed in the process of making the product, trial planning, to product approval. before product launch.
 
+## Versi yang digunakan
+Laravel 5.5
+PHP 7.2.32
